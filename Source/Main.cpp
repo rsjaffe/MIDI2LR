@@ -152,10 +152,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             main_window_ =
                 std::make_unique<MainWindow>(getApplicationName(), command_set_, profile_,
                     profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
-            midi_receiver_->StartRunning();
-            midi_sender_->StartRunning();
-            lr_ipc_out_->StartRunning();
-            lr_ipc_in_->StartRunning();
+            midi_receiver_.StartRunning();
+            midi_sender_.StartRunning();
+            lr_ipc_out_.StartRunning();
+            lr_ipc_in_.StartRunning();
 
             // Check for latest version
             version_checker_.startThread();
@@ -182,14 +182,15 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // Be careful that nothing happens in this method that might rely on
       // messages being sent, or any kind of window activity, because the
       // message loop is no longer running at this point.
-      midi_receiver_.reset();
-      midi_sender_.reset();
-      lr_ipc_in_->StopRunning();
-      lr_ipc_out_->StopRunning();
+
+      // Primary goals:1) remove callbacks in LR_IPC_Out and MIDIReceiver before the callee is
+      // destroyed, 2) stop additional threads in LR_IPC_In, LR_IPC_Out and MIDIReceiver. Add to
+      // this list if new threads or callback lists are developed in this app.
+      midi_receiver_.StopRunning();
+      lr_ipc_in_.StopRunning();
+      lr_ipc_out_.StopRunning();
       DefaultProfileSave();
       CerealSave();
-      lr_ipc_in_.reset();
-      lr_ipc_out_.reset();
       main_window_.reset(); // (deletes our window)
       juce::Logger::setCurrentLogger(nullptr);
    }
@@ -421,13 +422,11 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    const CommandSet command_set_{};
    ControlsModel controls_model_{};
    Profile profile_{command_set_};
-   std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
-   std::shared_ptr<MidiReceiver> midi_receiver_{std::make_shared<MidiReceiver>()};
-   std::shared_ptr<LrIpcOut> lr_ipc_out_{
-       std::make_shared<LrIpcOut>(controls_model_, profile_, midi_sender_, *midi_receiver_)};
-   ProfileManager profile_manager_{controls_model_, profile_, lr_ipc_out_, *midi_receiver_};
-   std::shared_ptr<LrIpcIn> lr_ipc_in_{std::make_shared<LrIpcIn>(
-       controls_model_, profile_manager_, profile_, midi_sender_, lr_ipc_out_)};
+   MidiSender midi_sender_{};
+   MidiReceiver midi_receiver_{};
+   LrIpcOut lr_ipc_out_{controls_model_, profile_, midi_sender_, midi_receiver_};
+   ProfileManager profile_manager_{controls_model_, profile_, lr_ipc_out_, midi_receiver_};
+   LrIpcIn lr_ipc_in_{controls_model_, profile_manager_, profile_, midi_sender_};
    SettingsManager settings_manager_{profile_manager_, lr_ipc_out_};
    std::unique_ptr<MainWindow> main_window_{nullptr};
    // destroy after window that uses it

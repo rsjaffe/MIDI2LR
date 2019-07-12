@@ -60,11 +60,13 @@ namespace {
 } // namespace
 
 MainContentComponent::MainContentComponent(const CommandSet& command_set, Profile& profile,
-    ProfileManager& profile_manager, SettingsManager& settings_manager) try : ResizableLayout {
+    ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
+    MidiReceiver& midi_receiver, MidiSender& midi_sender) try : ResizableLayout {
    this
 }
-, profile_(profile), command_table_model_(command_set, profile), profile_manager_(profile_manager),
-    settings_manager_(settings_manager)
+, command_table_model_(command_set, profile), lr_ipc_out_{lr_ipc_out},
+    midi_receiver_{midi_receiver}, midi_sender_{midi_sender}, profile_(profile),
+    profile_manager_(profile_manager), settings_manager_(settings_manager)
 {
    // Set the component size
    setSize(kMainWidth, kMainHeight);
@@ -75,21 +77,14 @@ catch (const std::exception& e)
    throw;
 }
 
-void MainContentComponent::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out,
-    std::shared_ptr<MidiReceiver> midi_receiver, std::shared_ptr<MidiSender> midi_sender)
+void MainContentComponent::Init()
 {
    try {
-      lr_ipc_out_ = std::move(lr_ipc_out);
-      midi_receiver_ = std::move(midi_receiver);
-      midi_sender_ = std::move(midi_sender);
+      // Add ourselves as a listener for MIDI commands
+      midi_receiver_.AddCallback(this, &MainContentComponent::MidiCmdCallback);
 
-      if (midi_receiver_)
-         // Add ourselves as a listener for MIDI commands
-         midi_receiver_->AddCallback(this, &MainContentComponent::MidiCmdCallback);
-
-      if (const auto ptr = lr_ipc_out_.lock())
-         // Add ourselves as a listener for LR_IPC_OUT events
-         ptr->AddCallback(this, &MainContentComponent::LrIpcOutCallback);
+      // Add ourselves as a listener for LR_IPC_OUT events
+      lr_ipc_out_.AddCallback(this, &MainContentComponent::LrIpcOutCallback);
 
       // Add ourselves as a listener for profile changes
       profile_manager_.AddCallback(this, &MainContentComponent::ProfileChanged);
@@ -290,14 +285,11 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       if (button == &rescan_button_) {
          // Re-enumerate MIDI IN and OUT devices
 
-         if (midi_receiver_)
-            midi_receiver_->RescanDevices();
+         midi_receiver_.RescanDevices();
 
-         if (midi_sender_)
-            midi_sender_->RescanDevices();
+         midi_sender_.RescanDevices();
          // Send new CC parameters to MIDI Out devices
-         if (const auto ptr = lr_ipc_out_.lock())
-            ptr->SendCommand("FullRefresh 1\n");
+         lr_ipc_out_.SendCommand("FullRefresh 1\n");
       }
       else if (button == &remove_row_button_) {
          if (command_table_.getNumRows() > 0) {
@@ -307,15 +299,13 @@ void MainContentComponent::buttonClicked(juce::Button* button)
          }
       }
       else if (button == &disconnect_button_) {
-         if (const auto ptr = lr_ipc_out_.lock()) {
-            if (disconnect_button_.getToggleState()) {
-               ptr->SendingStop();
-               rsj::Log("Sending halted");
-            }
-            else {
-               ptr->SendingRestart();
-               rsj::Log("Sending restarted");
-            }
+         if (disconnect_button_.getToggleState()) {
+            lr_ipc_out_.SendingStop();
+            rsj::Log("Sending halted");
+         }
+         else {
+            lr_ipc_out_.SendingRestart();
+            rsj::Log("Sending restarted");
          }
       }
       else if (button == &save_button_) {
@@ -351,8 +341,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
                const auto new_profile = chooser.getResult();
                auto command =
                    "ChangedToFullPath " + new_profile.getFullPathName().toStdString() + '\n';
-               if (const auto ptr = lr_ipc_out_.lock())
-                  ptr->SendCommand(std::move(command));
+               lr_ipc_out_.SendCommand(std::move(command));
                profile_name_label_.setText(
                    new_profile.getFileName(), juce::NotificationType::dontSendNotification);
                profile_.FromXml(xml_element.get());
@@ -395,8 +384,7 @@ void MainContentComponent::ProfileChanged(
          profile_name_label_.setText(file_name, juce::NotificationType::dontSendNotification);
       }
       // Send new CC parameters to MIDI Out devices
-      if (const auto ptr = lr_ipc_out_.lock())
-         ptr->SendCommand("FullRefresh 1\n");
+      lr_ipc_out_.SendCommand("FullRefresh 1\n");
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

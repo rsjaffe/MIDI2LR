@@ -27,7 +27,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 #include <utility>
 
-#include <gsl/gsl>
 #include "ControlsModel.h"
 #include "MIDIReceiver.h"
 #include "MIDISender.h"
@@ -48,9 +47,9 @@ namespace {
    constexpr auto kTerminate{"!!!@#$%^"};
 } // namespace
 
-LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile,
-    std::shared_ptr<MidiSender> midi_sender, MidiReceiver& midi_receiver)
-    : profile_{profile}, controls_model_{c_model}, midi_sender_{std::move(midi_sender)}
+LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile, const MidiSender& midi_sender,
+    MidiReceiver& midi_receiver)
+    : midi_sender_{midi_sender}, profile_{profile}, controls_model_{c_model}
 {
    midi_receiver.AddCallback(this, &LrIpcOut::MidiCmdCallback);
 }
@@ -136,8 +135,8 @@ void LrIpcOut::StopRunning()
    // pump output queue before port closed
    if (const auto m = command_.clear_count_emplace(kTerminate))
       rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
-   const auto self = shared_from_this();
-   asio::post([this, self] {
+   callbacks_.clear(); // no more connect/disconnect notifications
+   asio::post([this] {
       if (socket_.is_open()) {
          asio::error_code ec;
          // For portable behaviour with respect to graceful closure of a connected socket, call
@@ -158,9 +157,8 @@ void LrIpcOut::StopRunning()
 void LrIpcOut::Connect()
 {
    try {
-      const auto self = shared_from_this();
       socket_.async_connect(asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrOutPort),
-          [this, self](const asio::error_code& error) {
+          [this](const asio::error_code& error) {
              if (!error) {
                 ConnectionMade();
                 SendOut();
@@ -266,9 +264,8 @@ void LrIpcOut::SendOut()
       // always connected when running SendOut, no need to check flag
       if (command_copy->back() != '\n') // should be terminated with \n
          *command_copy += '\n';
-      const auto self{shared_from_this()};
       asio::async_write(socket_, asio::buffer(*command_copy),
-          [this, self, command_copy](const asio::error_code& error, std::size_t) {
+          [this, command_copy](const asio::error_code& error, std::size_t) {
              if (!error)
                 SendOut();
              else {
@@ -283,20 +280,21 @@ void LrIpcOut::SendOut()
 }
 
 void LrIpcOut::SetRecenter(rsj::MidiMessage mm)
-{ // by capturing mm, don't have to worry about later calls changing it--those will just
+{ // by capturing mm by copy, don't have to worry about later calls changing it--those will just
   // cancel and reschedule new one
    try {
-      const auto self = shared_from_this();
-      asio::dispatch([this, self] { recenter_timer_.expires_after(kRecenterTimer); });
-      recenter_timer_.async_wait([this, self, mm](const asio::error_code& error) {
+      asio::dispatch([this] { recenter_timer_.expires_after(kRecenterTimer); });
+      // self passed to next lambda only, lifetime extends beyond above call, saves one shared_ptr
+      // copy + atomic increment
+      recenter_timer_.async_wait([this, mm](const asio::error_code& error) {
          if (!error && !thread_should_exit_.load(std::memory_order_relaxed)) {
             switch (mm.message_type_byte) {
             case rsj::MessageType::Pw: {
-               midi_sender_->SendPitchWheel(mm.channel + 1, controls_model_.SetToCenter(mm));
+               midi_sender_.SendPitchWheel(mm.channel + 1, controls_model_.SetToCenter(mm));
                break;
             }
             case rsj::MessageType::Cc: {
-               midi_sender_->SendCc(
+               midi_sender_.SendCc(
                    mm.channel + 1, mm.control_number, controls_model_.SetToCenter(mm));
                break;
             }

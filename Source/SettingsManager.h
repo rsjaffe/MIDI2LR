@@ -28,7 +28,7 @@ class ProfileManager;
 
 class SettingsManager final {
  public:
-   SettingsManager(ProfileManager& profile_manager, std::weak_ptr<LrIpcOut>&& lr_ipc_out);
+   SettingsManager(ProfileManager& profile_manager, LrIpcOut& lr_ipc_out);
    ~SettingsManager() = default;
    SettingsManager(const SettingsManager& other) = delete;
    SettingsManager(SettingsManager&& other) = delete;
@@ -44,9 +44,9 @@ class SettingsManager final {
    void SetProfileDirectory(const juce::String& profile_directory);
 
  private:
+   LrIpcOut& lr_ipc_out_;
    ProfileManager& profile_manager_;
    std::unique_ptr<juce::PropertiesFile> properties_file_;
-   std::weak_ptr<LrIpcOut> lr_ipc_out_;
    void ConnectionCallback(bool, bool);
 };
 

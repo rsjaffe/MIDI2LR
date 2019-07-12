@@ -22,7 +22,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <exception>
 #include <functional>
-#include <memory>
 #include <vector>
 
 #include <JuceLibraryCode/JuceHeader.h>
@@ -42,8 +41,8 @@ namespace rsj {
 
 class ProfileManager final : juce::AsyncUpdater {
  public:
-   ProfileManager(ControlsModel& c_model, Profile& profile, std::weak_ptr<LrIpcOut>&& out,
-       MidiReceiver& midi_receiver);
+   ProfileManager(
+       ControlsModel& c_model, const Profile& profile, LrIpcOut& out, MidiReceiver& midi_receiver);
    ~ProfileManager() = default;
    ProfileManager(const ProfileManager& other) = delete;
    ProfileManager(ProfileManager&& other) = delete;
@@ -93,13 +92,13 @@ class ProfileManager final : juce::AsyncUpdater {
       kNext,
    };
 
-   Profile& current_profile_;
+   const Profile& current_profile_;
    ControlsModel& controls_model_;
    int current_profile_index_{0};
    juce::File profile_location_;
+   LrIpcOut& lr_ipc_out_;
    std::vector<juce::String> profiles_;
    std::vector<std::function<void(juce::XmlElement*, const juce::String&)>> callbacks_;
-   std::weak_ptr<LrIpcOut> lr_ipc_out_;
    SwitchState switch_state_{SwitchState::kNone};
    void ConnectionCallback(bool, bool);
 };

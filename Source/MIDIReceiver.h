@@ -40,12 +40,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class MidiReceiver final : juce::MidiInputCallback {
  public:
    MidiReceiver() = default;
-   ~MidiReceiver();
+   ~MidiReceiver() = default;
    MidiReceiver(const MidiReceiver& other) = delete;
    MidiReceiver(MidiReceiver&& other) = delete;
    MidiReceiver& operator=(const MidiReceiver& other) = delete;
    MidiReceiver& operator=(MidiReceiver&& other) = delete;
    void StartRunning();
+   void StopRunning();
    // re-enumerates MIDI IN devices
    void RescanDevices();
 

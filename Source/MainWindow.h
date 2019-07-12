@@ -20,8 +20,6 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#include <memory>
-
 #include <JuceLibraryCode/JuceHeader.h>
 class CommandSet;
 class LrIpcOut;
@@ -35,9 +33,8 @@ class SettingsManager;
 class MainWindow final : juce::DocumentWindow, juce::Timer {
  public:
    MainWindow(const juce::String& name, const CommandSet& command_set, Profile& profile,
-       ProfileManager& profile_manager, SettingsManager& settings_manager,
-       std::weak_ptr<LrIpcOut>&& lr_ipc_out, std::shared_ptr<MidiReceiver> midi_receiver,
-       std::shared_ptr<MidiSender> midi_sender);
+       ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
+       MidiReceiver& midi_receiver, MidiSender& midi_sender);
    ~MainWindow() = default;
    MainWindow(const MainWindow& other) = delete;
    MainWindow(MainWindow&& other) = delete;

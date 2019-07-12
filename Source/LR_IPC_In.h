@@ -22,20 +22,18 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <atomic>
 #include <future>
-#include <memory>
 #include <string>
 
 #include <asio.hpp>
 #include "Concurrency.h"
 class ControlsModel;
-class LrIpcOut;
 class MidiSender;
 class Profile;
 class ProfileManager;
-class LrIpcIn final : public std::enable_shared_from_this<LrIpcIn> {
+class LrIpcIn final {
  public:
-   LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile,
-       std::shared_ptr<MidiSender> midi_sender, std::weak_ptr<LrIpcOut>&& out);
+   LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const Profile& profile,
+       const MidiSender& midi_sender);
    ~LrIpcIn() = default;
    LrIpcIn(const LrIpcIn& other) = delete;
    LrIpcIn(LrIpcIn&& other) = delete;
@@ -47,17 +45,15 @@ class LrIpcIn final : public std::enable_shared_from_this<LrIpcIn> {
  private:
    asio::io_context io_context_{1};
    asio::ip::tcp::socket socket_{io_context_};
-   asio::steady_timer connect_timer_{io_context_};
    asio::streambuf streambuf_{};
+   const MidiSender& midi_sender_;
+   const Profile& profile_;
    ControlsModel& controls_model_;
-   Profile& profile_;
    ProfileManager& profile_manager_;
    rsj::BlockingQueue<std::string> line_;
    std::atomic<bool> thread_should_exit_{false};
    std::future<void> io_thread_;
    std::future<void> process_line_future_;
-   std::shared_ptr<MidiSender> midi_sender_{nullptr};
-   std::weak_ptr<LrIpcOut> ipc_out_;
    void Connect();
    void ProcessLine();
    void Read();

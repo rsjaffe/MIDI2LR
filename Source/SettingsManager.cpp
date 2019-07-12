@@ -22,7 +22,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <exception>
 #include <string>
-#include <utility>
 
 #include "DebugInfo.h"
 #include "LR_IPC_Out.h"
@@ -31,9 +30,8 @@ namespace {
    constexpr auto kAutoHideSection{"autohide"};
 }
 
-SettingsManager::SettingsManager(
-    ProfileManager& profile_manager, std::weak_ptr<LrIpcOut>&& lr_ipc_out)
-    : profile_manager_{profile_manager}, lr_ipc_out_{std::move(lr_ipc_out)}
+SettingsManager::SettingsManager(ProfileManager& profile_manager, LrIpcOut& lr_ipc_out)
+    : lr_ipc_out_{lr_ipc_out}, profile_manager_{profile_manager}
 {
    try {
       juce::PropertiesFile::Options file_options;
@@ -43,10 +41,9 @@ SettingsManager::SettingsManager(
       file_options.osxLibrarySubFolder = "Application Support/MIDI2LR";
       file_options.storageFormat = juce::PropertiesFile::storeAsXML;
       properties_file_ = std::make_unique<juce::PropertiesFile>(file_options);
-      if (const auto ptr = lr_ipc_out_.lock())
-         // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-         // settings on connection
-         ptr->AddCallback(this, &SettingsManager::ConnectionCallback);
+      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+      // settings on connection
+      lr_ipc_out_.AddCallback(this, &SettingsManager::ConnectionCallback);
       // set the profile directory
       profile_manager_.SetProfileDirectory(GetProfileDirectory());
    }
@@ -85,18 +82,17 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
 {
    try {
       using namespace std::literals::string_literals; // needed to append char to string
-      if (connected && !blocked)
-         if (const auto ptr = lr_ipc_out_.lock()) {
-            const DebugInfo db{GetProfileDirectory()};
-            ptr->SendCommand("Pickup "s + (GetPickupEnabled() ? '1' : '0') + '\n');
-            rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
-            // rest of info about app is logged by DebugInfo
-            ptr->SendCommand("AppInfoClear 1\n");
-            for (const auto& info : db.GetInfo()) {
-               ptr->SendCommand("AppInfo " + info + '\n');
-            }
-            ptr->SendCommand("AppInfoDone 1\n");
+      if (connected && !blocked) {
+         const DebugInfo db{GetProfileDirectory()};
+         lr_ipc_out_.SendCommand("Pickup "s + (GetPickupEnabled() ? '1' : '0') + '\n');
+         rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
+         // rest of info about app is logged by DebugInfo
+         lr_ipc_out_.SendCommand("AppInfoClear 1\n");
+         for (const auto& info : db.GetInfo()) {
+            lr_ipc_out_.SendCommand("AppInfo " + info + '\n');
          }
+         lr_ipc_out_.SendCommand("AppInfoDone 1\n");
+      }
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -136,8 +132,7 @@ void SettingsManager::SetPickupEnabled(bool enabled)
       using namespace std::literals::string_literals; // needed to append char to string
       properties_file_->setValue("pickup_enabled", enabled);
       properties_file_->saveIfNeeded();
-      if (const auto ptr = lr_ipc_out_.lock())
-         ptr->SendCommand("Pickup "s + (enabled ? '1' : '0') + '\n');
+      lr_ipc_out_.SendCommand("Pickup "s + (enabled ? '1' : '0') + '\n');
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

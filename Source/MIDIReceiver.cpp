@@ -26,26 +26,6 @@ namespace {
    constexpr rsj::MidiMessage kTerminate{rsj::MessageType::Cc, 129, 0, 0}; // impossible channel
 }
 
-#pragma warning(push)
-#pragma warning(disable : 4297 26447)
-MidiReceiver::~MidiReceiver() try {
-   for (const auto& dev : devices_) {
-      dev->stop();
-      rsj::Log("Stopped input device " + dev->getName());
-   }
-   if (const auto remaining = messages_.clear_count_push(kTerminate))
-      rsj::Log(juce::String(remaining) + " left in queue in MidiReceiver destructor");
-}
-catch (const std::exception& e) {
-   rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-   return; // The program is ending anyway. CERT C++ Coding Standard DCL57-CPP.
-}
-catch (...) {
-   rsj::LogAndAlertError("Exception in MidiReceiver Destructor. Non-standard exception.");
-   return; // The program is ending anyway. CERT C++ Coding Standard DCL57-CPP.
-}
-#pragma warning(pop)
-
 void MidiReceiver::StartRunning()
 {
    try {
@@ -59,6 +39,17 @@ void MidiReceiver::StartRunning()
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
+}
+
+void MidiReceiver::StopRunning()
+{
+   for (const auto& dev : devices_) {
+      dev->stop();
+      rsj::Log("Stopped input device " + dev->getName());
+   }
+   if (const auto remaining = messages_.clear_count_push(kTerminate))
+      rsj::Log(juce::String(remaining) + " left in queue in MidiReceiver StopRunning");
+   callbacks_.clear(); // after queue emptied
 }
 
 void MidiReceiver::handleIncomingMidiMessage(

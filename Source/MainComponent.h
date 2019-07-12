@@ -48,14 +48,14 @@ class MainContentComponent final : public juce::Component,
                                    public ResizableLayout { // ResizableLayout.h
  public:
    MainContentComponent(const CommandSet& command_set, Profile& profile,
-       ProfileManager& profile_manager, SettingsManager& settings_manager);
+       ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
+       MidiReceiver& midi_receiver, MidiSender& midi_sender);
    ~MainContentComponent() = default;
    MainContentComponent(const MainContentComponent& other) = delete;
    MainContentComponent(MainContentComponent&& other) = delete;
    MainContentComponent& operator=(const MainContentComponent& other) = delete;
    MainContentComponent& operator=(MainContentComponent&& other) = delete;
-   void Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out, std::shared_ptr<MidiReceiver> midi_receiver,
-       std::shared_ptr<MidiSender> midi_sender);
+   void Init();
    void SaveProfile();
 
  private:
@@ -72,10 +72,8 @@ class MainContentComponent final : public juce::Component,
    void MidiCmdCallback(rsj::MidiMessage);
    void ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name);
 
-   Profile& profile_;
    CommandTable command_table_{"Table", nullptr};
    CommandTableModel command_table_model_;
-   ProfileManager& profile_manager_;
    juce::DropShadowEffect title_shadow_;
    juce::Label command_label_{"Command", ""};
    juce::Label connection_label_{"Connection", juce::translate("Not connected to LR")};
@@ -90,12 +88,14 @@ class MainContentComponent final : public juce::Component,
    juce::TextButton rescan_button_{juce::translate("Rescan MIDI devices")};
    juce::TextButton save_button_{juce::translate("Save")};
    juce::TextButton settings_button_{juce::translate("Settings")};
+   LrIpcOut& lr_ipc_out_;
+   MidiReceiver& midi_receiver_;
+   MidiSender& midi_sender_;
+   Profile& profile_;
+   ProfileManager& profile_manager_;
    SettingsManager& settings_manager_;
    size_t row_to_select_{0};
-   std::shared_ptr<MidiReceiver> midi_receiver_{nullptr};
-   std::shared_ptr<MidiSender> midi_sender_{nullptr};
    std::unique_ptr<juce::DialogWindow> settings_dialog_;
-   std::weak_ptr<LrIpcOut> lr_ipc_out_;
 };
 
 #endif // MAINCOMPONENT_H_INCLUDED

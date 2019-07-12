@@ -58,8 +58,8 @@ class ControlsModel;
                                                                     //[/Comments]
 */
 class CCoptions final : public juce::Component,
-                  private juce::TextEditor::Listener,
-                  public juce::Button::Listener {
+                        juce::TextEditor::Listener,
+                        public juce::Button::Listener {
  public:
    //==============================================================================
    CCoptions();

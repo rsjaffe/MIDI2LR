@@ -30,15 +30,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 #include "Profile.h"
 
-ProfileManager::ProfileManager(ControlsModel& c_model, Profile& profile,
-    std::weak_ptr<LrIpcOut>&& out, MidiReceiver& midi_receiver)
-    : current_profile_{profile}, controls_model_{c_model}, lr_ipc_out_{std::move(out)}
+ProfileManager::ProfileManager(
+    ControlsModel& c_model, const Profile& profile, LrIpcOut& out, MidiReceiver& midi_receiver)
+    : current_profile_{profile}, controls_model_{c_model}, lr_ipc_out_{out}
 {
    midi_receiver.AddCallback(this, &ProfileManager::MidiCmdCallback);
-   if (const auto ptr = lr_ipc_out_.lock())
-      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-      // settings on connection
-      ptr->AddCallback(this, &ProfileManager::ConnectionCallback);
+   // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+   // settings on connection
+   lr_ipc_out_.AddCallback(this, &ProfileManager::ConnectionCallback);
 }
 
 void ProfileManager::SetProfileDirectory(const juce::File& directory)
@@ -89,16 +88,13 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
             const std::unique_ptr<juce::XmlElement> xml_element{parsed};
             for (const auto& cb : callbacks_)
                cb(xml_element.get(), profile);
-            if (const auto ptr = lr_ipc_out_.lock()) {
-               auto command =
-                   "ChangedToDirectory "
-                   + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
-                         .toStdString()
-                   + '\n';
-               ptr->SendCommand(std::move(command));
-               command = "ChangedToFile " + profile.toStdString() + '\n';
-               ptr->SendCommand(std::move(command));
-            }
+            auto command = "ChangedToDirectory "
+                           + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
+                                 .toStdString()
+                           + '\n';
+            lr_ipc_out_.SendCommand(std::move(command));
+            command = "ChangedToFile " + profile.toStdString() + '\n';
+            lr_ipc_out_.SendCommand(std::move(command));
          }
       }
    }
@@ -174,12 +170,10 @@ void ProfileManager::ConnectionCallback(bool connected, bool blocked)
 {
    try {
       if (connected && !blocked) {
-         if (const auto ptr = lr_ipc_out_.lock()) {
-            ptr->SendCommand("ChangedToDirectory "
-                             + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
-                                   .toStdString()
-                             + '\n');
-         }
+         lr_ipc_out_.SendCommand(
+             "ChangedToDirectory "
+             + juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString()
+             + '\n');
       }
    }
    catch (const std::exception& e) {

@@ -23,7 +23,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <atomic>
 #include <functional>
 #include <future>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -38,9 +37,9 @@ class Profile;
 #define _In_
 #endif
 
-class LrIpcOut final : public std::enable_shared_from_this<LrIpcOut> {
+class LrIpcOut final {
  public:
-   LrIpcOut(ControlsModel& c_model, const Profile& profile, std::shared_ptr<MidiSender> midi_sender,
+   LrIpcOut(ControlsModel& c_model, const Profile& profile, const MidiSender& midi_sender,
        MidiReceiver& midi_receiver);
    ~LrIpcOut() = default;
    LrIpcOut(const LrIpcOut& other) = delete;
@@ -65,9 +64,9 @@ class LrIpcOut final : public std::enable_shared_from_this<LrIpcOut> {
  private:
    asio::io_context io_context_{};
    asio::ip::tcp::socket socket_{io_context_};
-   asio::steady_timer connect_timer_{io_context_};
    asio::steady_timer recenter_timer_{io_context_};
    bool sending_stopped_{false};
+   const MidiSender& midi_sender_;
    const Profile& profile_;
    ControlsModel& controls_model_;
    rsj::BlockingQueue<std::string> command_;
@@ -75,7 +74,6 @@ class LrIpcOut final : public std::enable_shared_from_this<LrIpcOut> {
    std::atomic<bool> thread_should_exit_{false};
    std::future<void> io_thread_;
    std::future<void> io_thread1_; // need second thread for recenter timer
-   std::shared_ptr<MidiSender> midi_sender_{nullptr};
    std::vector<std::function<void(bool, bool)>> callbacks_{};
    void Connect();
    void ConnectionMade();

@@ -48,20 +48,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace {
 #ifdef _WIN32
-   HKL GetLanguage(const std::string& program_name) noexcept
+   HKL GetLanguage(const std::string& program_name)
    {
       const auto h_lr_wnd = FindWindowA(nullptr, program_name.c_str());
       if (h_lr_wnd) { // get language that LR is using (if hLrWnd is found)
          const auto thread_id = GetWindowThreadProcessId(h_lr_wnd, nullptr);
          return GetKeyboardLayout(thread_id);
       }
-      else { // FindWindowA failed
-         const auto error_msg =
-             "FindWindowA failed with error code: " + std::to_string(GetLastError());
-         rsj::Log(error_msg);
-         // use keyboard of MIDI2LR application
-         return GetKeyboardLayout(0);
-      }
+      // FindWindowA failed
+      const auto error_msg =
+          "FindWindowA failed with error code: " + std::to_string(GetLastError());
+      rsj::Log(error_msg);
+      // use keyboard of MIDI2LR application
+      return GetKeyboardLayout(0);
    }
 
    SHORT VkKeyScanExWErrorChecked(_In_ WCHAR ch, _In_ HKL dwhkl)

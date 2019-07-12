@@ -28,7 +28,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <gsl/gsl>
 #include "ControlsModel.h"
-#include "LR_IPC_Out.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
@@ -50,10 +49,10 @@ namespace {
    }
 } // namespace
 
-LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile,
-    std::shared_ptr<MidiSender> midi_sender, std::weak_ptr<LrIpcOut>&& out)
-    : controls_model_{c_model}, profile_{profile}, profile_manager_{profile_manager},
-      midi_sender_{std::move(midi_sender)}, ipc_out_{std::move(out)}
+LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const Profile& profile,
+    const MidiSender& midi_sender)
+    : midi_sender_{midi_sender}, profile_{profile}, controls_model_{c_model}, profile_manager_{
+                                                                                  profile_manager}
 {
 }
 
@@ -80,8 +79,7 @@ void LrIpcIn::StopRunning()
 {
    try {
       thread_should_exit_.store(true, std::memory_order_release);
-      const auto self = shared_from_this();
-      asio::post([this, self] {
+      asio::post([this] {
          if (socket_.is_open()) {
             asio::error_code ec;
             // For portable behaviour with respect to graceful closure of a connected socket, call
@@ -109,9 +107,8 @@ void LrIpcIn::StopRunning()
 void LrIpcIn::Connect()
 {
    try {
-      const auto self{shared_from_this()};
       socket_.async_connect(asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrInPort),
-          [this, self](const asio::error_code& error) {
+          [this](const asio::error_code& error) {
              if (!error) {
                 rsj::Log("Socket connected in LR_IPC_In");
                 Read();
@@ -181,31 +178,27 @@ void LrIpcIn::ProcessLine()
          case 3: // TerminateApplication
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
             return;
-         case 0:
+         case 0: {
             // send associated messages to MIDI OUT devices
-            if (midi_sender_) {
-               const auto original_value = std::stod(std::string(value_string));
-               for (const auto& msg : profile_.GetMessagesForCommand(command)) {
-                  const auto value = controls_model_.PluginToController(msg, original_value);
-                  if (midi_sender_) {
-                     switch (msg.msg_id_type) {
-                     case rsj::MessageType::NoteOn:
-                        midi_sender_->SendNoteOn(msg.channel, msg.control_number, value);
-                        break;
-                     case rsj::MessageType::Cc:
-                        if (controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute)
-                           midi_sender_->SendCc(msg.channel, msg.control_number, value);
-                        break;
-                     case rsj::MessageType::Pw:
-                        midi_sender_->SendPitchWheel(msg.channel, value);
-                        break;
-                     default:
-                        Ensures(!"Unexpected result for msgtype");
-                     }
-                  }
+            const auto original_value = std::stod(std::string(value_string));
+            for (const auto& msg : profile_.GetMessagesForCommand(command)) {
+               const auto value = controls_model_.PluginToController(msg, original_value);
+               switch (msg.msg_id_type) {
+               case rsj::MessageType::NoteOn:
+                  midi_sender_.SendNoteOn(msg.channel, msg.control_number, value);
+                  break;
+               case rsj::MessageType::Cc:
+                  if (controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute)
+                     midi_sender_.SendCc(msg.channel, msg.control_number, value);
+                  break;
+               case rsj::MessageType::Pw:
+                  midi_sender_.SendPitchWheel(msg.channel, value);
+                  break;
+               default:
+                  Ensures(!"Unexpected result for msgtype");
                }
             }
-            break;
+         } break;
          default:
             Ensures(!"Unexpected result for cmds");
          }
@@ -221,9 +214,8 @@ void LrIpcIn::Read()
 {
    try {
       if (!thread_should_exit_.load(std::memory_order_acquire)) {
-         const auto self{shared_from_this()};
          asio::async_read_until(socket_, streambuf_, '\n',
-             [this, self](const asio::error_code& error, std::size_t bytes_transferred) {
+             [this](const asio::error_code& error, std::size_t bytes_transferred) {
                 if (!error) {
                    if (!bytes_transferred)
                       std::this_thread::sleep_for(kEmptyWait);
