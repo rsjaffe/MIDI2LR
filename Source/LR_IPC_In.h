@@ -43,6 +43,10 @@ class LrIpcIn final {
    void StopRunning();
 
  private:
+   void Connect();
+   void ProcessLine();
+   void Read();
+
    asio::io_context io_context_{1};
    asio::ip::tcp::socket socket_{io_context_};
    asio::streambuf streambuf_{};
@@ -50,13 +54,10 @@ class LrIpcIn final {
    const Profile& profile_;
    ControlsModel& controls_model_;
    ProfileManager& profile_manager_;
-   rsj::BlockingQueue<std::string> line_;
+   rsj::ConcurrentQueue<std::string> line_;
    std::atomic<bool> thread_should_exit_{false};
    std::future<void> io_thread_;
    std::future<void> process_line_future_;
-   void Connect();
-   void ProcessLine();
-   void Read();
 };
 
 #endif // LR_IPC_IN_H_INCLUDED

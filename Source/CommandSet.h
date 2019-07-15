@@ -90,7 +90,7 @@ class CommandSet {
    [[nodiscard]] const Impl& MakeImpl() const;
    const Impl& m_impl_;
    std::unordered_map<std::string, size_t> cmd_idx_{}; // for CommandTextIndex
-   std::vector<MenuStringT> menus_{};         // use for commandmenu
+   std::vector<MenuStringT> menus_{};                  // use for commandmenu
    std::vector<std::string> cmd_by_number_{}; // use for command_set_.CommandAbbrevAt, .size
    std::vector<std::vector<MenuStringT>> menu_entries_{}; // use for commandmenu
 };

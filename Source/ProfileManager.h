@@ -74,17 +74,12 @@ class ProfileManager final : juce::AsyncUpdater {
    void SwitchToProfile(const juce::String& profile);
 
  private:
-   // returns an array of profile names
    [[nodiscard]] const std::vector<juce::String>& GetMenuItems() const noexcept;
-   // switches to the next profile
-   void SwitchToNextProfile();
-   // switches to the previous profile
-   void SwitchToPreviousProfile();
-   // AsyncUpdate interface
    void handleAsyncUpdate() override;
-
-   void MidiCmdCallback(rsj::MidiMessage);
    void MapCommand(const rsj::MidiMessageId& msg);
+   void MidiCmdCallback(rsj::MidiMessage);
+   void SwitchToNextProfile();
+   void SwitchToPreviousProfile();
 
    enum class SwitchState {
       kNone,

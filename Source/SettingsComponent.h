@@ -38,8 +38,8 @@ class SettingsComponent final : public juce::Component,
    void Init();
 
  private:
-   void paint(juce::Graphics&) override;
    void buttonClicked(juce::Button* button) override;
+   void paint(juce::Graphics&) override;
    void sliderValueChanged(juce::Slider* slider) override;
 
    juce::GroupComponent autohide_group_{};

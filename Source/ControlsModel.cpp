@@ -392,6 +392,8 @@ void ChannelModel::SavedToActive()
    }
 }
 
+#pragma warning(push)
+#pragma warning(disable : 26455)
 ChannelModel::ChannelModel()
 {
    try {
@@ -403,3 +405,4 @@ ChannelModel::ChannelModel()
       throw;
    }
 }
+#pragma warning(pop)

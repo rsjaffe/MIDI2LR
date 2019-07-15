@@ -45,7 +45,7 @@ class MainContentComponent final : public juce::Component,
                                    juce::AsyncUpdater,
                                    juce::Timer,
                                    juce::Button::Listener,
-                                   public ResizableLayout { // ResizableLayout.h
+                                   public ResizableLayout {
  public:
    MainContentComponent(const CommandSet& command_set, Profile& profile,
        ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
@@ -59,18 +59,14 @@ class MainContentComponent final : public juce::Component,
    void SaveProfile();
 
  private:
-   void SetLabelSettings(juce::Label& label_to_set);
-   void paint(juce::Graphics&) override;
-   // Button interface
    void buttonClicked(juce::Button* button) override;
-   // AsyncUpdater interface
    void handleAsyncUpdate() override;
-   // Timer interface
-   void timerCallback() override;
-   // callbacks
    void LrIpcOutCallback(bool, bool);
    void MidiCmdCallback(rsj::MidiMessage);
+   void paint(juce::Graphics&) override;
    void ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name);
+   void SetLabelSettings(juce::Label& label_to_set);
+   void timerCallback() override;
 
    CommandTable command_table_{"Table", nullptr};
    CommandTableModel command_table_model_;

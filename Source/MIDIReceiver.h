@@ -45,10 +45,9 @@ class MidiReceiver final : juce::MidiInputCallback {
    MidiReceiver(MidiReceiver&& other) = delete;
    MidiReceiver& operator=(const MidiReceiver& other) = delete;
    MidiReceiver& operator=(MidiReceiver&& other) = delete;
+   void RescanDevices();
    void StartRunning();
    void StopRunning();
-   // re-enumerates MIDI IN devices
-   void RescanDevices();
 
    template<class T>
    void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(rsj::MidiMessage))
@@ -65,12 +64,13 @@ class MidiReceiver final : juce::MidiInputCallback {
    }
 
  private:
-   void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
    void DispatchMessages();
+   void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
    void InitDevices();
    void TryToOpen(); // inner code for InitDevices
-   rsj::BlockingQueue<rsj::MidiMessage> messages_;
-   rsj::SpinLock filter_mutex_;
+
+   mutable rsj::SpinLock filter_mutex_;
+   rsj::ConcurrentQueue<rsj::MidiMessage> messages_;
    std::future<void> dispatch_messages_future_;
    std::map<juce::MidiInput*, NrpnFilter> filters_{};
    std::vector<std::function<void(rsj::MidiMessage)>> callbacks_;

@@ -49,8 +49,15 @@ namespace rsj {
    constexpr MessageType ToMessageType(short from)
    {
       if (from < 0x9 || from > 0xF)
-         throw std::range_error("MessageType range error, muxt be 0x9 to 0xF");
+         throw std::range_error("ToMessageType: MessageType range error, muxt be 0x9 to 0xF");
       return static_cast<MessageType>(from);
+   }
+
+   inline const char* MessageTypeToName(MessageType from)
+   {
+      static std::array translation_table{"Note Off", "Note On", "Key Pressure", "Control Change",
+          "Program Change", "Channel Pressure", "Pitch Bend", "System"};
+      return translation_table.at(static_cast<decltype(translation_table)::size_type>(from) - 0x8);
    }
 
    struct MidiMessage {

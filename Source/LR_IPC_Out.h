@@ -62,6 +62,12 @@ class LrIpcOut final {
    void StopRunning();
 
  private:
+   void Connect();
+   void ConnectionMade();
+   void MidiCmdCallback(rsj::MidiMessage);
+   void SendOut();
+   void SetRecenter(rsj::MidiMessage mm);
+
    asio::io_context io_context_{};
    asio::ip::tcp::socket socket_{io_context_};
    asio::steady_timer recenter_timer_{io_context_};
@@ -69,17 +75,12 @@ class LrIpcOut final {
    const MidiSender& midi_sender_;
    const Profile& profile_;
    ControlsModel& controls_model_;
-   rsj::BlockingQueue<std::string> command_;
+   rsj::ConcurrentQueue<std::string> command_;
    std::atomic<bool> connected_{false};
    std::atomic<bool> thread_should_exit_{false};
    std::future<void> io_thread_;
    std::future<void> io_thread1_; // need second thread for recenter timer
    std::vector<std::function<void(bool, bool)>> callbacks_{};
-   void Connect();
-   void ConnectionMade();
-   void MidiCmdCallback(rsj::MidiMessage);
-   void SendOut();
-   void SetRecenter(rsj::MidiMessage mm);
 };
 
 #endif // LR_IPC_OUT_H_INCLUDED

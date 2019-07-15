@@ -126,8 +126,8 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g,
    }
 }
 
-juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int column_id,
-    bool /*isRowSelected*/, juce::Component* existing_component_to_update)
+juce::Component* CommandTableModel::refreshComponentForCell(
+    int row_number, int column_id, bool /*isRowSelected*/, juce::Component* existing_component)
 {
    try {
       // This is used to create or update a custom component to go in a cell.
@@ -156,25 +156,28 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
       //// their properties
       if (column_id == 2) // LR command column
       {
-         auto command_select = dynamic_cast<CommandMenu*>(existing_component_to_update);
-
-         // create a new command menu
-         if (command_select == nullptr) {
+         auto command_select = dynamic_cast<CommandMenu*>(existing_component);
+         if (command_select == nullptr) { // create a new command menu, delete old one if it exists
+            delete existing_component;
 #pragma warning(suppress : 26400 26409 24623 24624)
             command_select =
                 new CommandMenu{profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)),
                     command_set_, profile_};
+            // add 1 because 0 is reserved for no selection
+            command_select->SetSelectedItem(
+                command_set_.CommandTextIndex(profile_.GetCommandForMessage(
+                    profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
+                + 1);
          }
-         else
+         else { // change old command menu
             command_select->SetMsg(
                 profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)));
-
-         // add 1 because 0 is reserved for no selection
-         command_select->SetSelectedItem(
-             command_set_.CommandTextIndex(profile_.GetCommandForMessage(
-                 profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
-             + 1);
-
+            // add 1 because 0 is reserved for no selection
+            command_select->SetSelectedItem(
+                command_set_.CommandTextIndex(profile_.GetCommandForMessage(
+                    profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
+                + 1);
+         }
          return command_select;
       }
       return nullptr;

@@ -210,9 +210,10 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
       // Display the CC parameters and add/highlight row in table corresponding to the CC
-      juce::String command_type{"CC"};
-      switch (mm.message_type_byte) { // this is needed because mapping uses custom structure
-      case rsj::MessageType::Cc:      // this is default for mt and commandtype
+      juce::String command_type{"Unknown"};
+      switch (mm.message_type_byte) {
+      case rsj::MessageType::Cc:
+         command_type = "CC";
          break;
       case rsj::MessageType::NoteOn:
          command_type = "NOTE ON";
