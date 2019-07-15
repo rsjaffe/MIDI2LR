@@ -107,28 +107,40 @@ namespace rsj {
 
    // -------------------------------------------------------------------
    // --- Reversed iterable
-   // https://stackoverflow.com/a/28139075/5699329
-   // Note that this won't properly capture an rvalue container (temporary)
-   // see https://stackoverflow.com/a/42221253/5699329 for that solution
 
-   // ReSharper disable once CppImplicitDefaultConstructorNotAvailable
-   template<typename T> struct ReversionWrapper {
-      T& iterable;
+   //https://stackoverflow.com/a/42221253/5699329
+   template<class T> struct ReverseWrapper {
+      T o;
+      ReverseWrapper(T&& i) : o(std::forward<T>(i)) {}
    };
 
-   template<typename T> auto begin(ReversionWrapper<T> w) noexcept
+   template<class T> auto begin(ReverseWrapper<T>& r)
    {
-      return std::rbegin(w.iterable);
+      using std::end;
+      return std::make_reverse_iterator(end(r.o));
    }
 
-   template<typename T> auto end(ReversionWrapper<T> w) noexcept
+   template<class T> auto end(ReverseWrapper<T>& r)
    {
-      return std::rend(w.iterable);
+      using std::begin;
+      return std::make_reverse_iterator(begin(r.o));
    }
 
-   template<typename T> ReversionWrapper<T> Reverse(T&& iterable) noexcept
+   template<class T> auto begin(ReverseWrapper<T> const& r)
    {
-      return {iterable};
+      using std::end;
+      return std::make_reverse_iterator(end(r.o));
+   }
+
+   template<class T> auto end(ReverseWrapper<T> const& r)
+   {
+      using std::begin;
+      return std::make_reverse_iterator(begin(r.o));
+   }
+
+   template<class T> auto Reverse(T&& ob)
+   {
+      return ReverseWrapper<T>{std::forward<T>(ob)};
    }
 
 #pragma warning(push)

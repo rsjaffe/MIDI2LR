@@ -47,67 +47,66 @@ catch (const std::exception& e) {
 bool CommandTable::keyPressed(const juce::KeyPress& k)
 {
    try {
-      static const std::unordered_map<int, int> kKeyToAction{{juce::KeyPress::deleteKey, 1},
-          {juce::KeyPress::downKey, 2}, {juce::KeyPress::upKey, 3}, {juce::KeyPress::pageUpKey, 4},
-          {juce::KeyPress::pageDownKey, 5}, {juce::KeyPress::homeKey, 6},
-          {juce::KeyPress::endKey, 7}};
-      if (const auto f = kKeyToAction.find(k.getKeyCode()); f != kKeyToAction.end()) {
-         // ReSharper disable once CppDefaultCaseNotHandledInSwitchStatement
-         switch (f->second) {
-         case 1: // deleteKey
-            if (getSelectedRow() != -1) {
-               const auto last = getSelectedRow() == getNumRows() - 1;
-               if (const auto ptr = dynamic_cast<CommandTableModel*>(getModel()))
-                  ptr->RemoveRow(gsl::narrow_cast<size_t>(getSelectedRow()));
-               updateContent();
-               if (last) // keep selection at the end
-                  selectRow(getNumRows() - 1);
-               return true;
-            }
-            return false;
-         case 2: // downKey
-            if (getSelectedRow() != -1 && getSelectedRow() < getNumRows() - 1) {
-               selectRow(getSelectedRow() + 1);
-               return true;
-            }
-            return false;
-         case 3: // upKey
-            if (getSelectedRow() > 0 && getNumRows() > 1) {
-               selectRow(getSelectedRow() - 1);
-               return true;
-            }
-            return false;
-         case 4: // pageUpKey
-            if (getNumRows() > 0) {
-               auto row = getSelectedRow() - 20;
-               if (row < 0)
-                  row = 0;
-               selectRow(row);
-               return true;
-            }
-            return false;
-         case 5: // pageDownKey
-            if (getNumRows() > 0) {
-               auto row = getSelectedRow() + 20;
-               if (row >= getNumRows())
-                  row = getNumRows() - 1;
-               selectRow(row);
-               return true;
-            }
-            return false;
-         case 6: // homeKey
-            if (getNumRows() > 0) {
-               selectRow(0);
-               return true;
-            }
-            return false;
-         case 7: // endKey
-            if (getNumRows() > 0) {
+      const auto key_pressed = k.getKeyCode();
+      if (key_pressed == juce::KeyPress::deleteKey) {
+         if (getSelectedRow() != -1) {
+            const auto last = getSelectedRow() == getNumRows() - 1;
+            if (const auto ptr = dynamic_cast<CommandTableModel*>(getModel()))
+               ptr->RemoveRow(gsl::narrow_cast<size_t>(getSelectedRow()));
+            updateContent();
+            if (last) // keep selection at the end
                selectRow(getNumRows() - 1);
-               return true;
-            }
-            return false;
+            return true;
          }
+         return false;
+      }
+      else if (key_pressed == juce::KeyPress::downKey) {
+         if (getSelectedRow() != -1 && getSelectedRow() < getNumRows() - 1) {
+            selectRow(getSelectedRow() + 1);
+            return true;
+         }
+         return false;
+      }
+      else if (key_pressed == juce::KeyPress::upKey) {
+         if (getSelectedRow() > 0 && getNumRows() > 1) {
+            selectRow(getSelectedRow() - 1);
+            return true;
+         }
+         return false;
+      }
+      else if (key_pressed == juce::KeyPress::pageUpKey) {
+         if (getNumRows() > 0) {
+            auto row = getSelectedRow() - 20;
+            if (row < 0)
+               row = 0;
+            selectRow(row);
+            return true;
+         }
+         return false;
+      }
+      else if (key_pressed == juce::KeyPress::pageDownKey) {
+         if (getNumRows() > 0) {
+            auto row = getSelectedRow() + 20;
+            if (row >= getNumRows())
+               row = getNumRows() - 1;
+            selectRow(row);
+            return true;
+         }
+         return false;
+      }
+      else if (key_pressed == juce::KeyPress::homeKey) {
+         if (getNumRows() > 0) {
+            selectRow(0);
+            return true;
+         }
+         return false;
+      }
+      else if (key_pressed == juce::KeyPress::endKey) {
+         if (getNumRows() > 0) {
+            selectRow(getNumRows() - 1);
+            return true;
+         }
+         return false;
       }
       return false;
    }

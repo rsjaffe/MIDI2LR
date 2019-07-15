@@ -131,8 +131,6 @@ void LrIpcIn::Connect()
 void LrIpcIn::ProcessLine()
 {
    try {
-      const static std::unordered_map<std::string, int> kCmds = {
-          {"SwitchProfile", 1}, {"SendKey", 2}, {"TerminateApplication", 3}};
       do {
          // process input into [parameter] [Value]
          auto line_copy{line_.pop()};
@@ -145,13 +143,14 @@ void LrIpcIn::ProcessLine()
              std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
          const auto command{std::string(
              v.substr(0, v.find_first_of(" \t\n")))}; // use this a lot, so convert to string once
-
-         switch (kCmds.count(command) ? kCmds.at(command) : 0) {
-         case 1: // SwitchProfile
+         if (command == "SwitchProfile") {
             profile_manager_.SwitchToProfile(std::string(value_string));
-            break;
-         case 2: // SendKey
-         {
+         }
+         else if (command == "TerminateApplication") {
+            juce::JUCEApplication::getInstance()->systemRequestedQuit();
+            return;
+         }
+         else if (command == "SendKey") {
             const auto modifiers = std::stoi(std::string(value_string));
             // trim twice on purpose: first digit, then space, as key may be digit
             value_string.remove_prefix(
@@ -161,7 +160,7 @@ void LrIpcIn::ProcessLine()
                rsj::LogAndAlertError(
                    "SendKey couldn't identify keystroke. Message from plugin was \""
                    + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
-               break;
+               continue;
             }
             rsj::ActiveModifiers am;
             if (modifiers & 0x1)
@@ -173,13 +172,8 @@ void LrIpcIn::ProcessLine()
             if (modifiers & 0x8)
                am.command = true;
             rsj::SendKeyDownUp(std::string(value_string), am);
-            break;
          }
-         case 3: // TerminateApplication
-            juce::JUCEApplication::getInstance()->systemRequestedQuit();
-            return;
-         case 0: {
-            // send associated messages to MIDI OUT devices
+         else { // send associated messages to MIDI OUT devices
             const auto original_value = std::stod(std::string(value_string));
             for (const auto& msg : profile_.GetMessagesForCommand(command)) {
                const auto value = controls_model_.PluginToController(msg, original_value);
@@ -195,12 +189,11 @@ void LrIpcIn::ProcessLine()
                   midi_sender_.SendPitchWheel(msg.channel, value);
                   break;
                default:
-                  Ensures(!"Unexpected result for msgtype");
+                  rsj::LogAndAlertError(
+                      juce::String("LRIPCIn ProcessLine had unexpected MessageType: ")
+                      + rsj::MessageTypeToName(msg.msg_id_type));
                }
             }
-         } break;
-         default:
-            Ensures(!"Unexpected result for cmds");
          }
       } while (true);
    }
