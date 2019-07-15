@@ -184,11 +184,12 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // message loop is no longer running at this point.
 
       // Primary goals:1) remove callbacks in LR_IPC_Out and MIDIReceiver before the callee is
-      // destroyed, 2) stop additional threads in LR_IPC_In, LR_IPC_Out and MIDIReceiver. Add to
-      // this list if new threads or callback lists are developed in this app.
+      // destroyed, 2) stop additional threads in VersionChecker, LR_IPC_In, LR_IPC_Out and
+      // MIDIReceiver. Add to this list if new threads or callback lists are developed in this app.
       midi_receiver_.StopRunning();
       lr_ipc_in_.StopRunning();
       lr_ipc_out_.StopRunning();
+      version_checker_.StopRunning();
       DefaultProfileSave();
       CerealSave();
       main_window_.reset(); // (deletes our window)

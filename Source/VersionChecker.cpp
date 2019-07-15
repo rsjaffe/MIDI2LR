@@ -44,45 +44,10 @@ VersionChecker::VersionChecker(SettingsManager& settings_manager)
 {
 }
 
-#pragma warning(push)
-#pragma warning(disable : 4297 26447)
-VersionChecker::~VersionChecker() try {
-   if (!juce::Thread::stopThread(100))
-      rsj::Log("stopThread failed in VersionChecker destructor");
-}
-catch (const std::exception& e) {
-   rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-   return; // The program is ending anyway. CERT C++ Coding Standard DCL57-CPP.
-}
-catch (...) {
-   rsj::LogAndAlertError("Exception thrown in VersionChecker destructor.");
-   return; // The program is ending anyway. CERT C++ Coding Standard DCL57-CPP.
-}
-#pragma warning(pop)
-
-void VersionChecker::run()
+void VersionChecker::StopRunning()
 {
-   try {
-      rsj::LabelThread(L"VersionChecker run thread");
-      const juce::URL version_url{"https://rsjaffe.github.io/MIDI2LR/version.xml"};
-      const std::unique_ptr<juce::XmlElement> version_xml_element{
-          version_url.readEntireXmlStream()};
-      if (version_xml_element) {
-         const auto last_checked = settings_manager_.GetLastVersionFound();
-         new_version_ = version_xml_element->getIntAttribute("latest");
-         rsj::Log("Version available " + IntToVersion(new_version_) + ", version last checked "
-                  + IntToVersion(last_checked) + ", current version "
-                  + IntToVersion(ProjectInfo::versionNumber) + '.');
-         settings_manager_.SetLastVersionFound(new_version_);
-         if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked) {
-            triggerAsyncUpdate();
-         }
-      }
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
+   if (!juce::Thread::stopThread(1000))
+      rsj::Log("stopThread failed in VersionChecker destructor");
 }
 
 void VersionChecker::handleAsyncUpdate()
@@ -99,6 +64,32 @@ void VersionChecker::handleAsyncUpdate()
       dialog_options.content->setSize(600, 100);
       dialog_.reset(dialog_options.create());
       dialog_->setVisible(true);
+      settings_manager_.SetLastVersionFound(new_version_); // user has been notified
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
+}
+
+void VersionChecker::run()
+{
+   try {
+      rsj::LabelThread(L"VersionChecker run thread");
+      const juce::URL version_url{"https://rsjaffe.github.io/MIDI2LR/version.xml"};
+      const std::unique_ptr<juce::XmlElement> version_xml_element{
+          version_url.readEntireXmlStream()};
+      if (version_xml_element && !threadShouldExit()) {
+         const auto last_checked = settings_manager_.GetLastVersionFound();
+         new_version_ = version_xml_element->getIntAttribute("latest");
+         rsj::Log("Version available " + IntToVersion(new_version_) + ", version last checked "
+                  + IntToVersion(last_checked) + ", current version "
+                  + IntToVersion(ProjectInfo::versionNumber) + '.');
+         if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked
+             && !threadShouldExit()) {
+            triggerAsyncUpdate();
+         }
+      }
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

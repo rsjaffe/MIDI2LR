@@ -28,18 +28,16 @@ class SettingsManager;
 class VersionChecker final : public juce::Thread, juce::AsyncUpdater {
  public:
    explicit VersionChecker(SettingsManager& settings_manager);
-   ~VersionChecker();
+   ~VersionChecker() = default;
    VersionChecker(const VersionChecker& other) = delete;
    VersionChecker(VersionChecker&& other) = delete;
    VersionChecker& operator=(const VersionChecker& other) = delete;
    VersionChecker& operator=(VersionChecker&& other) = delete;
+   void StopRunning();
 
  private:
-   // Thread interface
-   void run() override;
-
-   // AsyncUpdater interface
    void handleAsyncUpdate() override;
+   void run() override;
 
    int new_version_{0};
    SettingsManager& settings_manager_;
