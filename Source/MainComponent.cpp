@@ -209,26 +209,9 @@ void MainContentComponent::paint(juce::Graphics& g)
 void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
-      // Display the CC parameters and add/highlight row in table corresponding to the CC
-      juce::String command_type{"Unknown"};
-      switch (mm.message_type_byte) {
-      case rsj::MessageType::Cc:
-         command_type = "CC";
-         break;
-      case rsj::MessageType::NoteOn:
-         command_type = "NOTE ON";
-         break;
-      case rsj::MessageType::NoteOff:
-         command_type = "NOTE OFF";
-         break;
-      case rsj::MessageType::Pw:
-         command_type = "PITCHBEND";
-         break;
-      default: // shouldn't receive any messages not categorized above
-         Ensures(0);
-      }
+      // Display the MIDI parameters and add/highlight row in table corresponding to the message
       const rsj::MidiMessageId msg{mm}; // msg is 1-based for channel, which display expects
-      last_command_ = juce::String(msg.channel) + ": " + command_type
+      last_command_ = juce::String(msg.channel) + ": " + rsj::MessageTypeToLabel(mm.message_type_byte)
                       + juce::String(msg.control_number) + " [" + juce::String(mm.value) + "]";
       profile_.AddRowUnmapped(msg);
       row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
@@ -285,9 +268,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
    try {
       if (button == &rescan_button_) {
          // Re-enumerate MIDI IN and OUT devices
-
          midi_receiver_.RescanDevices();
-
          midi_sender_.RescanDevices();
          // Send new CC parameters to MIDI Out devices
          lr_ipc_out_.SendCommand("FullRefresh 1\n");
@@ -413,7 +394,6 @@ void MainContentComponent::handleAsyncUpdate()
       command_label_.setText(last_command_, juce::NotificationType::dontSendNotification);
       command_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
       startTimer(1000);
-
       // Update the command table to add and/or select row corresponding to midi command
       command_table_.updateContent();
       command_table_.selectRow(gsl::narrow_cast<int>(row_to_select_));

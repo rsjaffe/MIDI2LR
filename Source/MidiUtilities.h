@@ -60,6 +60,13 @@ namespace rsj {
       return translation_table[static_cast<decltype(translation_table)::size_type>(from) - 0x8];
    }
 
+   inline const char* MessageTypeToLabel(MessageType from) noexcept
+   {
+      static std::array translation_table{"NOTE OFF", "NOTE ON", "KEY PRESSURE", "CC",
+          "PROGRAM CHANGE", "CHANNEL PRESSURE", "PITCHBEND", "SYSTEM"};
+      return translation_table[static_cast<decltype(translation_table)::size_type>(from) - 0x8];
+   }
+
    struct MidiMessage {
       MessageType message_type_byte{NoteOn};
       short channel{0}; // 0-based
