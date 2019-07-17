@@ -90,7 +90,7 @@ class MainContentComponent final : public juce::Component,
    Profile& profile_;
    ProfileManager& profile_manager_;
    SettingsManager& settings_manager_;
-   size_t row_to_select_{0};
+   size_t row_to_select_{0}; //-V122
    std::unique_ptr<juce::DialogWindow> settings_dialog_;
 };
 

@@ -41,24 +41,18 @@ class MainWindow final : juce::DocumentWindow, juce::Timer {
    MainWindow& operator=(const MainWindow& other) = delete;
    MainWindow& operator=(MainWindow&& other) = delete;
    void SaveProfile() const;
-   /* Note: Be careful if you override any DocumentWindow methods - the base
-      class uses a lot of them, so by overriding you might break its functionality.
-      It's best to do all your work in your content component instead, but if
-      you really have to override any DocumentWindow methods, make sure your
-      subclass also calls the superclass's method.
-   */
+   /* Note: Be careful if you override any DocumentWindow methods - the base class uses a lot of
+    * them, so by overriding you might break its functionality. It's best to do all your work in
+    * your content component instead, but if you really have to override any DocumentWindow methods,
+    * make sure your subclass also calls the superclass's method. */
 
  private:
    void closeButtonPressed() override
    {
-      // This is called when the user tries to close this window. Here, we'll just
-      // ask the app to quit when this happens, but you can change this to do
-      // whatever you need.
       juce::JUCEApplication::getInstance()->systemRequestedQuit();
    }
-   MainContentComponent* window_content_;
-   // the timer callback function
    void timerCallback() override;
+   MainContentComponent* window_content_{nullptr}; //-V122
 };
 
 #endif // MAINWINDOW_H_INCLUDED

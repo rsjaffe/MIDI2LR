@@ -53,11 +53,11 @@ namespace rsj {
       return static_cast<MessageType>(from);
    }
 
-   inline const char* MessageTypeToName(MessageType from)
+   inline const char* MessageTypeToName(MessageType from) noexcept
    {
       static std::array translation_table{"Note Off", "Note On", "Key Pressure", "Control Change",
           "Program Change", "Channel Pressure", "Pitch Bend", "System"};
-      return translation_table.at(static_cast<decltype(translation_table)::size_type>(from) - 0x8);
+      return translation_table[static_cast<decltype(translation_table)::size_type>(from) - 0x8];
    }
 
    struct MidiMessage {

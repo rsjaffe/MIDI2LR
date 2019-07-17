@@ -293,7 +293,7 @@ void ChannelModel::SetCcMax(size_t controlnumber, short value)
       Expects(value <= kMaxNrpn);
       Expects(value >= 0);
       if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
-         cc_high_.at(controlnumber) = value < 0 ? 1000 : value;
+         cc_high_.at(controlnumber) = value < 0 ? 1000 : value; //-V547
       else {
          const auto max = IsNRPN_(controlnumber) ? kMaxNrpn : kMaxMidi;
          cc_high_.at(controlnumber) =

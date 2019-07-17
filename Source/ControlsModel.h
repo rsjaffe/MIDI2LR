@@ -294,8 +294,8 @@ class ControlsModel {
    [[nodiscard]] rsj::CCmethod GetCcMethod(rsj::MidiMessageId msg_id) const
    {
       try { // MidiMessageId channel is 1-based
-         return all_controls_.at(static_cast<size_t>(msg_id.channel) - 1)
-             .GetCcMethod(static_cast<size_t>(msg_id.control_number));
+         return all_controls_.at(static_cast<size_t>(msg_id.channel) - 1) //-V201
+             .GetCcMethod(static_cast<size_t>(msg_id.control_number)); //-V201
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -350,9 +350,9 @@ class ControlsModel {
    short PluginToController(rsj::MidiMessageId msg_id, double value)
    {
       try { // msg_id is one-based
-         return all_controls_.at(static_cast<size_t>(msg_id.channel) - 1)
+         return all_controls_.at(static_cast<size_t>(msg_id.channel) - 1) //-V201
              .PluginToController(
-                 msg_id.msg_id_type, static_cast<size_t>(msg_id.control_number), value);
+                 msg_id.msg_id_type, static_cast<size_t>(msg_id.control_number), value); //-V201
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);

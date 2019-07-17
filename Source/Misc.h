@@ -148,7 +148,7 @@ namespace rsj {
    // zepto yocto zetta and yotta too large/small to be represented by intmax_t
    // TODO: change to consteval, find way to convert digit to string for unexpected
    // values, so return could be, e.g., "23425/125557 ", instead of error message
-   template<class R>[[nodiscard]] constexpr auto RatioToPrefix()
+   template<class R>[[nodiscard]] constexpr auto RatioToPrefix() noexcept
    {
       if (R::num == 1) {
          switch (R::den) {
@@ -201,7 +201,7 @@ namespace rsj {
 #pragma warning(pop)
 
    template<class Rep, class Period>
-   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) //-V801
+   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) noexcept //-V801
    {
       const auto start = std::chrono::high_resolution_clock::now();
       std::this_thread::sleep_for(sleep_duration);

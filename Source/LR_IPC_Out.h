@@ -37,7 +37,7 @@ class Profile;
 #define _In_
 #endif
 
-class LrIpcOut final {
+class LrIpcOut {
  public:
    LrIpcOut(ControlsModel& c_model, const Profile& profile, const MidiSender& midi_sender,
        MidiReceiver& midi_receiver);
@@ -78,7 +78,7 @@ class LrIpcOut final {
    rsj::ConcurrentQueue<std::string> command_;
    std::atomic<bool> connected_{false};
    std::atomic<bool> thread_should_exit_{false};
-   std::future<void> io_thread_;
+   std::future<void> io_thread0_;
    std::future<void> io_thread1_; // need second thread for recenter timer
    std::vector<std::function<void(bool, bool)>> callbacks_{};
 };
