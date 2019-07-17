@@ -78,7 +78,7 @@ void LrIpcIn::StartRunning()
 void LrIpcIn::StopRunning()
 {
    try {
-      thread_should_exit_.store(true, std::memory_order_release);
+      thread_should_exit_.store(true, std::memory_order_seq_cst);
       asio::post([this] {
          if (socket_.is_open()) {
             asio::error_code ec;
@@ -206,7 +206,7 @@ void LrIpcIn::ProcessLine()
 void LrIpcIn::Read()
 {
    try {
-      if (!thread_should_exit_.load(std::memory_order_acquire)) {
+      if (!thread_should_exit_.load(std::memory_order_relaxed)) {
          asio::async_read_until(socket_, streambuf_, '\n',
              [this](const asio::error_code& error, std::size_t bytes_transferred) {
                 if (!error) {
@@ -216,7 +216,7 @@ void LrIpcIn::Read()
                       std::string command{buffers_begin(streambuf_.data()),
                           buffers_begin(streambuf_.data()) + bytes_transferred};
                       if (command == "TerminateApplication 1\n")
-                         thread_should_exit_.store(true, std::memory_order_release);
+                         thread_should_exit_.store(true, std::memory_order_seq_cst);
                       line_.push(std::move(command));
                       streambuf_.consume(bytes_transferred);
                    }

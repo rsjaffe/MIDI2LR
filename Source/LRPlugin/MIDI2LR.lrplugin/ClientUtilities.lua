@@ -292,9 +292,9 @@ local function showBezel(param, value1, value2)
   -- this is in case someone doesn't update MIDI2LR but Adobe goes to a higher process version not supported by MIDI2LR CmdTrans table
   local bezelname = Database.CmdTrans[param] and (Database.CmdTrans[param][processVersion] or Database.CmdTrans[param][Database.LatestPVSupported]) or param
   if value2 then
-    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToString(value1,precision) .. '  ' ..LrStringUtils.numberToString(value2,precision) )
+    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value1,precision) .. '  ' ..LrStringUtils.numberToStringWithSeparators(value2,precision) )
   else
-    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToString(value1,precision))
+    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value1,precision))
   end
 end
 
