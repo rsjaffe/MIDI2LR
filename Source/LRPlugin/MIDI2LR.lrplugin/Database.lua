@@ -81,7 +81,7 @@ local primaryDisplay = LOC('$$$/AgPhotoBin/Tooltip/PrimaryViewMode=Primary Displ
 local profexp = 'These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results. Additionally, the code for this particular setting has not been fully tested, so even if Adobe has this profile set for your camera, it may not work. Please [post an issue](https://groups.google.com/forum/#!forum/midi2lr) if this happens.'
 local profexp1 = 'These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results.'
 local profile = LOC('$$$/AgDevelop/CameraRawPanel/Profile=Profile:')
-local quickdev = LOC('$$$/AgLibrary/Menu/Panels/QuickDevelop=Quick develop'):gsub('%&', '')
+local quickdev = LOC('$$$/AgLibrary/Panel/DevelopTitle=Quick develop')
 local repeatexp = ' Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'
 local reset = LOC('$$$/AgDevelop/Panel/ResetButton=Reset')
 local serexp = 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'
@@ -220,11 +220,11 @@ local DataBase = {
   {Command='ZoomOutLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out'),Group=view,Explanation=''},
 --rating
   {Command='SetRating0',Type='button',Translation=LOC('$$$/AgLibrary/Filter/Stars=^1 Stars','0'),Group=rating,Explanation=''},
-  {Command='SetRating1',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating1=1 Star'):gsub('&',''),Group=rating,Explanation=''},
-  {Command='SetRating2',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating2=&2 Stars'):gsub('&',''),Group=rating,Explanation=''},
-  {Command='SetRating3',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating3=&3 Stars'):gsub('&',''),Group=rating,Explanation=''},
-  {Command='SetRating4',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating4=&4 Stars'):gsub('&',''),Group=rating,Explanation=''},
-  {Command='SetRating5',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating5=&5 Stars'):gsub('&',''),Group=rating,Explanation=''},
+  {Command='SetRating1',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Singular=1 star'),Group=rating,Explanation=''},
+  {Command='SetRating2',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',2),Group=rating,Explanation=''},
+  {Command='SetRating3',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',3),Group=rating,Explanation=''},
+  {Command='SetRating4',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',4),Group=rating,Explanation=''},
+  {Command='SetRating5',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',5),Group=rating,Explanation=''},
   {Command='IncreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating'),Group=rating,Explanation=''},
   {Command='DecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation=''},
   {Command='IncreaseDecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating')..' — '..LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation='Turning knob clockwise increases the star rating, counterclockwise decreases it.'..repeatexp},

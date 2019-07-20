@@ -210,7 +210,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                const auto result = juce::NativeMessageBox::showYesNoBox(
                    juce::AlertWindow::WarningIcon, juce::translate("MIDI2LR profiles"),
                    juce::translate(
-                       "Profile changed. Do you want to save it before exiting the program?"));
+                       "Profile changed. Do you want to save your changes? If you continue without saving, your changes will be lost."));
                if (result)
                   main_window_->SaveProfile();
             }

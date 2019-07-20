@@ -72,7 +72,7 @@ class MainContentComponent final : public juce::Component,
    CommandTableModel command_table_model_;
    juce::DropShadowEffect title_shadow_;
    juce::Label command_label_{"Command", ""};
-   juce::Label connection_label_{"Connection", juce::translate("Not connected to LR")};
+   juce::Label connection_label_{"Connection", juce::translate("Not connected to Lightroom")};
    juce::Label profile_name_label_{"ProfileNameLabel", ""};
    juce::Label title_label_{"Title", "MIDI2LR"};
    juce::Label version_label_{

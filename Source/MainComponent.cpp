@@ -235,14 +235,14 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
          }
          else {
             connection_label_.setText(
-                juce::translate("Connected to LR"), juce::NotificationType::dontSendNotification);
+                juce::translate("Connected to Lightroom"), juce::NotificationType::dontSendNotification);
             connection_label_.setColour(
                 juce::Label::backgroundColourId, juce::Colours::greenyellow);
          }
       }
       else {
          connection_label_.setText(
-             juce::translate("Not connected to LR"), juce::NotificationType::dontSendNotification);
+             juce::translate("Not connected to Lightroom"), juce::NotificationType::dontSendNotification);
          connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
       }
    }
@@ -307,7 +307,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
                 juce::translate("MIDI2LR profiles"),
                 juce::translate(
-                    "Profile changed. Do you want to save it before loading a new Profile?"));
+                    "Profile changed. Do you want to save your changes? If you continue without saving, your changes will be lost."));
             if (result)
                SaveProfile();
          }

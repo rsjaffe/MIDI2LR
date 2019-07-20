@@ -134,7 +134,7 @@ CCoptions::CCoptions()
 
    minvaltext->setBounds(200, 228, 56, 24);
 
-   minvallabel.reset(new Label("new label", TRANS("Minimum value\n")));
+   minvallabel.reset(new Label("new label", TRANS("Minimum value")));
    addAndMakeVisible(minvallabel.get());
    minvallabel->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
    minvallabel->setJustificationType(Justification::centredLeft);
@@ -374,7 +374,7 @@ BEGIN_JUCER_METADATA
               caret="1" popupmenu="1"/>
   <LABEL name="new label" id="d2621d0baef5fe94" memberName="minvallabel"
          virtualName="" explicitFocusOrder="0" pos="16 228 150 24" edTextCol="ff000000"
-         edBkgCol="0" labelText="Minimum value&#10;" editableSingleClick="0"
+         edBkgCol="0" labelText="Minimum value" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
          fontsize="1.5e1" kerning="0" bold="0" italic="0" justification="33"/>
   <LABEL name="maxlabel" id="e9c5639016533dbc" memberName="maxvallabel"
