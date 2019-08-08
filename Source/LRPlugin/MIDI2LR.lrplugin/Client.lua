@@ -561,11 +561,13 @@ LrTasks.startAsyncTask(
         if((math.abs(midi_value - CU.LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > os.clock())) then -- pickup succeeded
           paramlastmoved[param] = os.clock()
           value = CU.MIDIValueToLRValue(param, midi_value)
-          MIDI2LR.PARAM_OBSERVER[param] = value
-          LrDevelopController.setValue(param, value)
-          LastParam = param
-          if ProgramPreferences.ClientShowBezelOnChange and not silent then
-            CU.showBezel(param,value)
+          if value ~= LrDevelopController.getValue(param) then
+            MIDI2LR.PARAM_OBSERVER[param] = value
+            LrDevelopController.setValue(param, value)
+            LastParam = param
+            if ProgramPreferences.ClientShowBezelOnChange and not silent then
+              CU.showBezel(param,value)
+            end
           end
           if Database.CmdPanel[param] then
             Profiles.changeProfile(Database.CmdPanel[param])
@@ -594,11 +596,13 @@ LrTasks.startAsyncTask(
       --Don't need to clamp limited parameters without pickup, as MIDI controls will still work
       --if value is outside limits range
       value = CU.MIDIValueToLRValue(param, midi_value)
-      MIDI2LR.PARAM_OBSERVER[param] = value
-      LrDevelopController.setValue(param, value)
-      LastParam = param
-      if ProgramPreferences.ClientShowBezelOnChange and not silent then
-        CU.showBezel(param,value)
+      if value ~= LrDevelopController.getValue(param) then
+        MIDI2LR.PARAM_OBSERVER[param] = value
+        LrDevelopController.setValue(param, value)
+        LastParam = param
+        if ProgramPreferences.ClientShowBezelOnChange and not silent then
+          CU.showBezel(param,value)
+        end
       end
       if Database.CmdPanel[param] then
         Profiles.changeProfile(Database.CmdPanel[param])
