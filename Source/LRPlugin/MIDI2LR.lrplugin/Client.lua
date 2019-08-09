@@ -543,6 +543,22 @@ LrTasks.startAsyncTask(
           UpdateParam = UpdateParamNoPickup
         end
       end,
+      --[[
+      For SetRating, if send back sync value to controller, formula is:
+        (Rating * 2 + 1)/12
+      or,
+        0 = 0.083333333, 1 = 0.25, 2 = 4.16667, 3 = 0.583333, 4 = 0.75, 5 = 0.916667
+      Make sure to send back sync only when controller not in the range of current value, or we will
+      be yanking the controller out of people's hands, as "correct value" is 1/6th of fader's travel.
+      Will need to add code to AdjustmentChangeObserver and FullRefresh, and remember last fader
+      position received by SetRating.
+      --]]
+      SetRating          = function(value) 
+        local newrating = math.min(5,math.floor(tonumber(value)*6))
+        if (newrating ~= LrSelection.getRating()) then
+          LrSelection.setRating(newrating)
+        end
+      end,
     }
 
     --called within LrRecursionGuard for setting

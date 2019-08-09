@@ -228,6 +228,7 @@ local DataBase = {
   {Command='IncreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating'),Group=rating,Explanation=''},
   {Command='DecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation=''},
   {Command='IncreaseDecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating')..' — '..LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation='Turning knob clockwise increases the star rating, counterclockwise decreases it.'..repeatexp},
+  {Command='SetRating',Type='variable',Translation=LOC('$$$/AgDevelop/Toolbar/Tooltip/SetRating=Set Rating'),Group=rating,Explanation='Unlike Increase/Decrease rating, this relies on the absolute position of the control to set the rating. Best suited for faders. I suggest using Increase/Decrease Rating for rotary controls. Note that MIDI2LR does not synchronize the control with the current photo\226\128\153s rating and does not use pickup mode for this control, so the rating will immediately change to the control value when the control is moved, even if the control rating is far from the photo\226\128\153s current rating.'},
   --flagging
   {Command='Pick',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/SetPick=Set Pick Flag'),Group=flagging,Explanation=''},
   {Command='Reject',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/SetReject=Set Rejected Flag'),Group=flagging,Explanation=''},
