@@ -348,6 +348,14 @@ LrTasks.startAsyncTask(
       profile8                        = function() Profiles.changeProfile('profile8', true) end,
       profile9                        = function() Profiles.changeProfile('profile9', true) end,
       profile10                       = function() Profiles.changeProfile('profile10', true) end,
+      profile11                       = function() Profiles.changeProfile('profile11', true) end,
+      profile12                       = function() Profiles.changeProfile('profile12', true) end,
+      profile13                       = function() Profiles.changeProfile('profile13', true) end,
+      profile14                       = function() Profiles.changeProfile('profile14', true) end,
+      profile15                       = function() Profiles.changeProfile('profile15', true) end,
+      profile16                       = function() Profiles.changeProfile('profile16', true) end,
+      profile17                       = function() Profiles.changeProfile('profile17', true) end,
+      profile18                       = function() Profiles.changeProfile('profile18', true) end,      
       PVLatest                        = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version ' .. Database.LatestPVSupported),
       RadialFilter                    = CU.fToggleTool('circularGradient'),
       RedEye                          = CU.fToggleTool('redeye'),
@@ -529,7 +537,6 @@ LrTasks.startAsyncTask(
     else
       ACTIONS.ResetTransforms              = CU.wrapFOM(LrDevelopController.resetTransforms)
     end
-
 
     local SETTINGS = {
       AppInfo            = function(value) Info.AppInfo[#Info.AppInfo+1] = value end,

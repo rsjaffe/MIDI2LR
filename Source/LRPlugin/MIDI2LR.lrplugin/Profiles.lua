@@ -74,8 +74,6 @@ local function setFullPath(value)
   end
 end
 
-
-
 local function changeProfile(profilename, ignoreCurrent)
   local changed = false
   if profilename and ProfileTypes[profilename] then
@@ -227,6 +225,16 @@ local function StartDialog(obstable,f)
             f:edit_field{ value = LrView.bind ('Profilelocalized'), width = LrView.share('profile_value'), 
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },  
+          f:spacer{height = f:control_spacing() * 4,},
+          f:push_button {title = LOC("$$$/AgDevelop/PresetsPanel/ClearAll=Clear All"), action = function()
+              for k in obstable:pairs() do
+                if k:find('Profile') == 1 then
+                  obstable[k] = ''
+                end
+              end
+            end
+          },
+          f:checkbox {title = LOC("$$$/MIDI2LR/Profiles/NotifyWhenChanged=Notify when profile changes"), value = LrView.bind('ProfilesShowBezelOnChange')}
         },
       },
       f:spacer { width = 2 },
@@ -296,7 +304,7 @@ local function StartDialog(obstable,f)
       f:column {
         width = LrView.share('profile_column'),
         f:group_box {
-        title = LOC("$$$/CRaw/Style/Profiles=Profiles"),
+          title = LOC("$$$/CRaw/Style/Profiles=Profiles"),
           width = LrView.share('profile_group'),
           font='<system/small/bold>',
           f:row {
@@ -359,19 +367,58 @@ local function StartDialog(obstable,f)
             f:edit_field{ value = LrView.bind ('Profileprofile10'), width = LrView.share('profile_value'), 
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           }, 
+          f:row {
+            font='<system>',
+            f:static_text{title = ProfileTypes.profile11.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profileprofile11'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          }, 
+          f:row {
+            font='<system>',
+            f:static_text{title = ProfileTypes.profile12.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profileprofile12'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          }, 
+          f:row {
+            font='<system>',
+            f:static_text{title = ProfileTypes.profile13.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profileprofile13'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          }, 
+          f:row {
+            font='<system>',
+            f:static_text{title = ProfileTypes.profile14.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profileprofile14'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          }, 
+          f:row {
+            font='<system>',
+            f:static_text{title = ProfileTypes.profile15.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profileprofile15'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          }, 
+          f:row {
+            font='<system>',
+            f:static_text{title = ProfileTypes.profile16.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profileprofile16'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          }, 
+          f:row {
+            font='<system>',
+            f:static_text{title = ProfileTypes.profile17.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profileprofile17'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          },    
+          f:row {
+            font='<system>',
+            f:static_text{title = ProfileTypes.profile18.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profileprofile18'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          }, 
         },
       },
     },
-    f:spacer{height = f:control_spacing() * 2,},
-    f:push_button {title = LOC("$$$/AgDevelop/PresetsPanel/ClearAll=Clear All"), action = function()
-        for k in obstable:pairs() do
-          if k:find('Profile') == 1 then
-            obstable[k] = ''
-          end
-        end
-      end
-    },
-    f:checkbox {title = LOC("$$$/MIDI2LR/Profiles/NotifyWhenChanged=Notify when profile changes"), value = LrView.bind('ProfilesShowBezelOnChange')}
+
   }
   return allboxes
 end
