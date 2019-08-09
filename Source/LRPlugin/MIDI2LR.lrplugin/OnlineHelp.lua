@@ -1,7 +1,7 @@
 --[[----------------------------------------------------------------------------
 
-SystemInfo.lua
-Display system information for debugging
+OnlineHelp.lua
+Launches the wiki in a web browser
  
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
@@ -16,14 +16,10 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
-local LrDialogs = import 'LrDialogs'
-local LrView    = import 'LrView'
-local DebugInfo = require 'DebugInfo'
-local answer, lines, length = DebugInfo.gatherInformation()
-local f = LrView.osFactory()
-LrDialogs.presentModalDialog({resizable = true,
-    contents = f:edit_field({
-        value = answer,
-        height_in_lines = lines,
-        width_in_chars = length})
-  })
+local LrHttp = import "LrHttp"
+
+import "LrTasks".startAsyncTask(
+  function()
+    LrHttp.openUrlInBrowser("https://github.com/rsjaffe/MIDI2LR/wiki")
+  end
+)

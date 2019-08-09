@@ -14,3 +14,6 @@
 "$$$/MIDI2LR/Profiles/Next=下一個檔案"
 "$$$/MIDI2LR/Profiles/Previous=上一個檔案"
 "$$$/MIDI2LR/ShortCuts/ShowHide=顯示/隱藏"
+"$$$/MIDI2LR/Help/Donate=捐款支持專案開發"
+"$$$/MIDI2LR/Help/OnlineHelp=線上說明"
+"$$$/MIDI2LR/Help/Support=支援"
