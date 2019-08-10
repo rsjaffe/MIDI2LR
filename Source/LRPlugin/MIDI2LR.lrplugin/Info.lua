@@ -67,15 +67,15 @@ return {
   },
   LrHelpMenuItems = {
     { 
-      title = LOC("$$$/MIDI2LR/Help/OnlineHelp=Online help"), 
+      title = LOC("$$$/MIDI2LR/Help/OnlineHelp=&Online help"), 
       file = "OnlineHelp.lua",
     }, 
     {
-      title = LOC("$$$/MIDI2LR/Help/Support=Support"), 
+      title = LOC("$$$/MIDI2LR/Help/Support=&Support"), 
       file = "Support.lua",
     },
     {
-      title = LOC("$$$/MIDI2LR/Help/Donate=Donate to support project development"),
+      title = LOC("$$$/MIDI2LR/Help/Donate=&Donate to support project development"),
       file = "Donate.lua",
     },
     {
