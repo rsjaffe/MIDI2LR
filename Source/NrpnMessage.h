@@ -37,12 +37,6 @@ class NrpnFilter {
    ProcessResult operator()(rsj::MidiMessage message);
 
  private:
-   static constexpr int kChannels{16};
-   std::array<int, kChannels> control_msb_{};
-   std::array<int, kChannels> control_lsb_{};
-   std::array<int, kChannels> value_msb_{};
-   std::array<int, kChannels> value_lsb_{};
-   std::array<int, kChannels> ready_flags_{};
    void Clear(int channel) noexcept
    {
 #pragma warning(push)
@@ -54,6 +48,13 @@ class NrpnFilter {
       value_lsb_[channel] = 0;
 #pragma warning(pop)
    }
+
+   static constexpr int kChannels{16};
+   std::array<int, kChannels> control_msb_{};
+   std::array<int, kChannels> control_lsb_{};
+   std::array<int, kChannels> value_msb_{};
+   std::array<int, kChannels> value_lsb_{};
+   std::array<int, kChannels> ready_flags_{};
 };
 
 #endif

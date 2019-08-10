@@ -51,18 +51,12 @@ namespace rsj {
 } // namespace rsj
 #else
 namespace rsj {
-   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept
-   {
-      /*nothing*/;
-   }
+   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept {}
 } // namespace rsj
 #endif
 #else
 namespace rsj {
-   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept
-   {
-      /*nothing*/;
-   }
+   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept {}
 } // namespace rsj
 #endif
 
@@ -111,7 +105,7 @@ namespace rsj {
    // https://stackoverflow.com/a/42221253/5699329
    template<class T> struct ReverseWrapper {
       T o;
-      ReverseWrapper(T&& i) : o(std::forward<T>(i)) {}
+      explicit ReverseWrapper(T&& i) : o(std::forward<T>(i)) {}
    };
 
    template<class T> auto begin(ReverseWrapper<T>& r)

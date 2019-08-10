@@ -20,6 +20,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "DebugInfo.h"
 
+#include <exception>
+
 #ifdef _WIN32
 #include <array>
 #include <string>
@@ -34,8 +36,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
 namespace {
 #pragma warning(suppress : 26426)
-   const std::unordered_map<unsigned long int, std::string> kKeyboardNames{{0x0000041c, "Albanian"}, //-V126
-       {0x00000401, "Arabic (101)"}, {0x00010401, "Arabic (102)"},
+   const std::unordered_map<unsigned long int, std::string> kKeyboardNames{ //-V126
+       {0x0000041c, "Albanian"}, {0x00000401, "Arabic (101)"}, {0x00010401, "Arabic (102)"},
        {0x00020401, "Arabic (102) AZERTY"}, {0x0000042b, "Armenian Eastern"},
        {0x0002042b, "Armenian Phonetic"}, {0x0003042b, "Armenian Typewriter"},
        {0x0001042b, "Armenian Western"}, {0x0000044d, "Assamese - Inscript"},

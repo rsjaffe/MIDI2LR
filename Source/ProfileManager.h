@@ -20,12 +20,10 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#include <exception>
 #include <functional>
 #include <vector>
 
 #include <JuceLibraryCode/JuceHeader.h>
-#include "Misc.h"
 #ifndef _MSC_VER
 #define _In_
 #endif
@@ -69,6 +67,7 @@ class ProfileManager final : juce::AsyncUpdater {
 
  private:
    [[nodiscard]] const std::vector<juce::String>& GetMenuItems() const noexcept;
+   void ConnectionCallback(bool, bool);
    void handleAsyncUpdate() override;
    void MapCommand(const rsj::MidiMessageId& msg);
    void MidiCmdCallback(rsj::MidiMessage);
@@ -89,7 +88,6 @@ class ProfileManager final : juce::AsyncUpdater {
    std::vector<juce::String> profiles_;
    std::vector<std::function<void(juce::XmlElement*, const juce::String&)>> callbacks_;
    SwitchState switch_state_{SwitchState::kNone};
-   void ConnectionCallback(bool, bool);
 };
 
 #endif // PROFILEMANAGER_H_INCLUDED

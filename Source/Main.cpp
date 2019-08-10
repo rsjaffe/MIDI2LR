@@ -99,7 +99,8 @@ namespace {
       }
       std::_Exit(EXIT_FAILURE);
    }
-   // global to install prior to program start
+// global to install prior to program start
+#pragma warning(suppress : 26426) // order of initialization unimportant for this global object
    [[maybe_unused]] const auto kInstalled{std::set_terminate(&OnTerminate)};
 } // namespace
 

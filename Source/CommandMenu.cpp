@@ -30,7 +30,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "PWoptions.h"
 
 CommandMenu::CommandMenu(
-    const rsj::MidiMessageId& message, const CommandSet& command_set, Profile& profile) try : juce
+    const rsj::MidiMessageId& message, const CommandSet& command_set, Profile& profile)
+try : juce
    ::TextButton{"Unmapped"}, command_set_(command_set), profile_(profile), message_{message} {}
 catch (const std::exception& e) {
    rsj::ExceptionResponse(typeid(this).name(), __func__, e);

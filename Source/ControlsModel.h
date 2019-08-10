@@ -176,6 +176,7 @@ class ChannelModel {
    void SetPwMin(short value) noexcept;
 
  private:
+   friend class cereal::access;
    [[nodiscard]] short CenterCc(size_t controlnumber) const noexcept
    {
       return (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) / 2
@@ -187,7 +188,6 @@ class ChannelModel {
       return (pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_
              + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
    }
-   friend class cereal::access;
    // ReSharper disable once CppMemberFunctionMayBeStatic
    [[nodiscard]] bool IsNRPN_(size_t controlnumber) const noexcept(kNdebug)
    {
@@ -195,6 +195,14 @@ class ChannelModel {
       return controlnumber > kMaxMidi;
    }
    double OffsetResult(short diff, size_t controlnumber);
+   void ActiveToSaved() const;
+   void CcDefaults();
+   void SavedToActive();
+   // ReSharper disable CppConstParameterInDeclaration
+   template<class Archive> void load(Archive& archive, uint32_t const version);
+   template<class Archive> void save(Archive& archive, uint32_t const version) const;
+   // ReSharper restore CppConstParameterInDeclaration
+
    mutable rsj::SpinLock current_v_mtx_;
    mutable std::vector<rsj::SettingsStruct> settings_to_save_{};
    short pitch_wheel_max_{kMaxNrpn};
@@ -204,13 +212,6 @@ class ChannelModel {
    std::array<short, kMaxControls> cc_high_{};
    std::array<short, kMaxControls> cc_low_{};
    std::array<short, kMaxControls> current_v_{};
-   // ReSharper disable CppConstParameterInDeclaration
-   template<class Archive> void load(Archive& archive, uint32_t const version);
-   template<class Archive> void save(Archive& archive, uint32_t const version) const;
-   // ReSharper restore CppConstParameterInDeclaration
-   void ActiveToSaved() const;
-   void CcDefaults();
-   void SavedToActive();
 };
 
 class ControlsModel {
@@ -233,6 +234,7 @@ class ControlsModel {
       return all_controls_.at(mm.channel)
           .MeasureChange(mm.message_type_byte, mm.control_number, mm.value);
    }
+
    short SetToCenter(const rsj::MidiMessage& mm)
    {
       return all_controls_.at(mm.channel).SetToCenter(mm.message_type_byte, mm.control_number);

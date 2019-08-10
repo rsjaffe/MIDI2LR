@@ -27,7 +27,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 MainWindow::MainWindow(const juce::String& name, const CommandSet& command_set, Profile& profile,
     ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
-    MidiReceiver& midi_receiver, MidiSender& midi_sender) try : juce
+    MidiReceiver& midi_receiver, MidiSender& midi_sender)
+try : juce
    ::DocumentWindow{name, juce::Colours::lightgrey,
        juce::DocumentWindow::minimiseButton | juce::DocumentWindow::closeButton}
    {

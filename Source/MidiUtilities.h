@@ -21,12 +21,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 
-/* NOTE: Channel and Number are zero-based */
-// Get the declaration of the primary std::hash template.
-// We are not permitted to declare it ourselves.
-// <typeindex> is guaranteed to provide such a declaration,
-// and is much cheaper to include than <functional>.
-// See https://en.cppreference.com/w/cpp/language/extending_std.
+/* Get the declaration of the primary std::hash template. We are not permitted to declare it
+ * ourselves. <typeindex> is guaranteed to provide such a declaration, and is much cheaper to
+ * include than <functional>. See https://en.cppreference.com/w/cpp/language/extending_std. */
 #include <typeindex>
 
 #include "Misc.h"
@@ -69,6 +66,7 @@ namespace rsj {
       return translation_table[static_cast<decltype(translation_table)::size_type>(from) - 0x8];
    }
 
+   // channel is 0-based in MidiMessage, 1-based in MidiMessageId
    struct MidiMessage {
       MessageType message_type_byte{NoteOn};
       short channel{0}; // 0-based
@@ -90,6 +88,7 @@ namespace rsj {
              && lhs.control_number == rhs.control_number && lhs.value == rhs.value;
    }
 
+   // channel is 0-based in MidiMessage, 1-based in MidiMessageId
    struct MidiMessageId {
       MessageType msg_id_type{NoteOn};
       int channel{1}; // 1-based
@@ -128,12 +127,12 @@ namespace rsj {
       }
    };
 } // namespace rsj
-// hash functions
-// It is allowed to add template specializations for any standard library class template to the
-// namespace std only if the declaration depends on at least one program-defined type and the
-// specialization satisfies all requirements for the original template, except where such
-// specializations are prohibited.
+
 namespace std {
+   /*It is allowed to add template specializations for any standard library class template to the
+    * namespace std only if the declaration depends on at least one program-defined type and the
+    * specialization satisfies all requirements for the original template, except where such
+    * specializations are prohibited.*/
    template<> struct hash<rsj::MidiMessageId> {
       size_t operator()(const rsj::MidiMessageId& k) const noexcept
       {

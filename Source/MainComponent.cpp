@@ -61,7 +61,8 @@ namespace {
 
 MainContentComponent::MainContentComponent(const CommandSet& command_set, Profile& profile,
     ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
-    MidiReceiver& midi_receiver, MidiSender& midi_sender) try : ResizableLayout {
+    MidiReceiver& midi_receiver, MidiSender& midi_sender)
+try : ResizableLayout {
    this
 }
 , command_table_model_(command_set, profile), lr_ipc_out_{lr_ipc_out},

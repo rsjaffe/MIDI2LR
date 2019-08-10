@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Profile.h"
 
 #include <algorithm>
+#include <exception>
 
 #include "Misc.h"
 
@@ -125,8 +126,7 @@ std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string
       auto guard = std::shared_lock{mutex_};
       std::vector<rsj::MidiMessageId> mm;
       const auto range = command_string_map_.equal_range(command);
-      for (auto it = range.first; it != range.second; ++it)
-         mm.push_back(it->second);
+      std::for_each(range.first, range.second, [&mm](auto&& x) { mm.push_back(x.second); });
       return mm;
    }
    catch (const std::exception& e) {

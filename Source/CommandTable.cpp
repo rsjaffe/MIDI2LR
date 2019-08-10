@@ -22,13 +22,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <exception>
 #include <memory>
-#include <unordered_map>
 
 #include <gsl/gsl_util>
 #include "CommandTableModel.h"
 #include "Misc.h"
 
-CommandTable::CommandTable(const juce::String& component_name, CommandTableModel* model) try : juce
+CommandTable::CommandTable(const juce::String& component_name, CommandTableModel* model)
+try : juce
    ::TableListBox{component_name, model}
    {
       auto head = std::make_unique<juce::TableHeaderComponent>();

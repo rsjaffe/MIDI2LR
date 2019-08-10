@@ -52,6 +52,7 @@ class MainWindow final : juce::DocumentWindow, juce::Timer {
       juce::JUCEApplication::getInstance()->systemRequestedQuit();
    }
    void timerCallback() override;
+
    MainContentComponent* window_content_{nullptr}; //-V122
 };
 
