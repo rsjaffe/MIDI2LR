@@ -28,6 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_Out.h"
 #include "MIDIReceiver.h"
 #include "MidiUtilities.h"
+#include "Misc.h"
 #include "Profile.h"
 
 ProfileManager::ProfileManager(
