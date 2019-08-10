@@ -76,132 +76,66 @@ class Profile {
 
 inline void Profile::AddCommandForMessage(size_t command, const rsj::MidiMessageId& message)
 {
-   try {
-      auto guard = std::unique_lock{mutex_};
-      AddCommandForMessageI(command, message);
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
+   auto guard = std::unique_lock{mutex_};
+   AddCommandForMessageI(command, message);
 }
 
 inline bool Profile::CommandHasAssociatedMessage(const std::string& command) const
 {
-   try {
-      auto guard = std::shared_lock{mutex_};
-      return command_string_map_.find(command) != command_string_map_.end();
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
+   auto guard = std::shared_lock{mutex_};
+   return command_string_map_.find(command) != command_string_map_.end();
 }
 
 inline const std::string& Profile::GetCommandForMessage(const rsj::MidiMessageId& message) const
 {
-   try {
-      auto guard = std::shared_lock{mutex_};
-      return GetCommandForMessageI(message);
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
+   auto guard = std::shared_lock{mutex_};
+   return GetCommandForMessageI(message);
 }
 
 inline const std::string& Profile::GetCommandForMessageI(const rsj::MidiMessageId& message) const
 {
-   try {
-      return message_map_.at(message);
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
+   return message_map_.at(message);
 }
 
 inline const rsj::MidiMessageId& Profile::GetMessageForNumber(size_t num) const
 {
-   try {
-      auto guard = std::shared_lock{mutex_};
-      return GetMessageForNumberI(num);
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
+   auto guard = std::shared_lock{mutex_};
+   return GetMessageForNumberI(num);
 }
 
 inline const rsj::MidiMessageId& Profile::GetMessageForNumberI(size_t num) const
 {
-   try {
-      return command_table_.at(num);
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
+   return command_table_.at(num);
 }
 
 inline int Profile::GetRowForMessage(const rsj::MidiMessageId& message) const
 {
-   try {
-      auto guard = std::shared_lock{mutex_};
-      return gsl::narrow_cast<int>(std::find(command_table_.begin(), command_table_.end(), message)
-                                   - command_table_.begin());
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
+   auto guard = std::shared_lock{mutex_};
+   return gsl::narrow_cast<int>(
+       std::find(command_table_.begin(), command_table_.end(), message) - command_table_.begin());
 }
 
 inline bool Profile::MessageExistsInMap(const rsj::MidiMessageId& message) const
 {
-   try {
-      auto guard = std::shared_lock{mutex_};
-      return MessageExistsInMapI(message);
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
+   auto guard = std::shared_lock{mutex_};
+   return MessageExistsInMapI(message);
 }
 
 inline bool Profile::MessageExistsInMapI(const rsj::MidiMessageId& message) const
 {
-   try {
-      return message_map_.find(message) != message_map_.end();
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
+   return message_map_.find(message) != message_map_.end();
 }
 
 inline bool Profile::ProfileUnsaved() const
 {
-   try {
-      auto guard = std::shared_lock{mutex_};
-      return profile_unsaved_ && !command_table_.empty() && saved_map_ != message_map_;
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
+   auto guard = std::shared_lock{mutex_};
+   return profile_unsaved_ && !command_table_.empty() && saved_map_ != message_map_;
 }
 
 inline size_t Profile::Size() const
 {
-   try {
-      auto guard = std::shared_lock{mutex_};
-      return command_table_.size();
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
+   auto guard = std::shared_lock{mutex_};
+   return command_table_.size();
 }
 
 #endif // MIDI2LR_PROFILE_H_INCLUDED

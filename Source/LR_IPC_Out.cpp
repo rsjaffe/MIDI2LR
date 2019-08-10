@@ -231,8 +231,8 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
             nextresponse = now + std::chrono::milliseconds(kDelay);
             if (mm.message_type_byte == rsj::MessageType::Pw
                 || (mm.message_type_byte == rsj::MessageType::Cc
-                       && controls_model_.GetCcMethod(mm.channel, mm.control_number)
-                              == rsj::CCmethod::kAbsolute)) {
+                    && controls_model_.GetCcMethod(mm.channel, mm.control_number)
+                           == rsj::CCmethod::kAbsolute)) {
                SetRecenter(mm);
             }
             const auto change = controls_model_.MeasureChange(mm);

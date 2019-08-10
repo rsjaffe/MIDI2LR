@@ -95,8 +95,10 @@ namespace {
    try {
       ::std::string s;
       s.resize(in.size());
-      ::std::transform(in.begin(), in.end(), s.begin(), [
-      ](unsigned char c) noexcept { return gsl::narrow_cast<unsigned char>(::std::tolower(c)); });
+      ::std::transform(
+          in.begin(), in.end(), s.begin(), [](unsigned char c) noexcept {
+             return gsl::narrow_cast<unsigned char>(::std::tolower(c));
+          });
       return s;
    }
    catch (const ::std::exception& e) {

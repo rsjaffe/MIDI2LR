@@ -30,11 +30,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class DebugInfo {
  public:
    explicit DebugInfo(const juce::String& profile_directory) noexcept;
-   ~DebugInfo() = default;
-   DebugInfo(const DebugInfo& other) = default;
-   DebugInfo(DebugInfo&& other) = default;
-   DebugInfo& operator=(const DebugInfo& other) = default;
-   DebugInfo& operator=(DebugInfo&& other) = default;
    [[nodiscard]] const std::vector<std::string>& GetInfo() const noexcept
    {
       return info_;
@@ -43,14 +38,8 @@ class DebugInfo {
  private:
    void LogAndSave(std::string&& msg)
    {
-      try {
-         rsj::Log(msg);
-         info_.emplace_back(std::move(msg));
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      rsj::Log(msg);
+      info_.emplace_back(std::move(msg));
    }
    std::vector<std::string> info_;
 };

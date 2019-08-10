@@ -30,7 +30,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Concurrency.h"
 #include "MidiUtilities.h"
-#include "Misc.h"
 #include "NrpnMessage.h"
 
 #ifndef _MSC_VER
@@ -52,15 +51,9 @@ class MidiReceiver final : juce::MidiInputCallback {
    template<class T>
    void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(rsj::MidiMessage))
    {
-      try {
-         using namespace std::placeholders;
-         if (object && mf) // only store non-empty functions
-            callbacks_.emplace_back(std::bind(mf, object, _1));
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      using namespace std::placeholders;
+      if (object && mf) // only store non-empty functions
+         callbacks_.emplace_back(std::bind(mf, object, _1));
    }
 
  private:

@@ -33,7 +33,7 @@ class ProfileManager;
 class LrIpcIn {
  public:
    LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const Profile& profile,
-       const MidiSender& midi_sender);
+       const MidiSender& midi_sender) noexcept;
    ~LrIpcIn() = default;
    LrIpcIn(const LrIpcIn& other) = delete;
    LrIpcIn(LrIpcIn&& other) = delete;

@@ -108,7 +108,7 @@ namespace rsj {
    // -------------------------------------------------------------------
    // --- Reversed iterable
 
-   //https://stackoverflow.com/a/42221253/5699329
+   // https://stackoverflow.com/a/42221253/5699329
    template<class T> struct ReverseWrapper {
       T o;
       ReverseWrapper(T&& i) : o(std::forward<T>(i)) {}

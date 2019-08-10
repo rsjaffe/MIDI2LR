@@ -145,33 +145,15 @@ class ChannelModel {
    short SetToCenter(rsj::MessageType controltype, size_t controlnumber);
    [[nodiscard]] rsj::CCmethod GetCcMethod(size_t controlnumber) const
    {
-      try {
-         return cc_method_.at(controlnumber);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      return cc_method_.at(controlnumber);
    }
    [[nodiscard]] short GetCcMax(size_t controlnumber) const
    {
-      try {
-         return cc_high_.at(controlnumber);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      return cc_high_.at(controlnumber);
    }
    [[nodiscard]] short GetCcMin(size_t controlnumber) const
    {
-      try {
-         return cc_low_.at(controlnumber);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      return cc_low_.at(controlnumber);
    }
    [[nodiscard]] short GetPwMax() const noexcept
    {
@@ -187,13 +169,7 @@ class ChannelModel {
    void SetCcMax(size_t controlnumber, short value);
    void SetCcMethod(size_t controlnumber, rsj::CCmethod value)
    {
-      try {
-         cc_method_.at(controlnumber) = value;
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      cc_method_.at(controlnumber) = value;
    }
    void SetCcMin(size_t controlnumber, short value);
    void SetPwMax(short value) noexcept;
@@ -248,205 +224,101 @@ class ControlsModel {
    ControlsModel& operator=(ControlsModel&&) = delete;
    double ControllerToPlugin(const rsj::MidiMessage& mm)
    {
-      try {
-         return all_controls_.at(mm.channel)
-             .ControllerToPlugin(mm.message_type_byte, mm.control_number, mm.value);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      return all_controls_.at(mm.channel)
+          .ControllerToPlugin(mm.message_type_byte, mm.control_number, mm.value);
    }
 
    short MeasureChange(const rsj::MidiMessage& mm)
    {
-      try {
-         return all_controls_.at(mm.channel)
-             .MeasureChange(mm.message_type_byte, mm.control_number, mm.value);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      return all_controls_.at(mm.channel)
+          .MeasureChange(mm.message_type_byte, mm.control_number, mm.value);
    }
    short SetToCenter(const rsj::MidiMessage& mm)
    {
-      try {
-         return all_controls_.at(mm.channel).SetToCenter(mm.message_type_byte, mm.control_number);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      return all_controls_.at(mm.channel).SetToCenter(mm.message_type_byte, mm.control_number);
    }
 
    [[nodiscard]] rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const
    {
-      try {
-         return all_controls_.at(channel).GetCcMethod(controlnumber);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      return all_controls_.at(channel).GetCcMethod(controlnumber);
    }
 
    [[nodiscard]] rsj::CCmethod GetCcMethod(rsj::MidiMessageId msg_id) const
    {
-      try { // MidiMessageId channel is 1-based
-         return all_controls_.at(static_cast<size_t>(msg_id.channel) - 1) //-V201
-             .GetCcMethod(static_cast<size_t>(msg_id.control_number)); //-V201
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      // MidiMessageId channel is 1-based
+      return all_controls_
+          .at(static_cast<size_t>(msg_id.channel) - 1)              //-V201
+          .GetCcMethod(static_cast<size_t>(msg_id.control_number)); //-V201
    }
 
    [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const
    {
-      try {
-         return all_controls_.at(channel).GetCcMax(controlnumber);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      return all_controls_.at(channel).GetCcMax(controlnumber);
    }
 
    short GetCcMin(size_t channel, short controlnumber)
    {
-      try {
-         return all_controls_.at(channel).GetCcMin(controlnumber);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      return all_controls_.at(channel).GetCcMin(controlnumber);
    }
 
    [[nodiscard]] short GetPwMax(size_t channel) const
    {
-      try {
-         return all_controls_.at(channel).GetPwMax();
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      return all_controls_.at(channel).GetPwMax();
    }
 
    [[nodiscard]] short GetPwMin(size_t channel) const
    {
-      try {
-         return all_controls_.at(channel).GetPwMin();
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      return all_controls_.at(channel).GetPwMin();
    }
 
    short PluginToController(rsj::MidiMessageId msg_id, double value)
    {
-      try { // msg_id is one-based
-         return all_controls_.at(static_cast<size_t>(msg_id.channel) - 1) //-V201
-             .PluginToController(
-                 msg_id.msg_id_type, static_cast<size_t>(msg_id.control_number), value); //-V201
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      // msg_id is one-based
+      return all_controls_
+          .at(static_cast<size_t>(msg_id.channel) - 1) //-V201
+          .PluginToController(
+              msg_id.msg_id_type, static_cast<size_t>(msg_id.control_number), value); //-V201
    }
 
    short MeasureChange(
        rsj::MessageType controltype, size_t channel, short controlnumber, short value)
    {
-      try {
-         return all_controls_.at(channel).MeasureChange(controltype, controlnumber, value);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      return all_controls_.at(channel).MeasureChange(controltype, controlnumber, value);
    }
 
    void SetCc(size_t channel, short controlnumber, short min, short max, rsj::CCmethod controltype)
    {
-      try {
-         all_controls_.at(channel).SetCc(controlnumber, min, max, controltype);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      all_controls_.at(channel).SetCc(controlnumber, min, max, controltype);
    }
    void SetCcAll(
        size_t channel, short controlnumber, short min, short max, rsj::CCmethod controltype)
    {
-      try {
-         all_controls_.at(channel).SetCcAll(controlnumber, min, max, controltype);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      all_controls_.at(channel).SetCcAll(controlnumber, min, max, controltype);
    }
 
    void SetCcMax(size_t channel, short controlnumber, short value)
    {
-      try {
-         all_controls_.at(channel).SetCcMax(controlnumber, value);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      all_controls_.at(channel).SetCcMax(controlnumber, value);
    }
 
    void SetCcMethod(size_t channel, short controlnumber, rsj::CCmethod value)
    {
-      try {
-         all_controls_.at(channel).SetCcMethod(controlnumber, value);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      all_controls_.at(channel).SetCcMethod(controlnumber, value);
    }
 
    void SetCcMin(size_t channel, short controlnumber, short value)
    {
-      try {
-         all_controls_.at(channel).SetCcMin(controlnumber, value);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      all_controls_.at(channel).SetCcMin(controlnumber, value);
    }
 
    void SetPwMax(size_t channel, short value)
    {
-      try {
-         all_controls_.at(channel).SetPwMax(value);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      all_controls_.at(channel).SetPwMax(value);
    }
 
    void SetPwMin(size_t channel, short value)
    {
-      try {
-         all_controls_.at(channel).SetPwMin(value);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      all_controls_.at(channel).SetPwMin(value);
    }
 
  private:

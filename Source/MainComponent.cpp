@@ -211,7 +211,8 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
    try {
       // Display the MIDI parameters and add/highlight row in table corresponding to the message
       const rsj::MidiMessageId msg{mm}; // msg is 1-based for channel, which display expects
-      last_command_ = juce::String(msg.channel) + ": " + rsj::MessageTypeToLabel(mm.message_type_byte)
+      last_command_ = juce::String(msg.channel) + ": "
+                      + rsj::MessageTypeToLabel(mm.message_type_byte)
                       + juce::String(msg.control_number) + " [" + juce::String(mm.value) + "]";
       profile_.AddRowUnmapped(msg);
       row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
@@ -234,15 +235,15 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
             connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::yellow);
          }
          else {
-            connection_label_.setText(
-                juce::translate("Connected to Lightroom"), juce::NotificationType::dontSendNotification);
+            connection_label_.setText(juce::translate("Connected to Lightroom"),
+                juce::NotificationType::dontSendNotification);
             connection_label_.setColour(
                 juce::Label::backgroundColourId, juce::Colours::greenyellow);
          }
       }
       else {
-         connection_label_.setText(
-             juce::translate("Not connected to Lightroom"), juce::NotificationType::dontSendNotification);
+         connection_label_.setText(juce::translate("Not connected to Lightroom"),
+             juce::NotificationType::dontSendNotification);
          connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
       }
    }
@@ -306,8 +307,8 @@ void MainContentComponent::buttonClicked(juce::Button* button)
          if (profile_.ProfileUnsaved()) {
             const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
                 juce::translate("MIDI2LR profiles"),
-                juce::translate(
-                    "Profile changed. Do you want to save your changes? If you continue without saving, your changes will be lost."));
+                juce::translate("Profile changed. Do you want to save your changes? If you "
+                                "continue without saving, your changes will be lost."));
             if (result)
                SaveProfile();
          }
