@@ -57,6 +57,7 @@ namespace rsj {
    {
       static std::array translation_table{"Note Off", "Note On", "Key Pressure", "Control Change",
           "Program Change", "Channel Pressure", "Pitch Bend", "System"};
+#pragma warning(suppress : 26446 26482)
       return translation_table[static_cast<decltype(translation_table)::size_type>(from) - 0x8];
    }
 
@@ -64,6 +65,7 @@ namespace rsj {
    {
       static std::array translation_table{"NOTE OFF", "NOTE ON", "KEY PRESSURE", "CC",
           "PROGRAM CHANGE", "CHANNEL PRESSURE", "PITCHBEND", "SYSTEM"};
+#pragma warning(suppress : 26446 26482)
       return translation_table[static_cast<decltype(translation_table)::size_type>(from) - 0x8];
    }
 

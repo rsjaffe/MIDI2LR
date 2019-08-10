@@ -9,8 +9,7 @@
 [See releases for MD5 and SHA checksums](https://github.com/rsjaffe/MIDI2LR/releases). MIDI2LR supports all languages Lightroom supports.
 
 ## Support MIDI2LR 💸
-[Unterstützen Sie die Projektentwicklung mit Ihrer Spende](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=de_DE&hosted_button_id=HS992TTMHQNCL&source=url)<br />
-[Donate to support project development](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HS992TTMHQNCL&source=url)<br />
+[Donate to support project development](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HS992TTMHQNCL&source=url)<br />[Unterstützen Sie die Projektentwicklung mit Ihrer Spende](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=de_DE&hosted_button_id=HS992TTMHQNCL&source=url)<br />
 [Donación para ayuda al desarrollo de proyectos](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=es_ES&hosted_button_id=HS992TTMHQNCL&source=url)<br />
 [Faire un don pour encourager le développement du projet](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=fr_FR&hosted_button_id=HS992TTMHQNCL&source=url)<br />
 [Dona per supportare lo sviluppo del progetto](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=it_IT&hosted_button_id=HS992TTMHQNCL&source=url)<br />
