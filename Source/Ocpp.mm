@@ -105,7 +105,10 @@ void rsj::CheckPermission(pid_t pid)
                 "steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) "
                 "Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find "
                 "the checkbox for MIDI2LR on the right\r\n6) Check that checkbox");
-            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, title, message);
+            {
+               const juce::MessageManagerLock mmLock; // this may be unnecessary
+               juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, title, message);
+            }
             break;
          }
          case procNotFound:

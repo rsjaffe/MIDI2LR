@@ -59,8 +59,6 @@ local needsModule = {
 
 if Ut.LrVersion74orMore
 then
-  needsModule[LrDevelopController.setAutoTone]         = {module = 'develop', photoSelected = true }
-  needsModule[LrDevelopController.setAutoWhiteBalance] = {module = 'develop', photoSelected = true }
   needsModule[LrDevelopController.showClipping]        = {module = 'develop', photoSelected = false}
 end
 
@@ -101,6 +99,7 @@ local function wrapFOM(F,...)
     if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
     if LrApplicationView.getCurrentModuleName() ~= openModule then
       LrApplicationView.switchToModule(openModule)
+      LrTasks.yield() -- need this to allow module change before F is called
     end
     return F(unpack(arg)) --proper tail call
   end
@@ -124,6 +123,7 @@ local function execFOM(F,...)
   if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   if LrApplicationView.getCurrentModuleName() ~= openModule then
     LrApplicationView.switchToModule(openModule)
+    LrTasks.yield() -- need this to allow module change before F is called
   end
   return F(...) --proper tail call
 end
@@ -292,9 +292,9 @@ local function showBezel(param, value1, value2)
   -- this is in case someone doesn't update MIDI2LR but Adobe goes to a higher process version not supported by MIDI2LR CmdTrans table
   local bezelname = Database.CmdTrans[param] and (Database.CmdTrans[param][processVersion] or Database.CmdTrans[param][Database.LatestPVSupported]) or param
   if value2 then
-    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToString(value1,precision) .. '  ' ..LrStringUtils.numberToString(value2,precision) )
+    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value1,precision) .. '  ' ..LrStringUtils.numberToStringWithSeparators(value2,precision) )
   else
-    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToString(value1,precision))
+    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value1,precision))
   end
 end
 

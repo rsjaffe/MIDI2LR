@@ -20,13 +20,13 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+#include <atomic>
 #include <functional>
 #include <future>
-#include <mutex>
 #include <string>
 #include <vector>
 
-#include <JuceLibraryCode/JuceHeader.h>
+#include <asio.hpp>
 #include "Concurrency.h"
 #include "MidiUtilities.h"
 class ControlsModel;
@@ -37,16 +37,15 @@ class Profile;
 #define _In_
 #endif
 
-class LrIpcOut final : juce::InterprocessConnection {
+class LrIpcOut {
  public:
-   LrIpcOut(ControlsModel& c_model, const Profile& profile, std::shared_ptr<MidiSender> midi_sender,
-       MidiReceiver& midi_receiver) noexcept;
-   ~LrIpcOut();
+   LrIpcOut(ControlsModel& c_model, const Profile& profile, const MidiSender& midi_sender,
+       MidiReceiver& midi_receiver);
+   ~LrIpcOut() = default;
    LrIpcOut(const LrIpcOut& other) = delete;
    LrIpcOut(LrIpcOut&& other) = delete;
    LrIpcOut& operator=(const LrIpcOut& other) = delete;
    LrIpcOut& operator=(LrIpcOut&& other) = delete;
-   void Start();
 
    template<class T> void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(bool, bool))
    {
@@ -55,54 +54,33 @@ class LrIpcOut final : juce::InterprocessConnection {
          callbacks_.emplace_back(std::bind(mf, object, _1, _2));
    }
 
-   // sends a command to the plugin
    void SendCommand(std::string&& command);
    void SendCommand(const std::string& command);
-
-   void Stop();
-   void Restart();
+   void SendingRestart();
+   void SendingStop();
+   void StartRunning();
+   void StopRunning();
 
  private:
-   void connectionLost() override;
-   void connectionMade() override;
-   void messageReceived(const juce::MemoryBlock& msg) noexcept override;
+   void Connect();
+   void ConnectionMade();
    void MidiCmdCallback(rsj::MidiMessage);
    void SendOut();
+   void SetRecenter(rsj::MidiMessage mm);
 
+   asio::io_context io_context_{};
+   asio::ip::tcp::socket socket_{io_context_};
+   asio::steady_timer recenter_timer_{io_context_};
    bool sending_stopped_{false};
+   const MidiSender& midi_sender_;
    const Profile& profile_;
    ControlsModel& controls_model_;
-   rsj::BlockingQueue<std::string> command_;
-   std::future<void> send_out_future_;
-   std::shared_ptr<MidiSender> midi_sender_{nullptr};
+   rsj::ConcurrentQueue<std::string> command_;
+   std::atomic<bool> connected_{false};
+   std::atomic<bool> thread_should_exit_{false};
+   std::future<void> io_thread0_;
+   std::future<void> io_thread1_; // need second thread for recenter timer
    std::vector<std::function<void(bool, bool)>> callbacks_{};
-
-   // helper classes
-   class ConnectTimer final : public juce::Timer {
-    public:
-      explicit ConnectTimer(LrIpcOut& owner) noexcept : owner_(owner) {}
-      void Start();
-      void Stop();
-
-    private:
-      void timerCallback() override;
-      LrIpcOut& owner_;
-      bool timer_off_{false};
-      mutable std::mutex connect_mutex_; // fix race during shutdown
-   };
-   class Recenter final : public juce::Timer {
-    public:
-      explicit Recenter(LrIpcOut& owner) noexcept : owner_{owner} {}
-      void SetMidiMessage(rsj::MidiMessage mm);
-
-    private:
-      void timerCallback() override;
-      LrIpcOut& owner_;
-      mutable rsj::SpinLock mtx_;
-      rsj::MidiMessage mm_{};
-   };
-   ConnectTimer connect_timer_{*this};
-   Recenter recenter_{*this};
 };
 
 #endif // LR_IPC_OUT_H_INCLUDED

@@ -50,6 +50,225 @@
 // flag can be defined (e.g. in your project file) to disable this behaviour.
 //#define RTMIDI_DO_NOT_ENSURE_UNIQUE_PORTNAMES
 
+// **************************************************************** //
+//
+// MidiInApi and MidiOutApi subclass prototypes.
+//
+// **************************************************************** //
+
+#if !defined(__LINUX_ALSA__) && !defined(__UNIX_JACK__) && !defined(__MACOSX_CORE__) && !defined(__WINDOWS_MM__)
+  #define __RTMIDI_DUMMY__
+#endif
+
+#if defined(__MACOSX_CORE__)
+
+class MidiInCore: public MidiInApi
+{
+ public:
+  MidiInCore( const std::string &clientName, unsigned int queueSizeLimit );
+  ~MidiInCore( void );
+  RtMidi::Api getCurrentApi( void ) { return RtMidi::MACOSX_CORE; };
+  void openPort( unsigned int portNumber, const std::string &portName );
+  void openVirtualPort( const std::string &portName );
+  void closePort( void );
+  void setClientName( const std::string &clientName );
+  void setPortName( const std::string &portName );
+  unsigned int getPortCount( void );
+  std::string getPortName( unsigned int portNumber );
+
+ protected:
+  void initialize( const std::string& clientName );
+};
+
+class MidiOutCore: public MidiOutApi
+{
+ public:
+  MidiOutCore( const std::string &clientName );
+  ~MidiOutCore( void );
+  RtMidi::Api getCurrentApi( void ) { return RtMidi::MACOSX_CORE; };
+  void openPort( unsigned int portNumber, const std::string &portName );
+  void openVirtualPort( const std::string &portName );
+  void closePort( void );
+  void setClientName( const std::string &clientName );
+  void setPortName( const std::string &portName );
+  unsigned int getPortCount( void );
+  std::string getPortName( unsigned int portNumber );
+  void sendMessage( const unsigned char *message, size_t size );
+
+ protected:
+  void initialize( const std::string& clientName );
+};
+
+#endif
+
+#if defined(__UNIX_JACK__)
+
+class MidiInJack: public MidiInApi
+{
+ public:
+  MidiInJack( const std::string &clientName, unsigned int queueSizeLimit );
+  ~MidiInJack( void );
+  RtMidi::Api getCurrentApi( void ) { return RtMidi::UNIX_JACK; };
+  void openPort( unsigned int portNumber, const std::string &portName );
+  void openVirtualPort( const std::string &portName );
+  void closePort( void );
+  void setClientName( const std::string &clientName );
+  void setPortName( const std::string &portName);
+  unsigned int getPortCount( void );
+  std::string getPortName( unsigned int portNumber );
+
+ protected:
+  std::string clientName;
+
+  void connect( void );
+  void initialize( const std::string& clientName );
+};
+
+class MidiOutJack: public MidiOutApi
+{
+ public:
+  MidiOutJack( const std::string &clientName );
+  ~MidiOutJack( void );
+  RtMidi::Api getCurrentApi( void ) { return RtMidi::UNIX_JACK; };
+  void openPort( unsigned int portNumber, const std::string &portName );
+  void openVirtualPort( const std::string &portName );
+  void closePort( void );
+  void setClientName( const std::string &clientName );
+  void setPortName( const std::string &portName);
+  unsigned int getPortCount( void );
+  std::string getPortName( unsigned int portNumber );
+  void sendMessage( const unsigned char *message, size_t size );
+
+ protected:
+  std::string clientName;
+
+  void connect( void );
+  void initialize( const std::string& clientName );
+};
+
+#endif
+
+#if defined(__LINUX_ALSA__)
+
+class MidiInAlsa: public MidiInApi
+{
+ public:
+  MidiInAlsa( const std::string &clientName, unsigned int queueSizeLimit );
+  ~MidiInAlsa( void );
+  RtMidi::Api getCurrentApi( void ) { return RtMidi::LINUX_ALSA; };
+  void openPort( unsigned int portNumber, const std::string &portName );
+  void openVirtualPort( const std::string &portName );
+  void closePort( void );
+  void setClientName( const std::string &clientName );
+  void setPortName( const std::string &portName);
+  unsigned int getPortCount( void );
+  std::string getPortName( unsigned int portNumber );
+
+ protected:
+  void initialize( const std::string& clientName );
+};
+
+class MidiOutAlsa: public MidiOutApi
+{
+ public:
+  MidiOutAlsa( const std::string &clientName );
+  ~MidiOutAlsa( void );
+  RtMidi::Api getCurrentApi( void ) { return RtMidi::LINUX_ALSA; };
+  void openPort( unsigned int portNumber, const std::string &portName );
+  void openVirtualPort( const std::string &portName );
+  void closePort( void );
+  void setClientName( const std::string &clientName );
+  void setPortName( const std::string &portName);
+  unsigned int getPortCount( void );
+  std::string getPortName( unsigned int portNumber );
+  void sendMessage( const unsigned char *message, size_t size );
+
+ protected:
+  void initialize( const std::string& clientName );
+};
+
+#endif
+
+#if defined(__WINDOWS_MM__)
+
+class MidiInWinMM: public MidiInApi
+{
+ public:
+  MidiInWinMM( const std::string &clientName, unsigned int queueSizeLimit );
+  ~MidiInWinMM( void );
+  RtMidi::Api getCurrentApi( void ) { return RtMidi::WINDOWS_MM; };
+  void openPort( unsigned int portNumber, const std::string &portName );
+  void openVirtualPort( const std::string &portName );
+  void closePort( void );
+  void setClientName( const std::string &clientName );
+  void setPortName( const std::string &portName );
+  unsigned int getPortCount( void );
+  std::string getPortName( unsigned int portNumber );
+
+ protected:
+  void initialize( const std::string& clientName );
+};
+
+class MidiOutWinMM: public MidiOutApi
+{
+ public:
+  MidiOutWinMM( const std::string &clientName );
+  ~MidiOutWinMM( void );
+  RtMidi::Api getCurrentApi( void ) { return RtMidi::WINDOWS_MM; };
+  void openPort( unsigned int portNumber, const std::string &portName );
+  void openVirtualPort( const std::string &portName );
+  void closePort( void );
+  void setClientName( const std::string &clientName );
+  void setPortName( const std::string &portName );
+  unsigned int getPortCount( void );
+  std::string getPortName( unsigned int portNumber );
+  void sendMessage( const unsigned char *message, size_t size );
+
+ protected:
+  void initialize( const std::string& clientName );
+};
+
+#endif
+
+#if defined(__RTMIDI_DUMMY__)
+
+class MidiInDummy: public MidiInApi
+{
+ public:
+ MidiInDummy( const std::string &/*clientName*/, unsigned int queueSizeLimit ) : MidiInApi( queueSizeLimit ) { errorString_ = "MidiInDummy: This class provides no functionality."; error( RtMidiError::WARNING, errorString_ ); }
+  RtMidi::Api getCurrentApi( void ) { return RtMidi::RTMIDI_DUMMY; }
+  void openPort( unsigned int /*portNumber*/, const std::string &/*portName*/ ) {}
+  void openVirtualPort( const std::string &/*portName*/ ) {}
+  void closePort( void ) {}
+  void setClientName( const std::string &/*clientName*/ ) {};
+  void setPortName( const std::string &/*portName*/ ) {};
+  unsigned int getPortCount( void ) { return 0; }
+  std::string getPortName( unsigned int /*portNumber*/ ) { return ""; }
+
+ protected:
+  void initialize( const std::string& /*clientName*/ ) {}
+};
+
+class MidiOutDummy: public MidiOutApi
+{
+ public:
+  MidiOutDummy( const std::string &/*clientName*/ ) { errorString_ = "MidiOutDummy: This class provides no functionality."; error( RtMidiError::WARNING, errorString_ ); }
+  RtMidi::Api getCurrentApi( void ) { return RtMidi::RTMIDI_DUMMY; }
+  void openPort( unsigned int /*portNumber*/, const std::string &/*portName*/ ) {}
+  void openVirtualPort( const std::string &/*portName*/ ) {}
+  void closePort( void ) {}
+  void setClientName( const std::string &/*clientName*/ ) {};
+  void setPortName( const std::string &/*portName*/ ) {};
+  unsigned int getPortCount( void ) { return 0; }
+  std::string getPortName( unsigned int /*portNumber*/ ) { return ""; }
+  void sendMessage( const unsigned char * /*message*/, size_t /*size*/ ) {}
+
+ protected:
+  void initialize( const std::string& /*clientName*/ ) {}
+};
+
+#endif
+
 //*********************************************************************//
 //  RtMidi Definitions
 //*********************************************************************//
@@ -92,6 +311,17 @@ void RtMidi :: getCompiledApi( std::vector<RtMidi::Api> &apis ) throw()
   apis.push_back( RTMIDI_DUMMY );
 #endif
 }
+
+void RtMidi :: setClientName( const std::string &clientName )
+{
+  rtapi_->setClientName(clientName);
+}
+
+void RtMidi :: setPortName( const std::string &portName )
+{
+  rtapi_->setPortName(portName);
+}
+
 
 //*********************************************************************//
 //  RtMidiIn Definitions
@@ -479,7 +709,10 @@ static void midiInputCallback( const MIDIPacketList *list, void *procRef, void *
     // function.
 
     nBytes = packet->length;
-    if ( nBytes == 0 ) continue;
+    if ( nBytes == 0 ) {
+      packet = MIDIPacketNext(packet);
+      continue;
+    }
 
     // Calculate time stamp.
     if ( data->firstMessage ) {
@@ -603,13 +836,13 @@ static void midiInputCallback( const MIDIPacketList *list, void *procRef, void *
 
 MidiInCore :: MidiInCore( const std::string &clientName, unsigned int queueSizeLimit ) : MidiInApi( queueSizeLimit )
 {
-  initialize( clientName );
+  MidiInCore::initialize( clientName );
 }
 
 MidiInCore :: ~MidiInCore( void )
 {
   // Close a connection if it exists.
-  closePort();
+  MidiInCore::closePort();
 
   // Cleanup.
   CoreMidiData *data = static_cast<CoreMidiData *> (apiData_);
@@ -667,9 +900,12 @@ void MidiInCore :: openPort( unsigned int portNumber, const std::string &portNam
 
   MIDIPortRef port;
   CoreMidiData *data = static_cast<CoreMidiData *> (apiData_);
+  CFStringRef portNameRef = CFStringCreateWithCString( NULL, portName.c_str(), kCFStringEncodingASCII );
   OSStatus result = MIDIInputPortCreate( data->client, 
-                                         CFStringCreateWithCString( NULL, portName.c_str(), kCFStringEncodingASCII ),
-                                         midiInputCallback, (void *)&inputData_, &port );
+                                         portNameRef,
+                                         midiInputCallback, (void *)&inputData_, &port );                 
+  CFRelease( portNameRef );
+  
   if ( result != noErr ) {
     MIDIClientDispose( data->client );
     errorString_ = "MidiInCore::openPort: error creating OS-X MIDI input port.";
@@ -709,9 +945,12 @@ void MidiInCore :: openVirtualPort( const std::string &portName )
 
   // Create a virtual MIDI input destination.
   MIDIEndpointRef endpoint;
+  CFStringRef portNameRef = CFStringCreateWithCString( NULL, portName.c_str(), kCFStringEncodingASCII );
   OSStatus result = MIDIDestinationCreate( data->client,
-                                           CFStringCreateWithCString( NULL, portName.c_str(), kCFStringEncodingASCII ),
+                                           portNameRef,
                                            midiInputCallback, (void *)&inputData_, &endpoint );
+  CFRelease( portNameRef );
+                                           
   if ( result != noErr ) {
     errorString_ = "MidiInCore::openVirtualPort: error creating virtual OS-X MIDI destination.";
     error( RtMidiError::DRIVER_ERROR, errorString_ );
@@ -737,6 +976,22 @@ void MidiInCore :: closePort( void )
   }
 
   connected_ = false;
+}
+
+void MidiInCore :: setClientName ( const std::string& )
+{
+
+  errorString_ = "MidiInCore::setClientName: this function is not implemented for the MACOSX_CORE API!";
+  error( RtMidiError::WARNING, errorString_ );
+
+}
+
+void MidiInCore :: setPortName ( const std::string& )
+{
+
+  errorString_ = "MidiInCore::setPortName: this function is not implemented for the MACOSX_CORE API!";
+  error( RtMidiError::WARNING, errorString_ );
+
 }
 
 unsigned int MidiInCore :: getPortCount()
@@ -902,13 +1157,13 @@ std::string MidiInCore :: getPortName( unsigned int portNumber )
 
 MidiOutCore :: MidiOutCore( const std::string &clientName ) : MidiOutApi()
 {
-  initialize( clientName );
+  MidiOutCore::initialize( clientName );
 }
 
 MidiOutCore :: ~MidiOutCore( void )
 {
   // Close a connection if it exists.
-  closePort();
+  MidiOutCore::closePort();
 
   // Cleanup.
   CoreMidiData *data = static_cast<CoreMidiData *> (apiData_);
@@ -1040,6 +1295,22 @@ void MidiOutCore :: closePort( void )
   connected_ = false;
 }
 
+void MidiOutCore :: setClientName ( const std::string& )
+{
+
+  errorString_ = "MidiOutCore::setClientName: this function is not implemented for the MACOSX_CORE API!";
+  error( RtMidiError::WARNING, errorString_ );
+
+}
+
+void MidiOutCore :: setPortName ( const std::string& )
+{
+
+  errorString_ = "MidiOutCore::setPortName: this function is not implemented for the MACOSX_CORE API!";
+  error( RtMidiError::WARNING, errorString_ );
+
+}
+
 void MidiOutCore :: openVirtualPort( const std::string &portName )
 {
   CoreMidiData *data = static_cast<CoreMidiData *> (apiData_);
@@ -1052,9 +1323,12 @@ void MidiOutCore :: openVirtualPort( const std::string &portName )
 
   // Create a virtual MIDI output source.
   MIDIEndpointRef endpoint;
+  CFStringRef portNameRef = CFStringCreateWithCString( NULL, portName.c_str(), kCFStringEncodingASCII );
   OSStatus result = MIDISourceCreate( data->client,
-                                      CFStringCreateWithCString( NULL, portName.c_str(), kCFStringEncodingASCII ),
+                                      portNameRef,
                                       &endpoint );
+  CFRelease( portNameRef );
+  
   if ( result != noErr ) {
     errorString_ = "MidiOutCore::initialize: error creating OS-X virtual MIDI source.";
     error( RtMidiError::DRIVER_ERROR, errorString_ );
@@ -1383,13 +1657,13 @@ static void *alsaMidiHandler( void *ptr )
 
 MidiInAlsa :: MidiInAlsa( const std::string &clientName, unsigned int queueSizeLimit ) : MidiInApi( queueSizeLimit )
 {
-  initialize( clientName );
+  MidiInAlsa::initialize( clientName );
 }
 
 MidiInAlsa :: ~MidiInAlsa()
 {
   // Close a connection if it exists.
-  closePort();
+  MidiInAlsa::closePort();
 
   // Shutdown the input thread.
   AlsaMidiData *data = static_cast<AlsaMidiData *> (apiData_);
@@ -1728,6 +2002,24 @@ void MidiInAlsa :: closePort( void )
   }
 }
 
+void MidiInAlsa :: setClientName( const std::string &clientName )
+{
+
+    AlsaMidiData *data = static_cast<AlsaMidiData *> ( apiData_ );
+    snd_seq_set_client_name( data->seq, clientName.c_str() );
+
+}
+
+void MidiInAlsa :: setPortName( const std::string &portName )
+{
+  AlsaMidiData *data = static_cast<AlsaMidiData *> (apiData_);
+  snd_seq_port_info_t *pinfo;
+  snd_seq_port_info_alloca( &pinfo );
+  snd_seq_get_port_info( data->seq, data->vport, pinfo );
+  snd_seq_port_info_set_name( pinfo, portName.c_str() );
+  snd_seq_set_port_info( data->seq, data->vport, pinfo );
+}
+
 //*********************************************************************//
 //  API: LINUX ALSA
 //  Class Definitions: MidiOutAlsa
@@ -1735,13 +2027,13 @@ void MidiInAlsa :: closePort( void )
 
 MidiOutAlsa :: MidiOutAlsa( const std::string &clientName ) : MidiOutApi()
 {
-  initialize( clientName );
+  MidiOutAlsa::initialize( clientName );
 }
 
 MidiOutAlsa :: ~MidiOutAlsa()
 {
   // Close a connection if it exists.
-  closePort();
+  MidiOutAlsa::closePort();
 
   // Cleanup.
   AlsaMidiData *data = static_cast<AlsaMidiData *> (apiData_);
@@ -1905,6 +2197,24 @@ void MidiOutAlsa :: closePort( void )
     data->subscription = 0;
     connected_ = false;
   }
+}
+
+void MidiOutAlsa :: setClientName( const std::string &clientName )
+{
+
+    AlsaMidiData *data = static_cast<AlsaMidiData *> ( apiData_ );
+    snd_seq_set_client_name( data->seq, clientName.c_str() );
+
+}
+
+void MidiOutAlsa :: setPortName( const std::string &portName )
+{
+  AlsaMidiData *data = static_cast<AlsaMidiData *> (apiData_);
+  snd_seq_port_info_t *pinfo;
+  snd_seq_port_info_alloca( &pinfo );
+  snd_seq_get_port_info( data->seq, data->vport, pinfo );
+  snd_seq_port_info_set_name( pinfo, portName.c_str() );
+  snd_seq_set_port_info( data->seq, data->vport, pinfo );
 }
 
 void MidiOutAlsa :: openVirtualPort( const std::string &portName )
@@ -2133,13 +2443,13 @@ static void CALLBACK midiInputCallback( HMIDIIN /*hmin*/,
 
 MidiInWinMM :: MidiInWinMM( const std::string &clientName, unsigned int queueSizeLimit ) : MidiInApi( queueSizeLimit )
 {
-  initialize( clientName );
+  MidiInWinMM::initialize( clientName );
 }
 
 MidiInWinMM :: ~MidiInWinMM()
 {
   // Close a connection if it exists.
-  closePort();
+  MidiInWinMM::closePort();
 
   WinMidiData *data = static_cast<WinMidiData *> (apiData_);
   DeleteCriticalSection( &(data->_mutex) );
@@ -2280,6 +2590,22 @@ void MidiInWinMM :: closePort( void )
   }
 }
 
+void MidiInWinMM :: setClientName ( const std::string& )
+{
+
+  errorString_ = "MidiInWinMM::setClientName: this function is not implemented for the WINDOWS_MM API!";
+  error( RtMidiError::WARNING, errorString_ );
+
+}
+
+void MidiInWinMM :: setPortName ( const std::string& )
+{
+
+  errorString_ = "MidiInWinMM::setPortName: this function is not implemented for the WINDOWS_MM API!";
+  error( RtMidiError::WARNING, errorString_ );
+
+}
+
 unsigned int MidiInWinMM :: getPortCount()
 {
   return midiInGetNumDevs();
@@ -2321,13 +2647,13 @@ std::string MidiInWinMM :: getPortName( unsigned int portNumber )
 
 MidiOutWinMM :: MidiOutWinMM( const std::string &clientName ) : MidiOutApi()
 {
-  initialize( clientName );
+  MidiOutWinMM::initialize( clientName );
 }
 
 MidiOutWinMM :: ~MidiOutWinMM()
 {
   // Close a connection if it exists.
-  closePort();
+  MidiOutWinMM::closePort();
 
   // Cleanup.
   WinMidiData *data = static_cast<WinMidiData *> (apiData_);
@@ -2430,6 +2756,22 @@ void MidiOutWinMM :: closePort( void )
     data->outHandle = 0;
     connected_ = false;
   }
+}
+
+void MidiOutWinMM :: setClientName ( const std::string& )
+{
+
+  errorString_ = "MidiOutWinMM::setClientName: this function is not implemented for the WINDOWS_MM API!";
+  error( RtMidiError::WARNING, errorString_ );
+
+}
+
+void MidiOutWinMM :: setPortName ( const std::string& )
+{
+
+  errorString_ = "MidiOutWinMM::setPortName: this function is not implemented for the WINDOWS_MM API!";
+  error( RtMidiError::WARNING, errorString_ );
+
 }
 
 void MidiOutWinMM :: openVirtualPort( const std::string &/*portName*/ )
@@ -2607,7 +2949,7 @@ static int jackProcessIn( jack_nframes_t nframes, void *arg )
 
 MidiInJack :: MidiInJack( const std::string &clientName, unsigned int queueSizeLimit ) : MidiInApi( queueSizeLimit )
 {
-  initialize( clientName );
+  MidiInJack::initialize( clientName );
 }
 
 void MidiInJack :: initialize( const std::string& clientName )
@@ -2643,7 +2985,7 @@ void MidiInJack :: connect()
 MidiInJack :: ~MidiInJack()
 {
   JackMidiData *data = static_cast<JackMidiData *> (apiData_);
-  closePort();
+  MidiInJack::closePort();
 
   if ( data->client )
     jack_client_close( data->client );
@@ -2725,7 +3067,9 @@ std::string MidiInJack :: getPortName( unsigned int portNumber )
     return retStr;
   }
 
-  if ( ports[portNumber] == NULL ) {
+  unsigned int i;
+  for (i=0; i<portNumber && ports[i]; i++) {}
+  if (i < portNumber || !ports[portNumber]) {
     std::ostringstream ost;
     ost << "MidiInJack::getPortName: the 'portNumber' argument (" << portNumber << ") is invalid.";
     errorString_ = ost.str();
@@ -2733,7 +3077,7 @@ std::string MidiInJack :: getPortName( unsigned int portNumber )
   }
   else retStr.assign( ports[portNumber] );
 
-  free( ports );
+  jack_free( ports );
   return retStr;
 }
 
@@ -2744,6 +3088,24 @@ void MidiInJack :: closePort()
   if ( data->port == NULL ) return;
   jack_port_unregister( data->client, data->port );
   data->port = NULL;
+}
+
+void MidiInJack:: setClientName( const std::string& )
+{
+
+  errorString_ = "MidiInJack::setClientName: this function is not implemented for the UNIX_JACK API!";
+  error( RtMidiError::WARNING, errorString_ );
+
+}
+
+void MidiInJack :: setPortName( const std::string &portName )
+{
+  JackMidiData *data = static_cast<JackMidiData *> (apiData_);
+#ifdef JACK_HAS_PORT_RENAME
+  jack_port_rename( data->client, data->port, portName.c_str() );
+#else
+  jack_port_set_name( data->port, portName.c_str() );
+#endif
 }
 
 //*********************************************************************//
@@ -2781,7 +3143,7 @@ static int jackProcessOut( jack_nframes_t nframes, void *arg )
 
 MidiOutJack :: MidiOutJack( const std::string &clientName ) : MidiOutApi()
 {
-  initialize( clientName );
+  MidiOutJack::initialize( clientName );
 }
 
 void MidiOutJack :: initialize( const std::string& clientName )
@@ -2824,8 +3186,8 @@ void MidiOutJack :: connect()
 MidiOutJack :: ~MidiOutJack()
 {
   JackMidiData *data = static_cast<JackMidiData *> (apiData_);
-  closePort();
-  
+  MidiOutJack::closePort();
+
   // Cleanup
   jack_ringbuffer_free( data->buffSize );
   jack_ringbuffer_free( data->buffMessage );
@@ -2947,6 +3309,24 @@ void MidiOutJack :: closePort()
 
   jack_port_unregister( data->client, data->port );
   data->port = NULL;
+}
+
+void MidiOutJack:: setClientName( const std::string& )
+{
+
+  errorString_ = "MidiOutJack::setClientName: this function is not implemented for the UNIX_JACK API!";
+  error( RtMidiError::WARNING, errorString_ );
+
+}
+
+void MidiOutJack :: setPortName( const std::string &portName )
+{
+  JackMidiData *data = static_cast<JackMidiData *> (apiData_);
+#ifdef JACK_HAS_PORT_RENAME
+  jack_port_rename( data->client, data->port, portName.c_str() );
+#else
+  jack_port_set_name( data->port, portName.c_str() );
+#endif
 }
 
 void MidiOutJack :: sendMessage( const unsigned char *message, size_t size )

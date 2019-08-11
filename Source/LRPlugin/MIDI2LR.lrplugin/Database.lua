@@ -56,6 +56,7 @@ also optional are PV1 PV2 PV3 PV4 PV5. These change the bezel display for differ
   -----------------------------------------------------------------------------]]
 
 --local function LOC(str) return str end--for debugging
+-- if update LatestPVSupported, update CmdTrans at end of this file to add the new PVs
 local LatestPVSupported = 5 -- used for update PV to latest and for limits code to get best label
 
 --Common terms used in database translated once here
@@ -80,7 +81,7 @@ local primaryDisplay = LOC('$$$/AgPhotoBin/Tooltip/PrimaryViewMode=Primary Displ
 local profexp = 'These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results. Additionally, the code for this particular setting has not been fully tested, so even if Adobe has this profile set for your camera, it may not work. Please [post an issue](https://groups.google.com/forum/#!forum/midi2lr) if this happens.'
 local profexp1 = 'These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results.'
 local profile = LOC('$$$/AgDevelop/CameraRawPanel/Profile=Profile:')
-local quickdev = LOC('$$$/AgLibrary/Menu/Panels/QuickDevelop=Quick develop'):gsub('%&', '')
+local quickdev = LOC('$$$/AgLibrary/Panel/DevelopTitle=Quick develop')
 local repeatexp = ' Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'
 local reset = LOC('$$$/AgDevelop/Panel/ResetButton=Reset')
 local serexp = 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'
@@ -207,7 +208,7 @@ local DataBase = {
   {Command='ShoVwcompare',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Compare=Compare'),Group=view,Explanation='Displays photos side by side so that you can evaluate them.'},
   {Command='ShoVwsurvey',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Survey=Survey'),Group=view,Explanation='Displays the active photo with selected photos so that you can evaluate them. The active photo has the lightest colored cell.'},
   {Command='ShoFullHidePanels',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullScreenHidePanels=Full screen, hide panels'):gsub('%&', ''),Group=view,Explanation='Changes the screen mode to Full Screen and Hide Panels. Supported in LR versions 7.4 and later.'},
-  {Command='ShoFullPreview',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullscreenPreview=Full screen preview'):gsub('%&', ''),Group=view,Explanation='Changes the screen mode to Full Screen Preview. Supported in LR versions 7.4 and later.'},
+  {Command='ShoFullPreview',Type='button',Translation=LOC('$$$/AgPrintShortcuts/Full_screen_modes=Full screen preview'),Group=view,Explanation='Changes the screen mode to Full Screen Preview. Supported in LR versions 7.4 and later.'},
   {Command='NextScreenMode',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/CycleToNextScreenMode=Cycle to next screen mode'),Group=view,Explanation='Changes to the next screen mode. Supported in LR versions 7.4 and later.'},
   {Command='ToggleLoupe',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleLoupeView=Loupe view activate/inactivate'):gsub('&',''),Group=view,Explanation='Toggle loupe view while in Library. Supported in LR versions 7.4 and later.'},
   {Command='ToggleZoomOffOn',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleZoomView=Enable/Disable Zoom'):gsub('&',''),Group=view,Explanation=''},
@@ -219,17 +220,19 @@ local DataBase = {
   {Command='ZoomOutLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out'),Group=view,Explanation=''},
 --rating
   {Command='SetRating0',Type='button',Translation=LOC('$$$/AgLibrary/Filter/Stars=^1 Stars','0'),Group=rating,Explanation=''},
-  {Command='SetRating1',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating1=1 Star'):gsub('&',''),Group=rating,Explanation=''},
-  {Command='SetRating2',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating2=&2 Stars'):gsub('&',''),Group=rating,Explanation=''},
-  {Command='SetRating3',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating3=&3 Stars'):gsub('&',''),Group=rating,Explanation=''},
-  {Command='SetRating4',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating4=&4 Stars'):gsub('&',''),Group=rating,Explanation=''},
-  {Command='SetRating5',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating5=&5 Stars'):gsub('&',''),Group=rating,Explanation=''},
+  {Command='SetRating1',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Singular=1 star'),Group=rating,Explanation=''},
+  {Command='SetRating2',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',2),Group=rating,Explanation=''},
+  {Command='SetRating3',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',3),Group=rating,Explanation=''},
+  {Command='SetRating4',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',4),Group=rating,Explanation=''},
+  {Command='SetRating5',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',5),Group=rating,Explanation=''},
   {Command='IncreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating'),Group=rating,Explanation=''},
   {Command='DecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation=''},
+  {Command='IncreaseDecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating')..' — '..LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation='Turning knob clockwise increases the star rating, counterclockwise decreases it.'..repeatexp},
+  {Command='SetRating',Type='variable',Translation=LOC('$$$/AgDevelop/Toolbar/Tooltip/SetRating=Set Rating'),Group=rating,Explanation='Unlike Increase/Decrease rating, this relies on the absolute position of the control to set the rating. Best suited for faders. I suggest using Increase/Decrease Rating for rotary controls. Note that MIDI2LR does not synchronize the control with the current photo\226\128\153s rating and does not use pickup mode for this control, so the rating will immediately change to the control value when the control is moved, even if the control rating is far from the photo\226\128\153s current rating.'},
   --flagging
   {Command='Pick',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/SetPick=Set Pick Flag'),Group=flagging,Explanation=''},
   {Command='Reject',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/SetReject=Set Rejected Flag'),Group=flagging,Explanation=''},
-  {Command='RemoveFlag',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetPick/Unflagged=Unflagged'):gsub('&',''),Group=flagging,Explanation=''},
+  {Command='RemoveFlag',Type='button',Translation=LOC('$$$/AgLibrary/Filter/BrowserCriteria/Flag/Unflagged=Unflagged'),Group=flagging,Explanation=''},
   {Command='ToggleBlue',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelBlue=Blue')),Group=flagging,Explanation=''},
   {Command='ToggleGreen',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelGreen=Green')),Group=flagging,Explanation=''},
   {Command='ToggleRed',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelRed=Red')),Group=flagging,Explanation=''},
@@ -238,7 +241,7 @@ local DataBase = {
   --photos
   {Command='AddOrRemoveFromTargetColl',Type='button',Translation=LOC('$$$/Help/Shortcuts/AddToTargetCollection=Add to the target collection'),Group=photos,Explanation='Adds all selected photos to target collection. If the photos are already in the target collection, removes them from it. Supported in LR versions 7.4 and later.'},
   {Command='EditPhotoshop',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop'),Group=photos,Explanation='Edit the current photo in Photoshop. Supported in LR versions 7.4 and later.'},  
-  {Command='openExportDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export=Export...'):gsub('%&',''),Group=photos,Explanation='Opens export dialog for all selected photos. Supported in LR versions 7.4 and later.'},
+  {Command='openExportDialog',Type='button',Translation=LOC('$$$/AgLibrary/Panel/ExportButtonTitle=Export...'),Group=photos,Explanation='Opens export dialog for all selected photos. Supported in LR versions 7.4 and later.'},
   {Command='openExportWithPreviousDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export/ExportAgain=Export again'):gsub('%&',''),Group=photos,Explanation='Exports with previous settings for all selected photos. Supported in LR versions 7.4 and later.'},
   {Command='SelectRightLeft',Type='repeat',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left')..' '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=photos,Explanation='Extend selection to right or left. Turning knob clockwise sends select Right signals to Lightroom, counterclockwise select Left.'..repeatexp},   
   {Command='Select1Left',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left'),Group=photos,Explanation='Extend selection one picture to the left.'},
@@ -248,7 +251,8 @@ local DataBase = {
   {Command='Prev',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=photos,Explanation=''},
   {Command='RotateLeft',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_left=Rotate left'),Group=photos,Explanation='Rotates all selected photos left. Supported in LR versions 7.4 and later.'},
   {Command='RotateRight',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_right=Rotate right'),Group=photos,Explanation='Rotates all selected photos right. Supported in LR versions 7.4 and later.'},
-
+  {Command='FullRefresh',Type='button',Translation=LOC('$$$/AgLibrary/ViewBar/Sort/RefreshMode/Manual=Manual Update'),Group=photos,Explanation='Force an update of all develop settings in MIDI controller, even if MIDI2LR believes MIDI controller is up-to-date. Useful if controller out of sync with Lightroom (e.g., with layer changes).'},
+  {Command='CloseApp',Type='button',Translation=LOC('$$$/AgPluginManager/Status/HttpServer/StopServer=Stop Server'),Group=photos,Explanation='Closes the MIDI2LR application.'},
   --quick develop
   {Command='QuickDevWBAuto',Type='button',Translation=quickdev..' '..whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Auto=Auto'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets auto white balance for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
   {Command='QuickDevWBDaylight',Type='button',Translation=quickdev..' '..whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Daylight=Daylight'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets daylight white balance for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
@@ -274,7 +278,7 @@ local DataBase = {
   --develop: copy paste sync
   {Command='LRCopy',Type='button',Translation='Lightroom '..LOC('$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings'):gsub('&',''),Group=develop,Explanation='Lightroom Copy (open the selection box). Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>c</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>c</kbd> (OSX) to Lightroom.'},
   {Command='LRPaste',Type='button',Translation='Lightroom '..LOC('$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings'),Group=develop,Explanation='Lightroom Paste. Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>v</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>v</kbd> (OSX) to Lightroom.'},
-  {Command='VirtualCopy',Type='button',Translation=LOC('$$$/AgLibrary/Bezel/CreateVirtualCopy=Create Virtual Copy'):gsub('&',''),Group=develop,Explanation='Creates a virtual copy for each of the currently selected photos and videos. The new virtual copies will be selected.'},
+  {Command='VirtualCopy',Type='button',Translation=LOC('$$$/AgLibrary/History/CreateVirtualCopy=Create Virtual Copy'),Group=develop,Explanation='Creates a virtual copy for each of the currently selected photos and videos. The new virtual copies will be selected.'},
   {Command='ResetAll',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/ResetSettings=Reset Settings'),Group=develop,Explanation='Reset to defaults.'},
   {Command='ResetLast',Type='button',Translation=reset..' '..LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified'):gsub(':',''),Group=develop,Explanation='Resets the last parameter that was adjusted by an encoder or fader to default.'},
   {Command='ChangeLastDevelopParameter',Type='repeat',Translation=LOC('$$$/ImportView/More=More')..' – '..LOC('$$$/ImportView/Less=Less')..' '..LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified'),Group=develop,Explanation='Increments or decrements the last parameter that was adjusted by an encoder or fader. Turning knob clockwise sends Increment signals to Lightroom, counterclockwise Decrement.'..repeatexp},
@@ -317,7 +321,7 @@ local DataBase = {
   {Command='Shadows',Type='parameter',Translation=LOC('$$$/AgCameraRawUI/Shadows=Shadows')..' ('..LOC('$$$/AgCameraRawUI/FillLight=Fill Light')..' in '..P1and2..')',PV1=LOC('$$$/AgCameraRawUI/FillLight=Fill Light'),PV3=LOC('$$$/AgCameraRawUI/Shadows=Shadows'),Group=basicTone,Explanation='Adjusts dark image areas. Drag to the left to darken shadows while minimizing clipping. Drag to the right to brighten shadows and recover shadow details.<br /><br />In '..P1and2..', controls Fill Light, and lightens shadow to reveal more detail while maintaining blacks. Take care not to over apply the setting and reveal image noise.',Panel='adjustPanel'},
   {Command='Whites',Type='parameter',Translation=LOC('$$$/AgCameraRawUI/Whites=Whites')..' ('..LOC('$$$/AgCameraRawUI/Brightness=Brightness')..' in '..P1and2..')',PV1=LOC('$$$/AgCameraRawUI/Brightness=Brightness'),PV3=LOC('$$$/AgCameraRawUI/Whites=Whites'),Group=basicTone,Explanation='Adjusts white clipping. Drag to the left to reduce clipping in highlights. Drag to the right to increase highlight clipping.',Panel='adjustPanel'},
   {Command='Blacks',Type='parameter',Translation=LOC('$$$/AgCameraRawUI/Blacks=Blacks'),Group=basicTone,Explanation='Specifies which image values map to black. Moving the slider to the right increases the areas that become black, sometimes creating the impression of increased image contrast. The greatest effect is in the shadows, with much less change in the midtones and highlights.',Panel='adjustPanel'},
-  {Command='Texture',Type='parameter',Experimental=true,Translation=LOC('$$$/AgCameraRawUI/Texture=Texture')..' (PV 3+)',PV3=LOC('$$$/AgCameraRawUI/Texture=Texture'),Group=basicTone,Explanation='Adjust the Texture slider negatively to smooth skin and retain fine pore details to ensure natural-looking skin. Increase the Texture amount to accentuate details such as bark or hair without affecting less detailed areas, like the out of focus areas in a photograph. For Lightroom version 8.3 and later, PV 3+.',Panel='adjustPanel'},
+  {Command='Texture',Type='parameter',Experimental=true,Translation=LOC('$$$/AgCameraRawUI/Texture=Texture')..' (PV 3+)',PV3=LOC('$$$/AgCameraRawUI/Texture=Texture'),Group=basicTone,Explanation='Adjust the Texture slider negatively to smooth skin and retain fine pore details to ensure natural-looking skin. Increase the Texture amount to accentuate details such as bark or hair without affecting less detailed areas, like the out of focus areas in a photograph. For Lightroom version 8.3 and later, Process Version 3+. Photos with Process Version 3 or 4 will be auto updated to current process version on changing Texture.',Panel='adjustPanel'},
   {Command='Clarity',Type='parameter',Translation=LOC('$$$/AgCameraRawUI/Clarity=Clarity'),Group=basicTone,Explanation='Adds depth to an image by increasing local contrast. When using this setting, it is best to zoom in to 100% or greater.',Panel='adjustPanel'},
   {Command='Dehaze',Type='parameter',Translation=LOC('$$$/AgCameraRawUI/DehazeAmount=Dehaze Amount')..' (PV 3+)',PV3=LOC('$$$/AgCameraRawUI/DehazeAmount=Dehaze Amount'),Group=basicTone,Explanation='Controls the amount of haze in a photograph. Drag to the right to remove haze; drag to the left to add haze. For PV 3+ only.',Panel='adjustPanel'},
   {Command='Vibrance',Type='parameter',Translation=LOC('$$$/AgCameraRawUI/Vibrance=Vibrance'),Group=basicTone,Explanation='Adjusts the saturation so that clipping is minimized as colors approach full saturation, changing the saturation of all lower-saturated colors with less effect on the higher-saturated colors. Vibrance also prevents skin tones from becoming over saturated.',Panel='adjustPanel'},
@@ -708,10 +712,10 @@ local DataBase = {
 --
 --develop: localized adjustments
 --
-  {Command='GraduatedFilter',Type='button',Translation=show..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters'),Group=localizedAdjustments,Explanation='Select Graduated Filter mode in Develop Module. Repeated press toggles Loupe View.'},
-  {Command='RadialFilter',Type='button',Translation=show..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters'),Group=localizedAdjustments,Explanation='Select Radial Filter View mode in Develop Module. Repeated press toggles Loupe View.'},
+  {Command='GraduatedFilter',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters'),Group=localizedAdjustments,Explanation='Activate Graduated Filter mode in Develop Module. Works best in Lightroom versions 7.4 and later.'},
+  {Command='RadialFilter',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters'),Group=localizedAdjustments,Explanation='Activate Radial Filter View mode in Develop Module. Works best in Lightroom versions 7.4 and later.'},
   {Command='RedEye',Type='button',Translation=show..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction'),Group=localizedAdjustments,Explanation='Select Red Eye mode in Develop Module. Repeated press toggles Loupe View.'},
-  {Command='SpotRemoval',Type='button',Translation=show..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal'),Group=localizedAdjustments,Explanation='Select Spot Removal mode in Develop Module. Repeated press toggles Loupe View.'},
+  {Command='SpotRemoval',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal'),Group=localizedAdjustments,Explanation='Activate Spot Removal mode in Develop Module. Works best in Lightroom versions 7.4 and later.'},
   {Command='AdjustmentBrush',Type='button',Translation=show..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments'),Group=localizedAdjustments,Explanation='Select Adjustment Brush mode in Develop Module. Repeated press toggles Loupe View.'},
   {Command='ShowMaskOverlay',Type='button',Translation=LOC('$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Show Mask Overlay'),Group=localizedAdjustments,Explanation='Sends the keystroke <kbd>o</kbd> to Lightroom. Show or hide the mask overlay.'},
   {Command='ToggleOverlay',type='button',Translation=locadj..' '..LOC('$$$/AgDevelop/Menu/View/AdjustmentMaskOverlay=Correction mask overlay')..' '..LOC('$$$/MIDI2LR/ShortCuts/ShowHide=show or hide'),Group=localizedAdjustments,Explanation='Toggles the localized adjustments mask overlay. Use only when any of the local adjustments filter is active. Supported in LR versions 7.4 and later.'},
@@ -822,9 +826,16 @@ local DataBase = {
   {Command='profile8',Type='button',Translation=profile..' 8',Group=profiles,Explanation='Change to MIDI mapping profile 8.'},
   {Command='profile9',Type='button',Translation=profile..' 9',Group=profiles,Explanation='Change to MIDI mapping profile 9.'},
   {Command='profile10',Type='button',Translation=profile..' 10',Group=profiles,Explanation='Change to MIDI mapping profile 10.'},
+  {Command='profile11',Type='button',Translation=profile..' 11',Group=profiles,Explanation='Change to MIDI mapping profile 11.'},
+  {Command='profile12',Type='button',Translation=profile..' 12',Group=profiles,Explanation='Change to MIDI mapping profile 12.'},
+  {Command='profile13',Type='button',Translation=profile..' 13',Group=profiles,Explanation='Change to MIDI mapping profile 13.'},
+  {Command='profile14',Type='button',Translation=profile..' 14',Group=profiles,Explanation='Change to MIDI mapping profile 14.'},
+  {Command='profile15',Type='button',Translation=profile..' 15',Group=profiles,Explanation='Change to MIDI mapping profile 15.'},
+  {Command='profile16',Type='button',Translation=profile..' 16',Group=profiles,Explanation='Change to MIDI mapping profile 16.'},
+  {Command='profile17',Type='button',Translation=profile..' 17',Group=profiles,Explanation='Change to MIDI mapping profile 17.'},
+  {Command='profile18',Type='button',Translation=profile..' 18',Group=profiles,Explanation='Change to MIDI mapping profile 18.'},
   {Command='PrevPro',Type='button',Translation=LOC('$$$/MIDI2LR/Profiles/Previous=Previous Profile'),Group=profiles,Explanation='Change to previous (by alpha order) MIDI mapping profile.'},
   {Command='NextPro',Type='button',Translation=LOC('$$$/MIDI2LR/Profiles/Next=Next Profile'),Group=profiles,Explanation='Change to next (by alpha order) MIDI mapping profile.'},
-  {Command='FullRefresh',Type='button',Translation=LOC('$$$/AgLibrary/ViewBar/Sort/RefreshMode/Manual=Manual Update'),Group=profiles,Explanation='Force an update of all develop settings in MIDI controller, even if MIDI2LR believes MIDI controller is up-to-date. Useful if controller out of sync with Lightroom (e.g., with layer changes).'},
 }
 
 local CmdTrans={}

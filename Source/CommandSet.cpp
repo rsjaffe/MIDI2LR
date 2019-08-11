@@ -21,8 +21,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandSet.h"
 
 #include <exception>
-#ifdef _WIN32
-#include <filesystem> //not available in XCode yet
+#ifdef __cpp_lib_filesystem
+#include <filesystem>
 namespace fs = std::filesystem;
 #endif
 #include <fstream>
@@ -60,8 +60,8 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
 CommandSet::Impl::Impl()
 {
    try {
-#ifdef _WIN32
-      const fs::path p{rsj::AppDataFilePath(L"MenuTrans.xml")};
+#ifdef __cpp_lib_filesystem
+      const fs::path p{rsj::AppDataFilePath("MenuTrans.xml")};
 #else
       const auto p = rsj::AppDataFilePath("MenuTrans.xml");
 #endif
@@ -70,7 +70,7 @@ CommandSet::Impl::Impl()
 #pragma warning(suppress : 26414) // too large to construct on stack
          const auto iarchive = std::make_unique<cereal::XMLInputArchive>(infile);
          (*iarchive)(*this);
-#ifdef _WIN32
+#ifdef __cpp_lib_filesystem
          rsj::Log("MenuTrans.xml archive loaded from " + juce::String(p.c_str()));
 #else
          rsj::Log("MenuTrans.xml archive loaded from " + p);

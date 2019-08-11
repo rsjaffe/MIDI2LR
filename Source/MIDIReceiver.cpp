@@ -21,45 +21,36 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIReceiver.h"
 
 #include <chrono>
+#include "Misc.h"
 
 namespace {
-   constexpr rsj::MidiMessage kTerminate{0, 129, 0, 0}; // impossible channel
+   constexpr rsj::MidiMessage kTerminate{rsj::MessageType::Cc, 129, 0, 0}; // impossible channel
 }
 
-#pragma warning(push)
-#pragma warning(disable : 26447)
-MidiReceiver::~MidiReceiver()
-{
-   try {
-      for (const auto& dev : devices_) {
-         dev->stop();
-         rsj::Log("Stopped input device " + dev->getName());
-      }
-      if (const auto remaining = messages_.clear_count_push(kTerminate))
-         rsj::Log(juce::String(remaining) + " left in queue in MidiReceiver destructor");
-   }
-   catch (const std::exception& e) {
-      rsj::LogAndAlertError(juce::String("Exception in MidiReceiver Destructor. ") + e.what());
-      std::terminate();
-   }
-   catch (...) {
-      rsj::LogAndAlertError("Exception in MidiReceiver Destructor. Non-standard exception.");
-      std::terminate();
-   }
-}
-#pragma warning(pop)
-
-void MidiReceiver::Start()
+void MidiReceiver::StartRunning()
 {
    try {
       InitDevices();
-      dispatch_messages_future_ =
-          std::async(std::launch::async, &MidiReceiver::DispatchMessages, this);
+      dispatch_messages_future_ = std::async(std::launch::async, [this] {
+         rsj::LabelThread(L"MidiReceiver dispatch messages thread");
+         DispatchMessages();
+      });
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
+}
+
+void MidiReceiver::StopRunning()
+{
+   for (const auto& dev : devices_) {
+      dev->stop();
+      rsj::Log("Stopped input device " + dev->getName());
+   }
+   if (const auto remaining = messages_.clear_count_push(kTerminate))
+      rsj::Log(juce::String(remaining) + " left in queue in MidiReceiver StopRunning");
+   callbacks_.clear(); // after queue emptied
 }
 
 void MidiReceiver::handleIncomingMidiMessage(
@@ -70,22 +61,22 @@ void MidiReceiver::handleIncomingMidiMessage(
       // will place message in multithreaded queue and let separate process handle the messages
       const rsj::MidiMessage mess{message};
       switch (mess.message_type_byte) {
-      case rsj::kCcFlag: {
+      case rsj::MessageType::Cc: {
          NrpnFilter::ProcessResult result{};
          {
             auto lock = std::scoped_lock(filter_mutex_);
-            result = filters_[device](mess.channel, mess.number, mess.value);
+            result = filters_[device](mess);
          }
          if (result.is_nrpn) {
             if (result.is_ready) { // send when finished
-               messages_.emplace(rsj::kCcFlag, mess.channel, result.control, result.value);
+               messages_.emplace(rsj::MessageType::Cc, mess.channel, result.control, result.value);
             }
             break; // finished with nrpn piece
          }
       }
          [[fallthrough]]; // if not nrpn, handle like other messages
-      case rsj::kNoteOnFlag:
-      case rsj::kPwFlag:
+      case rsj::MessageType::NoteOn:
+      case rsj::MessageType::Pw:
          messages_.push(mess);
          break;
       default:
@@ -135,7 +126,7 @@ void MidiReceiver::TryToOpen()
 
 void MidiReceiver::InitDevices()
 {
-   using namespace std::chrono_literals;
+   using namespace std::literals::chrono_literals;
    try {
       rsj::Log("Trying to open input devices");
       TryToOpen();

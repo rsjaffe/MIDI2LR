@@ -20,49 +20,44 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+#include <atomic>
 #include <future>
-#include <memory>
-#include <mutex>
 #include <string>
 
+#include <asio.hpp>
 #include "Concurrency.h"
-#include <JuceLibraryCode/JuceHeader.h>
 class ControlsModel;
 class MidiSender;
 class Profile;
 class ProfileManager;
-
-class LrIpcIn final : juce::Timer, juce::Thread {
+class LrIpcIn {
  public:
-   LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile,
-       std::shared_ptr<MidiSender> midi_sender);
-   ~LrIpcIn();
+   LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const Profile& profile,
+       const MidiSender& midi_sender) noexcept;
+   ~LrIpcIn() = default;
    LrIpcIn(const LrIpcIn& other) = delete;
    LrIpcIn(LrIpcIn&& other) = delete;
    LrIpcIn& operator=(const LrIpcIn& other) = delete;
    LrIpcIn& operator=(LrIpcIn&& other) = delete;
-   void Start();
-   // signal exit to thread
-   void PleaseStopThread();
+   void StartRunning();
+   void StopRunning();
 
  private:
-   juce::StreamingSocket socket_{};
-   // Thread interface
-   void run() override;
-   // Timer callback
-   void timerCallback() override;
-   // process a line received from the socket
+   void Connect();
    void ProcessLine();
-   rsj::BlockingQueue<std::string> line_;
-   std::future<void> process_line_future_;
+   void Read();
 
-   bool thread_started_{false};
-   bool timer_off_{false};
-   Profile& profile_;
-   ControlsModel& controls_model_; //
-   mutable std::mutex timer_mutex_;
+   asio::io_context io_context_{1};
+   asio::ip::tcp::socket socket_{io_context_};
+   asio::streambuf streambuf_{};
+   const MidiSender& midi_sender_;
+   const Profile& profile_;
+   ControlsModel& controls_model_;
    ProfileManager& profile_manager_;
-   std::shared_ptr<MidiSender> midi_sender_{nullptr};
+   rsj::ConcurrentQueue<std::string> line_;
+   std::atomic<bool> thread_should_exit_{false};
+   std::future<void> io_thread_;
+   std::future<void> process_line_future_;
 };
 
 #endif // LR_IPC_IN_H_INCLUDED

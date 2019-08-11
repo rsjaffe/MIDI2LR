@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>3.2.3.0</version>
+    <version>3.3.0.0</version>
     <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>../Source/LRPlugin/ReadMe.txt</readmeFile>
     <licenseFile>../LICENSE.txt</licenseFile>
@@ -46,6 +46,9 @@
                             <origin>${lua}/DebugInfo.lua</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>${lua}/Donate.lua</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>${lua}/FileLoadPref.lua</origin>
                         </distributionFile>
                         <distributionFile>
@@ -85,6 +88,9 @@
                             <origin>${lua}/LocalPresets.lua</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>${lua}/OnlineHelp.lua</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>${lua}/Options.lua</origin>
                         </distributionFile>
                         <distributionFile>
@@ -115,7 +121,7 @@
                             <origin>${lua}/StopServer.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/SystemInfo.lua</origin>
+                            <origin>${lua}/Support.lua</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_de.txt</origin>

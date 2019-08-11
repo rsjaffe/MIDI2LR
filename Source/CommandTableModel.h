@@ -39,7 +39,7 @@ class CommandTableModel final : public juce::TableListBoxModel {
    void paintRowBackground(
        juce::Graphics&, int row_number, int width, int height, bool row_is_selected) override;
    juce::Component* refreshComponentForCell(int row_number, int column_id, bool is_row_selected,
-       juce::Component* existing_component_to_update) override;
+       juce::Component* existing_component) override;
    void sortOrderChanged(int new_sort_column_id, bool is_forwards) override;
 
    const CommandSet& command_set_;

@@ -7,18 +7,17 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 4.3.0
+  Created with Projucer version: 5.4.3
 
   ------------------------------------------------------------------------------
 
-  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright (c) 2015 - ROLI Ltd.
+  The Projucer is part of the JUCE library.
+  Copyright (c) 2017 - ROLI Ltd.
 
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_803E4ECD2CBCEA5A__
-#define __JUCE_HEADER_803E4ECD2CBCEA5A__
+#pragma once
 
 //[Headers]     -- You can add your own extra header files here --
 /*
@@ -83,7 +82,7 @@ class PWoptions final : public juce::Component, juce::TextEditor::Listener {
    juce::TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
    void textEditorFocusLost(juce::TextEditor& t) override;
    inline static ControlsModel* controls_model_{nullptr};
-   size_t boundchannel_{0}; // note: 0-based
+   size_t boundchannel_{0}; // note: 0-based //-V122
 
    //[/UserVariables]
 
@@ -100,5 +99,3 @@ class PWoptions final : public juce::Component, juce::TextEditor::Listener {
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
-
-#endif // __JUCE_HEADER_803E4ECD2CBCEA5A__

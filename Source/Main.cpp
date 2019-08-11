@@ -31,11 +31,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <fstream>
 #include <memory>
 #include <mutex>
-#ifdef _WIN32
-#include <filesystem> //not available in XCode yet
-
+#ifdef __cpp_lib_filesystem
+#include <filesystem>
 namespace fs = std::filesystem;
-#include "WinDef.h"
+#endif
+#ifdef _WIN32
+#include "WinDef.h" //these defines mess up asio, so need to be more inclusive
+#undef NONLS
 #undef NOUSER
 #include <Windows.h>
 #endif
@@ -72,6 +74,34 @@ namespace {
          juce::Logger::setCurrentLogger(new_logger);
       }
    };
+
+   [[noreturn]] void OnTerminate() noexcept
+   {
+      static rsj::SpinLock terminate_mutex;
+      try {
+         auto lock = std::scoped_lock(terminate_mutex);
+         if (const auto exc = std::current_exception()) {
+            // we have an exception
+            try {
+               std::rethrow_exception(exc); // throw to recognize the type
+            }
+            catch (const std::exception& e) {
+               rsj::Log("Terminate called, exception " + juce::String(e.what()));
+            }
+            catch (...) {
+               rsj::Log("Terminate called, unknown exception type.");
+            }
+         }
+         else
+            rsj::Log("Terminate called, no exception available.");
+      }
+      catch (...) { //-V565
+      }
+      std::_Exit(EXIT_FAILURE);
+   }
+// global to install prior to program start
+#pragma warning(suppress : 26426) // order of initialization unimportant for this global object
+   [[maybe_unused]] const auto kInstalled{std::set_terminate(&OnTerminate)};
 } // namespace
 
 class MIDI2LRApplication final : public juce::JUCEApplication {
@@ -119,13 +149,16 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          // loop won't be run.
          if (command_line != kShutDownString) {
             CerealLoad();
-            midi_receiver_->Start();
-            midi_sender_->Start();
-            lr_ipc_out_->Start();
-            lr_ipc_in_->Start();
+            // need to start main window before ipc so it's already registered its callbacks and can
+            // receive messages
             main_window_ =
                 std::make_unique<MainWindow>(getApplicationName(), command_set_, profile_,
                     profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
+            midi_receiver_.StartRunning();
+            midi_sender_.StartRunning();
+            lr_ipc_out_.StartRunning();
+            lr_ipc_in_.StartRunning();
+
             // Check for latest version
             version_checker_.startThread();
          }
@@ -151,13 +184,16 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // Be careful that nothing happens in this method that might rely on
       // messages being sent, or any kind of window activity, because the
       // message loop is no longer running at this point.
-      lr_ipc_in_->PleaseStopThread();
+
+      // Primary goals:1) remove callbacks in LR_IPC_Out and MIDIReceiver before the callee is
+      // destroyed, 2) stop additional threads in VersionChecker, LR_IPC_In, LR_IPC_Out and
+      // MIDIReceiver. Add to this list if new threads or callback lists are developed in this app.
+      midi_receiver_.StopRunning();
+      lr_ipc_in_.StopRunning();
+      lr_ipc_out_.StopRunning();
+      version_checker_.StopRunning();
       DefaultProfileSave();
       CerealSave();
-      lr_ipc_out_.reset();
-      lr_ipc_in_.reset();
-      midi_receiver_.reset();
-      midi_sender_.reset();
       main_window_.reset(); // (deletes our window)
       juce::Logger::setCurrentLogger(nullptr);
    }
@@ -172,10 +208,11 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          static std::once_flag of; // function might be called twice during LR shutdown
          std::call_once(of, [this]() {
             if (profile_.ProfileUnsaved() && main_window_) {
+               const juce::MessageManagerLock mmLock; // this may be unnecessary
                const auto result = juce::NativeMessageBox::showYesNoBox(
                    juce::AlertWindow::WarningIcon, juce::translate("MIDI2LR profiles"),
-                   juce::translate(
-                       "Profile changed. Do you want to save it before exiting the program?"));
+                   juce::translate("Profile changed. Do you want to save your changes? If you "
+                                   "continue without saving, your changes will be lost."));
                if (result)
                   main_window_->SaveProfile();
             }
@@ -210,11 +247,14 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // this pointer will be null.
       try {
          if (e)
-            rsj::LogAndAlertError("Unhandled exception. " + juce::String(e->what()) + " "
-                                  + source_filename + " line " + juce::String(lineNumber));
+            rsj::LogAndAlertError(
+                "Unhandled exception. " + juce::String(e->what()) + " " + source_filename + " line "
+                + juce::String(lineNumber)
+                + " Total uncaught = " + juce::String(std::uncaught_exceptions()));
          else
             rsj::LogAndAlertError(
-                "Unhandled exception. " + source_filename + " line " + juce::String(lineNumber));
+                "Unhandled exception. " + source_filename + " line " + juce::String(lineNumber)
+                + " Total uncaught = " + juce::String(std::uncaught_exceptions()));
       }
       catch (...) { // we'll terminate anyway
          std::terminate();
@@ -240,7 +280,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    void CerealSave() const
    { // scoped so archive gets flushed
       try {
-#ifdef _WIN32
+#ifdef __cpp_lib_filesystem
          const fs::path p{rsj::AppDataFilePath(kSettingsFileX)};
 #else
          const auto p = rsj::AppDataFilePath(kSettingsFileX);
@@ -250,7 +290,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #pragma warning(suppress : 26414) // too large to construct on stack
             const auto oarchive = std::make_unique<cereal::XMLOutputArchive>(outfile);
             (*oarchive)(controls_model_);
-#ifdef _WIN32
+#ifdef __cpp_lib_filesystem
             rsj::Log("ControlsModel archive in Main saved to " + juce::String(p.c_str()));
 #else
             rsj::Log("ControlsModel archive in Main saved to " + p);
@@ -267,17 +307,17 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    void CerealLoad()
    { // scoped so archive gets flushed
       try {
-#ifdef _WIN32
-         const fs::path px{rsj::AppDataFilePath(L"settings.xml")};
+#ifdef __cpp_lib_filesystem
+         const fs::path px{rsj::AppDataFilePath(kSettingsFileX)};
 #else
-         const auto px = rsj::AppDataFilePath("settings.xml");
+         const auto px = rsj::AppDataFilePath(kSettingsFileX);
 #endif
          std::ifstream in_file(px);
          if (in_file.is_open() && !in_file.eof()) {
 #pragma warning(suppress : 26414) // too large to construct on stack
             const auto iarchive = std::make_unique<cereal::XMLInputArchive>(in_file);
             (*iarchive)(controls_model_);
-#ifdef _WIN32
+#ifdef __cpp_lib_filesystem
             rsj::Log("ControlsModel archive in Main loaded from " + juce::String(px.c_str()));
 #else
             rsj::Log("ControlsModel archive in Main loaded from " + px);
@@ -290,17 +330,25 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             fs::path p{path};
             p = p.replace_filename(kSettingsFile);
 #else
+#ifdef __cpp_lib_filesystem
+            const auto p =
+                fs::path(juce::File::getSpecialLocation(juce::File::currentExecutableFile)
+                             .getSiblingFile(kSettingsFile)
+                             .getFullPathName()
+                             .toStdString());
+#else
             const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
                                .getSiblingFile(kSettingsFile)
                                .getFullPathName()
                                .toStdString();
+#endif
 #endif
             std::ifstream infile(p, std::ios::binary);
             if (infile.is_open() && !infile.eof()) {
 #pragma warning(suppress : 26414) // too large to construct on stack
                const auto iarchive = std::make_unique<cereal::BinaryInputArchive>(infile);
                (*iarchive)(controls_model_);
-#ifdef _WIN32
+#ifdef __cpp_lib_filesystem
                rsj::Log(
                    "Legacy ControlsModel archive loaded in Main from " + juce::String(p.c_str()));
 #else
@@ -317,7 +365,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    void SetAppLanguage() const
    {
       try {
-         const auto lang{command_set_.GetLanguage()};
+         const auto& lang{command_set_.GetLanguage()};
 
          // juce (as of July 2018) uses the following font defaults
          // taken from juce_mac_Fonts.mm and juce_wind32_Fonts.cpp
@@ -385,13 +433,11 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    const CommandSet command_set_{};
    ControlsModel controls_model_{};
    Profile profile_{command_set_};
-   std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
-   std::shared_ptr<MidiReceiver> midi_receiver_{std::make_shared<MidiReceiver>()};
-   std::shared_ptr<LrIpcOut> lr_ipc_out_{
-       std::make_shared<LrIpcOut>(controls_model_, profile_, midi_sender_, *midi_receiver_)};
-   ProfileManager profile_manager_{controls_model_, profile_, lr_ipc_out_, *midi_receiver_};
-   std::shared_ptr<LrIpcIn> lr_ipc_in_{
-       std::make_shared<LrIpcIn>(controls_model_, profile_manager_, profile_, midi_sender_)};
+   MidiSender midi_sender_{};
+   MidiReceiver midi_receiver_{};
+   LrIpcOut lr_ipc_out_{controls_model_, profile_, midi_sender_, midi_receiver_};
+   ProfileManager profile_manager_{controls_model_, profile_, lr_ipc_out_, midi_receiver_};
+   LrIpcIn lr_ipc_in_{controls_model_, profile_manager_, profile_, midi_sender_};
    SettingsManager settings_manager_{profile_manager_, lr_ipc_out_};
    std::unique_ptr<MainWindow> main_window_{nullptr};
    // destroy after window that uses it

@@ -30,7 +30,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Concurrency.h"
 #include "MidiUtilities.h"
-#include "Misc.h"
 #include "NrpnMessage.h"
 
 #ifndef _MSC_VER
@@ -40,36 +39,31 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class MidiReceiver final : juce::MidiInputCallback {
  public:
    MidiReceiver() = default;
-   ~MidiReceiver();
+   ~MidiReceiver() = default;
    MidiReceiver(const MidiReceiver& other) = delete;
    MidiReceiver(MidiReceiver&& other) = delete;
    MidiReceiver& operator=(const MidiReceiver& other) = delete;
    MidiReceiver& operator=(MidiReceiver&& other) = delete;
-   void Start();
-   // re-enumerates MIDI IN devices
    void RescanDevices();
+   void StartRunning();
+   void StopRunning();
 
    template<class T>
    void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(rsj::MidiMessage))
    {
-      try {
-         using namespace std::placeholders;
-         if (object && mf) // only store non-empty functions
-            callbacks_.emplace_back(std::bind(mf, object, _1));
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      using namespace std::placeholders;
+      if (object && mf) // only store non-empty functions
+         callbacks_.emplace_back(std::bind(mf, object, _1));
    }
 
  private:
-   void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
    void DispatchMessages();
+   void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
    void InitDevices();
    void TryToOpen(); // inner code for InitDevices
-   rsj::BlockingQueue<rsj::MidiMessage> messages_;
-   rsj::SpinLock filter_mutex_;
+
+   mutable rsj::SpinLock filter_mutex_;
+   rsj::ConcurrentQueue<rsj::MidiMessage> messages_;
    std::future<void> dispatch_messages_future_;
    std::map<juce::MidiInput*, NrpnFilter> filters_{};
    std::vector<std::function<void(rsj::MidiMessage)>> callbacks_;

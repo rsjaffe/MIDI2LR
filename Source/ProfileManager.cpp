@@ -28,18 +28,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_Out.h"
 #include "MIDIReceiver.h"
 #include "MidiUtilities.h"
+#include "Misc.h"
 #include "Profile.h"
-using namespace std::literals::string_literals;
 
-ProfileManager::ProfileManager(ControlsModel& c_model, Profile& profile,
-    std::weak_ptr<LrIpcOut>&& out, MidiReceiver& midi_receiver) noexcept
-    : current_profile_{profile}, controls_model_{c_model}, lr_ipc_out_{std::move(out)}
+ProfileManager::ProfileManager(
+    ControlsModel& c_model, const Profile& profile, LrIpcOut& out, MidiReceiver& midi_receiver)
+    : current_profile_{profile}, controls_model_{c_model}, lr_ipc_out_{out}
 {
    midi_receiver.AddCallback(this, &ProfileManager::MidiCmdCallback);
-   if (const auto ptr = lr_ipc_out_.lock())
-      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-      // settings on connection
-      ptr->AddCallback(this, &ProfileManager::ConnectionCallback);
+   // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+   // settings on connection
+   lr_ipc_out_.AddCallback(this, &ProfileManager::ConnectionCallback);
 }
 
 void ProfileManager::SetProfileDirectory(const juce::File& directory)
@@ -90,16 +89,13 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
             const std::unique_ptr<juce::XmlElement> xml_element{parsed};
             for (const auto& cb : callbacks_)
                cb(xml_element.get(), profile);
-            if (const auto ptr = lr_ipc_out_.lock()) {
-               auto command =
-                   "ChangedToDirectory "s
-                   + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
-                         .toStdString()
-                   + '\n';
-               ptr->SendCommand(std::move(command));
-               command = "ChangedToFile "s + profile.toStdString() + '\n';
-               ptr->SendCommand(std::move(command));
-            }
+            auto command = "ChangedToDirectory "
+                           + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
+                                 .toStdString()
+                           + '\n';
+            lr_ipc_out_.SendCommand(std::move(command));
+            command = "ChangedToFile " + profile.toStdString() + '\n';
+            lr_ipc_out_.SendCommand(std::move(command));
          }
       }
    }
@@ -139,11 +135,11 @@ void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 {
    try {
       const auto cmd = current_profile_.GetCommandForMessage(msg);
-      if (cmd == "PrevPro"s) {
+      if (cmd == "PrevPro") {
          switch_state_ = SwitchState::kPrev;
          triggerAsyncUpdate();
       }
-      else if (cmd == "NextPro"s) {
+      else if (cmd == "NextPro") {
          switch_state_ = SwitchState::kNext;
          triggerAsyncUpdate();
       }
@@ -157,7 +153,7 @@ void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
-      const rsj::MidiMessageId cc = mm;
+      const rsj::MidiMessageId cc{mm};
       // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
       // profile-related command
       if (controls_model_.ControllerToPlugin(mm) < 0.4 || !current_profile_.MessageExistsInMap(cc))
@@ -175,12 +171,10 @@ void ProfileManager::ConnectionCallback(bool connected, bool blocked)
 {
    try {
       if (connected && !blocked) {
-         if (const auto ptr = lr_ipc_out_.lock()) {
-            ptr->SendCommand("ChangedToDirectory "s
-                             + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
-                                   .toStdString()
-                             + '\n');
-         }
+         lr_ipc_out_.SendCommand(
+             "ChangedToDirectory "
+             + juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString()
+             + '\n');
       }
    }
    catch (const std::exception& e) {

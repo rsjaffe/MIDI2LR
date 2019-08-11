@@ -56,19 +56,32 @@ return {
       title = LOC("$$$/AgLibrary/Menu/File/ExportPresets=Export presets"),
       file = "FileSavePref.lua"
     },
+    { 
+      title = LOC("$$$/MIDI2LR/Help/OnlineHelp=Online help"), 
+      file = "OnlineHelp.lua",
+    },     
     {
       title = LOC("$$$/MIDI2LR/Info/BuildFiles=Build files (development use only)"),
       file = "Build.lua"
     },
+  },
+  LrHelpMenuItems = {
+    { 
+      title = LOC("$$$/MIDI2LR/Help/OnlineHelp=&Online help"), 
+      file = "OnlineHelp.lua",
+    }, 
     {
-      title = LOC("$$$/AgPreferences/Performance/CameraRawRenderer/SystemInfo=System information"),
-      file = "SystemInfo.lua"
+      title = LOC("$$$/MIDI2LR/Help/Support=&Support"), 
+      file = "Support.lua",
+    },
+    {
+      title = LOC("$$$/MIDI2LR/Help/Donate=&Donate to support project development"),
+      file = "Donate.lua",
     },
     {
       title = LOC("$$$/AgWPG/Dialogs/About/Title=About"),
       file = "About.lua",
     },
-
   },
-  VERSION = { major=3, minor=2, revision=3, build=0}
+  VERSION = { major=3, minor=3, revision=0, build=0}
 }

@@ -20,23 +20,44 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-#include <array>
-#include <charconv>
 #include <chrono>
 #include <exception>
 #include <string>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <string_view>
-#include <system_error>
 #include <thread>   //sleep_for
 #include <typeinfo> //for typeid, used in calls to ExceptionResponse
 
 #include <JuceLibraryCode/JuceHeader.h>
+#include <gsl/gsl>
 
 #ifdef NDEBUG // asserts disabled
 static constexpr bool kNdebug = true;
 #else // asserts enabled
 static constexpr bool kNdebug = false;
+#endif
+
+#ifndef NDEBUG
+#ifdef _WIN32
+// declarations from processthreadsapi.h
+extern "C" __declspec(dllimport) long __stdcall SetThreadDescription(
+    _In_ void* hThread, _In_ const wchar_t* lpThreadDescription);
+extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
+namespace rsj {
+   inline void LabelThread(const wchar_t* threadname) noexcept
+   {
+      SetThreadDescription(GetCurrentThread(), threadname);
+   }
+} // namespace rsj
+#else
+namespace rsj {
+   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept {}
+} // namespace rsj
+#endif
+#else
+namespace rsj {
+   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept {}
+} // namespace rsj
 #endif
 
 #ifdef _WIN32
@@ -47,19 +68,18 @@ constexpr auto MSWindows{false};
 constexpr auto OSX{true};
 #endif
 
-#ifndef _MSC_VER
-// Microsoft SAL annotation
-#define _In_z_
-#endif
-
 namespace rsj {
-   [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view input);
+   [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-   void ExceptionResponse(
-       _In_z_ const char* id, _In_z_ const char* fu, const std::exception& e) noexcept;
-   void LogAndAlertError(const juce::String& error_text);
-   void Log(const juce::String& info);
+   void ExceptionResponse(gsl::czstring<> id, gsl::czstring<> fu, const std::exception& e) noexcept;
+   // char* overloads here are to allow catch clauses to avoid a juce::String conversion at the
+   // caller location, thus avoiding a potential exception in the catch clause. string_view
+   // overloads not used because those are ambiguous with the String versions.
+   void LogAndAlertError(const juce::String& error_text) noexcept;
+   void LogAndAlertError(gsl::czstring<> error_text) noexcept;
+   void Log(const juce::String& info) noexcept;
+   void Log(gsl::czstring<> info) noexcept;
    [[nodiscard]] std::string ToLower(std::string_view in);
 #ifdef _WIN32
    [[nodiscard]] std::wstring AppDataFilePath(std::wstring_view file_name);
@@ -72,47 +92,49 @@ namespace rsj {
    {
       return AppDataFilePath(file_name);
    }
-   [[nodiscard]] std::wstring Utf8ToWide(std::string_view input);
-   [[nodiscard]] std::string WideToUtf8(std::wstring_view wstr);
+   [[nodiscard]] std::wstring Utf8ToWide(std::string_view in);
+   [[nodiscard]] std::string WideToUtf8(std::wstring_view in);
 #else
    [[nodiscard]] std::string AppDataFilePath(const std::string& file_name);
    [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);
 #endif // def _WIN32
 
-   /* additional classes/templates in Misc.h
-    * Reverse
-    * RatioToPrefix
-    * SleepTimed
-    * SleepTimedLogged
-    * NumToChars
-    * */
-
-
-
    // -------------------------------------------------------------------
    // --- Reversed iterable
-   // https://stackoverflow.com/a/28139075/5699329
-   // Note that this won't properly capture an rvalue container (temporary)
-   // see https://stackoverflow.com/a/42221253/5699329 for that solution
 
-   // ReSharper disable once CppImplicitDefaultConstructorNotAvailable
-   template<typename T> struct ReversionWrapper {
-      T& iterable;
+   // https://stackoverflow.com/a/42221253/5699329
+   template<class T> struct ReverseWrapper {
+      T o;
+      explicit ReverseWrapper(T&& i) : o(std::forward<T>(i)) {}
    };
 
-   template<typename T> auto begin(ReversionWrapper<T> w)
+   template<class T> auto begin(ReverseWrapper<T>& r)
    {
-      return std::rbegin(w.iterable);
+      using std::end;
+      return std::make_reverse_iterator(end(r.o));
    }
 
-   template<typename T> auto end(ReversionWrapper<T> w)
+   template<class T> auto end(ReverseWrapper<T>& r)
    {
-      return std::rend(w.iterable);
+      using std::begin;
+      return std::make_reverse_iterator(begin(r.o));
    }
 
-   template<typename T> ReversionWrapper<T> Reverse(T&& iterable)
+   template<class T> auto begin(ReverseWrapper<T> const& r)
    {
-      return {iterable};
+      using std::end;
+      return std::make_reverse_iterator(end(r.o));
+   }
+
+   template<class T> auto end(ReverseWrapper<T> const& r)
+   {
+      using std::begin;
+      return std::make_reverse_iterator(begin(r.o));
+   }
+
+   template<class T> auto Reverse(T&& ob)
+   {
+      return ReverseWrapper<T>{std::forward<T>(ob)};
    }
 
 #pragma warning(push)
@@ -120,7 +142,7 @@ namespace rsj {
    // zepto yocto zetta and yotta too large/small to be represented by intmax_t
    // TODO: change to consteval, find way to convert digit to string for unexpected
    // values, so return could be, e.g., "23425/125557 ", instead of error message
-   template<class R>[[nodiscard]] constexpr auto RatioToPrefix()
+   template<class R>[[nodiscard]] constexpr auto RatioToPrefix() noexcept
    {
       if (R::num == 1) {
          switch (R::den) {
@@ -173,7 +195,7 @@ namespace rsj {
 #pragma warning(pop)
 
    template<class Rep, class Period>
-   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) //-V801
+   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) noexcept //-V801
    {
       const auto start = std::chrono::high_resolution_clock::now();
       std::this_thread::sleep_for(sleep_duration);
@@ -190,18 +212,6 @@ namespace rsj {
       rsj::Log(juce::String(msg_prefix.data(), msg_prefix.size()) + " thread slept for "
                + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
    }
-
-   template<class T>[[nodiscard]] std::string NumToChars(T number)
-   {
-      std::array<char, 10> str{};
-      auto [p, ec] = std::to_chars(str.data(), str.data() + str.size(), number);
-      if (ec == std::errc())
-         return std::string(str.data(), p - str.data());
-      return "Number conversion error " + std::make_error_condition(ec).message();
-   }
-
-
-
 } // namespace rsj
 
 #endif // MISC_H_INCLUDED

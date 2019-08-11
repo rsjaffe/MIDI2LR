@@ -48,13 +48,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace {
 #ifdef _WIN32
-   HKL GetLanguage(const std::string& program_name) noexcept
+   HKL GetLanguage(const std::string& program_name)
    {
       const auto h_lr_wnd = FindWindowA(nullptr, program_name.c_str());
       if (h_lr_wnd) { // get language that LR is using (if hLrWnd is found)
          const auto thread_id = GetWindowThreadProcessId(h_lr_wnd, nullptr);
          return GetKeyboardLayout(thread_id);
       }
+      // FindWindowA failed
+      const auto error_msg =
+          "FindWindowA failed with error code: " + std::to_string(GetLastError());
+      rsj::Log(error_msg);
       // use keyboard of MIDI2LR application
       return GetKeyboardLayout(0);
    }
@@ -65,7 +69,7 @@ namespace {
          const auto vk_code_and_shift = VkKeyScanExW(ch, dwhkl);
          if (vk_code_and_shift == 0xffff) { //-V547
             const auto error_msg =
-                "VkKeyScanExW failed with error code: " + rsj::NumToChars(GetLastError());
+                "VkKeyScanExW failed with error code: " + std::to_string(GetLastError());
             throw std::runtime_error(error_msg.c_str());
          }
          return vk_code_and_shift;
@@ -79,7 +83,7 @@ namespace {
    std::pair<BYTE, rsj::ActiveModifiers> KeyToVk(std::string_view key)
    {
       try {
-         const auto uc{rsj::Utf8ToWide(key)[0]};
+         const auto uc{rsj::Utf8ToWide(key).at(0)};
          static const auto kLanguageId = GetLanguage("Lightroom");
          const auto vk_code_and_shift = VkKeyScanExWErrorChecked(uc, kLanguageId);
          const auto mods = HIBYTE(vk_code_and_shift);
@@ -109,7 +113,7 @@ namespace {
          const auto result = SendInput(cinputs, pinputs, cbSize);
          if (result == 0) {
             const auto error_msg =
-                "SendInput failed with error code: " + rsj::NumToChars(GetLastError());
+                "SendInput failed with error code: " + std::to_string(GetLastError());
             throw std::runtime_error(error_msg.c_str());
          }
          return result;
@@ -331,7 +335,7 @@ namespace {
    }
 #endif
 
-#pragma warning(suppress : 4244) // assigned to char intentionally
+#pragma warning(suppress : 4244 26426) // assigned to char intentionally
    const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #ifdef _WIN32
        {"backspace", VK_BACK}, {"cursor down", VK_DOWN}, {"cursor left", VK_LEFT},

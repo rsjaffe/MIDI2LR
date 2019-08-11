@@ -60,11 +60,14 @@ namespace {
 } // namespace
 
 MainContentComponent::MainContentComponent(const CommandSet& command_set, Profile& profile,
-    ProfileManager& profile_manager, SettingsManager& settings_manager) try : ResizableLayout {
+    ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
+    MidiReceiver& midi_receiver, MidiSender& midi_sender)
+try : ResizableLayout {
    this
 }
-, profile_(profile), command_table_model_(command_set, profile), profile_manager_(profile_manager),
-    settings_manager_(settings_manager)
+, command_table_model_(command_set, profile), lr_ipc_out_{lr_ipc_out},
+    midi_receiver_{midi_receiver}, midi_sender_{midi_sender}, profile_(profile),
+    profile_manager_(profile_manager), settings_manager_(settings_manager)
 {
    // Set the component size
    setSize(kMainWidth, kMainHeight);
@@ -75,21 +78,14 @@ catch (const std::exception& e)
    throw;
 }
 
-void MainContentComponent::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out,
-    std::shared_ptr<MidiReceiver> midi_receiver, std::shared_ptr<MidiSender> midi_sender)
+void MainContentComponent::Init()
 {
    try {
-      lr_ipc_out_ = std::move(lr_ipc_out);
-      midi_receiver_ = std::move(midi_receiver);
-      midi_sender_ = std::move(midi_sender);
+      // Add ourselves as a listener for MIDI commands
+      midi_receiver_.AddCallback(this, &MainContentComponent::MidiCmdCallback);
 
-      if (midi_receiver_)
-         // Add ourselves as a listener for MIDI commands
-         midi_receiver_->AddCallback(this, &MainContentComponent::MidiCmdCallback);
-
-      if (const auto ptr = lr_ipc_out_.lock())
-         // Add ourselves as a listener for LR_IPC_OUT events
-         ptr->AddCallback(this, &MainContentComponent::LrIpcOutCallback);
+      // Add ourselves as a listener for LR_IPC_OUT events
+      lr_ipc_out_.AddCallback(this, &MainContentComponent::LrIpcOutCallback);
 
       // Add ourselves as a listener for profile changes
       profile_manager_.AddCallback(this, &MainContentComponent::ProfileChanged);
@@ -214,31 +210,11 @@ void MainContentComponent::paint(juce::Graphics& g)
 void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
-      // Display the CC parameters and add/highlight row in table corresponding to the CC
-      auto mt{rsj::MsgIdEnum::kCc};
-      juce::String command_type{"CC"};
-      switch (mm.message_type_byte) { // this is needed because mapping uses custom structure
-      case rsj::kCcFlag:              // this is default for mt and commandtype
-         break;
-      case rsj::kNoteOnFlag:
-         mt = rsj::MsgIdEnum::kNote;
-         command_type = "NOTE ON";
-         break;
-      case rsj::kNoteOffFlag:
-         mt = rsj::MsgIdEnum::kNote;
-         command_type = "NOTE OFF";
-         break;
-      case rsj::kPwFlag:
-         mt = rsj::MsgIdEnum::kPitchBend;
-         command_type = "PITCHBEND";
-         break;
-      default: // shouldn't receive any messages note categorized above
-         Ensures(0);
-      }
-      mm.channel++; // used to 1-based channel numbers
-      last_command_ = juce::String(mm.channel) + ": " + command_type + juce::String(mm.number)
-                      + " [" + juce::String(mm.value) + "]";
-      const rsj::MidiMessageId msg{mm.channel, mm.number, mt};
+      // Display the MIDI parameters and add/highlight row in table corresponding to the message
+      const rsj::MidiMessageId msg{mm}; // msg is 1-based for channel, which display expects
+      last_command_ = juce::String(msg.channel) + ": "
+                      + rsj::MessageTypeToLabel(mm.message_type_byte)
+                      + juce::String(msg.control_number) + " [" + juce::String(mm.value) + "]";
       profile_.AddRowUnmapped(msg);
       row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
       triggerAsyncUpdate();
@@ -252,6 +228,7 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked)
 {
    try {
+      const juce::MessageManagerLock mmLock; // as not called in message loop
       if (connected) {
          if (sending_blocked) {
             connection_label_.setText(
@@ -259,15 +236,15 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
             connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::yellow);
          }
          else {
-            connection_label_.setText(
-                juce::translate("Connected to LR"), juce::NotificationType::dontSendNotification);
+            connection_label_.setText(juce::translate("Connected to Lightroom"),
+                juce::NotificationType::dontSendNotification);
             connection_label_.setColour(
                 juce::Label::backgroundColourId, juce::Colours::greenyellow);
          }
       }
       else {
-         connection_label_.setText(
-             juce::translate("Not connected to LR"), juce::NotificationType::dontSendNotification);
+         connection_label_.setText(juce::translate("Not connected to Lightroom"),
+             juce::NotificationType::dontSendNotification);
          connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
       }
    }
@@ -290,19 +267,13 @@ void MainContentComponent::SaveProfile()
 
 void MainContentComponent::buttonClicked(juce::Button* button)
 { //-V2009 overridden method
-   using namespace std::literals::string_literals;
    try {
       if (button == &rescan_button_) {
          // Re-enumerate MIDI IN and OUT devices
-
-         if (midi_receiver_)
-            midi_receiver_->RescanDevices();
-
-         if (midi_sender_)
-            midi_sender_->RescanDevices();
+         midi_receiver_.RescanDevices();
+         midi_sender_.RescanDevices();
          // Send new CC parameters to MIDI Out devices
-         if (const auto ptr = lr_ipc_out_.lock())
-            ptr->SendCommand("FullRefresh 1\n"s);
+         lr_ipc_out_.SendCommand("FullRefresh 1\n");
       }
       else if (button == &remove_row_button_) {
          if (command_table_.getNumRows() > 0) {
@@ -312,15 +283,13 @@ void MainContentComponent::buttonClicked(juce::Button* button)
          }
       }
       else if (button == &disconnect_button_) {
-         if (const auto ptr = lr_ipc_out_.lock()) {
-            if (disconnect_button_.getToggleState()) {
-               ptr->Stop();
-               rsj::Log("Sending halted");
-            }
-            else {
-               ptr->Restart();
-               rsj::Log("Sending restarted");
-            }
+         if (disconnect_button_.getToggleState()) {
+            lr_ipc_out_.SendingStop();
+            rsj::Log("Sending halted");
+         }
+         else {
+            lr_ipc_out_.SendingRestart();
+            rsj::Log("Sending restarted");
          }
       }
       else if (button == &save_button_) {
@@ -339,8 +308,8 @@ void MainContentComponent::buttonClicked(juce::Button* button)
          if (profile_.ProfileUnsaved()) {
             const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
                 juce::translate("MIDI2LR profiles"),
-                juce::translate(
-                    "Profile changed. Do you want to save it before loading a new Profile?"));
+                juce::translate("Profile changed. Do you want to save your changes? If you "
+                                "continue without saving, your changes will be lost."));
             if (result)
                SaveProfile();
          }
@@ -355,9 +324,8 @@ void MainContentComponent::buttonClicked(juce::Button* button)
                std::unique_ptr<juce::XmlElement> xml_element{parsed};
                const auto new_profile = chooser.getResult();
                auto command =
-                   "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
-               if (const auto ptr = lr_ipc_out_.lock())
-                  ptr->SendCommand(std::move(command));
+                   "ChangedToFullPath " + new_profile.getFullPathName().toStdString() + '\n';
+               lr_ipc_out_.SendCommand(std::move(command));
                profile_name_label_.setText(
                    new_profile.getFileName(), juce::NotificationType::dontSendNotification);
                profile_.FromXml(xml_element.get());
@@ -391,7 +359,6 @@ void MainContentComponent::buttonClicked(juce::Button* button)
 void MainContentComponent::ProfileChanged(
     juce::XmlElement* xml_element, const juce::String& file_name)
 { //-V2009 overridden method
-   using namespace std::literals::string_literals;
    try {
       {
          const juce::MessageManagerLock mm_lock;
@@ -401,8 +368,7 @@ void MainContentComponent::ProfileChanged(
          profile_name_label_.setText(file_name, juce::NotificationType::dontSendNotification);
       }
       // Send new CC parameters to MIDI Out devices
-      if (const auto ptr = lr_ipc_out_.lock())
-         ptr->SendCommand("FullRefresh 1\n"s);
+      lr_ipc_out_.SendCommand("FullRefresh 1\n");
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -430,7 +396,6 @@ void MainContentComponent::handleAsyncUpdate()
       command_label_.setText(last_command_, juce::NotificationType::dontSendNotification);
       command_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
       startTimer(1000);
-
       // Update the command table to add and/or select row corresponding to midi command
       command_table_.updateContent();
       command_table_.selectRow(gsl::narrow_cast<int>(row_to_select_));

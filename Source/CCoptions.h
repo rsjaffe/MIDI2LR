@@ -7,18 +7,17 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 4.3.0
+  Created with Projucer version: 5.4.3
 
   ------------------------------------------------------------------------------
 
-  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright (c) 2015 - ROLI Ltd.
+  The Projucer is part of the JUCE library.
+  Copyright (c) 2017 - ROLI Ltd.
 
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_992DAFFC08D2DB3C__
-#define __JUCE_HEADER_992DAFFC08D2DB3C__
+#pragma once
 
 //[Headers]     -- You can add your own extra header files here --
 /*
@@ -60,7 +59,7 @@ class ControlsModel;
 */
 class CCoptions final : public juce::Component,
                         juce::TextEditor::Listener,
-                        public juce::ButtonListener {
+                        public juce::Button::Listener {
  public:
    //==============================================================================
    CCoptions();
@@ -72,14 +71,14 @@ class CCoptions final : public juce::Component,
    {
       controls_model_ = model;
    }
-   void BindToControl(size_t channel, short number);
+   void BindToControl(size_t channel, short control_number);
    CCoptions(CCoptions&& other) noexcept = delete;
    CCoptions& operator=(CCoptions&& other) noexcept = delete;
    //[/UserMethods]
 
    void paint(juce::Graphics& g) override;
    void resized() override;
-   void buttonClicked(juce::Button* button_that_was_clicked) override;
+   void buttonClicked(juce::Button* buttonThatWasClicked) override;
 
  private:
    //[UserVariables]   -- You can add your own custom variables in this section.
@@ -91,17 +90,17 @@ class CCoptions final : public juce::Component,
    //[/UserVariables]
 
    //==============================================================================
-   juce::ScopedPointer<juce::GroupComponent> groupComponent;
-   juce::ScopedPointer<juce::ToggleButton> twosbutton;
-   juce::ScopedPointer<juce::ToggleButton> absbutton;
-   juce::ScopedPointer<juce::ToggleButton> binbutton;
-   juce::ScopedPointer<juce::ToggleButton> signbutton;
-   juce::ScopedPointer<juce::TextEditor> maxvaltext;
-   juce::ScopedPointer<juce::TextEditor> minvaltext;
-   juce::ScopedPointer<juce::Label> minvallabel;
-   juce::ScopedPointer<juce::Label> maxvallabel;
-   juce::ScopedPointer<juce::TextButton> applyAll;
-   juce::ScopedPointer<juce::Label> controlID;
+   std::unique_ptr<juce::GroupComponent> groupComponent;
+   std::unique_ptr<juce::ToggleButton> twosbutton;
+   std::unique_ptr<juce::ToggleButton> absbutton;
+   std::unique_ptr<juce::ToggleButton> binbutton;
+   std::unique_ptr<juce::ToggleButton> signbutton;
+   std::unique_ptr<juce::TextEditor> maxvaltext;
+   std::unique_ptr<juce::TextEditor> minvaltext;
+   std::unique_ptr<juce::Label> minvallabel;
+   std::unique_ptr<juce::Label> maxvallabel;
+   std::unique_ptr<juce::TextButton> applyAll;
+   std::unique_ptr<juce::Label> controlID;
 
    //==============================================================================
    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CCoptions)
@@ -109,5 +108,3 @@ class CCoptions final : public juce::Component,
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
-
-#endif // __JUCE_HEADER_992DAFFC08D2DB3C__

@@ -39,10 +39,10 @@ class CommandMenu final : public juce::TextButton {
  private:
    void clicked(const juce::ModifierKeys& modifiers) override;
 
-   Profile& profile_;
    const CommandSet& command_set_;
+   Profile& profile_;
    rsj::MidiMessageId message_;
-   size_t selected_item_{std::numeric_limits<size_t>::max()};
+   size_t selected_item_{std::numeric_limits<size_t>::max()}; //-V122
 };
 
 #endif // MIDI2LR_COMMANDMENU_H_INCLUDED

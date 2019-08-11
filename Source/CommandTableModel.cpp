@@ -73,14 +73,26 @@ void CommandTableModel::paintCell(
             switch (
                 const auto cmd = profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
                 cmd.msg_id_type) {
-            case rsj::MsgIdEnum::kNote:
-               format_str << cmd.channel << " | Note : " << cmd.data;
+            case rsj::MessageType::NoteOn:
+               format_str << cmd.channel << " | Note : " << cmd.control_number;
                break;
-            case rsj::MsgIdEnum::kCc:
-               format_str << cmd.channel << " | CC: " << cmd.data;
+            case rsj::MessageType::NoteOff:
+               format_str << cmd.channel << " | Note Off: " << cmd.control_number;
                break;
-            case rsj::MsgIdEnum::kPitchBend:
+            case rsj::MessageType::Cc:
+               format_str << cmd.channel << " | CC: " << cmd.control_number;
+               break;
+            case rsj::MessageType::Pw:
                format_str << cmd.channel << " | Pitch Bend";
+               break;
+            case rsj::MessageType::KeyPressure:
+               format_str << cmd.channel << " | Key Pressure: " << cmd.control_number;
+               break;
+            case rsj::MessageType::ChanPressure:
+               format_str << cmd.channel << " | Channel Pressure";
+               break;
+            case rsj::MessageType::PgmChange: // TODO: not handled currently
+            case rsj::MessageType::System:
                break;
             }
             g.drawText(format_str.str(), 0, 0, width, height, juce::Justification::centredLeft);
@@ -114,8 +126,8 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g,
    }
 }
 
-juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int column_id,
-    bool /*isRowSelected*/, juce::Component* existing_component_to_update)
+juce::Component* CommandTableModel::refreshComponentForCell(
+    int row_number, int column_id, bool /*isRowSelected*/, juce::Component* existing_component)
 {
    try {
       // This is used to create or update a custom component to go in a cell.
@@ -144,25 +156,28 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
       //// their properties
       if (column_id == 2) // LR command column
       {
-         auto command_select = dynamic_cast<CommandMenu*>(existing_component_to_update);
-
-         // create a new command menu
-         if (command_select == nullptr) {
+         auto command_select = dynamic_cast<CommandMenu*>(existing_component);
+         if (command_select == nullptr) { // create a new command menu, delete old one if it exists
+            delete existing_component;
 #pragma warning(suppress : 26400 26409 24623 24624)
             command_select =
                 new CommandMenu{profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)),
                     command_set_, profile_};
+            // add 1 because 0 is reserved for no selection
+            command_select->SetSelectedItem(
+                command_set_.CommandTextIndex(profile_.GetCommandForMessage(
+                    profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
+                + 1);
          }
-         else
+         else { // change old command menu
             command_select->SetMsg(
                 profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)));
-
-         // add 1 because 0 is reserved for no selection
-         command_select->SetSelectedItem(
-             command_set_.CommandTextIndex(profile_.GetCommandForMessage(
-                 profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
-             + 1);
-
+            // add 1 because 0 is reserved for no selection
+            command_select->SetSelectedItem(
+                command_set_.CommandTextIndex(profile_.GetCommandForMessage(
+                    profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
+                + 1);
+         }
          return command_select;
       }
       return nullptr;

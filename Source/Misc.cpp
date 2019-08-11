@@ -35,18 +35,42 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #else
 #include "Ocpp.h"
 #endif
-#include <gsl/gsl>
 
-[[nodiscard]] std::string rsj::ReplaceInvisibleChars(std::string_view input)
+// XCode has issues with std:: in this file, using ::std:: to fix when necessary
+namespace {
+   ::std::array ascii_map{"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a",
+       "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12",
+       "\\x13", "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C",
+       "\\x1D", "\\x1E", "\\x1F", " ", "!", "\\\""};
+
+#ifdef __GNUG__ // gnu C++ compiler
+#include <cxxabi.h>
+#include <memory>
+#include <type_traits>
+   [[nodiscard]] juce::String Demangle(gsl::czstring<> mangled_name)
+   {
+      ::std::size_t len = 0;
+      int status = 0;
+      ::std::unique_ptr<char, decltype(&::std::free)> ptr(
+          ::abi::__cxa_demangle(mangled_name, nullptr, &len, &status), &::std::free);
+      if (status)
+         return mangled_name;
+      return juce::String(juce::CharPointer_UTF8(ptr.get()));
+   }
+#else  // ndef _GNUG_
+   [[nodiscard]] juce::String Demangle(gsl::czstring<> mangled_name)
+   {
+      return juce::String(juce::CharPointer_UTF8(mangled_name));
+   }
+#endif // _GNUG_
+} // namespace
+
+::std::string rsj::ReplaceInvisibleChars(::std::string_view in)
 {
    try {
-      std::array ascii_map{"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a",
-          "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12",
-          "\\x13", "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C",
-          "\\x1D", "\\x1E", "\\x1F", " ", "!", "\\\""};
-      std::string result{};
-      result.reserve(input.size());
-      for (const auto& a : input) {
+      ::std::string result{};
+      result.reserve(in.size()); // minimum final size
+      for (const auto& a : in) {
          if (static_cast<decltype(ascii_map)::size_type>(a) < ascii_map.size())
 #pragma warning(suppress : 26446 26482) // false alarm, range checked by if statement
             result.append(ascii_map[a]);
@@ -59,36 +83,38 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
       }
       return result;
    }
-   catch (const std::exception& e) {
+   catch (const ::std::exception& e) {
       rsj::ExceptionResponse(__func__, __func__, e);
       throw;
    }
 }
 
 // using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower
-std::string rsj::ToLower(std::string_view in)
+::std::string rsj::ToLower(::std::string_view in)
 {
    try {
-      std::string s;
+      ::std::string s;
       s.resize(in.size());
-      std::transform(in.begin(), in.end(), s.begin(), [
-      ](unsigned char c) noexcept { return gsl::narrow_cast<unsigned char>(std::tolower(c)); });
+      ::std::transform(
+          in.begin(), in.end(), s.begin(), [](unsigned char c) noexcept {
+             return gsl::narrow_cast<unsigned char>(::std::tolower(c));
+          });
       return s;
    }
-   catch (const std::exception& e) {
+   catch (const ::std::exception& e) {
       rsj::ExceptionResponse("rsj", __func__, e);
       throw;
    }
 }
 
 // note: C++20 will have ends_with
-bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
+bool rsj::EndsWith(::std::string_view main_str, ::std::string_view to_match)
 {
    try {
       return main_str.size() >= to_match.size()
              && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
    }
-   catch (const std::exception& e) {
+   catch (const ::std::exception& e) {
       rsj::ExceptionResponse("rsj", __func__, e);
       throw;
    }
@@ -97,37 +123,52 @@ bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
 // from http://www.cplusplus.com/forum/beginner/175177 and
 // https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/libsupc%2B%2B/cxxabi.h#L156
 
-#ifdef __GNUG__ // gnu C++ compiler
-#include <cxxabi.h>
-#include <memory>
-#include <type_traits>
-[[nodiscard]] juce::String Demangle(const char* mangled_name)
+void rsj::Log(const juce::String& info) noexcept
 {
-   std::size_t len = 0;
-   int status = 0;
-   std::unique_ptr<char, decltype(&std::free)> ptr(
-       abi::__cxa_demangle(mangled_name, nullptr, &len, &status), &std::free);
-   if (status)
-      return mangled_name;
-   return juce::String(juce::CharPointer_UTF8(ptr.get()));
-}
-#else  // ndef _GNUG_
-[[nodiscard]] juce::String Demangle(_In_z_ const char* mangled_name)
-{
-   return juce::String(juce::CharPointer_UTF8(mangled_name));
-}
-#endif // _GNUG_
-
-void rsj::Log(const juce::String& info)
-{
-   if (juce::Logger::getCurrentLogger())
-      juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + info);
+   try {
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": " + info);
+   }
+   catch (...) { //-V565
+   }
 }
 
-void rsj::LogAndAlertError(const juce::String& error_text)
+void rsj::Log(gsl::czstring<> info) noexcept
 {
-   juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error", error_text);
-   rsj::Log(error_text);
+   try {
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": " + info);
+   }
+   catch (...) { //-V565
+   }
+}
+
+void rsj::LogAndAlertError(const juce::String& error_text) noexcept
+{
+   try {
+      {
+         const juce::MessageManagerLock mmLock; // this may be unnecessary
+         juce::NativeMessageBox::showMessageBox(
+             juce::AlertWindow::WarningIcon, "Error", error_text);
+      }
+      rsj::Log(error_text);
+   }
+   catch (...) { //-V565
+   }
+}
+
+void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
+{
+   try {
+      {
+         const juce::MessageManagerLock mmLock; // this may be unnecessary
+         juce::NativeMessageBox::showMessageBox(
+             juce::AlertWindow::WarningIcon, "Error", error_text);
+      }
+      rsj::Log(error_text);
+   }
+   catch (...) { //-V565
+   }
 }
 
 #pragma warning(push)
@@ -135,7 +176,7 @@ void rsj::LogAndAlertError(const juce::String& error_text)
 // use typeid(this).name() for first argument to add class information
 // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
 void rsj::ExceptionResponse(
-    _In_z_ const char* id, _In_z_ const char* fu, const std::exception& e) noexcept
+    gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
 {
    try {
       const auto error_text{juce::String("Exception ") + e.what() + ' ' + Demangle(id) + "::" + fu
@@ -176,7 +217,7 @@ namespace {
              CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
          if (!ret) {
             const auto error_msg =
-                "MultiByteToWideChar failed with error code: " + rsj::NumToChars(GetLastError());
+                "MultiByteToWideChar failed with error code: " + std::to_string(GetLastError());
             throw std::runtime_error(error_msg.c_str());
          }
          return ret;
@@ -197,7 +238,7 @@ namespace {
              lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar);
          if (!ret) {
             const auto error_msg =
-                "WideCharToMultiByte failed with error code: " + rsj::NumToChars(GetLastError());
+                "WideCharToMultiByte failed with error code: " + std::to_string(GetLastError());
             throw std::runtime_error(error_msg.c_str());
          }
          return ret;
@@ -209,14 +250,14 @@ namespace {
    }
 } // namespace
 
-std::wstring rsj::Utf8ToWide(std::string_view input)
+std::wstring rsj::Utf8ToWide(std::string_view in)
 { // add terminating null
    try {
-      const auto buffersize = MultiByteToWideCharErrorChecked(CP_UTF8, 0, input.data(),
-                                  gsl::narrow_cast<int>(input.size()), nullptr, 0)
-                              + 1;
-      std::vector<wchar_t> buffer(buffersize, 0); // all zero
-      MultiByteToWideCharErrorChecked(CP_UTF8, 0, input.data(), gsl::narrow_cast<int>(input.size()),
+      const auto buffer_size = MultiByteToWideCharErrorChecked(CP_UTF8, 0, in.data(),
+                                   gsl::narrow_cast<int>(in.size()), nullptr, 0)
+                               + 1;
+      std::vector<wchar_t> buffer(buffer_size, 0); // all zero
+      MultiByteToWideCharErrorChecked(CP_UTF8, 0, in.data(), gsl::narrow_cast<int>(in.size()),
           buffer.data(), gsl::narrow_cast<int>(buffer.size()));
       return buffer.data();
    }
@@ -226,14 +267,14 @@ std::wstring rsj::Utf8ToWide(std::string_view input)
    }
 }
 
-std::string rsj::WideToUtf8(std::wstring_view wstr)
+std::string rsj::WideToUtf8(std::wstring_view in)
 { // add terminating null
    try {
-      const auto buffersize = WideCharToMultiByteErrorChecked(CP_UTF8, 0, wstr.data(),
-                                  gsl::narrow_cast<int>(wstr.size()), nullptr, 0, nullptr, nullptr)
-                              + 1;
-      std::vector<char> buffer(buffersize, 0);
-      WideCharToMultiByteErrorChecked(CP_UTF8, 0, wstr.data(), gsl::narrow_cast<int>(wstr.size()),
+      const auto buffer_size = WideCharToMultiByteErrorChecked(CP_UTF8, 0, in.data(),
+                                   gsl::narrow_cast<int>(in.size()), nullptr, 0, nullptr, nullptr)
+                               + 1;
+      std::vector<char> buffer(buffer_size, 0);
+      WideCharToMultiByteErrorChecked(CP_UTF8, 0, in.data(), gsl::narrow_cast<int>(in.size()),
           buffer.data(), gsl::narrow_cast<int>(buffer.size()), nullptr, nullptr);
       return buffer.data();
    }
@@ -243,11 +284,11 @@ std::string rsj::WideToUtf8(std::wstring_view wstr)
    }
 }
 #else
-std::string rsj::AppDataFilePath(const std::string& file_name)
+::std::string rsj::AppDataFilePath(const ::std::string& file_name)
 {
    return rsj::AppDataMac() + '/' + file_name;
 }
-std::string rsj::AppLogFilePath(const std::string& file_name)
+::std::string rsj::AppLogFilePath(const ::std::string& file_name)
 {
    return rsj::AppLogMac() + '/' + file_name;
 }

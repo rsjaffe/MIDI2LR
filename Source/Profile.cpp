@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Profile.h"
 
 #include <algorithm>
+#include <exception>
 
 #include "Misc.h"
 
@@ -93,17 +94,17 @@ void Profile::FromXml(const juce::XmlElement* root)
       while (setting) {
          if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message{setting->getIntAttribute("channel"),
-                setting->getIntAttribute("controller"), rsj::MsgIdEnum::kCc};
+                setting->getIntAttribute("controller"), rsj::MessageType::Cc};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), message);
          }
          else if (setting->hasAttribute("note")) {
             const rsj::MidiMessageId note{setting->getIntAttribute("channel"),
-                setting->getIntAttribute("note"), rsj::MsgIdEnum::kNote};
+                setting->getIntAttribute("note"), rsj::MessageType::NoteOn};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), note);
          }
          else if (setting->hasAttribute("pitchbend")) {
             const rsj::MidiMessageId pb{
-                setting->getIntAttribute("channel"), 0, rsj::MsgIdEnum::kPitchBend};
+                setting->getIntAttribute("channel"), 0, rsj::MessageType::Pw};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), pb);
          }
          setting = setting->getNextElement();
@@ -125,8 +126,7 @@ std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string
       auto guard = std::shared_lock{mutex_};
       std::vector<rsj::MidiMessageId> mm;
       const auto range = command_string_map_.equal_range(command);
-      for (auto it = range.first; it != range.second; ++it)
-         mm.push_back(it->second);
+      std::for_each(range.first, range.second, [&mm](auto&& x) { mm.push_back(x.second); });
       return mm;
    }
    catch (const std::exception& e) {
@@ -230,15 +230,17 @@ void Profile::ToXmlFile(const juce::File& file)
             auto setting = std::make_unique<juce::XmlElement>("setting");
             setting->setAttribute("channel", map_entry.first.channel);
             switch (map_entry.first.msg_id_type) {
-            case rsj::MsgIdEnum::kNote:
-               setting->setAttribute("note", map_entry.first.data);
+            case rsj::MessageType::NoteOn:
+               setting->setAttribute("note", map_entry.first.control_number);
                break;
-            case rsj::MsgIdEnum::kCc:
-               setting->setAttribute("controller", map_entry.first.data);
+            case rsj::MessageType::Cc:
+               setting->setAttribute("controller", map_entry.first.control_number);
                break;
-            case rsj::MsgIdEnum::kPitchBend:
+            case rsj::MessageType::Pw:
                setting->setAttribute("pitchbend", 0);
                break;
+            default:
+               continue; // can't handle other types
             }
             setting->setAttribute("command_string", map_entry.second);
             root.addChildElement(setting.release());

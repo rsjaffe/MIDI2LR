@@ -20,6 +20,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "DebugInfo.h"
 
+#include <exception>
+
 #ifdef _WIN32
 #include <array>
 #include <string>
@@ -33,8 +35,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // from
 // https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
 namespace {
-   const std::unordered_map<unsigned long int, std::string> kKeyboardNames{{0x0000041c, "Albanian"},
-       {0x00000401, "Arabic (101)"}, {0x00010401, "Arabic (102)"},
+#pragma warning(suppress : 26426)
+   const std::unordered_map<unsigned long int, std::string> kKeyboardNames{ //-V126
+       {0x0000041c, "Albanian"}, {0x00000401, "Arabic (101)"}, {0x00010401, "Arabic (102)"},
        {0x00020401, "Arabic (102) AZERTY"}, {0x0000042b, "Armenian Eastern"},
        {0x0002042b, "Armenian Phonetic"}, {0x0003042b, "Armenian Typewriter"},
        {0x0001042b, "Armenian Western"}, {0x0000044d, "Assamese - Inscript"},
@@ -127,7 +130,7 @@ namespace {
 std::string rsj::GetKeyboardLayout()
 {
    try {
-      using namespace std::string_literals;
+      using namespace std::literals::string_literals;
       static_assert(sizeof(CHAR) == sizeof(char), "Windows CHAR and char different sizes.");
       std::array<CHAR, KL_NAMELENGTH> klid_ascii{};
       if (GetKeyboardLayoutNameA(klid_ascii.data())) {
@@ -144,7 +147,7 @@ std::string rsj::GetKeyboardLayout()
             return msg;
          }
       }
-      const auto msg{"Unable to get KLID. Error "s + rsj::NumToChars(GetLastError()) + "."s};
+      const auto msg{"Unable to get KLID. Error " + std::to_string(GetLastError()) + "."s};
       rsj::Log(msg);
       return msg;
    }
@@ -160,25 +163,25 @@ std::string rsj::GetKeyboardLayout()
 DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
 {
    try {
-      using namespace std::string_literals;
-      LogAndSave("System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
-      LogAndSave("Keyboard type "s + rsj::GetKeyboardLayout());
+      using namespace std::literals::string_literals;
+      LogAndSave("System language " + juce::SystemStats::getDisplayLanguage().toStdString());
+      LogAndSave("Keyboard type " + rsj::GetKeyboardLayout());
       // ReSharper disable CppUnreachableCode
       if constexpr (kNdebug) {
          LogAndSave("Version "s + ProjectInfo::versionString);
       }
       else {
-         LogAndSave("Version "s + ProjectInfo::versionString + "-debug"s);
+         LogAndSave("Version "s + ProjectInfo::versionString + "-debug");
       }
       // ReSharper restore CppUnreachableCode
-      LogAndSave("App path "s
+      LogAndSave("App path "
                  + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
                        .getFullPathName()
                        .toStdString());
-      LogAndSave("Profile directory "s + profile_directory.toStdString());
+      LogAndSave("Profile directory " + profile_directory.toStdString());
 #ifdef _WIN32
-      LogAndSave("Log file directory "s + rsj::WideToUtf8(rsj::AppLogFilePath(L"")));
-      LogAndSave("Settings file directory "s + rsj::WideToUtf8(rsj::AppDataFilePath(L"")));
+      LogAndSave("Log file directory " + rsj::WideToUtf8(rsj::AppLogFilePath(L"")));
+      LogAndSave("Settings file directory " + rsj::WideToUtf8(rsj::AppDataFilePath(L"")));
 #else
       LogAndSave("Log file directory "s + rsj::AppLogFilePath(""));
       LogAndSave("Settings file directory "s + rsj::AppDataFilePath(""));

@@ -955,12 +955,11 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_NDEBUG=1",
 					"NDEBUG=1",
-					"U_STATIC_IMPLEMENTATION=1",
 					"DONT_SET_USING_JUCE_NAMESPACE=1",
 					"GSL_THROW_ON_CONTRACT_VIOLATION=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=3.2.3.0",
-					"JUCE_APP_VERSION_HEX=0x3020300",
+					"JUCE_APP_VERSION=3.3.0.0",
+					"JUCE_APP_VERSION_HEX=0x3030000",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -976,7 +975,7 @@
 					"../../JuceLibraryCode",
 					"../../JuceLibraryCode/modules",
 					"../../",
-					"../../icu/source/common/",
+					"../../asio/",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-App.plist;
@@ -1005,12 +1004,11 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_NDEBUG=1",
 					"NDEBUG=1",
-					"U_STATIC_IMPLEMENTATION=1",
 					"DONT_SET_USING_JUCE_NAMESPACE=1",
 					"GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=3.2.3.0",
-					"JUCE_APP_VERSION_HEX=0x3020300",
+					"JUCE_APP_VERSION=3.3.0.0",
+					"JUCE_APP_VERSION_HEX=0x3030000",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -1026,7 +1024,7 @@
 					"../../JuceLibraryCode",
 					"../../JuceLibraryCode/modules",
 					"../../",
-					"../../icu/source/common/",
+					"../../asio/",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-App.plist;

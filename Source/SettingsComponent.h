@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class SettingsManager;
 
 class SettingsComponent final : public juce::Component,
-                                juce::ButtonListener,
+                                juce::Button::Listener,
                                 ResizableLayout,
                                 juce::Slider::Listener {
  public:
@@ -38,8 +38,8 @@ class SettingsComponent final : public juce::Component,
    void Init();
 
  private:
-   void paint(juce::Graphics&) override;
    void buttonClicked(juce::Button* button) override;
+   void paint(juce::Graphics&) override;
    void sliderValueChanged(juce::Slider* slider) override;
 
    juce::GroupComponent autohide_group_{};

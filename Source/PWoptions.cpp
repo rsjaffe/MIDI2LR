@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 4.3.0
+  Created with Projucer version: 5.4.3
 
   ------------------------------------------------------------------------------
 
-  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright (c) 2015 - ROLI Ltd.
+  The Projucer is part of the JUCE library.
+  Copyright (c) 2017 - ROLI Ltd.
 
   ==============================================================================
 */
@@ -38,14 +38,15 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-#include <gsl/gsl>
-#include "PWoptions.h"
-#include "ControlsModel.h"
-using namespace juce;
+
 //[/Headers]
 
-//[MiscUserDefs] You can add your own user definitions and misc code here...
+#include "PWoptions.h"
 
+//[MiscUserDefs] You can add your own user definitions and misc code here...
+#include <gsl/gsl>
+#include "ControlsModel.h"
+using namespace juce;
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -54,7 +55,6 @@ PWoptions::PWoptions()
    //[Constructor_pre] You can add your own custom stuff here..
    //[/Constructor_pre]
 
-#pragma warning(suppress : 26409)
    label.reset(new Label("new label", TRANS("Minimum value")));
    addAndMakeVisible(label.get());
    label->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
@@ -65,7 +65,6 @@ PWoptions::PWoptions()
 
    label->setBounds(32, 48, 150, 24); //-V112
 
-#pragma warning(suppress : 26409)
    minval.reset(new TextEditor("minval"));
    addAndMakeVisible(minval.get());
    minval->setExplicitFocusOrder(1);
@@ -78,7 +77,7 @@ PWoptions::PWoptions()
    minval->setText(TRANS("0"));
 
    minval->setBounds(32, 80, 150, 24); //-V112
-#pragma warning(suppress : 26409)
+
    label2.reset(new Label("new label", TRANS("Maximum value")));
    addAndMakeVisible(label2.get());
    label2->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
@@ -89,7 +88,16 @@ PWoptions::PWoptions()
 
    label2->setBounds(32, 112, 150, 24); //-V112
 
-   setSize(280, 350);
+   maxval.reset(new TextEditor("maxval"));
+   addAndMakeVisible(maxval.get());
+   maxval->setExplicitFocusOrder(2);
+   maxval->setMultiLine(false);
+   maxval->setReturnKeyStartsNewLine(false);
+   maxval->setReadOnly(false);
+   maxval->setScrollbarsShown(true);
+   maxval->setCaretVisible(true);
+   maxval->setPopupMenuEnabled(true);
+   maxval->setText(TRANS("16383"));
 
    maxval->setBounds(32, 144, 150, 24); //-V112
 
@@ -148,13 +156,8 @@ void PWoptions::resized()
    //[UserPreResize] Add your own custom resize code here..
    //[/UserPreResize]
 
-   label->setBounds(32, 48, 150, 24);   //-V112
-   minval->setBounds(32, 80, 150, 24);  //-V112
-   label2->setBounds(32, 112, 150, 24); //-V112
-   maxval->setBounds(32, 144, 150, 24); //-V112
-   label3->setBounds(32, 16, 150, 24);  //-V112
-                                        //[UserResized] Add your own custom resize handling here..
-                                        //[/UserResized]
+   //[UserResized] Add your own custom resize handling here..
+   //[/UserResized]
 }
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
@@ -197,7 +200,7 @@ BEGIN_JUCER_METADATA
          explicitFocusOrder="0" pos="32 48 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Minimum value" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="15" bold="0" italic="0" justification="33"/>
+         fontsize="1.5e1" kerning="0" bold="0" italic="0" justification="33"/>
   <TEXTEDITOR name="minval" id="7a25d92146885d49" memberName="minval" virtualName=""
               explicitFocusOrder="1" pos="32 80 150 24" initialText="0" multiline="0"
               retKeyStartsLine="0" readonly="0" scrollbars="1" caret="1" popupmenu="1"/>
@@ -205,7 +208,7 @@ BEGIN_JUCER_METADATA
          explicitFocusOrder="0" pos="32 112 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Maximum value" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="15" bold="0" italic="0" justification="33"/>
+         fontsize="1.5e1" kerning="0" bold="0" italic="0" justification="33"/>
   <TEXTEDITOR name="maxval" id="747392110d105b58" memberName="maxval" virtualName=""
               explicitFocusOrder="2" pos="32 144 150 24" initialText="16383"
               multiline="0" retKeyStartsLine="0" readonly="0" scrollbars="1"
@@ -214,7 +217,7 @@ BEGIN_JUCER_METADATA
          explicitFocusOrder="0" pos="32 16 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Pitch Wheel" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="15" bold="0" italic="0" justification="33"/>
+         fontsize="1.5e1" kerning="0" bold="0" italic="0" justification="33"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

@@ -144,7 +144,7 @@ void SettingsComponent::buttonClicked(juce::Button* button)
          rsj::Log(pickup_state ? "Pickup set to enabled" : "Pickup set to disabled");
       }
       else if (button == &profile_location_button_) {
-         juce::FileChooser chooser{juce::translate("Select Profile Folder"),
+         juce::FileChooser chooser{juce::translate("Select Folder"),
              juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "", true};
          if (chooser.browseForDirectory()) {
             const auto profile_location = chooser.getResult().getFullPathName();

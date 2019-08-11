@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include <array>
+#include "MidiUtilities.h"
 
 class NrpnFilter {
    // This  assumes that all NRPN messages have 4 messages, though the NRPN standard allows omission
@@ -33,23 +34,27 @@ class NrpnFilter {
       short control{};
       short value{};
    };
-   ProcessResult operator()(short channel, short control, short value);
+   ProcessResult operator()(rsj::MidiMessage message);
 
  private:
+   void Clear(int channel) noexcept
+   {
+#pragma warning(push)
+#pragma warning(disable : 26446 26482) // Channel bounds-checked in calling functions
+      ready_flags_[channel] = 0;
+      control_msb_[channel] = 0;
+      control_lsb_[channel] = 0;
+      value_msb_[channel] = 0;
+      value_lsb_[channel] = 0;
+#pragma warning(pop)
+   }
+
    static constexpr int kChannels{16};
    std::array<int, kChannels> control_msb_{};
    std::array<int, kChannels> control_lsb_{};
    std::array<int, kChannels> value_msb_{};
    std::array<int, kChannels> value_lsb_{};
    std::array<int, kChannels> ready_flags_{};
-   void Clear(int channel) noexcept
-   {
-      ready_flags_[channel] = 0;
-      control_msb_[channel] = 0;
-      control_lsb_[channel] = 0;
-      value_msb_[channel] = 0;
-      value_lsb_[channel] = 0;
-   }
 };
 
 #endif

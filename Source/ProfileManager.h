@@ -20,13 +20,10 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#include <exception>
 #include <functional>
-#include <memory>
 #include <vector>
 
 #include <JuceLibraryCode/JuceHeader.h>
-#include "Misc.h"
 #ifndef _MSC_VER
 #define _In_
 #endif
@@ -42,8 +39,8 @@ namespace rsj {
 
 class ProfileManager final : juce::AsyncUpdater {
  public:
-   ProfileManager(ControlsModel& c_model, Profile& profile, std::weak_ptr<LrIpcOut>&& out,
-       MidiReceiver& midi_receiver) noexcept;
+   ProfileManager(
+       ControlsModel& c_model, const Profile& profile, LrIpcOut& out, MidiReceiver& midi_receiver);
    ~ProfileManager() = default;
    ProfileManager(const ProfileManager& other) = delete;
    ProfileManager(ProfileManager&& other) = delete;
@@ -53,15 +50,9 @@ class ProfileManager final : juce::AsyncUpdater {
    void AddCallback(
        _In_ T* const object, _In_ void (T::*const mf)(juce::XmlElement*, const juce::String&))
    {
-      try {
-         using namespace std::placeholders;
-         if (object && mf) // only store non-empty functions
-            callbacks_.emplace_back(std::bind(mf, object, _1, _2));
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
+      using namespace std::placeholders;
+      if (object && mf) // only store non-empty functions
+         callbacks_.emplace_back(std::bind(mf, object, _1, _2));
    }
    [[nodiscard]] const juce::String& GetProfileDirectory() const noexcept
    {
@@ -75,17 +66,13 @@ class ProfileManager final : juce::AsyncUpdater {
    void SwitchToProfile(const juce::String& profile);
 
  private:
-   // returns an array of profile names
    [[nodiscard]] const std::vector<juce::String>& GetMenuItems() const noexcept;
-   // switches to the next profile
-   void SwitchToNextProfile();
-   // switches to the previous profile
-   void SwitchToPreviousProfile();
-   // AsyncUpdate interface
+   void ConnectionCallback(bool, bool);
    void handleAsyncUpdate() override;
-
-   void MidiCmdCallback(rsj::MidiMessage);
    void MapCommand(const rsj::MidiMessageId& msg);
+   void MidiCmdCallback(rsj::MidiMessage);
+   void SwitchToNextProfile();
+   void SwitchToPreviousProfile();
 
    enum class SwitchState {
       kNone,
@@ -93,15 +80,14 @@ class ProfileManager final : juce::AsyncUpdater {
       kNext,
    };
 
-   Profile& current_profile_;
+   const Profile& current_profile_;
    ControlsModel& controls_model_;
    int current_profile_index_{0};
    juce::File profile_location_;
+   LrIpcOut& lr_ipc_out_;
    std::vector<juce::String> profiles_;
    std::vector<std::function<void(juce::XmlElement*, const juce::String&)>> callbacks_;
-   std::weak_ptr<LrIpcOut> lr_ipc_out_;
    SwitchState switch_state_{SwitchState::kNone};
-   void ConnectionCallback(bool, bool);
 };
 
 #endif // PROFILEMANAGER_H_INCLUDED

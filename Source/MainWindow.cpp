@@ -21,27 +21,25 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainWindow.h"
 
 #include <exception>
-#include <utility>
 
 #include "MainComponent.h"
 #include "SettingsManager.h"
 
 MainWindow::MainWindow(const juce::String& name, const CommandSet& command_set, Profile& profile,
-    ProfileManager& profile_manager, SettingsManager& settings_manager,
-    std::weak_ptr<LrIpcOut>&& lr_ipc_out, std::shared_ptr<MidiReceiver> midi_receiver,
-    std::shared_ptr<MidiSender> midi_sender) try : juce
+    ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
+    MidiReceiver& midi_receiver, MidiSender& midi_sender)
+try : juce
    ::DocumentWindow{name, juce::Colours::lightgrey,
        juce::DocumentWindow::minimiseButton | juce::DocumentWindow::closeButton}
    {
       juce::TopLevelWindow::setUsingNativeTitleBar(true);
 #pragma warning(suppress : 26409 24623) // ResizableWindow will manage window_content_ lifetime
-      window_content_ =
-          new MainContentComponent(command_set, profile, profile_manager, settings_manager);
+      window_content_ = new MainContentComponent(command_set, profile, profile_manager,
+          settings_manager, lr_ipc_out, midi_receiver, midi_sender);
       juce::ResizableWindow::setContentOwned(window_content_, true);
       juce::Component::centreWithSize(getWidth(), getHeight());
       juce::Component::setVisible(true);
-      window_content_->Init(
-          std::move(lr_ipc_out), std::move(midi_receiver), std::move(midi_sender));
+      window_content_->Init();
       const auto hide_sec = settings_manager.GetAutoHideTime();
       if (hide_sec) // don't start timer if time is zero
          juce::Timer::startTimer(1000 * hide_sec);

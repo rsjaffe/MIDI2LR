@@ -45,7 +45,7 @@ class CommandSet {
       return cmd_by_number_.size();
    }
 
-   [[nodiscard]] auto GetLanguage() const noexcept
+   [[nodiscard]] const auto& GetLanguage() const noexcept
    {
       return m_impl_.language_;
    }
@@ -87,12 +87,11 @@ class CommandSet {
    friend class cereal::access;
    // see https://github.com/USCiLab/cereal/issues/270
    friend struct cereal::detail::Version<CommandSet::Impl>;
-   const Impl& m_impl_;
    [[nodiscard]] const Impl& MakeImpl() const;
-
+   const Impl& m_impl_;
    std::unordered_map<std::string, size_t> cmd_idx_{}; // for CommandTextIndex
+   std::vector<MenuStringT> menus_{};                  // use for commandmenu
    std::vector<std::string> cmd_by_number_{}; // use for command_set_.CommandAbbrevAt, .size
-   std::vector<MenuStringT> menus_{};         // use for commandmenu
    std::vector<std::vector<MenuStringT>> menu_entries_{}; // use for commandmenu
 };
 #pragma warning(push)
