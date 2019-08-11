@@ -140,7 +140,6 @@ LrTasks.startAsyncTask(
       Filter_11                              = CU.fApplyFilter(11),
       Filter_12                              = CU.fApplyFilter(12),
       FullRefresh                            = CU.FullRefresh,
-      GraduatedFilter                        = CU.fToggleTool('gradient'),
       IncreaseRating                         = LrSelection.increaseRating,
       IncrementLastDevelopParameter          = function() CU.execFOM(LrDevelopController.increment,LastParam) end,
       Key1  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(1) .. '\n') end,
@@ -357,7 +356,6 @@ LrTasks.startAsyncTask(
       profile17                       = function() Profiles.changeProfile('profile17', true) end,
       profile18                       = function() Profiles.changeProfile('profile18', true) end,      
       PVLatest                        = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version ' .. Database.LatestPVSupported),
-      RadialFilter                    = CU.fToggleTool('circularGradient'),
       RedEye                          = CU.fToggleTool('redeye'),
       Redo                            = LrUndo.redo,
       Reject                          = LrSelection.flagAsReject,
@@ -408,7 +406,6 @@ LrTasks.startAsyncTask(
       ShowMaskOverlay                 = CU.fSimulateKeys(KS.KeyCode.ShowAdjustmentBrushOverlayKey,true),
       SliderDecrease                  = CU.fSimulateKeys(KS.KeyCode.SliderDecreaseKey,true),
       SliderIncrease                  = CU.fSimulateKeys(KS.KeyCode.SliderIncreaseKey,true),
-      SpotRemoval                     = CU.fToggleTool('dust'),
       SwToMbook                       = CU.fChangeModule('book'),
       SwToMdevelop                    = CU.fChangeModule('develop'),
       SwToMlibrary                    = CU.fChangeModule('library'),
@@ -464,6 +461,7 @@ LrTasks.startAsyncTask(
       ACTIONS.CycleLoupeViewInfo           = function() LrDialogs.message('Cycle loupe view style'..endmsg) end
       ACTIONS.EditPhotoshop                = function() LrDialogs.message('Edit in Photoshop action'..endmsg) end
       ACTIONS.EnableToneCurve              = function() LrDialogs.message('Enable Tone Curve action'..endmsg) end
+      ACTIONS.GraduatedFilter              = CU.fToggleTool('gradient')
       ACTIONS.GridViewStyle                = function() LrDialogs.message('Cycle grid view style'..endmsg) end
       ACTIONS.NextScreenMode               = function() LrDialogs.message('Cycle screen mode'..endmsg) end
       ACTIONS.openExportDialog             = function() LrDialogs.message('Open export dialog action'..endmsg) end
@@ -484,6 +482,7 @@ LrTasks.startAsyncTask(
       ACTIONS.QuickDevWBFluorescent        = nowb
       ACTIONS.QuickDevWBShade              = nowb
       ACTIONS.QuickDevWBTungsten           = nowb
+      ACTIONS.RadialFilter                 = CU.fToggleTool('circularGradient')     
       ACTIONS.RotateLeft                   = function() LrDialogs.message('Rotate left action'..endmsg)  end
       ACTIONS.RotateRight                  = function() LrDialogs.message('Rotate right action'..endmsg)  end 
       ACTIONS.SetTreatmentBW               = function() LrDialogs.message('Set treatment B&W'..endmsg) end
@@ -491,15 +490,17 @@ LrTasks.startAsyncTask(
       ACTIONS.ShoFullHidePanels            = function() LrDialogs.message('Show full screen and hide panels action'..endmsg) end
       ACTIONS.ShoFullPreview               = function() LrDialogs.message('Show full screen preview action'..endmsg) end
       ACTIONS.ShowClipping                 = function() LrDialogs.message('Show clipping'..endmsg) end
+      ACTIONS.SpotRemoval                  = CU.fToggleTool('dust')
       ACTIONS.ToggleLoupe                  = function() LrDialogs.message('Toggle loupe'..endmsg) end
       ACTIONS.ToggleOverlay                = function() LrDialogs.message('Toggle local adjustments mask overlay'..endmsg) end
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
     else
       ACTIONS.AddOrRemoveFromTargetColl    = CU.wrapForEachPhoto('addOrRemoveFromTargetCollection')
-      ACTIONS.AutoTone                     = CU.wrapFOM(LrDevelopController.setAutoTone)
+      ACTIONS.AutoTone                     = LrDevelopController.setAutoTone
       ACTIONS.CycleLoupeViewInfo           = LrApplicationView.cycleLoupeViewInfo
-      ACTIONS.EditPhotoshop                = CU.wrapFOM(LrDevelopController.editInPhotoshop)
+      ACTIONS.EditPhotoshop                = LrDevelopController.editInPhotoshop
       ACTIONS.EnableToneCurve              = CU.fToggleTFasync('EnableToneCurve')
+      ACTIONS.GraduatedFilter              = LrDevelopController.goToDevelopGraduatedFilter
       ACTIONS.GridViewStyle                = LrApplicationView.gridViewStyle
       ACTIONS.NextScreenMode               = LrApplicationView.nextScreenMode
       ACTIONS.openExportDialog             = CU.wrapForEachPhoto('openExportDialog')
@@ -520,6 +521,7 @@ LrTasks.startAsyncTask(
       ACTIONS.QuickDevWBFluorescent        = CU.wrapForEachPhoto('QuickDevWBFluorescent')
       ACTIONS.QuickDevWBShade              = CU.wrapForEachPhoto('QuickDevWBShade')
       ACTIONS.QuickDevWBTungsten           = CU.wrapForEachPhoto('QuickDevWBTungsten')
+      ACTIONS.RadialFilter                 = LrDevelopController.goToDevelopRadialFilter
       ACTIONS.RotateLeft                   = CU.wrapForEachPhoto('rotateLeft')
       ACTIONS.RotateRight                  = CU.wrapForEachPhoto('rotateRight')
       ACTIONS.SetTreatmentBW               = CU.wrapForEachPhoto('SetTreatmentBW')
@@ -527,9 +529,10 @@ LrTasks.startAsyncTask(
       ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels
       ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview
       ACTIONS.ShowClipping                 = CU.wrapFOM(LrDevelopController.showClipping)
+      ACTIONS.SpotRemoval                  = LrDevelopController.goToSpotRemoval
       ACTIONS.ToggleLoupe                  = LrApplicationView.toggleLoupe
       ACTIONS.ToggleOverlay                = LrDevelopController.toggleOverlay
-      ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setAutoWhiteBalance)
+      ACTIONS.WhiteBalanceAuto             = LrDevelopController.setAutoWhiteBalance
     end
 
     if not Ut.LrVersion66orMore then

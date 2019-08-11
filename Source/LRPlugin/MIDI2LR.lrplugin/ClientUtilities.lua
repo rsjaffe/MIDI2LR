@@ -59,8 +59,6 @@ local needsModule = {
 
 if Ut.LrVersion74orMore
 then
-  needsModule[LrDevelopController.setAutoTone]         = {module = 'develop', photoSelected = true }
-  needsModule[LrDevelopController.setAutoWhiteBalance] = {module = 'develop', photoSelected = true }
   needsModule[LrDevelopController.showClipping]        = {module = 'develop', photoSelected = false}
 end
 
@@ -101,6 +99,7 @@ local function wrapFOM(F,...)
     if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
     if LrApplicationView.getCurrentModuleName() ~= openModule then
       LrApplicationView.switchToModule(openModule)
+      LrTasks.yield() -- need this to allow module change before F is called
     end
     return F(unpack(arg)) --proper tail call
   end
@@ -124,6 +123,7 @@ local function execFOM(F,...)
   if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   if LrApplicationView.getCurrentModuleName() ~= openModule then
     LrApplicationView.switchToModule(openModule)
+    LrTasks.yield() -- need this to allow module change before F is called
   end
   return F(...) --proper tail call
 end
