@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.2.4.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.3.0.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="5.4.3" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
@@ -103,24 +103,6 @@
         <MODULEPATH id="juce_audio_devices" path="JuceLibraryCode\modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2017 targetFolder="Builds/VisualStudio2017" cppLanguageStandard="stdcpplatest"
-            bigIcon="WdgQGt" smallIcon="WdgQGt" extraDefs="" userNotes="">
-      <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" isDebug="1" headerPath="" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
-                       useRuntimeLibDLL="0"/>
-        <CONFIGURATION name="Release" isDebug="0" headerPath="" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"
-                       debugInformationFormat="ProgramDatabase" postbuildCommand="$(SolutionDir)luacompile.bat"/>
-      </CONFIGURATIONS>
-      <MODULEPATHS>
-        <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_graphics" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_events" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_data_structures" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_core" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_audio_devices" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode\modules"/>
-      </MODULEPATHS>
-    </VS2017>
     <VS2019 targetFolder="Builds/VisualStudio2019" smallIcon="WdgQGt" bigIcon="WdgQGt"
             extraDefs="_WIN32_WINNT=0x0601">
       <CONFIGURATIONS>
@@ -150,7 +132,8 @@
     <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
   <JUCEOPTIONS JUCE_USE_OGGVORBIS="disabled" JUCE_USE_ANDROID_OPENSLES="0" JUCE_USE_CDREADER="disabled"
-               JUCE_USE_CDBURNER="disabled" JUCE_WASAPI="0" JUCE_WASAPI_EXCLUSIVE="0"/>
+               JUCE_USE_CDBURNER="disabled" JUCE_WASAPI="0" JUCE_WASAPI_EXCLUSIVE="0"
+               JUCE_DIRECTSOUND="0" JUCE_ALSA="0"/>
   <LIVE_SETTINGS>
     <WINDOWS enableCxx11="1"/>
   </LIVE_SETTINGS>
