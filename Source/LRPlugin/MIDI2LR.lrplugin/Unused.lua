@@ -39,6 +39,7 @@ local function wrapFCM(F,...)
     local currentMod = LrApplicationView.getCurrentModuleName()
     if currentMod ~= openModule then
       LrApplicationView.switchToModule(openModule)
+      LrTasks.yield() -- need this to allow module change before next action
     end
     F(unpack(arg))
     if currentMod ~= openModule then
@@ -93,6 +94,7 @@ local function execFCM(F,...)
   local currentMod = LrApplicationView.getCurrentModuleName()
   if currentMod ~= openModule then
     LrApplicationView.switchToModule(openModule)
+    LrTasks.yield() -- need this to allow module change before next action
   end
   retval = F(...)
   if currentMod ~= openModule then
