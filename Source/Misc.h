@@ -44,19 +44,19 @@ extern "C" __declspec(dllimport) long __stdcall SetThreadDescription(
     _In_ void* hThread, _In_ const wchar_t* lpThreadDescription);
 extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
 namespace rsj {
-   inline void LabelThread(const wchar_t* threadname) noexcept
+   inline void LabelThread(gsl::cwzstring<> threadname) noexcept
    {
       SetThreadDescription(GetCurrentThread(), threadname);
    }
 } // namespace rsj
 #else
 namespace rsj {
-   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept {}
+   constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
 } // namespace rsj
 #endif
 #else
 namespace rsj {
-   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept {}
+   constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
 } // namespace rsj
 #endif
 
