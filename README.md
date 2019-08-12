@@ -1,6 +1,6 @@
 ﻿# MIDI2LR
 
-[![MIDI2LR All Releases](https://img.shields.io/github/downloads/rsjaffe/MIDI2LR/total.svg)](https://github.com/rsjaffe/MIDI2LR/releases) [![Latest release](https://img.shields.io/github/release/rsjaffe/MIDI2LR.svg)](https://github.com/rsjaffe/MIDI2LR/releases) 
+[![MIDI2LR All Releases](https://img.shields.io/github/downloads/rsjaffe/MIDI2LR/total.svg)](https://github.com/rsjaffe/MIDI2LR/releases) [![Latest release](https://img.shields.io/github/release/rsjaffe/MIDI2LR.svg)](https://github.com/rsjaffe/MIDI2LR/releases/latest) 
 [![license](https://img.shields.io/github/license/rsjaffe/MIDI2LR.svg)](https://github.com/rsjaffe/MIDI2LR/blob/master/LICENSE.txt)
 ![Windows](https://img.shields.io/badge/Windows--yellow.svg) [![Build status](https://ci.appveyor.com/api/projects/status/g8hjm46xl66313pq/branch/develop?svg=true)](https://ci.appveyor.com/project/rsjaffe/midi2lr-4ky86) ![MacOS](https://img.shields.io/badge/MacOS--yellow.svg) [![Build Status](https://travis-ci.com/rsjaffe/MIDI2LR.svg?branch=develop)](https://travis-ci.com/rsjaffe/MIDI2LR) 
 
