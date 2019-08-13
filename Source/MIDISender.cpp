@@ -107,11 +107,12 @@ void MidiSender::RescanDevices()
 void MidiSender::InitDevices()
 {
    try {
-      for (auto idx = 0; idx < juce::MidiOutput::getDevices().size(); ++idx) {
-         auto dev = juce::MidiOutput::openDevice(idx);
-         if (dev) {
-            output_devices_.emplace_back(dev);
-            rsj::Log("Opened output device " + dev->getName());
+      auto available_devices = juce::MidiOutput::getAvailableDevices();
+      for (auto&& device : available_devices) {
+         auto open_device = juce::MidiOutput::openDevice(device.identifier);
+         if (open_device) {
+            rsj::Log("Opened output device " + open_device->getName());
+            output_devices_.emplace_back(std::move(open_device));
          }
       }
    }

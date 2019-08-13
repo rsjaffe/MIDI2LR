@@ -245,7 +245,7 @@ void Profile::ToXmlFile(const juce::File& file)
             setting->setAttribute("command_string", map_entry.second);
             root.addChildElement(setting.release());
          }
-         if (!root.writeToFile(file, "")) {
+         if (!root.writeTo(file)) {
             // Give feedback if file-save doesn't work
             rsj::LogAndAlertError("Unable to save file as specified. Please try again, and "
                                   "consider saving to a different location. "

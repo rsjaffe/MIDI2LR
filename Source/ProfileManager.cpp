@@ -86,9 +86,8 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
       const auto profile_file = profile_location_.getChildFile(profile);
       if (profile_file.exists()) {
          if (const auto parsed{juce::XmlDocument::parse(profile_file)}) {
-            const std::unique_ptr<juce::XmlElement> xml_element{parsed};
             for (const auto& cb : callbacks_)
-               cb(xml_element.get(), profile);
+               cb(parsed.get(), profile);
             auto command = "ChangedToDirectory "
                            + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
                                  .toStdString()

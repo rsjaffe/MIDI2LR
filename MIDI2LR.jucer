@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.3.0.1"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
-              jucerVersion="5.4.3" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
+              jucerVersion="5.4.4" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright=""
               defines="DONT_SET_USING_JUCE_NAMESPACE=1" compilerFlagSchemes=""
@@ -108,8 +108,7 @@
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
                        useRuntimeLibDLL="0"/>
-        <CONFIGURATION isDebug="0" name="Release" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"
-                       postbuildCommand="$(SolutionDir)luacompile.bat"/>
+        <CONFIGURATION isDebug="0" name="Release" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics"/>
@@ -133,7 +132,11 @@
   </MODULES>
   <JUCEOPTIONS JUCE_USE_OGGVORBIS="disabled" JUCE_USE_ANDROID_OPENSLES="0" JUCE_USE_CDREADER="disabled"
                JUCE_USE_CDBURNER="disabled" JUCE_WASAPI="0" JUCE_WASAPI_EXCLUSIVE="0"
-               JUCE_DIRECTSOUND="0" JUCE_ALSA="0"/>
+               JUCE_DIRECTSOUND="0" JUCE_ALSA="0" JUCE_USE_WINRT_MIDI="0" JUCE_ASIO="0"
+               JUCE_JACK="0" JUCE_BELA="0" JUCE_USE_ANDROID_OBOE="0" JUCE_DISABLE_AUDIO_MIXING_WITH_OTHER_APPS="0"
+               JUCE_FORCE_DEBUG="0" JUCE_LOG_ASSERTIONS="0" JUCE_CATCH_UNHANDLED_EXCEPTIONS="1"
+               JUCE_ALLOW_STATIC_NULL_VARIABLES="0" JUCE_STRICT_REFCOUNTEDPOINTER="1"
+               JUCE_EXECUTE_APP_SUSPEND_ON_IOS_BACKGROUND_TASK="0"/>
   <LIVE_SETTINGS>
     <WINDOWS enableCxx11="1"/>
   </LIVE_SETTINGS>

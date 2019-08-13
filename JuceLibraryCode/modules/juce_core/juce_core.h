@@ -32,7 +32,7 @@
 
   ID:               juce_core
   vendor:           juce
-  version:          5.4.3
+  version:          5.4.4
   name:             JUCE core classes
   description:      The essential set of basic JUCE classes, as required by all the other JUCE modules. Includes text, container, memory, threading and i/o functionality.
   website:          http://www.juce.com/juce
@@ -134,14 +134,10 @@
     Enables http/https support via libcurl (Linux only). Enabling this will add an additional
     run-time dynamic dependency to libcurl.
 
-    If you disable this then https/ssl support will not be available on linux.
+    If you disable this then https/ssl support will not be available on Linux.
 */
 #ifndef JUCE_USE_CURL
- #if JUCE_LINUX
-  #define JUCE_USE_CURL 1
- #else
-  #define JUCE_USE_CURL 0
- #endif
+ #define JUCE_USE_CURL 1
 #endif
 
 /** Config: JUCE_LOAD_CURL_SYMBOLS_LAZILY
@@ -155,13 +151,12 @@
  #define JUCE_LOAD_CURL_SYMBOLS_LAZILY 0
 #endif
 
-
 /** Config: JUCE_CATCH_UNHANDLED_EXCEPTIONS
     If enabled, this will add some exception-catching code to forward unhandled exceptions
     to your JUCEApplicationBase::unhandledException() callback.
 */
 #ifndef JUCE_CATCH_UNHANDLED_EXCEPTIONS
- //#define JUCE_CATCH_UNHANDLED_EXCEPTIONS 1
+ #define JUCE_CATCH_UNHANDLED_EXCEPTIONS 0
 #endif
 
 /** Config: JUCE_ALLOW_STATIC_NULL_VARIABLES
@@ -170,7 +165,7 @@
     constructor code.
 */
 #ifndef JUCE_ALLOW_STATIC_NULL_VARIABLES
- #define JUCE_ALLOW_STATIC_NULL_VARIABLES 1
+ #define JUCE_ALLOW_STATIC_NULL_VARIABLES 0
 #endif
 
 /** Config: JUCE_STRICT_REFCOUNTEDPOINTER
@@ -269,6 +264,8 @@ namespace juce
 #include "text/juce_StringPool.h"
 #include "text/juce_Identifier.h"
 #include "text/juce_StringArray.h"
+#include "system/juce_SystemStats.h"
+#include "memory/juce_HeavyweightLeakedObjectDetector.h"
 #include "text/juce_StringPairArray.h"
 #include "text/juce_TextDiff.h"
 #include "text/juce_LocalisedStrings.h"
@@ -280,8 +277,6 @@ namespace juce
 #include "containers/juce_NamedValueSet.h"
 #include "containers/juce_DynamicObject.h"
 #include "containers/juce_HashMap.h"
-#include "system/juce_SystemStats.h"
-#include "memory/juce_HeavyweightLeakedObjectDetector.h"
 #include "time/juce_RelativeTime.h"
 #include "time/juce_Time.h"
 #include "streams/juce_InputStream.h"
@@ -351,6 +346,10 @@ namespace juce
 #if JUCE_CORE_INCLUDE_JNI_HELPERS && JUCE_ANDROID
  #include <jni.h>
  #include "native/juce_android_JNIHelpers.h"
+#endif
+
+#if JUCE_UNIT_TESTS
+ #include "unit_tests/juce_UnitTestCategories.h"
 #endif
 
 #ifndef DOXYGEN

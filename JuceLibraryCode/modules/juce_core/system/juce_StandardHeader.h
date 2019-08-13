@@ -29,7 +29,7 @@
 */
 #define JUCE_MAJOR_VERSION      5
 #define JUCE_MINOR_VERSION      4
-#define JUCE_BUILDNUMBER        3
+#define JUCE_BUILDNUMBER        4
 
 /** Current JUCE version number.
 
@@ -70,6 +70,9 @@
 #if JUCE_MAC || JUCE_IOS
  #include <libkern/OSAtomic.h>
  #include <xlocale.h>
+ #if JUCE_IOS
+  #include <signal.h>
+ #endif
 #endif
 
 #if JUCE_LINUX
