@@ -29,27 +29,31 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
 #pragma warning(disable : 26481) // doing raw pointer arithmetic, parsing low-level structure
    const auto raw = mm.getRawData();
    Ensures(raw);
-   message_type_byte = rsj::ToMessageType(raw[0] >> 4);
-   channel = raw[0] & 0xF;
-   switch (message_type_byte) {
-   case Pw:
-      value = raw[2] << 7 | raw[1];
-      break;
-   case Cc:
-   case KeyPressure:
-   case NoteOff:
-   case NoteOn:
-      value = raw[2];
-      control_number = raw[1];
-      break;
-   case PgmChange:
-      control_number = raw[1];
-      break;
-   case ChanPressure:
-      value = raw[1];
-      break;
-   case System:
-      break; // no action
+   if (rsj::ValidMessageType(raw[0])) {
+      message_type_byte = rsj::ToMessageType(raw[0]);
+      channel = raw[0] & 0xF;
+      switch (message_type_byte) {
+      case MessageType::Pw:
+         value = raw[2] << 7 | raw[1];
+         break;
+      case MessageType::Cc:
+      case MessageType::KeyPressure:
+      case MessageType::NoteOff:
+      case MessageType::NoteOn:
+         value = raw[2];
+         control_number = raw[1];
+         break;
+      case MessageType::PgmChange:
+         control_number = raw[1];
+         break;
+      case MessageType::ChanPressure:
+         value = raw[1];
+         break;
+      case MessageType::System:
+         break; // no action
+      }
    }
+   else
+      message_type_byte = MessageType::System;
 #pragma warning(pop)
 }
