@@ -79,8 +79,7 @@ void VersionChecker::run()
    try {
       rsj::LabelThread(L"VersionChecker run thread");
       const juce::URL version_url{"https://rsjaffe.github.io/MIDI2LR/version.xml"};
-      const std::unique_ptr<juce::XmlElement> version_xml_element{
-          version_url.readEntireXmlStream()};
+      const auto version_xml_element{version_url.readEntireXmlStream()};
       if (version_xml_element && !threadShouldExit()) {
          const auto last_checked = settings_manager_.GetLastVersionFound();
          new_version_ = version_xml_element->getIntAttribute("latest");
