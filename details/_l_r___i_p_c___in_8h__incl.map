@@ -1,9 +1,14 @@
 <map id="D:/Users/Rory/source/repos/MIDI2LR/Source/LR_IPC_In.h" name="D:/Users/Rory/source/repos/MIDI2LR/Source/LR_IPC_In.h">
-<area shape="rect" id="node1" title=" " alt="" coords="169,5,325,61"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,109,60,136"/>
-<area shape="rect" id="node3" title=" " alt="" coords="85,109,154,136"/>
-<area shape="rect" id="node4" title=" " alt="" coords="178,109,237,136"/>
-<area shape="rect" id="node5" title=" " alt="" coords="261,109,316,136"/>
-<area shape="rect" id="node6" title=" " alt="" coords="340,109,555,136"/>
-<area shape="rect" id="node7" title=" " alt="" coords="579,109,780,136"/>
+<area shape="rect" id="node1" title=" " alt="" coords="95,5,251,61"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,184,67,211"/>
+<area shape="rect" id="node3" title=" " alt="" coords="67,109,122,136"/>
+<area shape="rect" id="node4" title=" " alt="" coords="146,109,201,136"/>
+<area shape="rect" id="node5" title=" " alt="" coords="225,109,295,136"/>
+<area shape="rect" id="node6" href="$_concurrency_8h.html" title=" " alt="" coords="320,109,427,136"/>
+<area shape="rect" id="node7" title=" " alt="" coords="94,184,218,211"/>
+<area shape="rect" id="node8" title=" " alt="" coords="242,184,299,211"/>
+<area shape="rect" id="node9" title=" " alt="" coords="324,184,415,211"/>
+<area shape="rect" id="node10" title=" " alt="" coords="439,184,497,211"/>
+<area shape="rect" id="node11" title=" " alt="" coords="521,184,588,211"/>
+<area shape="rect" id="node12" title=" " alt="" coords="612,184,695,211"/>
 </map>

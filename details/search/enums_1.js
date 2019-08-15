@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['msgidenum',['MsgIdEnum',['../namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3',1,'rsj']]]
+  ['messagetype',['MessageType',['../namespacersj.html#a22e4616185f77550b6d7dff822cef992',1,'rsj']]]
 ];

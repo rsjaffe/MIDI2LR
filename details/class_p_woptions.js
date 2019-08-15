@@ -4,7 +4,7 @@ var class_p_woptions =
     [ "~PWoptions", "class_p_woptions.html#a0fbbb29546c930f7f2156475754a8815", null ],
     [ "PWoptions", "class_p_woptions.html#ac6af265375239ae777ac899125c43b35", null ],
     [ "BindToControl", "class_p_woptions.html#a7fd98b93609325f9c302615d88707435", null ],
-    [ "LinkToControlsModel", "class_p_woptions.html#accc08ae0bffb906fbacee1296f01a05a", null ],
+    [ "LinkToControlsModel", "class_p_woptions.html#a1f9eb4b7cbf763600e1e332408ed4c47", null ],
     [ "operator=", "class_p_woptions.html#a1abf5949f73e37a43df7aca2fb71f4d3", null ],
     [ "paint", "class_p_woptions.html#a6680ed6877e8f26a3954f98c2d134783", null ],
     [ "resized", "class_p_woptions.html#a47baed2454c13570aa7f567a53beafb2", null ],

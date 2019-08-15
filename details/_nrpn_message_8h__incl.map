@@ -1,18 +1,16 @@
 <map id="D:/Users/Rory/source/repos/MIDI2LR/Source/NrpnMessage.h" name="D:/Users/Rory/source/repos/MIDI2LR/Source/NrpnMessage.h">
-<area shape="rect" id="node1" title=" " alt="" coords="94,5,250,61"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,184,56,211"/>
-<area shape="rect" id="node3" title=" " alt="" coords="59,109,117,136"/>
-<area shape="rect" id="node4" title=" " alt="" coords="142,109,202,136"/>
-<area shape="rect" id="node5" title=" " alt="" coords="226,109,435,136"/>
-<area shape="rect" id="node6" href="$_misc_8h.html" title=" " alt="" coords="460,109,521,136"/>
-<area shape="rect" id="node7" title=" " alt="" coords="85,184,147,211"/>
-<area shape="rect" id="node8" title=" " alt="" coords="171,184,245,211"/>
-<area shape="rect" id="node9" title=" " alt="" coords="269,184,331,211"/>
-<area shape="rect" id="node10" title=" " alt="" coords="355,184,434,211"/>
-<area shape="rect" id="node11" title=" " alt="" coords="458,184,513,211"/>
-<area shape="rect" id="node12" title=" " alt="" coords="537,184,623,211"/>
-<area shape="rect" id="node13" title=" " alt="" coords="647,184,745,211"/>
-<area shape="rect" id="node14" title=" " alt="" coords="769,184,828,211"/>
-<area shape="rect" id="node15" title=" " alt="" coords="852,184,919,211"/>
-<area shape="rect" id="node16" title=" " alt="" coords="943,184,1145,211"/>
+<area shape="rect" id="node1" title=" " alt="" coords="139,5,295,61"/>
+<area shape="rect" id="node2" title=" " alt="" coords="143,109,193,136"/>
+<area shape="rect" id="node3" href="$_midi_utilities_8h.html" title=" " alt="" coords="218,109,318,136"/>
+<area shape="rect" id="node4" title=" " alt="" coords="123,184,202,211"/>
+<area shape="rect" id="node5" title=" " alt="" coords="227,184,309,211"/>
+<area shape="rect" id="node6" href="$_misc_8h.html" title=" " alt="" coords="333,184,395,211"/>
+<area shape="rect" id="node7" title=" " alt="" coords="5,259,67,285"/>
+<area shape="rect" id="node8" title=" " alt="" coords="91,259,170,285"/>
+<area shape="rect" id="node9" title=" " alt="" coords="194,259,249,285"/>
+<area shape="rect" id="node10" title=" " alt="" coords="273,259,359,285"/>
+<area shape="rect" id="node11" title=" " alt="" coords="383,259,441,285"/>
+<area shape="rect" id="node12" title=" " alt="" coords="465,259,532,285"/>
+<area shape="rect" id="node13" title=" " alt="" coords="557,259,758,285"/>
+<area shape="rect" id="node14" title=" " alt="" coords="782,259,842,285"/>
 </map>

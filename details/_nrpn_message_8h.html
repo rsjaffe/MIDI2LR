@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.2.2.0</span>
+   &#160;<span id="projectnumber">3.3.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -89,18 +89,13 @@ $(document).ready(function(){initNavTree('_nrpn_message_8h.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
 <div class="title">NrpnMessage.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;array&gt;</code><br />
-<code>#include &lt;mutex&gt;</code><br />
-<code>#include &lt;gsl/gsl&gt;</code><br />
-<code>#include &lt;MoodyCamel/concurrentqueue.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="_misc_8h_source.html">Misc.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for NrpnMessage.h:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -108,22 +103,20 @@ $(document).ready(function(){initNavTree('_nrpn_message_8h.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_nrpn_message_8h__incl.png" border="0" usemap="#_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_nrpn_message_8h" alt=""/></div>
 <map name="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_nrpn_message_8h" id="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_nrpn_message_8h">
-<area shape="rect"  title=" " alt="" coords="94,5,250,61"/>
-<area shape="rect"  title=" " alt="" coords="5,184,56,211"/>
-<area shape="rect"  title=" " alt="" coords="59,109,117,136"/>
-<area shape="rect"  title=" " alt="" coords="142,109,202,136"/>
-<area shape="rect"  title=" " alt="" coords="226,109,435,136"/>
-<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="460,109,521,136"/>
-<area shape="rect"  title=" " alt="" coords="85,184,147,211"/>
-<area shape="rect"  title=" " alt="" coords="171,184,245,211"/>
-<area shape="rect"  title=" " alt="" coords="269,184,331,211"/>
-<area shape="rect"  title=" " alt="" coords="355,184,434,211"/>
-<area shape="rect"  title=" " alt="" coords="458,184,513,211"/>
-<area shape="rect"  title=" " alt="" coords="537,184,623,211"/>
-<area shape="rect"  title=" " alt="" coords="647,184,745,211"/>
-<area shape="rect"  title=" " alt="" coords="769,184,828,211"/>
-<area shape="rect"  title=" " alt="" coords="852,184,919,211"/>
-<area shape="rect"  title=" " alt="" coords="943,184,1145,211"/>
+<area shape="rect"  title=" " alt="" coords="139,5,295,61"/>
+<area shape="rect"  title=" " alt="" coords="143,109,193,136"/>
+<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="218,109,318,136"/>
+<area shape="rect"  title=" " alt="" coords="123,184,202,211"/>
+<area shape="rect"  title=" " alt="" coords="227,184,309,211"/>
+<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="333,184,395,211"/>
+<area shape="rect"  title=" " alt="" coords="5,259,67,285"/>
+<area shape="rect"  title=" " alt="" coords="91,259,170,285"/>
+<area shape="rect"  title=" " alt="" coords="194,259,249,285"/>
+<area shape="rect"  title=" " alt="" coords="273,259,359,285"/>
+<area shape="rect"  title=" " alt="" coords="383,259,441,285"/>
+<area shape="rect"  title=" " alt="" coords="465,259,532,285"/>
+<area shape="rect"  title=" " alt="" coords="557,259,758,285"/>
+<area shape="rect"  title=" " alt="" coords="782,259,842,285"/>
 </map>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -148,22 +141,10 @@ $(document).ready(function(){initNavTree('_nrpn_message_8h.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_nrpn.html">rsj::Nrpn</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html">NrpnFilter</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_nrpn_filter_1_1_process_result.html">NrpnFilter::ProcessResult</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespacersj"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html">rsj</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a1154e66eca3d296817f27ce478205b5b"><td class="memItemLeft" align="right" valign="top">static constexpr Nrpn&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a1154e66eca3d296817f27ce478205b5b">rsj::kInvalidNrpn</a> {false, 0, 0}</td></tr>
-<tr class="separator:a1154e66eca3d296817f27ce478205b5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

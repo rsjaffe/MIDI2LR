@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.2.2.0</span>
+   &#160;<span id="projectnumber">3.3.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -93,6 +93,8 @@ $(document).ready(function(){initNavTree('_nrpn_message_8cpp.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="_nrpn_message_8h_source.html">NrpnMessage.h</a>&quot;</code><br />
+<code>#include &lt;gsl/gsl&gt;</code><br />
+<code>#include &quot;<a class="el" href="_misc_8h_source.html">Misc.h</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for NrpnMessage.cpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -100,23 +102,21 @@ $(document).ready(function(){initNavTree('_nrpn_message_8cpp.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_nrpn_message_8cpp__incl.png" border="0" usemap="#_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_nrpn_message_8cpp" alt=""/></div>
 <map name="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_nrpn_message_8cpp" id="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_nrpn_message_8cpp">
-<area shape="rect"  title=" " alt="" coords="94,5,250,61"/>
-<area shape="rect"  href="_nrpn_message_8h.html" title=" " alt="" coords="115,109,229,136"/>
-<area shape="rect"  title=" " alt="" coords="5,259,56,285"/>
-<area shape="rect"  title=" " alt="" coords="59,184,117,211"/>
-<area shape="rect"  title=" " alt="" coords="142,184,202,211"/>
-<area shape="rect"  title=" " alt="" coords="226,184,435,211"/>
-<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="460,184,521,211"/>
-<area shape="rect"  title=" " alt="" coords="85,259,147,285"/>
-<area shape="rect"  title=" " alt="" coords="171,259,245,285"/>
-<area shape="rect"  title=" " alt="" coords="269,259,331,285"/>
-<area shape="rect"  title=" " alt="" coords="355,259,434,285"/>
-<area shape="rect"  title=" " alt="" coords="458,259,513,285"/>
-<area shape="rect"  title=" " alt="" coords="537,259,623,285"/>
-<area shape="rect"  title=" " alt="" coords="647,259,745,285"/>
-<area shape="rect"  title=" " alt="" coords="769,259,828,285"/>
-<area shape="rect"  title=" " alt="" coords="852,259,919,285"/>
-<area shape="rect"  title=" " alt="" coords="943,259,1145,285"/>
+<area shape="rect"  title=" " alt="" coords="334,5,490,61"/>
+<area shape="rect"  href="_nrpn_message_8h.html" title=" " alt="" coords="261,109,374,136"/>
+<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="381,259,443,285"/>
+<area shape="rect"  title=" " alt="" coords="782,333,842,360"/>
+<area shape="rect"  title=" " alt="" coords="192,184,243,211"/>
+<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="267,184,367,211"/>
+<area shape="rect"  title=" " alt="" coords="171,259,250,285"/>
+<area shape="rect"  title=" " alt="" coords="275,259,357,285"/>
+<area shape="rect"  title=" " alt="" coords="5,333,67,360"/>
+<area shape="rect"  title=" " alt="" coords="91,333,170,360"/>
+<area shape="rect"  title=" " alt="" coords="194,333,249,360"/>
+<area shape="rect"  title=" " alt="" coords="273,333,359,360"/>
+<area shape="rect"  title=" " alt="" coords="383,333,441,360"/>
+<area shape="rect"  title=" " alt="" coords="465,333,532,360"/>
+<area shape="rect"  title=" " alt="" coords="557,333,758,360"/>
 </map>
 </div>
 </div></div><!-- contents -->

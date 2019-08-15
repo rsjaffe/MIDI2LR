@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.2.2.0</span>
+   &#160;<span id="projectnumber">3.3.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -95,10 +95,14 @@ $(document).ready(function(){initNavTree('class_nrpn_filter.html','');});
 
 <p>This is the complete list of members for <a class="el" href="class_nrpn_filter.html">NrpnFilter</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_nrpn_filter.html#ab20ef82a1f4c0adba1765a911de73ece">GetNrpnIfReady</a>(short channel)</td><td class="entry"><a class="el" href="class_nrpn_filter.html">NrpnFilter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_nrpn_filter.html#ab605d4902ae926601f7e34d7b17fb87a">IsInProcess</a>(short channel) const</td><td class="entry"><a class="el" href="class_nrpn_filter.html">NrpnFilter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a></td><td class="entry"><a class="el" href="class_nrpn_filter.html">NrpnFilter</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_nrpn_filter.html#a0744bdf95f590470b1aa80f178f1c68a">ProcessMidi</a>(short channel, short control, short value)</td><td class="entry"><a class="el" href="class_nrpn_filter.html">NrpnFilter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_nrpn_filter.html#a0f3404ec0e2f533eba4be185475f06cf">Clear</a>(int channel) noexcept</td><td class="entry"><a class="el" href="class_nrpn_filter.html">NrpnFilter</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">private</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_nrpn_filter.html#ad2f5e276978a167d31ebaac1d7b2cf55">control_lsb_</a></td><td class="entry"><a class="el" href="class_nrpn_filter.html">NrpnFilter</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_nrpn_filter.html#a955e44b87d0c295f35fe16e0a2eff2ab">control_msb_</a></td><td class="entry"><a class="el" href="class_nrpn_filter.html">NrpnFilter</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_nrpn_filter.html#a07d8151761d56b12b701c0273418e1ea">kChannels</a></td><td class="entry"><a class="el" href="class_nrpn_filter.html">NrpnFilter</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_nrpn_filter.html#a5ef7ed86e0648fd3debea79c42e7eb44">operator()</a>(rsj::MidiMessage message)</td><td class="entry"><a class="el" href="class_nrpn_filter.html">NrpnFilter</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_nrpn_filter.html#a1062b86e948009417c96189f9deae842">ready_flags_</a></td><td class="entry"><a class="el" href="class_nrpn_filter.html">NrpnFilter</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_nrpn_filter.html#a28372620d368b6ade63c2ba22dfff8b8">value_lsb_</a></td><td class="entry"><a class="el" href="class_nrpn_filter.html">NrpnFilter</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_nrpn_filter.html#a507b9298a417c7d404bc619671c85091">value_msb_</a></td><td class="entry"><a class="el" href="class_nrpn_filter.html">NrpnFilter</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

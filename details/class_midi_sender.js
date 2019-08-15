@@ -5,6 +5,6 @@ var class_midi_sender =
     [ "SendCc", "class_midi_sender.html#a9d06167810c23140236fca47665add0a", null ],
     [ "SendNoteOn", "class_midi_sender.html#a050f75ae7bddedb3cd395316c0e28f41", null ],
     [ "SendPitchWheel", "class_midi_sender.html#a585c35f0b46534b8f2dc616aa51f66a8", null ],
-    [ "Start", "class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f", null ],
+    [ "StartRunning", "class_midi_sender.html#a1a95875652322714bf7b06a7fb586768", null ],
     [ "output_devices_", "class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598", null ]
 ];

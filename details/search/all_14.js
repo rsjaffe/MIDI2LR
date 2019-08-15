@@ -1,11 +1,23 @@
 var searchData=
 [
-  ['value',['value',['../structrsj_1_1_midi_message.html#a07d46c4bf0628309ebd0583a6db6e3d9',1,'rsj::MidiMessage::value()'],['../structrsj_1_1_nrpn.html#a367e2820edb423ad523082f28a03f676',1,'rsj::Nrpn::value()']]],
-  ['value_5flsb_5f',['value_lsb_',['../class_nrpn_message.html#a9211e5df87f33d007a6c13dedec0b2a9',1,'NrpnMessage']]],
-  ['value_5fmsb_5f',['value_msb_',['../class_nrpn_message.html#a76eb6b2221b6ffaa0317a6df97694670',1,'NrpnMessage']]],
-  ['version_5fchecker_5f',['version_checker_',['../class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14',1,'MIDI2LRApplication']]],
-  ['version_5flabel_5f',['version_label_',['../class_main_content_component.html#a3a76609b164fa1a270b95fd7f6ef9f82',1,'MainContentComponent']]],
-  ['versionchecker',['VersionChecker',['../class_version_checker.html',1,'VersionChecker'],['../class_version_checker.html#af0b3efb11529f0bcfeed3b03be2fb310',1,'VersionChecker::VersionChecker(SettingsManager &amp;settings_manager)'],['../class_version_checker.html#ab47e45eba6c700d30d014824a3536bd5',1,'VersionChecker::VersionChecker(const VersionChecker &amp;other)=delete'],['../class_version_checker.html#add5362a02de29b0bf009fa62f0d2ca64',1,'VersionChecker::VersionChecker(VersionChecker &amp;&amp;other)=delete']]],
-  ['versionchecker_2ecpp',['VersionChecker.cpp',['../_version_checker_8cpp.html',1,'']]],
-  ['versionchecker_2eh',['VersionChecker.h',['../_version_checker_8h.html',1,'']]]
+  ['texteditorfocuslost',['textEditorFocusLost',['../class_c_coptions.html#a3cff0c3a7927858957412e27fea0a997',1,'CCoptions::textEditorFocusLost()'],['../class_p_woptions.html#a6db5013ca2b338842aad610d9a058331',1,'PWoptions::textEditorFocusLost()']]],
+  ['thread_5fshould_5fexit_5f',['thread_should_exit_',['../class_lr_ipc_in.html#aa904e7240d405c7dab3ec9c38ecc7451',1,'LrIpcIn::thread_should_exit_()'],['../class_lr_ipc_out.html#ab4396e5e479bf52e5ae1ba1e4b48857e',1,'LrIpcOut::thread_should_exit_()']]],
+  ['timepoint',['TimePoint',['../_l_r___i_p_c___out_8cpp.html#a73eb4b5170cae0e387431747ee4c8131',1,'LR_IPC_Out.cpp']]],
+  ['timercallback',['timerCallback',['../class_main_window.html#a2c5579248bf8b2d75942957078b584e7',1,'MainWindow::timerCallback()'],['../class_main_content_component.html#a5b7e48a7423f17bc799fc2990f48e38d',1,'MainContentComponent::timerCallback()']]],
+  ['title_5flabel_5f',['title_label_',['../class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110',1,'MainContentComponent']]],
+  ['title_5fshadow_5f',['title_shadow_',['../class_main_content_component.html#a8074d32c4e01a43d317cc1af183ce344',1,'MainContentComponent']]],
+  ['tolower',['ToLower',['../namespacersj.html#af53f4096f4a5b6f9705a209de4682f56',1,'rsj']]],
+  ['tomessagetype',['ToMessageType',['../namespacersj.html#a01820cbe9055abfea79fc9114f365fb0',1,'rsj']]],
+  ['top',['top',['../struct_resizable_layout_1_1_rect.html#a716da87456311e9e66b7c9d1daf255a9',1,'ResizableLayout::Rect']]],
+  ['topleft',['topLeft',['../struct_resizable_layout_1_1_anchor.html#aedb860daace9c7c030f43997f58abbc7',1,'ResizableLayout::Anchor']]],
+  ['toplevelresizablelayout',['TopLevelResizableLayout',['../class_top_level_resizable_layout.html',1,'TopLevelResizableLayout'],['../class_resizable_layout.html#af7f3636f234d1cdf71500ab6a6963b6f',1,'ResizableLayout::TopLevelResizableLayout()'],['../class_top_level_resizable_layout.html#af29b22c3f9484cd604e08cead5692589',1,'TopLevelResizableLayout::TopLevelResizableLayout()']]],
+  ['toxmlfile',['ToXmlFile',['../class_profile.html#a6ae35735b1edc78dd1b32535c093aca8',1,'Profile']]],
+  ['translate',['Translate',['../namespacersj.html#a1f28ca0bb51c870e4960af1ae31316b7',1,'rsj']]],
+  ['translate_2ecpp',['Translate.cpp',['../_translate_8cpp.html',1,'']]],
+  ['translate_2eh',['Translate.h',['../_translate_8h.html',1,'']]],
+  ['transtype',['TransType',['../_translate_8cpp.html#abbf5e4c0ef26892ae2cc113b3c33bde8',1,'Translate.cpp']]],
+  ['try_5flock',['try_lock',['../classrsj_1_1_spin_lock.html#a41db79e3e1272cffec7dd82644a92d08',1,'rsj::SpinLock']]],
+  ['try_5fpop',['try_pop',['../classrsj_1_1_concurrent_queue.html#ac97b01daacf220162bd414647e0ad361',1,'rsj::ConcurrentQueue']]],
+  ['trytoopen',['TryToOpen',['../class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595',1,'MidiReceiver']]],
+  ['twosbutton',['twosbutton',['../class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e',1,'CCoptions']]]
 ];

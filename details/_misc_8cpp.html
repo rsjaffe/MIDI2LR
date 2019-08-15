@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.2.2.0</span>
+   &#160;<span id="projectnumber">3.3.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -88,8 +88,6 @@ $(document).ready(function(){initNavTree('_misc_8cpp.html','');});
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Misc.cpp File Reference</div>  </div>
 </div><!--header-->
@@ -98,7 +96,6 @@ $(document).ready(function(){initNavTree('_misc_8cpp.html','');});
 <code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;cctype&gt;</code><br />
 <code>#include &quot;<a class="el" href="_ocpp_8h_source.html">Ocpp.h</a>&quot;</code><br />
-<code>#include &lt;gsl/gsl&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Misc.cpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -106,51 +103,22 @@ $(document).ready(function(){initNavTree('_misc_8cpp.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_misc_8cpp__incl.png" border="0" usemap="#_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_misc_8cpp" alt=""/></div>
 <map name="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_misc_8cpp" id="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_misc_8cpp">
-<area shape="rect"  title=" " alt="" coords="831,5,987,61"/>
-<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="523,109,584,136"/>
-<area shape="rect"  title=" " alt="" coords="780,109,855,136"/>
-<area shape="rect"  title=" " alt="" coords="879,109,940,136"/>
-<area shape="rect"  href="_ocpp_8h.html" title=" " alt="" coords="964,109,1028,136"/>
-<area shape="rect"  title=" " alt="" coords="1053,109,1113,136"/>
-<area shape="rect"  title=" " alt="" coords="5,184,56,211"/>
-<area shape="rect"  title=" " alt="" coords="80,184,141,211"/>
-<area shape="rect"  title=" " alt="" coords="166,184,239,211"/>
-<area shape="rect"  title=" " alt="" coords="264,184,325,211"/>
-<area shape="rect"  title=" " alt="" coords="350,184,429,211"/>
-<area shape="rect"  title=" " alt="" coords="1085,184,1139,211"/>
-<area shape="rect"  title=" " alt="" coords="453,184,539,211"/>
-<area shape="rect"  title=" " alt="" coords="563,184,661,211"/>
-<area shape="rect"  title=" " alt="" coords="685,184,744,211"/>
-<area shape="rect"  title=" " alt="" coords="768,184,835,211"/>
-<area shape="rect"  title=" " alt="" coords="859,184,1061,211"/>
+<area shape="rect"  title=" " alt="" coords="510,5,666,61"/>
+<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="389,109,451,136"/>
+<area shape="rect"  title=" " alt="" coords="505,109,580,136"/>
+<area shape="rect"  title=" " alt="" coords="604,109,665,136"/>
+<area shape="rect"  href="_ocpp_8h.html" title=" " alt="" coords="751,109,815,136"/>
+<area shape="rect"  title=" " alt="" coords="5,184,67,211"/>
+<area shape="rect"  title=" " alt="" coords="91,184,170,211"/>
+<area shape="rect"  title=" " alt="" coords="787,184,842,211"/>
+<area shape="rect"  title=" " alt="" coords="195,184,280,211"/>
+<area shape="rect"  title=" " alt="" coords="304,184,363,211"/>
+<area shape="rect"  title=" " alt="" coords="387,184,453,211"/>
+<area shape="rect"  title=" " alt="" coords="478,184,679,211"/>
+<area shape="rect"  title=" " alt="" coords="703,184,763,211"/>
 </map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a1e06224b690ed8b0d675c6ed976ea8f1"><td class="memItemLeft" align="right" valign="top">juce::String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_misc_8cpp.html#a1e06224b690ed8b0d675c6ed976ea8f1">Demangle</a> (_In_z_ const char *mangled_name)</td></tr>
-<tr class="separator:a1e06224b690ed8b0d675c6ed976ea8f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a1e06224b690ed8b0d675c6ed976ea8f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e06224b690ed8b0d675c6ed976ea8f1">&#9670;&nbsp;</a></span>Demangle()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">juce::String Demangle </td>
-          <td>(</td>
-          <td class="paramtype">_In_z_ const char *&#160;</td>
-          <td class="paramname"><em>mangled_name</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;{</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;   <span class="keywordflow">return</span> juce::String(juce::CharPointer_UTF8(mangled_name));</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;}</div></div><!-- fragment -->
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

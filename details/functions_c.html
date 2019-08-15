@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.2.2.0</span>
+   &#160;<span id="projectnumber">3.3.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -145,7 +145,19 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="struct_resizable_layout_1_1_anchor.html#a89db71378ff46dc2daa65c6e5313fcbe">ResizableLayout::Anchor</a>
 </li>
 <li>Clear()
-: <a class="el" href="class_nrpn_message.html#aac9971284d016abef47ce81062af2630">NrpnMessage</a>
+: <a class="el" href="class_nrpn_filter.html#a0f3404ec0e2f533eba4be185475f06cf">NrpnFilter</a>
+</li>
+<li>clear()
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#a14dc1645a2eb4c05350b6a9acb66c0d9">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
+</li>
+<li>clear_count()
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#ac42dda6413b8c8441759250345d1e46e">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
+</li>
+<li>clear_count_emplace()
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#a52bf6f150e1aa679b3be3918ecb25ce0">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
+</li>
+<li>clear_count_push()
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#aaa44cc606f55c062fcaf969bc2e466e7">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
 </li>
 <li>clicked()
 : <a class="el" href="class_command_menu.html#a9504e6ef61f5791518bcdf016baea099">CommandMenu</a>
@@ -163,7 +175,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="structrsj_1_1_active_modifiers.html#ad46a01f2fe20405d3ac4bca6a9934b8e">rsj::ActiveModifiers</a>
 </li>
 <li>command_
-: <a class="el" href="class_lr_ipc_out.html#a42c0633691c3b2765c9e3fa6be414ecd">LrIpcOut</a>
+: <a class="el" href="class_lr_ipc_out.html#a1a364ce0f026b92697353216418155f7">LrIpcOut</a>
 </li>
 <li>command_label_
 : <a class="el" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">MainContentComponent</a>
@@ -200,7 +212,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="class_command_set.html#a45e2a525e197b9379ee35bcdd22de1fc">CommandSet</a>
 </li>
 <li>CommandTable()
-: <a class="el" href="class_command_table.html#a4406188275d88e04cd083a6f6606c222">CommandTable</a>
+: <a class="el" href="class_command_table.html#ac3b6a10db22daaf27dcfeb486438c583">CommandTable</a>
 </li>
 <li>CommandTableModel()
 : <a class="el" href="class_command_table_model.html#a52b51e9791e5bb84e6ca4a6e777d59fa">CommandTableModel</a>
@@ -218,11 +230,18 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>componentMovedOrResized()
 : <a class="el" href="class_resizable_layout.html#ad106c8c769784ef1b7722f10cb83d07f">ResizableLayout</a>
 </li>
-<li>connect_mutex_
-: <a class="el" href="class_lr_ipc_out_1_1_connect_timer.html#ad989dffecfd5c1d5f130f0d6c08e6fdf">LrIpcOut::ConnectTimer</a>
+<li>ConcurrentQueue()
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#a7b5d1adadb6ebf2af9b1f859105c1792">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
 </li>
-<li>connect_timer_
-: <a class="el" href="class_lr_ipc_out.html#a9b937b4c723cc217b33637ad45d57508">LrIpcOut</a>
+<li>condition_
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#a6dfd185d35c36c4123af5da18bd2d2a2">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
+</li>
+<li>Connect()
+: <a class="el" href="class_lr_ipc_in.html#a41eb86f7e984ebfbe6928b4872b4d464">LrIpcIn</a>
+, <a class="el" href="class_lr_ipc_out.html#a1d422517e5c3169daebcc384a3a6490f">LrIpcOut</a>
+</li>
+<li>connected_
+: <a class="el" href="class_lr_ipc_out.html#a720ce6df86df44c2933bc99da90845c6">LrIpcOut</a>
 </li>
 <li>connection_label_
 : <a class="el" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">MainContentComponent</a>
@@ -231,33 +250,38 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="class_profile_manager.html#af420264117a28ff453b27bd0ef122a94">ProfileManager</a>
 , <a class="el" href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8">SettingsManager</a>
 </li>
-<li>connectionLost()
-: <a class="el" href="class_lr_ipc_out.html#aaa3116833f1e71df912c4c6383c01365">LrIpcOut</a>
+<li>ConnectionMade()
+: <a class="el" href="class_lr_ipc_out.html#a85c22f4700b2a288e2238fac502153e4">LrIpcOut</a>
 </li>
-<li>connectionMade()
-: <a class="el" href="class_lr_ipc_out.html#af257f7b0c2b58951565ce0b0d3438926">LrIpcOut</a>
-</li>
-<li>ConnectTimer()
-: <a class="el" href="class_lr_ipc_out_1_1_connect_timer.html#aedf6a1c3a94f2560d7078ccb8d849e66">LrIpcOut::ConnectTimer</a>
+<li>const_reference
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#a5b995ceb4423c78dc5f86ef3c1d599cf">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
 </li>
 <li>Constrainer()
 : <a class="el" href="class_top_level_resizable_layout_1_1_constrainer.html#ac1138a9c4319d8413f04f3bfb749e969">TopLevelResizableLayout::Constrainer</a>
 </li>
+<li>container_type
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#a9c145c26f193458a973b64750d01c691">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
+</li>
 <li>control
-: <a class="el" href="structrsj_1_1_active_modifiers.html#a78b0a997c4ccabbf2a2e22017a9a6d8f">rsj::ActiveModifiers</a>
-, <a class="el" href="structrsj_1_1_nrpn.html#a43592147e66f898cff25eb30ffe99b4b">rsj::Nrpn</a>
+: <a class="el" href="struct_nrpn_filter_1_1_process_result.html#a9f13f643b22c504a952c73acdba23c03">NrpnFilter::ProcessResult</a>
+, <a class="el" href="structrsj_1_1_active_modifiers.html#a78b0a997c4ccabbf2a2e22017a9a6d8f">rsj::ActiveModifiers</a>
 </li>
 <li>control_lsb_
-: <a class="el" href="class_nrpn_message.html#ac66f332aaf4f91061b03e30cc771c1a3">NrpnMessage</a>
+: <a class="el" href="class_nrpn_filter.html#ad2f5e276978a167d31ebaac1d7b2cf55">NrpnFilter</a>
 </li>
 <li>control_msb_
-: <a class="el" href="class_nrpn_message.html#af06302a155f5490f54d6990666db76f9">NrpnMessage</a>
+: <a class="el" href="class_nrpn_filter.html#a955e44b87d0c295f35fe16e0a2eff2ab">NrpnFilter</a>
+</li>
+<li>control_number
+: <a class="el" href="structrsj_1_1_midi_message.html#a2ac66854d45c07c7f627d8d51bbc0d73">rsj::MidiMessage</a>
+, <a class="el" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId</a>
+, <a class="el" href="structrsj_1_1_settings_struct.html#a4f9c1d105a826828e1110236a9fd6045">rsj::SettingsStruct</a>
 </li>
 <li>controlID
-: <a class="el" href="class_c_coptions.html#a6d06bbe28013f2b47294fdd61ab79fdf">CCoptions</a>
+: <a class="el" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">CCoptions</a>
 </li>
 <li>ControllerToPlugin()
-: <a class="el" href="class_channel_model.html#aaf55f67e8b306f47e9f0aac2fce8ac3c">ChannelModel</a>
+: <a class="el" href="class_channel_model.html#a930183228c4f7ce338d347af2765f9ed">ChannelModel</a>
 , <a class="el" href="class_controls_model.html#a65cd81b61070ad2b2c33c2f1e741cfb0">ControlsModel</a>
 </li>
 <li>controls_model_
@@ -269,10 +293,10 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 , <a class="el" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">PWoptions</a>
 </li>
 <li>ControlsModel()
-: <a class="el" href="class_controls_model.html#a361ee198c1dca17bb175bf76e928e8c8">ControlsModel</a>
+: <a class="el" href="class_controls_model.html#a23c6411981fe10b19ab2ffb6a3459ab8">ControlsModel</a>
 </li>
 <li>current_profile_
-: <a class="el" href="class_profile_manager.html#a96f2d3377ba76a13a0ae09551f5af15d">ProfileManager</a>
+: <a class="el" href="class_profile_manager.html#ace4ed8782a87e7a0e721153895cfcfa5">ProfileManager</a>
 </li>
 <li>current_profile_index_
 : <a class="el" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">ProfileManager</a>
@@ -284,7 +308,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="class_channel_model.html#ac08a877289473714da539fc516fddb42">ChannelModel</a>
 </li>
 <li>current_v_mtx_
-: <a class="el" href="class_channel_model.html#a891e3caed6d698e8f46a857a76511517">ChannelModel</a>
+: <a class="el" href="class_channel_model.html#a67be3a42ad12ab1122a851c12254f1bb">ChannelModel</a>
 </li>
 </ul>
 </div><!-- contents -->

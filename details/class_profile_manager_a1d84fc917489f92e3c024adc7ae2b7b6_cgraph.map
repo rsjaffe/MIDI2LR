@@ -1,7 +1,7 @@
 <map id="ProfileManager::MidiCmdCallback" name="ProfileManager::MidiCmdCallback">
-<area shape="rect" id="node1" title=" " alt="" coords="5,66,223,92"/>
-<area shape="rect" id="node2" href="$namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8" title=" " alt="" coords="531,36,667,63"/>
-<area shape="rect" id="node3" href="$class_controls_model.html#a65cd81b61070ad2b2c33c2f1e741cfb0" title=" " alt="" coords="287,29,455,70"/>
-<area shape="rect" id="node4" href="$namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39" title=" " alt="" coords="519,95,679,122"/>
-<area shape="rect" id="node5" href="$class_profile_manager.html#a498ff5dcfc0fadef110e0241ea82b6fd" title=" " alt="" coords="271,95,471,122"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,93,223,120"/>
+<area shape="rect" id="node2" href="$namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8" title=" " alt="" coords="303,5,439,32"/>
+<area shape="rect" id="node3" href="$class_controls_model.html#a65cd81b61070ad2b2c33c2f1e741cfb0" title=" " alt="" coords="287,57,455,98"/>
+<area shape="rect" id="node4" href="$class_profile_manager.html#a498ff5dcfc0fadef110e0241ea82b6fd" title=" " alt="" coords="271,123,471,149"/>
+<area shape="rect" id="node5" href="$structrsj_1_1_midi_message_id.html#a324834b9a01e109fde8705b1f77d0c97" title=" " alt="" coords="305,174,436,215"/>
 </map>

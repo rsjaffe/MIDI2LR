@@ -1,22 +1,13 @@
 var searchData=
 [
-  ['_7eccoptions',['~CCoptions',['../class_c_coptions.html#a7d12f2662d4da84b42808a4bcfee8057',1,'CCoptions']]],
-  ['_7echannelmodel',['~ChannelModel',['../class_channel_model.html#afcdeee3d748343a45485c2c63e618964',1,'ChannelModel']]],
-  ['_7ecommandtable',['~CommandTable',['../class_command_table.html#a236cd1fe642fd8208ee76b2b6ce0fce1',1,'CommandTable']]],
-  ['_7econtrolsmodel',['~ControlsModel',['../class_controls_model.html#ae598d9113a0c3705592140a1199d1569',1,'ControlsModel']]],
-  ['_7edebuginfo',['~DebugInfo',['../class_debug_info.html#af78d70b6248ca553399d029034860d8d',1,'DebugInfo']]],
-  ['_7eimpl',['~Impl',['../class_command_set_1_1_impl.html#ac532b2568b536ad1304f25a063177942',1,'CommandSet::Impl']]],
-  ['_7elripcin',['~LrIpcIn',['../class_lr_ipc_in.html#adaf86ae884e93a8e7f509d19e2a47231',1,'LrIpcIn']]],
-  ['_7elripcout',['~LrIpcOut',['../class_lr_ipc_out.html#a91c2d833ff148181947056450f5009c0',1,'LrIpcOut']]],
-  ['_7emaincontentcomponent',['~MainContentComponent',['../class_main_content_component.html#a0ad6ee663c2e5f135946a23bed278320',1,'MainContentComponent']]],
-  ['_7emainwindow',['~MainWindow',['../class_main_window.html#a767824566011a82d1d75339774258614',1,'MainWindow']]],
-  ['_7emidireceiver',['~MidiReceiver',['../class_midi_receiver.html#a65b5e02fc7d7c8c76cae733b4fdf045c',1,'MidiReceiver']]],
-  ['_7eprofilemanager',['~ProfileManager',['../class_profile_manager.html#af749cc966b2fc9287c5a6218be3f7e20',1,'ProfileManager']]],
-  ['_7epwoptions',['~PWoptions',['../class_p_woptions.html#a0fbbb29546c930f7f2156475754a8815',1,'PWoptions']]],
-  ['_7erelaxttasspinlock',['~RelaxTTasSpinLock',['../classrsj_1_1_relax_t_tas_spin_lock.html#a5d087728dd997db15a721cc609f711a4',1,'rsj::RelaxTTasSpinLock']]],
-  ['_7eresizablechild',['~ResizableChild',['../class_resizable_child.html#a57a06b3f6301466017274dc58aea8904',1,'ResizableChild']]],
-  ['_7eresizablelayout',['~ResizableLayout',['../class_resizable_layout.html#a05aab7565920919ed1a7c62e8a4544bc',1,'ResizableLayout']]],
-  ['_7esettingscomponent',['~SettingsComponent',['../class_settings_component.html#a7a4688bc9cfe9c8868124bd62f5d8a4d',1,'SettingsComponent']]],
-  ['_7esettingsmanager',['~SettingsManager',['../class_settings_manager.html#a52d99a3329704af7cd146a9009e1d8bf',1,'SettingsManager']]],
-  ['_7eversionchecker',['~VersionChecker',['../class_version_checker.html#a71054f63bc53a7633a38b25783540cac',1,'VersionChecker']]]
+  ['validmessagetype',['ValidMessageType',['../namespacersj.html#a1901501dced0f24aa1e4994b4935d89d',1,'rsj']]],
+  ['value',['value',['../structrsj_1_1_midi_message.html#a07d46c4bf0628309ebd0583a6db6e3d9',1,'rsj::MidiMessage::value()'],['../struct_nrpn_filter_1_1_process_result.html#aeff079a6be38754b0ad2ee6624abc3d0',1,'NrpnFilter::ProcessResult::value()']]],
+  ['value_5flsb_5f',['value_lsb_',['../class_nrpn_filter.html#a28372620d368b6ade63c2ba22dfff8b8',1,'NrpnFilter']]],
+  ['value_5fmsb_5f',['value_msb_',['../class_nrpn_filter.html#a507b9298a417c7d404bc619671c85091',1,'NrpnFilter']]],
+  ['value_5ftype',['value_type',['../classrsj_1_1_concurrent_queue.html#a551d3bbc3de8c657ff090f835a33e296',1,'rsj::ConcurrentQueue']]],
+  ['version_5fchecker_5f',['version_checker_',['../class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14',1,'MIDI2LRApplication']]],
+  ['version_5flabel_5f',['version_label_',['../class_main_content_component.html#a3a76609b164fa1a270b95fd7f6ef9f82',1,'MainContentComponent']]],
+  ['versionchecker',['VersionChecker',['../class_version_checker.html',1,'VersionChecker'],['../class_version_checker.html#af0b3efb11529f0bcfeed3b03be2fb310',1,'VersionChecker::VersionChecker(SettingsManager &amp;settings_manager)'],['../class_version_checker.html#ab47e45eba6c700d30d014824a3536bd5',1,'VersionChecker::VersionChecker(const VersionChecker &amp;other)=delete'],['../class_version_checker.html#add5362a02de29b0bf009fa62f0d2ca64',1,'VersionChecker::VersionChecker(VersionChecker &amp;&amp;other)=delete']]],
+  ['versionchecker_2ecpp',['VersionChecker.cpp',['../_version_checker_8cpp.html',1,'']]],
+  ['versionchecker_2eh',['VersionChecker.h',['../_version_checker_8h.html',1,'']]]
 ];

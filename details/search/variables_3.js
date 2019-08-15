@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['data',['data',['../structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f',1,'rsj::MidiMessageId']]],
-  ['data_5fguard_5f',['data_guard_',['../class_nrpn_message.html#ab5d5ffbfa778cfa611931e4e2b611029',1,'NrpnMessage']]],
   ['devices_5f',['devices_',['../class_midi_receiver.html#aa96d746ae3aa3f5a423dca53eb605674',1,'MidiReceiver']]],
   ['dialog_5f',['dialog_',['../class_version_checker.html#a953e24d19d0cf2b5dc56b1d89da93f8a',1,'VersionChecker']]],
   ['disconnect_5fbutton_5f',['disconnect_button_',['../class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad',1,'MainContentComponent']]],

@@ -2,7 +2,7 @@ var searchData=
 [
   ['activatelayout',['activateLayout',['../class_resizable_layout.html#afd4d193db907fc27c85e2045170b6710',1,'ResizableLayout']]],
   ['activetosaved',['ActiveToSaved',['../class_channel_model.html#a02c98af20857bc809f51840908a9b5b8',1,'ChannelModel']]],
-  ['addcallback',['AddCallback',['../class_profile_manager.html#a60aaa040f437267441cfbec6f8ec454b',1,'ProfileManager::AddCallback()'],['../class_lr_ipc_out.html#a2fe55e9f3c0debd8cc60c202bab49ec6',1,'LrIpcOut::AddCallback()'],['../class_midi_receiver.html#a34e451f6005ea363e05aacb972966454',1,'MidiReceiver::AddCallback()']]],
+  ['addcallback',['AddCallback',['../class_profile_manager.html#a991fb70897af11237ddc35b725ecc09c',1,'ProfileManager::AddCallback()'],['../class_lr_ipc_out.html#a868d8f460f4f2140e177d74d1210f254',1,'LrIpcOut::AddCallback()'],['../class_midi_receiver.html#a7636111b57bff4fea30a0b1672bc3402',1,'MidiReceiver::AddCallback()']]],
   ['addcommandformessage',['AddCommandForMessage',['../class_profile.html#a2ca17fdd4051436bcbaa3b6e9f04bc08',1,'Profile']]],
   ['addcommandformessagei',['AddCommandForMessageI',['../class_profile.html#aad212334c741e1a454b8dc2fb91a56e3',1,'Profile']]],
   ['addrowmapped',['AddRowMapped',['../class_profile.html#a27523948da6b6423960a2afafba64792',1,'Profile']]],

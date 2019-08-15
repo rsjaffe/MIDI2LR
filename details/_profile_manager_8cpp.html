@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.2.2.0</span>
+   &#160;<span id="projectnumber">3.3.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -100,6 +100,7 @@ $(document).ready(function(){initNavTree('_profile_manager_8cpp.html','');});
 <code>#include &quot;<a class="el" href="_l_r___i_p_c___out_8h_source.html">LR_IPC_Out.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_m_i_d_i_receiver_8h_source.html">MIDIReceiver.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_misc_8h_source.html">Misc.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_profile_8h_source.html">Profile.h</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for ProfileManager.cpp:</div>
@@ -108,44 +109,47 @@ $(document).ready(function(){initNavTree('_profile_manager_8cpp.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_profile_manager_8cpp__incl.png" border="0" usemap="#_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_profile_manager_8cpp" alt=""/></div>
 <map name="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_profile_manager_8cpp" id="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_profile_manager_8cpp">
-<area shape="rect"  title=" " alt="" coords="1361,5,1517,61"/>
-<area shape="rect"  href="_profile_manager_8h.html" title=" " alt="" coords="1009,109,1127,136"/>
-<area shape="rect"  title=" " alt="" coords="2391,333,2446,360"/>
-<area shape="rect"  title=" " alt="" coords="2091,184,2144,211"/>
-<area shape="rect"  title=" " alt="" coords="477,259,537,285"/>
-<area shape="rect"  href="_controls_model_8h.html" title=" " alt="" coords="466,109,582,136"/>
-<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="1301,184,1401,211"/>
-<area shape="rect"  href="_l_r___i_p_c___out_8h.html" title=" " alt="" coords="1755,109,1861,136"/>
-<area shape="rect"  href="_m_i_d_i_receiver_8h.html" title=" " alt="" coords="1385,109,1493,136"/>
-<area shape="rect"  href="_profile_8h.html" title=" " alt="" coords="2244,109,2313,136"/>
-<area shape="rect"  title=" " alt="" coords="517,333,595,360"/>
-<area shape="rect"  title=" " alt="" coords="1199,184,1276,211"/>
-<area shape="rect"  title=" " alt="" coords="1105,184,1175,211"/>
-<area shape="rect"  title=" " alt="" coords="1743,259,1799,285"/>
-<area shape="rect"  title=" " alt="" coords="1386,333,1587,360"/>
-<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="1031,259,1092,285"/>
-<area shape="rect"  title=" " alt="" coords="620,333,671,360"/>
-<area shape="rect"  title=" " alt="" coords="173,333,235,360"/>
-<area shape="rect"  title=" " alt="" coords="758,333,831,360"/>
-<area shape="rect"  title=" " alt="" coords="856,333,917,360"/>
-<area shape="rect"  title=" " alt="" coords="941,333,1027,360"/>
-<area shape="rect"  title=" " alt="" coords="1051,333,1149,360"/>
-<area shape="rect"  title=" " alt="" coords="1173,333,1232,360"/>
-<area shape="rect"  title=" " alt="" coords="1256,333,1323,360"/>
-<area shape="rect"  title=" " alt="" coords="1116,259,1244,285"/>
-<area shape="rect"  title=" " alt="" coords="105,184,255,211"/>
-<area shape="rect"  title=" " alt="" coords="279,184,435,211"/>
-<area shape="rect"  title=" " alt="" coords="1319,259,1398,285"/>
-<area shape="rect"  title=" " alt="" coords="1527,184,1582,211"/>
-<area shape="rect"  title=" " alt="" coords="897,259,956,285"/>
-<area shape="rect"  title=" " alt="" coords="1606,184,1863,211"/>
-<area shape="rect"  href="_nrpn_message_8h.html" title=" " alt="" coords="663,184,777,211"/>
-<area shape="rect"  title=" " alt="" coords="663,259,873,285"/>
-<area shape="rect"  title=" " alt="" coords="2507,184,2554,211"/>
-<area shape="rect"  title=" " alt="" coords="2579,184,2683,211"/>
-<area shape="rect"  title=" " alt="" coords="2565,259,2675,285"/>
-<area shape="rect"  href="_command_set_8h.html" title=" " alt="" coords="2269,184,2381,211"/>
-<area shape="rect"  title=" " alt="" coords="2177,259,2330,285"/>
+<area shape="rect"  title=" " alt="" coords="1327,5,1483,61"/>
+<area shape="rect"  href="_profile_manager_8h.html" title=" " alt="" coords="1488,184,1607,211"/>
+<area shape="rect"  title=" " alt="" coords="2101,408,2156,435"/>
+<area shape="rect"  title=" " alt="" coords="2275,184,2329,211"/>
+<area shape="rect"  title=" " alt="" coords="728,408,788,435"/>
+<area shape="rect"  href="_controls_model_8h.html" title=" " alt="" coords="505,184,621,211"/>
+<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="847,259,947,285"/>
+<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="1315,333,1377,360"/>
+<area shape="rect"  href="_l_r___i_p_c___out_8h.html" title=" " alt="" coords="1133,184,1239,211"/>
+<area shape="rect"  href="_m_i_d_i_receiver_8h.html" title=" " alt="" coords="989,109,1097,136"/>
+<area shape="rect"  href="_profile_8h.html" title=" " alt="" coords="1801,109,1870,136"/>
+<area shape="rect"  title=" " alt="" coords="1451,259,1529,285"/>
+<area shape="rect"  title=" " alt="" coords="1553,259,1609,285"/>
+<area shape="rect"  title=" " alt="" coords="1545,408,1747,435"/>
+<area shape="rect"  title=" " alt="" coords="641,259,691,285"/>
+<area shape="rect"  title=" " alt="" coords="738,333,799,360"/>
+<area shape="rect"  title=" " alt="" coords="5,408,84,435"/>
+<area shape="rect"  title=" " alt="" coords="1249,259,1377,285"/>
+<area shape="rect"  title=" " alt="" coords="133,259,284,285"/>
+<area shape="rect"  title=" " alt="" coords="308,259,464,285"/>
+<area shape="rect"  href="_concurrency_8h.html" title=" " alt="" coords="715,259,822,285"/>
+<area shape="rect"  title=" " alt="" coords="824,333,948,360"/>
+<area shape="rect"  title=" " alt="" coords="972,333,1029,360"/>
+<area shape="rect"  title=" " alt="" coords="450,333,541,360"/>
+<area shape="rect"  title=" " alt="" coords="565,333,623,360"/>
+<area shape="rect"  title=" " alt="" coords="647,333,714,360"/>
+<area shape="rect"  title=" " alt="" coords="1054,333,1137,360"/>
+<area shape="rect"  title=" " alt="" coords="1161,333,1240,360"/>
+<area shape="rect"  title=" " alt="" coords="1333,408,1394,435"/>
+<area shape="rect"  title=" " alt="" coords="1418,408,1503,435"/>
+<area shape="rect"  title=" " alt="" coords="1159,408,1218,435"/>
+<area shape="rect"  title=" " alt="" coords="1242,408,1309,435"/>
+<area shape="rect"  title=" " alt="" coords="1023,259,1077,285"/>
+<area shape="rect"  title=" " alt="" coords="1153,259,1224,285"/>
+<area shape="rect"  title=" " alt="" coords="1365,184,1412,211"/>
+<area shape="rect"  title=" " alt="" coords="747,184,817,211"/>
+<area shape="rect"  href="_nrpn_message_8h.html" title=" " alt="" coords="841,184,955,211"/>
+<area shape="rect"  title=" " alt="" coords="1783,184,1887,211"/>
+<area shape="rect"  title=" " alt="" coords="2167,259,2277,285"/>
+<area shape="rect"  href="_command_set_8h.html" title=" " alt="" coords="1962,184,2074,211"/>
+<area shape="rect"  title=" " alt="" coords="1937,259,2091,285"/>
 </map>
 </div>
 </div></div><!-- contents -->

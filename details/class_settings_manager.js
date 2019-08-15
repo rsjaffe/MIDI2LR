@@ -1,6 +1,6 @@
 var class_settings_manager =
 [
-    [ "SettingsManager", "class_settings_manager.html#a33f2734b716f761f430301fe6856e50d", null ],
+    [ "SettingsManager", "class_settings_manager.html#a53b353bfd1b025f80dff7918f129b839", null ],
     [ "~SettingsManager", "class_settings_manager.html#a52d99a3329704af7cd146a9009e1d8bf", null ],
     [ "SettingsManager", "class_settings_manager.html#a5e280037c8b05ac85f11715e23a9e16c", null ],
     [ "SettingsManager", "class_settings_manager.html#aeaed46fd598895a0b04b8fddf07b6e13", null ],
@@ -15,7 +15,7 @@ var class_settings_manager =
     [ "SetLastVersionFound", "class_settings_manager.html#af7e05f1e26aac16f6f0b402a85bc5088", null ],
     [ "SetPickupEnabled", "class_settings_manager.html#a838cdaffb2fccb100bd18985d6ea1337", null ],
     [ "SetProfileDirectory", "class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b", null ],
-    [ "lr_ipc_out_", "class_settings_manager.html#aaf2dd7dea1784c68d7773e1a0531ef9e", null ],
+    [ "lr_ipc_out_", "class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22", null ],
     [ "profile_manager_", "class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011", null ],
     [ "properties_file_", "class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025", null ]
 ];

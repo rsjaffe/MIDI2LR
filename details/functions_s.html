@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.2.2.0</span>
+   &#160;<span id="projectnumber">3.3.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -110,9 +110,6 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <li>selected_item_
 : <a class="el" href="class_command_menu.html#a2f031de592778295c9c404b7f421530d">CommandMenu</a>
 </li>
-<li>send_out_future_
-: <a class="el" href="class_lr_ipc_out.html#a2e9c963c6ad040cb063781d8380d4eb2">LrIpcOut</a>
-</li>
 <li>SendCc()
 : <a class="el" href="class_midi_sender.html#a9d06167810c23140236fca47665add0a">MidiSender</a>
 </li>
@@ -121,6 +118,12 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 </li>
 <li>sending_stopped_
 : <a class="el" href="class_lr_ipc_out.html#aa4648a7022acb4cf386148fb59858e6d">LrIpcOut</a>
+</li>
+<li>SendingRestart()
+: <a class="el" href="class_lr_ipc_out.html#a200242025149e706c1563b3d8ad10aca">LrIpcOut</a>
+</li>
+<li>SendingStop()
+: <a class="el" href="class_lr_ipc_out.html#a57f84fbcf5b7c27655ca8a1c7c033ea9">LrIpcOut</a>
 </li>
 <li>SendNoteOn()
 : <a class="el" href="class_midi_sender.html#a050f75ae7bddedb3cd395316c0e28f41">MidiSender</a>
@@ -165,12 +168,6 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 : <a class="el" href="class_channel_model.html#ac102fc77aff85f3bcc77ef25854013e5">ChannelModel</a>
 , <a class="el" href="class_controls_model.html#a63cf941b071bc7f7198c873b402611ca">ControlsModel</a>
 </li>
-<li>SetControlLsb()
-: <a class="el" href="class_nrpn_message.html#a073ea5f36072b30556c2fcca13b1c8b9">NrpnMessage</a>
-</li>
-<li>SetControlMsb()
-: <a class="el" href="class_nrpn_message.html#adf0e62caa7eb7b88062beda9154cd298">NrpnMessage</a>
-</li>
 <li>SetLabelSettings()
 : <a class="el" href="class_main_content_component.html#ae219ea18fd91bf04c1676f577ddf21b4">MainContentComponent</a>
 </li>
@@ -185,9 +182,6 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 </li>
 <li>setMaximumWidth()
 : <a class="el" href="class_resizable_child.html#a8b7a9551a9644400d85670fe99d65ea3">ResizableChild</a>
-</li>
-<li>SetMidiMessage()
-: <a class="el" href="class_lr_ipc_out_1_1_recenter.html#a0701f18b9d06267cc676cae445eb605d">LrIpcOut::Recenter</a>
 </li>
 <li>setMinimumHeight()
 : <a class="el" href="class_resizable_child.html#ad8cad7ee6aa23c2903b73e99c3797238">ResizableChild</a>
@@ -216,6 +210,9 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 : <a class="el" href="class_channel_model.html#a175965fbf91d51d82418f93d9c7f084a">ChannelModel</a>
 , <a class="el" href="class_controls_model.html#a69907f1ba87e98d3c9a62c7ecc8a0180">ControlsModel</a>
 </li>
+<li>SetRecenter()
+: <a class="el" href="class_lr_ipc_out.html#a66913b38371c23494d0d1db366c12702">LrIpcOut</a>
+</li>
 <li>SetSelectedItem()
 : <a class="el" href="class_command_menu.html#a17ca3546438d042151b0f90db1ecab81">CommandMenu</a>
 </li>
@@ -238,23 +235,17 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 : <a class="el" href="class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a">ChannelModel</a>
 </li>
 <li>SettingsComponent()
-: <a class="el" href="class_settings_component.html#a8cd20aeff90426909a5be7f92da008f8">SettingsComponent</a>
+: <a class="el" href="class_settings_component.html#a99d9cc142ad64122c1cb3768f006543d">SettingsComponent</a>
 </li>
 <li>SettingsManager()
-: <a class="el" href="class_settings_manager.html#a33f2734b716f761f430301fe6856e50d">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#a5e280037c8b05ac85f11715e23a9e16c">SettingsManager</a>
 </li>
 <li>SettingsStruct()
 : <a class="el" href="structrsj_1_1_settings_struct.html#a88895a58292cb0763eba9bb6a21e35b0">rsj::SettingsStruct</a>
 </li>
 <li>SetToCenter()
-: <a class="el" href="class_channel_model.html#a3d2bb05ecfd4bf3ec9657669c4f8c4df">ChannelModel</a>
+: <a class="el" href="class_channel_model.html#a45088c81e81b74272ce2a69e3f932bc4">ChannelModel</a>
 , <a class="el" href="class_controls_model.html#a119fe5338aba006ff1e72440faed53ab">ControlsModel</a>
-</li>
-<li>SetValueLsb()
-: <a class="el" href="class_nrpn_message.html#ac45863ad3f89c9898d49266e9a07d4c2">NrpnMessage</a>
-</li>
-<li>SetValueMsb()
-: <a class="el" href="class_nrpn_message.html#a82a315dbe694d73575c13f6f89cc7800">NrpnMessage</a>
 </li>
 <li>shift
 : <a class="el" href="structrsj_1_1_active_modifiers.html#a672648dd23bcb5b479057549137ccc13">rsj::ActiveModifiers</a>
@@ -263,16 +254,23 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 : <a class="el" href="class_m_i_d_i2_l_r_application.html#ab5c41060c26b2d07197651ad3f74f62f">MIDI2LRApplication</a>
 </li>
 <li>signbutton
-: <a class="el" href="class_c_coptions.html#a73c4fff1bc74f56ce626b5385c14267a">CCoptions</a>
+: <a class="el" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">CCoptions</a>
 </li>
 <li>Size()
 : <a class="el" href="class_profile.html#a6f55aadcd33c6023b1e544b436d57de2">Profile</a>
+</li>
+<li>size()
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#a36fde7c9a4cb57ca2b2a204a62502f7e">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
+</li>
+<li>size_type
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#aaefad4d3d39082e32d100bc76bbe86f9">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
 </li>
 <li>sliderValueChanged()
 : <a class="el" href="class_settings_component.html#a4073f683db73af083c8ac19272f1c4ad">SettingsComponent</a>
 </li>
 <li>socket_
-: <a class="el" href="class_lr_ipc_in.html#a0e7eee4dead5ab5c16f72efceca368ef">LrIpcIn</a>
+: <a class="el" href="class_lr_ipc_in.html#aba0ef620ca9109cac0af1937c60db218">LrIpcIn</a>
+, <a class="el" href="class_lr_ipc_out.html#a4d001349752bb6ed6d2999177b78c9c6">LrIpcOut</a>
 </li>
 <li>SortI()
 : <a class="el" href="class_profile.html#aeba39bf32fc079f948b4669c64887867">Profile</a>
@@ -280,19 +278,26 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <li>sortOrderChanged()
 : <a class="el" href="class_command_table_model.html#a7bf944adbb8e47f698fdce34e68aab00">CommandTableModel</a>
 </li>
-<li>Start()
-: <a class="el" href="class_lr_ipc_in.html#a5210ba8aacb2a42f2cae043f99315b0e">LrIpcIn</a>
-, <a class="el" href="class_lr_ipc_out_1_1_connect_timer.html#a8732dc9845b697e2a12b6ef0ffbd2b10">LrIpcOut::ConnectTimer</a>
-, <a class="el" href="class_lr_ipc_out.html#aa5336d91bcd716000f5c2e55a5c4d641">LrIpcOut</a>
-, <a class="el" href="class_midi_receiver.html#ab5aff92f9c0bfbca3f3f4862b6f0091d">MidiReceiver</a>
-, <a class="el" href="class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f">MidiSender</a>
+<li>SpinLock()
+: <a class="el" href="classrsj_1_1_spin_lock.html#ad267278fc56b9ad060b3a9f433778be3">rsj::SpinLock</a>
+</li>
+<li>StartRunning()
+: <a class="el" href="class_lr_ipc_in.html#a9232f3879e888f456051cd01702658f6">LrIpcIn</a>
+, <a class="el" href="class_lr_ipc_out.html#a32a229a4f97ed1c478262279a75ec654">LrIpcOut</a>
+, <a class="el" href="class_midi_receiver.html#ab4b55d672cccd2b2ef70850ced0cc31b">MidiReceiver</a>
+, <a class="el" href="class_midi_sender.html#a1a95875652322714bf7b06a7fb586768">MidiSender</a>
 </li>
 <li>State()
-: <a class="el" href="struct_resizable_layout_1_1_state.html#a2819d36795450657c3e9a0fb21e6833e">ResizableLayout::State</a>
+: <a class="el" href="struct_resizable_layout_1_1_state.html#a4443b5ff552634ea53fae43153375646">ResizableLayout::State</a>
 </li>
-<li>Stop()
-: <a class="el" href="class_lr_ipc_out_1_1_connect_timer.html#aa16b1e7c88d2826c88e31e75d18b72b9">LrIpcOut::ConnectTimer</a>
-, <a class="el" href="class_lr_ipc_out.html#adf0bc1da59e8d2d619c5fbf99b4a5d21">LrIpcOut</a>
+<li>StopRunning()
+: <a class="el" href="class_lr_ipc_in.html#a06d96192db1044800d69d8de991e35b7">LrIpcIn</a>
+, <a class="el" href="class_lr_ipc_out.html#abec8370b85fee409fc41e9cb7316a9bf">LrIpcOut</a>
+, <a class="el" href="class_midi_receiver.html#a4ebd098e799e107e80a652bf427604e9">MidiReceiver</a>
+, <a class="el" href="class_version_checker.html#a2ce8bd44c34bd379d976bb467730e339">VersionChecker</a>
+</li>
+<li>streambuf_
+: <a class="el" href="class_lr_ipc_in.html#a3d1fb776bd48289c513f8738f2f2fa8b">LrIpcIn</a>
 </li>
 <li>style
 : <a class="el" href="struct_resizable_layout_1_1_anchor.html#aa8ac3ce7d9c551d0c5b70b9ec2e87f0a">ResizableLayout::Anchor</a>
@@ -305,6 +310,9 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 </li>
 <li>styleStretch
 : <a class="el" href="class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8ad35e38ccc74459872aed05f81185ef70">ResizableLayout</a>
+</li>
+<li>swap()
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#aee1883a8eb3bc925dbab51a73770aabd">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
 </li>
 <li>switch_state_
 : <a class="el" href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">ProfileManager</a>

@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.2.2.0</span>
+   &#160;<span id="projectnumber">3.3.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -91,24 +91,20 @@ $(document).ready(function(){initNavTree('_misc_8h.html','');});
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">Misc.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;array&gt;</code><br />
-<code>#include &lt;atomic&gt;</code><br />
-<code>#include &lt;charconv&gt;</code><br />
-<code>#include &lt;chrono&gt;</code><br />
+<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
 <code>#include &lt;exception&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;string_view&gt;</code><br />
-<code>#include &lt;system_error&gt;</code><br />
 <code>#include &lt;thread&gt;</code><br />
 <code>#include &lt;typeinfo&gt;</code><br />
 <code>#include &lt;JuceLibraryCode/JuceHeader.h&gt;</code><br />
+<code>#include &lt;gsl/gsl&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Misc.h:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -116,18 +112,15 @@ $(document).ready(function(){initNavTree('_misc_8h.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_misc_8h__incl.png" border="0" usemap="#_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_misc_8h" alt=""/></div>
 <map name="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_misc_8h" id="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_misc_8h">
-<area shape="rect"  title=" " alt="" coords="402,5,558,61"/>
-<area shape="rect"  title=" " alt="" coords="5,109,56,136"/>
-<area shape="rect"  title=" " alt="" coords="80,109,141,136"/>
-<area shape="rect"  title=" " alt="" coords="166,109,239,136"/>
-<area shape="rect"  title=" " alt="" coords="264,109,325,136"/>
-<area shape="rect"  title=" " alt="" coords="350,109,429,136"/>
-<area shape="rect"  title=" " alt="" coords="453,109,507,136"/>
-<area shape="rect"  title=" " alt="" coords="532,109,617,136"/>
-<area shape="rect"  title=" " alt="" coords="641,109,740,136"/>
-<area shape="rect"  title=" " alt="" coords="764,109,823,136"/>
-<area shape="rect"  title=" " alt="" coords="847,109,913,136"/>
-<area shape="rect"  title=" " alt="" coords="938,109,1139,136"/>
+<area shape="rect"  title=" " alt="" coords="286,5,442,61"/>
+<area shape="rect"  title=" " alt="" coords="5,109,67,136"/>
+<area shape="rect"  title=" " alt="" coords="91,109,170,136"/>
+<area shape="rect"  title=" " alt="" coords="194,109,249,136"/>
+<area shape="rect"  title=" " alt="" coords="273,109,359,136"/>
+<area shape="rect"  title=" " alt="" coords="383,109,441,136"/>
+<area shape="rect"  title=" " alt="" coords="465,109,532,136"/>
+<area shape="rect"  title=" " alt="" coords="557,109,758,136"/>
+<area shape="rect"  title=" " alt="" coords="782,109,842,136"/>
 </map>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -137,45 +130,45 @@ $(document).ready(function(){initNavTree('_misc_8h.html','');});
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_misc_8h__dep__incl.png" border="0" usemap="#_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_misc_8hdep" alt=""/></div>
 <map name="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_misc_8hdep" id="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_misc_8hdep">
-<area shape="rect"  title=" " alt="" coords="2309,5,2465,61"/>
-<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="827,109,983,165"/>
-<area shape="rect"  href="_controls_model_8h.html" title=" " alt="" coords="385,213,541,269"/>
-<area shape="rect"  href="_controls_model_8cpp.html" title=" " alt="" coords="43,317,199,373"/>
-<area shape="rect"  href="_l_r___i_p_c___in_8cpp.html" title=" " alt="" coords="583,317,739,373"/>
-<area shape="rect"  href="_l_r___i_p_c___out_8cpp.html" title=" " alt="" coords="815,317,971,373"/>
-<area shape="rect"  href="_main_8cpp.html" title=" " alt="" coords="1279,317,1435,373"/>
-<area shape="rect"  href="_command_menu_8cpp.html" title=" " alt="" coords="2310,317,2466,373"/>
-<area shape="rect"  href="_command_table_model_8cpp.html" title=" " alt="" coords="2184,421,2360,477"/>
-<area shape="rect"  href="_command_table_8cpp.html" title=" " alt="" coords="2521,421,2677,477"/>
-<area shape="rect"  href="_main_component_8cpp.html" title=" " alt="" coords="1163,525,1319,581"/>
-<area shape="rect"  href="_profile_8cpp.html" title=" " alt="" coords="2490,317,2646,373"/>
-<area shape="rect"  href="_l_r___i_p_c___out_8h.html" title=" " alt="" coords="1001,213,1157,269"/>
-<area shape="rect"  href="_m_i_d_i_receiver_8cpp.html" title=" " alt="" coords="1691,317,1847,373"/>
-<area shape="rect"  href="_command_set_8h.html" title=" " alt="" coords="2113,109,2269,165"/>
-<area shape="rect"  href="_debug_info_8h.html" title=" " alt="" coords="2773,109,2929,165"/>
-<area shape="rect"  href="_ocpp_8mm.html" title=" " alt="" coords="2953,213,3109,269"/>
-<area shape="rect"  href="_profile_manager_8h.html" title=" " alt="" coords="1181,213,1337,269"/>
-<area shape="rect"  href="_nrpn_message_8h.html" title=" " alt="" coords="1773,109,1929,165"/>
-<area shape="rect"  href="_m_i_d_i_sender_8cpp.html" title=" " alt="" coords="3005,109,3161,165"/>
-<area shape="rect"  href="_misc_8cpp.html" title=" " alt="" coords="3185,109,3341,165"/>
-<area shape="rect"  href="_send_keys_8cpp.html" title=" " alt="" coords="3365,109,3521,165"/>
-<area shape="rect"  href="_settings_component_8cpp.html" title=" " alt="" coords="3545,109,3711,165"/>
-<area shape="rect"  href="_translate_8cpp.html" title=" " alt="" coords="3735,109,3891,165"/>
-<area shape="rect"  href="_version_checker_8cpp.html" title=" " alt="" coords="3915,109,4071,165"/>
-<area shape="rect"  href="_profile_manager_8cpp.html" title=" " alt="" coords="1047,317,1203,373"/>
-<area shape="rect"  href="_command_menu_8h.html" title=" " alt="" coords="2338,213,2494,269"/>
-<area shape="rect"  href="_profile_8h.html" title=" " alt="" coords="1593,213,1749,269"/>
-<area shape="rect"  href="_m_i_d_i_receiver_8h.html" title=" " alt="" coords="1361,213,1517,269"/>
-<area shape="rect"  href="_midi_utilities_8cpp.html" title=" " alt="" coords="769,213,925,269"/>
-<area shape="rect"  href="_c_coptions_8cpp.html" title=" " alt="" coords="403,317,559,373"/>
-<area shape="rect"  href="_p_woptions_8cpp.html" title=" " alt="" coords="223,317,379,373"/>
-<area shape="rect"  href="_command_table_model_8h.html" title=" " alt="" coords="2072,317,2235,373"/>
-<area shape="rect"  href="_main_component_8h.html" title=" " alt="" coords="1963,421,2119,477"/>
-<area shape="rect"  href="_main_window_8cpp.html" title=" " alt="" coords="1963,525,2119,581"/>
-<area shape="rect"  href="_settings_manager_8cpp.html" title=" " alt="" coords="1459,317,1615,373"/>
-<area shape="rect"  href="_command_set_8cpp.html" title=" " alt="" coords="2055,213,2211,269"/>
-<area shape="rect"  href="_debug_info_8cpp.html" title=" " alt="" coords="2773,213,2929,269"/>
-<area shape="rect"  href="_nrpn_message_8cpp.html" title=" " alt="" coords="1773,213,1929,269"/>
+<area shape="rect"  title=" " alt="" coords="2379,5,2535,61"/>
+<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="1237,109,1393,165"/>
+<area shape="rect"  href="_controls_model_8h.html" title=" " alt="" coords="491,213,647,269"/>
+<area shape="rect"  href="_controls_model_8cpp.html" title=" " alt="" coords="607,317,763,373"/>
+<area shape="rect"  href="_l_r___i_p_c___in_8cpp.html" title=" " alt="" coords="787,317,943,373"/>
+<area shape="rect"  href="_l_r___i_p_c___out_8cpp.html" title=" " alt="" coords="889,421,1045,477"/>
+<area shape="rect"  href="_main_8cpp.html" title=" " alt="" coords="1286,629,1442,685"/>
+<area shape="rect"  href="_profile_manager_8cpp.html" title=" " alt="" coords="1069,421,1225,477"/>
+<area shape="rect"  href="_command_menu_8cpp.html" title=" " alt="" coords="2018,317,2174,373"/>
+<area shape="rect"  href="_command_table_model_8cpp.html" title=" " alt="" coords="2207,421,2383,477"/>
+<area shape="rect"  href="_command_table_8cpp.html" title=" " alt="" coords="2587,421,2743,477"/>
+<area shape="rect"  href="_main_component_8cpp.html" title=" " alt="" coords="1735,525,1891,581"/>
+<area shape="rect"  href="_profile_8cpp.html" title=" " alt="" coords="2198,317,2354,373"/>
+<area shape="rect"  href="_m_i_d_i_receiver_8cpp.html" title=" " alt="" coords="1402,421,1558,477"/>
+<area shape="rect"  href="_nrpn_message_8cpp.html" title=" " alt="" coords="1351,317,1507,373"/>
+<area shape="rect"  href="_command_set_8h.html" title=" " alt="" coords="2263,109,2419,165"/>
+<area shape="rect"  href="_debug_info_8h.html" title=" " alt="" coords="2754,109,2910,165"/>
+<area shape="rect"  href="_ocpp_8mm.html" title=" " alt="" coords="2997,213,3153,269"/>
+<area shape="rect"  href="_m_i_d_i_sender_8cpp.html" title=" " alt="" coords="2986,109,3142,165"/>
+<area shape="rect"  href="_misc_8cpp.html" title=" " alt="" coords="3166,109,3322,165"/>
+<area shape="rect"  href="_send_keys_8cpp.html" title=" " alt="" coords="3346,109,3502,165"/>
+<area shape="rect"  href="_settings_component_8cpp.html" title=" " alt="" coords="3527,109,3692,165"/>
+<area shape="rect"  href="_translate_8cpp.html" title=" " alt="" coords="3717,109,3873,165"/>
+<area shape="rect"  href="_version_checker_8cpp.html" title=" " alt="" coords="3897,109,4053,165"/>
+<area shape="rect"  href="_command_menu_8h.html" title=" " alt="" coords="1981,213,2137,269"/>
+<area shape="rect"  href="_profile_8h.html" title=" " alt="" coords="1801,213,1957,269"/>
+<area shape="rect"  href="_l_r___i_p_c___out_8h.html" title=" " alt="" coords="1583,317,1739,373"/>
+<area shape="rect"  href="_m_i_d_i_receiver_8h.html" title=" " alt="" coords="1171,317,1327,373"/>
+<area shape="rect"  href="_nrpn_message_8h.html" title=" " alt="" coords="1353,213,1509,269"/>
+<area shape="rect"  href="_midi_utilities_8cpp.html" title=" " alt="" coords="1121,213,1277,269"/>
+<area shape="rect"  href="_c_coptions_8cpp.html" title=" " alt="" coords="325,317,481,373"/>
+<area shape="rect"  href="_p_woptions_8cpp.html" title=" " alt="" coords="145,317,301,373"/>
+<area shape="rect"  href="_command_table_model_8h.html" title=" " alt="" coords="2480,317,2643,373"/>
+<area shape="rect"  href="_main_component_8h.html" title=" " alt="" coords="2407,421,2563,477"/>
+<area shape="rect"  href="_main_window_8h.html" title=" " alt="" coords="2187,525,2343,581"/>
+<area shape="rect"  href="_main_window_8cpp.html" title=" " alt="" coords="2187,629,2343,685"/>
+<area shape="rect"  href="_settings_manager_8cpp.html" title=" " alt="" coords="1634,421,1790,477"/>
+<area shape="rect"  href="_command_set_8cpp.html" title=" " alt="" coords="2263,213,2419,269"/>
+<area shape="rect"  href="_debug_info_8cpp.html" title=" " alt="" coords="2817,213,2973,269"/>
 </map>
 </div>
 </div>
@@ -183,9 +176,7 @@ $(document).ready(function(){initNavTree('_misc_8h.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrsj_1_1_relax_t_tas_spin_lock.html">rsj::RelaxTTasSpinLock</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_reversion_wrapper.html">rsj::ReversionWrapper&lt; T &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_reverse_wrapper.html">rsj::ReverseWrapper&lt; T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -193,45 +184,49 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacersj"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html">rsj</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a13145a5381714b1208044380235ffbf9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_misc_8h.html#a13145a5381714b1208044380235ffbf9">CPU_RELAX</a>&#160;&#160;&#160;__builtin_ia32_pause()</td></tr>
-<tr class="separator:a13145a5381714b1208044380235ffbf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ad9fd7ddfd6792dd72b9f217e9d7967c3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a> (const std::string &amp;file_name)</td></tr>
 <tr class="separator:ad9fd7ddfd6792dd72b9f217e9d7967c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f66b6c4ce47634151f3e40675ae62d8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath</a> (const std::string &amp;file_name)</td></tr>
 <tr class="separator:a2f66b6c4ce47634151f3e40675ae62d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2babb698b27e8d0d4336f3646f01f158"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a2babb698b27e8d0d4336f3646f01f158"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#a2babb698b27e8d0d4336f3646f01f158">rsj::begin</a> (ReversionWrapper&lt; T &gt; w)</td></tr>
-<tr class="separator:a2babb698b27e8d0d4336f3646f01f158"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a2c3904fada0c4962b7aa9323c96266"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a8a2c3904fada0c4962b7aa9323c96266"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#a8a2c3904fada0c4962b7aa9323c96266">rsj::end</a> (ReversionWrapper&lt; T &gt; w)</td></tr>
-<tr class="separator:a8a2c3904fada0c4962b7aa9323c96266"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cd614e636777aa4e478b5cb7b977834"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a5cd614e636777aa4e478b5cb7b977834"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#a5cd614e636777aa4e478b5cb7b977834">rsj::begin</a> (ReverseWrapper&lt; T &gt; &amp;r)</td></tr>
+<tr class="separator:a5cd614e636777aa4e478b5cb7b977834"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a859ad9dabdea47aeade33e89365f83c9"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a859ad9dabdea47aeade33e89365f83c9"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#a859ad9dabdea47aeade33e89365f83c9">rsj::begin</a> (ReverseWrapper&lt; T &gt; const &amp;r)</td></tr>
+<tr class="separator:a859ad9dabdea47aeade33e89365f83c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3259c1bee0915f9d8c2e6c4bcf0b9cc"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ad3259c1bee0915f9d8c2e6c4bcf0b9cc"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#ad3259c1bee0915f9d8c2e6c4bcf0b9cc">rsj::end</a> (ReverseWrapper&lt; T &gt; &amp;r)</td></tr>
+<tr class="separator:ad3259c1bee0915f9d8c2e6c4bcf0b9cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa401673772296b5244a853a9746cbee8"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:aa401673772296b5244a853a9746cbee8"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#aa401673772296b5244a853a9746cbee8">rsj::end</a> (ReverseWrapper&lt; T &gt; const &amp;r)</td></tr>
+<tr class="separator:aa401673772296b5244a853a9746cbee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8794554dc8c7718a33bd567ca09c4792"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a8794554dc8c7718a33bd567ca09c4792">rsj::EndsWith</a> (std::string_view main_str, std::string_view to_match)</td></tr>
 <tr class="separator:a8794554dc8c7718a33bd567ca09c4792"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89157f33d7ebfdeac974317c32ab4e39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse</a> (const char *id, const char *fu, const std::exception &amp;e) noexcept</td></tr>
-<tr class="separator:a89157f33d7ebfdeac974317c32ab4e39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e3aa12d0586da0bb64db2eecc7868c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a> (const juce::String &amp;info)</td></tr>
-<tr class="separator:a9e3aa12d0586da0bb64db2eecc7868c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13589127c96c3faf1378eb29f93022b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a13589127c96c3faf1378eb29f93022b8">rsj::LogAndAlertError</a> (const juce::String &amp;error_text)</td></tr>
-<tr class="separator:a13589127c96c3faf1378eb29f93022b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4895a4c1be1002b9feb8a0c4935efbc6"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:a4895a4c1be1002b9feb8a0c4935efbc6"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars</a> (T number)</td></tr>
-<tr class="separator:a4895a4c1be1002b9feb8a0c4935efbc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bfc7d952a3ddbc1e06520d92f6f317f"><td class="memTemplParams" colspan="2">template&lt;class R &gt; </td></tr>
-<tr class="memitem:a3bfc7d952a3ddbc1e06520d92f6f317f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#a3bfc7d952a3ddbc1e06520d92f6f317f">rsj::RatioToPrefix</a> ()</td></tr>
-<tr class="separator:a3bfc7d952a3ddbc1e06520d92f6f317f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4f9131f50a22cfe938656d0542142be"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#af4f9131f50a22cfe938656d0542142be">rsj::ReplaceInvisibleChars</a> (std::string_view input)</td></tr>
-<tr class="separator:af4f9131f50a22cfe938656d0542142be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adec52fa08d11a6bde65ac979d1a5da10"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:adec52fa08d11a6bde65ac979d1a5da10"><td class="memTemplItemLeft" align="right" valign="top">ReversionWrapper&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#adec52fa08d11a6bde65ac979d1a5da10">rsj::Reverse</a> (T &amp;&amp;iterable)</td></tr>
-<tr class="separator:adec52fa08d11a6bde65ac979d1a5da10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01ba4e95db815027d2e6ef78ee4353f5"><td class="memTemplParams" colspan="2">template&lt;class Rep , class Period &gt; </td></tr>
-<tr class="memitem:a01ba4e95db815027d2e6ef78ee4353f5"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#a01ba4e95db815027d2e6ef78ee4353f5">rsj::SleepTimed</a> (const std::chrono::duration&lt; Rep, Period &gt; sleep_duration)</td></tr>
-<tr class="separator:a01ba4e95db815027d2e6ef78ee4353f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83074b3054f168680ca36a8647fb6401"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a83074b3054f168680ca36a8647fb6401">rsj::ExceptionResponse</a> (gsl::czstring&lt;&gt; id, gsl::czstring&lt;&gt; fu, const std::exception &amp;e) noexcept</td></tr>
+<tr class="separator:a83074b3054f168680ca36a8647fb6401"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e6ad6a72f12b37590cc839387c0b978"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a4e6ad6a72f12b37590cc839387c0b978">rsj::LabelThread</a> ([[maybe_unused]] gsl::cwzstring&lt;&gt; threadname) noexcept</td></tr>
+<tr class="separator:a4e6ad6a72f12b37590cc839387c0b978"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad86489170f913c80ad1fb3c5a60492c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a> (const juce::String &amp;info) noexcept</td></tr>
+<tr class="separator:ad86489170f913c80ad1fb3c5a60492c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aded8408e90ea04dcc34f083b451513e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#aded8408e90ea04dcc34f083b451513e6">rsj::Log</a> (gsl::czstring&lt;&gt; info) noexcept</td></tr>
+<tr class="separator:aded8408e90ea04dcc34f083b451513e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2505cba3f1c28add3ad48746ee27a02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a> (const juce::String &amp;error_text) noexcept</td></tr>
+<tr class="separator:ad2505cba3f1c28add3ad48746ee27a02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac28a04284e2abb68f224f222be39ec7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#ac28a04284e2abb68f224f222be39ec7b">rsj::LogAndAlertError</a> (gsl::czstring&lt;&gt; error_text) noexcept</td></tr>
+<tr class="separator:ac28a04284e2abb68f224f222be39ec7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adec9d9da6259df3bee07832a7b612ffb"><td class="memTemplParams" colspan="2">template&lt;class R &gt; </td></tr>
+<tr class="memitem:adec9d9da6259df3bee07832a7b612ffb"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#adec9d9da6259df3bee07832a7b612ffb">rsj::RatioToPrefix</a> () noexcept</td></tr>
+<tr class="separator:adec9d9da6259df3bee07832a7b612ffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b27f17c614b3112ca309fb89e6158ab"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a0b27f17c614b3112ca309fb89e6158ab">rsj::ReplaceInvisibleChars</a> (std::string_view in)</td></tr>
+<tr class="separator:a0b27f17c614b3112ca309fb89e6158ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a440259d02bc611f44ae969ddba4b75dc"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a440259d02bc611f44ae969ddba4b75dc"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#a440259d02bc611f44ae969ddba4b75dc">rsj::Reverse</a> (T &amp;&amp;ob)</td></tr>
+<tr class="separator:a440259d02bc611f44ae969ddba4b75dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a800782f6730421d2a140850ed40daee0"><td class="memTemplParams" colspan="2">template&lt;class Rep , class Period &gt; </td></tr>
+<tr class="memitem:a800782f6730421d2a140850ed40daee0"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#a800782f6730421d2a140850ed40daee0">rsj::SleepTimed</a> (const std::chrono::duration&lt; Rep, Period &gt; sleep_duration) noexcept</td></tr>
+<tr class="separator:a800782f6730421d2a140850ed40daee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ff3cae4cb893f0e81cd429efdd189de"><td class="memTemplParams" colspan="2">template&lt;class Rep , class Period &gt; </td></tr>
 <tr class="memitem:a3ff3cae4cb893f0e81cd429efdd189de"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#a3ff3cae4cb893f0e81cd429efdd189de">rsj::SleepTimedLogged</a> (std::string_view msg_prefix, const std::chrono::duration&lt; Rep, Period &gt; sleep_duration)</td></tr>
 <tr class="separator:a3ff3cae4cb893f0e81cd429efdd189de"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -247,21 +242,6 @@ Variables</h2></td></tr>
 <tr class="memitem:a4fa956da95d10741e02ae994a00b10f4"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_misc_8h.html#a4fa956da95d10741e02ae994a00b10f4">OSX</a> {true}</td></tr>
 <tr class="separator:a4fa956da95d10741e02ae994a00b10f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a13145a5381714b1208044380235ffbf9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13145a5381714b1208044380235ffbf9">&#9670;&nbsp;</a></span>CPU_RELAX</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CPU_RELAX&#160;&#160;&#160;__builtin_ia32_pause()</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Variable Documentation</h2>
 <a id="a9232373c39758da7673237c81fd0edc7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9232373c39758da7673237c81fd0edc7">&#9670;&nbsp;</a></span>kNdebug</h2>

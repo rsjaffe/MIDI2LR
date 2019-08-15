@@ -1,4 +1,5 @@
 <map id="rsj::MidiMessage" name="rsj::MidiMessage">
-<area shape="rect" id="node1" title=" " alt="" coords="5,204,127,311"/>
-<area shape="rect" id="node2" title=" " alt="" coords="41,5,91,83"/>
+<area shape="rect" id="node1" title=" " alt="" coords="76,175,197,281"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,108,83"/>
+<area shape="rect" id="node3" title=" " alt="" coords="191,5,242,83"/>
 </map>
