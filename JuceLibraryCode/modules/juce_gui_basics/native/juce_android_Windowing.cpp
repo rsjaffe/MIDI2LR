@@ -230,18 +230,37 @@ DECLARE_JNI_CLASS (AndroidWindowManagerLayoutParams, "android/view/WindowManager
 //==============================================================================
 #define JNI_CLASS_MEMBERS(METHOD, STATICMETHOD, FIELD, STATICFIELD, CALLBACK) \
  METHOD (getDecorView, "getDecorView",       "()Landroid/view/View;") \
- METHOD (setFlags,     "setFlags",           "(II)V")
+ METHOD (setFlags,     "setFlags",           "(II)V") \
+ METHOD (clearFlags,   "clearFlags",         "(I)V")
 
 DECLARE_JNI_CLASS (AndroidWindow, "android/view/Window")
 #undef JNI_CLASS_MEMBERS
 
+namespace
+{
+    enum
+    {
+        SYSTEM_UI_FLAG_VISIBLE = 0,
+        SYSTEM_UI_FLAG_LOW_PROFILE = 1,
+        SYSTEM_UI_FLAG_HIDE_NAVIGATION = 2,
+        SYSTEM_UI_FLAG_FULLSCREEN = 4,
+        SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION = 512,
+        SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN = 1024,
+        SYSTEM_UI_FLAG_IMMERSIVE = 2048,
+        SYSTEM_UI_FLAG_IMMERSIVE_STICKY = 4096
+    };
+
+    constexpr int fullScreenFlags = SYSTEM_UI_FLAG_HIDE_NAVIGATION | SYSTEM_UI_FLAG_FULLSCREEN | SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
+    constexpr int FLAG_NOT_FOCUSABLE = 0x8;
+}
 
 //==============================================================================
 class AndroidComponentPeer  : public ComponentPeer,
                               private Timer
 {
 public:
-    AndroidComponentPeer (Component& comp, const int windowStyleFlags, void* nativeViewHandle)
+    AndroidComponentPeer (Component& comp, int windowStyleFlags, void* nativeViewHandle)
         : ComponentPeer (comp, windowStyleFlags),
           fullScreen (false),
           navBarsHidden (false),
@@ -300,10 +319,13 @@ public:
             LocalRef<jobject> windowLayoutParams (env->NewObject (AndroidWindowManagerLayoutParams, AndroidWindowManagerLayoutParams.create,
                                                                   physicalBounds.getWidth(), physicalBounds.getHeight(),
                                                                   physicalBounds.getX(), physicalBounds.getY(),
-                                                                  TYPE_APPLICATION, FLAG_NOT_TOUCH_MODAL | FLAG_LAYOUT_IN_SCREEN | FLAG_LAYOUT_NO_LIMITS,
+                                                                  TYPE_APPLICATION, FLAG_NOT_TOUCH_MODAL | FLAG_LAYOUT_IN_SCREEN | FLAG_LAYOUT_NO_LIMITS | FLAG_NOT_FOCUSABLE,
                                                                   component.isOpaque() ? PIXEL_FORMAT_OPAQUE : PIXEL_FORMAT_TRANSPARENT));
             env->SetIntField (windowLayoutParams.get(), AndroidWindowManagerLayoutParams.gravity, GRAVITY_LEFT | GRAVITY_TOP);
             env->SetIntField (windowLayoutParams.get(), AndroidWindowManagerLayoutParams.windowAnimations, 0x01030000 /* android.R.style.Animation */);
+
+            if (Desktop::getInstance().getKioskModeComponent() != nullptr)
+                setNavBarsHidden (true);
 
             LocalRef<jobject> activity (getCurrentActivity());
 
@@ -318,7 +340,7 @@ public:
             handleFocusGain();
     }
 
-    ~AndroidComponentPeer()
+    ~AndroidComponentPeer() override
     {
         auto* env = getEnv();
 
@@ -424,7 +446,7 @@ public:
             class ViewMover  : public CallbackMessage
             {
             public:
-                ViewMover (const GlobalRef& v, const Rectangle<int>& boundsToUse)  : view (v), bounds (boundsToUse) {}
+                ViewMover (const GlobalRef& v, Rectangle<int> boundsToUse)  : view (v), bounds (boundsToUse) {}
 
                 void messageCallback() override
                 {
@@ -466,7 +488,7 @@ public:
         LocalRef<jintArray> position (env->NewIntArray (2));
         env->CallVoidMethod (view.get(), AndroidView.getLocationOnScreen, position.get());
 
-        jint* const screenPosition = env->GetIntArrayElements (position.get(), 0);
+        jint* const screenPosition = env->GetIntArrayElements (position.get(), nullptr);
         Point<int> pos (screenPosition[0], screenPosition[1]);
         env->ReleaseIntArrayElements (position.get(), screenPosition, 0);
 
@@ -478,10 +500,14 @@ public:
         return relativePosition + (getScreenPosition().toFloat() / scale);
     }
 
+    using ComponentPeer::localToGlobal;
+
     Point<float> globalToLocal (Point<float> screenPosition) override
     {
         return screenPosition - (getScreenPosition().toFloat() / scale);
     }
+
+    using ComponentPeer::globalToLocal;
 
     void setMinimised (bool /*shouldBeMinimised*/) override
     {
@@ -505,20 +531,8 @@ public:
 
     void setNavBarsHidden (bool hidden)
     {
-        enum
-        {
-            SYSTEM_UI_FLAG_VISIBLE                  = 0,
-            SYSTEM_UI_FLAG_LOW_PROFILE              = 1,
-            SYSTEM_UI_FLAG_HIDE_NAVIGATION          = 2,
-            SYSTEM_UI_FLAG_FULLSCREEN               = 4,
-            SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION   = 512,
-            SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN        = 1024,
-            SYSTEM_UI_FLAG_IMMERSIVE                = 2048,
-            SYSTEM_UI_FLAG_IMMERSIVE_STICKY         = 4096
-        };
-
         view.callVoidMethod (ComponentPeerView.setSystemUiVisibilityCompat,
-                             hidden ? (jint) (SYSTEM_UI_FLAG_HIDE_NAVIGATION | SYSTEM_UI_FLAG_FULLSCREEN | SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+                             hidden ? (jint) (fullScreenFlags)
                                     : (jint) (SYSTEM_UI_FLAG_VISIBLE));
 
         navBarsHidden = hidden;
@@ -529,7 +543,7 @@ public:
         // updating the nav bar visibility is a bit odd on Android - need to wait for
         if (shouldNavBarsBeHidden (shouldBeFullScreen))
         {
-            if (! navBarsHidden && ! isTimerRunning())
+            if (! isTimerRunning())
             {
                 startTimer (500);
             }
@@ -702,6 +716,9 @@ public:
 
     void handleFocusChangeCallback (bool hasFocus)
     {
+        if (isFullScreen())
+            setFullScreen (true);
+
         if (hasFocus)
             handleFocusGain();
         else
@@ -770,7 +787,7 @@ public:
             return;
         }
 
-        if (jint* dest = env->GetIntArrayElements ((jintArray) buffer.get(), 0))
+        if (jint* dest = env->GetIntArrayElements ((jintArray) buffer.get(), nullptr))
         {
             {
                 Image temp (new PreallocatedImage (clip.getWidth(), clip.getHeight(),
@@ -925,18 +942,18 @@ private:
 
     struct PreallocatedImage  : public ImagePixelData
     {
-        PreallocatedImage (const int width_, const int height_, jint* data_, bool hasAlpha_)
+        PreallocatedImage (int width_, int height_, jint* data_, bool hasAlpha_)
             : ImagePixelData (Image::ARGB, width_, height_), data (data_), hasAlpha (hasAlpha_)
         {
             if (hasAlpha_)
                 zeromem (data_, static_cast<size_t> (width * height) * sizeof (jint));
         }
 
-        ~PreallocatedImage()
+        ~PreallocatedImage() override
         {
             if (hasAlpha)
             {
-                PixelARGB* pix = (PixelARGB*) data;
+                auto pix = (PixelARGB*) data;
 
                 for (int i = width * height; --i >= 0;)
                 {
@@ -946,8 +963,15 @@ private:
             }
         }
 
-        ImageType* createType() const override                      { return new SoftwareImageType(); }
-        LowLevelGraphicsContext* createLowLevelContext() override   { return new LowLevelGraphicsSoftwareRenderer (Image (this)); }
+        std::unique_ptr<ImageType> createType() const override
+        {
+            return std::make_unique<SoftwareImageType>();
+        }
+
+        std::unique_ptr<LowLevelGraphicsContext> createLowLevelContext() override
+        {
+            return std::make_unique<LowLevelGraphicsSoftwareRenderer> (Image (this));
+        }
 
         void initialiseBitmapData (Image::BitmapData& bm, int x, int y, Image::BitmapData::ReadWriteMode /*mode*/) override
         {
@@ -959,7 +983,7 @@ private:
 
         ImagePixelData::Ptr clone() override
         {
-            PreallocatedImage* s = new PreallocatedImage (width, height, 0, hasAlpha);
+            auto s = new PreallocatedImage (width, height, nullptr, hasAlpha);
             s->allocatedData.malloc (sizeof (jint) * static_cast<size_t> (width * height));
             s->data = s->allocatedData;
             memcpy (s->data, data, sizeof (jint) * static_cast<size_t> (width * height));
@@ -1016,11 +1040,11 @@ Desktop::DisplayOrientation Desktop::getCurrentOrientation() const
 
     LocalRef<jobject> windowManager = LocalRef<jobject> (env->CallObjectMethod (getAppContext().get(), AndroidContext.getSystemService, windowServiceString.get()));
 
-    if (windowManager.get() != 0)
+    if (windowManager.get() != nullptr)
     {
         LocalRef<jobject> display = LocalRef<jobject> (env->CallObjectMethod (windowManager, AndroidWindowManager.getDefaultDisplay));
 
-        if (display.get() != 0)
+        if (display.get() != nullptr)
         {
             int rotation = env->CallIntMethod (display, AndroidDisplay.getRotation);
 
@@ -1060,7 +1084,7 @@ void MouseInputSource::setRawMousePosition (Point<float>)
 }
 
 //==============================================================================
-bool KeyPress::isKeyCurrentlyDown (const int /*keyCode*/)
+bool KeyPress::isKeyCurrentlyDown (int /*keyCode*/)
 {
     // TODO
     return false;
@@ -1088,7 +1112,8 @@ JUCE_API void JUCE_CALLTYPE Process::makeForegroundProcess() {}
 
 //==============================================================================
 #define JNI_CLASS_MEMBERS(METHOD, STATICMETHOD, FIELD, STATICFIELD, CALLBACK) \
- METHOD (show,                   "show",                 "()V")
+ METHOD (show,                   "show",                 "()V") \
+ METHOD (getWindow,              "getWindow",            "()Landroid/view/Window;")
 
 DECLARE_JNI_CLASS (AndroidDialog, "android/app/Dialog")
 #undef JNI_CLASS_MEMBERS
@@ -1195,7 +1220,20 @@ static void createAndroidDialog (const String& title, const String& message,
                                                               "android/content/DialogInterface$OnClickListener").get()));
 
     LocalRef<jobject> dialog (env->CallObjectMethod (builder.get(), AndroidAlertDialogBuilder.create));
+
+    LocalRef<jobject> window (env->CallObjectMethod (dialog.get(), AndroidDialog.getWindow));
+
+    if (Desktop::getInstance().getKioskModeComponent() != nullptr)
+    {
+        env->CallVoidMethod (window.get(), AndroidWindow.setFlags, FLAG_NOT_FOCUSABLE, FLAG_NOT_FOCUSABLE);
+        LocalRef<jobject> decorView (env->CallObjectMethod (window.get(), AndroidWindow.getDecorView));
+        env->CallVoidMethod (decorView.get(), AndroidView.setSystemUiVisibility, fullScreenFlags);
+    }
+
     env->CallVoidMethod (dialog.get(), AndroidDialog.show);
+
+    if (Desktop::getInstance().getKioskModeComponent() != nullptr)
+        env->CallVoidMethod (window.get(), AndroidWindow.clearFlags, FLAG_NOT_FOCUSABLE);
 }
 
 void JUCE_CALLTYPE NativeMessageBox::showMessageBoxAsync (AlertWindow::AlertIconType /*iconType*/,
@@ -1242,7 +1280,7 @@ int JUCE_CALLTYPE NativeMessageBox::showYesNoBox (AlertWindow::AlertIconType /*i
 //==============================================================================
 static bool androidScreenSaverEnabled = false;
 
-void Desktop::setScreenSaverEnabled (const bool shouldEnable)
+void Desktop::setScreenSaverEnabled (bool shouldEnable)
 {
     constexpr auto FLAG_KEEP_SCREEN_ON = 0x80;
 
@@ -1403,7 +1441,7 @@ void Displays::findDisplays (float masterScale)
 
     jmethodID getRealMetricsMethod = env->GetMethodID (AndroidDisplay, "getRealMetrics", "(Landroid/util/DisplayMetrics;)V");
 
-    if (getRealMetricsMethod != 0)
+    if (getRealMetricsMethod != nullptr)
         env->CallVoidMethod (display.get(), getRealMetricsMethod, displayMetrics.get());
     else
         env->CallVoidMethod (display.get(), AndroidDisplay.getMetrics, displayMetrics.get());
@@ -1486,15 +1524,15 @@ Image juce_createIconForFile (const File& /*file*/)
 }
 
 //==============================================================================
-void* CustomMouseCursorInfo::create() const                                                     { return nullptr; }
-void* MouseCursor::createStandardMouseCursor (const MouseCursor::StandardCursorType)            { return nullptr; }
-void MouseCursor::deleteMouseCursor (void* const /*cursorHandle*/, const bool /*isStandard*/)   {}
+void* CustomMouseCursorInfo::create() const                                         { return nullptr; }
+void* MouseCursor::createStandardMouseCursor (MouseCursor::StandardCursorType)      { return nullptr; }
+void MouseCursor::deleteMouseCursor (void* /*cursorHandle*/, bool /*isStandard*/)   {}
 
 //==============================================================================
 void MouseCursor::showInWindow (ComponentPeer*) const   {}
 
 //==============================================================================
-bool DragAndDropContainer::performExternalDragDropOfFiles (const StringArray& /*files*/, const bool /*canMove*/,
+bool DragAndDropContainer::performExternalDragDropOfFiles (const StringArray& /*files*/, bool /*canMove*/,
                                                            Component* /*srcComp*/, std::function<void()> /*callback*/)
 {
     jassertfalse;    // no such thing on Android!

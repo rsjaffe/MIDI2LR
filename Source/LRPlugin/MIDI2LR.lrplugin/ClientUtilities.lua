@@ -400,6 +400,7 @@ local function fToggleTool(param)
   return function()
     if LrApplicationView.getCurrentModuleName() ~= 'develop' then
       LrApplicationView.switchToModule('develop')
+      LrTasks.yield() -- need this to allow module change before next action
     end
     if(LrDevelopController.getSelectedTool() == param) then -- toggle between the tool/loupe
       LrDevelopController.selectTool('loupe')

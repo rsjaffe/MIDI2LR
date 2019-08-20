@@ -178,8 +178,7 @@ void MainContentComponent::Init()
          const auto filename = rsj::AppDataFilePath(kDefaultsFile);
          const auto default_profile = juce::File(filename.data());
          if (const auto parsed{juce::XmlDocument::parse(default_profile)}) {
-            const std::unique_ptr<juce::XmlElement> xml_element{parsed};
-            profile_.FromXml(xml_element.get());
+            profile_.FromXml(parsed.get());
             command_table_.updateContent();
          }
       }
@@ -321,14 +320,13 @@ void MainContentComponent::buttonClicked(juce::Button* button)
              juce::translate("Open profile"), profile_directory, "*.xml", true};
          if (chooser.browseForFileToOpen()) {
             if (const auto parsed{juce::XmlDocument::parse(chooser.getResult())}) {
-               std::unique_ptr<juce::XmlElement> xml_element{parsed};
                const auto new_profile = chooser.getResult();
                auto command =
                    "ChangedToFullPath " + new_profile.getFullPathName().toStdString() + '\n';
                lr_ipc_out_.SendCommand(std::move(command));
                profile_name_label_.setText(
                    new_profile.getFileName(), juce::NotificationType::dontSendNotification);
-               profile_.FromXml(xml_element.get());
+               profile_.FromXml(parsed.get());
                command_table_.updateContent();
                command_table_.repaint();
             }

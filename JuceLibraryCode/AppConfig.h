@@ -62,11 +62,11 @@
 // juce_audio_devices flags:
 
 #ifndef    JUCE_USE_WINRT_MIDI
- //#define JUCE_USE_WINRT_MIDI 0
+ #define   JUCE_USE_WINRT_MIDI 0
 #endif
 
 #ifndef    JUCE_ASIO
- //#define JUCE_ASIO 0
+ #define   JUCE_ASIO 0
 #endif
 
 #ifndef    JUCE_WASAPI
@@ -86,15 +86,15 @@
 #endif
 
 #ifndef    JUCE_JACK
- //#define JUCE_JACK 0
+ #define   JUCE_JACK 0
 #endif
 
 #ifndef    JUCE_BELA
- //#define JUCE_BELA 0
+ #define   JUCE_BELA 0
 #endif
 
 #ifndef    JUCE_USE_ANDROID_OBOE
- //#define JUCE_USE_ANDROID_OBOE 0
+ #define   JUCE_USE_ANDROID_OBOE 0
 #endif
 
 #ifndef    JUCE_USE_ANDROID_OPENSLES
@@ -102,18 +102,18 @@
 #endif
 
 #ifndef    JUCE_DISABLE_AUDIO_MIXING_WITH_OTHER_APPS
- //#define JUCE_DISABLE_AUDIO_MIXING_WITH_OTHER_APPS 0
+ #define   JUCE_DISABLE_AUDIO_MIXING_WITH_OTHER_APPS 0
 #endif
 
 //==============================================================================
 // juce_core flags:
 
 #ifndef    JUCE_FORCE_DEBUG
- //#define JUCE_FORCE_DEBUG 0
+ #define   JUCE_FORCE_DEBUG 0
 #endif
 
 #ifndef    JUCE_LOG_ASSERTIONS
- //#define JUCE_LOG_ASSERTIONS 0
+ #define   JUCE_LOG_ASSERTIONS 0
 #endif
 
 #ifndef    JUCE_CHECK_MEMORY_LEAKS
@@ -129,7 +129,7 @@
 #endif
 
 #ifndef    JUCE_USE_CURL
- //#define JUCE_USE_CURL 0
+ //#define JUCE_USE_CURL 1
 #endif
 
 #ifndef    JUCE_LOAD_CURL_SYMBOLS_LAZILY
@@ -137,22 +137,22 @@
 #endif
 
 #ifndef    JUCE_CATCH_UNHANDLED_EXCEPTIONS
- //#define JUCE_CATCH_UNHANDLED_EXCEPTIONS 1
+ #define   JUCE_CATCH_UNHANDLED_EXCEPTIONS 1
 #endif
 
 #ifndef    JUCE_ALLOW_STATIC_NULL_VARIABLES
- //#define JUCE_ALLOW_STATIC_NULL_VARIABLES 1
+ #define   JUCE_ALLOW_STATIC_NULL_VARIABLES 0
 #endif
 
 #ifndef    JUCE_STRICT_REFCOUNTEDPOINTER
- //#define JUCE_STRICT_REFCOUNTEDPOINTER 0
+ #define   JUCE_STRICT_REFCOUNTEDPOINTER 1
 #endif
 
 //==============================================================================
 // juce_events flags:
 
 #ifndef    JUCE_EXECUTE_APP_SUSPEND_ON_IOS_BACKGROUND_TASK
- //#define JUCE_EXECUTE_APP_SUSPEND_ON_IOS_BACKGROUND_TASK 0
+ #define   JUCE_EXECUTE_APP_SUSPEND_ON_IOS_BACKGROUND_TASK 0
 #endif
 
 //==============================================================================

@@ -25,6 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  * ourselves. <typeindex> is guaranteed to provide such a declaration, and is much cheaper to
  * include than <functional>. See https://en.cppreference.com/w/cpp/language/extending_std. */
 #include <typeindex>
+#include <type_traits>
 
 #include "Misc.h"
 namespace juce {
@@ -32,7 +33,7 @@ namespace juce {
 }
 
 namespace rsj {
-   enum MessageType : short {
+   enum struct MessageType : uint8_t {
       NoteOff = 0x8,
       NoteOn = 0x9,
       KeyPressure = 0xA, // Individual key pressure
@@ -43,9 +44,18 @@ namespace rsj {
       System = 0xF
    };
 
-   constexpr MessageType ToMessageType(short from)
+   constexpr bool ValidMessageType(uint8_t value)
    {
-      if (from < 0x9 || from > 0xF)
+      static_assert(std::is_unsigned_v<decltype(value)>); // avoid sign extension
+      const auto from = (value >> 4) & 0xF;
+      return from >= 0x9;
+   }
+
+   constexpr MessageType ToMessageType(uint8_t value)
+   {
+      static_assert(std::is_unsigned_v<decltype(value)>); // avoid sign extension
+      const auto from = (value >> 4) & 0xF;
+      if (from < 0x9)
          throw std::range_error("ToMessageType: MessageType range error, muxt be 0x9 to 0xF");
       return static_cast<MessageType>(from);
    }
@@ -68,7 +78,7 @@ namespace rsj {
 
    // channel is 0-based in MidiMessage, 1-based in MidiMessageId
    struct MidiMessage {
-      MessageType message_type_byte{NoteOn};
+      MessageType message_type_byte{MessageType::NoteOn};
       short channel{0}; // 0-based
       short control_number{0};
       short value{0};
@@ -90,7 +100,7 @@ namespace rsj {
 
    // channel is 0-based in MidiMessage, 1-based in MidiMessageId
    struct MidiMessageId {
-      MessageType msg_id_type{NoteOn};
+      MessageType msg_id_type{MessageType::NoteOn};
       int channel{1}; // 1-based
       int control_number{0};
 

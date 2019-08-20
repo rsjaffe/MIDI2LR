@@ -22,13 +22,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <exception>
 #include <sstream>
+#include <type_traits>
 
 #include "Misc.h"
 #include "SettingsManager.h"
 
 namespace {
-   [[nodiscard]] std::string IntToVersion(int vers)
+   [[nodiscard]] std::string IntToVersion(unsigned int vers)
    {
+      static_assert(std::is_unsigned_v<decltype(vers)>); // avoid sign extension
       const auto major{(vers & 0xFF000000) >> 24};
       const auto minor{(vers & 0xFF0000) >> 16};
       const auto rev{(vers & 0xFF00) >> 8};
@@ -77,8 +79,7 @@ void VersionChecker::run()
    try {
       rsj::LabelThread(L"VersionChecker run thread");
       const juce::URL version_url{"https://rsjaffe.github.io/MIDI2LR/version.xml"};
-      const std::unique_ptr<juce::XmlElement> version_xml_element{
-          version_url.readEntireXmlStream()};
+      const auto version_xml_element{version_url.readEntireXmlStream()};
       if (version_xml_element && !threadShouldExit()) {
          const auto last_checked = settings_manager_.GetLastVersionFound();
          new_version_ = version_xml_element->getIntAttribute("latest");

@@ -387,19 +387,18 @@ namespace CoreTextTypeLayout
             auto numRuns = CFArrayGetCount (runs);
 
             auto cfrlineStringRange = CTLineGetStringRange (line);
-            auto lineStringEnd = cfrlineStringRange.location + cfrlineStringRange.length - 1;
+            auto lineStringEnd = cfrlineStringRange.location + cfrlineStringRange.length;
             Range<int> lineStringRange ((int) cfrlineStringRange.location, (int) lineStringEnd);
 
             LineInfo lineInfo (frame, line, i);
 
-            auto glyphLine = new TextLayout::Line (lineStringRange,
-                                                   Point<float> ((float) lineInfo.origin.x,
-                                                                 (float) (boundsHeight - lineInfo.origin.y)),
-                                                   (float) lineInfo.ascent,
-                                                   (float) lineInfo.descent,
-                                                   (float) lineInfo.leading,
-                                                   (int) numRuns);
-            glyphLayout.addLine (glyphLine);
+            auto glyphLine = std::make_unique<TextLayout::Line> (lineStringRange,
+                                                                 Point<float> ((float) lineInfo.origin.x,
+                                                                               (float) (boundsHeight - lineInfo.origin.y)),
+                                                                 (float) lineInfo.ascent,
+                                                                 (float) lineInfo.descent,
+                                                                 (float) lineInfo.leading,
+                                                                 (int) numRuns);
 
             for (CFIndex j = 0; j < numRuns; ++j)
             {
@@ -457,6 +456,8 @@ namespace CoreTextTypeLayout
                                                                                              (float) positions.points[k].y),
                                                              (float) advances.advances[k].width));
             }
+
+            glyphLayout.addLine (std::move (glyphLine));
         }
 
         CFRelease (frame);
@@ -551,23 +552,10 @@ public:
         CFRelease (numberRef);
     }
 
-    ~OSXTypeface() override
-    {
-        if (attributedStringAtts != nullptr)
-            CFRelease (attributedStringAtts);
-
-        if (fontRef != nullptr)
-        {
-           #if JUCE_MAC && defined (MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8
-            CTFontManagerUnregisterGraphicsFont (fontRef, nullptr);
-           #endif
-
-            CGFontRelease (fontRef);
-        }
-
-        if (ctFontRef != nullptr)
-            CFRelease (ctFontRef);
-    }
+    // The implementation of at least one overridden function needs to be outside
+    // of the class definition to avoid spurious warning messages when dynamically
+    // loading libraries at runtime on macOS...
+    ~OSXTypeface() override;
 
     float getAscent() const override                 { return ascent; }
     float getDescent() const override                { return 1.0f - ascent; }
@@ -697,6 +685,25 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OSXTypeface)
 };
 
+OSXTypeface::~OSXTypeface()
+{
+    if (attributedStringAtts != nullptr)
+        CFRelease (attributedStringAtts);
+
+    if (fontRef != nullptr)
+    {
+       #if JUCE_MAC && defined (MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8
+        if (dataCopy.getSize() != 0)
+            CTFontManagerUnregisterGraphicsFont (fontRef, nullptr);
+       #endif
+
+        CGFontRelease (fontRef);
+    }
+
+    if (ctFontRef != nullptr)
+        CFRelease (ctFontRef);
+}
+
 CTFontRef getCTFontFromTypeface (const Font& f)
 {
     if (auto* tf = dynamic_cast<OSXTypeface*> (f.getTypeface()))
@@ -792,9 +799,16 @@ StringArray Font::findAllTypefaceStyles (const String& family)
 Typeface::Ptr Typeface::createSystemTypefaceFor (const Font& font)                  { return *new OSXTypeface (font); }
 Typeface::Ptr Typeface::createSystemTypefaceFor (const void* data, size_t size)     { return *new OSXTypeface (data, size); }
 
-void Typeface::scanFolderForFonts (const File&)
+void Typeface::scanFolderForFonts (const File& folder)
 {
-    jassertfalse; // not implemented on this platform
+    for (auto& file : folder.findChildFiles (File::findFiles, false, "*.otf;*.ttf"))
+    {
+        if (auto urlref = CFURLCreateWithFileSystemPath (kCFAllocatorDefault, file.getFullPathName().toCFString(), kCFURLPOSIXPathStyle, true))
+        {
+            CTFontManagerRegisterFontsForURL (urlref, kCTFontManagerScopeProcess, nullptr);
+            CFRelease (urlref);
+        }
+    }
 }
 
 struct DefaultFontNames

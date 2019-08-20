@@ -130,7 +130,7 @@ namespace {
       try {
          // construct input event.
          INPUT ip{};
-         constexpr int size_ip = sizeof(ip);
+         constexpr int size_ip = sizeof ip;
          ip.type = INPUT_KEYBOARD;
          // ki: wVk, wScan, dwFlags, time, dwExtraInfo
          ip.ki = {0, 0, 0, 0, 0};

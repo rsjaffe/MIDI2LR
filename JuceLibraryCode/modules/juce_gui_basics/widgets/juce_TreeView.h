@@ -514,7 +514,7 @@ public:
 
         @see TreeView::getOpennessState, restoreOpennessState
     */
-    XmlElement* getOpennessState() const;
+    std::unique_ptr<XmlElement> getOpennessState() const;
 
     /** Restores the openness of this item and all its sub-items from a saved state.
 
@@ -616,12 +616,6 @@ private:
     bool removeSubItemFromList (int index, bool deleteItem);
     void removeAllSubItemsFromList();
     bool areLinesDrawn() const;
-
-   #if JUCE_CATCH_DEPRECATED_CODE_MISUSE
-    // The parameters for these methods have changed - please update your code!
-    virtual void isInterestedInDragSource (const String&, Component*) {}
-    virtual int itemDropped (const String&, Component*, int) { return 0; }
-   #endif
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TreeViewItem)
 };
@@ -818,7 +812,7 @@ public:
                                             so this can also be restored
         @see restoreOpennessState
     */
-    XmlElement* getOpennessState (bool alsoIncludeScrollPosition) const;
+    std::unique_ptr<XmlElement> getOpennessState (bool alsoIncludeScrollPosition) const;
 
     /** Restores a previously saved arrangement of open/closed nodes.
 

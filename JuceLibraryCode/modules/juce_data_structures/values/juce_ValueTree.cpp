@@ -992,9 +992,9 @@ void ValueTree::sendPropertyChangeMessage (const Identifier& property)
 }
 
 //==============================================================================
-XmlElement* ValueTree::createXml() const
+std::unique_ptr<XmlElement> ValueTree::createXml() const
 {
-    return object != nullptr ? object->createXml() : nullptr;
+    return std::unique_ptr<XmlElement> (object != nullptr ? object->createXml() : nullptr);
 }
 
 ValueTree ValueTree::fromXml (const XmlElement& xml)
@@ -1015,12 +1015,18 @@ ValueTree ValueTree::fromXml (const XmlElement& xml)
     return {};
 }
 
-String ValueTree::toXmlString() const
+ValueTree ValueTree::fromXml (const String& xmlText)
 {
-    std::unique_ptr<XmlElement> xml (createXml());
+    if (auto xml = parseXML (xmlText))
+        return fromXml (*xml);
 
-    if (xml != nullptr)
-        return xml->createDocument ({});
+    return {};
+}
+
+String ValueTree::toXmlString (const XmlElement::TextFormat& format) const
+{
+    if (auto xml = createXml())
+        return xml->toString (format);
 
     return {};
 }
@@ -1088,15 +1094,24 @@ ValueTree ValueTree::readFromGZIPData (const void* data, size_t numBytes)
     return readFromStream (gzipStream);
 }
 
-void ValueTree::Listener::valueTreeRedirected (ValueTree&) {}
+void ValueTree::Listener::valueTreePropertyChanged   (ValueTree&, const Identifier&) {}
+void ValueTree::Listener::valueTreeChildAdded        (ValueTree&, ValueTree&)        {}
+void ValueTree::Listener::valueTreeChildRemoved      (ValueTree&, ValueTree&, int)   {}
+void ValueTree::Listener::valueTreeChildOrderChanged (ValueTree&, int, int)          {}
+void ValueTree::Listener::valueTreeParentChanged     (ValueTree&)                    {}
+void ValueTree::Listener::valueTreeRedirected        (ValueTree&)                    {}
 
+
+//==============================================================================
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
 class ValueTreeTests  : public UnitTest
 {
 public:
-    ValueTreeTests() : UnitTest ("ValueTrees", "Values") {}
+    ValueTreeTests()
+        : UnitTest ("ValueTrees", UnitTestCategories::values)
+    {}
 
     static String createRandomIdentifier (Random& r)
     {
@@ -1179,8 +1194,8 @@ public:
                 }
                 expect (v1.isEquivalentTo (ValueTree::readFromGZIPData (zipped.getData(), zipped.getDataSize())));
 
-                std::unique_ptr<XmlElement> xml1 (v1.createXml());
-                std::unique_ptr<XmlElement> xml2 (v2.createCopy().createXml());
+                auto xml1 = v1.createXml();
+                auto xml2 = v2.createCopy().createXml();
                 expect (xml1->isEquivalentTo (xml2.get(), false));
 
                 auto v4 = v2.createCopy();

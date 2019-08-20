@@ -20,10 +20,13 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+#include <memory>
+
 #include <JuceLibraryCode/JuceHeader.h>
+#include "MainComponent.h"
+
 class CommandSet;
 class LrIpcOut;
-class MainContentComponent;
 class MidiReceiver;
 class MidiSender;
 class Profile;
@@ -40,7 +43,10 @@ class MainWindow final : juce::DocumentWindow, juce::Timer {
    MainWindow(MainWindow&& other) = delete;
    MainWindow& operator=(const MainWindow& other) = delete;
    MainWindow& operator=(MainWindow&& other) = delete;
-   void SaveProfile() const;
+   void SaveProfile() const
+   {
+      window_content_->SaveProfile();
+   }
    /* Note: Be careful if you override any DocumentWindow methods - the base class uses a lot of
     * them, so by overriding you might break its functionality. It's best to do all your work in
     * your content component instead, but if you really have to override any DocumentWindow methods,
@@ -53,7 +59,7 @@ class MainWindow final : juce::DocumentWindow, juce::Timer {
    }
    void timerCallback() override;
 
-   MainContentComponent* window_content_{nullptr}; //-V122
+   std::unique_ptr<MainContentComponent> window_content_{};
 };
 
 #endif // MAINWINDOW_H_INCLUDED

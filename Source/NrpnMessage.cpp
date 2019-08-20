@@ -31,6 +31,8 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
              "Channel msg.value in ProcessMIDI is " + std::to_string(message.channel) + '.');
       Expects(message.value <= 0x7F);
       Expects(message.control_number <= 0x7F);
+#pragma warning(push)
+#pragma warning(disable : 26482 26446) // message.channel range-checked already
       ProcessResult ret_val{false, false, 0, 0};
       switch (message.control_number) {
       case 6:
@@ -76,6 +78,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
       default: // not an expected nrpn control #, handle as typical midi message
          return ret_val;
       }
+#pragma warning(pop)
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

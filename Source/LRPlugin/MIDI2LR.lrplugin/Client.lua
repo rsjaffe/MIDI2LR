@@ -580,6 +580,7 @@ LrTasks.startAsyncTask(
         local value
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
           LrApplicationView.switchToModule('develop')
+          LrTasks.yield() -- need this to allow module change before value sent
         end
         if Limits.Parameters[param] then
           Limits.ClampValue(param)
@@ -618,6 +619,7 @@ LrTasks.startAsyncTask(
       local value
       if LrApplicationView.getCurrentModuleName() ~= 'develop' then
         LrApplicationView.switchToModule('develop')
+        LrTasks.yield() -- need this to allow module change before value sent
       end
       --Don't need to clamp limited parameters without pickup, as MIDI controls will still work
       --if value is outside limits range
