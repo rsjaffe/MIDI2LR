@@ -31,10 +31,10 @@ namespace {
    [[nodiscard]] std::string IntToVersion(unsigned int vers)
    {
       static_assert(std::is_unsigned_v<decltype(vers)>); // avoid sign extension
-      const auto major{(vers & 0xFF000000) >> 24};
-      const auto minor{(vers & 0xFF0000) >> 16};
-      const auto rev{(vers & 0xFF00) >> 8};
-      const auto build{(vers & 0xFF)};
+      const auto major{vers >> 24 & 0xFFu};
+      const auto minor{vers >> 16 & 0xFFu};
+      const auto rev{vers >> 8 & 0xFFu};
+      const auto build{vers & 0xFFu};
       std::ostringstream version_string;
       version_string << major << '.' << minor << '.' << rev << '.' << build;
       return version_string.str();
@@ -55,18 +55,20 @@ void VersionChecker::StopRunning()
 void VersionChecker::handleAsyncUpdate()
 {
    try {
-      // show a dialog box indicating there is a newer version available
-      juce::DialogWindow::LaunchOptions dialog_options;
-      dialog_options.dialogTitle = juce::translate("A new version of MIDI2LR is available.");
-      const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
-      auto button =
-          std::make_unique<juce::HyperlinkButton>(IntToVersion(new_version_), download_url);
-      button->setFont(juce::Font{18.f}, false);
-      dialog_options.content.setOwned(button.release());
-      dialog_options.content->setSize(600, 100);
-      dialog_.reset(dialog_options.create());
-      dialog_->setVisible(true);
-      settings_manager_.SetLastVersionFound(new_version_); // user has been notified
+      if (threadShouldExit())
+         return;
+      juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::AlertIconType::QuestionIcon,
+          juce::translate("A new version of MIDI2LR is available."),
+          juce::translate("Download new version of MIDI2LR") + ' ' + IntToVersion(new_version_),
+          nullptr, juce::ModalCallbackFunction::create([this](int result) {
+             if (result) {
+                const auto git{juce::URL("https://github.com/rsjaffe/MIDI2LR/releases/latest")};
+                if (git.launchInDefaultBrowser()) // successfully opened browser
+                   settings_manager_.SetLastVersionFound(new_version_);
+             }
+             else
+                settings_manager_.SetLastVersionFound(new_version_); // user doesn't want it
+          }));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

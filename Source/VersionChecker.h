@@ -41,7 +41,6 @@ class VersionChecker final : public juce::Thread, juce::AsyncUpdater {
 
    int new_version_{0};
    SettingsManager& settings_manager_;
-   std::unique_ptr<juce::DialogWindow> dialog_;
 };
 
 #endif // VERSIONCHECKER_H_INCLUDED
