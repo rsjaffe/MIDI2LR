@@ -34,6 +34,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 	shadows2012 = 1,
 	sharpness = 1,
 	temperature = 1,
+  texture = 1,
 	tint = 1,
 	toningHue = 240,
 	toningLuminance = 0,
@@ -69,6 +70,7 @@ local localPresetMap = {
   shadows2012 = "local_Shadows",
   sharpness = "local_Sharpness",
   temperature = "local_Temperature",
+  texture = "local_Texture",
   tint = "local_Tint",
   toningHue = "", --"local_ToningHue" doesn't exsist
   toningSaturation = "", --"local_ToningSaturation" doesn't exsist
