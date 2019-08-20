@@ -450,6 +450,13 @@ LrTasks.startAsyncTask(
     ACTIONS.ActionSeries7 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[7],ACTIONS) end
     ACTIONS.ActionSeries8 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[8],ACTIONS) end
     ACTIONS.ActionSeries9 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[9],ACTIONS) end  
+    ACTIONS.ActionSeries10 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[10],ACTIONS) end  
+    ACTIONS.ActionSeries11 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[11],ACTIONS) end  
+    ACTIONS.ActionSeries12 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[12],ACTIONS) end  
+    ACTIONS.ActionSeries13 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[13],ACTIONS) end  
+    ACTIONS.ActionSeries14 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[14],ACTIONS) end  
+    ACTIONS.ActionSeries15 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[15],ACTIONS) end  
+    ACTIONS.ActionSeries16 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[16],ACTIONS) end  
 
     --some functions not available before 7.4
     if not Ut.LrVersion74orMore then

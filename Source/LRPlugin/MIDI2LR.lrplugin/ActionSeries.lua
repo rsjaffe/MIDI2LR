@@ -45,7 +45,7 @@ local function ValidateActions(_,value)
   end
 end
 
-local numseries = 9
+local numseries = 16
 
 local function StartDialog(obstable,f)
   for i = 1,numseries do

@@ -185,6 +185,13 @@ local DataBase = {
   {Command='ActionSeries7',Type='button',Translation=commandseries .. ' 7',Group=commandseries,Explanation=serexp},
   {Command='ActionSeries8',Type='button',Translation=commandseries .. ' 8',Group=commandseries,Explanation=serexp},
   {Command='ActionSeries9',Type='button',Translation=commandseries .. ' 9',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries10',Type='button',Translation=commandseries .. ' 10',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries11',Type='button',Translation=commandseries .. ' 11',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries12',Type='button',Translation=commandseries .. ' 12',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries13',Type='button',Translation=commandseries .. ' 13',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries14',Type='button',Translation=commandseries .. ' 14',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries15',Type='button',Translation=commandseries .. ' 15',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries16',Type='button',Translation=commandseries .. ' 16',Group=commandseries,Explanation=serexp}, 
   --library filters
   {Command='Filter_1',Type='button',Translation=filter..' 1',Group=filter,Explanation='Library filter 1'..filtexp},
   {Command='Filter_2',Type='button',Translation=filter..' 2',Group=filter,Explanation='Library filter 2'..filtexp},
