@@ -21,6 +21,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIReceiver.h"
 
 #include <chrono>
+#include <exception>
+
 #include "Misc.h"
 
 namespace {

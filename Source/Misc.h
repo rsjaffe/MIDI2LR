@@ -40,7 +40,7 @@ static constexpr bool kNdebug = false;
 #ifndef NDEBUG
 #ifdef _WIN32
 // declarations from processthreadsapi.h
-extern "C" __declspec(dllimport) long __stdcall SetThreadDescription(
+extern "C" __declspec(dllimport) long __stdcall SetThreadDescription( //-V126
     _In_ void* hThread, _In_ const wchar_t* lpThreadDescription);
 extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
 namespace rsj {
@@ -105,7 +105,7 @@ namespace rsj {
    // https://stackoverflow.com/a/42221253/5699329
    template<class T> struct ReverseWrapper {
       T o;
-      explicit ReverseWrapper(T&& i) : o(std::forward<T>(i)) {}
+      explicit ReverseWrapper(T&& i) noexcept : o(std::forward<T>(i)) {}
    };
 
    template<class T> auto begin(ReverseWrapper<T>& r)

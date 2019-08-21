@@ -20,6 +20,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "NrpnMessage.h"
 
+#include <exception>
+
 #include <gsl/gsl>
 #include "Misc.h"
 

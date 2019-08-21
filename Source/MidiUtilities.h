@@ -47,14 +47,14 @@ namespace rsj {
    constexpr bool ValidMessageType(uint8_t value)
    {
       static_assert(std::is_unsigned_v<decltype(value)>); // avoid sign extension
-      const auto from = (value >> 4) & 0xF;
+      const auto from = value >> 4 & 0xF;
       return from >= 0x9;
    }
 
    constexpr MessageType ToMessageType(uint8_t value)
    {
       static_assert(std::is_unsigned_v<decltype(value)>); // avoid sign extension
-      const auto from = (value >> 4) & 0xF;
+      const auto from = value >> 4 & 0xF;
       if (from < 0x9)
          throw std::range_error("ToMessageType: MessageType range error, muxt be 0x9 to 0xF");
       return static_cast<MessageType>(from);

@@ -20,8 +20,6 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#include <memory>
-
 #include <JuceLibraryCode/JuceHeader.h>
 class SettingsManager;
 

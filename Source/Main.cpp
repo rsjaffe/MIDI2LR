@@ -378,6 +378,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          // see https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list
          // avoiding fonts added in windows 10 to support people using earlier Windows versions
          // see https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts
+         // see https://docs.microsoft.com/en-us/windows/uwp/design/globalizing/loc-international-fonts
+         // but Meiryo UI doesn't work well on my computer, so using MS UI Gothic instead for ja
          if constexpr (MSWindows) {
             if (lang == "ko") {
                juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
