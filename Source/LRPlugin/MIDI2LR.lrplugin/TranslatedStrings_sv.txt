@@ -15,5 +15,6 @@
 "$$$/MIDI2LR/Profiles/Previous=Föregående profil"
 "$$$/MIDI2LR/ShortCuts/ShowHide=visa/dölj"
 "$$$/MIDI2LR/Help/Donate=&Donera för att stödja projektutveckling"
+"$$$/MIDI2LR/Help/Latest=&Visa den senaste versionen"
 "$$$/MIDI2LR/Help/OnlineHelp=Direkt&hjälp"
 "$$$/MIDI2LR/Help/Support=&Support"

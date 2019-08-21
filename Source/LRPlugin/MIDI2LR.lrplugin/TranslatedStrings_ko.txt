@@ -15,5 +15,6 @@
 "$$$/MIDI2LR/Profiles/Previous=이전 프로필"
 "$$$/MIDI2LR/ShortCuts/ShowHide=표시/숨기기"
 "$$$/MIDI2LR/Help/Donate=프로젝트 개발 지원을 위해 기부"
+"$$$/MIDI2LR/Help/Latest=최신 릴리스 보기"
 "$$$/MIDI2LR/Help/OnlineHelp=온라인 도움말"
 "$$$/MIDI2LR/Help/Support=지원"

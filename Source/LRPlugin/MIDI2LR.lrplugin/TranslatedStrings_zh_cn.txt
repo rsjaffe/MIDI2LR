@@ -15,5 +15,6 @@
 "$$$/MIDI2LR/Profiles/Previous=上一个档案"
 "$$$/MIDI2LR/ShortCuts/ShowHide=显示/隐藏"
 "$$$/MIDI2LR/Help/Donate=捐赠以支持项目开发"
+"$$$/MIDI2LR/Help/Latest=查看最新发布"
 "$$$/MIDI2LR/Help/OnlineHelp=联机帮助"
 "$$$/MIDI2LR/Help/Support=支持"

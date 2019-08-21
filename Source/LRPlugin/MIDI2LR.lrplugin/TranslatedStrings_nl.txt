@@ -15,5 +15,6 @@
 "$$$/MIDI2LR/Profiles/Previous=Vorig profiel"
 "$$$/MIDI2LR/ShortCuts/ShowHide=weergeven/verbergen"
 "$$$/MIDI2LR/Help/Donate=&Doneren om projectontwikkeling te steunen"
+"$$$/MIDI2LR/Help/Latest=&Bekijk de meest recente release"
 "$$$/MIDI2LR/Help/OnlineHelp=online-&Help"
 "$$$/MIDI2LR/Help/Support=&Ondersteuning"

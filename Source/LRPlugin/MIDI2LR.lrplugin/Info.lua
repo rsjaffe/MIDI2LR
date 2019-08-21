@@ -75,6 +75,10 @@ return {
       file = "Support.lua",
     },
     {
+      title = LOC("$$$/MIDI2LR/Help/Latest=&View latest release"),
+      file = "Latest.lua",
+    },
+    {
       title = LOC("$$$/MIDI2LR/Help/Donate=&Donate to support project development"),
       file = "Donate.lua",
     },

@@ -15,5 +15,6 @@
 "$$$/MIDI2LR/Profiles/Previous=Profilo precedente"
 "$$$/MIDI2LR/ShortCuts/ShowHide=mostrare/nascondere"
 "$$$/MIDI2LR/Help/Donate=&Dona per supportare lo sviluppo del progetto"
+"$$$/MIDI2LR/Help/Latest=&Visualizza la versione più recente"
 "$$$/MIDI2LR/Help/OnlineHelp=&Guida"
 "$$$/MIDI2LR/Help/Support=&Supporto"

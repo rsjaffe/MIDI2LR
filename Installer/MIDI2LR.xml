@@ -64,6 +64,9 @@
                             <origin>${lua}/Init.lua</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>${lua}/Latest.lua</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>${lua}/Keys.lua</origin>
                         </distributionFile>
                         <distributionFile>
