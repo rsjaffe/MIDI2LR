@@ -412,6 +412,23 @@ local function fToggleTool(param)
   end
 end
 
+local function fToggleTool1(param) --for new version toggle tool
+  local functionList = {
+    gradient = LrDevelopController.goToDevelopGraduatedFilter,
+    circularGradient = LrDevelopController.goToDevelopRadialFilter,
+    dust = LrDevelopController.goToSpotRemoval,
+  }
+  return function()
+    if LrApplicationView.getCurrentModuleName() == 'develop' and 
+    LrDevelopController.getSelectedTool() == param then
+      LrDevelopController.selectTool('loupe')
+    else 
+      functionList[param]()
+    end
+  end
+end
+
+
 local function ApplySettings(settings)
   if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   LrTasks.startAsyncTask ( function ()
@@ -519,6 +536,7 @@ return {
   fToggle1ModN = fToggle1ModN,
   fToggleTFasync = fToggleTFasync,
   fToggleTool = fToggleTool,
+  fToggleTool1 = fToggleTool1,
   showBezel = showBezel,
   wrapFOM = wrapFOM,
   wrapForEachPhoto = wrapForEachPhoto,

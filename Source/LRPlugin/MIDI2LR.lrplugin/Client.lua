@@ -507,7 +507,7 @@ LrTasks.startAsyncTask(
       ACTIONS.CycleLoupeViewInfo           = LrApplicationView.cycleLoupeViewInfo
       ACTIONS.EditPhotoshop                = LrDevelopController.editInPhotoshop
       ACTIONS.EnableToneCurve              = CU.fToggleTFasync('EnableToneCurve')
-      ACTIONS.GraduatedFilter              = LrDevelopController.goToDevelopGraduatedFilter
+      ACTIONS.GraduatedFilter              = CU.fToggleTool1('gradient')
       ACTIONS.GridViewStyle                = LrApplicationView.gridViewStyle
       ACTIONS.NextScreenMode               = LrApplicationView.nextScreenMode
       ACTIONS.openExportDialog             = CU.wrapForEachPhoto('openExportDialog')
@@ -528,7 +528,7 @@ LrTasks.startAsyncTask(
       ACTIONS.QuickDevWBFluorescent        = CU.wrapForEachPhoto('QuickDevWBFluorescent')
       ACTIONS.QuickDevWBShade              = CU.wrapForEachPhoto('QuickDevWBShade')
       ACTIONS.QuickDevWBTungsten           = CU.wrapForEachPhoto('QuickDevWBTungsten')
-      ACTIONS.RadialFilter                 = LrDevelopController.goToDevelopRadialFilter
+      ACTIONS.RadialFilter                 = CU.fToggleTool1('circularGradient')
       ACTIONS.RotateLeft                   = CU.wrapForEachPhoto('rotateLeft')
       ACTIONS.RotateRight                  = CU.wrapForEachPhoto('rotateRight')
       ACTIONS.SetTreatmentBW               = CU.wrapForEachPhoto('SetTreatmentBW')
@@ -536,7 +536,7 @@ LrTasks.startAsyncTask(
       ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels
       ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview
       ACTIONS.ShowClipping                 = CU.wrapFOM(LrDevelopController.showClipping)
-      ACTIONS.SpotRemoval                  = LrDevelopController.goToSpotRemoval
+      ACTIONS.SpotRemoval                  = CU.fToggleTool1('dust')
       ACTIONS.ToggleLoupe                  = LrApplicationView.toggleLoupe
       ACTIONS.ToggleOverlay                = LrDevelopController.toggleOverlay
       ACTIONS.WhiteBalanceAuto             = LrDevelopController.setAutoWhiteBalance
