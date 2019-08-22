@@ -20,6 +20,6 @@ local LrHttp = import "LrHttp"
 
 import "LrTasks".startAsyncTask(
   function()
-    LrHttp.openUrlInBrowser("https://github.com/rsjaffe/MIDI2LR/releases/latest")
+    LrHttp.openUrlInBrowser("https://github.com/rsjaffe/MIDI2LR/releases")
   end
 )
