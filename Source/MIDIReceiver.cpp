@@ -57,20 +57,16 @@ void MidiReceiver::StopRunning()
 
 void MidiReceiver::handleIncomingMidiMessage(
     juce::MidiInput* device, const juce::MidiMessage& message)
-{
+{ // reentrant ok. NRPN filter contains mutex in case of concurrency
    try {
       // this procedure is in near-real-time, so must return quickly.
       // will place message in multithreaded queue and let separate process handle the messages
       const rsj::MidiMessage mess{message};
       switch (mess.message_type_byte) {
       case rsj::MessageType::Cc: {
-         NrpnFilter::ProcessResult result{};
-         {
-            auto lock = std::scoped_lock(filter_mutex_);
-            result = filters_[device](mess);
-         }
+         const auto result = filters_[device](mess);
          if (result.is_nrpn) {
-            if (result.is_ready) { // send when finished
+            if (result.is_ready) { // send when complete
                messages_.emplace(rsj::MessageType::Cc, mess.channel, result.control, result.value);
             }
             break; // finished with nrpn piece

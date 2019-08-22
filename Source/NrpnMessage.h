@@ -21,6 +21,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include <array>
+
+#include "Concurrency.h"
 #include "MidiUtilities.h"
 
 class NrpnFilter {
@@ -48,7 +50,7 @@ class NrpnFilter {
       value_lsb_[channel] = 0;
 #pragma warning(pop)
    }
-
+   mutable rsj::SpinLock filter_mutex_;
    static constexpr int kChannels{16};
    std::array<int, kChannels> control_msb_{};
    std::array<int, kChannels> control_lsb_{};
