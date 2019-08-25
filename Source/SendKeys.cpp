@@ -26,7 +26,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 #include <vector>
 
-#include <gsl/gsl>
 #include "Misc.h"
 #ifdef _WIN32
 #include <utility>
@@ -44,6 +43,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <libproc.h> //proc_ functions in GetPid
 #include "Ocpp.h"
 #include <JuceLibraryCode/JuceHeader.h> //creates ambiguous reference to Point if included before Mac headers
+#include <gsl/gsl>
 #endif
 
 namespace {

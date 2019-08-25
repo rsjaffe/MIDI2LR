@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl>
 #include "Misc.h"
 
-NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
+NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message)
 {
    try {
       if (message.channel < 0 || message.channel >= kChannels)
@@ -45,10 +45,9 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
             ready_flags_[message.channel] |= 0b100; //"Magic number" false alarm //-V112
             if (ready_flags_[message.channel] == 0b1111) {
                ret_val.is_ready = true;
-               ret_val.control = gsl::narrow_cast<short>(
-                   (control_msb_[message.channel] << 7) + control_lsb_[message.channel]);
-               ret_val.value = gsl::narrow_cast<short>(
-                   (value_msb_[message.channel] << 7) + value_lsb_[message.channel]);
+               ret_val.control =
+                   (control_msb_[message.channel] << 7) + control_lsb_[message.channel];
+               ret_val.value = (value_msb_[message.channel] << 7) + value_lsb_[message.channel];
                Clear(message.channel);
             }
          }
@@ -62,10 +61,9 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
             ready_flags_[message.channel] |= 0b1000;
             if (ready_flags_[message.channel] == 0b1111) {
                ret_val.is_ready = true;
-               ret_val.control = gsl::narrow_cast<short>(
-                   (control_msb_[message.channel] << 7) + control_lsb_[message.channel]);
-               ret_val.value = gsl::narrow_cast<short>(
-                   (value_msb_[message.channel] << 7) + value_lsb_[message.channel]);
+               ret_val.control =
+                   (control_msb_[message.channel] << 7) + control_lsb_[message.channel];
+               ret_val.value = (value_msb_[message.channel] << 7) + value_lsb_[message.channel];
                Clear(message.channel);
             }
          }

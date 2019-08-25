@@ -71,9 +71,9 @@ namespace {
       ::std::string result{};
       result.reserve(in.size()); // minimum final size
       for (const auto& a : in) {
-         if (static_cast<decltype(ascii_map)::size_type>(a) < ascii_map.size())
+         if (gsl::narrow_cast<size_t>(a) < ascii_map.size())
 #pragma warning(suppress : 26446 26482) // false alarm, range checked by if statement
-            result.append(ascii_map[static_cast<decltype(ascii_map)::size_type>(a)]);
+            result.append(ascii_map[gsl::narrow_cast<size_t>(a)]);
          else if (a == 127)
             result.append("\\x7F");
          else if (a == '\\')

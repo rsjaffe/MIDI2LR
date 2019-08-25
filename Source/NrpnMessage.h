@@ -33,10 +33,10 @@ class NrpnFilter {
    struct ProcessResult {
       bool is_nrpn{};
       bool is_ready{};
-      short control{};
-      short value{};
+      int control{};
+      int value{};
    };
-   ProcessResult operator()(rsj::MidiMessage message);
+   ProcessResult operator()(const rsj::MidiMessage& message);
 
  private:
    void Clear(int channel) noexcept

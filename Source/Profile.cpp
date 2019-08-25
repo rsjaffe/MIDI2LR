@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Misc.h"
 
-void Profile::AddCommandForMessageI(size_t command, const rsj::MidiMessageId& message)
+void Profile::AddCommandForMessageI(size_t command, rsj::MidiMessageId message)
 {
    try {
       if (command < command_set_.CommandAbbrevSize()) {
@@ -42,7 +42,7 @@ void Profile::AddCommandForMessageI(size_t command, const rsj::MidiMessageId& me
    }
 }
 
-void Profile::AddRowMapped(const std::string& command, const rsj::MidiMessageId& message)
+void Profile::AddRowMapped(const std::string& command, rsj::MidiMessageId message)
 {
    try {
       auto guard = std::unique_lock{mutex_};
@@ -66,7 +66,7 @@ void Profile::AddRowMapped(const std::string& command, const rsj::MidiMessageId&
    }
 }
 
-void Profile::AddRowUnmapped(const rsj::MidiMessageId& message)
+void Profile::AddRowUnmapped(rsj::MidiMessageId message)
 {
    try {
       auto guard = std::unique_lock{mutex_};
@@ -151,7 +151,7 @@ void Profile::RemoveAllRows()
    }
 }
 
-void Profile::RemoveMessage(const rsj::MidiMessageId& message)
+void Profile::RemoveMessage(rsj::MidiMessageId message)
 {
    try {
       auto guard = std::unique_lock{mutex_};
@@ -197,10 +197,10 @@ void Profile::Resort(std::pair<int, bool> new_order)
 void Profile::SortI()
 {
    try {
-      const auto msg_idx = [this](const rsj::MidiMessageId& a) {
+      const auto msg_idx = [this](rsj::MidiMessageId a) {
          return command_set_.CommandTextIndex(GetCommandForMessageI(a));
       };
-      const auto msg_sort = [&msg_idx](const rsj::MidiMessageId& a, const rsj::MidiMessageId& b) {
+      const auto msg_sort = [&msg_idx](rsj::MidiMessageId a, rsj::MidiMessageId b) {
          return msg_idx(a) < msg_idx(b);
       };
       if (current_sort_.first == 1)

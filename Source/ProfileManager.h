@@ -69,8 +69,8 @@ class ProfileManager final : juce::AsyncUpdater {
    [[nodiscard]] const std::vector<juce::String>& GetMenuItems() const noexcept;
    void ConnectionCallback(bool, bool);
    void handleAsyncUpdate() override;
-   void MapCommand(const rsj::MidiMessageId& msg);
-   void MidiCmdCallback(rsj::MidiMessage);
+   void MapCommand(rsj::MidiMessageId msg);
+   void MidiCmdCallback(const rsj::MidiMessage&);
    void SwitchToNextProfile();
    void SwitchToPreviousProfile();
 

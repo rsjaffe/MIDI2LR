@@ -71,7 +71,7 @@ class CCoptions final : public juce::Component,
    {
       controls_model_ = model;
    }
-   void BindToControl(size_t channel, short control_number);
+   void BindToControl(int channel, int control_number);
    CCoptions(CCoptions&& other) noexcept = delete;
    CCoptions& operator=(CCoptions&& other) noexcept = delete;
    //[/UserMethods]
@@ -85,8 +85,8 @@ class CCoptions final : public juce::Component,
    juce::TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
    void textEditorFocusLost(juce::TextEditor& t) override;
    inline static ControlsModel* controls_model_{nullptr};
-   short bound_channel_{0}; // note: 0-based in program, add one to compensate
-   short bound_number_{0};
+   int bound_channel_{0}; // note: 0-based in program, add one to compensate for display
+   int bound_number_{0};
    //[/UserVariables]
 
    //==============================================================================

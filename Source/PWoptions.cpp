@@ -163,7 +163,7 @@ void PWoptions::resized()
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void PWoptions::textEditorFocusLost(TextEditor& t)
 {
-   const auto val = gsl::narrow_cast<short>(t.getText().getIntValue());
+   const auto val = t.getText().getIntValue();
    const auto& nam = t.getName();
    if (nam == "minval")
       controls_model_->SetPwMin(boundchannel_, val);
@@ -171,7 +171,7 @@ void PWoptions::textEditorFocusLost(TextEditor& t)
       controls_model_->SetPwMax(boundchannel_, val);
 }
 
-void PWoptions::BindToControl(size_t channel)
+void PWoptions::BindToControl(int channel)
 {
    boundchannel_ = channel;
    minval->setText(

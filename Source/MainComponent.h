@@ -62,7 +62,7 @@ class MainContentComponent final : public juce::Component,
    void buttonClicked(juce::Button* button) override;
    void handleAsyncUpdate() override;
    void LrIpcOutCallback(bool, bool);
-   void MidiCmdCallback(rsj::MidiMessage);
+   void MidiCmdCallback(const rsj::MidiMessage&);
    void paint(juce::Graphics&) override;
    void ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name);
    void SetLabelSettings(juce::Label& label_to_set);
@@ -90,7 +90,7 @@ class MainContentComponent final : public juce::Component,
    Profile& profile_;
    ProfileManager& profile_manager_;
    SettingsManager& settings_manager_;
-   size_t row_to_select_{0}; //-V122
+   size_t row_to_select_{0};
    std::unique_ptr<juce::DialogWindow> settings_dialog_;
 };
 

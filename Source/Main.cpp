@@ -35,14 +35,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <filesystem>
 namespace fs = std::filesystem;
 #endif
-#ifdef _WIN32
-#include "WinDef.h" //these defines mess up asio, so need to be more inclusive
-#undef NONLS
-#undef NOUSER
-#include <Windows.h>
-#endif
 
-#include <cereal/archives/binary.hpp>
 #include <cereal/archives/xml.hpp>
 #include <JuceLibraryCode/JuceHeader.h>
 #include "CCoptions.h"
@@ -63,7 +56,6 @@ namespace fs = std::filesystem;
 
 namespace {
    constexpr auto kShutDownString{"--LRSHUTDOWN"};
-   constexpr auto kSettingsFile{"settings.bin"};
    constexpr auto kSettingsFileX("settings.xml");
    constexpr auto kDefaultsFile{"default.xml"};
 
@@ -323,39 +315,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             rsj::Log("ControlsModel archive in Main loaded from " + px);
 #endif
          }
-         else { // see if old-style settings file is available
-#ifdef _WIN32
-            wchar_t path[MAX_PATH];
-            GetModuleFileNameW(nullptr, static_cast<LPWSTR>(path), MAX_PATH);
-            fs::path p{path};
-            p = p.replace_filename(kSettingsFile);
-#else
-#ifdef __cpp_lib_filesystem
-            const auto p =
-                fs::path(juce::File::getSpecialLocation(juce::File::currentExecutableFile)
-                             .getSiblingFile(kSettingsFile)
-                             .getFullPathName()
-                             .toStdString());
-#else
-            const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
-                               .getSiblingFile(kSettingsFile)
-                               .getFullPathName()
-                               .toStdString();
-#endif
-#endif
-            std::ifstream infile(p, std::ios::binary);
-            if (infile.is_open() && !infile.eof()) {
-#pragma warning(suppress : 26414) // too large to construct on stack
-               const auto iarchive = std::make_unique<cereal::BinaryInputArchive>(infile);
-               (*iarchive)(controls_model_);
-#ifdef __cpp_lib_filesystem
-               rsj::Log(
-                   "Legacy ControlsModel archive loaded in Main from " + juce::String(p.c_str()));
-#else
-               rsj::Log("Legacy ControlsModel archive loaded in Main from " + p);
-#endif
-            }
-         }
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -378,7 +337,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          // see https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list
          // avoiding fonts added in windows 10 to support people using earlier Windows versions
          // see https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts
-         // see https://docs.microsoft.com/en-us/windows/uwp/design/globalizing/loc-international-fonts
+         // see
+         // https://docs.microsoft.com/en-us/windows/uwp/design/globalizing/loc-international-fonts
          // but Meiryo UI doesn't work well on my computer, so using MS UI Gothic instead for ja
          if constexpr (MSWindows) {
             if (lang == "ko") {

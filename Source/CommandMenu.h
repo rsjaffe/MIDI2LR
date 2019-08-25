@@ -20,6 +20,8 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+//-V813_MINSIZE=13 //warn if passing structure by value > 12 bytes (3*sizeof(int))
+
 #include <limits>
 
 #include <JuceLibraryCode/JuceHeader.h>
@@ -29,9 +31,9 @@ class Profile;
 
 class CommandMenu final : public juce::TextButton {
  public:
-   CommandMenu(const rsj::MidiMessageId& message, const CommandSet& command_set, Profile& profile);
+   CommandMenu(rsj::MidiMessageId message, const CommandSet& command_set, Profile& profile);
    // sets the MIDI message associated to this menu component
-   void SetMsg(const rsj::MidiMessageId& message) noexcept;
+   void SetMsg(rsj::MidiMessageId message) noexcept;
 
    // sets which item in the menu is selected
    void SetSelectedItem(size_t index);
@@ -42,7 +44,7 @@ class CommandMenu final : public juce::TextButton {
    const CommandSet& command_set_;
    Profile& profile_;
    rsj::MidiMessageId message_;
-   size_t selected_item_{std::numeric_limits<size_t>::max()}; //-V122
+   size_t selected_item_{std::numeric_limits<size_t>::max()};
 };
 
 #endif // MIDI2LR_COMMANDMENU_H_INCLUDED

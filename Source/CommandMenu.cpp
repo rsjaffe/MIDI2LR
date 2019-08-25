@@ -30,7 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "PWoptions.h"
 
 CommandMenu::CommandMenu(
-    const rsj::MidiMessageId& message, const CommandSet& command_set, Profile& profile)
+    rsj::MidiMessageId message, const CommandSet& command_set, Profile& profile)
 try : juce
    ::TextButton{"Unmapped"}, command_set_(command_set), profile_(profile), message_{message} {}
 catch (const std::exception& e) {
@@ -38,7 +38,7 @@ catch (const std::exception& e) {
    throw;
 }
 
-void CommandMenu::SetMsg(const rsj::MidiMessageId& message) noexcept
+void CommandMenu::SetMsg(rsj::MidiMessageId message) noexcept
 {
    message_ = message;
 }
@@ -63,17 +63,16 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
          switch (message_.msg_id_type) {
          case rsj::MessageType::Cc: {
             CCoptions ccopt;
-            ccopt.BindToControl(gsl::narrow_cast<short>(message_.channel - 1), // convert 1-based to
-                                                                               // 0-based
-                gsl::narrow_cast<short>(message_.control_number));
+            // convert 1-based to  0-based
+            ccopt.BindToControl(message_.channel - 1, message_.control_number);
             juce::DialogWindow::showModalDialog(juce::translate("Adjust CC dialog"), &ccopt,
                 nullptr, juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
             break;
          }
          case rsj::MessageType::Pw: {
             PWoptions pwopt;
-            pwopt.BindToControl(gsl::narrow_cast<short>(message_.channel - 1)); // convert 1-based
-                                                                                // to 0 based
+            pwopt.BindToControl(message_.channel - 1); // convert 1-based
+                                                       // to 0 based
             juce::DialogWindow::showModalDialog(juce::translate("Adjust PW dialog"), &pwopt,
                 nullptr, juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
             break;

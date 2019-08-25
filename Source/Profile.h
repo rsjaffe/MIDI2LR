@@ -20,6 +20,8 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+//-V813_MINSIZE=13 //warn if passing structure by value > 12 bytes (3*sizeof(int))
+
 #include <map>
 #include <shared_mutex>
 #include <string>
@@ -37,30 +39,30 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class Profile {
  public:
    explicit Profile(const CommandSet& command_set) : command_set_{command_set} {}
-   void AddCommandForMessage(size_t command, const rsj::MidiMessageId& message);
-   void AddRowMapped(const std::string& command, const rsj::MidiMessageId& message);
-   void AddRowUnmapped(const rsj::MidiMessageId& message);
+   void AddCommandForMessage(size_t command, rsj::MidiMessageId message);
+   void AddRowMapped(const std::string& command, rsj::MidiMessageId message);
+   void AddRowUnmapped(rsj::MidiMessageId message);
    [[nodiscard]] bool CommandHasAssociatedMessage(const std::string& command) const;
    void FromXml(const juce::XmlElement* root);
-   [[nodiscard]] const std::string& GetCommandForMessage(const rsj::MidiMessageId& message) const;
-   [[nodiscard]] const rsj::MidiMessageId& GetMessageForNumber(size_t num) const;
+   [[nodiscard]] const std::string& GetCommandForMessage(rsj::MidiMessageId message) const;
+   [[nodiscard]] rsj::MidiMessageId GetMessageForNumber(size_t num) const;
    [[nodiscard]] std::vector<rsj::MidiMessageId> GetMessagesForCommand(
        const std::string& command) const;
-   [[nodiscard]] int GetRowForMessage(const rsj::MidiMessageId& message) const;
-   [[nodiscard]] bool MessageExistsInMap(const rsj::MidiMessageId& message) const;
+   [[nodiscard]] int GetRowForMessage(rsj::MidiMessageId message) const;
+   [[nodiscard]] bool MessageExistsInMap(rsj::MidiMessageId message) const;
    [[nodiscard]] bool ProfileUnsaved() const;
    void RemoveAllRows();
-   void RemoveMessage(const rsj::MidiMessageId& message);
+   void RemoveMessage(rsj::MidiMessageId message);
    void RemoveRow(size_t row);
    void Resort(std::pair<int, bool> new_order);
    [[nodiscard]] size_t Size() const;
    void ToXmlFile(const juce::File& file);
 
  private:
-   void AddCommandForMessageI(size_t command, const rsj::MidiMessageId& message);
-   const std::string& GetCommandForMessageI(const rsj::MidiMessageId& message) const;
-   const rsj::MidiMessageId& GetMessageForNumberI(size_t num) const;
-   bool MessageExistsInMapI(const rsj::MidiMessageId& message) const;
+   void AddCommandForMessageI(size_t command, rsj::MidiMessageId message);
+   const std::string& GetCommandForMessageI(rsj::MidiMessageId message) const;
+   rsj::MidiMessageId GetMessageForNumberI(size_t num) const;
+   bool MessageExistsInMapI(rsj::MidiMessageId message) const;
    void SortI();
 
    bool profile_unsaved_{false};
@@ -73,7 +75,7 @@ class Profile {
    std::vector<rsj::MidiMessageId> command_table_{};
 };
 
-inline void Profile::AddCommandForMessage(size_t command, const rsj::MidiMessageId& message)
+inline void Profile::AddCommandForMessage(size_t command, rsj::MidiMessageId message)
 {
    auto guard = std::unique_lock{mutex_};
    AddCommandForMessageI(command, message);
@@ -85,42 +87,42 @@ inline bool Profile::CommandHasAssociatedMessage(const std::string& command) con
    return command_string_map_.find(command) != command_string_map_.end();
 }
 
-inline const std::string& Profile::GetCommandForMessage(const rsj::MidiMessageId& message) const
+inline const std::string& Profile::GetCommandForMessage(rsj::MidiMessageId message) const
 {
    auto guard = std::shared_lock{mutex_};
    return GetCommandForMessageI(message);
 }
 
-inline const std::string& Profile::GetCommandForMessageI(const rsj::MidiMessageId& message) const
+inline const std::string& Profile::GetCommandForMessageI(rsj::MidiMessageId message) const
 {
    return message_map_.at(message);
 }
 
-inline const rsj::MidiMessageId& Profile::GetMessageForNumber(size_t num) const
+inline rsj::MidiMessageId Profile::GetMessageForNumber(size_t num) const
 {
    auto guard = std::shared_lock{mutex_};
    return GetMessageForNumberI(num);
 }
 
-inline const rsj::MidiMessageId& Profile::GetMessageForNumberI(size_t num) const
+inline rsj::MidiMessageId Profile::GetMessageForNumberI(size_t num) const
 {
    return command_table_.at(num);
 }
 
-inline int Profile::GetRowForMessage(const rsj::MidiMessageId& message) const
+inline int Profile::GetRowForMessage(rsj::MidiMessageId message) const
 {
    auto guard = std::shared_lock{mutex_};
    return gsl::narrow_cast<int>(
        std::find(command_table_.begin(), command_table_.end(), message) - command_table_.begin());
 }
 
-inline bool Profile::MessageExistsInMap(const rsj::MidiMessageId& message) const
+inline bool Profile::MessageExistsInMap(rsj::MidiMessageId message) const
 {
    auto guard = std::shared_lock{mutex_};
    return MessageExistsInMapI(message);
 }
 
-inline bool Profile::MessageExistsInMapI(const rsj::MidiMessageId& message) const
+inline bool Profile::MessageExistsInMapI(rsj::MidiMessageId message) const
 {
    return message_map_.find(message) != message_map_.end();
 }

@@ -206,7 +206,7 @@ void MainContentComponent::paint(juce::Graphics& g)
    }
 }
 
-void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
+void MainContentComponent::MidiCmdCallback(const rsj::MidiMessage& mm)
 {
    try {
       // Display the MIDI parameters and add/highlight row in table corresponding to the message
@@ -277,7 +277,6 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       else if (button == &remove_row_button_) {
          if (command_table_.getNumRows() > 0) {
             profile_.RemoveAllRows();
-            // command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
             command_table_.updateContent();
          }
       }

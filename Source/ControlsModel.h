@@ -39,13 +39,13 @@ namespace rsj {
    enum struct CCmethod : char { kAbsolute, kTwosComplement, kBinaryOffset, kSignMagnitude };
 
    struct SettingsStruct {
-      short control_number; // not using size_t so serialized data won't vary if size_t varies
-      short low;
-      short high;
+      int control_number; // not using size_t so serialized data won't vary if size_t varies
+      int low;
+      int high;
       rsj::CCmethod method;
       // ReSharper disable once CppNonExplicitConvertingConstructor
-      SettingsStruct(short n = 0, short l = 0, short h = 0x7F,
-          rsj::CCmethod m = rsj::CCmethod::kAbsolute) noexcept
+      SettingsStruct(
+          int n = 0, int l = 0, int h = 0x7F, rsj::CCmethod m = rsj::CCmethod::kAbsolute) noexcept
           : control_number{n}, low{l}, high{h}, method{m}
       {
       }
@@ -122,14 +122,14 @@ namespace rsj {
 } // namespace rsj
 
 class ChannelModel {
-   static constexpr short kBit14 = 0x2000;
-   static constexpr short kBit7 = 0x40;
-   static constexpr short kLow13Bits = 0x1FFF;
-   static constexpr short kLow6Bits = 0x3F;
-   static constexpr short kMaxMidi = 0x7F;
-   static constexpr short kMaxMidiHalf = kMaxMidi / 2;
-   static constexpr short kMaxNrpn = 0x3FFF;
-   static constexpr short kMaxNrpnHalf = kMaxNrpn / 2;
+   static constexpr int kBit14 = 0x2000;
+   static constexpr int kBit7 = 0x40;
+   static constexpr int kLow13Bits = 0x1FFF;
+   static constexpr int kLow6Bits = 0x3F;
+   static constexpr int kMaxMidi = 0x7F;
+   static constexpr int kMaxMidiHalf = kMaxMidi / 2;
+   static constexpr int kMaxNrpn = 0x3FFF;
+   static constexpr int kMaxNrpnHalf = kMaxNrpn / 2;
    static constexpr size_t kMaxControls = 0x4000;
 
  public:
@@ -140,61 +140,61 @@ class ChannelModel {
    ChannelModel& operator=(const ChannelModel&) = delete;
    ChannelModel(ChannelModel&&) = delete; // can't move atomics
    ChannelModel& operator=(ChannelModel&&) = delete;
-   double ControllerToPlugin(rsj::MessageType controltype, size_t controlnumber, short value);
-   short MeasureChange(rsj::MessageType controltype, size_t controlnumber, short value);
-   short SetToCenter(rsj::MessageType controltype, size_t controlnumber);
-   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t controlnumber) const
+   double ControllerToPlugin(rsj::MessageType controltype, int controlnumber, int value);
+   int MeasureChange(rsj::MessageType controltype, int controlnumber, int value);
+   int SetToCenter(rsj::MessageType controltype, int controlnumber);
+   [[nodiscard]] rsj::CCmethod GetCcMethod(int controlnumber) const
    {
       return cc_method_.at(controlnumber);
    }
-   [[nodiscard]] short GetCcMax(size_t controlnumber) const
+   [[nodiscard]] int GetCcMax(int controlnumber) const
    {
       return cc_high_.at(controlnumber);
    }
-   [[nodiscard]] short GetCcMin(size_t controlnumber) const
+   [[nodiscard]] int GetCcMin(int controlnumber) const
    {
       return cc_low_.at(controlnumber);
    }
-   [[nodiscard]] short GetPwMax() const noexcept
+   [[nodiscard]] int GetPwMax() const noexcept
    {
       return pitch_wheel_max_;
    }
-   [[nodiscard]] short GetPwMin() const noexcept
+   [[nodiscard]] int GetPwMin() const noexcept
    {
       return pitch_wheel_min_;
    }
-   short PluginToController(rsj::MessageType controltype, size_t controlnumber, double value);
-   void SetCc(size_t controlnumber, short min, short max, rsj::CCmethod controltype);
-   void SetCcAll(size_t controlnumber, short min, short max, rsj::CCmethod controltype);
-   void SetCcMax(size_t controlnumber, short value);
-   void SetCcMethod(size_t controlnumber, rsj::CCmethod value)
+   int PluginToController(rsj::MessageType controltype, int controlnumber, double value);
+   void SetCc(int controlnumber, int min, int max, rsj::CCmethod controltype);
+   void SetCcAll(int controlnumber, int min, int max, rsj::CCmethod controltype);
+   void SetCcMax(int controlnumber, int value);
+   void SetCcMethod(int controlnumber, rsj::CCmethod value)
    {
       cc_method_.at(controlnumber) = value;
    }
-   void SetCcMin(size_t controlnumber, short value);
-   void SetPwMax(short value) noexcept;
-   void SetPwMin(short value) noexcept;
+   void SetCcMin(int controlnumber, int value);
+   void SetPwMax(int value) noexcept;
+   void SetPwMin(int value) noexcept;
 
  private:
    friend class cereal::access;
-   [[nodiscard]] short CenterCc(size_t controlnumber) const noexcept
+   [[nodiscard]] int CenterCc(int controlnumber) const noexcept
    {
       return (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) / 2
              + cc_low_.at(controlnumber)
              + (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) % 2;
    }
-   [[nodiscard]] short CenterPw() const noexcept
+   [[nodiscard]] int CenterPw() const noexcept
    {
       return (pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_
              + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
    }
    // ReSharper disable once CppMemberFunctionMayBeStatic
-   [[nodiscard]] bool IsNRPN_(size_t controlnumber) const noexcept(kNdebug)
+   [[nodiscard]] bool IsNRPN_(int controlnumber) const noexcept(kNdebug)
    {
       Expects(controlnumber <= kMaxNrpn);
       return controlnumber > kMaxMidi;
    }
-   double OffsetResult(short diff, size_t controlnumber);
+   double OffsetResult(int diff, int controlnumber);
    void ActiveToSaved() const;
    void CcDefaults();
    void SavedToActive();
@@ -205,13 +205,13 @@ class ChannelModel {
 
    mutable rsj::SpinLock current_v_mtx_;
    mutable std::vector<rsj::SettingsStruct> settings_to_save_{};
-   short pitch_wheel_max_{kMaxNrpn};
-   short pitch_wheel_min_{0};
-   std::atomic<short> pitch_wheel_current_{0};
+   int pitch_wheel_max_{kMaxNrpn};
+   int pitch_wheel_min_{0};
+   std::atomic<int> pitch_wheel_current_{0};
    std::array<rsj::CCmethod, kMaxControls> cc_method_{};
-   std::array<short, kMaxControls> cc_high_{};
-   std::array<short, kMaxControls> cc_low_{};
-   std::array<short, kMaxControls> current_v_{};
+   std::array<int, kMaxControls> cc_high_{};
+   std::array<int, kMaxControls> cc_low_{};
+   std::array<int, kMaxControls> current_v_{};
 };
 
 class ControlsModel {
@@ -229,19 +229,20 @@ class ControlsModel {
           .ControllerToPlugin(mm.message_type_byte, mm.control_number, mm.value);
    }
 
-   short MeasureChange(const rsj::MidiMessage& mm)
+   int MeasureChange(const rsj::MidiMessage& mm)
    {
       return all_controls_.at(mm.channel)
           .MeasureChange(mm.message_type_byte, mm.control_number, mm.value);
    }
 
-   short SetToCenter(const rsj::MidiMessageId& mm)
+   int SetToCenter(rsj::MidiMessageId mm)
    {
       // MidiMessageId channel is 1-based
-      return all_controls_.at(mm.channel - 1).SetToCenter(mm.msg_id_type, mm.control_number);
+      return all_controls_.at(gsl::narrow_cast<size_t>(mm.channel) - 1)
+          .SetToCenter(mm.msg_id_type, mm.control_number);
    }
 
-   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const
+   [[nodiscard]] rsj::CCmethod GetCcMethod(int channel, int controlnumber) const
    {
       return all_controls_.at(channel).GetCcMethod(controlnumber);
    }
@@ -249,77 +250,72 @@ class ControlsModel {
    [[nodiscard]] rsj::CCmethod GetCcMethod(rsj::MidiMessageId msg_id) const
    {
       // MidiMessageId channel is 1-based
-      return all_controls_
-          .at(static_cast<size_t>(msg_id.channel) - 1)              //-V201
-          .GetCcMethod(static_cast<size_t>(msg_id.control_number)); //-V201
+      return all_controls_.at(gsl::narrow_cast<size_t>(msg_id.channel) - 1)
+          .GetCcMethod(msg_id.control_number);
    }
 
-   [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const
+   [[nodiscard]] int GetCcMax(int channel, int controlnumber) const
    {
       return all_controls_.at(channel).GetCcMax(controlnumber);
    }
 
-   short GetCcMin(size_t channel, short controlnumber)
+   int GetCcMin(int channel, int controlnumber)
    {
       return all_controls_.at(channel).GetCcMin(controlnumber);
    }
 
-   [[nodiscard]] short GetPwMax(size_t channel) const
+   [[nodiscard]] int GetPwMax(int channel) const
    {
       return all_controls_.at(channel).GetPwMax();
    }
 
-   [[nodiscard]] short GetPwMin(size_t channel) const
+   [[nodiscard]] int GetPwMin(int channel) const
    {
       return all_controls_.at(channel).GetPwMin();
    }
 
-   short PluginToController(rsj::MidiMessageId msg_id, double value)
+   int PluginToController(rsj::MidiMessageId msg_id, double value)
    {
       // msg_id is one-based
-      return all_controls_
-          .at(static_cast<size_t>(msg_id.channel) - 1) //-V201
-          .PluginToController(
-              msg_id.msg_id_type, static_cast<size_t>(msg_id.control_number), value); //-V201
+      return all_controls_.at(gsl::narrow_cast<size_t>(msg_id.channel) - 1)
+          .PluginToController(msg_id.msg_id_type, msg_id.control_number, value);
    }
 
-   short MeasureChange(
-       rsj::MessageType controltype, size_t channel, short controlnumber, short value)
+   int MeasureChange(rsj::MessageType controltype, int channel, int controlnumber, int value)
    {
       return all_controls_.at(channel).MeasureChange(controltype, controlnumber, value);
    }
 
-   void SetCc(size_t channel, short controlnumber, short min, short max, rsj::CCmethod controltype)
+   void SetCc(int channel, int controlnumber, int min, int max, rsj::CCmethod controltype)
    {
       all_controls_.at(channel).SetCc(controlnumber, min, max, controltype);
    }
-   void SetCcAll(
-       size_t channel, short controlnumber, short min, short max, rsj::CCmethod controltype)
+   void SetCcAll(int channel, int controlnumber, int min, int max, rsj::CCmethod controltype)
    {
       all_controls_.at(channel).SetCcAll(controlnumber, min, max, controltype);
    }
 
-   void SetCcMax(size_t channel, short controlnumber, short value)
+   void SetCcMax(int channel, int controlnumber, int value)
    {
       all_controls_.at(channel).SetCcMax(controlnumber, value);
    }
 
-   void SetCcMethod(size_t channel, short controlnumber, rsj::CCmethod value)
+   void SetCcMethod(int channel, int controlnumber, rsj::CCmethod value)
    {
       all_controls_.at(channel).SetCcMethod(controlnumber, value);
    }
 
-   void SetCcMin(size_t channel, short controlnumber, short value)
+   void SetCcMin(int channel, int controlnumber, int value)
    {
       all_controls_.at(channel).SetCcMin(controlnumber, value);
    }
 
-   void SetPwMax(size_t channel, short value)
+   void SetPwMax(int channel, int value)
    {
       all_controls_.at(channel).SetPwMax(value);
    }
 
-   void SetPwMin(size_t channel, short value)
+   void SetPwMin(int channel, int value)
    {
       all_controls_.at(channel).SetPwMin(value);
    }

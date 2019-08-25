@@ -20,6 +20,8 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
+//-V813_MINSIZE=13 //warn if passing structure by value > 12 bytes (3*sizeof(int))
+
 #include <chrono>
 #include <exception>
 #include <string>
@@ -195,7 +197,7 @@ namespace rsj {
 #pragma warning(pop)
 
    template<class Rep, class Period>
-   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) //-V801
+   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration)
    {
       const auto start = std::chrono::high_resolution_clock::now();
       std::this_thread::sleep_for(sleep_duration);
@@ -206,7 +208,7 @@ namespace rsj {
 
    template<class Rep, class Period>
    void SleepTimedLogged(
-       std::string_view msg_prefix, const std::chrono::duration<Rep, Period> sleep_duration) //-V801
+       std::string_view msg_prefix, const std::chrono::duration<Rep, Period> sleep_duration)
    {
       const auto elapsed = SleepTimed(sleep_duration);
       rsj::Log(juce::String(msg_prefix.data(), msg_prefix.size()) + " thread slept for "

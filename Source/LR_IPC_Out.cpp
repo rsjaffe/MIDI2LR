@@ -192,7 +192,7 @@ void LrIpcOut::ConnectionMade()
    }
 }
 
-void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
+void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
 {
    struct RepeatMessage {
       std::string cw;
@@ -277,7 +277,7 @@ void LrIpcOut::SendOut()
    }
 }
 
-void LrIpcOut::SetRecenter(const rsj::MidiMessageId& mm)
+void LrIpcOut::SetRecenter(rsj::MidiMessageId mm)
 { // by capturing mm by copy, don't have to worry about later calls changing it--those will just
   // cancel and reschedule new one
    try {

@@ -65,7 +65,7 @@ namespace rsj {
       static std::array translation_table{"Note Off", "Note On", "Key Pressure", "Control Change",
           "Program Change", "Channel Pressure", "Pitch Bend", "System"};
 #pragma warning(suppress : 26446 26482)
-      return translation_table[static_cast<decltype(translation_table)::size_type>(from) - 0x8];
+      return translation_table[static_cast<size_t>(from) - 0x8];
    }
 
    inline const char* MessageTypeToLabel(MessageType from) noexcept
@@ -73,18 +73,18 @@ namespace rsj {
       static std::array translation_table{"NOTE OFF", "NOTE ON", "KEY PRESSURE", "CC",
           "PROGRAM CHANGE", "CHANNEL PRESSURE", "PITCHBEND", "SYSTEM"};
 #pragma warning(suppress : 26446 26482)
-      return translation_table[static_cast<decltype(translation_table)::size_type>(from) - 0x8];
+      return translation_table[static_cast<size_t>(from) - 0x8];
    }
 
    // channel is 0-based in MidiMessage, 1-based in MidiMessageId
    struct MidiMessage {
       MessageType message_type_byte{MessageType::NoteOn};
-      short channel{0}; // 0-based
-      short control_number{0};
-      short value{0};
+      int channel{0}; // 0-based
+      int control_number{0};
+      int value{0};
       constexpr MidiMessage() noexcept = default;
 
-      constexpr MidiMessage(MessageType mt, short ch, short nu, short va) noexcept
+      constexpr MidiMessage(MessageType mt, int ch, int nu, int va) noexcept
           : message_type_byte(mt), channel(ch), control_number(nu), value(va)
       {
       }
@@ -144,7 +144,7 @@ namespace std {
     * specialization satisfies all requirements for the original template, except where such
     * specializations are prohibited.*/
    template<> struct hash<rsj::MidiMessageId> {
-      size_t operator()(const rsj::MidiMessageId& k) const noexcept
+      size_t operator()(rsj::MidiMessageId k) const noexcept
       {
          return hash<int_fast32_t>()(int_fast32_t(k.channel) | int_fast32_t(k.msg_id_type) << 8
                                      | int_fast32_t(k.control_number) << 16);

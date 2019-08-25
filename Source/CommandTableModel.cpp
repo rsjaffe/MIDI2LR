@@ -24,6 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <sstream>
 #include <utility>
 
+#include <gsl/gsl>
 #include "CommandMenu.h"
 #include "Misc.h"
 
@@ -105,9 +106,8 @@ void CommandTableModel::paintCell(
    }
 }
 
-void CommandTableModel::paintRowBackground(juce::Graphics& g,
-    int /*rowNumber*/, //-V2009 overridden method
-    int /*width*/, int /*height*/, bool row_is_selected)
+void CommandTableModel::paintRowBackground(
+    juce::Graphics& g, int /*rowNumber*/, int /*width*/, int /*height*/, bool row_is_selected)
 {
    try {
       // This must draw the background behind one of the rows in the table.

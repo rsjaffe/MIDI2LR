@@ -69,7 +69,7 @@ class PWoptions final : public juce::Component, juce::TextEditor::Listener {
    {
       controls_model_ = model;
    }
-   void BindToControl(size_t channel);
+   void BindToControl(int channel);
    PWoptions(PWoptions&& other) noexcept = delete;
    PWoptions& operator=(PWoptions&& other) noexcept = delete;
    //[/UserMethods]
@@ -82,7 +82,7 @@ class PWoptions final : public juce::Component, juce::TextEditor::Listener {
    juce::TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
    void textEditorFocusLost(juce::TextEditor& t) override;
    inline static ControlsModel* controls_model_{nullptr};
-   size_t boundchannel_{0}; // note: 0-based //-V122
+   int boundchannel_{0}; // note: 0-based
 
    //[/UserVariables]
 
