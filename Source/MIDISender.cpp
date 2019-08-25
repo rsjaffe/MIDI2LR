@@ -24,6 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <gsl/gsl>
 #include <JuceLibraryCode/JuceHeader.h>
+#include "MidiUtilities.h"
 #include "Misc.h"
 
 void MidiSender::StartRunning()
@@ -37,54 +38,42 @@ void MidiSender::StartRunning()
    }
 }
 
-void MidiSender::SendCc(int midi_channel, int controller, int value) const
+void MidiSender::Send(rsj::MidiMessageId id, int value) const
 {
    try {
-      if (controller < 128) { // regular message
+      if (id.msg_id_type == rsj::MessageType::Pw)
          for (const auto& dev : output_devices_)
-            dev->sendMessageNow(
-                juce::MidiMessage::controllerEvent(midi_channel, controller, value));
-      }
-      else { // NRPN
-         const auto parameter_lsb = controller & 0x7f;
-         const auto parameter_msb = controller >> 7 & 0x7F;
-         const auto value_lsb = value & 0x7f;
-         const auto value_msb = value >> 7 & 0x7F;
-         for (const auto& dev : output_devices_) {
-            dev->sendMessageNow(
-                juce::MidiMessage::controllerEvent(midi_channel, 99, parameter_msb));
-            dev->sendMessageNow(
-                juce::MidiMessage::controllerEvent(midi_channel, 98, parameter_lsb));
-            dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 6, value_msb));
-            dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 38, value_lsb));
+            dev->sendMessageNow(juce::MidiMessage::pitchWheel(id.channel, value));
+      else if (id.msg_id_type == rsj::MessageType::NoteOn)
+         for (const auto& dev : output_devices_)
+            dev->sendMessageNow(juce::MidiMessage::noteOn(
+                id.channel, id.control_number, gsl::narrow_cast<juce::uint8>(value)));
+      else if (id.msg_id_type == rsj::MessageType::Cc) {
+         if (id.control_number < 128) { // regular message
+            for (const auto& dev : output_devices_)
+               dev->sendMessageNow(
+                   juce::MidiMessage::controllerEvent(id.channel, id.control_number, value));
+         }
+         else { // NRPN
+            const auto parameter_lsb = id.control_number & 0x7f;
+            const auto parameter_msb = id.control_number >> 7 & 0x7F;
+            const auto value_lsb = value & 0x7f;
+            const auto value_msb = value >> 7 & 0x7F;
+            for (const auto& dev : output_devices_) {
+               dev->sendMessageNow(
+                   juce::MidiMessage::controllerEvent(id.channel, 99, parameter_msb));
+               dev->sendMessageNow(
+                   juce::MidiMessage::controllerEvent(id.channel, 98, parameter_lsb));
+               dev->sendMessageNow(juce::MidiMessage::controllerEvent(id.channel, 6, value_msb));
+               dev->sendMessageNow(juce::MidiMessage::controllerEvent(id.channel, 38, value_lsb));
+            }
          }
       }
+      else
+         rsj::LogAndAlertError(juce::String("MIDISender had unexpected MessageType: ")
+                               + rsj::MessageTypeToName(id.msg_id_type));
    }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
 
-void MidiSender::SendNoteOn(int midi_channel, int controller, int value) const
-{
-   try {
-      for (const auto& dev : output_devices_)
-         dev->sendMessageNow(juce::MidiMessage::noteOn(
-             midi_channel, controller, gsl::narrow_cast<juce::uint8>(value)));
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
-
-void MidiSender::SendPitchWheel(int midi_channel, int value) const
-{
-   try {
-      for (const auto& dev : output_devices_)
-         dev->sendMessageNow(juce::MidiMessage::pitchWheel(midi_channel, value));
-   }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;

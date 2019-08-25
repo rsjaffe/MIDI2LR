@@ -226,15 +226,13 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
          return; // handled by ProfileManager
       // if it is a repeated command, change command_to_send appropriately
       if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
-         static TimePoint nextresponse{};
-         if (const auto now = Clock::now(); nextresponse < now) {
-            nextresponse = now + std::chrono::milliseconds(kDelay);
+         static TimePoint next_response{};
+         if (const auto now = Clock::now(); next_response < now) {
+            next_response = now + kDelay;
             if (mm.message_type_byte == rsj::MessageType::Pw
                 || (mm.message_type_byte == rsj::MessageType::Cc
-                    && controls_model_.GetCcMethod(mm.channel, mm.control_number)
-                           == rsj::CCmethod::kAbsolute)) {
-               SetRecenter(mm);
-            }
+                    && controls_model_.GetCcMethod(message) == rsj::CCmethod::kAbsolute))
+               SetRecenter(message);
             const auto change = controls_model_.MeasureChange(mm);
             if (change == 0)
                return;      // don't send any signal
@@ -279,29 +277,14 @@ void LrIpcOut::SendOut()
    }
 }
 
-void LrIpcOut::SetRecenter(rsj::MidiMessage mm)
+void LrIpcOut::SetRecenter(const rsj::MidiMessageId& mm)
 { // by capturing mm by copy, don't have to worry about later calls changing it--those will just
   // cancel and reschedule new one
    try {
       asio::dispatch([this] { recenter_timer_.expires_after(kRecenterTimer); });
-      // self passed to next lambda only, lifetime extends beyond above call, saves one shared_ptr
-      // copy + atomic increment
       recenter_timer_.async_wait([this, mm](const asio::error_code& error) {
-         if (!error && !thread_should_exit_.load(std::memory_order_relaxed)) {
-            switch (mm.message_type_byte) {
-            case rsj::MessageType::Pw: {
-               midi_sender_.SendPitchWheel(mm.channel + 1, controls_model_.SetToCenter(mm));
-               break;
-            }
-            case rsj::MessageType::Cc: {
-               midi_sender_.SendCc(
-                   mm.channel + 1, mm.control_number, controls_model_.SetToCenter(mm));
-               break;
-            }
-            default:
-                /* no action */;
-            }
-         }
+         if (!error && !thread_should_exit_.load(std::memory_order_relaxed))
+            midi_sender_.Send(mm, controls_model_.SetToCenter(mm));
       });
    }
    catch (const std::exception& e) {

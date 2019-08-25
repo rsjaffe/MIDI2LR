@@ -73,7 +73,7 @@ namespace {
       for (const auto& a : in) {
          if (static_cast<decltype(ascii_map)::size_type>(a) < ascii_map.size())
 #pragma warning(suppress : 26446 26482) // false alarm, range checked by if statement
-            result.append(ascii_map[a]);
+            result.append(ascii_map[static_cast<decltype(ascii_map)::size_type>(a)]);
          else if (a == 127)
             result.append("\\x7F");
          else if (a == '\\')
@@ -93,13 +93,13 @@ namespace {
 ::std::string rsj::ToLower(::std::string_view in)
 {
    try {
-      ::std::string s;
-      s.resize(in.size());
+      ::std::string result;
+      result.reserve(in.size());
       ::std::transform(
-          in.begin(), in.end(), s.begin(), [](unsigned char c) noexcept {
+          in.begin(), in.end(), result.begin(), [](unsigned char c) noexcept {
              return gsl::narrow_cast<unsigned char>(::std::tolower(c));
           });
-      return s;
+      return result;
    }
    catch (const ::std::exception& e) {
       rsj::ExceptionResponse("rsj", __func__, e);

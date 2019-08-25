@@ -177,22 +177,12 @@ void LrIpcIn::ProcessLine()
             const auto original_value = std::stod(std::string(value_string));
             for (const auto& msg : profile_.GetMessagesForCommand(command)) {
                const auto value = controls_model_.PluginToController(msg, original_value);
-               switch (msg.msg_id_type) {
-               case rsj::MessageType::NoteOn:
-                  midi_sender_.SendNoteOn(msg.channel, msg.control_number, value);
-                  break;
-               case rsj::MessageType::Cc:
+               if (msg.msg_id_type == rsj::MessageType::Cc) {
                   if (controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute)
-                     midi_sender_.SendCc(msg.channel, msg.control_number, value);
-                  break;
-               case rsj::MessageType::Pw:
-                  midi_sender_.SendPitchWheel(msg.channel, value);
-                  break;
-               default:
-                  rsj::LogAndAlertError(
-                      juce::String("LRIPCIn ProcessLine had unexpected MessageType: ")
-                      + rsj::MessageTypeToName(msg.msg_id_type));
+                     midi_sender_.Send(msg, value);
                }
+               else
+                  midi_sender_.Send(msg, value);
             }
          }
       } while (true);

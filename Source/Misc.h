@@ -108,31 +108,31 @@ namespace rsj {
       explicit ReverseWrapper(T&& i) noexcept : o(std::forward<T>(i)) {}
    };
 
-   template<class T> auto begin(ReverseWrapper<T>& r)
+   template<class T> auto begin(ReverseWrapper<T>& r) noexcept
    {
       using std::end;
       return std::make_reverse_iterator(end(r.o));
    }
 
-   template<class T> auto end(ReverseWrapper<T>& r)
+   template<class T> auto end(ReverseWrapper<T>& r) noexcept
    {
       using std::begin;
       return std::make_reverse_iterator(begin(r.o));
    }
 
-   template<class T> auto begin(ReverseWrapper<T> const& r)
+   template<class T> auto begin(ReverseWrapper<T> const& r) noexcept
    {
       using std::end;
       return std::make_reverse_iterator(end(r.o));
    }
 
-   template<class T> auto end(ReverseWrapper<T> const& r)
+   template<class T> auto end(ReverseWrapper<T> const& r) noexcept
    {
       using std::begin;
       return std::make_reverse_iterator(begin(r.o));
    }
 
-   template<class T> auto Reverse(T&& ob)
+   template<class T> auto Reverse(T&& ob) noexcept
    {
       return ReverseWrapper<T>{std::forward<T>(ob)};
    }
@@ -195,7 +195,7 @@ namespace rsj {
 #pragma warning(pop)
 
    template<class Rep, class Period>
-   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) noexcept //-V801
+   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) //-V801
    {
       const auto start = std::chrono::high_resolution_clock::now();
       std::this_thread::sleep_for(sleep_duration);

@@ -235,9 +235,10 @@ class ControlsModel {
           .MeasureChange(mm.message_type_byte, mm.control_number, mm.value);
    }
 
-   short SetToCenter(const rsj::MidiMessage& mm)
+   short SetToCenter(const rsj::MidiMessageId& mm)
    {
-      return all_controls_.at(mm.channel).SetToCenter(mm.message_type_byte, mm.control_number);
+      // MidiMessageId channel is 1-based
+      return all_controls_.at(mm.channel - 1).SetToCenter(mm.msg_id_type, mm.control_number);
    }
 
    [[nodiscard]] rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const

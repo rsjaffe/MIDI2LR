@@ -27,12 +27,14 @@ namespace juce {
    class MidiOutput;
 }
 
+namespace rsj {
+   struct MidiMessageId;
+}
+// juce MIDI send functions have 1-based channel, so does rsj::MidiMessageId
 class MidiSender {
  public:
    void RescanDevices();
-   void SendCc(int midi_channel, int controller, int value) const;
-   void SendNoteOn(int midi_channel, int controller, int value) const;
-   void SendPitchWheel(int midi_channel, int value) const;
+   void Send(rsj::MidiMessageId id, int value) const;
    void StartRunning();
 
  private:
