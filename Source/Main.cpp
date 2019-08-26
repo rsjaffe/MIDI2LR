@@ -245,7 +245,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             const auto w = juce::String(e->what());
             rsj::LogAndAlertError(juce::translate("unhandled exception") + ' ' + w + " "
                                       + source_filename + " line " + l + " Total uncaught = " + u,
-                "unhandled exception" + ' ' + w + " " + source_filename + " line " + l
+                "unhandled exception " + w + " " + source_filename + " line " + l
                     + " Total uncaught = " + u);
          }
          else

@@ -247,11 +247,11 @@ void Profile::ToXmlFile(const juce::File& file)
          }
          if (!root.writeTo(file)) {
             // Give feedback if file-save doesn't work
+            const auto& p = file.getFullPathName();
             rsj::LogAndAlertError(
                 juce::translate("Unable to save file. Choose a different location and try again.")
-                    + ' ' + file.getFullPathName(),
-                "Unable to save file. Choose a different location and try again. "
-                    + file.getFullPathName());
+                    + ' ' + p,
+                "Unable to save file. Choose a different location and try again. " + p);
          }
          saved_map_ = message_map_;
          profile_unsaved_ = false;

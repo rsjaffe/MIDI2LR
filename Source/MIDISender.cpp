@@ -69,11 +69,11 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
             }
          }
       }
-      else
-         rsj::LogAndAlertError("MIDISender: " + juce::translate("Unexpected Data Type: ")
-                                   + rsj::MessageTypeToName(id.msg_id_type),
-             juce::String("MIDISender: Unexpected Data Type: ")
-                 + rsj::MessageTypeToName(id.msg_id_type));
+      else {
+         const auto t = rsj::MessageTypeToName(id.msg_id_type);
+         rsj::LogAndAlertError("MIDISender: " + juce::translate("Unexpected Data Type: ") + t,
+             juce::String("MIDISender: Unexpected Data Type: ") + t);
+      }
    }
 
    catch (const std::exception& e) {
