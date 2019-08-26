@@ -363,7 +363,7 @@ template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const
          SavedToActive();
          break;
       default: {
-         const auto v = juce::String(version);)
+         const auto v = juce::String(version);
          rsj::LogAndAlertError(juce::translate("The file, 'settings.xml', is marked as a version "
                                                "not supported by the current version of MIDI2LR "
                                                "ChannelModel, and won't be loaded. File version: ")
