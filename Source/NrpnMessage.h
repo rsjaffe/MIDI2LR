@@ -28,7 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class NrpnFilter {
    // This  assumes that all NRPN messages have 4 messages, though the NRPN standard allows omission
    // of the 4th message. If the 4th message is dropped, this class silently consumes the message
-   // without emitting anything. Caller must handle all concurrency considerations.
+   // without emitting anything.
  public:
    struct ProcessResult {
       bool is_nrpn{};

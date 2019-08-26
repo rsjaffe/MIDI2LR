@@ -149,7 +149,21 @@ void rsj::LogAndAlertError(const juce::String& error_text) noexcept
       {
          const juce::MessageManagerLock mmLock; // this may be unnecessary
          juce::NativeMessageBox::showMessageBox(
-             juce::AlertWindow::WarningIcon, "Error", error_text);
+             juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+      }
+      rsj::Log(error_text);
+   }
+   catch (...) { //-V565
+   }
+}
+
+void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& error_text) noexcept
+{
+   try {
+      {
+         const juce::MessageManagerLock mmLock; // this may be unnecessary
+         juce::NativeMessageBox::showMessageBox(
+             juce::AlertWindow::WarningIcon, juce::translate("Error"), alert_text);
       }
       rsj::Log(error_text);
    }
@@ -163,7 +177,7 @@ void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
       {
          const juce::MessageManagerLock mmLock; // this may be unnecessary
          juce::NativeMessageBox::showMessageBox(
-             juce::AlertWindow::WarningIcon, "Error", error_text);
+             juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
       }
       rsj::Log(error_text);
    }
@@ -179,9 +193,13 @@ void rsj::ExceptionResponse(
     gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
 {
    try {
-      const auto error_text{juce::String("Exception ") + e.what() + ' ' + Demangle(id) + "::" + fu
-                            + " Version " + ProjectInfo::versionString};
-      rsj::LogAndAlertError(error_text);
+      const auto d = Demangle(id);
+      const auto w = e.what();
+      const auto alert_text{juce::translate("Exception ") + w + ' ' + d + "::" + fu + ' '
+                            + juce::translate("Version ") + ProjectInfo::versionString};
+      const auto error_text{juce::String("Exception ") + w + ' ' + d + "::" + fu + " Version "
+                            + ProjectInfo::versionString};
+      rsj::LogAndAlertError(alert_text, error_text);
    }
    catch (...) { //-V565
    }

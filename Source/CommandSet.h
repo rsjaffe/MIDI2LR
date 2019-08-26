@@ -78,7 +78,10 @@ class CommandSet {
             rsj::LogAndAlertError(juce::translate("The file, 'MenuTrans.xml', is marked as a "
                                                   "version not supported by the current version of "
                                                   "MIDI2LR, and won't be loaded. File version: ")
-                                  + std::to_string(version));
+                                      + std::to_string(version),
+                "The file, 'MenuTrans.xml', is marked as a version not supported by the current "
+                "version of MIDI2LR, and won't be loaded. File version: "
+                    + std::to_string(version));
       }
       std::string language_;
       std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::string>>>>

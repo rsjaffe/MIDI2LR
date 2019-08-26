@@ -71,7 +71,9 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
       }
       else
          rsj::LogAndAlertError("MIDISender: " + juce::translate("Unexpected Data Type: ")
-                               + rsj::MessageTypeToName(id.msg_id_type));
+                                   + rsj::MessageTypeToName(id.msg_id_type),
+             juce::String("MIDISender: Unexpected Data Type: ")
+                 + rsj::MessageTypeToName(id.msg_id_type));
    }
 
    catch (const std::exception& e) {

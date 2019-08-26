@@ -79,6 +79,7 @@ namespace rsj {
    // caller location, thus avoiding a potential exception in the catch clause. string_view
    // overloads not used because those are ambiguous with the String versions.
    void LogAndAlertError(const juce::String& error_text) noexcept;
+   void LogAndAlertError(const juce::String& alert_text, const juce::String& error_text) noexcept;
    void LogAndAlertError(gsl::czstring<> error_text) noexcept;
    void Log(const juce::String& info) noexcept;
    void Log(gsl::czstring<> info) noexcept;

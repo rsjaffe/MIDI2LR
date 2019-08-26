@@ -238,15 +238,21 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // pointer passed-in will be valid. If the exception is of unknown type,
       // this pointer will be null.
       try {
-         if (e)
-            rsj::LogAndAlertError(
-                juce::translate("unhandled exception") + ' ' + juce::String(e->what()) + " "
-                + source_filename + " line " + juce::String(lineNumber)
-                + " Total uncaught = " + juce::String(std::uncaught_exceptions()));
+         const auto u = juce::String(std::uncaught_exceptions());
+         const auto l = juce::String(lineNumber);
+
+         if (e) {
+            const auto w = juce::String(e->what());
+            rsj::LogAndAlertError(juce::translate("unhandled exception") + ' ' + w + " "
+                                      + source_filename + " line " + l + " Total uncaught = " + u,
+                "unhandled exception" + ' ' + w + " " + source_filename + " line " + l
+                    + " Total uncaught = " + u);
+         }
          else
             rsj::LogAndAlertError(juce::translate("unhandled exception") + ' ' + source_filename
-                                  + " line " + juce::String(lineNumber) + " Total uncaught = "
-                                  + juce::String(std::uncaught_exceptions()));
+                                      + " line " + l + " Total uncaught = " + u,
+                "unhandled exception " + source_filename + " line " + l
+                    + " Total uncaught = " + u);
       }
       catch (...) { // we'll terminate anyway
          std::terminate();
@@ -289,7 +295,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #endif
          }
          else
-            rsj::LogAndAlertError(juce::translate("Unable to save settings.xml"));
+            rsj::LogAndAlertError(
+                juce::translate("Unable to save settings.xml"), "Unable to save settings.xml");
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);

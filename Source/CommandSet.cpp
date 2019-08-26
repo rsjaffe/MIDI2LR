@@ -77,7 +77,8 @@ CommandSet::Impl::Impl()
 #endif
       }
       else
-         rsj::LogAndAlertError(juce::translate("Unable to load MenuTrans.xml."));
+         rsj::LogAndAlertError(
+             juce::translate("Unable to load MenuTrans.xml."), "Unable to load MenuTrans.xml.");
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
