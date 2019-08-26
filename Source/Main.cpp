@@ -240,13 +240,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       try {
          if (e)
             rsj::LogAndAlertError(
-                "Unhandled exception. " + juce::String(e->what()) + " " + source_filename + " line "
-                + juce::String(lineNumber)
+                juce::translate("unhandled exception") + ' ' + juce::String(e->what()) + " "
+                + source_filename + " line " + juce::String(lineNumber)
                 + " Total uncaught = " + juce::String(std::uncaught_exceptions()));
          else
-            rsj::LogAndAlertError(
-                "Unhandled exception. " + source_filename + " line " + juce::String(lineNumber)
-                + " Total uncaught = " + juce::String(std::uncaught_exceptions()));
+            rsj::LogAndAlertError(juce::translate("unhandled exception") + ' ' + source_filename
+                                  + " line " + juce::String(lineNumber) + " Total uncaught = "
+                                  + juce::String(std::uncaught_exceptions()));
       }
       catch (...) { // we'll terminate anyway
          std::terminate();
@@ -289,7 +289,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #endif
          }
          else
-            rsj::LogAndAlertError("Unable to save ControlsModel archive in Main.");
+            rsj::LogAndAlertError(juce::translate("Unable to save settings.xml"));
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);

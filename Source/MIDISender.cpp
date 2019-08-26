@@ -70,7 +70,7 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
          }
       }
       else
-         rsj::LogAndAlertError(juce::String("MIDISender had unexpected MessageType: ")
+         rsj::LogAndAlertError("MIDISender: " + juce::translate("Unexpected Data Type: ")
                                + rsj::MessageTypeToName(id.msg_id_type));
    }
 

@@ -22,6 +22,12 @@ Save
 Save profile
 Select Folder
 Settings (The feature in an app that allows users to change its properties or behavior.)
+The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version: 
+Unable to load %1
+Unable to save %1
+Unable to save file. Choose a different location and try again.
+Unexpected Data Type:
+unhandled exception (An exception that was identified with a "try catch or finally block" structure or that occurred outside this structure but was not caught by any structured error handler. "Dr. Watson" errors are examples.)
 Version (A designation appended to a product name to identify a particular release.)
 */
 namespace rsj
@@ -58,6 +64,7 @@ countries: de
 "LR Command" = "LR-Befehl"
 "Maximum value" = "Maximalwert"
 "MIDI Command" = "MIDI-Befehl"
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR benötigt Ihre Berechtigung, um Tastatureingaben an Lightroom zu senden"
 "MIDI2LR profiles" = "MIDI2LR-Profile"
 "Minimum value" = "Mindestwert"
 "Not connected to Lightroom" = "Keine Verbindung zu Lightroom"
@@ -74,10 +81,17 @@ countries: de
 "Sending halted" = "Senden gestoppt"
 "Settings" = "Einstellungen"
 "Sign and magnitude" = "Vorzeichen und Betrag"
-"Two\'s complement" = "Zweierkomplement"
-"Version " = "Version "
-"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR benötigt Ihre Berechtigung, um Tastatureingaben an Lightroom zu senden"
+"The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: " = "Die Version der Datei "MenuTrans.xml" wird von der aktuellen Version von MIDI2LR nicht unterstützt und daher nicht geladen. Dateiversion: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: " = "Die Version der Datei "settings.xml" wird von der aktuellen Version von MIDI2LR ChannelModel nicht unterstützt und daher nicht geladen. Dateiversion: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: " = "Die Version der Datei "settings.xml" wird von der aktuellen Version von MIDI2LR SettingsStruct nicht unterstützt und daher nicht geladen. Dateiversion: "
 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "Führen Sie die folgenden Schritte aus, um MIDI2LR zum Senden von Tastatureingaben an Lightroom zu autorisieren:\r\n1) Öffnen Sie die Systemeinstellungen\r\n2) Klicken Sie auf Sicherheit und Datenschutz\r\n3) Wählen Sie die Registerkarte Datenschutz\r\n4) Suchen Sie auf der linken Seite die Option Eingabehilfen\r\n5) Suchen Sie rechts das Kontrollkästchen für MIDI2LR\r\n6) Aktivieren Sie das Kontrollkästchen"
+"Two\'s complement" = "Zweierkomplement"
+"Unable to load MenuTrans.xml." = "MenuTrans.xml konnte nicht geladen werden."
+"Unable to save file. Choose a different location and try again." = "Datei kann nicht gespeichert werden. Wählen Sie einen anderen Speicherort aus, und versuchen Sie es erneut."
+"Unable to save settings.xml." = "settings.xml konnte nicht gespeichert werden."
+"Unexpected Data Type: " = "Unerwarteter Datentyp: "
+"unhandled exception" = "Ausnahmefehler"
+"Version " = "Version "
 )===";
    const auto es = u8R"===(language: Spanish
 countries: es
@@ -111,6 +125,7 @@ countries: es
 "LR Command" = "Comando LR"
 "Maximum value" = "Valor máximo"
 "MIDI Command" = "Comando MIDI"
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR necesita su autorización para enviar pulsaciones de teclas a Lightroom"
 "MIDI2LR profiles" = "Perfiles de MIDI2LR"
 "Minimum value" = "Valor mínimo"
 "Not connected to Lightroom" = "No conectado a Lightroom"
@@ -127,10 +142,17 @@ countries: es
 "Sending halted" = "Envío detenido"
 "Settings" = "Configuración"
 "Sign and magnitude" = "Signo y magnitud"
-"Two\'s complement" = "Complemento de dos"
-"Version " = "Versión "
-"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR necesita su autorización para enviar pulsaciones de teclas a Lightroom"
+"The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: " = "El archivo 'MenuTrans.xml' está marcado como una versión no compatible con la versión actual de MIDI2LR y no se puede cargar. Versión de archivo: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: " = "El archivo 'settings.xml' está marcado como una versión no compatible con la versión actual de MIDI2LR ChannelModel y no se puede cargar. Versión de archivo: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: " = "El archivo 'settings.xml' está marcado como una versión no compatible con la versión actual de MIDI2LR SettingsStruct y no se puede cargar. Versión de archivo: "
 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "Para autorizar a MIDI2LR a enviar pulsaciones de teclas a Lightroom, siga estos pasos:\r\n1) Abrir las preferencias del sistema\r\n2) Haga clic en Seguridad y Privacidad.\r\n3) Seleccione la pestaña de Privacidad\r\n4) Encuentra y selecciona Accesibilidad a la izquierda.\r\n5) Encuentra la casilla de verificación para MIDI2LR a la derecha\r\n6) Marque esa casilla de verificación"
+"Two\'s complement" = "Complemento de dos"
+"Unable to load MenuTrans.xml." = "No se puede cargar MenuTrans.xml."
+"Unable to save file. Choose a different location and try again." = "No se puede guardar el archivo. Elija una ubicación distinta e inténtelo de nuevo."
+"Unable to save settings.xml." = "No se puede guardar settings.xml."
+"Unexpected Data Type: " = "Tipo de datos inesperado: "
+"unhandled exception" = "excepción no controlada"
+"Version " = "Versión "
 )===";
    const auto fr = u8R"===(language: French
 countries: fr
@@ -164,6 +186,7 @@ countries: fr
 "LR Command" = "Commande LR"
 "Maximum value" = "Valeur maximale"
 "MIDI Command" = "Commande MIDI"
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR a besoin de votre autorisation pour envoyer des frappes à Lightroom"
 "MIDI2LR profiles" = "Profils MIDI2LR"
 "Minimum value" = "Valeur minimale"
 "Not connected to Lightroom" = "Non connecté à Lightroom"
@@ -180,10 +203,17 @@ countries: fr
 "Sending halted" = "Envoi interrompu"
 "Settings" = "Paramètres"
 "Sign and magnitude" = "Signe et magnitude"
-"Two\'s complement" = "Complément à deux"
-"Version " = "Version "
-"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR a besoin de votre autorisation pour envoyer des frappes à Lightroom"
+"The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: " = "Le fichier « MenuTrans.xml » est mentionné en tant que version non gérée par la version actuelle de MIDI2LR. Il ne peut pas être chargé. Version de fichier : "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: " = "Le fichier « settings.xml » est mentionné en tant que version non gérée par la version actuelle de MIDI2LR ChannelModel. Il ne peut pas être chargé. Version de fichier : "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: " = "Le fichier « settings.xml » est mentionné en tant que version non gérée par la version actuelle de MIDI2LR SettingsStruct. Il ne peut pas être chargé. Version de fichier : "
 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "Pour autoriser MIDI2LR à envoyer des frappes à Lightroom, procédez comme suit:\r\n1) Ouvrez les Préférences Système\r\n2) Cliquez sur Sécurité et confidentialité\r\n3) Sélectionnez l'onglet Confidentialité\r\n4) Recherchez et sélectionnez Accessibilité à gauche.\r\n5) Trouvez la case à cocher pour MIDI2LR à droite\r\n6) Cochez cette case"
+"Two\'s complement" = "Complément à deux"
+"Unable to load MenuTrans.xml." = "Impossible de charger MenuTrans.xml."
+"Unable to save file. Choose a different location and try again." = "Impossible d’enregistrer le fichier. Choisissez un autre emplacement et réessayez."
+"Unable to save settings.xml." = "Impossible d'enregistrer settings.xml."
+"Unexpected Data Type: " = "Type de données inattendu : "
+"unhandled exception" = "exception non prise en charge"
+"Version " = "Version "
 )===";
    const auto it = u8R"===(language: Italian
 countries: it
@@ -217,6 +247,7 @@ countries: it
 "LR Command" = "Comando LR"
 "Maximum value" = "Valore massimo"
 "MIDI Command" = "Comando MIDI"
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR richiede la tua autorizzazione per inviare sequenze di tasti a Lightroom"
 "MIDI2LR profiles" = "Profili MIDI2LR"
 "Minimum value" = "Valore minimo"
 "Not connected to Lightroom" = "Non connesso a Lightroom"
@@ -233,10 +264,17 @@ countries: it
 "Sending halted" = "Invio interrotto"
 "Settings" = "Impostazioni"
 "Sign and magnitude" = "Segno e ordine di grandezza"
-"Two\'s complement" = "Complemento di due"
-"Version " = "Versione "
-"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR richiede la tua autorizzazione per inviare sequenze di tasti a Lightroom"
+"The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: " = "La versione del file "MenuTrans.xml" non è supportata da questa versione di MIDI2LR. Il file non verrà caricato. Versione file: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: " = "La versione del file "settings.xml" non è supportata da questa versione di MIDI2LR ChannelModel. Il file non verrà caricato. Versione file: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: " = "La versione del file "settings.xml" non è supportata da questa versione di MIDI2LR SettingsStruct. Il file non verrà caricato. Versione file: "
 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "Per autorizzare MIDI2LR a inviare sequenze di tasti a Lightroom, attenersi alla seguente procedura:\r\n1) Apri le Preferenze di Sistema\r\n2) Fare clic su Sicurezza e privacy\r\n3) Seleziona la scheda Privacy\r\n4) Trova e seleziona Accessibilità a sinistra\r\n5) Trova la casella di controllo per MIDI2LR sulla destra\r\n6) Seleziona questa casella"
+"Two\'s complement" = "Complemento di due"
+"Unable to load MenuTrans.xml." = "Impossibile caricare MenuTrans.xml."
+"Unable to save file. Choose a different location and try again." = "Impossibile salvare il file. Scegliere un altro percorso e riprovare."
+"Unable to save settings.xml." = "Impossibile salvare settings.xml."
+"Unexpected Data Type: " = "Tipo di dati imprevisto: "
+"unhandled exception" = "eccezione non gestita"
+"Version " = "Versione "
 )===";
    const auto ja = u8R"===(language: Japanese
 countries: ja
@@ -256,7 +294,7 @@ countries: ja
 "Channel 0 Number 0" = "チャネル0番号0"
 "Choose Profile Folder" = "プロファイルフォルダを選択"
 "Clear ALL rows" = "すべての行をクリア"
-"Connected to Lightroom" = "LR に接続しました"
+"Connected to Lightroom" = "Lightroom に接続しました"
 "Control value increases when turned one way, decreases when turned the other." = "値はある方向に回すと大きくなり、反対に回すと小さくなります。"
 "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other." = "値はある方向に回すと1から大きくなり、反対に回すと127から小さくなります。"
 "Control value is near 1 when turned one way, and near 65 when turned the other." = "値はある方向に回すと1に近くなり、反対に回すと65に近くなります。"
@@ -270,6 +308,7 @@ countries: ja
 "LR Command" = "LRコマンド"
 "Maximum value" = "最大値"
 "MIDI Command" = "MIDIコマンド"
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LRはLightroomにキーストロークを送信するためにあなたの承認を必要とします"
 "MIDI2LR profiles" = "MIDI2LRのプロファイル"
 "Minimum value" = "最小値"
 "Not connected to Lightroom" = "Lightroom に接続していません"
@@ -286,10 +325,17 @@ countries: ja
 "Sending halted" = "送信停止"
 "Settings" = "設定"
 "Sign and magnitude" = "サインとマグニチュード"
-"Two\'s complement" = "2の補数"
-"Version " = "バージョン "
-"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LRはLightroomにキーストロークを送信するためにあなたの承認を必要とします"
+"The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: " = "ファイル 'MenuTrans.xml' は現在のバージョンの MIDI2LR でサポートされていない形式のファイルのため、読み込めません。 ファイル バージョン: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: " = "ファイル 'settings.xml' は現在のバージョンの MIDI2LR ChannelModel でサポートされていない形式のファイルのため、読み込めません。 ファイル バージョン: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: " = "ファイル 'settings.xml' は現在のバージョンの MIDI2LR SettingsStruct でサポートされていない形式のファイルのため、読み込めません。 ファイル バージョン: "
 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "MIDI2LRがLightroomにキーストロークを送信することを許可するには、次の手順に従ってください。\r\n1）システム環境設定を開く\r\n2）セキュリティとプライバシーをクリック\r\n3）プライバシータブを選択します\r\n4）左側にある[ユーザー補助]を見つけて選択します。\r\n5）右側のMIDI2LRのチェックボックスを見つけます\r\n6）チェックボックスをチェック"
+"Two\'s complement" = "2の補数"
+"Unable to load MenuTrans.xml." = "MenuTrans.xml を読み込めません。"
+"Unable to save file. Choose a different location and try again." = "ファイルを保存できません。 別の場所を選択してやり直してください。"
+"Unable to save settings.xml." = "settings.xml を保存できません。"
+"Unexpected Data Type: " = "予期しないデータ型が関数に渡されました。"
+"unhandled exception" = "ハンドルされない例外"
+"Version " = "バージョン "
 )===";
    const auto ko = u8R"===(language: Korean
 countries: ko
@@ -323,6 +369,7 @@ countries: ko
 "LR Command" = "LR 명령"
 "Maximum value" = "최대값"
 "MIDI Command" = "MIDI 명령"
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR은 키 입력을 Lightroom에 보낼 권한이 필요합니다."
 "MIDI2LR profiles" = "MIDI2LR 프로필"
 "Minimum value" = "최소값"
 "Not connected to Lightroom" = "Lightroom에 연결되지 않음"
@@ -339,10 +386,17 @@ countries: ko
 "Sending halted" = "전송 중지"
 "Settings" = "설정"
 "Sign and magnitude" = "부호와 크기"
-"Two\'s complement" = "2의 보수"
-"Version " = "버전 "
-"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR은 키 입력을 Lightroom에 보낼 권한이 필요합니다."
+"The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: " = "'MenuTrans.xml' 파일이 현재 MIDI2LR 버전에서 지원하지 않는 버전으로 표시되므로 로드되지 않습니다. 파일 버전: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: " = "'settings.xml' 파일이 현재 MIDI2LR ChannelModel 버전에서 지원하지 않는 버전으로 표시되므로 로드되지 않습니다. 파일 버전: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: " = "'settings.xml' 파일이 현재 MIDI2LR SettingsStruct 버전에서 지원하지 않는 버전으로 표시되므로 로드되지 않습니다. 파일 버전: "
 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "MIDI2LR에 키 입력을 허용하도록 Lightroom에 권한을 부여하려면 다음 단계를 따르십시오.\r\n1) 시스템 환경 설정 열기\r\n2) 보안 및 개인 정보를 클릭하십시오.\r\n3) 개인 정보 탭을 선택하십시오\r\n4) 왼쪽의 접근성을 찾아 선택합니다.\r\n5) 오른쪽에있는 MIDI2LR의 체크 박스를 찾으십시오\r\n6) 확인란을 선택하십시오."
+"Two\'s complement" = "2의 보수"
+"Unable to load MenuTrans.xml." = "MenuTrans.xml을(를) 로드할 수 없습니다."
+"Unable to save file. Choose a different location and try again." = "파일을 저장할 수 없습니다. 다른 위치를 선택하고 다시 시도하십시오."
+"Unable to save settings.xml." = "settings.xml을(를) 저장할 수 없습니다."
+"Unexpected Data Type: " = "예기치 않은 데이터 형식: "
+"unhandled exception" = "처리되지 않은 예외"
+"Version " = "버전 "
 )===";
    const auto nl = u8R"===(language: Dutch
 countries: nl
@@ -376,6 +430,7 @@ countries: nl
 "LR Command" = "LR-opdracht"
 "Maximum value" = "Maximumwaarde"
 "MIDI Command" = "MIDI-opdracht"
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR heeft jouw toestemming nodig om toetsaanslagen naar Lightroom te sturen"
 "MIDI2LR profiles" = "MIDI2LR-profielen"
 "Minimum value" = "Minimumwaarde"
 "Not connected to Lightroom" = "Niet verbonden met Lightroom"
@@ -392,10 +447,17 @@ countries: nl
 "Sending halted" = "Verzenden gestopt"
 "Settings" = "instellingen"
 "Sign and magnitude" = "Teken en versterking"
-"Two\'s complement" = "Twee\'s aanvulling"
-"Version " = "Versie "
-"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR heeft jouw toestemming nodig om toetsaanslagen naar Lightroom te sturen"
+"The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: " = "Het bestand MenuTrans.xml is gemarkeerd als een versie die niet wordt ondersteund door de huidige versie van MIDI2LR. Het bestand wordt daarom niet geladen. Bestandsversie: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: " = "Het bestand settings.xml is gemarkeerd als een versie die niet wordt ondersteund door de huidige versie van MIDI2LR ChannelModel. Het bestand wordt daarom niet geladen. Bestandsversie: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: " = "Het bestand settings.xml is gemarkeerd als een versie die niet wordt ondersteund door de huidige versie van MIDI2LR SettingsStruct. Het bestand wordt daarom niet geladen. Bestandsversie: "
 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "Ga als volgt te werk om MIDI2LR te autoriseren om toetsaanslagen naar Lightroom te verzenden:\r\n1) Open Systeemvoorkeuren\r\n2) Klik op Beveiliging en privacy\r\n3) Selecteer het tabblad Privacy\r\n4) Zoek en selecteer Toegankelijkheid aan de linkerkant\r\n5) Zoek het selectievakje voor MIDI2LR aan de rechterkant\r\n6) Vink dit selectievakje aan"
+"Two\'s complement" = "Twee\'s aanvulling"
+"Unable to load MenuTrans.xml." = "Kan MenuTrans.xml niet laden."
+"Unable to save file. Choose a different location and try again." = "Kan het bestand niet opslaan. Kies een andere locatie en probeer het opnieuw."
+"Unable to save settings.xml." = "Kan settings.xml niet opslaan."
+"Unexpected Data Type: " = "Fout door onverwacht gegevenstype: "
+"unhandled exception" = "onverwerkte uitzondering"
+"Version " = "Versie "
 )===";
    const auto pt = u8R"===(language: Portuguese
 countries: pt
@@ -430,6 +492,7 @@ countries: pt
 "LR Command" = "Comando LR"
 "Maximum value" = "Valor máximo"
 "MIDI Command" = "Comando MIDI"
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "O MIDI2LR precisa da sua autorização para enviar as teclas digitadas para o Lightroom"
 "MIDI2LR profiles" = "Perfis MIDI2LR"
 "Minimum value" = "Valor mínimo"
 "Not connected to Lightroom" = "Não conectado a Lightroom"
@@ -445,10 +508,17 @@ countries: pt
 "Sending halted" = "Envio Interrompido"
 "Settings" = "Configurações"
 "Sign and magnitude" = "Sinal e magnitude"
-"Two\'s complement" = "Complemento de dois"
-"Version " = "Versão "
-"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "O MIDI2LR precisa da sua autorização para enviar as teclas digitadas para o Lightroom"
+"The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: " = "O arquivo 'MenuTrans.xml' está marcado como uma versão que não tem suporte na versão atual do MIDI2LR e não será carregado. Versão do arquivo: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: " = "O arquivo 'settings.xml' está marcado como uma versão que não tem suporte na versão atual do MIDI2LR ChannelModel e não será carregado. Versão do arquivo: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: " = "O arquivo 'settings.xml' está marcado como uma versão que não tem suporte na versão atual do MIDI2LR SettingsStruct e não será carregado. Versão do arquivo: "
 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "Para autorizar o MIDI2LR a enviar pressionamentos de teclas ao Lightroom, siga estas etapas:\r\n1) Abra as Preferências do Sistema\r\n2) Clique em Segurança e Privacidade\r\n3) Selecione a guia Privacidade\r\n4) Encontre e selecione Acessibilidade à esquerda\r\n5) Encontre a caixa de seleção para MIDI2LR à direita\r\n6) Marque essa caixa de seleção"
+"Two\'s complement" = "Complemento de dois"
+"Unable to load MenuTrans.xml." = "Não é possível carregar MenuTrans.xml."
+"Unable to save file. Choose a different location and try again." = "Não é possível salvar o arquivo. Escolha um local diferente e tente novamente."
+"Unable to save settings.xml." = "Impossível salvar settings.xml."
+"Unexpected Data Type: " = "Tipo de Dado Inesperado: "
+"unhandled exception" = "exceção sem tratamento"
+"Version " = "Versão "
 )===";
    const auto sv = u8R"===(language: Swedish
 countries: sv
@@ -482,6 +552,7 @@ countries: sv
 "LR Command" = "LR-kommando"
 "Maximum value" = "Maxvärde"
 "MIDI Command" = "MIDI-kommando"
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR behöver ditt tillstånd att skicka tangenttryckningar till Lightroom"
 "MIDI2LR profiles" = "MIDI2LR-profiler"
 "Minimum value" = "Minvärde"
 "Not connected to Lightroom" = "Inte ansluten till Lightroom"
@@ -498,10 +569,17 @@ countries: sv
 "Sending halted" = "Sändningen stoppad"
 "Settings" = "Inställningar"
 "Sign and magnitude" = "Tecken och storlek"
-"Two\'s complement" = "Tvåkomplement"
-"Version " = "Version "
-"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR behöver ditt tillstånd att skicka tangenttryckningar till Lightroom"
+"The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: " = "Filen MenuTrans.xml har markerats som en version som inte stöds av den aktuella versionen av MIDI2LR och kommer därför inte att läsas in. Filversion: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: " = "Filen settings.xml har markerats som en version som inte stöds av den aktuella versionen av MIDI2LR ChannelModel och kommer därför inte att läsas in. Filversion: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: " = "Filen settings.xml har markerats som en version som inte stöds av den aktuella versionen av MIDI2LR SettingsStruct och kommer därför inte att läsas in. Filversion: "
 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "För att tillåta MIDI2LR att skicka tangenttryckningar till Lightroom, följ så här:\r\n1) Öppna systeminställningar\r\n2) Klicka på Säkerhet och sekretess\r\n3) Välj fliken Sekretess\r\n4) Hitta och välj Tillgång till vänster\r\n5) Markera kryssrutan för MIDI2LR till höger\r\n6) Markera kryssrutan"
+"Two\'s complement" = "Tvåkomplement"
+"Unable to load MenuTrans.xml." = "Det gick inte att läsa in MenuTrans.xml."
+"Unable to save file. Choose a different location and try again." = "Det gick inte att spara filen. Välj en annan plats och försök igen."
+"Unable to save settings.xml." = "Det gick inte att spara settings.xml."
+"Unexpected Data Type: " = "Oväntad datatyp: "
+"unhandled exception" = "ohanterat undantag"
+"Version " = "Version "
 )===";
    const auto zh_cn = u8R"===(language: Chinese simplified
 countries: zh-cn
@@ -535,6 +613,7 @@ countries: zh-cn
 "LR Command" = "LR命令"
 "Maximum value" = "最大值"
 "MIDI Command" = "MIDI命令"
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR需要您的授权才能向Lightroom发送击键"
 "MIDI2LR profiles" = "MIDI2LR配置文件"
 "Minimum value" = "最小值"
 "Not connected to Lightroom" = "未连接到Lightroom"
@@ -551,10 +630,17 @@ countries: zh-cn
 "Sending halted" = "提交暂停"
 "Settings" = "设置"
 "Sign and magnitude" = "原码幅值"
-"Two\'s complement" = "二进制补码"
-"Version " = "版本 "
-"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR需要您的授权才能向Lightroom发送击键"
+"The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: " = "文件“MenuTrans.xml”被标记为不受当前 MIDI2LR 版本支持的版本，无法加载。 文件版本: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: " = "文件“settings.xml”被标记为不受当前 MIDI2LR ChannelModel 版本支持的版本，无法加载。 文件版本: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: " = "文件“settings.xml”被标记为不受当前 MIDI2LR SettingsStruct 版本支持的版本，无法加载。 文件版本: "
 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "要授权MIDI2LR向Lightroom发送击键，请按照以下步骤操作：\r\n1）打开系统首选项\r\n2）单击安全和隐私\r\n3）选择“隐私”选项卡\r\n4）在左侧查找并选择辅助功能\r\n5）在右侧找到MIDI2LR的复选框\r\n6）选中该复选框"
+"Two\'s complement" = "二进制补码"
+"Unable to load MenuTrans.xml." = "无法加载 MenuTrans.xml。"
+"Unable to save file. Choose a different location and try again." = "无法保存文件。 选择其他位置，然后重试。"
+"Unable to save settings.xml." = "无法保存 settings.xml。"
+"Unexpected Data Type: " = "意外的数据类型: "
+"unhandled exception" = "未经处理的异常"
+"Version " = "版本 "
 )===";
    const auto zh_tw = u8R"===(language: Chinese traditional
 countries: zh-tw
@@ -588,6 +674,7 @@ countries: zh-tw
 "LR Command" = "LR命令"
 "Maximum value" = "最大值"
 "MIDI Command" = "MIDI命令"
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR需要您的授權才能向Lightroom發送擊鍵"
 "MIDI2LR profiles" = "MIDI2LR 設定檔"
 "Minimum value" = "最小值"
 "Not connected to Lightroom" = "未連接到Lightroom"
@@ -604,9 +691,16 @@ countries: zh-tw
 "Sending halted" = "提交暫停"
 "Settings" = "設定"
 "Sign and magnitude" = "原碼幅值"
-"Two\'s complement" = "二進制補碼"
-"Version " = 版本 "
-"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR需要您的授權才能向Lightroom發送擊鍵"
+"The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: " = "檔案 'MenuTrans.xml' 標示為 MIDI2LR 目前版本不支援的版本，因此不會載入。 檔案版本: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: " = "檔案 'settings.xml' 標示為 MIDI2LR ChannelModel 目前版本不支援的版本，因此不會載入。 檔案版本: "
+"The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: " = "檔案 'settings.xml' 標示為 MIDI2LR SettingsStruct 目前版本不支援的版本，因此不會載入。 檔案版本: "
 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "要授權MIDI2LR向Lightroom發送擊鍵，請按照以下步驟操作：\r\n1）打開系統首選項\r\n2）單擊安全和隱私\r\n3）選擇“隱私”選項卡\r\n4）在左側查找並選擇輔助功能\r\n5）在右側找到MIDI2LR的複選框\r\n6）選中該複選框"
+"Two\'s complement" = "二進制補碼"
+"Unable to load MenuTrans.xml." = "無法載入 MenuTrans.xml。"
+"Unable to save file. Choose a different location and try again." = "無法儲存檔案。 請選擇其他位置，然後再試一次。"
+"Unable to save settings.xml." = "無法儲存 settings.xml。"
+"Unexpected Data Type: " = "未預期的資料類型: "
+"unhandled exception" = "未處理的例外狀況"
+"Version " = 版本 "
 )===";
 } // namespace rsj
