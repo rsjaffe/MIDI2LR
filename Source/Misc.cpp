@@ -94,7 +94,7 @@ namespace {
 {
    try {
       ::std::string result;
-      result.reserve(in.size());
+      result.resize(in.size());
       ::std::transform(
           in.begin(), in.end(), result.begin(), [](unsigned char c) noexcept {
              return gsl::narrow_cast<unsigned char>(::std::tolower(c));
