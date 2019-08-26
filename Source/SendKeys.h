@@ -29,6 +29,9 @@ namespace rsj {
       bool control{false};
       bool shift{false};
       bool hankaku{false};
+
+      static ActiveModifiers FromWindows(int from) noexcept;
+      static ActiveModifiers FromMidi2LR(int from) noexcept;
    };
 
    void SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexcept;

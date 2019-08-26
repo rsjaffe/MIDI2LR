@@ -162,16 +162,8 @@ void LrIpcIn::ProcessLine()
                    + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
                continue;
             }
-            rsj::ActiveModifiers am;
-            if (modifiers & 0x1)
-               am.alt_opt = true;
-            if (modifiers & 0x2)
-               am.control = true;
-            if (modifiers & 0x4)
-               am.shift = true;
-            if (modifiers & 0x8)
-               am.command = true;
-            rsj::SendKeyDownUp(std::string(value_string), am);
+            rsj::SendKeyDownUp(
+                std::string(value_string), rsj::ActiveModifiers::FromMidi2LR(modifiers));
          }
          else { // send associated messages to MIDI OUT devices
             const auto original_value = std::stod(std::string(value_string));

@@ -46,6 +46,29 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl>
 #endif
 
+namespace rsj {
+   ActiveModifiers ActiveModifiers::FromWindows(int from) noexcept
+   { // shift coded as follows:
+      // 1: shift, 2: ctrl, 4: alt, 8: hankaku
+      ActiveModifiers am{};
+      am.alt_opt = from & 4;
+      am.control = from & 2;
+      am.hankaku = from & 8;
+      am.shift = from & 1;
+      return am;
+   }
+
+   ActiveModifiers ActiveModifiers::FromMidi2LR(int from) noexcept
+   {
+      ActiveModifiers am{};
+      am.alt_opt = from & 1;
+      am.command = from & 8;
+      am.control = from & 2;
+      am.shift = from & 4;
+      return am;
+   }
+} // namespace rsj
+
 namespace {
 #ifdef _WIN32
    HKL GetLanguage(const std::string& program_name)
@@ -86,19 +109,8 @@ namespace {
          const auto uc{rsj::Utf8ToWide(key).at(0)};
          static const auto kLanguageId = GetLanguage("Lightroom");
          const auto vk_code_and_shift = VkKeyScanExWErrorChecked(uc, kLanguageId);
-         const auto mods = HIBYTE(vk_code_and_shift);
-         // shift coded as follows:
-         // 1: shift, 2: ctrl, 4: alt, 8: hankaku
-         rsj::ActiveModifiers am{};
-         if (mods & 1)
-            am.shift = true;
-         if (mods & 2)
-            am.control = true;
-         if (mods & 4)
-            am.alt_opt = true;
-         if (mods & 8)
-            am.hankaku = true;
-         return {LOBYTE(vk_code_and_shift), am};
+         return {LOBYTE(vk_code_and_shift),
+             rsj::ActiveModifiers::FromWindows(HIBYTE(vk_code_and_shift))};
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(__func__, __func__, e);
