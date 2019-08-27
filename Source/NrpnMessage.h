@@ -43,20 +43,19 @@ class NrpnFilter {
    {
 #pragma warning(push)
 #pragma warning(disable : 26446 26482) // Channel bounds-checked in calling functions
-      ready_flags_[channel] = 0;
-      control_msb_[channel] = 0;
-      control_lsb_[channel] = 0;
-      value_msb_[channel] = 0;
-      value_lsb_[channel] = 0;
+      intermediate_results_[channel] = {0, 0, 0, 0, 0};
 #pragma warning(pop)
    }
+   struct InternalStructure {
+      int control_lsb_{0};
+      int control_msb_{0};
+      int ready_flags_{0};
+      int value_lsb_{0};
+      int value_msb_{0};
+   };
    mutable rsj::SpinLock filter_mutex_;
    static constexpr int kChannels{16};
-   std::array<int, kChannels> control_msb_{};
-   std::array<int, kChannels> control_lsb_{};
-   std::array<int, kChannels> value_msb_{};
-   std::array<int, kChannels> value_lsb_{};
-   std::array<int, kChannels> ready_flags_{};
+   std::array<InternalStructure, kChannels> intermediate_results_{};
 };
 
 #endif

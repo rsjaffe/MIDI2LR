@@ -38,32 +38,32 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
       ProcessResult ret_val{false, false, 0, 0};
       switch (message.control_number) {
       case 6: {
+         auto& i_ref = intermediate_results_[message.channel];
          auto lock = std::scoped_lock(filter_mutex_);
-         if (ready_flags_[message.channel] >= 0b11) {
+         if (i_ref.ready_flags_ >= 0b11) {
             ret_val.is_nrpn = true;
-            value_msb_[message.channel] = message.value & 0x7F;
-            ready_flags_[message.channel] |= 0b100; //"Magic number" false alarm //-V112
-            if (ready_flags_[message.channel] == 0b1111) {
+            i_ref.value_msb_ = message.value & 0x7F;
+            i_ref.ready_flags_ |= 0b100; //"Magic number" false alarm //-V112
+            if (i_ref.ready_flags_ == 0b1111) {
                ret_val.is_ready = true;
-               ret_val.control =
-                   (control_msb_[message.channel] << 7) + control_lsb_[message.channel];
-               ret_val.value = (value_msb_[message.channel] << 7) + value_lsb_[message.channel];
+               ret_val.control = (i_ref.control_msb_ << 7) + i_ref.control_lsb_;
+               ret_val.value = (i_ref.value_msb_ << 7) + i_ref.value_lsb_;
                Clear(message.channel);
             }
          }
       }
          return ret_val;
       case 38: {
+         auto& i_ref = intermediate_results_[message.channel];
          auto lock = std::scoped_lock(filter_mutex_);
-         if (ready_flags_[message.channel] >= 0b11) {
+         if (i_ref.ready_flags_ >= 0b11) {
             ret_val.is_nrpn = true;
-            value_lsb_[message.channel] = message.value & 0x7F;
-            ready_flags_[message.channel] |= 0b1000;
-            if (ready_flags_[message.channel] == 0b1111) {
+            i_ref.value_lsb_ = message.value & 0x7F;
+            i_ref.ready_flags_ |= 0b1000;
+            if (i_ref.ready_flags_ == 0b1111) {
                ret_val.is_ready = true;
-               ret_val.control =
-                   (control_msb_[message.channel] << 7) + control_lsb_[message.channel];
-               ret_val.value = (value_msb_[message.channel] << 7) + value_lsb_[message.channel];
+               ret_val.control = (i_ref.control_msb_ << 7) + i_ref.control_lsb_;
+               ret_val.value = (i_ref.value_msb_ << 7) + i_ref.value_lsb_;
                Clear(message.channel);
             }
          }
@@ -72,17 +72,19 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
       case 98:
          ret_val.is_nrpn = true;
          {
+            auto& i_ref = intermediate_results_[message.channel];
             auto lock = std::scoped_lock(filter_mutex_);
-            control_lsb_[message.channel] = message.value & 0x7F;
-            ready_flags_[message.channel] |= 0b10;
+            i_ref.control_lsb_ = message.value & 0x7F;
+            i_ref.ready_flags_ |= 0b10;
          }
          return ret_val;
       case 99:
          ret_val.is_nrpn = true;
          {
+            auto& i_ref = intermediate_results_[message.channel];
             auto lock = std::scoped_lock(filter_mutex_);
-            control_msb_[message.channel] = message.value & 0x7F;
-            ready_flags_[message.channel] |= 0b1;
+            i_ref.control_msb_ = message.value & 0x7F;
+            i_ref.ready_flags_ |= 0b1;
          }
          return ret_val;
       default: // not an expected nrpn control #, handle as typical midi message
