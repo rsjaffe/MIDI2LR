@@ -41,10 +41,8 @@ class NrpnFilter {
  private:
    void Clear(int channel) noexcept
    {
-#pragma warning(push)
-#pragma warning(disable : 26446 26482) // Channel bounds-checked in calling functions
+#pragma warning(suppress : 26446 26482) // Channel bounds-checked in calling functions
       intermediate_results_[channel] = {0, 0, 0, 0, 0};
-#pragma warning(pop)
    }
    struct InternalStructure {
       int control_lsb_{0};

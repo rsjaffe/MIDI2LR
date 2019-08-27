@@ -31,7 +31,7 @@ double ChannelModel::OffsetResult(int diff, int controlnumber)
    try {
       Expects(cc_high_.at(controlnumber) > 0); // CCLow will always be 0 for offset controls
       Expects(diff <= kMaxNrpn && diff >= -kMaxNrpn);
-      Expects(controlnumber <= kMaxNrpn);
+      Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       auto lock = std::scoped_lock(current_v_mtx_);
       current_v_.at(controlnumber) += diff;
       if (current_v_.at(controlnumber) < 0) { // fix currentV
@@ -214,7 +214,7 @@ int ChannelModel::MeasureChange(rsj::MessageType controltype, int controlnumber,
 int ChannelModel::PluginToController(rsj::MessageType controltype, int controlnumber, double value)
 {
    try {
-      Expects(controlnumber <= kMaxNrpn);
+      Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       // value effectively clamped to 0-1 by clamp calls below
       switch (controltype) {
       case rsj::MessageType::Pw: {
@@ -285,9 +285,8 @@ void ChannelModel::SetCcAll(int controlnumber, int min, int max, rsj::CCmethod c
 void ChannelModel::SetCcMax(int controlnumber, int value)
 {
    try {
-      Expects(controlnumber <= kMaxNrpn);
-      Expects(value <= kMaxNrpn);
-      Expects(value >= 0);
+      Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
+      Expects(value <= kMaxNrpn && value >= 0);
       if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
          cc_high_.at(controlnumber) = value < 0 ? 1000 : value;
       else {
@@ -308,7 +307,7 @@ void ChannelModel::SetCcMax(int controlnumber, int value)
 void ChannelModel::SetCcMin(int controlnumber, int value)
 {
    try {
-      Expects(controlnumber <= kMaxNrpn);
+      Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
          cc_low_.at(controlnumber) = 0;
       else

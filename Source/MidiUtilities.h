@@ -56,7 +56,7 @@ namespace rsj {
       static_assert(std::is_unsigned_v<decltype(value)>); // avoid sign extension
       const auto from = value >> 4 & 0xF;
       if (from < 0x9)
-         throw std::range_error("ToMessageType: MessageType range error, muxt be 0x9 to 0xF");
+         throw std::out_of_range("ToMessageType: MessageType range error, muxt be 0x9 to 0xF");
       return static_cast<MessageType>(from);
    }
 
