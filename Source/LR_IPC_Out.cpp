@@ -223,25 +223,27 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
       const auto command_to_send = profile_.GetCommandForMessage(message);
       if (command_to_send == "PrevPro" || command_to_send == "NextPro"
           || command_to_send == "Unmapped")
-         return; // handled by ProfileManager
+         [[unlikely]] return; // handled by ProfileManager
       // if it is a repeated command, change command_to_send appropriately
-      if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
-         static TimePoint next_response{};
-         if (const auto now = Clock::now(); next_response < now) {
-            next_response = now + kDelay;
-            if (mm.message_type_byte == rsj::MessageType::Pw
-                || (mm.message_type_byte == rsj::MessageType::Cc
-                    && controls_model_.GetCcMethod(message) == rsj::CCmethod::kAbsolute))
-               SetRecenter(message);
-            const auto change = controls_model_.MeasureChange(mm);
-            if (change == 0)
-               return;      // don't send any signal
-            if (change > 0) // turned clockwise
-               SendCommand(a->second.cw);
-            else // turned counterclockwise
-               SendCommand(a->second.ccw);
+      if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end())
+         [[unlikely]]
+         {
+            static TimePoint next_response{};
+            if (const auto now = Clock::now(); next_response < now) {
+               next_response = now + kDelay;
+               if (mm.message_type_byte == rsj::MessageType::Pw
+                   || (mm.message_type_byte == rsj::MessageType::Cc
+                       && controls_model_.GetCcMethod(message) == rsj::CCmethod::kAbsolute))
+                  SetRecenter(message);
+               const auto change = controls_model_.MeasureChange(mm);
+               if (change == 0)
+                  return;      // don't send any signal
+               if (change > 0) // turned clockwise
+                  SendCommand(a->second.cw);
+               else // turned counterclockwise
+                  SendCommand(a->second.ccw);
+            }
          }
-      }
       else { // not repeated command
          const auto computed_value = controls_model_.ControllerToPlugin(mm);
          SendCommand(command_to_send + ' ' + std::to_string(computed_value) + '\n');
@@ -258,14 +260,14 @@ void LrIpcOut::SendOut()
    try {
       auto command_copy = std::make_shared<std::string>(command_.pop());
       if (*command_copy == kTerminate)
-         return;
+         [[unlikely]] return;
       // always connected when running SendOut, no need to check flag
       if (command_copy->back() != '\n') // should be terminated with \n
-         *command_copy += '\n';
+         [[unlikely]] *command_copy += '\n';
       asio::async_write(socket_, asio::buffer(*command_copy),
           [this, command_copy](const asio::error_code& error, std::size_t) {
              if (!error)
-                SendOut();
+                [[likely]] SendOut();
              else {
                 rsj::Log("LR_IPC_Out Write: " + error.message());
              }

@@ -33,7 +33,7 @@ file:write([=[<!---
 -->
 The tables below list all commands currently available in MIDI2LR for all submenus. The title row in each table corresponds with the name of the menu in the app. Controls marked *button* are intended to be used with a button or key, and unmarked controls are for faders or encoders.
 
-*Note*: ※ symbol indicates that the command is undocumented and may not always behave as expected. Use cautiously.
+*Note*: ※ symbol indicates that the Adobe Lightroom API documentation does not include this command and an undocumented command may not always behave as expected. Use with caution.
 ]=])
 for _,v in ipairs(Database.DataBase) do
 

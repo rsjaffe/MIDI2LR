@@ -191,19 +191,21 @@ void LrIpcIn::Read()
       if (!thread_should_exit_.load(std::memory_order_relaxed)) {
          asio::async_read_until(socket_, streambuf_, '\n',
              [this](const asio::error_code& error, std::size_t bytes_transferred) {
-                if (!error) {
-                   if (!bytes_transferred)
-                      std::this_thread::sleep_for(kEmptyWait);
-                   else {
-                      std::string command{buffers_begin(streambuf_.data()),
-                          buffers_begin(streambuf_.data()) + bytes_transferred};
-                      if (command == "TerminateApplication 1\n")
-                         thread_should_exit_.store(true, std::memory_order_seq_cst);
-                      line_.push(std::move(command));
-                      streambuf_.consume(bytes_transferred);
+                if (!error)
+                   [[likely]]
+                   {
+                      if (!bytes_transferred)
+                         [[unlikely]] std::this_thread::sleep_for(kEmptyWait);
+                      else {
+                         std::string command{buffers_begin(streambuf_.data()),
+                             buffers_begin(streambuf_.data()) + bytes_transferred};
+                         if (command == "TerminateApplication 1\n")
+                            thread_should_exit_.store(true, std::memory_order_seq_cst);
+                         line_.push(std::move(command));
+                         streambuf_.consume(bytes_transferred);
+                      }
+                      Read(); // read again
                    }
-                   Read(); // read again
-                }
                 else {
                    rsj::Log("LR_IPC_In Read: " + error.message());
                    if (error == asio::error::misc_errors::eof) // LR closed socket
