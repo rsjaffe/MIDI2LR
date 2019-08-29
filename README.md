@@ -9,17 +9,17 @@
 [See releases for MD5 and SHA checksums](https://github.com/rsjaffe/MIDI2LR/releases). MIDI2LR supports all languages Lightroom supports.
 
 ## Support MIDI2LR 💸
-[Donate to support project development](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HS992TTMHQNCL&source=url)<br />[Unterstützen Sie die Projektentwicklung mit Ihrer Spende](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=de_DE&hosted_button_id=HS992TTMHQNCL&source=url)<br />
-[Donación para ayuda al desarrollo de proyectos](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=es_ES&hosted_button_id=HS992TTMHQNCL&source=url)<br />
-[Faire un don pour encourager le développement du projet](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=fr_FR&hosted_button_id=HS992TTMHQNCL&source=url)<br />
-[Dona per supportare lo sviluppo del progetto](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=it_IT&hosted_button_id=HS992TTMHQNCL&source=url)<br />
-[プロジェクト開発をサポートするための寄付をお願いします](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=ja_JP&hosted_button_id=HS992TTMHQNCL&source=url)<br />
-[프로젝트 개발 지원을 위해 기부](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=ko_KR&hosted_button_id=HS992TTMHQNCL&source=url)<br />
-[Doneren om projectontwikkeling te steunen](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=nl_NL&hosted_button_id=HS992TTMHQNCL&source=url)<br />
-[Doar para apoiar o desenvolvimento de projetos](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=pt_BR&hosted_button_id=HS992TTMHQNCL&source=url)<br />
-[Donera för att stödja projektutveckling](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=sv_SE&hosted_button_id=HS992TTMHQNCL&source=url)<br />
-[捐赠以支持项目开发](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=zh_CN&hosted_button_id=HS992TTMHQNCL&source=url)<br />
-[捐款支持專案開發](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&lc=zh_TW&hosted_button_id=HS992TTMHQNCL&source=url)
+[Donate to support project development](https://paypal.me/MIDI2LR)<br />[Unterstützen Sie die Projektentwicklung mit Ihrer Spende](https://paypal.me/MIDI2LR)<br />
+[Donación para ayuda al desarrollo de proyectos](https://paypal.me/MIDI2LR)<br />
+[Faire un don pour encourager le développement du projet](https://paypal.me/MIDI2LR)<br />
+[Dona per supportare lo sviluppo del progetto](https://paypal.me/MIDI2LR)<br />
+[プロジェクト開発をサポートするための寄付をお願いします](https://paypal.me/MIDI2LR)<br />
+[프로젝트 개발 지원을 위해 기부](https://paypal.me/MIDI2LR)<br />
+[Doneren om projectontwikkeling te steunen](https://paypal.me/MIDI2LR)<br />
+[Doar para apoiar o desenvolvimento de projetos](https://paypal.me/MIDI2LR)<br />
+[Donera för att stödja projektutveckling](https://paypal.me/MIDI2LR)<br />
+[捐赠以支持项目开发](https://paypal.me/MIDI2LR)<br />
+[捐款支持專案開發](https://paypal.me/MIDI2LR)
 
 | Screenshot | Further information |
 | -----------| -------------------- |
