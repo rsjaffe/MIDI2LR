@@ -447,7 +447,7 @@
         <launchBrowser>
             <explanation>Opens a web browser with a PayPal form where you can make a donation to support further ${project.fullName} development.</explanation>
             <progressText>Donate to ${project.fullName} development.</progressText>
-            <url>https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=YWHT4JMA42RXN</url>
+            <url>https://paypal.me/MIDI2LR</url>
         </launchBrowser>
     </finalPageActionList>
     <parameterList>
