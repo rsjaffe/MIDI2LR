@@ -21,6 +21,6 @@ local LrHttp = import "LrHttp"
 import "LrTasks".startAsyncTask(
   function()
     LrHttp.openUrlInBrowser(
-      "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HS992TTMHQNCL&source=url")
+      "https://www.paypal.me/MIDI2LR")
   end
 )
