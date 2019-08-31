@@ -23,13 +23,14 @@ local LrFileUtils    = import 'LrFileUtils'
 local LrLocalization = import 'LrLocalization'
 local LrPathUtils    = import 'LrPathUtils'
 local LrSystemInfo   = import 'LrSystemInfo'
+local testfile = LrPathUtils.child(_PLUGIN.path,'Client.lua')
+local writeable = ''
+if not LrFileUtils.isWritable(testfile) then
+  writeable = '\nPlugin directory is not writeable'
+end
 
 local function gatherInformation()
-  local testfile = LrPathUtils.child(_PLUGIN.path,'Client.lua')
-  local writeable = ''
-  if not LrFileUtils.isWritable(testfile) then
-    writeable = '\nPlugin directory is not writeable'
-  end
+
   local longest = 40
   local mess = '----------- LIGHTROOM -----------'
   .. '\nOperating system ' .. LrSystemInfo.summaryString()
@@ -62,7 +63,21 @@ local function writeDebug()
   file:close()
 end
 
+local function sendLog()
+  MIDI2LR.SERVER:send('Log Operating system ' .. LrSystemInfo.summaryString() .. '\n')
+  MIDI2LR.SERVER:send('Log Lightroom Version ' .. LrApplication.versionString() .. '\n')
+  MIDI2LR.SERVER:send('Log Lightroom Language ' .. LrLocalization.currentLanguage() .. '\n')
+  MIDI2LR.SERVER:send('Log Lightroom Preferences path ' .. LrPathUtils.getStandardFilePath ('appPrefs') .. '\n')
+  MIDI2LR.SERVER:send('Log Lightroom Application data path ' .. LrPathUtils.getStandardFilePath ('appData') .. '\n')
+  MIDI2LR.SERVER:send('Log Plugin version ' .. Info.VERSION.major  .. '.' .. Info.VERSION.minor .. '.' .. Info.VERSION.revision .. '.' .. Info.VERSION.build .. '\n')
+  MIDI2LR.SERVER:send('Log Plugin path ' .. _PLUGIN.path .. writeable .. '\n')
+  MIDI2LR.SERVER:send('Log Plugin log path ' .. Ut.applogpath() .. '\n')
+  MIDI2LR.SERVER:send('Log Plugin data path ' .. Ut.appdatapath() .. '\n')
+end
+
+
 return {
   gatherInformation = gatherInformation,
+  sendLog = sendLog,
   write = writeDebug,
 }

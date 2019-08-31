@@ -144,11 +144,18 @@ void LrIpcIn::ProcessLine()
          const auto command{std::string(
              v.substr(0, v.find_first_of(" \t\n")))}; // use this a lot, so convert to string once
          if (command == "SwitchProfile") {
-            profile_manager_.SwitchToProfile(std::string(value_string));
+            if (!value_string.empty())
+               profile_manager_.SwitchToProfile(std::string(value_string));
          }
          else if (command == "TerminateApplication") {
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
             return;
+         }
+         else if (command == "Log") {
+            if (!value_string.empty())
+               rsj::Log("From plugin: "
+                        + juce::String(juce::CharPointer_UTF8(value_string.data()),
+                            value_string.size()));
          }
          else if (command == "SendKey") {
             const auto modifiers = std::stoi(std::string(value_string));

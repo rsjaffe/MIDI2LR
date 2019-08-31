@@ -164,27 +164,27 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
 {
    try {
       using namespace std::literals::string_literals;
-      LogAndSave("System language " + juce::SystemStats::getDisplayLanguage().toStdString());
-      LogAndSave("Keyboard type " + rsj::GetKeyboardLayout());
+      LogAndSave("From application: System language " + juce::SystemStats::getDisplayLanguage().toStdString());
+      LogAndSave("From application: Keyboard type " + rsj::GetKeyboardLayout());
       // ReSharper disable CppUnreachableCode
       if constexpr (kNdebug) {
-         LogAndSave("Version "s + ProjectInfo::versionString);
+         LogAndSave("From application: Application version "s + ProjectInfo::versionString);
       }
       else {
-         LogAndSave("Version "s + ProjectInfo::versionString + "-debug");
+         LogAndSave("From application: Application version "s + ProjectInfo::versionString + "-debug");
       }
       // ReSharper restore CppUnreachableCode
-      LogAndSave("App path "
+      LogAndSave("From application: Application path "
                  + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
                        .getFullPathName()
                        .toStdString());
-      LogAndSave("Profile directory " + profile_directory.toStdString());
+      LogAndSave("From application: Profile directory " + profile_directory.toStdString());
 #ifdef _WIN32
-      LogAndSave("Log file directory " + rsj::WideToUtf8(rsj::AppLogFilePath(L"")));
-      LogAndSave("Settings file directory " + rsj::WideToUtf8(rsj::AppDataFilePath(L"")));
+      LogAndSave("From application: Log file directory " + rsj::WideToUtf8(rsj::AppLogFilePath(L"")));
+      LogAndSave("From application: Settings file directory " + rsj::WideToUtf8(rsj::AppDataFilePath(L"")));
 #else
-      LogAndSave("Log file directory "s + rsj::AppLogFilePath(""));
-      LogAndSave("Settings file directory "s + rsj::AppDataFilePath(""));
+      LogAndSave("From application: Log file directory "s + rsj::AppLogFilePath(""));
+      LogAndSave("From application: Settings file directory "s + rsj::AppDataFilePath(""));
 #endif
    }
    catch (...) {
