@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 
 #include <exception>
+#include <mutex>
 #include <string>
 
 #include "DebugInfo.h"
@@ -85,14 +86,16 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
       if (connected && !blocked) {
          lr_ipc_out_.SendCommand("Pickup "s + (GetPickupEnabled() ? '1' : '0') + '\n');
          rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
-         // rest of info about app is logged by DebugInfo
-         const DebugInfo db{GetProfileDirectory()};
-         lr_ipc_out_.SendCommand("AppInfoClear 1\n");
-         for (const auto& info : db.GetInfo()) {
-            lr_ipc_out_.SendCommand("AppInfo " + info + '\n');
-         }
-         lr_ipc_out_.SendCommand("AppInfoDone 1\n");
-         lr_ipc_out_.SendCommand("GetPluginInfo 1\n");
+         static std::once_flag of; // add debug info once to logs
+         std::call_once(of, [this] {
+            const DebugInfo db{GetProfileDirectory()};
+            lr_ipc_out_.SendCommand("AppInfoClear 1\n");
+            for (const auto& info : db.GetInfo()) {
+               lr_ipc_out_.SendCommand("AppInfo " + info + '\n');
+            }
+            lr_ipc_out_.SendCommand("AppInfoDone 1\n");
+            lr_ipc_out_.SendCommand("GetPluginInfo 1\n");
+         });
       }
    }
    catch (const std::exception& e) {
