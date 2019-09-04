@@ -499,3 +499,5 @@ Source/LRPlugin/MIDI2LR\.lrplugin/MIDI2LR\.app/
 rtmidi/midiprobe
 Source/LRPlugin/luacheck\.results
 Source/LRPlugin/MIDI2LR\.lrplugin/compiled/
+
+*.p12

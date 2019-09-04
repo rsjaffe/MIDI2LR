@@ -267,7 +267,7 @@
                 </setInstallerVariable>
                 <setInstallerVariable>
                     <name>app</name>
-                    <value>../Builds/MacOSX/build/Release</value>
+                    <value>../Builds/MacOSX/build/Notarized</value>
                 </setInstallerVariable>
                 <setInstallerVariable>
                     <name>debuglabel</name>
@@ -398,6 +398,7 @@
     <height>400</height>
     <licenseFileEncoding>utf-8</licenseFileEncoding>
     <osxApplicationBundleIcon>../Builds/MacOSX/Icon.icns</osxApplicationBundleIcon>
+    <osxSigningPkcs12File>../osx-signing.p12</osxSigningPkcs12File>
     <osxUninstallerApplicationBundleIcon>../Builds/MacOSX/Icon.icns</osxUninstallerApplicationBundleIcon>
     <outputDirectory>../..</outputDirectory>
     <productDisplayIcon>../Builds/VisualStudio2019/icon.ico</productDisplayIcon>
