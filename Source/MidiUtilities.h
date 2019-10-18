@@ -89,7 +89,7 @@ namespace rsj {
       {
       }
 
-      explicit MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug);
+      explicit MidiMessage(const juce::MidiMessage& mm);
    };
 
    constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs) noexcept

@@ -23,7 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <JuceLibraryCode/JuceHeader.h>
 #include <gsl/gsl>
 
-rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
+rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm)
 { // anything not set below is set to zero by default constructor
 #pragma warning(push)
 #pragma warning(disable : 26481) // doing raw pointer arithmetic, parsing low-level structure
