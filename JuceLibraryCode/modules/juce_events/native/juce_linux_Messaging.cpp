@@ -20,8 +20,6 @@
   ==============================================================================
 */
 
-#include <poll.h>
-
 namespace juce
 {
 
@@ -38,7 +36,7 @@ public:
         LinuxEventLoop::registerFdCallback (getReadHandle(),
                                             [this] (int fd)
                                             {
-                                                if (auto msg = popNextMessage (fd))
+                                                while (auto msg = popNextMessage (fd))
                                                 {
                                                     JUCE_TRY
                                                     {
@@ -77,7 +75,7 @@ public:
     }
 
     //==============================================================================
-    JUCE_DECLARE_SINGLETON_SINGLETHREADED_MINIMAL (InternalMessageQueue)
+    JUCE_DECLARE_SINGLETON (InternalMessageQueue, false)
 
 private:
     CriticalSection lock;
@@ -119,12 +117,12 @@ public:
         fdReadCallbacks.reserve (8);
     }
 
-    void registerFdCallback (int fd, std::function<void(int)>&& cb)
+    void registerFdCallback (int fd, std::function<void(int)>&& cb, short eventMask)
     {
         const ScopedLock sl (lock);
 
         fdReadCallbacks.push_back ({ fd, std::move (cb) });
-        pfds.push_back ({ fd, POLLIN, 0 });
+        pfds.push_back ({ fd, eventMask, 0 });
     }
 
     void unregisterFdCallback (int fd)
@@ -183,7 +181,7 @@ public:
     }
 
     //==============================================================================
-    JUCE_DECLARE_SINGLETON_SINGLETHREADED_MINIMAL (InternalRunLoop)
+    JUCE_DECLARE_SINGLETON (InternalRunLoop, false)
 
 private:
     CriticalSection lock;
@@ -273,10 +271,10 @@ bool MessageManager::dispatchNextMessageOnSystemQueue (bool returnIfNoPendingMes
 }
 
 //==============================================================================
-void LinuxEventLoop::registerFdCallback (int fd, std::function<void(int)> readCallback)
+void LinuxEventLoop::registerFdCallback (int fd, std::function<void(int)> readCallback, short eventMask)
 {
     if (auto* runLoop = InternalRunLoop::getInstanceWithoutCreating())
-        runLoop->registerFdCallback (fd, std::move (readCallback));
+        runLoop->registerFdCallback (fd, std::move (readCallback), eventMask);
 }
 
 void LinuxEventLoop::unregisterFdCallback (int fd)

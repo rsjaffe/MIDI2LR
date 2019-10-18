@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.3.1.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
-              jucerVersion="5.4.4" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
+              jucerVersion="5.4.5" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright=""
               defines="DONT_SET_USING_JUCE_NAMESPACE=1" compilerFlagSchemes=""
@@ -110,9 +110,8 @@
     <VS2019 targetFolder="Builds/VisualStudio2019" smallIcon="WdgQGt" bigIcon="WdgQGt"
             extraDefs="_WIN32_WINNT=0x0601">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
-                       useRuntimeLibDLL="0"/>
-        <CONFIGURATION isDebug="0" name="Release" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"/>
+        <CONFIGURATION name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1" useRuntimeLibDLL="0"/>
+        <CONFIGURATION name="Release" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics"/>
