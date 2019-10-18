@@ -21,7 +21,18 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandSet.h"
 
 #include <exception>
+#ifndef _WIN32
+#include <AvailabilityMacros.h>
+#if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
+    && defined(__cpp_lib_filesystem)
+#define FILESYSTEM_AVAILABLE_MIDI2LR
+#endif
+#else
 #ifdef __cpp_lib_filesystem
+#define FILESYSTEM_AVAILABLE_MIDI2LR
+#endif
+#endif
+#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
 #include <filesystem>
 namespace fs = std::filesystem;
 #endif
@@ -60,7 +71,7 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
 CommandSet::Impl::Impl()
 {
    try {
-#ifdef __cpp_lib_filesystem
+#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
       const fs::path p{rsj::AppDataFilePath("MenuTrans.xml")};
 #else
       const auto p = rsj::AppDataFilePath("MenuTrans.xml");
@@ -70,7 +81,7 @@ CommandSet::Impl::Impl()
 #pragma warning(suppress : 26414) // too large to construct on stack
          const auto iarchive = std::make_unique<cereal::XMLInputArchive>(infile);
          (*iarchive)(*this);
-#ifdef __cpp_lib_filesystem
+#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
          rsj::Log("MenuTrans.xml archive loaded from " + juce::String(p.c_str()));
 #else
          rsj::Log("MenuTrans.xml archive loaded from " + p);

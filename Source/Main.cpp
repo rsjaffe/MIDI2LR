@@ -27,11 +27,23 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+
 #include <exception>
 #include <fstream>
 #include <memory>
 #include <mutex>
+#ifndef _WIN32
+#include <AvailabilityMacros.h>
+#if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
+    && defined(__cpp_lib_filesystem)
+#define FILESYSTEM_AVAILABLE_MIDI2LR
+#endif
+#else
 #ifdef __cpp_lib_filesystem
+#define FILESYSTEM_AVAILABLE_MIDI2LR
+#endif
+#endif
+#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
 #include <filesystem>
 namespace fs = std::filesystem;
 #endif
@@ -251,8 +263,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          else
             rsj::LogAndAlertError(juce::translate("unhandled exception") + ' ' + source_filename
                                       + " line " + l + " Total uncaught = " + u,
-                "unhandled exception " + source_filename + " line " + l
-                    + " Total uncaught = " + u);
+                "unhandled exception " + source_filename + " line " + l + " Total uncaught = " + u);
       }
       catch (...) { // we'll terminate anyway
          std::terminate();
@@ -278,7 +289,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    void CerealSave() const
    { // scoped so archive gets flushed
       try {
-#ifdef __cpp_lib_filesystem
+#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
          const fs::path p{rsj::AppDataFilePath(kSettingsFileX)};
 #else
          const auto p = rsj::AppDataFilePath(kSettingsFileX);
@@ -288,7 +299,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #pragma warning(suppress : 26414) // too large to construct on stack
             const auto oarchive = std::make_unique<cereal::XMLOutputArchive>(outfile);
             (*oarchive)(controls_model_);
-#ifdef __cpp_lib_filesystem
+#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
             rsj::Log("ControlsModel archive in Main saved to " + juce::String(p.c_str()));
 #else
             rsj::Log("ControlsModel archive in Main saved to " + p);
@@ -306,7 +317,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    void CerealLoad()
    { // scoped so archive gets flushed
       try {
-#ifdef __cpp_lib_filesystem
+#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
          const fs::path px{rsj::AppDataFilePath(kSettingsFileX)};
 #else
          const auto px = rsj::AppDataFilePath(kSettingsFileX);
@@ -316,7 +327,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #pragma warning(suppress : 26414) // too large to construct on stack
             const auto iarchive = std::make_unique<cereal::XMLInputArchive>(in_file);
             (*iarchive)(controls_model_);
-#ifdef __cpp_lib_filesystem
+#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
             rsj::Log("ControlsModel archive in Main loaded from " + juce::String(px.c_str()));
 #else
             rsj::Log("ControlsModel archive in Main loaded from " + px);
