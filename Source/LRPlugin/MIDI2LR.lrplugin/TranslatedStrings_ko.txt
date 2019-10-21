@@ -20,3 +20,4 @@
 "$$$/MIDI2LR/Help/Support=지원(&S)"
 "$$$/MIDI2LR/Menu/ExportConfiguration=구성 내보내기(&E)"
 "$$$/MIDI2LR/Menu/ImportConfiguration=구성 가져오기(&I)"
+"$$$/MIDI2LR/Menu/GeneralOptions=일반 옵션(&O)"

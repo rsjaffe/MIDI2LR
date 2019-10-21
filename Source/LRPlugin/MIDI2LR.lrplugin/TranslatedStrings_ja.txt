@@ -20,3 +20,4 @@
 "$$$/MIDI2LR/Help/Support=サポート(&S)"
 "$$$/MIDI2LR/Menu/ExportConfiguration=構成のエクスポート(&E)"
 "$$$/MIDI2LR/Menu/ImportConfiguration=構成のインポート(&I)"
+"$$$/MIDI2LR/Menu/GeneralOptions=全般オプション(&O)"

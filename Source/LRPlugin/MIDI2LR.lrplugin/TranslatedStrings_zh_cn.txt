@@ -20,3 +20,4 @@
 "$$$/MIDI2LR/Help/Support=支持(&S)"
 "$$$/MIDI2LR/Menu/ExportConfiguration=导出配置(&E)"
 "$$$/MIDI2LR/Menu/ImportConfiguration=导入配置(&I)"
+"$$$/MIDI2LR/Menu/GeneralOptions=常规选项(&O)"

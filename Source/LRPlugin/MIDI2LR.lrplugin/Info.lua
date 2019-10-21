@@ -29,7 +29,7 @@ return {
   LrToolkitIdentifier = 'com.rsjaffe.midi2lr',
   LrExportMenuItems = {
     {
-      title = LOC("$$$/AgCreations/NewCreationDialog/CreateItemDialog/Options=Options"),
+      title = LOC("$$$/MIDI2LR/Menu/GeneralOptions=General &options"),
       file = 'Options.lua',
     },
     {

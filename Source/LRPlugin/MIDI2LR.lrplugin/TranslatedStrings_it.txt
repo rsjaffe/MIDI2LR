@@ -20,3 +20,4 @@
 "$$$/MIDI2LR/Help/Support=&Supporto"
 "$$$/MIDI2LR/Menu/ExportConfiguration=&Esporta configurazione"
 "$$$/MIDI2LR/Menu/ImportConfiguration=&Importa configurazione"
+"$$$/MIDI2LR/Menu/GeneralOptions=&Opzioni generali"
