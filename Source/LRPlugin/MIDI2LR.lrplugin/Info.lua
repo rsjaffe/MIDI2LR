@@ -49,15 +49,15 @@ return {
       file = "StopServer.lua"
     },
     {
-      title = LOC("$$$/AgMenu/LoadPresets=Load presets"),
+      title = LOC("$$$/MIDI2LR/Menu/ImportConfiguration=&Import configuration"),
       file = "FileLoadPref.lua",
     },
     {
-      title = LOC("$$$/AgLibrary/Menu/File/ExportPresets=Export presets"),
+      title = LOC("$$$/MIDI2LR/Menu/ExportConfiguration=&Export configuration"),
       file = "FileSavePref.lua"
     },
     { 
-      title = LOC("$$$/MIDI2LR/Help/OnlineHelp=Online help"), 
+      title = LOC("$$$/MIDI2LR/Help/OnlineHelp=Online &help"), 
       file = "OnlineHelp.lua",
     },     
     {

@@ -18,3 +18,5 @@
 "$$$/MIDI2LR/Help/Latest=&Ver la versión más reciente"
 "$$$/MIDI2LR/Help/OnlineHelp=&Ayuda en pantalla"
 "$$$/MIDI2LR/Help/Support=&Soporte"
+"$$$/MIDI2LR/Menu/ExportConfiguration=&Exportar configuración"
+"$$$/MIDI2LR/Menu/ImportConfiguration=&Importar configuración"
