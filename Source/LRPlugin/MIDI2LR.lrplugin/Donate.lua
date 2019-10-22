@@ -20,7 +20,6 @@ local LrHttp = import "LrHttp"
 
 import "LrTasks".startAsyncTask(
   function()
-    LrHttp.openUrlInBrowser(
-      "https://www.paypal.me/MIDI2LR")
+    LrHttp.openUrlInBrowser("https://www.paypal.me/MIDI2LR")
   end
 )
