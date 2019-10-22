@@ -5,3 +5,5 @@ rtmidi/
 installer/
 
 *.exe
+
+*.p12
