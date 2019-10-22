@@ -19,10 +19,7 @@
 #include "ResizableLayout.h"
 class SettingsManager;
 
-class SettingsComponent final : public juce::Component,
-                                juce::Button::Listener,
-                                ResizableLayout,
-                                juce::Slider::Listener {
+class SettingsComponent final : public juce::Component, ResizableLayout {
  public:
    explicit SettingsComponent(SettingsManager& settings_manager);
    ~SettingsComponent() = default;
@@ -33,9 +30,7 @@ class SettingsComponent final : public juce::Component,
    void Init();
 
  private:
-   void buttonClicked(juce::Button* button) override;
    void paint(juce::Graphics&) override;
-   void sliderValueChanged(juce::Slider* slider) override;
 
    juce::GroupComponent autohide_group_{};
    juce::GroupComponent pickup_group_{};

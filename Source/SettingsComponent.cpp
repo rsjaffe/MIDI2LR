@@ -52,13 +52,17 @@ void SettingsComponent::Init()
       pickup_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
       addAndMakeVisible(pickup_label_);
 
-      pickup_enabled_.addListener(this);
       pickup_enabled_.setToggleState(
           settings_manager_.GetPickupEnabled(), juce::NotificationType::dontSendNotification);
       pickup_enabled_.setBounds(kSettingsLeft, 60, kSettingsWidth - 2 * kSettingsLeft,
           32); //"Magic number" 32 false alarm //-V112
       addToLayout(&pickup_enabled_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(pickup_enabled_);
+      pickup_enabled_.onClick = [this] {
+         const auto pickup_state = pickup_enabled_.getToggleState();
+         settings_manager_.SetPickupEnabled(pickup_state);
+         rsj::Log(pickup_state ? "Pickup set to enabled" : "Pickup set to disabled");
+      };
 
       /* profile */
       profile_group_.setText(juce::translate("Profile"));
@@ -66,11 +70,21 @@ void SettingsComponent::Init()
       addToLayout(&profile_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(profile_group_);
 
-      profile_location_button_.addListener(this);
       profile_location_button_.setBounds(
           kSettingsLeft, 120, kSettingsWidth - 2 * kSettingsLeft, 25);
       addToLayout(&profile_location_button_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(profile_location_button_);
+      profile_location_button_.onClick = [this] {
+         juce::FileChooser chooser{juce::translate("Select Folder"),
+             juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "", true};
+         if (chooser.browseForDirectory()) {
+            const auto profile_location = chooser.getResult().getFullPathName();
+            settings_manager_.SetProfileDirectory(profile_location);
+            rsj::Log("Profile location set to " + profile_location);
+            profile_location_label_.setText(
+                profile_location, juce::NotificationType::dontSendNotification);
+         }
+      };
 
       profile_location_label_.setEditable(false);
       profile_location_label_.setBounds(kSettingsLeft, 145, kSettingsWidth - 2 * kSettingsLeft, 30);
@@ -103,9 +117,12 @@ void SettingsComponent::Init()
           settings_manager_.GetAutoHideTime(), juce::NotificationType::dontSendNotification);
 
       addToLayout(&autohide_setting_, anchorMidLeft, anchorMidRight);
-      /* add this as the lister for the data */
-      autohide_setting_.addListener(this);
       addAndMakeVisible(autohide_setting_);
+      autohide_setting_.onValueChange = [this] {
+         settings_manager_.SetAutoHideTime(juce::roundToInt(autohide_setting_.getValue()));
+         rsj::Log("Autohide time set to " + juce::String(settings_manager_.GetAutoHideTime())
+                  + " seconds");
+      };
       /* turn it on */
       activateLayout();
    }
@@ -119,47 +136,6 @@ void SettingsComponent::paint(juce::Graphics& g)
 { //-V2009 overridden method
    try {
       g.fillAll(juce::Colours::white); // clear the background
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
-
-void SettingsComponent::buttonClicked(juce::Button* button)
-{ //-V2009 overridden method
-   try {
-      if (button == &pickup_enabled_) {
-         const auto pickup_state = pickup_enabled_.getToggleState();
-         settings_manager_.SetPickupEnabled(pickup_state);
-         rsj::Log(pickup_state ? "Pickup set to enabled" : "Pickup set to disabled");
-      }
-      else if (button == &profile_location_button_) {
-         juce::FileChooser chooser{juce::translate("Select Folder"),
-             juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "", true};
-         if (chooser.browseForDirectory()) {
-            const auto profile_location = chooser.getResult().getFullPathName();
-            settings_manager_.SetProfileDirectory(profile_location);
-            rsj::Log("Profile location set to " + profile_location);
-            profile_location_label_.setText(
-                profile_location, juce::NotificationType::dontSendNotification);
-         }
-      }
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
-
-void SettingsComponent::sliderValueChanged(juce::Slider* slider)
-{ //-V2009 overridden method
-   try {
-      if (slider && &autohide_setting_ == slider) {
-         settings_manager_.SetAutoHideTime(juce::roundToInt(autohide_setting_.getValue()));
-         rsj::Log("Autohide time set to " + juce::String(settings_manager_.GetAutoHideTime())
-                  + " seconds");
-      }
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

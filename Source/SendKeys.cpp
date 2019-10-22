@@ -417,7 +417,7 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
       }
       /* ignored for now
        * SEE:https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values */
-      //if (vk_mod.hankaku)
+      // if (vk_mod.hankaku)
       //   strokes.push_back(VK_OEM_AUTO);
       WinSendKeyStrokes(strokes);
 #else

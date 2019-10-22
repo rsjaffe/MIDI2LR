@@ -35,7 +35,6 @@ namespace rsj {
 class MainContentComponent final : public juce::Component,
                                    juce::AsyncUpdater,
                                    juce::Timer,
-                                   juce::Button::Listener,
                                    public ResizableLayout {
  public:
    MainContentComponent(const CommandSet& command_set, Profile& profile,
@@ -50,13 +49,12 @@ class MainContentComponent final : public juce::Component,
    void SaveProfile();
 
  private:
-   void buttonClicked(juce::Button* button) override;
    void handleAsyncUpdate() override;
    void LrIpcOutCallback(bool, bool);
    void MidiCmdCallback(const rsj::MidiMessage&);
    void paint(juce::Graphics&) override;
    void ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name);
-   void SetLabelSettings(juce::Label& label_to_set);
+   void StandardLabelSettings(juce::Label& label_to_set);
    void timerCallback() override;
 
    CommandTable command_table_{"Table", nullptr};
