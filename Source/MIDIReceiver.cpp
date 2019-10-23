@@ -1,23 +1,18 @@
 /*
-  ==============================================================================
-
-    MIDIProcessor.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "MIDIReceiver.h"
 
 #include <chrono>
@@ -26,10 +21,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Misc.h"
 
 namespace {
-   constexpr rsj::MidiMessage kTerminate{rsj::MessageType::Cc, 129, 0, 0}; // impossible channel
+   constexpr rsj::MidiMessage kTerminate{rsj::MessageType::Cc, 129, 0, 0}; /* impossible channel */
 }
 
-void MidiReceiver::StartRunning()
+void MidiReceiver::Start()
 {
    try {
       InitDevices();
@@ -44,7 +39,7 @@ void MidiReceiver::StartRunning()
    }
 }
 
-void MidiReceiver::StopRunning()
+void MidiReceiver::Stop()
 {
    for (const auto& dev : devices_) {
       dev->stop();
@@ -52,27 +47,30 @@ void MidiReceiver::StopRunning()
    }
    if (const auto remaining = messages_.clear_count_push(kTerminate))
       rsj::Log(juce::String(remaining) + " left in queue in MidiReceiver StopRunning");
-   callbacks_.clear(); // after queue emptied
+   callbacks_.clear(); /* after queue emptied */
 }
 
 void MidiReceiver::handleIncomingMidiMessage(
     juce::MidiInput* device, const juce::MidiMessage& message)
-{ // reentrant ok. NRPN filter contains mutex in case of concurrency
+{
+   /* reentrant ok. NRPN filter contains mutex in case of concurrency. This procedure is in
+    * near-real-time, so must return quickly. will place message in multithreaded queue and let
+    * separate process handle the messages */
    try {
-      // this procedure is in near-real-time, so must return quickly.
-      // will place message in multithreaded queue and let separate process handle the messages
       const rsj::MidiMessage mess{message};
       switch (mess.message_type_byte) {
       case rsj::MessageType::Cc: {
          const auto result = filters_[device](mess);
          if (result.is_nrpn) {
-            if (result.is_ready) { // send when complete
+            /* send when complete */
+            if (result.is_ready)
                messages_.emplace(rsj::MessageType::Cc, mess.channel, result.control, result.value);
-            }
-            break; // finished with nrpn piece
+            /* finished with nrpn piece */
+            break;
          }
       }
-         [[fallthrough]]; // if not nrpn, handle like other messages
+         /* if not nrpn, handle like other messages */
+         [[fallthrough]];
       case rsj::MessageType::NoteOn:
       case rsj::MessageType::Pw:
          messages_.push(mess);
@@ -101,15 +99,15 @@ void MidiReceiver::RescanDevices()
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
-   InitDevices(); // initdevices has own try catch block
+   InitDevices(); /* initdevices has own try catch block */
 }
 
 void MidiReceiver::TryToOpen()
 {
    try {
-      auto available_devices = juce::MidiInput::getAvailableDevices();
-      for (auto&& device : available_devices) {
-         auto open_device = juce::MidiInput::openDevice(device.identifier, this);
+      const auto available_devices{juce::MidiInput::getAvailableDevices()};
+      for (const auto& device : available_devices) {
+         auto open_device{juce::MidiInput::openDevice(device.identifier, this)};
          if (open_device) {
             open_device->start();
             rsj::Log("Opened input device " + open_device->getName());
@@ -129,11 +127,17 @@ void MidiReceiver::InitDevices()
    try {
       rsj::Log("Trying to open input devices");
       TryToOpen();
-      if (devices_.empty()) // encountering errors first try on MacOS
+      if (devices_.empty()) /* encountering errors first try on MacOS */
       {
          rsj::Log("Retrying to open input devices");
          rsj::SleepTimedLogged("Open input devices", 20ms);
          TryToOpen();
+         if (devices_.empty()) /* encountering errors second try on MacOS */
+         {
+            rsj::Log("Retrying second time to open input devices");
+            rsj::SleepTimedLogged("Open input devices", 80ms);
+            TryToOpen();
+         }
       }
    }
    catch (const std::exception& e) {
@@ -146,11 +150,12 @@ void MidiReceiver::DispatchMessages()
 {
    try {
       do {
-         auto message_copy = messages_.pop();
+         const auto message_copy = messages_.pop();
          if (message_copy == kTerminate)
             return;
          for (const auto& cb : callbacks_)
-#pragma warning(suppress : 26489) // false alarm, checked for existence before adding to callbacks_
+#pragma warning(suppress : 26489)
+            /* false warning, checked for existence before adding to callbacks_ */
             cb(message_copy);
       } while (true);
    }

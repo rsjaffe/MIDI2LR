@@ -1,25 +1,20 @@
 #ifndef MIDI2LR_CONTROLSMODEL_H_INCLUDED
 #define MIDI2LR_CONTROLSMODEL_H_INCLUDED
 /*
-==============================================================================
-
-ControlsModel.h
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 //-V813_MINSIZE=13 //warn if passing structure by value > 12 bytes (3*sizeof(int))
 #include <array>
 #include <atomic>
@@ -39,7 +34,7 @@ namespace rsj {
    enum struct CCmethod : char { kAbsolute, kTwosComplement, kBinaryOffset, kSignMagnitude };
 
    struct SettingsStruct {
-      int control_number; // not using size_t so serialized data won't vary if size_t varies
+      int control_number;
       int low;
       int high;
       rsj::CCmethod method;
@@ -95,7 +90,8 @@ namespace rsj {
                case CCmethod::kTwosComplement:
                   methodstr = "TwosComplement";
                default:
-                  break; // leave "undefined"
+                  /* leave "undefined" */
+                  break;
                }
                archive(cereal::make_nvp("CC", control_number), CEREAL_NVP(high), CEREAL_NVP(low),
                    cereal::make_nvp("method", methodstr));
@@ -151,10 +147,10 @@ class ChannelModel {
  public:
    ChannelModel();
    ~ChannelModel() = default;
-   // Can write copy and move with special handling for atomics, but in lieu of that, delete
-   ChannelModel(const ChannelModel&) = delete; // can't copy atomics
+   /* Can write copy and move with special handling for atomics, but in lieu of that, delete */
+   ChannelModel(const ChannelModel&) = delete;
    ChannelModel& operator=(const ChannelModel&) = delete;
-   ChannelModel(ChannelModel&&) = delete; // can't move atomics
+   ChannelModel(ChannelModel&&) = delete;
    ChannelModel& operator=(ChannelModel&&) = delete;
    double ControllerToPlugin(rsj::MessageType controltype, int controlnumber, int value);
    int MeasureChange(rsj::MessageType controltype, int controlnumber, int value);
@@ -234,10 +230,10 @@ class ControlsModel {
  public:
    ControlsModel() = default;
    ~ControlsModel() = default;
-   // Can write copy and move with special handling for atomics, but in lieu of that, delete
-   ControlsModel(const ControlsModel&) = delete; // can't copy atomics
+   /* Can write copy and move with special handling for atomics, but in lieu of that, delete */
+   ControlsModel(const ControlsModel&) = delete;
    ControlsModel& operator=(const ControlsModel&) = delete;
-   ControlsModel(ControlsModel&&) = delete; // can't move atomics
+   ControlsModel(ControlsModel&&) = delete;
    ControlsModel& operator=(ControlsModel&&) = delete;
    double ControllerToPlugin(const rsj::MidiMessage& mm)
    {
@@ -253,7 +249,7 @@ class ControlsModel {
 
    int SetToCenter(rsj::MidiMessageId mm)
    {
-      // MidiMessageId channel is 1-based
+      /* MidiMessageId channel is 1-based */
       return all_controls_.at(gsl::narrow_cast<size_t>(mm.channel) - 1)
           .SetToCenter(mm.msg_id_type, mm.control_number);
    }
@@ -265,7 +261,7 @@ class ControlsModel {
 
    [[nodiscard]] rsj::CCmethod GetCcMethod(rsj::MidiMessageId msg_id) const
    {
-      // MidiMessageId channel is 1-based
+      /* MidiMessageId channel is 1-based */
       return all_controls_.at(gsl::narrow_cast<size_t>(msg_id.channel) - 1)
           .GetCcMethod(msg_id.control_number);
    }
@@ -292,7 +288,7 @@ class ControlsModel {
 
    int PluginToController(rsj::MidiMessageId msg_id, double value)
    {
-      // msg_id is one-based
+      /* msg_id is one-based */
       return all_controls_.at(gsl::narrow_cast<size_t>(msg_id.channel) - 1)
           .PluginToController(msg_id.msg_id_type, msg_id.control_number, value);
    }
@@ -340,7 +336,7 @@ class ControlsModel {
    friend class cereal::access;
    template<class Archive> void serialize(Archive& archive, uint32_t const version)
    {
-      if (version == 1) // serialize things by passing them to the archive
+      if (version == 1)
          archive(all_controls_);
    }
    std::array<ChannelModel, 16> all_controls_;

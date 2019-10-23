@@ -1,23 +1,18 @@
 /*
-  ==============================================================================
-
-    VersionChecker.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "VersionChecker.h"
 
 #include <exception>
@@ -30,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 namespace {
    [[nodiscard]] std::string IntToVersion(unsigned int vers)
    {
-      static_assert(std::is_unsigned_v<decltype(vers)>); // avoid sign extension
+      static_assert(std::is_unsigned_v<decltype(vers)>, "Avoid sign extenstion");
       const auto major{vers >> 24 & 0xFFu};
       const auto minor{vers >> 16 & 0xFFu};
       const auto rev{vers >> 8 & 0xFFu};
@@ -46,7 +41,7 @@ VersionChecker::VersionChecker(SettingsManager& settings_manager)
 {
 }
 
-void VersionChecker::StopRunning()
+void VersionChecker::Stop()
 {
    if (!juce::Thread::stopThread(1000))
       rsj::Log("stopThread failed in VersionChecker destructor");
@@ -63,11 +58,13 @@ void VersionChecker::handleAsyncUpdate()
           nullptr, juce::ModalCallbackFunction::create([this](int result) {
              if (result) {
                 const auto git{juce::URL("https://github.com/rsjaffe/MIDI2LR/releases")};
-                if (git.launchInDefaultBrowser()) // successfully opened browser
+                if (git.launchInDefaultBrowser())
+                   /* successfully opened browser */
                    settings_manager_.SetLastVersionFound(new_version_);
              }
              else
-                settings_manager_.SetLastVersionFound(new_version_); // user doesn't want it
+                /* user doesn't want it */
+                settings_manager_.SetLastVersionFound(new_version_);
           }));
    }
    catch (const std::exception& e) {

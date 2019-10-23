@@ -1,23 +1,18 @@
 /*
-==============================================================================
-
-SendKeys.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "SendKeys.h"
 
 #include <exception>
@@ -48,8 +43,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace rsj {
    ActiveModifiers ActiveModifiers::FromWindows(int from) noexcept
-   { // shift coded as follows:
-      // 1: shift, 2: ctrl, 4: alt, 8: hankaku
+   {
+      /* shift coded as follows: 1: shift, 2: ctrl, 4: alt, 8: hankaku */
       ActiveModifiers am{};
       am.alt_opt = from & 4;
       am.control = from & 2;
@@ -74,15 +69,16 @@ namespace {
    HKL GetLanguage(const std::string& program_name)
    {
       const auto h_lr_wnd = FindWindowA(nullptr, program_name.c_str());
-      if (h_lr_wnd) { // get language that LR is using (if hLrWnd is found)
+      if (h_lr_wnd) {
+         /* get language that LR is using (if hLrWnd is found) */
          const auto thread_id = GetWindowThreadProcessId(h_lr_wnd, nullptr);
          return GetKeyboardLayout(thread_id);
       }
-      // FindWindowA failed
+      /* FindWindowA failed */
       const auto error_msg =
           "FindWindowA failed with error code: " + std::to_string(GetLastError());
       rsj::Log(error_msg);
-      // use keyboard of MIDI2LR application
+      /* use keyboard of MIDI2LR application */
       return GetKeyboardLayout(0);
    }
 
@@ -136,26 +132,26 @@ namespace {
       }
    }
 
-   // expects key first, followed by modifiers
+   /* expects key first, followed by modifiers */
    void WinSendKeyStrokes(const std::vector<WORD>& strokes)
    {
       try {
-         // construct input event.
+         /* construct input event. */
          INPUT ip{};
          constexpr int size_ip = sizeof ip;
          ip.type = INPUT_KEYBOARD;
-         // ki: wVk, wScan, dwFlags, time, dwExtraInfo
+         /* ki: wVk, wScan, dwFlags, time, dwExtraInfo */
          ip.ki = {0, 0, 0, 0, 0};
 
-         // send key down strokes
+         /* send key down strokes */
          static std::mutex mutex_sending{};
          auto lock = std::scoped_lock(mutex_sending);
          for (const auto it : rsj::Reverse(strokes)) {
             ip.ki.wVk = it;
             SendInputErrorChecked(1, &ip, size_ip);
          }
-         // send key up strokes
-         ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+         /* send key up strokes, KEYEVENTF_KEYUP for key release */
+         ip.ki.dwFlags = KEYEVENTF_KEYUP;
          for (const auto it : strokes) {
             ip.ki.wVk = it;
             SendInputErrorChecked(1, &ip, size_ip);
@@ -172,8 +168,9 @@ namespace {
       try {
          static const std::string kLr{".app/Contents/MacOS/Adobe Lightroom"};
          static const std::string kLrc{".app/Contents/MacOS/Adobe Lightroom Classic"};
+         /* add 20 in case more processes show up */
          const int number_processes{proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) + 20};
-         std::vector<pid_t> pids(number_processes, 0); // add a few in case more processes show up
+         std::vector<pid_t> pids(number_processes, 0);
          proc_listpids(
              PROC_ALL_PIDS, 0, pids.data(), gsl::narrow_cast<int>(sizeof(pids[0]) * pids.size()));
          char path_buffer[PROC_PIDPATHINFO_MAXSIZE];
@@ -195,8 +192,8 @@ namespace {
       }
    }
 
-   // See https://github.com/Microsoft/node-native-keymap src/keyboard_mac.mm
-   // for issue with Japanese keyboards
+   /* See https://github.com/Microsoft/node-native-keymap src/keyboard_mac.mm for issue with
+    * Japanese keyboards */
    const UCKeyboardLayout* GetKeyboardData()
    {
       TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
@@ -204,7 +201,8 @@ namespace {
           (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
       if (source)
          CFRelease(source);
-      if (!data) { // returns null with Japanese keyboard layout
+      /* data is null with Japanese keyboard layout */
+      if (!data) {
          source = TISCopyCurrentKeyboardLayoutInputSource();
          data = (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
          if (source)
@@ -235,7 +233,7 @@ namespace {
          }
          UInt32 keys_down = 0;
          UniChar chars[4];
-         // unshifted
+         /* unshifted */
          UniCharCount real_length;
          UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 0, LMGetKbdType(),
              kUCKeyTranslateNoDeadKeysMask, &keys_down, sizeof(chars) / sizeof(chars[0]),
@@ -248,11 +246,11 @@ namespace {
                         + juce::String("."));
             chars[0] = 0;
          }
-         // shifted
+         /* shifted */
          UInt32 s_keys_down = 0;
          UniChar s_chars[4];
          UniCharCount s_real_length;
-         // 2 == left shift key, 4 == right shift key
+         /* 2 == left shift key, 4 == right shift key */
          UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 2, LMGetKbdType(),
              kUCKeyTranslateNoDeadKeysMask, &s_keys_down, sizeof(s_chars) / sizeof(s_chars[0]),
              &s_real_length, s_chars);
@@ -265,7 +263,8 @@ namespace {
             s_chars[0] = 0;
          }
          if (chars[0] == s_chars[0])
-            s_chars[0] = 0; // if unshifted and shifted same, only return unshifted
+            /* if unshifted and shifted same, only return unshifted */
+            s_chars[0] = 0;
          return {chars[0], s_chars[0]};
       }
       catch (const std::exception& e) {
@@ -274,9 +273,8 @@ namespace {
       }
    }
 
-   // initializes unordered map for KeyCodeForChar
-   // UCKeyTranslate returns the same UniChar for several different (typically unused) key codes, so
-   // will only add first one
+   /* initializes unordered map for KeyCodeForChar UCKeyTranslate returns the same UniChar for
+    * several different (typically unused) key codes, so will only add first one */
    std::unordered_map<UniChar, std::pair<size_t, bool>> MakeMap()
    {
       try {
@@ -296,10 +294,8 @@ namespace {
       }
    }
 
-   /*
-    * Returns key code for given character via the above function.
-    * Bool in pair represents shift key
-    */
+   /* Returns key code for given character via the above function.
+    * Bool in pair represents shift key */
    std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c)
    {
       try {
@@ -331,7 +327,8 @@ namespace {
          });
          CGEventSetFlags(d, flags);
          CGEventSetFlags(u, flags);
-         { // scope for the mutex
+         {
+            /* scope for the mutex */
             static std::mutex mtx{};
             auto lock = std::scoped_lock(mtx);
             CGEventPostToPid(lr_pid, d);
@@ -347,7 +344,7 @@ namespace {
    }
 #endif
 
-#pragma warning(suppress : 4244 26426) // assigned to char intentionally
+#pragma warning(suppress : 4244 26426) /* assigned to char intentionally */
    const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #ifdef _WIN32
        {"backspace", VK_BACK}, {"cursor down", VK_DOWN}, {"cursor left", VK_LEFT},
@@ -372,7 +369,7 @@ namespace {
        {"f6", kVK_F6}, {"f7", kVK_F7}, {"f8", kVK_F8}, {"f9", kVK_F9}, {"f10", kVK_F10},
        {"f11", kVK_F11}, {"f12", kVK_F12}, {"f13", kVK_F13}, {"f14", kVK_F14}, {"f15", kVK_F15},
        {"f16", kVK_F16}, {"f17", kVK_F17}, {"f18", kVK_F18}, {"f19", kVK_F19}, {"f20", kVK_F20},
-       // using ANSI layout codes for keypad, may cause problems in some languages
+       /* using ANSI layout codes for keypad, may cause problems in some languages */
        {"numpad 0", kVK_ANSI_Keypad0}, {"numpad 1", kVK_ANSI_Keypad1},
        {"numpad 2", kVK_ANSI_Keypad2}, {"numpad 3", kVK_ANSI_Keypad3},
        {"numpad 4", kVK_ANSI_Keypad4}, {"numpad 5", kVK_ANSI_Keypad5},
@@ -386,7 +383,7 @@ namespace {
 } // namespace
 
 #pragma warning(push)
-#pragma warning(disable : 26447) // all exceptions caught and suppressed
+#pragma warning(disable : 26447) /* all exceptions caught and suppressed */
 void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexcept
 {
    try {
@@ -397,14 +394,16 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
       rsj::ActiveModifiers vk_mod{};
       if (in_keymap)
          vk = mapped_key->second;
-      else // Translate key code to keyboard-dependent scan code, may be UTF-8
+      else
+         /* Translate key code to keyboard-dependent scan code, may be UTF-8 */
          std::tie(vk, vk_mod) = KeyToVk(key);
-      // construct virtual keystroke sequence
-      std::vector<WORD> strokes{vk}; // start with actual key, then mods
+      /* construct virtual keystroke sequence */
+      std::vector<WORD> strokes{vk};
+      /* start with actual key, then mods */
       if (mods.shift || vk_mod.shift)
          strokes.push_back(VK_SHIFT);
       if (vk_mod.control && vk_mod.alt_opt) {
-         strokes.push_back(VK_RMENU); // AltGr
+         strokes.push_back(VK_RMENU); /* AltGr */
          if (mods.alt_opt)
             strokes.push_back(VK_MENU);
          if (mods.control)
@@ -417,9 +416,9 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
             strokes.push_back(VK_CONTROL);
       }
       /* ignored for now
-      // see https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
-      if (vk_mod.hankaku)
-         strokes.push_back(VK_OEM_AUTO);*/
+       * SEE:https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values */
+      //if (vk_mod.hankaku)
+      //   strokes.push_back(VK_OEM_AUTO);
       WinSendKeyStrokes(strokes);
 #else
       static const pid_t lr_pid{GetPid()};

@@ -1,25 +1,20 @@
 #ifndef MIDI2LR_PROFILE_H_INCLUDED
 #define MIDI2LR_PROFILE_H_INCLUDED
 /*
-  ==============================================================================
-
-    Profile.h
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 //-V813_MINSIZE=13 //warn if passing structure by value > 12 bytes (3*sizeof(int))
 
 #include <map>
@@ -34,8 +29,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandSet.h"
 #include "MidiUtilities.h"
 
-// All methods with I at end don't include a mutex and are for internal use only. Methods
-// without I do have mutex and could be called by another class
+/* All methods with I at end don't include a mutex and are for internal use only. Methods without I
+ * do have mutex and could be called by another class */
 class Profile {
  public:
    explicit Profile(const CommandSet& command_set) : command_set_{command_set} {}

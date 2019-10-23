@@ -1,23 +1,18 @@
 /*
-  ==============================================================================
-
-    SettingsComponent.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "SettingsComponent.h"
 
 #include <exception>
@@ -40,15 +35,11 @@ SettingsComponent::SettingsComponent(SettingsManager& settings_manager)
 void SettingsComponent::Init()
 {
    try {
-      // for layouts to work you must start at some size
-      // place controls in a location that is initially correct.
       setSize(kSettingsWidth, kSettingsHeight);
-
       pickup_group_.setText(juce::translate("Pick up"));
       pickup_group_.setBounds(0, 0, kSettingsWidth, 100);
       addToLayout(&pickup_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(pickup_group_);
-
       pickup_label_.setFont(juce::Font{12.f, juce::Font::bold});
       pickup_label_.setText(
           juce::translate(
@@ -69,7 +60,7 @@ void SettingsComponent::Init()
       addToLayout(&pickup_enabled_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(pickup_enabled_);
 
-      // ---------------------------- profile section -----------------------------------
+      /* profile */
       profile_group_.setText(juce::translate("Profile"));
       profile_group_.setBounds(0, 100, kSettingsWidth, 100);
       addToLayout(&profile_group_, anchorMidLeft, anchorMidRight);
@@ -89,7 +80,7 @@ void SettingsComponent::Init()
       profile_location_label_.setText(
           settings_manager_.GetProfileDirectory(), juce::NotificationType::dontSendNotification);
 
-      ////// ----------------------- auto hide section ------------------------------------
+      /* autohide */
       autohide_group_.setText(juce::translate("Auto hide"));
       autohide_group_.setBounds(0, 200, kSettingsWidth, 100);
       addToLayout(&autohide_group_, anchorMidLeft, anchorMidRight);
@@ -112,10 +103,10 @@ void SettingsComponent::Init()
           settings_manager_.GetAutoHideTime(), juce::NotificationType::dontSendNotification);
 
       addToLayout(&autohide_setting_, anchorMidLeft, anchorMidRight);
-      // add this as the lister for the data
+      /* add this as the lister for the data */
       autohide_setting_.addListener(this);
       addAndMakeVisible(autohide_setting_);
-      // turn it on
+      /* turn it on */
       activateLayout();
    }
    catch (const std::exception& e) {

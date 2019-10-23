@@ -1,23 +1,18 @@
 /*
-  ==============================================================================
-
-    Misc.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "Misc.h"
 
 #include <algorithm>
@@ -36,14 +31,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Ocpp.h"
 #endif
 
-// XCode has issues with std:: in this file, using ::std:: to fix when necessary
+/* XCode has issues with std:: in this file, using ::std:: to fix when necessary */
 namespace {
    ::std::array ascii_map{"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a",
        "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12",
        "\\x13", "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C",
        "\\x1D", "\\x1E", "\\x1F", " ", "!", "\\\""};
 
-#ifdef __GNUG__ // gnu C++ compiler
+#ifdef __GNUG__ /* gnu C++ compiler */
 #include <cxxabi.h>
 #include <memory>
 #include <type_traits>
@@ -57,22 +52,22 @@ namespace {
          return mangled_name;
       return juce::String(juce::CharPointer_UTF8(ptr.get()));
    }
-#else  // ndef _GNUG_
+#else  /* ndef _GNUG_ */
    [[nodiscard]] juce::String Demangle(gsl::czstring<> mangled_name)
    {
       return juce::String(juce::CharPointer_UTF8(mangled_name));
    }
-#endif // _GNUG_
+#endif /* _GNUG_ */
 } // namespace
 
 ::std::string rsj::ReplaceInvisibleChars(::std::string_view in)
 {
    try {
       ::std::string result{};
-      result.reserve(in.size()); // minimum final size
+      result.reserve(in.size()); /* minimum final size */
       for (const auto& a : in) {
          if (gsl::narrow_cast<size_t>(a) < ascii_map.size())
-#pragma warning(suppress : 26446 26482) // false alarm, range checked by if statement
+#pragma warning(suppress : 26446 26482) /* false alarm, range checked by if statement */
             result.append(ascii_map[gsl::narrow_cast<size_t>(a)]);
          else if (a == 127)
             result.append("\\x7F");
@@ -89,7 +84,7 @@ namespace {
    }
 }
 
-// using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower
+/* SEE:http://en.cppreference.com/w/cpp/string/byte/tolower */
 ::std::string rsj::ToLower(::std::string_view in)
 {
    try {
@@ -107,7 +102,24 @@ namespace {
    }
 }
 
-// note: C++20 will have ends_with
+void rsj::Trim(::std::string_view& value) noexcept
+{
+   const auto first_not = value.find_first_not_of(" \t\n");
+   if (first_not != ::std::string_view::npos)
+      value.remove_prefix(first_not);
+   const auto last_not = value.find_last_not_of(" \t\n");
+   if (last_not != ::std::string_view::npos)
+      value.remove_suffix(value.size() - last_not - 1);
+}
+
+void rsj::TrimL(::std::string_view& value) noexcept
+{
+   const auto first_not = value.find_first_not_of(" \t\n");
+   if (first_not != ::std::string_view::npos)
+      value.remove_prefix(first_not);
+}
+
+/* note: C++20 will have ends_with */
 bool rsj::EndsWith(::std::string_view main_str, ::std::string_view to_match)
 {
    try {
@@ -120,8 +132,8 @@ bool rsj::EndsWith(::std::string_view main_str, ::std::string_view to_match)
    }
 }
 
-// from http://www.cplusplus.com/forum/beginner/175177 and
-// https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/libsupc%2B%2B/cxxabi.h#L156
+/* from http://www.cplusplus.com/forum/beginner/175177 and
+ * https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/libsupc%2B%2B/cxxabi.h#L156 */
 
 void rsj::Log(const juce::String& info) noexcept
 {
@@ -147,7 +159,7 @@ void rsj::LogAndAlertError(const juce::String& error_text) noexcept
 {
    try {
       {
-         const juce::MessageManagerLock mmLock; // this may be unnecessary
+         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
          juce::NativeMessageBox::showMessageBox(
              juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
       }
@@ -161,7 +173,7 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
 {
    try {
       {
-         const juce::MessageManagerLock mmLock; // this may be unnecessary
+         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
          juce::NativeMessageBox::showMessageBox(
              juce::AlertWindow::WarningIcon, juce::translate("Error"), alert_text);
       }
@@ -175,7 +187,7 @@ void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
 {
    try {
       {
-         const juce::MessageManagerLock mmLock; // this may be unnecessary
+         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
          juce::NativeMessageBox::showMessageBox(
              juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
       }
@@ -187,8 +199,8 @@ void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
 
 #pragma warning(push)
 #pragma warning(disable : 26447)
-// use typeid(this).name() for first argument to add class information
-// typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+/* Use typeid(this).name() for first argument to add class information. Typical call:
+ * rsj::ExceptionResponse(typeid(this).name(), __func__, e); */
 void rsj::ExceptionResponse(
     gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
 {
@@ -269,12 +281,13 @@ namespace {
 } // namespace
 
 std::wstring rsj::Utf8ToWide(std::string_view in)
-{ // add terminating null
+{
+   /* add terminating null */
    try {
       const auto buffer_size = MultiByteToWideCharErrorChecked(CP_UTF8, 0, in.data(),
                                    gsl::narrow_cast<int>(in.size()), nullptr, 0)
                                + 1;
-      std::vector<wchar_t> buffer(buffer_size, 0); // all zero
+      std::vector<wchar_t> buffer(buffer_size, 0); /* all zero */
       MultiByteToWideCharErrorChecked(CP_UTF8, 0, in.data(), gsl::narrow_cast<int>(in.size()),
           buffer.data(), gsl::narrow_cast<int>(buffer.size()));
       return buffer.data();
@@ -286,7 +299,8 @@ std::wstring rsj::Utf8ToWide(std::string_view in)
 }
 
 std::string rsj::WideToUtf8(std::wstring_view in)
-{ // add terminating null
+{
+   /* add terminating null */
    try {
       const auto buffer_size = WideCharToMultiByteErrorChecked(CP_UTF8, 0, in.data(),
                                    gsl::narrow_cast<int>(in.size()), nullptr, 0, nullptr, nullptr)

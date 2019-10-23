@@ -1,25 +1,20 @@
 #ifndef MIDI2LR_MIDIUTILITIES_H_INCLUDED
 #define MIDI2LR_MIDIUTILITIES_H_INCLUDED
 /*
-==============================================================================
-
-MidiUtilities.h
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 /* Get the declaration of the primary std::hash template. We are not permitted to declare it
  * ourselves. <typeindex> is guaranteed to provide such a declaration, and is much cheaper to
@@ -36,24 +31,24 @@ namespace rsj {
    enum struct MessageType : uint8_t {
       NoteOff = 0x8,
       NoteOn = 0x9,
-      KeyPressure = 0xA, // Individual key pressure
+      KeyPressure = 0xA, /* Individual key pressure */
       Cc = 0xB,
       PgmChange = 0xC,
-      ChanPressure = 0xD, // max key pressure
-      Pw = 0xE,           // pitch wheel
+      ChanPressure = 0xD, /* max key pressure */
+      Pw = 0xE,           /* pitch wheel */
       System = 0xF
    };
 
    constexpr bool ValidMessageType(uint8_t value)
    {
-      static_assert(std::is_unsigned_v<decltype(value)>); // avoid sign extension
+      static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
       const auto from = value >> 4 & 0xF;
       return from >= 0x9;
    }
 
    constexpr MessageType ToMessageType(uint8_t value)
    {
-      static_assert(std::is_unsigned_v<decltype(value)>); // avoid sign extension
+      static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
       const auto from = value >> 4 & 0xF;
       if (from < 0x9)
          throw std::out_of_range("ToMessageType: MessageType range error, muxt be 0x9 to 0xF");
@@ -76,10 +71,10 @@ namespace rsj {
       return translation_table[static_cast<size_t>(from) - 0x8];
    }
 
-   // channel is 0-based in MidiMessage, 1-based in MidiMessageId
+   /* channel is 0-based in MidiMessage, 1-based in MidiMessageId */
    struct MidiMessage {
       MessageType message_type_byte{MessageType::NoteOn};
-      int channel{0}; // 0-based
+      int channel{0}; /* 0-based */
       int control_number{0};
       int value{0};
       constexpr MidiMessage() noexcept = default;
@@ -98,10 +93,10 @@ namespace rsj {
              && lhs.control_number == rhs.control_number && lhs.value == rhs.value;
    }
 
-   // channel is 0-based in MidiMessage, 1-based in MidiMessageId
+   /* channel is 0-based in MidiMessage, 1-based in MidiMessageId */
    struct MidiMessageId {
       MessageType msg_id_type{MessageType::NoteOn};
-      int channel{1}; // 1-based
+      int channel{1}; /* 1-based */
       int control_number{0};
 
       constexpr MidiMessageId() noexcept = default;
@@ -142,13 +137,14 @@ namespace std {
    /*It is allowed to add template specializations for any standard library class template to the
     * namespace std only if the declaration depends on at least one program-defined type and the
     * specialization satisfies all requirements for the original template, except where such
-    * specializations are prohibited.*/
+    * specializations are prohibited. */
    template<> struct hash<rsj::MidiMessageId> {
       size_t operator()(rsj::MidiMessageId k) const noexcept
       {
+         /* channel is one byte, messagetype is one byte, controller (data) is two bytes */
          return hash<int_fast32_t>()(int_fast32_t(k.channel) | int_fast32_t(k.msg_id_type) << 8
                                      | int_fast32_t(k.control_number) << 16);
-      } // channel is one byte, messagetype is one byte, controller (data) is two bytes
+      }
    };
 } // namespace std
 

@@ -1,23 +1,18 @@
 /*
-  ==============================================================================
-
-    ProfileManager.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "ProfileManager.h"
 
 #include <exception>
@@ -36,9 +31,8 @@ ProfileManager::ProfileManager(
     ControlsModel& c_model, const Profile& profile, LrIpcOut& out, MidiReceiver& midi_receiver)
     : current_profile_{profile}, controls_model_{c_model}, lr_ipc_out_{out}
 {
+   /* add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection */
    midi_receiver.AddCallback(this, &ProfileManager::MidiCmdCallback);
-   // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-   // settings on connection
    lr_ipc_out_.AddCallback(this, &ProfileManager::ConnectionCallback);
 }
 
@@ -46,8 +40,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
 {
    try {
       profile_location_ = directory;
-      juce::Array<juce::File> file_array;
-      directory.findChildFiles(file_array, juce::File::findFiles, false, "*.xml");
+      auto file_array{directory.findChildFiles(juce::File::findFiles, false, "*.xml")};
       file_array.sort();
       profiles_.clear();
       for (const auto& file : file_array)
@@ -154,8 +147,8 @@ void ProfileManager::MidiCmdCallback(const rsj::MidiMessage& mm)
 {
    try {
       const rsj::MidiMessageId cc{mm};
-      // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
-      // profile-related command
+      /* return if the value isn't high enough (notes may be < 1), or the command isn't a valid
+       * profile-related command */
       if (controls_model_.ControllerToPlugin(mm) < 0.4 || !current_profile_.MessageExistsInMap(cc))
          return;
       MapCommand(cc);

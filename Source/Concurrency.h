@@ -1,25 +1,20 @@
 #ifndef MIDI2LR_CONCURRENCY_H_INCLUDED
 #define MIDI2LR_CONCURRENCY_H_INCLUDED
 /*
-==============================================================================
-
-Concurrency.h
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include <atomic>
 #include <condition_variable>
 #include <deque>
@@ -40,16 +35,18 @@ namespace rsj {
       SpinLock& operator=(SpinLock&& other) = delete;
       void lock() noexcept
       {
-         do { // avoid cache invalidation if lock appears to be unavailable
+         do {
+            /* avoid cache invalidation if lock appears to be unavailable */
             while (flag_.load(std::memory_order_relaxed))
-               _mm_pause(); // spin without expensive exchange
+               _mm_pause(); /* spin without expensive exchange */
          } while (flag_.exchange(true, std::memory_order_acquire));
       }
       bool try_lock() noexcept
-      { // avoid cache invalidation if lock appears to be unavailable
+      {
+         /* avoid cache invalidation if lock appears to be unavailable */
          if (flag_.load(std::memory_order_relaxed))
             return false;
-         return !flag_.exchange(true, std::memory_order_acquire); // try to acquire lock
+         return !flag_.exchange(true, std::memory_order_acquire); /* try to acquire lock */
       }
       void unlock() noexcept
       {
@@ -60,8 +57,8 @@ namespace rsj {
       std::atomic<bool> flag_{false};
    };
 
-   // all but blocking pops use scoped_lock. blocking pops use unique_lock
-   // noexcept specifications assume that std::scoped_lock won't throw
+   /* all but blocking pops use scoped_lock. blocking pops use unique_lock noexcept specifications
+    * assume that std::scoped_lock won't throw */
    template<typename T, class Container = std::deque<T>, class Mutex = std::mutex>
    class ConcurrentQueue {
     public:
@@ -71,8 +68,8 @@ namespace rsj {
       using reference = typename Container::reference;
       using const_reference = typename Container::const_reference;
       static_assert(std::is_same_v<T, value_type>, "container adaptors require consistent types");
-      // Constructors: see https://en.cppreference.com/w/cpp/container/queue/queue
-      // These are in same order and number as in cppreference
+      /* Constructors: see https://en.cppreference.com/w/cpp/container/queue/queue. These are in
+       * same order and number as in cppreference */
       /*1*/ ConcurrentQueue() noexcept(std::is_nothrow_default_constructible_v<Container>) {}
       /*2*/ explicit ConcurrentQueue(const Container& cont) noexcept(
           std::is_nothrow_copy_constructible_v<Container>)
@@ -126,7 +123,7 @@ namespace rsj {
          auto lock{std::scoped_lock(other.mutex_)};
          queue_ = std::move(other.queue_);
       }
-      // operator=
+      /* operator= */
       ConcurrentQueue& operator=(const ConcurrentQueue& other)
       {
          {
@@ -146,9 +143,9 @@ namespace rsj {
          condition_.notify_all();
          return *this;
       }
-      // destructor
+      /* destructor */
       ~ConcurrentQueue() = default;
-      // methods
+      /* methods */
       [[nodiscard]] auto empty() const noexcept(noexcept(std::declval<Container>().empty()))
       {
          auto lock{std::scoped_lock(mutex_)};
@@ -198,7 +195,7 @@ namespace rsj {
          queue_.pop_front();
          return rc;
       }
-      [[nodiscard]] std::optional<T> try_pop()
+      std::optional<T> try_pop()
       {
          auto lock{std::scoped_lock(mutex_)};
          if (queue_.empty())

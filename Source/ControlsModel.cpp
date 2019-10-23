@@ -1,23 +1,18 @@
 /*
-==============================================================================
-
-ControlsModel.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "ControlsModel.h"
 
 #include <algorithm>
@@ -29,16 +24,18 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 double ChannelModel::OffsetResult(int diff, int controlnumber)
 {
    try {
-      Expects(cc_high_.at(controlnumber) > 0); // CCLow will always be 0 for offset controls
+      Expects(cc_high_.at(controlnumber) > 0); /* CCLow will always be 0 for offset controls */
       Expects(diff <= kMaxNrpn && diff >= -kMaxNrpn);
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       auto lock = std::scoped_lock(current_v_mtx_);
       current_v_.at(controlnumber) += diff;
-      if (current_v_.at(controlnumber) < 0) { // fix currentV
+      if (current_v_.at(controlnumber) < 0) {
+         /* fix currentV */
          current_v_.at(controlnumber) = 0;
          return 0.0;
       }
-      if (current_v_.at(controlnumber) > cc_high_.at(controlnumber)) { // fix currentV
+      if (current_v_.at(controlnumber) > cc_high_.at(controlnumber)) {
+         /* fix currentV */
          current_v_.at(controlnumber) = cc_high_.at(controlnumber);
          return 1.0;
       }
@@ -52,7 +49,7 @@ double ChannelModel::OffsetResult(int diff, int controlnumber)
 }
 
 #pragma warning(push)
-#pragma warning(disable : 26451) // see TODO below
+#pragma warning(disable : 26451) /* see TODO below */
 double ChannelModel::ControllerToPlugin(rsj::MessageType controltype, int controlnumber, int value)
 {
    try {
@@ -64,12 +61,12 @@ double ChannelModel::ControllerToPlugin(rsj::MessageType controltype, int contro
       Expects(controltype == rsj::MessageType::Pw
                   ? value >= pitch_wheel_min_ && value <= pitch_wheel_max_
                   : 1);
-      // note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7
-      // bits, high bits are shifted one right when placed into int.
+      /* note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7
+       * bits, high bits are shifted one right when placed into int. */
       switch (controltype) {
       case rsj::MessageType::Pw:
          pitch_wheel_current_.store(value, std::memory_order_release);
-         // TODO(C26451): int mixed with double: can it overflow?
+         /* TODO(C26451): int mixed with double: can it overflow? */
          return static_cast<double>(value - pitch_wheel_min_)
                 / static_cast<double>(pitch_wheel_max_ - pitch_wheel_min_);
       case rsj::MessageType::Cc:
@@ -78,7 +75,7 @@ double ChannelModel::ControllerToPlugin(rsj::MessageType controltype, int contro
             auto lock = std::scoped_lock(current_v_mtx_);
             current_v_.at(controlnumber) = value;
          }
-            // TODO(C26451): int mixed with double: can it overflow?
+            /* TODO(C26451): int mixed with double: can it overflow? */
             return static_cast<double>(value - cc_low_.at(controlnumber))
                    / static_cast<double>(cc_high_.at(controlnumber) - cc_low_.at(controlnumber));
          case rsj::CCmethod::kBinaryOffset:
@@ -89,11 +86,10 @@ double ChannelModel::ControllerToPlugin(rsj::MessageType controltype, int contro
             if (IsNRPN_(controlnumber))
                return OffsetResult(value & kBit14 ? -(value & kLow13Bits) : value, controlnumber);
             return OffsetResult(value & kBit7 ? -(value & kLow6Bits) : value, controlnumber);
-         case rsj::CCmethod::
-             kTwosComplement: // see
-                              // https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
-            if (IsNRPN_(controlnumber)) // flip twos comp and subtract--independent of processor
-                                        // architecture
+         case rsj::CCmethod::kTwosComplement:
+            /* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
+             * flip twos comp and subtract--independent of processor architecture */
+            if (IsNRPN_(controlnumber))
                return OffsetResult(
                    value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value, controlnumber);
             return OffsetResult(value & kBit7 ? -((value ^ kMaxMidi) + 1) : value, controlnumber);
@@ -120,8 +116,8 @@ double ChannelModel::ControllerToPlugin(rsj::MessageType controltype, int contro
 }
 #pragma warning(pop)
 
-// Note: rounding up on set to center (adding remainder of %2) to center the control's LED when
-// centered
+/* Note: rounding up on set to center (adding remainder of %2) to center the control's LED when
+ * centered */
 int ChannelModel::SetToCenter(rsj::MessageType controltype, int controlnumber)
 {
    try {
@@ -160,8 +156,8 @@ int ChannelModel::MeasureChange(rsj::MessageType controltype, int controlnumber,
       Expects(controltype == rsj::MessageType::Pw
                   ? value >= pitch_wheel_min_ && value <= pitch_wheel_max_
                   : 1);
-      // note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7
-      // bits, high bits are shifted one right when placed into int.
+      /* note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7
+       * bits, high bits are shifted one right when placed into int. */
       switch (controltype) {
       case rsj::MessageType::Pw: {
          return value - pitch_wheel_current_.exchange(value);
@@ -182,11 +178,10 @@ int ChannelModel::MeasureChange(rsj::MessageType controltype, int controlnumber,
             if (IsNRPN_(controlnumber))
                return value & kBit14 ? -(value & kLow13Bits) : value;
             return value & kBit7 ? -(value & kLow6Bits) : value;
-         case rsj::CCmethod::
-             kTwosComplement: // see
-                              // https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
-            if (IsNRPN_(controlnumber)) // flip twos comp and subtract--independent of processor
-                                        // architecture
+         case rsj::CCmethod::kTwosComplement:
+            /* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
+             * flip twos comp and subtract--independent of processor architecture */
+            if (IsNRPN_(controlnumber))
                return value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value;
             return value & kBit7 ? -((value ^ kMaxMidi) + 1) : value;
          default:
@@ -210,15 +205,15 @@ int ChannelModel::MeasureChange(rsj::MessageType controltype, int controlnumber,
 }
 
 #pragma warning(push)
-#pragma warning(disable : 26451) // see TODO below
+#pragma warning(disable : 26451) /* see TODO below */
 int ChannelModel::PluginToController(rsj::MessageType controltype, int controlnumber, double value)
 {
    try {
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
-      // value effectively clamped to 0-1 by clamp calls below
+      /* value effectively clamped to 0-1 by clamp calls below */
       switch (controltype) {
       case rsj::MessageType::Pw: {
-         // TODO(C26451): int mixed with double: can it overflow?
+         /* TODO(C26451): int mixed with double: can it overflow? */
          const auto newv = std::clamp(
              juce::roundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_)) + pitch_wheel_min_,
              pitch_wheel_min_, pitch_wheel_max_);
@@ -226,7 +221,7 @@ int ChannelModel::PluginToController(rsj::MessageType controltype, int controlnu
          return newv;
       }
       case rsj::MessageType::Cc: {
-         // TODO(C26451): int mixed with double: can it overflow?
+         /* TODO(C26451): int mixed with double: can it overflow? */
          const auto newv = std::clamp(
              juce::roundToInt(value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)))
                  + cc_low_.at(controlnumber),
@@ -255,8 +250,8 @@ int ChannelModel::PluginToController(rsj::MessageType controltype, int controlnu
 void ChannelModel::SetCc(int controlnumber, int min, int max, rsj::CCmethod controltype)
 {
    try {
-      SetCcMethod(controlnumber, controltype); // has to be set before others or ranges won't be
-                                               // correct
+      /* CcMethod has to be set before others or ranges won't be correct */
+      SetCcMethod(controlnumber, controltype);
       SetCcMin(controlnumber, min);
       SetCcMax(controlnumber, max);
    }
@@ -294,7 +289,7 @@ void ChannelModel::SetCcMax(int controlnumber, int value)
          cc_high_.at(controlnumber) =
              value <= cc_low_.at(controlnumber) || value > max ? max : value;
       }
-      // lock may not be needed. this function called in non-multithreaded manner
+      /* lock may not be needed. this function called in non-multithreaded manner */
       auto lock = std::scoped_lock(current_v_mtx_);
       current_v_.at(controlnumber) = CenterCc(controlnumber);
    }
@@ -312,7 +307,7 @@ void ChannelModel::SetCcMin(int controlnumber, int value)
          cc_low_.at(controlnumber) = 0;
       else
          cc_low_.at(controlnumber) = value < 0 || value >= cc_high_.at(controlnumber) ? 0 : value;
-      // lock may not be needed. this function called in non-multithreaded manner
+      /* lock may not be needed. this function called in non-multithreaded manner */
       auto lock = std::scoped_lock(current_v_mtx_);
       current_v_.at(controlnumber) = CenterCc(controlnumber);
    }
@@ -356,11 +351,11 @@ void ChannelModel::ActiveToSaved() const
 void ChannelModel::CcDefaults()
 {
    try {
-      // program defaults
       cc_low_.fill(0);
-      cc_high_.fill(0x3FFF); // XCode throws linker error when use ChannelModel::kMaxNRPN here
+      /* XCode throws linker error when use ChannelModel::kMaxNRPN here */
+      cc_high_.fill(0x3FFF);
       cc_method_.fill(rsj::CCmethod::kAbsolute);
-      // lock may not be needed. this function called in non-multithreaded manner
+      /* lock may not be needed. this function called in non-multithreaded manner */
       auto lock = std::scoped_lock(current_v_mtx_);
       current_v_.fill(int{8191});
       for (size_t a = 0; a <= kMaxMidi; ++a) {
@@ -393,7 +388,6 @@ ChannelModel::ChannelModel()
 {
    try {
       CcDefaults();
-      // load settings
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

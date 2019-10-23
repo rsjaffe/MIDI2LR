@@ -1,23 +1,18 @@
 /*
-  ==============================================================================
-
-    Profile.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "Profile.h"
 
 #include <algorithm>
@@ -71,7 +66,7 @@ void Profile::AddRowUnmapped(rsj::MidiMessageId message)
    try {
       auto guard = std::unique_lock{mutex_};
       if (!MessageExistsInMapI(message)) {
-         AddCommandForMessageI(0, message); // add an entry for 'no command'
+         AddCommandForMessageI(0, message); /* add an entry for 'no command' */
          command_table_.push_back(message);
          SortI();
          profile_unsaved_ = true;
@@ -84,8 +79,9 @@ void Profile::AddRowUnmapped(rsj::MidiMessageId message)
 }
 
 void Profile::FromXml(const juce::XmlElement* root)
-{ // external use only, but will either use external versions of Profile calls to lock individual
-  // accesses or manually lock any internal calls instead of using mutex for entire method
+{
+   /* external use only, but will either use external versions of Profile calls to lock individual
+    * accesses or manually lock any internal calls instead of using mutex for entire method */
    try {
       if (!root || root->getTagName().compare("settings") != 0)
          return;
@@ -142,8 +138,8 @@ void Profile::RemoveAllRows()
       command_string_map_.clear();
       command_table_.clear();
       message_map_.clear();
+      /* no reason for profile_unsaved_ here. nothing to save */
       profile_unsaved_ = false;
-      // no reason for profile_unsaved_ here. nothing to save
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -223,8 +219,9 @@ void Profile::ToXmlFile(const juce::File& file)
 {
    try {
       auto guard = std::shared_lock{mutex_};
-      if (!message_map_.empty()) { // don't bother if map is empty
-         // save the contents of the command map to an xml file
+      /* don't bother if map is empty */
+      if (!message_map_.empty()) {
+         /* save the contents of the command map to an xml file */
          juce::XmlElement root{"settings"};
          for (const auto& map_entry : message_map_) {
             auto setting = std::make_unique<juce::XmlElement>("setting");
@@ -240,13 +237,14 @@ void Profile::ToXmlFile(const juce::File& file)
                setting->setAttribute("pitchbend", 0);
                break;
             default:
-               continue; // can't handle other types
+               /* can't handle other types */
+               continue;
             }
             setting->setAttribute("command_string", map_entry.second);
             root.addChildElement(setting.release());
          }
          if (!root.writeTo(file)) {
-            // Give feedback if file-save doesn't work
+            /* Give feedback if file-save doesn't work */
             const auto& p = file.getFullPathName();
             rsj::LogAndAlertError(
                 juce::translate("Unable to save file. Choose a different location and try again.")

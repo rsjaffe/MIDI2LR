@@ -1,25 +1,20 @@
 #ifndef MIDI2LR_LR_IPC_OUT_H_INCLUDED
 #define MIDI2LR_LR_IPC_OUT_H_INCLUDED
 /*
-  ==============================================================================
-
-    LR_IPC_Out.h
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include <atomic>
 #include <functional>
 #include <future>
@@ -50,7 +45,8 @@ class LrIpcOut {
    template<class T> void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(bool, bool))
    {
       using namespace std::placeholders;
-      if (object && mf) // only store non-empty functions
+      if (object && mf)
+         /* only store non-empty functions */
          callbacks_.emplace_back(std::bind(mf, object, _1, _2));
    }
 
@@ -58,8 +54,8 @@ class LrIpcOut {
    void SendCommand(const std::string& command);
    void SendingRestart();
    void SendingStop();
-   void StartRunning();
-   void StopRunning();
+   void Start();
+   void Stop();
 
  private:
    void Connect();
@@ -79,7 +75,7 @@ class LrIpcOut {
    std::atomic<bool> connected_{false};
    std::atomic<bool> thread_should_exit_{false};
    std::future<void> io_thread0_;
-   std::future<void> io_thread1_; // need second thread for recenter timer
+   std::future<void> io_thread1_; /* need second thread for recenter timer */
    std::vector<std::function<void(bool, bool)>> callbacks_{};
 };
 

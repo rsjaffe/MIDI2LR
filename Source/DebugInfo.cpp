@@ -1,23 +1,18 @@
 /*
-==============================================================================
-
-DebugInfo.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "DebugInfo.h"
 
 #include <exception>
@@ -32,8 +27,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <Windows.h>
 #include "Misc.h"
 
-// from
-// https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
+/* SEE:https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
+ */
 namespace {
 #pragma warning(suppress : 26426)
    const std::unordered_map<unsigned long int, std::string> kKeyboardNames{//-V126
@@ -67,7 +62,7 @@ namespace {
        {0x00030437, "Georgian Ministry of Education and Science Schools"},
        {0x00040437, "Georgian (Old Alphabets)"}, {0x00000407, "German"},
        {0x00010407, "German (IBM)"}, {0x000c0c00, "Gothic"}, {0x00000408, "Greek"},
-       {0x00010408, "Greek (220) or Uyghur"}, // microsoft assigns both to same KLID
+       {0x00010408, "Greek (220) or Uyghur"}, /* Microsoft assigns both to same KLID */
        {0x00030408, "Greek (220) Latin"}, {0x00020408, "Greek (319)"},
        {0x00040408, "Greek (319) Latin"}, {0x00050408, "Greek Latin"},
        {0x00060408, "Greek Polytonic"}, {0x0000046f, "Greenlandic"}, {0x00000474, "Guarani"},
@@ -92,7 +87,7 @@ namespace {
        {0x00020c00, "New Tai Lue"}, {0x00000414, "Norwegian"}, {0x0000043b, "Norwegian with Sami"},
        {0x00000448, "Odia"}, {0x000d0c00, "Ol Chiki"}, {0x000f0c00, "Old Italic"},
        {0x000e0c00, "Osmanya"}, {0x00000463, "Pashto (Afghanistan)"},
-       {0x00000429, "Persian or Central Kurdish"}, // microsoft assigns both to same KLID
+       {0x00000429, "Persian or Central Kurdish"}, /* Microsoft assigns both to same KLID */
        {0x00050429, "Persian (Standard)"}, {0x000a0c00, "Phags-pa"}, {0x00010415, "Polish (214)"},
        {0x00000415, "Polish (Programmers)"}, {0x00000816, "Portuguese"},
        {0x00000416, "Portuguese (Brazilian ABNT)"}, {0x00010416, "Portuguese (Brazilian ABNT2)"},
@@ -100,7 +95,7 @@ namespace {
        {0x00020418, "Romanian (Programmers)"}, {0x00010418, "Romanian (Standard)"},
        {0x00000419, "Russian"}, {0x00020419, "Russian - Mnemonic"},
        {0x00010419, "Russian (Typewriter)"},
-       {0x00000485, "Sakha or Yakut"}, // microsoft assigns both to same KLID
+       {0x00000485, "Sakha or Yakut"}, /* Microsoft assigns both to same KLID */
        {0x0002083b, "Sami Extended Finland-Sweden"}, {0x0001043b, "Sami Extended Norway"},
        {0x00011809, "Scottish Gaelic"}, {0x00000c1a, "Serbian (Cyrillic)"},
        {0x0000081a, "Serbian (Latin)"}, {0x0000046c, "Sesotho sa Leboa"}, {0x00000432, "Setswana"},
@@ -135,8 +130,7 @@ std::string rsj::GetKeyboardLayout()
       std::array<CHAR, KL_NAMELENGTH> klid_ascii{};
       if (GetKeyboardLayoutNameA(klid_ascii.data())) {
          try {
-            size_t pos{0};
-            const auto klid{std::stoul(std::string(klid_ascii.data()), &pos, 16)};
+            const auto klid{std::stoul(std::string(klid_ascii.data()), nullptr, 16)};
             if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end())
                return f->second;
             return "KLID not in keyboard_names: 0x"s + klid_ascii.data();
@@ -159,19 +153,21 @@ std::string rsj::GetKeyboardLayout()
 #endif
 
 #pragma warning(push)
-#pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
+#pragma warning(disable : 26447) /* all exceptions suppressed by catch blocks */
 DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
 {
    try {
       using namespace std::literals::string_literals;
-      LogAndSave("From application: System language " + juce::SystemStats::getDisplayLanguage().toStdString());
+      LogAndSave("From application: System language "
+                 + juce::SystemStats::getDisplayLanguage().toStdString());
       LogAndSave("From application: Keyboard type " + rsj::GetKeyboardLayout());
       // ReSharper disable CppUnreachableCode
       if constexpr (kNdebug) {
          LogAndSave("From application: Application version "s + ProjectInfo::versionString);
       }
       else {
-         LogAndSave("From application: Application version "s + ProjectInfo::versionString + "-debug");
+         LogAndSave(
+             "From application: Application version "s + ProjectInfo::versionString + "-debug");
       }
       // ReSharper restore CppUnreachableCode
       LogAndSave("From application: Application path "
@@ -180,8 +176,10 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
                        .toStdString());
       LogAndSave("From application: Profile directory " + profile_directory.toStdString());
 #ifdef _WIN32
-      LogAndSave("From application: Log file directory " + rsj::WideToUtf8(rsj::AppLogFilePath(L"")));
-      LogAndSave("From application: Settings file directory " + rsj::WideToUtf8(rsj::AppDataFilePath(L"")));
+      LogAndSave(
+          "From application: Log file directory " + rsj::WideToUtf8(rsj::AppLogFilePath(L"")));
+      LogAndSave("From application: Settings file directory "
+                 + rsj::WideToUtf8(rsj::AppDataFilePath(L"")));
 #else
       LogAndSave("From application: Log file directory "s + rsj::AppLogFilePath(""));
       LogAndSave("From application: Settings file directory "s + rsj::AppDataFilePath(""));
