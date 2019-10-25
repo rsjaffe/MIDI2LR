@@ -112,7 +112,7 @@ namespace rsj {
       ConcurrentQueue(const ConcurrentQueue& other, const Alloc& alloc) : queue_(alloc)
       {
          auto lock{std::scoped_lock(other.mutex_)};
-         queue_ = other.queue_;
+         queue_ = Container(other.queue_, alloc);
       }
       /*10*/ template<class Alloc,
           class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
@@ -121,7 +121,7 @@ namespace rsj {
           : queue_(alloc)
       {
          auto lock{std::scoped_lock(other.mutex_)};
-         queue_ = std::move(other.queue_);
+         queue_ = Container(std::move(other.queue_), alloc);
       }
       /* operator= */
       ConcurrentQueue& operator=(const ConcurrentQueue& other)
@@ -151,12 +151,13 @@ namespace rsj {
          auto lock{std::scoped_lock(mutex_)};
          return queue_.empty();
       }
-      [[nodiscard]] auto size() const noexcept(noexcept(std::declval<Container>().size()))
+      [[nodiscard]] size_type size() const noexcept(noexcept(std::declval<Container>().size()))
       {
          auto lock{std::scoped_lock(mutex_)};
          return queue_.size();
       }
-      [[nodiscard]] auto max_size() const noexcept(noexcept(std::declval<Container>().max_size()))
+      [[nodiscard]] size_type max_size() const
+          noexcept(noexcept(std::declval<Container>().max_size()))
       {
          auto lock{std::scoped_lock(mutex_)};
          return queue_.max_size();
@@ -231,7 +232,7 @@ namespace rsj {
          auto lock{std::scoped_lock(mutex_)};
          queue_.clear();
       }
-      [[nodiscard]] auto clear_count() noexcept(
+      [[nodiscard]] size_type clear_count() noexcept(
           noexcept(std::declval<Container>().clear()) && noexcept(std::declval<Container>().size()))
       {
          auto lock{std::scoped_lock(mutex_)};
@@ -239,7 +240,7 @@ namespace rsj {
          queue_.clear();
          return ret;
       }
-      auto clear_count_push(const T& value)
+      size_type clear_count_push(const T& value)
       {
          size_type ret;
          {
@@ -251,7 +252,7 @@ namespace rsj {
          condition_.notify_one();
          return ret;
       }
-      auto clear_count_push(T&& value)
+      size_type clear_count_push(T&& value)
       {
          size_type ret;
          {
