@@ -1,23 +1,18 @@
 /*
-  ==============================================================================
-
-    Profile.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "Profile.h"
 
 #include <algorithm>
@@ -25,7 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Misc.h"
 
-void Profile::AddCommandForMessageI(size_t command, const rsj::MidiMessageId& message)
+void Profile::AddCommandForMessageI(size_t command, rsj::MidiMessageId message)
 {
    try {
       if (command < command_set_.CommandAbbrevSize()) {
@@ -42,7 +37,7 @@ void Profile::AddCommandForMessageI(size_t command, const rsj::MidiMessageId& me
    }
 }
 
-void Profile::AddRowMapped(const std::string& command, const rsj::MidiMessageId& message)
+void Profile::AddRowMapped(const std::string& command, rsj::MidiMessageId message)
 {
    try {
       auto guard = std::unique_lock{mutex_};
@@ -66,12 +61,12 @@ void Profile::AddRowMapped(const std::string& command, const rsj::MidiMessageId&
    }
 }
 
-void Profile::AddRowUnmapped(const rsj::MidiMessageId& message)
+void Profile::AddRowUnmapped(rsj::MidiMessageId message)
 {
    try {
       auto guard = std::unique_lock{mutex_};
       if (!MessageExistsInMapI(message)) {
-         AddCommandForMessageI(0, message); // add an entry for 'no command'
+         AddCommandForMessageI(0, message); /* add an entry for 'no command' */
          command_table_.push_back(message);
          SortI();
          profile_unsaved_ = true;
@@ -84,8 +79,9 @@ void Profile::AddRowUnmapped(const rsj::MidiMessageId& message)
 }
 
 void Profile::FromXml(const juce::XmlElement* root)
-{ // external use only, but will either use external versions of Profile calls to lock individual
-  // accesses or manually lock any internal calls instead of using mutex for entire method
+{
+   /* external use only, but will either use external versions of Profile calls to lock individual
+    * accesses or manually lock any internal calls instead of using mutex for entire method */
    try {
       if (!root || root->getTagName().compare("settings") != 0)
          return;
@@ -142,8 +138,8 @@ void Profile::RemoveAllRows()
       command_string_map_.clear();
       command_table_.clear();
       message_map_.clear();
+      /* no reason for profile_unsaved_ here. nothing to save */
       profile_unsaved_ = false;
-      // no reason for profile_unsaved_ here. nothing to save
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -151,7 +147,7 @@ void Profile::RemoveAllRows()
    }
 }
 
-void Profile::RemoveMessage(const rsj::MidiMessageId& message)
+void Profile::RemoveMessage(rsj::MidiMessageId message)
 {
    try {
       auto guard = std::unique_lock{mutex_};
@@ -197,10 +193,10 @@ void Profile::Resort(std::pair<int, bool> new_order)
 void Profile::SortI()
 {
    try {
-      const auto msg_idx = [this](const rsj::MidiMessageId& a) {
+      const auto msg_idx = [this](rsj::MidiMessageId a) {
          return command_set_.CommandTextIndex(GetCommandForMessageI(a));
       };
-      const auto msg_sort = [&msg_idx](const rsj::MidiMessageId& a, const rsj::MidiMessageId& b) {
+      const auto msg_sort = [&msg_idx](rsj::MidiMessageId a, rsj::MidiMessageId b) {
          return msg_idx(a) < msg_idx(b);
       };
       if (current_sort_.first == 1)
@@ -223,8 +219,9 @@ void Profile::ToXmlFile(const juce::File& file)
 {
    try {
       auto guard = std::shared_lock{mutex_};
-      if (!message_map_.empty()) { // don't bother if map is empty
-         // save the contents of the command map to an xml file
+      /* don't bother if map is empty */
+      if (!message_map_.empty()) {
+         /* save the contents of the command map to an xml file */
          juce::XmlElement root{"settings"};
          for (const auto& map_entry : message_map_) {
             auto setting = std::make_unique<juce::XmlElement>("setting");
@@ -240,16 +237,19 @@ void Profile::ToXmlFile(const juce::File& file)
                setting->setAttribute("pitchbend", 0);
                break;
             default:
-               continue; // can't handle other types
+               /* can't handle other types */
+               continue;
             }
             setting->setAttribute("command_string", map_entry.second);
             root.addChildElement(setting.release());
          }
          if (!root.writeTo(file)) {
-            // Give feedback if file-save doesn't work
-            rsj::LogAndAlertError("Unable to save file as specified. Please try again, and "
-                                  "consider saving to a different location. "
-                                  + file.getFullPathName());
+            /* Give feedback if file-save doesn't work */
+            const auto& p = file.getFullPathName();
+            rsj::LogAndAlertError(
+                juce::translate("Unable to save file. Choose a different location and try again.")
+                    + ' ' + p,
+                "Unable to save file. Choose a different location and try again. " + p);
          }
          saved_map_ = message_map_;
          profile_unsaved_ = false;

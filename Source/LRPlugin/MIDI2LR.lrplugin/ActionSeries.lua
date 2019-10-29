@@ -55,7 +55,7 @@ local function StartDialog(obstable,f)
   for i=1, numseries do
     dlgrows[i] = f:row{
       bind_to_object = obstable, -- default bound table
-      f:static_text{title = i},
+      f:static_text{title = i,  width = LrView.share('command_series_label')},
       f:edit_field{
         value = LrView.bind('ActionSeries'..i),
         height_in_lines = 2,

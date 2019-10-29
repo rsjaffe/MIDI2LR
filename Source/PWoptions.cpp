@@ -19,25 +19,20 @@
 
 //[Headers] You can add your own extra header files here...
 /*
-==============================================================================
-
-PWoptions.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 //[/Headers]
 
@@ -163,7 +158,7 @@ void PWoptions::resized()
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void PWoptions::textEditorFocusLost(TextEditor& t)
 {
-   const auto val = gsl::narrow_cast<short>(t.getText().getIntValue());
+   const auto val = t.getText().getIntValue();
    const auto& nam = t.getName();
    if (nam == "minval")
       controls_model_->SetPwMin(boundchannel_, val);
@@ -171,7 +166,7 @@ void PWoptions::textEditorFocusLost(TextEditor& t)
       controls_model_->SetPwMax(boundchannel_, val);
 }
 
-void PWoptions::BindToControl(size_t channel)
+void PWoptions::BindToControl(int channel)
 {
    boundchannel_ = channel;
    minval->setText(

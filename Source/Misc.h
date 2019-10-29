@@ -1,25 +1,22 @@
 #ifndef MIDI2LR_MISC_H_INCLUDED
 #define MIDI2LR_MISC_H_INCLUDED
 /*
-==============================================================================
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
+//-V813_MINSIZE=13 //warn if passing structure by value > 12 bytes (3*sizeof(int))
 
-Misc.h
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-==============================================================================
-*/
 #include <chrono>
 #include <exception>
 #include <string>
@@ -31,16 +28,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <JuceLibraryCode/JuceHeader.h>
 #include <gsl/gsl>
 
-#ifdef NDEBUG // asserts disabled
+#ifdef NDEBUG /* asserts disabled */
 static constexpr bool kNdebug = true;
-#else // asserts enabled
+#else
 static constexpr bool kNdebug = false;
 #endif
 
 #ifndef NDEBUG
 #ifdef _WIN32
-// declarations from processthreadsapi.h
-extern "C" __declspec(dllimport) long __stdcall SetThreadDescription(
+/* declarations from processthreadsapi.h */
+extern "C" __declspec(dllimport) long __stdcall SetThreadDescription( //-V126
     _In_ void* hThread, _In_ const wchar_t* lpThreadDescription);
 extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
 namespace rsj {
@@ -71,16 +68,21 @@ constexpr auto OSX{true};
 namespace rsj {
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
-   // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+   /* typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e); */
    void ExceptionResponse(gsl::czstring<> id, gsl::czstring<> fu, const std::exception& e) noexcept;
-   // char* overloads here are to allow catch clauses to avoid a juce::String conversion at the
-   // caller location, thus avoiding a potential exception in the catch clause. string_view
-   // overloads not used because those are ambiguous with the String versions.
+   /* char* overloads here are to allow catch clauses to avoid a juce::String conversion at the
+    * caller location, thus avoiding a potential exception in the catch clause. string_view
+    * overloads not used because those are ambiguous with the String versions. */
    void LogAndAlertError(const juce::String& error_text) noexcept;
+   void LogAndAlertError(const juce::String& alert_text, const juce::String& error_text) noexcept;
    void LogAndAlertError(gsl::czstring<> error_text) noexcept;
    void Log(const juce::String& info) noexcept;
    void Log(gsl::czstring<> info) noexcept;
    [[nodiscard]] std::string ToLower(std::string_view in);
+   void Trim(std::string_view& value) noexcept;
+   void Trim(std::string_view&& value) = delete;
+   void TrimL(std::string_view& value) noexcept;
+   void TrimL(std::string_view&& value) = delete;
 #ifdef _WIN32
    [[nodiscard]] std::wstring AppDataFilePath(std::wstring_view file_name);
    [[nodiscard]] std::wstring AppDataFilePath(std::string_view file_name);
@@ -99,49 +101,46 @@ namespace rsj {
    [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);
 #endif // def _WIN32
 
-   // -------------------------------------------------------------------
-   // --- Reversed iterable
-
-   // https://stackoverflow.com/a/42221253/5699329
+   /* Reversed iterable SEE:https://stackoverflow.com/a/42221253/5699329 */
    template<class T> struct ReverseWrapper {
       T o;
-      explicit ReverseWrapper(T&& i) : o(std::forward<T>(i)) {}
+      explicit ReverseWrapper(T&& i) noexcept : o(std::forward<T>(i)) {}
    };
 
-   template<class T> auto begin(ReverseWrapper<T>& r)
+   template<class T> auto begin(ReverseWrapper<T>& r) noexcept
    {
       using std::end;
       return std::make_reverse_iterator(end(r.o));
    }
 
-   template<class T> auto end(ReverseWrapper<T>& r)
+   template<class T> auto end(ReverseWrapper<T>& r) noexcept
    {
       using std::begin;
       return std::make_reverse_iterator(begin(r.o));
    }
 
-   template<class T> auto begin(ReverseWrapper<T> const& r)
+   template<class T> auto begin(ReverseWrapper<T> const& r) noexcept
    {
       using std::end;
       return std::make_reverse_iterator(end(r.o));
    }
 
-   template<class T> auto end(ReverseWrapper<T> const& r)
+   template<class T> auto end(ReverseWrapper<T> const& r) noexcept
    {
       using std::begin;
       return std::make_reverse_iterator(begin(r.o));
    }
 
-   template<class T> auto Reverse(T&& ob)
+   template<class T> auto Reverse(T&& ob) noexcept
    {
       return ReverseWrapper<T>{std::forward<T>(ob)};
    }
 
 #pragma warning(push)
-#pragma warning(disable : 4127) // constant conditional expression
-   // zepto yocto zetta and yotta too large/small to be represented by intmax_t
-   // TODO: change to consteval, find way to convert digit to string for unexpected
-   // values, so return could be, e.g., "23425/125557 ", instead of error message
+#pragma warning(disable : 4127) /* constant conditional expression */
+   /* zepto yocto zetta and yotta too large/small to be represented by intmax_t TODO: change to
+    * consteval, find way to convert digit to string for unexpected values, so return could be,
+    * e.g., "23425/125557 ", instead of error message */
    template<class R>[[nodiscard]] constexpr auto RatioToPrefix() noexcept
    {
       if (R::num == 1) {
@@ -195,7 +194,7 @@ namespace rsj {
 #pragma warning(pop)
 
    template<class Rep, class Period>
-   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) noexcept //-V801
+   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) //-V801
    {
       const auto start = std::chrono::high_resolution_clock::now();
       std::this_thread::sleep_for(sleep_duration);

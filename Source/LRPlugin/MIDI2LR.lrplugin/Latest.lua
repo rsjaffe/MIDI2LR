@@ -1,7 +1,7 @@
 --[[----------------------------------------------------------------------------
 
-Donate.lua
-Launches the PayPal donation page
+Latest.lua
+Launches the github site
  
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
@@ -20,6 +20,6 @@ local LrHttp = import "LrHttp"
 
 import "LrTasks".startAsyncTask(
   function()
-    LrHttp.openUrlInBrowser("https://www.paypal.me/MIDI2LR")
+    LrHttp.openUrlInBrowser("https://github.com/rsjaffe/MIDI2LR/releases")
   end
 )

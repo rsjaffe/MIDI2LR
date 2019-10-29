@@ -1,26 +1,22 @@
 /*
-  ==============================================================================
-
-    SettingsManager.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "SettingsManager.h"
 
 #include <exception>
+#include <mutex>
 #include <string>
 
 #include "DebugInfo.h"
@@ -41,10 +37,9 @@ SettingsManager::SettingsManager(ProfileManager& profile_manager, LrIpcOut& lr_i
       file_options.osxLibrarySubFolder = "Application Support/MIDI2LR";
       file_options.storageFormat = juce::PropertiesFile::storeAsXML;
       properties_file_ = std::make_unique<juce::PropertiesFile>(file_options);
-      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-      // settings on connection
+      /* add a listener to LR_IPC_OUT so that we can send plugin settings on connection */
       lr_ipc_out_.AddCallback(this, &SettingsManager::ConnectionCallback);
-      // set the profile directory
+      /* set the profile directory */
       profile_manager_.SetProfileDirectory(GetProfileDirectory());
    }
    catch (const std::exception& e) {
@@ -77,21 +72,24 @@ juce::String SettingsManager::GetProfileDirectory() const noexcept
 
 /*Const means method won't change object's client-visible state. These methods do, by changing the
  * underlying file. ConnectionCallback is not const as it needs to be compatible with the callback
- * type.*/
+ * type. */
 void SettingsManager::ConnectionCallback(bool connected, bool blocked)
 {
    try {
-      using namespace std::literals::string_literals; // needed to append char to string
+      using namespace std::literals::string_literals; /* needed to append char to string */
       if (connected && !blocked) {
-         const DebugInfo db{GetProfileDirectory()};
          lr_ipc_out_.SendCommand("Pickup "s + (GetPickupEnabled() ? '1' : '0') + '\n');
          rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
-         // rest of info about app is logged by DebugInfo
-         lr_ipc_out_.SendCommand("AppInfoClear 1\n");
-         for (const auto& info : db.GetInfo()) {
-            lr_ipc_out_.SendCommand("AppInfo " + info + '\n');
-         }
-         lr_ipc_out_.SendCommand("AppInfoDone 1\n");
+         static std::once_flag of; /* add debug info once to logs */
+         std::call_once(of, [this] {
+            const DebugInfo db{GetProfileDirectory()};
+            lr_ipc_out_.SendCommand("AppInfoClear 1\n");
+            for (const auto& info : db.GetInfo()) {
+               lr_ipc_out_.SendCommand("AppInfo " + info + '\n');
+            }
+            lr_ipc_out_.SendCommand("AppInfoDone 1\n");
+            lr_ipc_out_.SendCommand("GetPluginInfo 1\n");
+         });
       }
    }
    catch (const std::exception& e) {
@@ -129,7 +127,7 @@ void SettingsManager::SetLastVersionFound(int version_number)
 void SettingsManager::SetPickupEnabled(bool enabled)
 {
    try {
-      using namespace std::literals::string_literals; // needed to append char to string
+      using namespace std::literals::string_literals; /* needed to append char to string */
       properties_file_->setValue("pickup_enabled", enabled);
       properties_file_->saveIfNeeded();
       lr_ipc_out_.SendCommand("Pickup "s + (enabled ? '1' : '0') + '\n');

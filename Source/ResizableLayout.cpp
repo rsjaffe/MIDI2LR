@@ -192,7 +192,7 @@ void ResizableLayout::recalculateLayout() const
          // prove that there are no rounding issues
          jassert((anchor.bottomRight != anchor.topLeft)
                  || ((rb.getWidth() == anchor.component->getWidth())
-                        && (rb.getHeight() == anchor.component->getHeight())));
+                     && (rb.getHeight() == anchor.component->getHeight())));
 
          if (anchor.style == styleStretch) {
             anchor.component->setBounds(rb);

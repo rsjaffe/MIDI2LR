@@ -1,35 +1,26 @@
 #ifndef MIDI2LR_MAINCOMPONENT_H_INCLUDED
 #define MIDI2LR_MAINCOMPONENT_H_INCLUDED
 /*
-  ==============================================================================
-
-    This file was auto-generated!
-
-  ==============================================================================
-*/
-/*
-  ==============================================================================
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include <memory>
 
 #include <JuceLibraryCode/JuceHeader.h>
-#include "CommandTable.h"      //class member
-#include "CommandTableModel.h" //class member
-#include "ResizableLayout.h"   //base class
+#include "CommandTable.h"
+#include "CommandTableModel.h"
+#include "ResizableLayout.h"
 class CommandSet;
 class LrIpcOut;
 class MidiReceiver;
@@ -44,7 +35,6 @@ namespace rsj {
 class MainContentComponent final : public juce::Component,
                                    juce::AsyncUpdater,
                                    juce::Timer,
-                                   juce::Button::Listener,
                                    public ResizableLayout {
  public:
    MainContentComponent(const CommandSet& command_set, Profile& profile,
@@ -59,13 +49,12 @@ class MainContentComponent final : public juce::Component,
    void SaveProfile();
 
  private:
-   void buttonClicked(juce::Button* button) override;
    void handleAsyncUpdate() override;
    void LrIpcOutCallback(bool, bool);
-   void MidiCmdCallback(rsj::MidiMessage);
+   void MidiCmdCallback(const rsj::MidiMessage&);
    void paint(juce::Graphics&) override;
    void ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name);
-   void SetLabelSettings(juce::Label& label_to_set);
+   void StandardLabelSettings(juce::Label& label_to_set);
    void timerCallback() override;
 
    CommandTable command_table_{"Table", nullptr};
@@ -90,7 +79,7 @@ class MainContentComponent final : public juce::Component,
    Profile& profile_;
    ProfileManager& profile_manager_;
    SettingsManager& settings_manager_;
-   size_t row_to_select_{0}; //-V122
+   size_t row_to_select_{0};
    std::unique_ptr<juce::DialogWindow> settings_dialog_;
 };
 

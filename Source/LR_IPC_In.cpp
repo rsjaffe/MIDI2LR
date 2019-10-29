@@ -1,23 +1,18 @@
 /*
-  ==============================================================================
-
-    LR_IPC_In.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "LR_IPC_In.h"
 
 #include <algorithm>
@@ -40,13 +35,6 @@ namespace {
    constexpr auto kEmptyWait = 100ms;
    constexpr auto kLrInPort = 58764;
    constexpr auto kTerminate = "MBxegp3VXilFy0";
-
-   void Trim(std::string_view& value) noexcept
-   {
-      value.remove_prefix(std::min(value.find_first_not_of(" \t\n"), value.size()));
-      if (const auto tr = value.find_last_not_of(" \t\n"); tr != std::string_view::npos)
-         value.remove_suffix(value.size() - tr - 1);
-   }
 } // namespace
 
 LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const Profile& profile,
@@ -56,7 +44,7 @@ LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const 
 {
 }
 
-void LrIpcIn::StartRunning()
+void LrIpcIn::Start()
 {
    try {
       process_line_future_ = std::async(std::launch::async, [this] {
@@ -75,15 +63,15 @@ void LrIpcIn::StartRunning()
    }
 }
 
-void LrIpcIn::StopRunning()
+void LrIpcIn::Stop()
 {
    try {
       thread_should_exit_.store(true, std::memory_order_seq_cst);
       asio::post([this] {
          if (socket_.is_open()) {
             asio::error_code ec;
-            // For portable behaviour with respect to graceful closure of a connected socket, call
-            // shutdown() before closing the socket.
+            /* For portable behaviour with respect to graceful closure of a connected socket, call
+             * shutdown() before closing the socket. */
             socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
             if (ec) {
                rsj::Log("LR_IPC_In socket shutdown error " + ec.message());
@@ -93,7 +81,7 @@ void LrIpcIn::StopRunning()
             if (ec)
                rsj::Log("LR_IPC_In socket close error " + ec.message());
          }
-         // pump input queue after port closed
+         /* pump input queue after port closed */
          if (const auto m = line_.clear_count_emplace(kTerminate))
             rsj::Log(juce::String(m) + " left in queue in LrIpcIn destructor");
       });
@@ -128,71 +116,67 @@ void LrIpcIn::Connect()
    }
 }
 
+namespace {
+   std::pair<std::string_view, std::string_view> SplitLine(std::string_view msg)
+   {
+      rsj::Trim(msg);
+      const auto first_delimiter{msg.find_first_of(" \t\n")};
+      auto value_view{msg.substr(first_delimiter + 1)};
+      rsj::TrimL(value_view);
+      const auto command_view{msg.substr(0, first_delimiter)};
+      return {command_view, value_view};
+   }
+} // namespace
+
 void LrIpcIn::ProcessLine()
 {
    try {
       do {
-         // process input into [parameter] [Value]
-         auto line_copy{line_.pop()};
+         const auto line_copy{line_.pop()};
          if (line_copy == kTerminate)
             return;
-         std::string_view v{line_copy};
-         Trim(v);
-         auto value_string{v.substr(v.find_first_of(" \t\n") + 1)};
-         value_string.remove_prefix(
-             std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
-         const auto command{std::string(
-             v.substr(0, v.find_first_of(" \t\n")))}; // use this a lot, so convert to string once
+         auto [command_view, value_view] = SplitLine(line_copy);
+         const auto command{std::string(command_view)};
+         if (value_view.empty() && command != "TerminateApplication") {
+            rsj::Log("No value attached to message. Message from plugin was \""
+                     + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
+            /* nothing to act upon */
+            continue;
+         }
          if (command == "SwitchProfile") {
-            profile_manager_.SwitchToProfile(std::string(value_string));
+            profile_manager_.SwitchToProfile(std::string(value_view));
          }
          else if (command == "TerminateApplication") {
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
             return;
          }
-         else if (command == "SendKey") {
-            const auto modifiers = std::stoi(std::string(value_string));
-            // trim twice on purpose: first digit, then space, as key may be digit
-            value_string.remove_prefix(
-                std::min(value_string.find_first_not_of("0123456789"), value_string.size()));
-            value_string.remove_prefix(1); // one space between number and character
-            if (value_string.empty()) {
-               rsj::LogAndAlertError(
-                   "SendKey couldn't identify keystroke. Message from plugin was \""
-                   + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
-               continue;
-            }
-            rsj::ActiveModifiers am;
-            if (modifiers & 0x1)
-               am.alt_opt = true;
-            if (modifiers & 0x2)
-               am.control = true;
-            if (modifiers & 0x4)
-               am.shift = true;
-            if (modifiers & 0x8)
-               am.command = true;
-            rsj::SendKeyDownUp(std::string(value_string), am);
+         else if (command == "Log") {
+            rsj::Log("From plugin: "
+                     + juce::String(juce::CharPointer_UTF8(value_view.data()), value_view.size()));
          }
-         else { // send associated messages to MIDI OUT devices
-            const auto original_value = std::stod(std::string(value_string));
-            for (const auto& msg : profile_.GetMessagesForCommand(command)) {
-               const auto value = controls_model_.PluginToController(msg, original_value);
-               switch (msg.msg_id_type) {
-               case rsj::MessageType::NoteOn:
-                  midi_sender_.SendNoteOn(msg.channel, msg.control_number, value);
-                  break;
-               case rsj::MessageType::Cc:
-                  if (controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute)
-                     midi_sender_.SendCc(msg.channel, msg.control_number, value);
-                  break;
-               case rsj::MessageType::Pw:
-                  midi_sender_.SendPitchWheel(msg.channel, value);
-                  break;
-               default:
-                  rsj::LogAndAlertError(
-                      juce::String("LRIPCIn ProcessLine had unexpected MessageType: ")
-                      + rsj::MessageTypeToName(msg.msg_id_type));
+         else if (command == "SendKey") {
+            const auto modifiers = std::stoi(std::string(value_view));
+            /* trim twice on purpose: first modifiers digits, then one space (fixed delimiter) */
+            const auto first_not_digit{value_view.find_first_not_of("0123456789")};
+            if (first_not_digit != std::string_view::npos) {
+               value_view.remove_prefix(first_not_digit + 1);
+               if (!value_view.empty()) {
+                  rsj::SendKeyDownUp(
+                      std::string(value_view), rsj::ActiveModifiers::FromMidi2LR(modifiers));
+                  /* skip log and alert error */
+                  continue;
                }
+            }
+            rsj::LogAndAlertError("SendKey couldn't identify keystroke. Message from plugin was \""
+                                  + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
+         }
+         else {
+            /* send associated messages to MIDI OUT devices */
+            const auto original_value = std::stod(std::string(value_view));
+            for (const auto& msg : profile_.GetMessagesForCommand(command)) {
+               if (msg.msg_id_type != rsj::MessageType::Cc
+                   || controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute)
+                  midi_sender_.Send(msg, controls_model_.PluginToController(msg, original_value));
             }
          }
       } while (true);
@@ -209,22 +193,25 @@ void LrIpcIn::Read()
       if (!thread_should_exit_.load(std::memory_order_relaxed)) {
          asio::async_read_until(socket_, streambuf_, '\n',
              [this](const asio::error_code& error, std::size_t bytes_transferred) {
-                if (!error) {
-                   if (!bytes_transferred)
-                      std::this_thread::sleep_for(kEmptyWait);
-                   else {
-                      std::string command{buffers_begin(streambuf_.data()),
-                          buffers_begin(streambuf_.data()) + bytes_transferred};
-                      if (command == "TerminateApplication 1\n")
-                         thread_should_exit_.store(true, std::memory_order_seq_cst);
-                      line_.push(std::move(command));
-                      streambuf_.consume(bytes_transferred);
+                if (!error)
+                   [[likely]]
+                   {
+                      if (!bytes_transferred)
+                         [[unlikely]] std::this_thread::sleep_for(kEmptyWait);
+                      else {
+                         std::string command{buffers_begin(streambuf_.data()),
+                             buffers_begin(streambuf_.data()) + bytes_transferred};
+                         if (command == "TerminateApplication 1\n")
+                            thread_should_exit_.store(true, std::memory_order_seq_cst);
+                         line_.push(std::move(command));
+                         streambuf_.consume(bytes_transferred);
+                      }
+                      Read();
                    }
-                   Read(); // read again
-                }
                 else {
                    rsj::Log("LR_IPC_In Read: " + error.message());
-                   if (error == asio::error::misc_errors::eof) // LR closed socket
+                   if (error == asio::error::misc_errors::eof)
+                      /* LR closed socket */
                       juce::JUCEApplication::getInstance()->systemRequestedQuit();
                 }
              });

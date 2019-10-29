@@ -29,7 +29,7 @@ return {
   LrToolkitIdentifier = 'com.rsjaffe.midi2lr',
   LrExportMenuItems = {
     {
-      title = LOC("$$$/AgCreations/NewCreationDialog/CreateItemDialog/Options=Options"),
+      title = LOC("$$$/MIDI2LR/Menu/GeneralOptions=General &options"),
       file = 'Options.lua',
     },
     {
@@ -49,15 +49,15 @@ return {
       file = "StopServer.lua"
     },
     {
-      title = LOC("$$$/AgMenu/LoadPresets=Load presets"),
+      title = LOC("$$$/MIDI2LR/Menu/ImportConfiguration=&Import configuration"),
       file = "FileLoadPref.lua",
     },
     {
-      title = LOC("$$$/AgLibrary/Menu/File/ExportPresets=Export presets"),
+      title = LOC("$$$/MIDI2LR/Menu/ExportConfiguration=&Export configuration"),
       file = "FileSavePref.lua"
     },
     { 
-      title = LOC("$$$/MIDI2LR/Help/OnlineHelp=Online help"), 
+      title = LOC("$$$/MIDI2LR/Help/OnlineHelp=Online &help"), 
       file = "OnlineHelp.lua",
     },     
     {
@@ -75,6 +75,10 @@ return {
       file = "Support.lua",
     },
     {
+      title = LOC("$$$/MIDI2LR/Help/Latest=&View latest release"),
+      file = "Latest.lua",
+    },
+    {
       title = LOC("$$$/MIDI2LR/Help/Donate=&Donate to support project development"),
       file = "Donate.lua",
     },
@@ -83,5 +87,5 @@ return {
       file = "About.lua",
     },
   },
-  VERSION = { major=3, minor=3, revision=1, build=0}
+  VERSION = { major=3, minor=3, revision=2, build=0}
 }

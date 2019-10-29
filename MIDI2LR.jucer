@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.3.1.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.3.2.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
-              jucerVersion="5.4.4" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
+              jucerVersion="5.4.5" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright=""
               defines="DONT_SET_USING_JUCE_NAMESPACE=1" compilerFlagSchemes=""
@@ -86,12 +86,16 @@
   </MAINGROUP>
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="WdgQGt" bigIcon="WdgQGt"
-               customPList="&lt;plist&gt;&#10;&lt;dict&gt;&#10;&lt;key&gt;NSAppleEventsUsageDescription&lt;/key&gt;&#10;&lt;string&gt;MIDI2LR needs to send keystrokes to Lightroom to help automate your tasks.&lt;/string&gt;&#10;&lt;/dict&gt;&#10;&lt;/plist&gt;">
+               customPList="&lt;plist&gt;&#10;&lt;dict&gt;&#10;&lt;key&gt;NSAppleEventsUsageDescription&lt;/key&gt;&#10;&lt;string&gt;MIDI2LR needs to send keystrokes to Lightroom to help automate your tasks.&lt;/string&gt;&#10;&lt;/dict&gt;&#10;&lt;/plist&gt;"
+               hardenedRuntime="1" hardenedRuntimeOptions="com.apple.security.automation.apple-events"
+               iosDevelopmentTeamID="VN44PD5JV9">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxCompatibility="10.12 SDK" osxArchitecture="64BitIntel"
-                       binaryPath="" cppLanguageStandard="c++14" headerPath="" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"/>
+                       binaryPath="" cppLanguageStandard="c++14" headerPath="" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
+                       codeSigningIdentity="Developer ID Application" recommendedWarnings="LLVM"/>
         <CONFIGURATION name="Release" osxCompatibility="10.12 SDK" osxArchitecture="64BitIntel"
-                       binaryPath="" cppLanguageStandard="c++14" headerPath="" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"/>
+                       binaryPath="" cppLanguageStandard="c++14" headerPath="" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"
+                       codeSigningIdentity="Developer ID Application"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
@@ -106,9 +110,8 @@
     <VS2019 targetFolder="Builds/VisualStudio2019" smallIcon="WdgQGt" bigIcon="WdgQGt"
             extraDefs="_WIN32_WINNT=0x0601">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
-                       useRuntimeLibDLL="0"/>
-        <CONFIGURATION isDebug="0" name="Release" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"/>
+        <CONFIGURATION name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1" useRuntimeLibDLL="0"/>
+        <CONFIGURATION name="Release" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics"/>

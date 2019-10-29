@@ -1,23 +1,18 @@
 /*
-  ==============================================================================
-
-    LR_IPC_OUT.cpp
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "LR_IPC_Out.h"
 
 #include <algorithm>
@@ -39,9 +34,10 @@ using TimePoint = Clock::time_point;
 using namespace std::literals::chrono_literals;
 
 namespace {
-   constexpr auto kDelay{8ms}; // in between recurrent actions
+   /* in between recurrent actions */
+   constexpr auto kDelay{8ms};
    constexpr auto kLrOutPort{58763};
-   // give controller a minimum refractory period before resetting
+   /* give controller a minimum refractory period before resetting */
    constexpr auto kMinRecenterTime(250ms);
    constexpr auto kRecenterTimer{std::max(kMinRecenterTime, kDelay + kDelay / 2)};
    constexpr auto kTerminate{"!!!@#$%^"};
@@ -87,7 +83,7 @@ void LrIpcOut::SendingRestart()
       const auto con{connected_.load(std::memory_order_acquire)};
       for (const auto& cb : callbacks_)
          cb(con, false);
-      // resync controls
+      /* resync controls */
       SendCommand("FullRefresh 1\n");
    }
    catch (const std::exception& e) {
@@ -110,7 +106,7 @@ void LrIpcOut::SendingStop()
    }
 }
 
-void LrIpcOut::StartRunning()
+void LrIpcOut::Start()
 {
    try {
       Connect();
@@ -129,18 +125,19 @@ void LrIpcOut::StartRunning()
    }
 }
 
-void LrIpcOut::StopRunning()
+void LrIpcOut::Stop()
 {
    thread_should_exit_.store(true, std::memory_order_seq_cst);
-   // pump output queue before port closed
+   /* pump output queue before port closed */
    if (const auto m = command_.clear_count_emplace(kTerminate))
       rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
-   callbacks_.clear(); // no more connect/disconnect notifications
+   /* no more connect/disconnect notifications */
+   callbacks_.clear();
    asio::post([this] {
       if (socket_.is_open()) {
          asio::error_code ec;
-         // For portable behaviour with respect to graceful closure of a connected socket, call
-         // shutdown() before closing the socket.
+         /* For portable behaviour with respect to graceful closure of a connected socket, call
+          * shutdown() before closing the socket. */
          socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
          if (ec) {
             rsj::Log("LR_IPC_Out socket shutdown error " + ec.message());
@@ -192,7 +189,7 @@ void LrIpcOut::ConnectionMade()
    }
 }
 
-void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
+void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
 {
    struct RepeatMessage {
       std::string cw;
@@ -223,28 +220,33 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
       const auto command_to_send = profile_.GetCommandForMessage(message);
       if (command_to_send == "PrevPro" || command_to_send == "NextPro"
           || command_to_send == "Unmapped")
-         return; // handled by ProfileManager
-      // if it is a repeated command, change command_to_send appropriately
-      if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
-         static TimePoint nextresponse{};
-         if (const auto now = Clock::now(); nextresponse < now) {
-            nextresponse = now + std::chrono::milliseconds(kDelay);
-            if (mm.message_type_byte == rsj::MessageType::Pw
-                || (mm.message_type_byte == rsj::MessageType::Cc
-                    && controls_model_.GetCcMethod(mm.channel, mm.control_number)
-                           == rsj::CCmethod::kAbsolute)) {
-               SetRecenter(mm);
+         /* handled by ProfileManager */
+         [[unlikely]] return;
+      /* if it is a repeated command, change command_to_send appropriately */
+      if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end())
+         [[unlikely]]
+         {
+            static TimePoint next_response{};
+            if (const auto now = Clock::now(); next_response < now) {
+               next_response = now + kDelay;
+               if (mm.message_type_byte == rsj::MessageType::Pw
+                   || (mm.message_type_byte == rsj::MessageType::Cc
+                       && controls_model_.GetCcMethod(message) == rsj::CCmethod::kAbsolute))
+                  SetRecenter(message);
+               const auto change = controls_model_.MeasureChange(mm);
+               if (change == 0)
+                  /* don't send any signal */
+                  return;
+               if (change > 0)
+                  /* turned clockwise */
+                  SendCommand(a->second.cw);
+               else
+                  /* turned counterclockwise */
+                  SendCommand(a->second.ccw);
             }
-            const auto change = controls_model_.MeasureChange(mm);
-            if (change == 0)
-               return;      // don't send any signal
-            if (change > 0) // turned clockwise
-               SendCommand(a->second.cw);
-            else // turned counterclockwise
-               SendCommand(a->second.ccw);
          }
-      }
-      else { // not repeated command
+      else {
+         /* not repeated command */
          const auto computed_value = controls_model_.ControllerToPlugin(mm);
          SendCommand(command_to_send + ' ' + std::to_string(computed_value) + '\n');
       }
@@ -260,14 +262,15 @@ void LrIpcOut::SendOut()
    try {
       auto command_copy = std::make_shared<std::string>(command_.pop());
       if (*command_copy == kTerminate)
-         return;
-      // always connected when running SendOut, no need to check flag
-      if (command_copy->back() != '\n') // should be terminated with \n
-         *command_copy += '\n';
+         [[unlikely]] return;
+      /* always connected when running SendOut, no need to check flag */
+      if (command_copy->back() != '\n')
+         /* should be terminated with \n */
+         [[unlikely]]* command_copy += '\n';
       asio::async_write(socket_, asio::buffer(*command_copy),
           [this, command_copy](const asio::error_code& error, std::size_t) {
              if (!error)
-                SendOut();
+                [[likely]] SendOut();
              else {
                 rsj::Log("LR_IPC_Out Write: " + error.message());
              }
@@ -279,29 +282,15 @@ void LrIpcOut::SendOut()
    }
 }
 
-void LrIpcOut::SetRecenter(rsj::MidiMessage mm)
-{ // by capturing mm by copy, don't have to worry about later calls changing it--those will just
-  // cancel and reschedule new one
+void LrIpcOut::SetRecenter(rsj::MidiMessageId mm)
+{
+   /* by capturing mm by copy, don't have to worry about later calls changing it--those will just
+    * cancel and reschedule new one */
    try {
       asio::dispatch([this] { recenter_timer_.expires_after(kRecenterTimer); });
-      // self passed to next lambda only, lifetime extends beyond above call, saves one shared_ptr
-      // copy + atomic increment
       recenter_timer_.async_wait([this, mm](const asio::error_code& error) {
-         if (!error && !thread_should_exit_.load(std::memory_order_relaxed)) {
-            switch (mm.message_type_byte) {
-            case rsj::MessageType::Pw: {
-               midi_sender_.SendPitchWheel(mm.channel + 1, controls_model_.SetToCenter(mm));
-               break;
-            }
-            case rsj::MessageType::Cc: {
-               midi_sender_.SendCc(
-                   mm.channel + 1, mm.control_number, controls_model_.SetToCenter(mm));
-               break;
-            }
-            default:
-                /* no action */;
-            }
-         }
+         if (!error && !thread_should_exit_.load(std::memory_order_relaxed))
+            midi_sender_.Send(mm, controls_model_.SetToCenter(mm));
       });
    }
    catch (const std::exception& e) {

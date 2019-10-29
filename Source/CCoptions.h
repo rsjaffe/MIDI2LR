@@ -21,25 +21,20 @@
 
 //[Headers]     -- You can add your own extra header files here --
 /*
-==============================================================================
-
-CCoptions.h
-
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 class ControlsModel;
@@ -71,7 +66,7 @@ class CCoptions final : public juce::Component,
    {
       controls_model_ = model;
    }
-   void BindToControl(size_t channel, short control_number);
+   void BindToControl(int channel, int control_number);
    CCoptions(CCoptions&& other) noexcept = delete;
    CCoptions& operator=(CCoptions&& other) noexcept = delete;
    //[/UserMethods]
@@ -85,8 +80,8 @@ class CCoptions final : public juce::Component,
    juce::TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
    void textEditorFocusLost(juce::TextEditor& t) override;
    inline static ControlsModel* controls_model_{nullptr};
-   short bound_channel_{0}; // note: 0-based in program, add one to compensate
-   short bound_number_{0};
+   int bound_channel_{0}; // note: 0-based in program, add one to compensate for display
+   int bound_number_{0};
    //[/UserVariables]
 
    //==============================================================================

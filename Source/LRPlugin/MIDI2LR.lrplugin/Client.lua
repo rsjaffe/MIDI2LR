@@ -140,6 +140,7 @@ LrTasks.startAsyncTask(
       Filter_11                              = CU.fApplyFilter(11),
       Filter_12                              = CU.fApplyFilter(12),
       FullRefresh                            = CU.FullRefresh,
+      GetPluginInfo                          = DebugInfo.sendLog, -- not in db: internal use only
       IncreaseRating                         = LrSelection.increaseRating,
       IncrementLastDevelopParameter          = function() CU.execFOM(LrDevelopController.increment,LastParam) end,
       Key1  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(1) .. '\n') end,

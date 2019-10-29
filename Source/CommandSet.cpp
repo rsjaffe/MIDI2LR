@@ -1,27 +1,33 @@
 /*
-  ==============================================================================
-
-    CommandSet.cpp
-
-This file is part of MIDI2LR. Copyright 2019 by Rory Jaffe.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
-*/
+ * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
+ *
+ * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with MIDI2LR.  If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "CommandSet.h"
 
 #include <exception>
+#ifndef _WIN32
+#include <AvailabilityMacros.h>
+#if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
+    && defined(__cpp_lib_filesystem)
+#define FILESYSTEM_AVAILABLE_MIDI2LR
+#endif
+#else
 #ifdef __cpp_lib_filesystem
+#define FILESYSTEM_AVAILABLE_MIDI2LR
+#endif
+#endif
+#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
 #include <filesystem>
 namespace fs = std::filesystem;
 #endif
@@ -35,19 +41,20 @@ namespace fs = std::filesystem;
 // ReSharper restore CppUnusedIncludeDirective
 
 CommandSet::CommandSet() : m_impl_(MakeImpl())
-{ // manually insert unmapped at first position
+{
+   /* manually insert unmapped at first position */
    try {
       cmd_by_number_.emplace_back("Unmapped");
       cmd_idx_["Unmapped"] = 0;
       size_t idx = 1;
-      for (const auto& bycategory : m_impl_.allcommands_) {
+      for (const auto& by_category : m_impl_.allcommands_) {
          std::vector<MenuStringT> menu_items_temp{};
-         for (const auto& cmd_pair : bycategory.second) {
+         for (const auto& cmd_pair : by_category.second) {
             cmd_by_number_.push_back(cmd_pair.first);
             cmd_idx_[cmd_pair.first] = idx++;
             menu_items_temp.emplace_back(cmd_pair.second);
          }
-         menus_.emplace_back(bycategory.first);
+         menus_.emplace_back(by_category.first);
          menu_entries_.emplace_back(std::move(menu_items_temp));
       }
    }
@@ -60,24 +67,25 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
 CommandSet::Impl::Impl()
 {
    try {
-#ifdef __cpp_lib_filesystem
+#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
       const fs::path p{rsj::AppDataFilePath("MenuTrans.xml")};
 #else
       const auto p = rsj::AppDataFilePath("MenuTrans.xml");
 #endif
       std::ifstream infile(p);
       if (infile.is_open()) {
-#pragma warning(suppress : 26414) // too large to construct on stack
+#pragma warning(suppress : 26414) /* too large to construct on stack */
          const auto iarchive = std::make_unique<cereal::XMLInputArchive>(infile);
          (*iarchive)(*this);
-#ifdef __cpp_lib_filesystem
+#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
          rsj::Log("MenuTrans.xml archive loaded from " + juce::String(p.c_str()));
 #else
          rsj::Log("MenuTrans.xml archive loaded from " + p);
 #endif
       }
       else
-         rsj::LogAndAlertError("Unable to load MenuTrans.xml. Unable to open file.");
+         rsj::LogAndAlertError(
+             juce::translate("Unable to load MenuTrans.xml."), "Unable to load MenuTrans.xml.");
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
