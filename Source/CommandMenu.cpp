@@ -29,7 +29,7 @@ CommandMenu::CommandMenu(
 try : juce
    ::TextButton{"Unmapped"}, command_set_(command_set), profile_(profile), message_{message} {}
 catch (const std::exception& e) {
-   rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+   rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
    throw;
 }
 
@@ -99,7 +99,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

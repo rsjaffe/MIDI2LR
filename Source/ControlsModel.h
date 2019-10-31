@@ -126,7 +126,7 @@ namespace rsj {
             }
          }
          catch (const std::exception& e) {
-            rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+            rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
             throw;
          }
       }
@@ -371,7 +371,7 @@ template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -405,7 +405,7 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

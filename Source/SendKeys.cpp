@@ -94,7 +94,7 @@ namespace {
          return vk_code_and_shift;
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
+         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -109,7 +109,7 @@ namespace {
              rsj::ActiveModifiers::FromWindows(HIBYTE(vk_code_and_shift))};
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
+         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -127,7 +127,7 @@ namespace {
          return result;
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
+         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -158,7 +158,7 @@ namespace {
          }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
+         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -187,7 +187,7 @@ namespace {
          return 0;
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
+         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -268,7 +268,7 @@ namespace {
          return {chars[0], s_chars[0]};
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
+         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -289,7 +289,7 @@ namespace {
          return temp_map;
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
+         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -307,7 +307,7 @@ namespace {
             return {};
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
+         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -338,7 +338,7 @@ namespace {
          std::call_once(of, [lr_pid]() { rsj::CheckPermission(lr_pid); });
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
+         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
          throw;
       }
    }

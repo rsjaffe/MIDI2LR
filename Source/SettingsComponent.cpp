@@ -127,7 +127,7 @@ void SettingsComponent::Init()
       activateLayout();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -138,7 +138,7 @@ void SettingsComponent::paint(juce::Graphics& g)
       g.fillAll(juce::Colours::white); // clear the background
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

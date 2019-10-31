@@ -34,6 +34,12 @@ static constexpr bool kNdebug = true;
 static constexpr bool kNdebug = false;
 #endif
 
+#if defined(__GNUC__) || defined(__clang__)
+#define MIDI2LR_FUNC __PRETTY_FUNCTION__
+#else
+#define MIDI2LR_FUNC __func__
+#endif
+
 #ifndef NDEBUG
 #ifdef _WIN32
 /* declarations from processthreadsapi.h */
@@ -68,7 +74,7 @@ constexpr auto OSX{true};
 namespace rsj {
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
-   /* typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e); */
+   /* typical call: rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e); */
    void ExceptionResponse(gsl::czstring<> id, gsl::czstring<> fu, const std::exception& e) noexcept;
    /* char* overloads here are to allow catch clauses to avoid a juce::String conversion at the
     * caller location, thus avoiding a potential exception in the catch clause. string_view

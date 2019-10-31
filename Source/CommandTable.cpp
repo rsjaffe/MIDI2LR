@@ -35,7 +35,7 @@ try : juce
               | juce::TableHeaderComponent::sortedForwards);
    }
 catch (const std::exception& e) {
-   rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+   rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
    throw;
 }
 
@@ -107,7 +107,7 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
       return false;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

@@ -59,7 +59,7 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -88,7 +88,7 @@ CommandSet::Impl::Impl()
              juce::translate("Unable to load MenuTrans.xml."), "Unable to load MenuTrans.xml.");
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -100,7 +100,7 @@ const CommandSet::Impl& CommandSet::MakeImpl() const
       return kImpl;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -116,7 +116,7 @@ size_t CommandSet::CommandTextIndex(const std::string& command) const
       return found->second;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

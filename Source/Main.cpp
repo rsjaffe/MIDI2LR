@@ -149,7 +149,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -199,7 +199,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          });
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -251,7 +251,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          rsj::Log("Default profile saved to " + profile_file.getFullPathName());
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -280,7 +280,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                 juce::translate("Unable to save settings.xml"), "Unable to save settings.xml");
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       }
    }
 
@@ -305,7 +305,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       }
    }
 
@@ -368,7 +368,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          rsj::Translate(lang);
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
          throw;
       }
    }

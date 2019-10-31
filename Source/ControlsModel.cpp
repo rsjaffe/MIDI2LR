@@ -43,7 +43,7 @@ double ChannelModel::OffsetResult(int diff, int controlnumber)
              / static_cast<double>(cc_high_.at(controlnumber));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -110,7 +110,7 @@ double ChannelModel::ControllerToPlugin(rsj::MessageType controltype, int contro
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -140,7 +140,7 @@ int ChannelModel::SetToCenter(rsj::MessageType controltype, int controlnumber)
       return retval;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -199,7 +199,7 @@ int ChannelModel::MeasureChange(rsj::MessageType controltype, int controlnumber,
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -241,7 +241,7 @@ int ChannelModel::PluginToController(rsj::MessageType controltype, int controlnu
       return 0;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -256,7 +256,7 @@ void ChannelModel::SetCc(int controlnumber, int min, int max, rsj::CCmethod cont
       SetCcMax(controlnumber, max);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -272,7 +272,7 @@ void ChannelModel::SetCcAll(int controlnumber, int min, int max, rsj::CCmethod c
             SetCc(a, min, max, controltype);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -294,7 +294,7 @@ void ChannelModel::SetCcMax(int controlnumber, int value)
       current_v_.at(controlnumber) = CenterCc(controlnumber);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -312,7 +312,7 @@ void ChannelModel::SetCcMin(int controlnumber, int value)
       current_v_.at(controlnumber) = CenterCc(controlnumber);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -343,7 +343,7 @@ void ChannelModel::ActiveToSaved() const
             settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -364,7 +364,7 @@ void ChannelModel::CcDefaults()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -377,7 +377,7 @@ void ChannelModel::SavedToActive()
          SetCc(set.control_number, set.low, set.high, set.method);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -390,7 +390,7 @@ ChannelModel::ChannelModel()
       CcDefaults();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
