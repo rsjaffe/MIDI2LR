@@ -137,18 +137,16 @@ void LrIpcIn::ProcessLine()
             return;
          auto [command_view, value_view] = SplitLine(line_copy);
          const auto command{std::string(command_view)};
-         if (value_view.empty() && command != "TerminateApplication") {
-            rsj::Log("No value attached to message. Message from plugin was \""
-                     + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
-            /* nothing to act upon */
-            continue;
-         }
-         if (command == "SwitchProfile") {
-            profile_manager_.SwitchToProfile(std::string(value_view));
-         }
-         else if (command == "TerminateApplication") {
+         if (command == "TerminateApplication") {
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
             return;
+         }
+         else if (value_view.empty()) {
+            rsj::Log("No value attached to message. Message from plugin was \""
+                     + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
+         }
+         else if (command == "SwitchProfile") {
+            profile_manager_.SwitchToProfile(std::string(value_view));
          }
          else if (command == "Log") {
             rsj::Log("From plugin: "
@@ -163,7 +161,7 @@ void LrIpcIn::ProcessLine()
                if (!value_view.empty()) {
                   rsj::SendKeyDownUp(
                       std::string(value_view), rsj::ActiveModifiers::FromMidi2LR(modifiers));
-                  /* skip log and alert error */
+                  /* skip logandalert error */
                   continue;
                }
             }

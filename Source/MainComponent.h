@@ -32,10 +32,11 @@ namespace rsj {
    struct MidiMessage;
 }
 
-class MainContentComponent final : public juce::Component,
-                                   juce::AsyncUpdater,
-                                   juce::Timer,
-                                   public ResizableLayout {
+class MainContentComponent final :
+    public juce::Component,
+    juce::AsyncUpdater,
+    juce::Timer,
+    public ResizableLayout {
  public:
    MainContentComponent(const CommandSet& command_set, Profile& profile,
        ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
