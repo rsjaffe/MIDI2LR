@@ -111,7 +111,8 @@
             extraDefs="_WIN32_WINNT=0x0601">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1" useRuntimeLibDLL="0"/>
-        <CONFIGURATION name="Release" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"/>
+        <CONFIGURATION name="Release" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"
+                       useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics"/>
