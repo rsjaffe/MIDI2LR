@@ -393,6 +393,7 @@
     <licenseFileEncoding>utf-8</licenseFileEncoding>
     <osxApplicationBundleIcon>../Builds/MacOSX/Icon.icns</osxApplicationBundleIcon>
     <osxSigningPkcs12File>../osx-signing.p12</osxSigningPkcs12File>
+    <osxSigningPkcs12Password>${env(OSX_SIGNING_PASSWORD)}</osxSigningPkcs12Password>
     <osxUninstallerApplicationBundleIcon>../Builds/MacOSX/Icon.icns</osxUninstallerApplicationBundleIcon>
     <outputDirectory>../..</outputDirectory>
     <productDisplayIcon>../Builds/VisualStudio2019/icon.ico</productDisplayIcon>
