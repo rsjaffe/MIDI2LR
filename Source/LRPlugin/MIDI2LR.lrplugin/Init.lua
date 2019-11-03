@@ -145,6 +145,24 @@ local function LoadedKeys()
   end
 end
 
+local function LoadedShowActions()
+  if ProgramPreferences.RevealAdjustedControls == nil then
+    ProgramPreferences.RevealAdjustedControls = true
+  end
+  if ProgramPreferences.ProfilesShowBezelOnChange == nil then
+    ProgramPreferences.ProfilesShowBezelOnChange = true
+  end
+  if ProgramPreferences.ClientShowBezelOnChange == nil then
+    ProgramPreferences.ClientShowBezelOnChange = true
+  end
+end
+
+local function UseDefaultsShowActions()
+  ProgramPreferences.RevealAdjustedControls = true
+  ProgramPreferences.ProfilesShowBezelOnChange = true
+  ProgramPreferences.ClientShowBezelOnChange = true
+end
+
 local function LoadedAll()
   LoadedActionSeries()
   LoadedFilters()
@@ -155,6 +173,7 @@ local function LoadedAll()
   LoadedPaste()
   LoadedPresets()
   LoadedProfiles()
+  LoadedShowActions()
 end
 
 local function UseDefaultsAll()
@@ -167,6 +186,7 @@ local function UseDefaultsAll()
   UseDefaultsPaste()
   UseDefaultsPresets()
   UseDefaultsProfiles()
+  UseDefaultsShowActions()
 end
 
 return {
@@ -179,6 +199,7 @@ return {
   LoadedPaste         = LoadedPaste,
   LoadedPresets       = LoadedPresets,
   LoadedProfiles      = LoadedProfiles,
+  LoadedShowActions   = LoadedShowActions,
   UseDefaultsActionSeries = UseDefaultsActionSeries,
   UseDefaultsFilters  = UseDefaultsFilters,
   UseDefaultsKeys     = UseDefaultsKeys,
@@ -188,6 +209,7 @@ return {
   UseDefaultsPaste    = UseDefaultsPaste,
   UseDefaultsPresets  = UseDefaultsPresets,
   UseDefaultsProfiles = UseDefaultsProfiles,
+  UseDefaultsShowActions = UseDefaultsShowActions,
   LoadedAll           = LoadedAll,
   UseDefaultsAll      = UseDefaultsAll,
 }
