@@ -24,10 +24,11 @@ Save
 Save profile
 Select Folder
 Settings (The feature in an app that allows users to change its properties or behavior.)
-The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version: 
+The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
 Unable to load %1
 Unable to save %1
 Unable to save file. Choose a different location and try again.
+Unassigned from Dynamics AX7
 Unexpected Data Type:
 unhandled exception (An exception that was identified with a "try catch or finally block" structure or that occurred outside this structure but was not caught by any structured error handler. "Dr. Watson" errors are examples.)
 Version (A designation appended to a product name to identify a particular release.)
@@ -93,6 +94,7 @@ countries: de
 "Unable to load MenuTrans.xml." = "MenuTrans.xml konnte nicht geladen werden."
 "Unable to save file. Choose a different location and try again." = "Datei kann nicht gespeichert werden. Wählen Sie einen anderen Speicherort aus, und versuchen Sie es erneut."
 "Unable to save settings.xml." = "settings.xml konnte nicht gespeichert werden."
+"Unassigned" = "Nicht zugewiesen"
 "Unexpected Data Type: " = "Unerwarteter Datentyp: "
 "unhandled exception" = "Ausnahmefehler"
 "Version " = "Version "
@@ -156,6 +158,7 @@ countries: es
 "Unable to load MenuTrans.xml." = "No se puede cargar MenuTrans.xml."
 "Unable to save file. Choose a different location and try again." = "No se puede guardar el archivo. Elija una ubicación distinta e inténtelo de nuevo."
 "Unable to save settings.xml." = "No se puede guardar settings.xml."
+"Unassigned" = "Sin asignar"
 "Unexpected Data Type: " = "Tipo de datos inesperado: "
 "unhandled exception" = "excepción no controlada"
 "Version " = "Versión "
@@ -186,7 +189,7 @@ countries: fr
 "Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with Lightroom not picking up fast fader/knob movements" = "Désactiver le mode de saisie auto peut être préférable pour les interfaces à écran tactile et peut résoudre des problèmes avec Lightroom qui ne capte pas les mouvements rapides des curseurs / boutons"
 "Do not show again" = "Ne plus afficher"
 "Download new version of MIDI2LR" = "Télécharger une nouvelle version d'MIDI2LR"
-"Enable Pickup Mode" = "Activer le mode de saisie auto" 
+"Enable Pickup Mode" = "Activer le mode de saisie auto"
 "Error" = "Erreur"
 "Exception " = "Exception "
 "Halt sending to Lightroom" = "Arrêter l\'envoi à Lightroom"
@@ -219,6 +222,7 @@ countries: fr
 "Unable to load MenuTrans.xml." = "Impossible de charger MenuTrans.xml."
 "Unable to save file. Choose a different location and try again." = "Impossible d’enregistrer le fichier. Choisissez un autre emplacement et réessayez."
 "Unable to save settings.xml." = "Impossible d'enregistrer settings.xml."
+"Unassigned" = "Non assigné"
 "Unexpected Data Type: " = "Type de données inattendu : "
 "unhandled exception" = "exception non prise en charge"
 "Version " = "Version "
@@ -282,6 +286,7 @@ countries: it
 "Unable to load MenuTrans.xml." = "Impossibile caricare MenuTrans.xml."
 "Unable to save file. Choose a different location and try again." = "Impossibile salvare il file. Scegliere un altro percorso e riprovare."
 "Unable to save settings.xml." = "Impossibile salvare settings.xml."
+"Unassigned" = "Non assegnato"
 "Unexpected Data Type: " = "Tipo di dati imprevisto: "
 "unhandled exception" = "eccezione non gestita"
 "Version " = "Versione "
@@ -345,6 +350,7 @@ countries: ja
 "Unable to load MenuTrans.xml." = "MenuTrans.xml を読み込めません。"
 "Unable to save file. Choose a different location and try again." = "ファイルを保存できません。 別の場所を選択してやり直してください。"
 "Unable to save settings.xml." = "settings.xml を保存できません。"
+"Unassigned" = "未割り当て"
 "Unexpected Data Type: " = "予期しないデータ型が関数に渡されました。"
 "unhandled exception" = "ハンドルされない例外"
 "Version " = "バージョン "
@@ -408,6 +414,7 @@ countries: ko
 "Unable to load MenuTrans.xml." = "MenuTrans.xml을(를) 로드할 수 없습니다."
 "Unable to save file. Choose a different location and try again." = "파일을 저장할 수 없습니다. 다른 위치를 선택하고 다시 시도하십시오."
 "Unable to save settings.xml." = "settings.xml을(를) 저장할 수 없습니다."
+"Unassigned" = "배정되지 않음"
 "Unexpected Data Type: " = "예기치 않은 데이터 형식: "
 "unhandled exception" = "처리되지 않은 예외"
 "Version " = "버전 "
@@ -471,6 +478,7 @@ countries: nl
 "Unable to load MenuTrans.xml." = "Kan MenuTrans.xml niet laden."
 "Unable to save file. Choose a different location and try again." = "Kan het bestand niet opslaan. Kies een andere locatie en probeer het opnieuw."
 "Unable to save settings.xml." = "Kan settings.xml niet opslaan."
+"Unassigned" = "Niet toegewezen"
 "Unexpected Data Type: " = "Fout door onverwacht gegevenstype: "
 "unhandled exception" = "onverwerkte uitzondering"
 "Version " = "Versie "
@@ -498,7 +506,7 @@ countries: pt
 "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other." = "O valor do controle é 1 ou mais quando for girado para um lado, e 127 ou menos quando for girado para o outro lado."
 "Control value is near 1 when turned one way, and near 65 when turned the other." = "O valor do controle é próximo de 1 quando for girado para um lado e próximo de 65 quando for girado para o outro lado."
 "Control value is near 63 when turned one way, and near 65 when turned the other." = "O valor do controle é próximo de 63 quando girado para um lado e próximo de 65 quando for girado para o outro lado."
-"Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with Lightroom not picking up fast fader/knob movements" = "Desativar o modo pickup pode ser melhor para dispositivos touchscreen e pode resolver problemas com o Lightroom não responder à movimentos rápidos de fader/knob" 
+"Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with Lightroom not picking up fast fader/knob movements" = "Desativar o modo pickup pode ser melhor para dispositivos touchscreen e pode resolver problemas com o Lightroom não responder à movimentos rápidos de fader/knob"
 "Do not show again" = "Não mostrar novamente"
 "Download new version of MIDI2LR" = "Baixar a nova versão do MIDI2LR"
 "Enable Pickup Mode" = "Ativar o modo PickUp"
@@ -533,6 +541,7 @@ countries: pt
 "Unable to load MenuTrans.xml." = "Não é possível carregar MenuTrans.xml."
 "Unable to save file. Choose a different location and try again." = "Não é possível salvar o arquivo. Escolha um local diferente e tente novamente."
 "Unable to save settings.xml." = "Impossível salvar settings.xml."
+"Unassigned" = "Não Atribuído"
 "Unexpected Data Type: " = "Tipo de Dado Inesperado: "
 "unhandled exception" = "exceção sem tratamento"
 "Version " = "Versão "
@@ -596,6 +605,7 @@ countries: sv
 "Unable to load MenuTrans.xml." = "Det gick inte att läsa in MenuTrans.xml."
 "Unable to save file. Choose a different location and try again." = "Det gick inte att spara filen. Välj en annan plats och försök igen."
 "Unable to save settings.xml." = "Det gick inte att spara settings.xml."
+"Unassigned" = "Ej tilldelat"
 "Unexpected Data Type: " = "Oväntad datatyp: "
 "unhandled exception" = "ohanterat undantag"
 "Version " = "Version "
@@ -659,6 +669,7 @@ countries: zh-cn
 "Unable to load MenuTrans.xml." = "无法加载 MenuTrans.xml。"
 "Unable to save file. Choose a different location and try again." = "无法保存文件。 选择其他位置，然后重试。"
 "Unable to save settings.xml." = "无法保存 settings.xml。"
+"Unassigned" = "未分配"
 "Unexpected Data Type: " = "意外的数据类型: "
 "unhandled exception" = "未经处理的异常"
 "Version " = "版本 "
@@ -722,6 +733,7 @@ countries: zh-tw
 "Unable to load MenuTrans.xml." = "無法載入 MenuTrans.xml。"
 "Unable to save file. Choose a different location and try again." = "無法儲存檔案。 請選擇其他位置，然後再試一次。"
 "Unable to save settings.xml." = "無法儲存 settings.xml。"
+"Unassigned" = "未指派"
 "Unexpected Data Type: " = "未預期的資料類型: "
 "unhandled exception" = "未處理的例外狀況"
 "Version " = 版本 "

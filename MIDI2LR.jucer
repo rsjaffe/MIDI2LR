@@ -9,6 +9,10 @@
               headerPath="../../&#10;../../asio/">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <FILE id="Dx8BIb" name="TextButtonAligned.cpp" compile="1" resource="0"
+            file="Source/TextButtonAligned.cpp"/>
+      <FILE id="SupFD5" name="TextButtonAligned.h" compile="0" resource="0"
+            file="Source/TextButtonAligned.h"/>
       <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="Source/CCoptions.cpp"/>
       <FILE id="gmEPgP" name="CCoptions.h" compile="0" resource="0" file="Source/CCoptions.h"/>
       <FILE id="oXdqCC" name="CommandMenu.cpp" compile="1" resource="0" file="Source/CommandMenu.cpp"/>

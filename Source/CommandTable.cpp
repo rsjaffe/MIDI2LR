@@ -30,7 +30,7 @@ try : juce
       setHeader(head.release());
       getHeader().addColumn(juce::translate("MIDI Command"), 1, 150, 30, -1,
           juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable);
-      getHeader().addColumn(juce::translate("LR Command"), 2, 150, 30, -1,
+      getHeader().addColumn(juce::translate("LR Command"), 2, 350, 30, -1,
           juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable
               | juce::TableHeaderComponent::sortedForwards);
    }

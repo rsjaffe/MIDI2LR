@@ -22,9 +22,10 @@
 #include <JuceLibraryCode/JuceHeader.h>
 #include "CommandSet.h"
 #include "MidiUtilities.h"
+#include "TextButtonAligned.h"
 class Profile;
 
-class CommandMenu final : public juce::TextButton {
+class CommandMenu final : public TextButtonAligned {
  public:
    CommandMenu(rsj::MidiMessageId message, const CommandSet& command_set, Profile& profile);
 
@@ -37,7 +38,7 @@ class CommandMenu final : public juce::TextButton {
    {
       selected_item_ = index;
       if (index - 1 < command_set_.CommandAbbrevSize())
-         setButtonText(command_set_.CommandAbbrevAt(index - 1));
+         setButtonText(command_set_.CommandLabelAt(index - 1));
    }
 
  private:

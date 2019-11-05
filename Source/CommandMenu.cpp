@@ -26,9 +26,12 @@
 
 CommandMenu::CommandMenu(
     rsj::MidiMessageId message, const CommandSet& command_set, Profile& profile)
-try : juce
-   ::TextButton{"Unmapped"}, command_set_(command_set), profile_(profile), message_{message} {}
-catch (const std::exception& e) {
+try : TextButtonAligned {
+   CommandSet::UnassignedTranslated()
+}
+, command_set_(command_set), profile_(profile), message_{message} {}
+catch (const std::exception& e)
+{
    rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
    throw;
 }
@@ -61,7 +64,8 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
       else {
          size_t index{1};
          juce::PopupMenu main_menu;
-         main_menu.addItem(gsl::narrow_cast<int>(index), "Unmapped", true, index == selected_item_);
+         main_menu.addItem(
+             gsl::narrow_cast<int>(index), CommandSet::UnassignedTranslated(), true, index == selected_item_);
          index++;
          size_t submenu_number{0}; /* to track name for submenu */
          /* add each submenu */

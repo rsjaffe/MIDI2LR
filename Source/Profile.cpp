@@ -43,8 +43,8 @@ void Profile::AddRowMapped(const std::string& command, rsj::MidiMessageId messag
       auto guard = std::unique_lock{mutex_};
       if (!MessageExistsInMapI(message)) {
          if (!command_set_.CommandTextIndex(command)) {
-            message_map_[message] = "Unmapped";
-            command_string_map_.emplace("Unmapped", message);
+            message_map_[message] = CommandSet::kUnassigned;
+            command_string_map_.emplace(CommandSet::kUnassigned, message);
          }
          else {
             message_map_[message] = command;

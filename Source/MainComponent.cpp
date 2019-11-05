@@ -32,7 +32,7 @@
 #include "SettingsManager.h"
 
 namespace {
-   constexpr int kMainWidth = 400;
+   constexpr int kMainWidth = 560; /* equals CommandTable columns total width plus 60 */
    constexpr int kMainHeight = 650;
    constexpr int kMainLeft = 20;
    constexpr int kSpaceBetweenButton = 10;
@@ -46,14 +46,12 @@ namespace {
    constexpr int kFirstButtonX = kMainLeft;
    constexpr int kSecondButtonX = kMainLeft + kButtonXIncrement;
    constexpr int kThirdButtonX = kMainLeft + kButtonXIncrement * 2;
-   constexpr int kCommandTableHeight = kMainHeight - 210;
+   constexpr int kCommandTableHeight = kMainHeight - 160;
    constexpr int kLabelWidth = kFullWidth / 2;
-   constexpr int kProfileNameY = kMainHeight - 100;
+   constexpr int kProfileNameY = kMainHeight - 50;
    constexpr int kCommandLabelX = kMainLeft + kLabelWidth;
-   constexpr int kCommandLabelY = kMainHeight - 100;
-   constexpr int kRemoveRowY = kMainHeight - 75;
-   constexpr int kRescanY = kMainHeight - 50;
-   constexpr int kDisconnect = kMainHeight - 25;
+   constexpr int kCommandLabelY = kProfileNameY;
+   constexpr int kBottomButtonY = kMainHeight - 25;
    constexpr auto kDefaultsFile{"default.xml"};
 } // namespace
 
@@ -172,6 +170,7 @@ void MainContentComponent::Init()
 
       /* Profile name label */
       StandardLabelSettings(profile_name_label_);
+      profile_name_label_.setColour(juce::Label::textColourId, juce::Colours::black);
       profile_name_label_.setBounds(kMainLeft, kProfileNameY, kLabelWidth, kStandardHeight);
       profile_name_label_.setJustificationType(juce::Justification::centred);
       addToLayout(&profile_name_label_, anchorMidLeft, anchorMidRight);
@@ -184,7 +183,7 @@ void MainContentComponent::Init()
       addAndMakeVisible(command_label_);
 
       /* Remove row button */
-      remove_row_button_.setBounds(kMainLeft, kRemoveRowY, kFullWidth, kStandardHeight);
+      remove_row_button_.setBounds(kFirstButtonX, kBottomButtonY, kButtonWidth, kStandardHeight);
       addToLayout(&remove_row_button_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(remove_row_button_);
       remove_row_button_.onClick = [this] {
@@ -195,7 +194,7 @@ void MainContentComponent::Init()
       };
 
       /* Rescan MIDI button */
-      rescan_button_.setBounds(kMainLeft, kRescanY, kFullWidth, kStandardHeight);
+      rescan_button_.setBounds(kSecondButtonX, kBottomButtonY, kButtonWidth, kStandardHeight);
       addToLayout(&rescan_button_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(rescan_button_);
       rescan_button_.onClick = [this] {
@@ -207,7 +206,7 @@ void MainContentComponent::Init()
       };
 
       /* Disconnect button */
-      disconnect_button_.setBounds(kMainLeft, kDisconnect, kFullWidth, kStandardHeight);
+      disconnect_button_.setBounds(kThirdButtonX, kBottomButtonY, kButtonWidth, kStandardHeight);
       disconnect_button_.setClickingTogglesState(true);
       addToLayout(&disconnect_button_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(disconnect_button_);

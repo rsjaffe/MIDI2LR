@@ -49,6 +49,10 @@
 			isa = PBXBuildFile;
 			fileRef = 78C490E72B571C45E9BF65BE;
 		};
+		E84B9F94B2BDF252A535BB01 = {
+			isa = PBXBuildFile;
+			fileRef = BC2DEB32C59CF4720281C133;
+		};
 		BFAB1A9B97A0C128DF41C02A = {
 			isa = PBXBuildFile;
 			fileRef = 0ED56980FCA5D40E4BCC5C8A;
@@ -672,6 +676,13 @@
 			path = "../../JuceLibraryCode/include_juce_graphics.mm";
 			sourceTree = "SOURCE_ROOT";
 		};
+		BC2DEB32C59CF4720281C133 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = TextButtonAligned.cpp;
+			path = ../../Source/TextButtonAligned.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		BE31D3D8A955551154220107 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -798,9 +809,18 @@
 			path = ../../Source/MidiUtilities.h;
 			sourceTree = "SOURCE_ROOT";
 		};
+		F675B2D85B415E2C87CEF455 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = TextButtonAligned.h;
+			path = ../../Source/TextButtonAligned.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		55BA6062DF892191C9E9B3BE = {
 			isa = PBXGroup;
 			children = (
+				BC2DEB32C59CF4720281C133,
+				F675B2D85B415E2C87CEF455,
 				0ED56980FCA5D40E4BCC5C8A,
 				63E78BF979E4A935FEA74E26,
 				C58E726D80235E018C2E6235,
@@ -1180,6 +1200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E84B9F94B2BDF252A535BB01,
 				BFAB1A9B97A0C128DF41C02A,
 				FD5777A03748CDE3465E71D3,
 				6A3DFFA80DF0E07C64B4871F,

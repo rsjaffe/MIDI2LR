@@ -139,6 +139,7 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\TextButtonAligned.cpp"/>
     <ClCompile Include="..\..\Source\CCoptions.cpp"/>
     <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
     <ClCompile Include="..\..\Source\CommandSet.cpp"/>
@@ -1432,6 +1433,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_basics.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\TextButtonAligned.h"/>
     <ClInclude Include="..\..\Source\CCoptions.h"/>
     <ClInclude Include="..\..\Source\CommandMenu.h"/>
     <ClInclude Include="..\..\Source\CommandSet.h"/>

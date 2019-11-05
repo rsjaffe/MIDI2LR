@@ -40,6 +40,11 @@ class CommandSet {
       return cmd_by_number_.size();
    }
 
+   [[nodiscard]] auto CommandLabelAt(size_t index) const
+   {
+      return cmd_label_by_number_.at(index);
+   }
+
    [[nodiscard]] const auto& GetLanguage() const noexcept
    {
       return m_impl_.language_;
@@ -54,6 +59,14 @@ class CommandSet {
    {
       return menu_entries_;
    }
+
+   [[nodiscard]] static const auto& UnassignedTranslated()
+   {
+      static const auto unassigned{juce::translate("Unassigned").toStdString()};
+      return unassigned;
+   }
+
+   inline static const std::string kUnassigned{"Unassigned"};
 
  private:
    class Impl {
@@ -93,6 +106,7 @@ class CommandSet {
    std::unordered_map<std::string, size_t> cmd_idx_{}; /* for CommandTextIndex */
    std::vector<MenuStringT> menus_{};                  /* use for commandmenu */
    std::vector<std::string> cmd_by_number_{}; /* use for command_set_.CommandAbbrevAt, .size */
+   std::vector<std::string> cmd_label_by_number_{};
    std::vector<std::vector<MenuStringT>> menu_entries_{}; /* use for commandmenu */
 };
 #pragma warning(push)
