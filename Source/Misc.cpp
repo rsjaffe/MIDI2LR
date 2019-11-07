@@ -32,6 +32,9 @@
 #endif
 
 /* XCode has issues with std:: in this file, using ::std:: to fix when necessary */
+
+/*****************************************************************************/
+/**************String Routines************************************************/
 namespace {
    ::std::array ascii_map{"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a",
        "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12",
@@ -111,6 +114,8 @@ bool rsj::EndsWith(::std::string_view main_str, ::std::string_view to_match)
    }
 }
 
+/*****************************************************************************/
+/**************Error Logging**************************************************/
 /* from http://www.cplusplus.com/forum/beginner/175177 and
  * https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/libsupc%2B%2B/cxxabi.h#L156 */
 
@@ -213,6 +218,8 @@ void rsj::ExceptionResponse(
 #endif
 #pragma warning(pop)
 
+/*****************************************************************************/
+/*************File Paths******************************************************/
 #ifdef _WIN32
 std::wstring rsj::AppDataFilePath(std::wstring_view file_name)
 {

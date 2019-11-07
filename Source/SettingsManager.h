@@ -45,6 +45,7 @@ class SettingsManager final {
    {
       return properties_file_->getValue("profile_directory");
    }
+   // ReSharper disable CppMemberFunctionMayBeConst
    void SetAutoHideTime(int new_time)
    {
       properties_file_->setValue("autohide", new_time);
@@ -63,7 +64,7 @@ class SettingsManager final {
       properties_file_->setValue("profile_directory", profile_directory);
       profile_manager_.SetProfileDirectory(profile_directory);
    }
-
+   // ReSharper restore CppMemberFunctionMayBeConst
  private:
    void ConnectionCallback(bool, bool);
 

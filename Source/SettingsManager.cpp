@@ -34,7 +34,6 @@ SettingsManager::SettingsManager(ProfileManager& profile_manager, LrIpcOut& lr_i
       properties_file_ = std::make_unique<juce::PropertiesFile>(file_options);
       /* add a listener to LR_IPC_OUT so that we can send plugin settings on connection */
       lr_ipc_out_.AddCallback(this, &SettingsManager::ConnectionCallback);
-      /* set the profile directory */
       profile_manager_.SetProfileDirectory(GetProfileDirectory());
    }
    catch (const std::exception& e) {

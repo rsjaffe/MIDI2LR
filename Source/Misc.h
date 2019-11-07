@@ -72,8 +72,17 @@ constexpr auto OSX{true};
 #endif
 
 namespace rsj {
+   /*****************************************************************************/
+   /**************String Routines************************************************/
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
+   [[nodiscard]] std::string ToLower(std::string_view in);
+   void Trim(std::string_view& value) noexcept;
+   void Trim(std::string_view&& value) = delete;
+   void TrimL(std::string_view& value) noexcept;
+   void TrimL(std::string_view&& value) = delete;
+   /*****************************************************************************/
+   /**************Error Logging**************************************************/
    /* typical call: rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e); */
    void ExceptionResponse(gsl::czstring<> id, gsl::czstring<> fu, const std::exception& e) noexcept;
    /* char* overloads here are to allow catch clauses to avoid a juce::String conversion at the
@@ -84,11 +93,8 @@ namespace rsj {
    void LogAndAlertError(gsl::czstring<> error_text) noexcept;
    void Log(const juce::String& info) noexcept;
    void Log(gsl::czstring<> info) noexcept;
-   [[nodiscard]] std::string ToLower(std::string_view in);
-   void Trim(std::string_view& value) noexcept;
-   void Trim(std::string_view&& value) = delete;
-   void TrimL(std::string_view& value) noexcept;
-   void TrimL(std::string_view&& value) = delete;
+   /*****************************************************************************/
+   /*************File Paths******************************************************/
 #ifdef _WIN32
    [[nodiscard]] std::wstring AppDataFilePath(std::wstring_view file_name);
    [[nodiscard]] std::wstring AppDataFilePath(std::string_view file_name);
@@ -106,7 +112,8 @@ namespace rsj {
    [[nodiscard]] std::string AppDataFilePath(const std::string& file_name);
    [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);
 #endif // def _WIN32
-
+   /*****************************************************************************/
+   /**************Reversed Iterator**********************************************/
    /* Reversed iterable SEE:https://stackoverflow.com/a/42221253/5699329 */
    template<class T> struct ReverseWrapper {
       T o;
@@ -141,7 +148,8 @@ namespace rsj {
    {
       return ReverseWrapper<T>{std::forward<T>(ob)};
    }
-
+   /*****************************************************************************/
+   /*******************Sleep Timed and Logged************************************/
 #pragma warning(push)
 #pragma warning(disable : 4127) /* constant conditional expression */
    /* zepto yocto zetta and yotta too large/small to be represented by intmax_t TODO: change to
@@ -217,6 +225,7 @@ namespace rsj {
       rsj::Log(juce::String(msg_prefix.data(), msg_prefix.size()) + " thread slept for "
                + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
    }
+   /*****************************************************************************/
 } // namespace rsj
 
 #endif // MISC_H_INCLUDED

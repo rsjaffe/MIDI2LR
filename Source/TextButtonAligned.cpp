@@ -19,6 +19,7 @@
 void TextButtonAligned::paintButton(
     juce::Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
 {
+   /* from TextButton.cpp: only change is second call from lf:: to TextButtonAligned:: */
    juce::Component::getLookAndFeel().drawButtonBackground(g, *this,
        juce::Component::findColour(juce::Button::getToggleState()
                                        ? juce::TextButton::ColourIds::buttonOnColourId
@@ -32,7 +33,8 @@ void TextButtonAligned::drawButtonText(juce::Graphics& g, juce::TextButton& butt
     [[maybe_unused]] bool shouldDrawButtonAsHighlighted,
     [[maybe_unused]] bool shouldDrawButtonAsDown)
 {
-   /* based on drawButtonText in LookAndFeel_V2 */
+   /* Based on drawButtonText in LookAndFeel_V2 (V3 doesn't override V2 for this call). Only change
+    * is alignment on last line. */
    juce::Font font(juce::Component::getLookAndFeel().getTextButtonFont(button, button.getHeight()));
    g.setFont(font);
    g.setColour(button
