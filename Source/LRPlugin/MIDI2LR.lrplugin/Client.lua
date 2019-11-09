@@ -665,6 +665,18 @@ LrTasks.startAsyncTask(
           return function(observer) -- closure
             if not sendIsConnected then return end -- can't send
             if Limits.LimitsCanBeSet() and lastrefresh < os.clock() then
+              -- refresh crop values
+              local val = LrDevelopController.getValue("CropBottom")
+              MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val))
+              MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val))
+              MIDI2LR.SERVER:send(string.format('CropAll %g\n', val))
+              MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val))
+              val = LrDevelopController.getValue("CropTop")
+              MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val))
+              MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val))
+              MIDI2LR.SERVER:send(string.format('CropTop %g\n', val))
+              MIDI2LR.SERVER:send(string.format('CropLeft %g\n', LrDevelopController.getValue("CropLeft")))
+              MIDI2LR.SERVER:send(string.format('CropRight %g\n', LrDevelopController.getValue("CropRight")))
               for param in pairs(Database.Parameters) do
                 local lrvalue = LrDevelopController.getValue(param)
                 if observer[param] ~= lrvalue and type(lrvalue) == 'number' then --testing for MIDI2LR.SERVER.send kills responsiveness
@@ -699,6 +711,54 @@ LrTasks.startAsyncTask(
           }
         end
 
+        local function RatioCrop(param, value)
+          local prior_c_bottom = LrDevelopController.getValue("CropBottom") --starts at 1
+          local prior_c_top = LrDevelopController.getValue("CropTop") -- starts at 0
+          local prior_c_left = LrDevelopController.getValue("CropLeft") -- starts at 0
+          local prior_c_right = LrDevelopController.getValue("CropRight") -- starts at 1
+          local ratio = (prior_c_right - prior_c_left) / (prior_c_bottom - prior_c_top)
+          if param == "CropTopLeft" then
+            local new_top = tonumber(value)
+            local new_left = prior_c_right - ratio * (prior_c_bottom - new_top)
+            if new_left >= 0 then
+              guardsetting:performWithGuard(UpdateParam,"CropTop",new_top)
+              guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
+            end
+          elseif param == "CropTopRight" then
+            local new_top = tonumber(value)
+            local new_right = prior_c_left + ratio * (prior_c_bottom - new_top)
+            if new_right <= 1 then
+              guardsetting:performWithGuard(UpdateParam,"CropTop",new_top)
+              guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
+            end
+          elseif param == "CropBottomLeft" then
+            local new_bottom = tonumber(value)
+            local new_left = prior_c_right - ratio * (new_bottom - prior_c_top)
+            if new_left >= 0 then
+              guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom)
+              guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
+            end
+          elseif param == "CropBottomRight" then
+            local new_bottom = tonumber(value)
+            local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
+            if new_right <= 1 then
+              guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom)
+              guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
+            end
+          elseif param == "CropAll" then
+            local new_bottom = tonumber(value)
+            local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
+            local new_top = prior_c_bottom - new_bottom + prior_c_top
+            local new_left = prior_c_right - new_right + prior_c_left
+            if new_right <= 1 and new_top >= 0 and new_left >= 0 then
+              guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom)
+              guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
+              guardsetting:performWithGuard(UpdateParam,"CropTop",new_top,true)
+              guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
+            end
+          end
+        end
+
         MIDI2LR.CLIENT = LrSocket.bind {
           functionContext = context,
           plugin = _PLUGIN,
@@ -722,6 +782,8 @@ LrTasks.startAsyncTask(
                 if lp then
                   LastParam = lp
                 end
+              elseif(param:find('Crop') == 1) then 
+                RatioCrop(param,value)
               elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
                 if(tonumber(value) > BUTTON_ON) then
                   local resetparam = param:sub(6)
