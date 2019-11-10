@@ -465,7 +465,7 @@ LrTasks.startAsyncTask(
       local nocar = function() LrDialogs.message('Quick develop crop aspect ratio'..endmsg) end
       local nowb = function() LrDialogs.message('Quick develop white balance'..endmsg) end
       ACTIONS.AddOrRemoveFromTargetColl    =  function() LrDialogs.message('Add or remove from target collection'..endmsg)  end     
-      ACTIONS.AutoTone                     = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end
+      ACTIONS.AutoTone                     = function() CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); LrDevelopController.revealPanel('adjustPanel'); end
       ACTIONS.CycleLoupeViewInfo           = function() LrDialogs.message('Cycle loupe view style'..endmsg) end
       ACTIONS.EditPhotoshop                = function() LrDialogs.message('Edit in Photoshop action'..endmsg) end
       ACTIONS.EnableToneCurve              = function() LrDialogs.message('Enable Tone Curve action'..endmsg) end
@@ -504,7 +504,7 @@ LrTasks.startAsyncTask(
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
     else
       ACTIONS.AddOrRemoveFromTargetColl    = CU.wrapForEachPhoto('addOrRemoveFromTargetCollection')
-      ACTIONS.AutoTone                     = LrDevelopController.setAutoTone
+      ACTIONS.AutoTone                     = function() LrDevelopController.setAutoTone(); LrDevelopController.revealPanel('adjustPanel'); end
       ACTIONS.CycleLoupeViewInfo           = LrApplicationView.cycleLoupeViewInfo
       ACTIONS.EditPhotoshop                = LrDevelopController.editInPhotoshop
       ACTIONS.EnableToneCurve              = CU.fToggleTFasync('EnableToneCurve')
