@@ -712,6 +712,11 @@ LrTasks.startAsyncTask(
         end
 
         local function RatioCrop(param, value)
+          if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+          if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+            LrApplicationView.switchToModule('develop')
+          end
+          LrDevelopController.selectTool('crop')
           local prior_c_bottom = LrDevelopController.getValue("CropBottom") --starts at 1
           local prior_c_top = LrDevelopController.getValue("CropTop") -- starts at 0
           local prior_c_left = LrDevelopController.getValue("CropLeft") -- starts at 0
@@ -723,6 +728,9 @@ LrTasks.startAsyncTask(
             if new_left >= 0 then
               guardsetting:performWithGuard(UpdateParam,"CropTop",new_top)
               guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
+            else
+              guardsetting:performWithGuard(UpdateParam,"CropTop",prior_c_bottom - prior_c_right / ratio)
+              guardsetting:performWithGuard(UpdateParam,"CropLeft",0,true)
             end
           elseif param == "CropTopRight" then
             local new_top = tonumber(value)
@@ -730,6 +738,9 @@ LrTasks.startAsyncTask(
             if new_right <= 1 then
               guardsetting:performWithGuard(UpdateParam,"CropTop",new_top)
               guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
+            else
+              guardsetting:performWithGuard(UpdateParam,"CropTop",prior_c_bottom - (1 - prior_c_left) / ratio)
+              guardsetting:performWithGuard(UpdateParam,"CropRight",1,true)
             end
           elseif param == "CropBottomLeft" then
             local new_bottom = tonumber(value)
@@ -737,6 +748,9 @@ LrTasks.startAsyncTask(
             if new_left >= 0 then
               guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom)
               guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
+            else
+              guardsetting:performWithGuard(UpdateParam,"CropBottom",prior_c_right / ratio + prior_c_top)
+              guardsetting:performWithGuard(UpdateParam,"CropLeft",0,true)
             end
           elseif param == "CropBottomRight" then
             local new_bottom = tonumber(value)
@@ -744,18 +758,26 @@ LrTasks.startAsyncTask(
             if new_right <= 1 then
               guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom)
               guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
+            else
+              guardsetting:performWithGuard(UpdateParam,"CropBottom",(1 - prior_c_left) / ratio + prior_c_top)
+              guardsetting:performWithGuard(UpdateParam,"CropRight",1,true)
             end
           elseif param == "CropAll" then
             local new_bottom = tonumber(value)
             local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
-            local new_top = prior_c_bottom - new_bottom + prior_c_top
-            local new_left = prior_c_right - new_right + prior_c_left
-            if new_right <= 1 and new_top >= 0 and new_left >= 0 then
-              guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom)
-              guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
-              guardsetting:performWithGuard(UpdateParam,"CropTop",new_top,true)
-              guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
+            if new_right > 1 then
+              new_right = 1
             end
+            local new_top = math.max(prior_c_bottom - new_bottom + prior_c_top,0)
+            local new_left = new_right - ratio * (new_bottom - new_top)
+            if new_left < 0 then
+              new_top = new_bottom - new_right / ratio
+              new_left = 0
+            end
+            guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom)
+            guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
+            guardsetting:performWithGuard(UpdateParam,"CropTop",new_top,true)
+            guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
           end
         end
 
