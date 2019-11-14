@@ -44,6 +44,18 @@ local function doprofilechange(newprofile)
   resyncDeferred = true
   if Limits.LimitsCanBeSet() then
     -- refresh MIDI controller since mapping has changed
+    -- refresh crop values
+    local val = LrDevelopController.getValue("CropBottom")
+    MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val))
+    MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val))
+    MIDI2LR.SERVER:send(string.format('CropAll %g\n', val))
+    MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val))
+    val = LrDevelopController.getValue("CropTop")
+    MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val))
+    MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val))
+    MIDI2LR.SERVER:send(string.format('CropTop %g\n', val))
+    MIDI2LR.SERVER:send(string.format('CropLeft %g\n', LrDevelopController.getValue("CropLeft")))
+    MIDI2LR.SERVER:send(string.format('CropRight %g\n', LrDevelopController.getValue("CropRight")))
     for param in pairs(Database.Parameters) do
       local min,max = Limits.GetMinMax(param)
       local lrvalue = LrDevelopController.getValue(param)

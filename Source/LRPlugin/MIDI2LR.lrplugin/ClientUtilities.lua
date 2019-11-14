@@ -162,7 +162,7 @@ local function QuickCropAspect(aspect)
   if TargetPhoto then
     TargetPhoto:quickDevelopCropAspect(aspect)
     if LrApplicationView.getCurrentModuleName() == 'develop' then
-      LrDevelopController.revealPanel('crop')
+      LrDevelopController.selectTool('crop')
     end
   end
 end

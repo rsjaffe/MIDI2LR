@@ -579,6 +579,7 @@ LrTasks.startAsyncTask(
       end,
     }
 
+
     --called within LrRecursionGuard for setting
     function UpdateParamPickup() --closure
       local paramlastmoved = {}
@@ -602,6 +603,8 @@ LrTasks.startAsyncTask(
             LastParam = param
             if ProgramPreferences.ClientShowBezelOnChange and not silent then
               CU.showBezel(param,value)
+            elseif type(silent) == 'string' then
+              LrDialogs.showBezel(silent)
             end
           end
           if Database.CmdPanel[param] then
@@ -638,6 +641,8 @@ LrTasks.startAsyncTask(
         LastParam = param
         if ProgramPreferences.ClientShowBezelOnChange and not silent then
           CU.showBezel(param,value)
+        elseif type(silent) == 'string' then
+          LrDialogs.showBezel(silent)
         end
       end
       if Database.CmdPanel[param] then
@@ -711,6 +716,9 @@ LrTasks.startAsyncTask(
           }
         end
 
+        local cropbezel = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop') .. ' ' -- no need to recompute each time we crop
+        local LrStringUtils       = import 'LrStringUtils'
+
         local function RatioCrop(param, value)
           if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
           if LrApplicationView.getCurrentModuleName() ~= 'develop' then
@@ -725,43 +733,43 @@ LrTasks.startAsyncTask(
           if param == "CropTopLeft" then
             local new_top = tonumber(value)
             local new_left = prior_c_right - ratio * (prior_c_bottom - new_top)
-            if new_left >= 0 then
-              guardsetting:performWithGuard(UpdateParam,"CropTop",new_top)
-              guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
-            else
-              guardsetting:performWithGuard(UpdateParam,"CropTop",prior_c_bottom - prior_c_right / ratio)
-              guardsetting:performWithGuard(UpdateParam,"CropLeft",0,true)
+            if new_left < 0 then
+              new_top = prior_c_bottom - prior_c_right / ratio
+              new_left = 0
             end
+            guardsetting:performWithGuard(UpdateParam,"CropTop",new_top, 
+              cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(prior_c_bottom-new_top)*100,0)..'%')
+            guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
           elseif param == "CropTopRight" then
             local new_top = tonumber(value)
             local new_right = prior_c_left + ratio * (prior_c_bottom - new_top)
-            if new_right <= 1 then
-              guardsetting:performWithGuard(UpdateParam,"CropTop",new_top)
-              guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
-            else
-              guardsetting:performWithGuard(UpdateParam,"CropTop",prior_c_bottom - (1 - prior_c_left) / ratio)
-              guardsetting:performWithGuard(UpdateParam,"CropRight",1,true)
+            if new_right > 1 then
+              new_top = prior_c_bottom - (1 - prior_c_left) / ratio
+              new_right = 1
             end
+            guardsetting:performWithGuard(UpdateParam,"CropTop",new_top,              
+              cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(prior_c_bottom-new_top)*100,0)..'%')
+            guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
           elseif param == "CropBottomLeft" then
             local new_bottom = tonumber(value)
             local new_left = prior_c_right - ratio * (new_bottom - prior_c_top)
-            if new_left >= 0 then
-              guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom)
-              guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
-            else
-              guardsetting:performWithGuard(UpdateParam,"CropBottom",prior_c_right / ratio + prior_c_top)
-              guardsetting:performWithGuard(UpdateParam,"CropLeft",0,true)
+            if new_left < 0 then
+              new_bottom = prior_c_right / ratio + prior_c_top
+              new_left = 0
             end
+            guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom,              
+              cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(new_bottom-prior_c_top)*100,0)..'%')
+            guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
           elseif param == "CropBottomRight" then
             local new_bottom = tonumber(value)
             local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
-            if new_right <= 1 then
-              guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom)
-              guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
-            else
-              guardsetting:performWithGuard(UpdateParam,"CropBottom",(1 - prior_c_left) / ratio + prior_c_top)
-              guardsetting:performWithGuard(UpdateParam,"CropRight",1,true)
+            if new_right > 1 then
+              new_bottom = (1 - prior_c_left) / ratio + prior_c_top
+              new_right = 1
             end
+            guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom,              
+              cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(new_bottom-prior_c_top)*100,0)..'%')
+            guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
           elseif param == "CropAll" then
             local new_bottom = tonumber(value)
             local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
@@ -774,7 +782,8 @@ LrTasks.startAsyncTask(
               new_top = new_bottom - new_right / ratio
               new_left = 0
             end
-            guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom)
+            guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom,              
+              cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-new_left)*(new_bottom-new_top)*100,0)..'%')
             guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
             guardsetting:performWithGuard(UpdateParam,"CropTop",new_top,true)
             guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
