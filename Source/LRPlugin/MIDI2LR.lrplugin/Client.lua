@@ -580,7 +580,6 @@ LrTasks.startAsyncTask(
     }
 
 
-    --called within LrRecursionGuard for setting
     function UpdateParamPickup() --closure
       local paramlastmoved = {}
       local lastfullrefresh = 0
@@ -658,11 +657,8 @@ LrTasks.startAsyncTask(
         --[[-----------debug section, enable by adding - to beginning this line
         LrMobdebug.on()
         --]]-----------end debug section
-        local LrRecursionGuard    = import 'LrRecursionGuard'
         local LrShell             = import 'LrShell'
         local LrSocket            = import 'LrSocket'
-        local guardreading = LrRecursionGuard('reading')
-        local guardsetting = LrRecursionGuard('setting')
         local CurrentObserver
         --call following within guard for reading
         local function AdjustmentChangeObserver()
@@ -737,9 +733,9 @@ LrTasks.startAsyncTask(
               new_top = prior_c_bottom - prior_c_right / ratio
               new_left = 0
             end
-            guardsetting:performWithGuard(UpdateParam,"CropTop",new_top, 
+            UpdateParam("CropTop",new_top, 
               cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(prior_c_bottom-new_top)*100,0)..'%')
-            guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
+            UpdateParam("CropLeft",new_left,true)
           elseif param == "CropTopRight" then
             local new_top = tonumber(value)
             local new_right = prior_c_left + ratio * (prior_c_bottom - new_top)
@@ -747,9 +743,9 @@ LrTasks.startAsyncTask(
               new_top = prior_c_bottom - (1 - prior_c_left) / ratio
               new_right = 1
             end
-            guardsetting:performWithGuard(UpdateParam,"CropTop",new_top,              
+            UpdateParam("CropTop",new_top,              
               cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(prior_c_bottom-new_top)*100,0)..'%')
-            guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
+            UpdateParam("CropRight",new_right,true)
           elseif param == "CropBottomLeft" then
             local new_bottom = tonumber(value)
             local new_left = prior_c_right - ratio * (new_bottom - prior_c_top)
@@ -757,9 +753,9 @@ LrTasks.startAsyncTask(
               new_bottom = prior_c_right / ratio + prior_c_top
               new_left = 0
             end
-            guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom,              
+            UpdateParam("CropBottom",new_bottom,              
               cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(new_bottom-prior_c_top)*100,0)..'%')
-            guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
+            UpdateParam("CropLeft",new_left,true)
           elseif param == "CropBottomRight" then
             local new_bottom = tonumber(value)
             local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
@@ -767,9 +763,9 @@ LrTasks.startAsyncTask(
               new_bottom = (1 - prior_c_left) / ratio + prior_c_top
               new_right = 1
             end
-            guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom,              
+            UpdateParam("CropBottom",new_bottom,              
               cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(new_bottom-prior_c_top)*100,0)..'%')
-            guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
+            UpdateParam("CropRight",new_right,true)
           elseif param == "CropAll" then
             local new_bottom = tonumber(value)
             local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
@@ -782,11 +778,11 @@ LrTasks.startAsyncTask(
               new_top = new_bottom - new_right / ratio
               new_left = 0
             end
-            guardsetting:performWithGuard(UpdateParam,"CropBottom",new_bottom,              
+            UpdateParam("CropBottom",new_bottom,              
               cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-new_left)*(new_bottom-new_top)*100,0)..'%')
-            guardsetting:performWithGuard(UpdateParam,"CropRight",new_right,true)
-            guardsetting:performWithGuard(UpdateParam,"CropTop",new_top,true)
-            guardsetting:performWithGuard(UpdateParam,"CropLeft",new_left,true)
+            UpdateParam("CropRight",new_right,true)
+            UpdateParam("CropTop",new_top,true)
+            UpdateParam("CropLeft",new_left,true)
           end
         end
 
@@ -801,7 +797,7 @@ LrTasks.startAsyncTask(
               local param = message:sub(1,split-1)
               local value = message:sub(split+1)
               if Database.Parameters[param] then
-                guardsetting:performWithGuard(UpdateParam,param,tonumber(value))
+                UpdateParam(param,tonumber(value))
               elseif(ACTIONS[param]) then -- perform a one time action
                 if(tonumber(value) > BUTTON_ON) then
                   ACTIONS[param]()
@@ -855,7 +851,7 @@ LrTasks.startAsyncTask(
         -- will drop out of loop if loadversion changes or if in develop module with selected photo
         while  MIDI2LR.RUNNING and ((LrApplicationView.getCurrentModuleName() ~= 'develop') or (LrApplication.activeCatalog():getTargetPhoto() == nil)) do
           LrTasks.sleep ( .29 )
-          guardsetting:performWithGuard(Profiles.checkProfile)
+          Profiles.checkProfile()
         end --sleep away until ended or until develop module activated
         if MIDI2LR.RUNNING then --didn't drop out of loop because of program termination
           if ProgramPreferences.RevealAdjustedControls then --may be nil or false
@@ -868,12 +864,12 @@ LrTasks.startAsyncTask(
             context,
             MIDI2LR.PARAM_OBSERVER,
             function ( observer )
-              guardreading:performWithGuard(CurrentObserver,observer)
+              CurrentObserver(observer)
             end
           )
           while MIDI2LR.RUNNING do --detect halt or reload
             LrTasks.sleep( .29 )
-            guardsetting:performWithGuard(Profiles.checkProfile)
+            Profiles.checkProfile()
           end
         end
       end
