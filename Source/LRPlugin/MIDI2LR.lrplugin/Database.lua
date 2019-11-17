@@ -41,7 +41,7 @@ enter 23ce \226\143\142
 backspace 232b \226\140\171
 delete 2326 \226\140\166
 
-use st:gsub('%&', '') to remove ampersands
+use st:gsub('%(%&%a%)',''):gsub('%&', '') to remove ampersands
 
 Command ( string for command )
 Type
@@ -119,9 +119,9 @@ local developPresets = LOC('$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/P
 local keywords = LOC('$$$/AgLibrary/Filter/BrowserCriteria/Keywords=Keywords')
 local localizedAdjustments = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments')
 local localadjresets = reset..' '..locadj
-local localpresets = locadjpre
+--local localpresets = locadjpre
 local crop = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')
-local gotoToolModulePanel = LOC('$$$/AgDialogs/Select=Select').. ' '..LOC('$$$/AgDevelop/Menu/Tools=Tools'):gsub('&','')..LOC('$$$/AgStringUtils/localizedList/separatorString=, ')..LOC('$$$/Application/Menu/Window/Modules=Modules:'):gsub(':','')..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..LOC('$$$/AgPreferences/Interface/GroupTitle/Panels=Panels')
+local gotoToolModulePanel = LOC('$$$/AgDialogs/Select=Select').. ' '..LOC('$$$/AgDevelop/Menu/Tools=Tools'):gsub('%(%&%a%)',''):gsub('%&','')..LOC('$$$/AgStringUtils/localizedList/separatorString=, ')..LOC('$$$/Application/Menu/Window/Modules=Modules:'):gsub(':','')..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..LOC('$$$/AgPreferences/Interface/GroupTitle/Panels=Panels')
 local secondaryDisplay = LOC('$$$/AgApplication/Menu/Window/SecondaryDisplay=Secondary Display')
 local profiles = LOC("$$$/CRaw/Style/ProfileGroup/Profiles=Profiles")
 
@@ -211,14 +211,14 @@ local DataBase = {
   {Command='ShoVwgrid',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Grid=Grid'),Group=view,Explanation='Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes.'},
   {Command='GridViewStyle',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/CycleGridViews=Cycle grid views'),Group=view,Explanation='Changes the grid view style. Supported in LR versions 7.4 and later.'},
   {Command='ShoVwloupe',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Loupe=Loupe'),Group=view,Explanation='Displays a single photo. Zoom levels up to 11:1 are available.'},
-  {Command='CycleLoupeViewInfo',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/LoupeOverlay=Loupe')..' '..LOC('$$$/AgLibrary/Menu/View/LoupeViewInfo/CycleViewStyle=Cycle view style'):gsub('%&', ''),Group=view,Explanation='Changes the Loupe View Info style. Only works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
+  {Command='CycleLoupeViewInfo',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/LoupeOverlay=Loupe')..' '..LOC('$$$/AgLibrary/Menu/View/LoupeViewInfo/CycleViewStyle=Cycle view style'):gsub('%(%&%a%)',''):gsub('%&',''),Group=view,Explanation='Changes the Loupe View Info style. Only works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
   {Command='ShoVwcompare',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Compare=Compare'),Group=view,Explanation='Displays photos side by side so that you can evaluate them.'},
   {Command='ShoVwsurvey',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Survey=Survey'),Group=view,Explanation='Displays the active photo with selected photos so that you can evaluate them. The active photo has the lightest colored cell.'},
-  {Command='ShoFullHidePanels',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullScreenHidePanels=Full screen, hide panels'):gsub('%&', ''),Group=view,Explanation='Changes the screen mode to Full Screen and Hide Panels. Supported in LR versions 7.4 and later.'},
+  {Command='ShoFullHidePanels',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullScreenHidePanels=Full screen, hide panels'):gsub('%(%&%a%)',''):gsub('%&',''),Group=view,Explanation='Changes the screen mode to Full Screen and Hide Panels. Supported in LR versions 7.4 and later.'},
   {Command='ShoFullPreview',Type='button',Translation=LOC('$$$/AgPrintShortcuts/Full_screen_modes=Full screen preview'),Group=view,Explanation='Changes the screen mode to Full Screen Preview. Supported in LR versions 7.4 and later.'},
   {Command='NextScreenMode',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/CycleToNextScreenMode=Cycle to next screen mode'),Group=view,Explanation='Changes to the next screen mode. Supported in LR versions 7.4 and later.'},
-  {Command='ToggleLoupe',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleLoupeView=Loupe view activate/inactivate'):gsub('&',''),Group=view,Explanation='Toggle loupe view while in Library. Supported in LR versions 7.4 and later.'},
-  {Command='ToggleZoomOffOn',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleZoomView=Enable/Disable Zoom'):gsub('&',''),Group=view,Explanation=''},
+  {Command='ToggleLoupe',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleLoupeView=Loupe view activate/inactivate'):gsub('%(%&%a%)',''):gsub('%&',''),Group=view,Explanation='Toggle loupe view while in Library. Supported in LR versions 7.4 and later.'},
+  {Command='ToggleZoomOffOn',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleZoomView=Enable/Disable Zoom'):gsub('%(%&%a%)',''):gsub('%&',''),Group=view,Explanation=''},
   {Command='ZoomInOut',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some'),Group=view,Explanation='Turning knob clockwise zooms in, counterclockwise zooms out.'..repeatexp},    
   {Command='ZoomOutIn',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some'),Group=view,Explanation='Turning knob clockwise zooms out, counterclockwise zooms in.'..repeatexp},    
   {Command='ZoomInLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In'),Group=view,Explanation=''},
@@ -249,7 +249,7 @@ local DataBase = {
   {Command='AddOrRemoveFromTargetColl',Type='button',Translation=LOC('$$$/Help/Shortcuts/AddToTargetCollection=Add to the target collection'),Group=photos,Explanation='Adds all selected photos to target collection. If the photos are already in the target collection, removes them from it. Supported in LR versions 7.4 and later.'},
   {Command='EditPhotoshop',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop'),Group=photos,Explanation='Edit the current photo in Photoshop. Supported in LR versions 7.4 and later.'},  
   {Command='openExportDialog',Type='button',Translation=LOC('$$$/AgLibrary/Panel/ExportButtonTitle=Export...'),Group=photos,Explanation='Opens export dialog for all selected photos. Supported in LR versions 7.4 and later.'},
-  {Command='openExportWithPreviousDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export/ExportAgain=Export again'):gsub('%&',''),Group=photos,Explanation='Exports with previous settings for all selected photos. Supported in LR versions 7.4 and later.'},
+  {Command='openExportWithPreviousDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export/ExportAgain=Export again'):gsub('%(%&%a%)',''):gsub('%&',''),Group=photos,Explanation='Exports with previous settings for all selected photos. Supported in LR versions 7.4 and later.'},
   {Command='SelectRightLeft',Type='repeat',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left')..' '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=photos,Explanation='Extend selection to right or left. Turning knob clockwise sends select Right signals to Lightroom, counterclockwise select Left.'..repeatexp},   
   {Command='Select1Left',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left'),Group=photos,Explanation='Extend selection one picture to the left.'},
   {Command='Select1Right',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=photos,Explanation='Extend selection one picture to the right.'},
@@ -283,7 +283,7 @@ local DataBase = {
   --Develop
   {Command='SwToMdevelop',Type='button',Translation=show..' '..LOC('$$$/SmartCollection/Criteria/Heading/Develop=Develop'),Group=develop,Explanation='Switch to Develop module.'},
   --develop: copy paste sync
-  {Command='LRCopy',Type='button',Translation='Lightroom '..LOC('$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings'):gsub('&',''),Group=develop,Explanation='Lightroom Copy (open the selection box). Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>c</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>c</kbd> (OSX) to Lightroom.'},
+  {Command='LRCopy',Type='button',Translation='Lightroom '..LOC('$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings'):gsub('%(%&%a%)',''):gsub('%&',''),Group=develop,Explanation='Lightroom Copy (open the selection box). Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>c</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>c</kbd> (OSX) to Lightroom.'},
   {Command='LRPaste',Type='button',Translation='Lightroom '..LOC('$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings'),Group=develop,Explanation='Lightroom Paste. Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>v</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>v</kbd> (OSX) to Lightroom.'},
   {Command='VirtualCopy',Type='button',Translation=LOC('$$$/AgLibrary/History/CreateVirtualCopy=Create Virtual Copy'),Group=develop,Explanation='Creates a virtual copy for each of the currently selected photos and videos. The new virtual copies will be selected.'},
   {Command='ResetAll',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/ResetSettings=Reset Settings'),Group=develop,Explanation='Reset to defaults.'},
@@ -726,7 +726,7 @@ local DataBase = {
   {Command='AdjustmentBrush',Type='button',Translation=show..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments'),Group=localizedAdjustments,Explanation='Select Adjustment Brush mode in Develop Module. Repeated press toggles Loupe View.'},
   {Command='ShowMaskOverlay',Type='button',Translation=LOC('$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Show Mask Overlay'),Group=localizedAdjustments,Explanation='Sends the keystroke <kbd>o</kbd> to Lightroom. Show or hide the mask overlay.'},
   {Command='ToggleOverlay',type='button',Translation=locadj..' '..LOC('$$$/AgDevelop/Menu/View/AdjustmentMaskOverlay=Correction mask overlay')..' '..LOC('$$$/MIDI2LR/ShortCuts/ShowHide=show or hide'),Group=localizedAdjustments,Explanation='Toggles the localized adjustments mask overlay. Use only when any of the local adjustments filter is active. Supported in LR versions 7.4 and later.'},
-  {Command='CycleMaskOverlayColor',Type='button',Translation=LOC('$$$/AgDevelop/Menu/View/AdjustmentBrushOverlay/CycleOverlay=Overlay Color'):gsub('&',''),Group=localizedAdjustments,Explanation='Sends the keystroke <kbd>\226\135\167 Shift</kbd>+<kbd>o</kbd> to Lightroom. Change Mask Overlay Color.'},
+  {Command='CycleMaskOverlayColor',Type='button',Translation=LOC('$$$/AgDevelop/Menu/View/AdjustmentBrushOverlay/CycleOverlay=Overlay Color'):gsub('%(%&%a%)',''):gsub('%&',''),Group=localizedAdjustments,Explanation='Sends the keystroke <kbd>\226\135\167 Shift</kbd>+<kbd>o</kbd> to Lightroom. Change Mask Overlay Color.'},
   {Command='EnableCircularGradientBasedCorrections',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableRadialFilter=Enable Radial Filter'),Group=localizedAdjustments,Explanation='Enable or disable radial filter.'},
   {Command='EnableGradientBasedCorrections',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableGraduatedFilter=Enable Graduated Filter'),Group=localizedAdjustments,Explanation='Enable or disable graduated filter.'},
   {Command='EnablePaintBasedCorrections',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableBrushAdjustments=Enable Brush Adjustments'),Group=localizedAdjustments,Explanation='Enable or disable brush adjustments.'},

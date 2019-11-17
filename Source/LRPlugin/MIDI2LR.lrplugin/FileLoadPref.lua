@@ -21,7 +21,7 @@ local Preferences = require 'Preferences'
 local LrDialogs   = import 'LrDialogs'
 
 
-local openfiles = LrDialogs.runOpenPanel({title=LOC("$$$/AgMenu/LoadPresets=Load presets"),canchooseFiles=true,canChooseDirectories=false,canCreateDirectories=false,
+local openfiles = LrDialogs.runOpenPanel({title=LOC("$$$/MIDI2LR/Menu/ImportConfiguration=&Import configuration"):gsub('%(%&%a%)',''):gsub('%&',''),canchooseFiles=true,canChooseDirectories=false,canCreateDirectories=false,
     allowsMultipleSelection=false,fileTypes="txt"})
   
 if type(openfiles) == 'table' then

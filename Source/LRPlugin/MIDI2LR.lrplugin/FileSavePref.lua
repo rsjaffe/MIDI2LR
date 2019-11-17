@@ -19,7 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local Preferences = require 'Preferences'
 local LrDialogs   = import 'LrDialogs'
 
-local savelocation = LrDialogs.runSavePanel({title=LOC("$$$/AgLibrary/Menu/File/ExportPresets=Export presets"),requiredFileType="txt",canCreateDirectories=true})
+local savelocation = LrDialogs.runSavePanel({title=LOC("$$$/MIDI2LR/Menu/ExportConfiguration=&Export configuration"):gsub('%(%&%a%)',''):gsub('%&',''),requiredFileType="txt",canCreateDirectories=true})
 
 if type(savelocation) == 'string' then
   Preferences.Save(savelocation)
