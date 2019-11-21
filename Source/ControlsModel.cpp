@@ -16,7 +16,6 @@
 #include "ControlsModel.h"
 
 #include <algorithm>
-#include <mutex>
 
 #include "MidiUtilities.h"
 #include "Misc.h"
@@ -27,20 +26,16 @@ double ChannelModel::OffsetResult(int diff, int controlnumber)
       Expects(cc_high_.at(controlnumber) > 0); /* CCLow will always be 0 for offset controls */
       Expects(diff <= kMaxNrpn && diff >= -kMaxNrpn);
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
-      auto lock = std::scoped_lock(current_v_mtx_);
-      current_v_.at(controlnumber) += diff;
-      if (current_v_.at(controlnumber) < 0) {
-         /* fix currentV */
-         current_v_.at(controlnumber) = 0;
-         return 0.0;
-      }
-      if (current_v_.at(controlnumber) > cc_high_.at(controlnumber)) {
-         /* fix currentV */
-         current_v_.at(controlnumber) = cc_high_.at(controlnumber);
-         return 1.0;
-      }
-      return static_cast<double>(current_v_.at(controlnumber))
-             / static_cast<double>(cc_high_.at(controlnumber));
+      const auto high_limit = cc_high_.at(controlnumber);
+      auto cached_v = current_v_.at(controlnumber).load(std::memory_order_acquire);
+      const auto new_v = std::clamp(cached_v + diff, 0, high_limit);
+      if (current_v_.at(controlnumber)
+              .compare_exchange_strong(
+                  cached_v, new_v, std::memory_order_release, std::memory_order_acquire))
+         return static_cast<double>(new_v) / static_cast<double>(high_limit);
+      /* someone else got to change the value first, use theirs to be consistent — cached_v updated
+       * by exchange */
+      return static_cast<double>(cached_v) / static_cast<double>(high_limit);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
@@ -48,8 +43,6 @@ double ChannelModel::OffsetResult(int diff, int controlnumber)
    }
 }
 
-#pragma warning(push)
-#pragma warning(disable : 26451) /* see TODO below */
 double ChannelModel::ControllerToPlugin(rsj::MessageType controltype, int controlnumber, int value)
 {
    try {
@@ -66,16 +59,14 @@ double ChannelModel::ControllerToPlugin(rsj::MessageType controltype, int contro
       switch (controltype) {
       case rsj::MessageType::Pw:
          pitch_wheel_current_.store(value, std::memory_order_release);
-         /* TODO(C26451): int mixed with double: can it overflow? */
+#pragma warning(suppress : 26451) /* int subtraction won't overflow 4 bytes here */
          return static_cast<double>(value - pitch_wheel_min_)
                 / static_cast<double>(pitch_wheel_max_ - pitch_wheel_min_);
       case rsj::MessageType::Cc:
          switch (cc_method_.at(controlnumber)) {
-         case rsj::CCmethod::kAbsolute: {
-            auto lock = std::scoped_lock(current_v_mtx_);
-            current_v_.at(controlnumber) = value;
-         }
-            /* TODO(C26451): int mixed with double: can it overflow? */
+         case rsj::CCmethod::kAbsolute:
+            current_v_.at(controlnumber).store(value, std::memory_order_release);
+#pragma warning(suppress : 26451) /* int subtraction won't overflow 4 bytes here */
             return static_cast<double>(value - cc_low_.at(controlnumber))
                    / static_cast<double>(cc_high_.at(controlnumber) - cc_low_.at(controlnumber));
          case rsj::CCmethod::kBinaryOffset:
@@ -114,7 +105,6 @@ double ChannelModel::ControllerToPlugin(rsj::MessageType controltype, int contro
       throw;
    }
 }
-#pragma warning(pop)
 
 /* Note: rounding up on set to center (adding remainder of %2) to center the control's LED when
  * centered */
@@ -129,9 +119,8 @@ int ChannelModel::SetToCenter(rsj::MessageType controltype, int controlnumber)
          break;
       case rsj::MessageType::Cc:
          if (cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute) {
-            auto lock = std::scoped_lock(current_v_mtx_);
             retval = CenterCc(controlnumber);
-            current_v_.at(controlnumber) = retval;
+            current_v_.at(controlnumber).store(retval, std::memory_order_release);
          }
          break;
       default:
@@ -160,16 +149,12 @@ int ChannelModel::MeasureChange(rsj::MessageType controltype, int controlnumber,
        * bits, high bits are shifted one right when placed into int. */
       switch (controltype) {
       case rsj::MessageType::Pw: {
-         return value - pitch_wheel_current_.exchange(value);
+         return value - pitch_wheel_current_.exchange(value, std::memory_order_acq_rel);
       }
       case rsj::MessageType::Cc:
          switch (cc_method_.at(controlnumber)) {
-         case rsj::CCmethod::kAbsolute: {
-            auto lock = std::scoped_lock(current_v_mtx_);
-            const auto diff = value - current_v_.at(controlnumber);
-            current_v_.at(controlnumber) = value;
-            return diff;
-         }
+         case rsj::CCmethod::kAbsolute:
+            return value - current_v_.at(controlnumber).exchange(value, std::memory_order_acq_rel);
          case rsj::CCmethod::kBinaryOffset:
             if (IsNRPN_(controlnumber))
                return value - kBit14;
@@ -226,10 +211,7 @@ int ChannelModel::PluginToController(rsj::MessageType controltype, int controlnu
              juce::roundToInt(value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)))
                  + cc_low_.at(controlnumber),
              cc_low_.at(controlnumber), cc_high_.at(controlnumber));
-         {
-            auto lock = std::scoped_lock(current_v_mtx_);
-            current_v_.at(controlnumber) = newv;
-         }
+         current_v_.at(controlnumber).store(newv, std::memory_order_release);
          return newv;
       }
       case rsj::MessageType::NoteOn:
@@ -289,9 +271,7 @@ void ChannelModel::SetCcMax(int controlnumber, int value)
          cc_high_.at(controlnumber) =
              value <= cc_low_.at(controlnumber) || value > max ? max : value;
       }
-      /* lock may not be needed. this function called in non-multithreaded manner */
-      auto lock = std::scoped_lock(current_v_mtx_);
-      current_v_.at(controlnumber) = CenterCc(controlnumber);
+      current_v_.at(controlnumber).store(CenterCc(controlnumber), std::memory_order_release);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
@@ -307,9 +287,7 @@ void ChannelModel::SetCcMin(int controlnumber, int value)
          cc_low_.at(controlnumber) = 0;
       else
          cc_low_.at(controlnumber) = value < 0 || value >= cc_high_.at(controlnumber) ? 0 : value;
-      /* lock may not be needed. this function called in non-multithreaded manner */
-      auto lock = std::scoped_lock(current_v_mtx_);
-      current_v_.at(controlnumber) = CenterCc(controlnumber);
+      current_v_.at(controlnumber).store(CenterCc(controlnumber), std::memory_order_release);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
@@ -320,13 +298,13 @@ void ChannelModel::SetCcMin(int controlnumber, int value)
 void ChannelModel::SetPwMax(int value) noexcept
 {
    pitch_wheel_max_ = value > kMaxNrpn || value <= pitch_wheel_min_ ? kMaxNrpn : value;
-   pitch_wheel_current_.store(CenterPw(), std::memory_order_relaxed);
+   pitch_wheel_current_.store(CenterPw(), std::memory_order_release);
 }
 
 void ChannelModel::SetPwMin(int value) noexcept
 {
    pitch_wheel_min_ = value < 0 || value >= pitch_wheel_max_ ? 0 : value;
-   pitch_wheel_current_.store(CenterPw(), std::memory_order_relaxed);
+   pitch_wheel_current_.store(CenterPw(), std::memory_order_release);
 }
 
 void ChannelModel::ActiveToSaved() const
@@ -351,16 +329,16 @@ void ChannelModel::ActiveToSaved() const
 void ChannelModel::CcDefaults()
 {
    try {
+      /* atomics relaxed as this does not occur concurrently with other actions */
       cc_low_.fill(0);
       /* XCode throws linker error when use ChannelModel::kMaxNRPN here */
       cc_high_.fill(0x3FFF);
       cc_method_.fill(rsj::CCmethod::kAbsolute);
-      /* lock may not be needed. this function called in non-multithreaded manner */
-      auto lock = std::scoped_lock(current_v_mtx_);
-      current_v_.fill(int{8191});
+      for (auto&& a : current_v_)
+         a.store(kMaxNrpnHalf, std::memory_order_relaxed);
       for (size_t a = 0; a <= kMaxMidi; ++a) {
          cc_high_.at(a) = kMaxMidi;
-         current_v_.at(a) = kMaxMidiHalf;
+         current_v_.at(a).store(kMaxMidiHalf, std::memory_order_relaxed);
       }
    }
    catch (const std::exception& e) {
