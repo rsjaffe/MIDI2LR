@@ -47,7 +47,7 @@ class MainContentComponent final :
    MainContentComponent& operator=(const MainContentComponent& other) = delete;
    MainContentComponent& operator=(MainContentComponent&& other) = delete;
    void Init();
-   void SaveProfile();
+   void SaveProfile() const;
 
  private:
    void handleAsyncUpdate() override;

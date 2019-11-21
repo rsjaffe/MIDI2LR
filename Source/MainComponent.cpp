@@ -117,7 +117,7 @@ void MainContentComponent::Init()
                SaveProfile();
          }
          juce::File profile_directory{settings_manager_.GetProfileDirectory()};
-         auto directory_saved{profile_directory.exists()};
+         const auto directory_saved{profile_directory.exists()};
          if (!directory_saved)
             [[unlikely]] profile_directory =
                 juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
@@ -247,10 +247,9 @@ void MainContentComponent::Init()
    }
 }
 
-void MainContentComponent::SaveProfile()
+void MainContentComponent::SaveProfile() const
 {
-   juce::File profile_directory;
-   profile_directory = settings_manager_.GetProfileDirectory();
+   juce::File profile_directory = settings_manager_.GetProfileDirectory();
    if (!profile_directory.exists())
       profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
    juce::FileChooser chooser{juce::translate("Save profile"), profile_directory, "*.xml", true};

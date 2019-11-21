@@ -33,6 +33,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
       ProcessResult ret_val{false, false, 0, 0};
       switch (message.control_number) {
       case 6: {
+         // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
          auto& i_ref = intermediate_results_[message.channel];
          auto lock = std::scoped_lock(filter_mutex_);
          if (i_ref.ready_flags_ >= 0b11) {
@@ -49,6 +50,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
       }
          return ret_val;
       case 38: {
+         // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
          auto& i_ref = intermediate_results_[message.channel];
          auto lock = std::scoped_lock(filter_mutex_);
          if (i_ref.ready_flags_ >= 0b11) {
@@ -67,6 +69,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
       case 98:
          ret_val.is_nrpn = true;
          {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
             auto& i_ref = intermediate_results_[message.channel];
             auto lock = std::scoped_lock(filter_mutex_);
             i_ref.control_lsb_ = message.value & 0x7F;
@@ -76,6 +79,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
       case 99:
          ret_val.is_nrpn = true;
          {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
             auto& i_ref = intermediate_results_[message.channel];
             auto lock = std::scoped_lock(filter_mutex_);
             i_ref.control_msb_ = message.value & 0x7F;

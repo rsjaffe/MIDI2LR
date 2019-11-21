@@ -141,7 +141,7 @@ void LrIpcIn::ProcessLine()
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
             return;
          }
-         else if (value_view.empty()) {
+         if (value_view.empty()) {
             rsj::Log("No value attached to message. Message from plugin was \""
                      + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
          }
@@ -149,8 +149,7 @@ void LrIpcIn::ProcessLine()
             profile_manager_.SwitchToProfile(std::string(value_view));
          }
          else if (command == "Log") {
-            rsj::Log("From plugin: "
-                     + juce::String(juce::CharPointer_UTF8(value_view.data()), value_view.size()));
+            rsj::Log("From plugin: " + rsj::toString(value_view));
          }
          else if (command == "SendKey") {
             const auto modifiers = std::stoi(std::string(value_view));

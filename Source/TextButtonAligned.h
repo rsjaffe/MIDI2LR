@@ -20,19 +20,22 @@
 class TextButtonAligned : public juce::TextButton {
  public:
    using TextButton::TextButton;
-   explicit TextButtonAligned(juce::Justification::Flags alignment)
-       : juce::TextButton(), alignment_{alignment} {};
-   TextButtonAligned(const juce::String& buttonName, juce::Justification::Flags alignment)
-       : juce::TextButton(buttonName), alignment_{alignment} {};
-   TextButtonAligned(const juce::String& buttonName, const juce::String& toolTip,
+   explicit TextButtonAligned(juce::Justification::Flags alignment) : alignment_{alignment} {}
+   TextButtonAligned(const juce::String& button_name, juce::Justification::Flags alignment)
+       : juce::TextButton(button_name), alignment_{alignment}
+   {
+   }
+   TextButtonAligned(const juce::String& button_name, const juce::String& tool_tip,
        juce::Justification::Flags alignment)
-       : juce::TextButton(buttonName, toolTip), alignment_{alignment} {};
+       : juce::TextButton(button_name, tool_tip), alignment_{alignment}
+   {
+   }
    void paintButton(juce::Graphics&, bool, bool) override;
 
  private:
-   void drawButtonText(juce::Graphics& g, TextButton& button,
-       [[maybe_unused]] bool shouldDrawButtonAsHighlighted,
-       [[maybe_unused]] bool shouldDrawButtonAsDown);
+   void DrawButtonText(juce::Graphics& g, TextButton& button,
+       [[maybe_unused]] bool should_draw_button_as_highlighted,
+       [[maybe_unused]] bool should_draw_button_as_down);
 
    juce::Justification::Flags alignment_{juce::Justification::centredLeft};
 };

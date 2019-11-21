@@ -501,3 +501,11 @@ Source/LRPlugin/luacheck\.results
 Source/LRPlugin/MIDI2LR\.lrplugin/compiled/
 
 *.p12
+
+Builds/VisualStudio2019/compile_commands.json
+
+Builds/VisualStudio2019/MIDI2LR.srctrlbm
+
+Builds/VisualStudio2019/MIDI2LR.srctrldb
+
+Builds/VisualStudio2019/MIDI2LR.srctrlprj

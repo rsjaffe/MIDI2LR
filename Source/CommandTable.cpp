@@ -57,7 +57,7 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
          }
          return false;
       }
-      else if (key_pressed == juce::KeyPress::downKey) {
+      if (key_pressed == juce::KeyPress::downKey) {
          if (juce::ListBox::getSelectedRow() != -1
              && juce::ListBox::getSelectedRow() < juce::TableListBox::getNumRows() - 1) {
             juce::ListBox::selectRow(getSelectedRow() + 1);
@@ -65,14 +65,14 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
          }
          return false;
       }
-      else if (key_pressed == juce::KeyPress::upKey) {
+      if (key_pressed == juce::KeyPress::upKey) {
          if (juce::ListBox::getSelectedRow() > 0 && juce::TableListBox::getNumRows() > 1) {
             juce::ListBox::selectRow(getSelectedRow() - 1);
             return true;
          }
          return false;
       }
-      else if (key_pressed == juce::KeyPress::pageUpKey) {
+      if (key_pressed == juce::KeyPress::pageUpKey) {
          if (juce::TableListBox::getNumRows() > 0) {
             auto row = juce::ListBox::getSelectedRow() - 20;
             if (row < 0)
@@ -82,7 +82,7 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
          }
          return false;
       }
-      else if (key_pressed == juce::KeyPress::pageDownKey) {
+      if (key_pressed == juce::KeyPress::pageDownKey) {
          if (juce::TableListBox::getNumRows() > 0) {
             auto row = juce::ListBox::getSelectedRow() + 20;
             if (row >= juce::TableListBox::getNumRows())
@@ -92,14 +92,14 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
          }
          return false;
       }
-      else if (key_pressed == juce::KeyPress::homeKey) {
+      if (key_pressed == juce::KeyPress::homeKey) {
          if (juce::TableListBox::getNumRows() > 0) {
             juce::ListBox::selectRow(0);
             return true;
          }
          return false;
       }
-      else if (key_pressed == juce::KeyPress::endKey) {
+      if (key_pressed == juce::KeyPress::endKey) {
          if (juce::TableListBox::getNumRows() > 0) {
             juce::ListBox::selectRow(juce::TableListBox::getNumRows() - 1);
             return true;

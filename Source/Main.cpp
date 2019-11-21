@@ -99,13 +99,13 @@ namespace {
 class MIDI2LRApplication final : public juce::JUCEApplication {
  public:
    // ReSharper disable once CppConstValueFunctionReturnType
-   const juce::String getApplicationName() override
+   const juce::String getApplicationName() override  // NOLINT(readability-const-return-type)
    {
       return ProjectInfo::projectName;
    }
 
    // ReSharper disable once CppConstValueFunctionReturnType
-   const juce::String getApplicationVersion() override
+   const juce::String getApplicationVersion() override // NOLINT(readability-const-return-type)
    {
       return ProjectInfo::versionString;
    }

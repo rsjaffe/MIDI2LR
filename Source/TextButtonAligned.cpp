@@ -17,42 +17,42 @@
 #include "TextButtonAligned.h"
 
 void TextButtonAligned::paintButton(
-    juce::Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
+    juce::Graphics& g, bool should_draw_button_as_highlighted, bool should_draw_button_as_down)
 {
    /* from TextButton.cpp: only change is second call from lf:: to TextButtonAligned:: */
    juce::Component::getLookAndFeel().drawButtonBackground(g, *this,
        juce::Component::findColour(juce::Button::getToggleState()
                                        ? juce::TextButton::ColourIds::buttonOnColourId
                                        : juce::TextButton::ColourIds::buttonColourId),
-       shouldDrawButtonAsHighlighted, shouldDrawButtonAsDown);
+       should_draw_button_as_highlighted, should_draw_button_as_down);
    /* the following normally calls lf.drawButtonText, hijacking the call for specific formatting */
-   drawButtonText(g, *this, shouldDrawButtonAsHighlighted, shouldDrawButtonAsDown);
+   DrawButtonText(g, *this, should_draw_button_as_highlighted, should_draw_button_as_down);
 }
 
-void TextButtonAligned::drawButtonText(juce::Graphics& g, juce::TextButton& button,
-    [[maybe_unused]] bool shouldDrawButtonAsHighlighted,
-    [[maybe_unused]] bool shouldDrawButtonAsDown)
+void TextButtonAligned::DrawButtonText(juce::Graphics& g, juce::TextButton& button,
+    [[maybe_unused]] bool should_draw_button_as_highlighted,
+    [[maybe_unused]] bool should_draw_button_as_down)
 {
    /* Based on drawButtonText in LookAndFeel_V2 (V3 doesn't override V2 for this call). Only change
     * is alignment on last line. */
-   juce::Font font(juce::Component::getLookAndFeel().getTextButtonFont(button, button.getHeight()));
+   const auto font{juce::Component::getLookAndFeel().getTextButtonFont(button, button.getHeight())};
    g.setFont(font);
    g.setColour(button
                    .findColour(button.getToggleState() ? juce::TextButton::textColourOnId
                                                        : juce::TextButton::textColourOffId)
                    .withMultipliedAlpha(button.isEnabled() ? 1.0f : 0.5f));
 
-   const int yIndent = juce::jmin(4, button.proportionOfHeight(0.3f));
-   const int cornerSize = juce::jmin(button.getHeight(), button.getWidth()) / 2;
+   const auto y_indent = juce::jmin(4, button.proportionOfHeight(0.3f)); //-V112
+   const auto corner_size = juce::jmin(button.getHeight(), button.getWidth()) / 2;
 
-   const int fontHeight = juce::roundToInt(font.getHeight() * 0.6f);
-   const int leftIndent =
-       juce::jmin(fontHeight, 2 + cornerSize / (button.isConnectedOnLeft() ? 4 : 2));
-   const int rightIndent =
-       juce::jmin(fontHeight, 2 + cornerSize / (button.isConnectedOnRight() ? 4 : 2));
-   const int textWidth = button.getWidth() - leftIndent - rightIndent;
+   const auto font_height = juce::roundToInt(font.getHeight() * 0.6f);
+   const auto left_indent =
+       juce::jmin(font_height, 2 + corner_size / (button.isConnectedOnLeft() ? 4 : 2)); //-V112
+   const auto right_indent =
+       juce::jmin(font_height, 2 + corner_size / (button.isConnectedOnRight() ? 4 : 2)); //-V112
+   const auto text_width = button.getWidth() - left_indent - right_indent;
 
-   if (textWidth > 0)
-      g.drawFittedText(button.getButtonText(), leftIndent, yIndent, textWidth,
-          button.getHeight() - yIndent * 2, alignment_, 2);
+   if (text_width > 0)
+      g.drawFittedText(button.getButtonText(), left_indent, y_indent, text_width,
+          button.getHeight() - y_indent * 2, alignment_, 2);
 }

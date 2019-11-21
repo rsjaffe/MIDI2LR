@@ -64,8 +64,8 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
       else {
          size_t index{1};
          juce::PopupMenu main_menu;
-         main_menu.addItem(
-             gsl::narrow_cast<int>(index), CommandSet::UnassignedTranslated(), true, index == selected_item_);
+         main_menu.addItem(gsl::narrow_cast<int>(index), CommandSet::UnassignedTranslated(), true,
+             index == selected_item_);
          index++;
          size_t submenu_number{0}; /* to track name for submenu */
          /* add each submenu */

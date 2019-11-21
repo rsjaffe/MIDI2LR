@@ -67,7 +67,7 @@ namespace rsj {
       using size_type = typename Container::size_type;
       using reference = typename Container::reference;
       using const_reference = typename Container::const_reference;
-      static_assert(std::is_same_v<T, value_type>, "container adaptors require consistent types");
+      static_assert(std::is_same_v<T, value_type>, "container adapters require consistent types");
       /* Constructors: see https://en.cppreference.com/w/cpp/container/queue/queue. These are in
        * same order and number as in cppreference */
       /*1*/ ConcurrentQueue() noexcept(std::is_nothrow_default_constructible_v<Container>) {}

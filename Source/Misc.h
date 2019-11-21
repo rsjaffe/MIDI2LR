@@ -74,6 +74,10 @@ constexpr auto OSX{true};
 namespace rsj {
    /*****************************************************************************/
    /**************String Routines************************************************/
+   [[nodiscard]] inline juce::String toString(std::string_view in)
+   {
+      return juce::String(juce::CharPointer_UTF8(in.data()), in.size());
+   }
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
    [[nodiscard]] std::string ToLower(std::string_view in);
@@ -222,8 +226,8 @@ namespace rsj {
        std::string_view msg_prefix, const std::chrono::duration<Rep, Period> sleep_duration) //-V801
    {
       const auto elapsed = SleepTimed(sleep_duration);
-      rsj::Log(juce::String(msg_prefix.data(), msg_prefix.size()) + " thread slept for "
-               + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
+      rsj::Log(rsj::toString(msg_prefix) + " thread slept for " + juce::String(elapsed.count())
+               + ' ' + RatioToPrefix<Period>() + "seconds.");
    }
    /*****************************************************************************/
 } // namespace rsj
