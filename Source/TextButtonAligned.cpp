@@ -34,7 +34,7 @@ void TextButtonAligned::DrawButtonText(juce::Graphics& g, juce::TextButton& butt
     [[maybe_unused]] bool should_draw_button_as_down)
 {
    /* Based on drawButtonText in LookAndFeel_V2 (V3 doesn't override V2 for this call). Only change
-    * is alignment on last line. */
+    * in my version is alignment on last line. */
    const auto font{juce::Component::getLookAndFeel().getTextButtonFont(button, button.getHeight())};
    g.setFont(font);
    g.setColour(button

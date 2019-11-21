@@ -129,7 +129,7 @@ void LrIpcOut::Start()
 
 void LrIpcOut::Stop()
 {
-   thread_should_exit_.store(true, std::memory_order_seq_cst);
+   thread_should_exit_.store(true, std::memory_order_release);
    /* pump output queue before port closed */
    if (const auto m = command_.clear_count_emplace(kTerminate))
       rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
@@ -306,7 +306,7 @@ void LrIpcOut::SetRecenter(rsj::MidiMessageId mm)
    try {
       asio::dispatch([this] { recenter_timer_.expires_after(kRecenterTimer); });
       recenter_timer_.async_wait([this, mm](const asio::error_code& error) {
-         if (!error && !thread_should_exit_.load(std::memory_order_relaxed))
+         if (!error && !thread_should_exit_.load(std::memory_order_acquire))
             midi_sender_.Send(mm, controls_model_.SetToCenter(mm));
       });
    }
