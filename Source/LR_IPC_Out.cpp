@@ -112,10 +112,12 @@ void LrIpcOut::Start()
       Connect();
       io_thread0_ = std::async(std::launch::async, [this] {
          rsj::LabelThread(L"LrIpcOut io_thread0_");
+         _mm_setcsr(_mm_getcsr() | 0x8040);
          io_context_.run();
       });
       io_thread1_ = std::async(std::launch::async, [this] {
          rsj::LabelThread(L"LrIpcOut io_thread1_");
+         _mm_setcsr(_mm_getcsr() | 0x8040);
          io_context_.run();
       });
    }

@@ -119,7 +119,7 @@ void SettingsComponent::Init()
       addToLayout(&autohide_setting_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(autohide_setting_);
       autohide_setting_.onValueChange = [this] {
-         settings_manager_.SetAutoHideTime(juce::roundToInt(autohide_setting_.getValue()));
+         settings_manager_.SetAutoHideTime(rsj::RoundToInt(autohide_setting_.getValue()));
          rsj::Log("Autohide time set to " + juce::String(settings_manager_.GetAutoHideTime())
                   + " seconds");
       };

@@ -33,7 +33,7 @@ double ChannelModel::OffsetResult(int diff, int controlnumber)
               .compare_exchange_strong(
                   cached_v, new_v, std::memory_order_release, std::memory_order_acquire))
          return static_cast<double>(new_v) / static_cast<double>(high_limit);
-      /* someone else got to change the value first, use theirs to be consistent — cached_v updated
+      /* someone else got to change the value first, use theirs to be consistent ï¿½ cached_v updated
        * by exchange */
       return static_cast<double>(cached_v) / static_cast<double>(high_limit);
    }
@@ -199,18 +199,18 @@ int ChannelModel::PluginToController(rsj::MessageType controltype, int controlnu
       switch (controltype) {
       case rsj::MessageType::Pw: {
          /* TODO(C26451): int mixed with double: can it overflow? */
-         const auto newv = std::clamp(
-             juce::roundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_)) + pitch_wheel_min_,
-             pitch_wheel_min_, pitch_wheel_max_);
+         auto newv =
+             rsj::RoundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_)) + pitch_wheel_min_;
+         newv = std::clamp(newv, pitch_wheel_min_, pitch_wheel_max_);
          pitch_wheel_current_.store(newv, std::memory_order_release);
          return newv;
       }
       case rsj::MessageType::Cc: {
          /* TODO(C26451): int mixed with double: can it overflow? */
-         const auto newv = std::clamp(
-             juce::roundToInt(value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)))
-                 + cc_low_.at(controlnumber),
-             cc_low_.at(controlnumber), cc_high_.at(controlnumber));
+         auto newv =
+             rsj::RoundToInt(value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)))
+             + cc_low_.at(controlnumber);
+         newv = std::clamp(newv, cc_low_.at(controlnumber), cc_high_.at(controlnumber));
          current_v_.at(controlnumber).store(newv, std::memory_order_release);
          return newv;
       }

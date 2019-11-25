@@ -18,11 +18,12 @@
 #include <atomic>
 #include <condition_variable>
 #include <deque>
-// ReSharper disable once CppUnusedIncludeDirective
-#include <emmintrin.h>
 #include <mutex>
 #include <optional>
 #include <type_traits>
+extern "C" {
+extern void _mm_pause(void);
+}
 
 namespace rsj {
    class SpinLock {

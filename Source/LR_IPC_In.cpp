@@ -49,11 +49,13 @@ void LrIpcIn::Start()
    try {
       process_line_future_ = std::async(std::launch::async, [this] {
          rsj::LabelThread(L"LrIpcIn ProcessLine thread");
+         _mm_setcsr(_mm_getcsr() | 0x8040);
          ProcessLine();
       });
       Connect();
       io_thread_ = std::async(std::launch::async, [this] {
          rsj::LabelThread(L"LrIpcIn io_thread_");
+         _mm_setcsr(_mm_getcsr() | 0x8040);
          io_context_.run();
       });
    }

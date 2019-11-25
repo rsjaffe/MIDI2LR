@@ -24,6 +24,7 @@
 #include <string_view>
 #include <thread>   //sleep_for
 #include <typeinfo> //for typeid, used in calls to ExceptionResponse
+#include <xmmintrin.h> /* for rounding intrinsics */
 
 #include <JuceLibraryCode/JuceHeader.h>
 #include <gsl/gsl>
@@ -230,6 +231,21 @@ namespace rsj {
                + ' ' + RatioToPrefix<Period>() + "seconds.");
    }
    /*****************************************************************************/
+   /*******************Fast Rounding*********************************************/
+
+   inline int RoundToInt(float source)
+   {
+      return _mm_cvtss_si32(_mm_set_ss(source));
+   }
+   inline int RoundToInt(double source)
+   {
+      return _mm_cvtsd_si32(_mm_set_sd(source));
+   }
+   int RoundToInt(long double source) = delete;
+   inline void IgnoreDenormals()
+   { /* speed up floating point ops; we're not worried about precision of very small values */
+      _mm_setcsr(_mm_getcsr() | 0x8040);
+   }
 } // namespace rsj
 
 #endif // MISC_H_INCLUDED

@@ -18,6 +18,7 @@
 #include <fstream>
 #include <memory>
 #include <mutex>
+
 #ifndef _WIN32
 #include <AvailabilityMacros.h>
 #if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
@@ -99,7 +100,7 @@ namespace {
 class MIDI2LRApplication final : public juce::JUCEApplication {
  public:
    // ReSharper disable once CppConstValueFunctionReturnType
-   const juce::String getApplicationName() override  // NOLINT(readability-const-return-type)
+   const juce::String getApplicationName() override // NOLINT(readability-const-return-type)
    {
       return ProjectInfo::projectName;
    }
@@ -126,6 +127,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
           * start-up after all, it can just call the quit() method and the event loop won't be
           * run. */
          if (command_line != kShutDownString) {
+            _mm_setcsr(_mm_getcsr() | 0x8040);
             CCoptions::LinkToControlsModel(&controls_model_);
             PWoptions::LinkToControlsModel(&controls_model_);
             juce::LookAndFeel::setDefaultLookAndFeel(&look_feel_);
