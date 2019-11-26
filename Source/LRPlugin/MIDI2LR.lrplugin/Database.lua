@@ -260,6 +260,7 @@ local DataBase = {
   {Command='ToggleRed',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelRed=Red')),Group=flagging,Explanation=''},
   {Command='TogglePurple',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelPurple=Purple')),Group=flagging,Explanation=''},
   {Command='ToggleYellow',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelYellow=Yellow')),Group=flagging,Explanation=''},
+  {Command='ColorLabelNone',Type='button',Translation=LOC('$$$/AgLibrary/LabelCommands/UndoName/RemovedColorLabel=Remove color label'),Group=flagging,Explanation=''},
   --photos
   {Command='AddOrRemoveFromTargetColl',Type='button',Translation=LOC('$$$/Help/Shortcuts/AddToTargetCollection=Add to the target collection'),Group=photos,Explanation='Adds all selected photos to target collection. If the photos are already in the target collection, removes them from it. Supported in LR versions 7.4 and later.'},
   {Command='EditPhotoshop',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop'),Group=photos,Explanation='Edit the current photo in Photoshop. Supported in LR versions 7.4 and later.'},  

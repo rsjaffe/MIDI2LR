@@ -109,6 +109,7 @@ LrTasks.startAsyncTask(
       BrushSizeSmaller                       = CU.fSimulateKeys(KS.KeyCode.BrushDecreaseKey,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
       ConvertToGrayscale                     = CU.fToggleTFasync('ConvertToGrayscale'),
       CloseApp                               = function() MIDI2LR.SERVER:send('TerminateApplication 1\n') end,
+      ColorLabelNone                         = function() LrSelection.setColorLabel("none") end,
       CropConstrainToWarp                    = CU.fToggle01('CropConstrainToWarp'),
       CropOverlay                            = CU.fToggleTool('crop'),
       CycleMaskOverlayColor                  = CU.fSimulateKeys(KS.KeyCode.CycleAdjustmentBrushOverlayKey,true),
