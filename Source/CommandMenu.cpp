@@ -95,7 +95,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             if (selected_item_ < std::numeric_limits<decltype(selected_item_)>::max())
                profile_.RemoveMessage(message_);
             if (result - 1 < command_set_.CommandAbbrevSize())
-               juce::Button::setButtonText(command_set_.CommandAbbrevAt(result - 1));
+               juce::Button::setButtonText(command_set_.CommandLabelAt(result - 1));
             selected_item_ = result;
             /* Map the selected command to the CC */
             profile_.AddCommandForMessage(result - 1, message_);
