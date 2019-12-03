@@ -1,14 +1,13 @@
 var class_m_i_d_i2_l_r_application =
 [
-    [ "MIDI2LRApplication", "class_m_i_d_i2_l_r_application.html#a88492c86eb83772dffb248cbeff75667", null ],
     [ "anotherInstanceStarted", "class_m_i_d_i2_l_r_application.html#a9b5a76b74f45e3be820fbf62d9616e2f", null ],
-    [ "CerealLoad", "class_m_i_d_i2_l_r_application.html#a1e52f4c3aae1ef33e77574284b15af32", null ],
-    [ "CerealSave", "class_m_i_d_i2_l_r_application.html#afcb2fba1514ae2c850af5e6e789ea216", null ],
     [ "DefaultProfileSave", "class_m_i_d_i2_l_r_application.html#a8138fd30c26fe9b14cc69c3eb3def3c5", null ],
     [ "getApplicationName", "class_m_i_d_i2_l_r_application.html#a9cdd475a9c0cad7f863c5ea017577d40", null ],
     [ "getApplicationVersion", "class_m_i_d_i2_l_r_application.html#ac7c4482812427f5f86fef87fe91b4c99", null ],
     [ "initialise", "class_m_i_d_i2_l_r_application.html#a6c958c20964bb737b5c9c51cf13bf0e4", null ],
+    [ "LoadControlsModel", "class_m_i_d_i2_l_r_application.html#af180cabaabbf2dc4750e7a17b3a5e475", null ],
     [ "moreThanOneInstanceAllowed", "class_m_i_d_i2_l_r_application.html#a0691c53e76b68befb5f990cf393d5ec9", null ],
+    [ "SaveControlsModel", "class_m_i_d_i2_l_r_application.html#a20967d40a0d0b8656e7dd48b875721b8", null ],
     [ "SetAppLanguage", "class_m_i_d_i2_l_r_application.html#acc97303ed8304e76d86d106c528e78ea", null ],
     [ "shutdown", "class_m_i_d_i2_l_r_application.html#ab5c41060c26b2d07197651ad3f74f62f", null ],
     [ "systemRequestedQuit", "class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f", null ],

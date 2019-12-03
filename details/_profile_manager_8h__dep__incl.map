@@ -1,8 +1,12 @@
-<map id="D:/Users/Rory/source/repos/MIDI2LR/Source/ProfileManager.h" name="D:/Users/Rory/source/repos/MIDI2LR/Source/ProfileManager.h">
-<area shape="rect" id="node1" title=" " alt="" coords="365,5,521,61"/>
-<area shape="rect" id="node2" href="$_l_r___i_p_c___in_8cpp.html" title=" " alt="" coords="5,109,161,165"/>
-<area shape="rect" id="node3" href="$_main_8cpp.html" title=" " alt="" coords="185,109,341,165"/>
-<area shape="rect" id="node4" href="$_main_component_8cpp.html" title=" " alt="" coords="365,109,521,165"/>
-<area shape="rect" id="node5" href="$_profile_manager_8cpp.html" title=" " alt="" coords="545,109,701,165"/>
-<area shape="rect" id="node6" href="$_settings_manager_8cpp.html" title=" " alt="" coords="725,109,881,165"/>
+<map id="C:/Users/rsjaf/source/repos/MIDI2LR/Source/ProfileManager.h" name="C:/Users/rsjaf/source/repos/MIDI2LR/Source/ProfileManager.h">
+<area shape="rect" id="node1" title=" " alt="" coords="217,5,373,61"/>
+<area shape="rect" id="node2" href="$_l_r___i_p_c___in_8cpp.html" title=" " alt="" coords="51,109,207,165"/>
+<area shape="rect" id="node3" href="$_main_8cpp.html" title=" " alt="" coords="5,213,161,269"/>
+<area shape="rect" id="node4" href="$_settings_manager_8h.html" title=" " alt="" coords="349,109,505,165"/>
+<area shape="rect" id="node5" href="$_main_component_8cpp.html" title=" " alt="" coords="185,213,341,269"/>
+<area shape="rect" id="node10" href="$_profile_manager_8cpp.html" title=" " alt="" coords="529,109,685,165"/>
+<area shape="rect" id="node6" href="$_main_window_8cpp.html" title=" " alt="" coords="725,213,881,269"/>
+<area shape="rect" id="node7" href="$_settings_component_8cpp.html" title=" " alt="" coords="906,213,1071,269"/>
+<area shape="rect" id="node8" href="$_settings_manager_8cpp.html" title=" " alt="" coords="365,213,521,269"/>
+<area shape="rect" id="node9" href="$_version_checker_8cpp.html" title=" " alt="" coords="545,213,701,269"/>
 </map>

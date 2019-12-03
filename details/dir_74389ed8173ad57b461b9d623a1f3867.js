@@ -19,10 +19,7 @@ var dir_74389ed8173ad57b461b9d623a1f3867 =
     [ "CommandTableModel.h", "_command_table_model_8h.html", [
       [ "CommandTableModel", "class_command_table_model.html", "class_command_table_model" ]
     ] ],
-    [ "Concurrency.h", "_concurrency_8h.html", [
-      [ "ConcurrentQueue", "classrsj_1_1_concurrent_queue.html", "classrsj_1_1_concurrent_queue" ],
-      [ "SpinLock", "classrsj_1_1_spin_lock.html", "classrsj_1_1_spin_lock" ]
-    ] ],
+    [ "Concurrency.h", "_concurrency_8h.html", "_concurrency_8h" ],
     [ "ControlsModel.cpp", "_controls_model_8cpp.html", null ],
     [ "ControlsModel.h", "_controls_model_8h.html", "_controls_model_8h" ],
     [ "DebugInfo.cpp", "_debug_info_8cpp.html", null ],
@@ -56,6 +53,7 @@ var dir_74389ed8173ad57b461b9d623a1f3867 =
     [ "Misc.h", "_misc_8h.html", "_misc_8h" ],
     [ "NrpnMessage.cpp", "_nrpn_message_8cpp.html", null ],
     [ "NrpnMessage.h", "_nrpn_message_8h.html", [
+      [ "InternalStructure", "struct_nrpn_filter_1_1_internal_structure.html", "struct_nrpn_filter_1_1_internal_structure" ],
       [ "NrpnFilter", "class_nrpn_filter.html", "class_nrpn_filter" ],
       [ "ProcessResult", "struct_nrpn_filter_1_1_process_result.html", "struct_nrpn_filter_1_1_process_result" ]
     ] ],
@@ -80,6 +78,10 @@ var dir_74389ed8173ad57b461b9d623a1f3867 =
     [ "SettingsManager.cpp", "_settings_manager_8cpp.html", null ],
     [ "SettingsManager.h", "_settings_manager_8h.html", [
       [ "SettingsManager", "class_settings_manager.html", "class_settings_manager" ]
+    ] ],
+    [ "TextButtonAligned.cpp", "_text_button_aligned_8cpp.html", null ],
+    [ "TextButtonAligned.h", "_text_button_aligned_8h.html", [
+      [ "TextButtonAligned", "class_text_button_aligned.html", "class_text_button_aligned" ]
     ] ],
     [ "Translate.cpp", "_translate_8cpp.html", "_translate_8cpp" ],
     [ "Translate.h", "_translate_8h.html", "_translate_8h" ],

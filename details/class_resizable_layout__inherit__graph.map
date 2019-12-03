@@ -1,8 +1,8 @@
 <map id="ResizableLayout" name="ResizableLayout">
 <area shape="rect" id="node1" title=" " alt="" coords="203,365,403,677"/>
-<area shape="rect" id="node4" href="$class_main_content_component.html" title=" " alt="" coords="5,725,195,1169"/>
-<area shape="rect" id="node5" href="$class_settings_component.html" title=" " alt="" coords="219,777,387,1118"/>
-<area shape="rect" id="node6" href="$class_top_level_resizable_layout.html" title=" " alt="" coords="411,901,599,993"/>
+<area shape="rect" id="node4" href="$class_main_content_component.html" title=" " alt="" coords="5,725,195,1155"/>
+<area shape="rect" id="node5" href="$class_settings_component.html" title=" " alt="" coords="219,784,387,1096"/>
+<area shape="rect" id="node6" href="$class_top_level_resizable_layout.html" title=" " alt="" coords="411,894,599,986"/>
 <area shape="rect" id="node2" href="$class_resizable_child.html" title=" " alt="" coords="133,5,288,317"/>
 <area shape="rect" id="node3" title=" " alt="" coords="313,123,479,200"/>
 </map>

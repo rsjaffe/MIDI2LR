@@ -1,10 +1,9 @@
 <map id="MainContentComponent" name="MainContentComponent">
-<area shape="rect" id="node1" title=" " alt="" coords="211,725,400,1169"/>
+<area shape="rect" id="node1" title=" " alt="" coords="151,725,340,1155"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,483,93,560"/>
 <area shape="rect" id="node3" title=" " alt="" coords="117,483,253,560"/>
 <area shape="rect" id="node4" title=" " alt="" coords="278,483,333,560"/>
-<area shape="rect" id="node5" href="$classjuce_1_1_button_1_1_listener.html" title=" " alt="" coords="357,483,425,560"/>
-<area shape="rect" id="node6" href="$class_resizable_layout.html" title=" " alt="" coords="449,365,649,677"/>
-<area shape="rect" id="node7" href="$class_resizable_child.html" title=" " alt="" coords="379,5,533,317"/>
-<area shape="rect" id="node8" title=" " alt="" coords="558,123,725,200"/>
+<area shape="rect" id="node5" href="$class_resizable_layout.html" title=" " alt="" coords="357,365,557,677"/>
+<area shape="rect" id="node6" href="$class_resizable_child.html" title=" " alt="" coords="287,5,441,317"/>
+<area shape="rect" id="node7" title=" " alt="" coords="466,123,633,200"/>
 </map>

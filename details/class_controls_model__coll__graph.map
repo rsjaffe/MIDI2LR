@@ -1,15 +1,14 @@
 <map id="ControlsModel" name="ControlsModel">
-<area shape="rect" id="node1" title=" " alt="" coords="441,1351,588,1589"/>
-<area shape="rect" id="node2" title=" " alt="" coords="427,1196,602,1288"/>
-<area shape="rect" id="node3" href="$class_channel_model.html" title=" " alt="" coords="441,777,588,1133"/>
-<area shape="rect" id="node4" title=" " alt="" coords="197,571,361,663"/>
-<area shape="rect" id="node5" href="$structrsj_1_1_settings_struct.html" title=" " alt="" coords="214,175,341,281"/>
-<area shape="rect" id="node6" title=" " alt="" coords="103,5,185,83"/>
+<area shape="rect" id="node1" title=" " alt="" coords="444,1248,591,1487"/>
+<area shape="rect" id="node2" title=" " alt="" coords="430,1093,605,1185"/>
+<area shape="rect" id="node3" href="$class_channel_model.html" title=" " alt="" coords="444,675,591,1031"/>
+<area shape="rect" id="node4" title=" " alt="" coords="201,520,365,612"/>
+<area shape="rect" id="node5" href="$structrsj_1_1_settings_struct.html" title=" " alt="" coords="149,175,275,281"/>
+<area shape="rect" id="node6" title=" " alt="" coords="100,5,183,83"/>
 <area shape="rect" id="node12" title=" " alt="" coords="5,355,181,447"/>
-<area shape="rect" id="node7" title=" " alt="" coords="385,5,436,83"/>
-<area shape="rect" id="node13" title=" " alt="" coords="349,355,472,447"/>
-<area shape="rect" id="node8" title=" " alt="" coords="552,579,707,656"/>
-<area shape="rect" id="node9" title=" " alt="" coords="731,579,845,656"/>
-<area shape="rect" id="node10" href="$classrsj_1_1_spin_lock.html" title=" " alt="" coords="883,520,987,715"/>
-<area shape="rect" id="node11" title=" " alt="" coords="880,189,989,267"/>
+<area shape="rect" id="node7" title=" " alt="" coords="385,5,423,83"/>
+<area shape="rect" id="node11" title=" " alt="" coords="284,362,487,439"/>
+<area shape="rect" id="node8" title=" " alt="" coords="555,527,709,605"/>
+<area shape="rect" id="node9" title=" " alt="" coords="777,189,876,267"/>
+<area shape="rect" id="node10" title=" " alt="" coords="912,520,1072,612"/>
 </map>

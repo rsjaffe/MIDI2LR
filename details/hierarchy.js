@@ -35,6 +35,7 @@ var hierarchy =
     ] ],
     [ "std::hash< rsj::MidiMessageId >", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", null ],
     [ "CommandSet::Impl", "class_command_set_1_1_impl.html", null ],
+    [ "NrpnFilter::InternalStructure", "struct_nrpn_filter_1_1_internal_structure.html", null ],
     [ "JUCEApplication", null, [
       [ "MIDI2LRApplication", "class_m_i_d_i2_l_r_application.html", null ]
     ] ],
@@ -43,12 +44,7 @@ var hierarchy =
       [ "PWoptions", "class_p_woptions.html", null ]
     ] ],
     [ "Listener", "classjuce_1_1_button_1_1_listener.html", [
-      [ "CCoptions", "class_c_coptions.html", null ],
-      [ "MainContentComponent", "class_main_content_component.html", null ],
-      [ "SettingsComponent", "class_settings_component.html", null ]
-    ] ],
-    [ "Listener", "classjuce_1_1_slider_1_1_listener.html", [
-      [ "SettingsComponent", "class_settings_component.html", null ]
+      [ "CCoptions", "class_c_coptions.html", null ]
     ] ],
     [ "LrIpcIn", "class_lr_ipc_in.html", null ],
     [ "LrIpcOut", "class_lr_ipc_out.html", null ],
@@ -77,7 +73,9 @@ var hierarchy =
       [ "CommandTableModel", "class_command_table_model.html", null ]
     ] ],
     [ "TextButton", null, [
-      [ "CommandMenu", "class_command_menu.html", null ]
+      [ "TextButtonAligned", "class_text_button_aligned.html", [
+        [ "CommandMenu", "class_command_menu.html", null ]
+      ] ]
     ] ],
     [ "Thread", null, [
       [ "VersionChecker", "class_version_checker.html", null ]

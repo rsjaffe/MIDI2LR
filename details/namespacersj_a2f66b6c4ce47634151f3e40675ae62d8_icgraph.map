@@ -1,12 +1,10 @@
 <map id="rsj::AppLogFilePath" name="rsj::AppLogFilePath">
-<area shape="rect" id="node1" title=" " alt="" coords="271,239,407,265"/>
+<area shape="rect" id="node1" title=" " alt="" coords="271,173,407,200"/>
 <area shape="rect" id="node2" href="$class_c_coptions.html#a13493c8ed50e389eb15930fbcdeb0e93" title=" " alt="" coords="29,5,199,32"/>
-<area shape="rect" id="node3" href="$class_command_menu.html#a9504e6ef61f5791518bcdf016baea099" title=" " alt="" coords="33,56,195,83"/>
-<area shape="rect" id="node4" href="$class_midi_receiver.html#afbab9200ae3b216c658df1fe5033711b" title=" " alt="" coords="17,107,211,149"/>
-<area shape="rect" id="node5" href="$class_main_content_component.html#a20affb5b561c098afe948341c8cbc7f2" title=" " alt="" coords="33,173,195,214"/>
-<area shape="rect" id="node6" href="$class_lr_ipc_out.html#a27ee32e8a38df4706daba31ff7e20cab" title=" " alt="" coords="24,239,204,265"/>
-<area shape="rect" id="node7" href="$class_profile_manager.html#a1d84fc917489f92e3c024adc7ae2b7b6" title=" " alt="" coords="5,289,223,316"/>
-<area shape="rect" id="node8" href="$class_lr_ipc_in.html#a833e0157f89d7f78447d7d6fccac69e4" title=" " alt="" coords="44,340,184,367"/>
-<area shape="rect" id="node9" href="$namespacersj.html#a7ef1999b70f9edef40831d04404d3761" title=" " alt="" coords="41,391,187,417"/>
-<area shape="rect" id="node10" href="$namespacersj.html#a3ff3cae4cb893f0e81cd429efdd189de" title=" " alt="" coords="37,441,191,468"/>
+<area shape="rect" id="node3" href="$class_midi_receiver.html#afbab9200ae3b216c658df1fe5033711b" title=" " alt="" coords="17,57,211,98"/>
+<area shape="rect" id="node4" href="$class_lr_ipc_out.html#a3781eb19d9999a241a4c05917d1f73aa" title=" " alt="" coords="24,123,204,149"/>
+<area shape="rect" id="node5" href="$class_profile_manager.html#adb2586a31d8af58778eed5090ef4afcd" title=" " alt="" coords="5,173,223,200"/>
+<area shape="rect" id="node6" href="$class_midi_sender.html#a5c5560cc6e3d337b64d8dd52be2ae4df" title=" " alt="" coords="51,224,177,251"/>
+<area shape="rect" id="node7" href="$namespacersj.html#a7ef1999b70f9edef40831d04404d3761" title=" " alt="" coords="41,275,187,301"/>
+<area shape="rect" id="node8" href="$namespacersj.html#a3ff3cae4cb893f0e81cd429efdd189de" title=" " alt="" coords="37,325,191,352"/>
 </map>

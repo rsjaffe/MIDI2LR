@@ -14,7 +14,6 @@ var annotated_dup =
     [ "DebugInfo", "class_debug_info.html", "class_debug_info" ],
     [ "Listener", "classjuce_1_1_text_editor_1_1_listener.html", null ],
     [ "Listener", "classjuce_1_1_button_1_1_listener.html", null ],
-    [ "Listener", "classjuce_1_1_slider_1_1_listener.html", null ],
     [ "LrIpcIn", "class_lr_ipc_in.html", "class_lr_ipc_in" ],
     [ "LrIpcOut", "class_lr_ipc_out.html", "class_lr_ipc_out" ],
     [ "MainContentComponent", "class_main_content_component.html", "class_main_content_component" ],
@@ -30,6 +29,7 @@ var annotated_dup =
     [ "ResizableLayout", "class_resizable_layout.html", "class_resizable_layout" ],
     [ "SettingsComponent", "class_settings_component.html", "class_settings_component" ],
     [ "SettingsManager", "class_settings_manager.html", "class_settings_manager" ],
+    [ "TextButtonAligned", "class_text_button_aligned.html", "class_text_button_aligned" ],
     [ "TopLevelResizableLayout", "class_top_level_resizable_layout.html", "class_top_level_resizable_layout" ],
     [ "VersionChecker", "class_version_checker.html", "class_version_checker" ]
 ];

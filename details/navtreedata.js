@@ -1,18 +1,17 @@
 /*
-@ @licstart  The following is the entire license notice for the
+@licstart  The following is the entire license notice for the
 JavaScript code in this file.
 
-Copyright (C) 1997-2017 by Dimitri van Heesch
+Copyright (C) 1997-2019 by Dimitri van Heesch
 
 This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+it under the terms of version 2 of the GNU General Public License as published by
+the Free Software Foundation
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
@@ -50,6 +49,7 @@ var NAVTREE =
       [ "File List", "files.html", "files_dup" ],
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
+        [ "Functions", "globals_func.html", null ],
         [ "Variables", "globals_vars.html", null ],
         [ "Typedefs", "globals_type.html", null ],
         [ "Enumerator", "globals_eval.html", null ],
@@ -62,9 +62,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"class_channel_model.html#a9b630a266a5a8c6e0ca0cfb1fe710475",
-"class_midi_receiver.html#a6f22aaf308531ff37ded81a4aab5d807",
-"classrsj_1_1_concurrent_queue.html#ace07c8ea1648b7bba66cfa448a8da853"
+"class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817",
+"class_midi_receiver.html#a2002ccf0c5057164b72579f52f574f02",
+"classrsj_1_1_concurrent_queue.html#ac51d666930301de97cd235df9ee3e230"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

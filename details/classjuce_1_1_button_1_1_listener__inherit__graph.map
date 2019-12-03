@@ -1,6 +1,4 @@
 <map id="Listener" name="Listener">
-<area shape="rect" id="node1" title=" " alt="" coords="253,5,321,83"/>
-<area shape="rect" id="node2" href="$class_c_coptions.html" title=" " alt="" coords="5,145,168,560"/>
-<area shape="rect" id="node3" href="$class_main_content_component.html" title=" " alt="" coords="192,131,381,575"/>
-<area shape="rect" id="node4" href="$class_settings_component.html" title=" " alt="" coords="405,182,573,523"/>
+<area shape="rect" id="node1" title=" " alt="" coords="53,5,121,83"/>
+<area shape="rect" id="node2" href="$class_c_coptions.html" title=" " alt="" coords="5,131,168,545"/>
 </map>

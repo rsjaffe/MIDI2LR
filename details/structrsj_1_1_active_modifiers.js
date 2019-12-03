@@ -1,5 +1,7 @@
 var structrsj_1_1_active_modifiers =
 [
+    [ "FromMidi2LR", "structrsj_1_1_active_modifiers.html#af8c78c7149026efddd0b39ceee4ca170", null ],
+    [ "FromWindows", "structrsj_1_1_active_modifiers.html#aa78acabce2f33efb42bfd957a50f0662", null ],
     [ "alt_opt", "structrsj_1_1_active_modifiers.html#a371d0ef47c6bcf9ac874335dd4a8928f", null ],
     [ "command", "structrsj_1_1_active_modifiers.html#ad46a01f2fe20405d3ac4bca6a9934b8e", null ],
     [ "control", "structrsj_1_1_active_modifiers.html#a78b0a997c4ccabbf2a2e22017a9a6d8f", null ],
