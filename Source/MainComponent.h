@@ -32,10 +32,11 @@ namespace rsj {
    struct MidiMessage;
 }
 
-class MainContentComponent final : public juce::Component,
-                                   juce::AsyncUpdater,
-                                   juce::Timer,
-                                   public ResizableLayout {
+class MainContentComponent final :
+    public juce::Component,
+    juce::AsyncUpdater,
+    juce::Timer,
+    public ResizableLayout {
  public:
    MainContentComponent(const CommandSet& command_set, Profile& profile,
        ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
@@ -46,7 +47,7 @@ class MainContentComponent final : public juce::Component,
    MainContentComponent& operator=(const MainContentComponent& other) = delete;
    MainContentComponent& operator=(MainContentComponent&& other) = delete;
    void Init();
-   void SaveProfile();
+   void SaveProfile() const;
 
  private:
    void handleAsyncUpdate() override;

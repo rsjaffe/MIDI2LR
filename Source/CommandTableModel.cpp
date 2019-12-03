@@ -80,7 +80,7 @@ void CommandTableModel::paintCell(
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -97,7 +97,7 @@ void CommandTableModel::paintRowBackground(
          g.fillAll(juce::Colours::lightblue);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -125,32 +125,27 @@ juce::Component* CommandTableModel::refreshComponentForCell(
          if (command_select == nullptr) {
             /* create a new command menu, delete old one if it exists */
             delete existing_component;
-#pragma warning(suppress : 26400 26409 24623 24624)
-            command_select =
-                new CommandMenu{profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)),
-                    command_set_, profile_};
-            /* add 1 because 0 is reserved for no selection */
-            command_select->SetSelectedItem(
+            auto new_select = std::make_unique<CommandMenu>(
+                profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)), command_set_,
+                profile_);
+            new_select->SetSelectedItem(
                 command_set_.CommandTextIndex(profile_.GetCommandForMessage(
                     profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
                 + 1);
+            return new_select.release();
          }
-         else {
-            /* change old command menu */
-            command_select->SetMsg(
-                profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)));
-            /* add 1 because 0 is reserved for no selection */
-            command_select->SetSelectedItem(
-                command_set_.CommandTextIndex(profile_.GetCommandForMessage(
-                    profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
-                + 1);
-         }
+         /* change old command menu */
+         command_select->SetMsg(profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)));
+         command_select->SetSelectedItem(
+             command_set_.CommandTextIndex(profile_.GetCommandForMessage(
+                 profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
+             + 1);
          return command_select;
       }
       return nullptr;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -162,7 +157,7 @@ void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forward
       profile_.Resort(current_sort);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

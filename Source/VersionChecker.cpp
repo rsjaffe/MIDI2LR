@@ -50,7 +50,7 @@ void VersionChecker::Stop()
 void VersionChecker::handleAsyncUpdate()
 {
    try {
-      if (threadShouldExit())
+      if (juce::Thread::threadShouldExit())
          return;
       juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::AlertIconType::QuestionIcon,
           juce::translate("A new version of MIDI2LR is available."),
@@ -68,7 +68,7 @@ void VersionChecker::handleAsyncUpdate()
           }));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -79,20 +79,20 @@ void VersionChecker::run()
       rsj::LabelThread(L"VersionChecker run thread");
       const juce::URL version_url{"https://rsjaffe.github.io/MIDI2LR/version.xml"};
       const auto version_xml_element{version_url.readEntireXmlStream()};
-      if (version_xml_element && !threadShouldExit()) {
+      if (version_xml_element && !juce::Thread::threadShouldExit()) {
          const auto last_checked = settings_manager_.GetLastVersionFound();
          new_version_ = version_xml_element->getIntAttribute("latest");
          rsj::Log("Version available " + IntToVersion(new_version_) + ", version last checked "
                   + IntToVersion(last_checked) + ", current version "
                   + IntToVersion(ProjectInfo::versionNumber) + '.');
          if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked
-             && !threadShouldExit()) {
+             && !juce::Thread::threadShouldExit()) {
             triggerAsyncUpdate();
          }
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

@@ -28,7 +28,7 @@ void MidiSender::Start()
       InitDevices();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -36,33 +36,40 @@ void MidiSender::Start()
 void MidiSender::Send(rsj::MidiMessageId id, int value) const
 {
    try {
-      if (id.msg_id_type == rsj::MessageType::Pw)
+      if (id.msg_id_type == rsj::MessageType::Pw) {
+         const auto msg{juce::MidiMessage::pitchWheel(id.channel, value)};
          for (const auto& dev : output_devices_)
-            dev->sendMessageNow(juce::MidiMessage::pitchWheel(id.channel, value));
-      else if (id.msg_id_type == rsj::MessageType::NoteOn)
+            dev->sendMessageNow(msg);
+      }
+      else if (id.msg_id_type == rsj::MessageType::NoteOn) {
+         const auto msg{juce::MidiMessage::noteOn(
+             id.channel, id.control_number, gsl::narrow_cast<juce::uint8>(value))};
          for (const auto& dev : output_devices_)
-            dev->sendMessageNow(juce::MidiMessage::noteOn(
-                id.channel, id.control_number, gsl::narrow_cast<juce::uint8>(value)));
+            dev->sendMessageNow(msg);
+      }
       else if (id.msg_id_type == rsj::MessageType::Cc) {
          if (id.control_number < 128) {
             /* regular message */
+            const auto msg{
+                juce::MidiMessage::controllerEvent(id.channel, id.control_number, value)};
             for (const auto& dev : output_devices_)
-               dev->sendMessageNow(
-                   juce::MidiMessage::controllerEvent(id.channel, id.control_number, value));
+               dev->sendMessageNow(msg);
          }
          else {
             /* NRPN */
-            const auto parameter_lsb = id.control_number & 0x7f;
-            const auto parameter_msb = id.control_number >> 7 & 0x7F;
-            const auto value_lsb = value & 0x7f;
-            const auto value_msb = value >> 7 & 0x7F;
+            const auto msg_parm_msb{
+                juce::MidiMessage::controllerEvent(id.channel, 99, id.control_number >> 7 & 0x7F)};
+            const auto msg_parm_lsb{
+                juce::MidiMessage::controllerEvent(id.channel, 98, id.control_number & 0x7f)};
+            const auto msg_val_msb{
+                juce::MidiMessage::controllerEvent(id.channel, 6, value >> 7 & 0x7F)};
+            const auto msg_val_lsb{
+                juce::MidiMessage::controllerEvent(id.channel, 38, value & 0x7f)};
             for (const auto& dev : output_devices_) {
-               dev->sendMessageNow(
-                   juce::MidiMessage::controllerEvent(id.channel, 99, parameter_msb));
-               dev->sendMessageNow(
-                   juce::MidiMessage::controllerEvent(id.channel, 98, parameter_lsb));
-               dev->sendMessageNow(juce::MidiMessage::controllerEvent(id.channel, 6, value_msb));
-               dev->sendMessageNow(juce::MidiMessage::controllerEvent(id.channel, 38, value_lsb));
+               dev->sendMessageNow(msg_parm_msb);
+               dev->sendMessageNow(msg_parm_lsb);
+               dev->sendMessageNow(msg_val_msb);
+               dev->sendMessageNow(msg_val_lsb);
             }
          }
       }
@@ -74,7 +81,7 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
    }
 
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -87,7 +94,7 @@ void MidiSender::RescanDevices()
       InitDevices();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -105,7 +112,7 @@ void MidiSender::InitDevices()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

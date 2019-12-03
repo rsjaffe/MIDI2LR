@@ -18,8 +18,8 @@
 #include <memory>
 
 #include <JuceLibraryCode/JuceHeader.h>
-class LrIpcOut;
-class ProfileManager;
+#include "LR_IPC_Out.h"
+#include "ProfileManager.h"
 
 class SettingsManager final {
  public:
@@ -29,20 +29,48 @@ class SettingsManager final {
    SettingsManager(SettingsManager&& other) = delete;
    SettingsManager& operator=(const SettingsManager& other) = delete;
    SettingsManager& operator=(SettingsManager&& other) = delete;
-   [[nodiscard]] int GetAutoHideTime() const noexcept;
-   [[nodiscard]] int GetLastVersionFound() const noexcept;
-   [[nodiscard]] bool GetPickupEnabled() const noexcept;
-   [[nodiscard]] juce::String GetProfileDirectory() const noexcept;
-   void SetAutoHideTime(int new_time);
-   void SetLastVersionFound(int version_number);
-   void SetPickupEnabled(bool enabled);
-   void SetProfileDirectory(const juce::String& profile_directory);
-
+   [[nodiscard]] int GetAutoHideTime() const noexcept
+   {
+      return properties_file_->getIntValue("autohide", 0);
+   }
+   [[nodiscard]] int GetLastVersionFound() const noexcept
+   {
+      return properties_file_->getIntValue("LastVersionFound", 0);
+   }
+   [[nodiscard]] bool GetPickupEnabled() const noexcept
+   {
+      return properties_file_->getBoolValue("pickup_enabled", true);
+   }
+   [[nodiscard]] juce::String GetProfileDirectory() const noexcept
+   {
+      return properties_file_->getValue("profile_directory");
+   }
+   // ReSharper disable CppMemberFunctionMayBeConst
+   void SetAutoHideTime(int new_time)
+   {
+      properties_file_->setValue("autohide", new_time);
+   }
+   void SetLastVersionFound(int version_number)
+   {
+      properties_file_->setValue("LastVersionFound", version_number);
+   }
+   void SetPickupEnabled(bool enabled)
+   {
+      properties_file_->setValue("pickup_enabled", enabled);
+      lr_ipc_out_.SendCommand(std::string("Pickup ") + (enabled ? '1' : '0') + '\n');
+   }
+   void SetProfileDirectory(const juce::String& profile_directory)
+   {
+      properties_file_->setValue("profile_directory", profile_directory);
+      profile_manager_.SetProfileDirectory(profile_directory);
+   }
+   // ReSharper restore CppMemberFunctionMayBeConst
  private:
+   void ConnectionCallback(bool, bool);
+
    LrIpcOut& lr_ipc_out_;
    ProfileManager& profile_manager_;
    std::unique_ptr<juce::PropertiesFile> properties_file_;
-   void ConnectionCallback(bool, bool);
 };
 
 #endif // SETTINGSMANAGER_H_INCLUDED

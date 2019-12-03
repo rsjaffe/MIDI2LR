@@ -58,7 +58,7 @@ void LrIpcOut::SendCommand(std::string&& command)
       command_.push(std::move(command));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -71,7 +71,7 @@ void LrIpcOut::SendCommand(const std::string& command)
       command_.push(command);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -87,7 +87,7 @@ void LrIpcOut::SendingRestart()
       SendCommand("FullRefresh 1\n");
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -101,7 +101,7 @@ void LrIpcOut::SendingStop()
          cb(con, true);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -112,22 +112,24 @@ void LrIpcOut::Start()
       Connect();
       io_thread0_ = std::async(std::launch::async, [this] {
          rsj::LabelThread(L"LrIpcOut io_thread0_");
+         _mm_setcsr(_mm_getcsr() | 0x8040);
          io_context_.run();
       });
       io_thread1_ = std::async(std::launch::async, [this] {
          rsj::LabelThread(L"LrIpcOut io_thread1_");
+         _mm_setcsr(_mm_getcsr() | 0x8040);
          io_context_.run();
       });
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
 
 void LrIpcOut::Stop()
 {
-   thread_should_exit_.store(true, std::memory_order_seq_cst);
+   thread_should_exit_.store(true, std::memory_order_release);
    /* pump output queue before port closed */
    if (const auto m = command_.clear_count_emplace(kTerminate))
       rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
@@ -170,7 +172,7 @@ void LrIpcOut::Connect()
           });
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -184,7 +186,7 @@ void LrIpcOut::ConnectionMade()
          cb(true, sending_stopped_);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -204,6 +206,21 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
           {"ChangeLastDevelopParameter",
               {"IncrementLastDevelopParameter 1\n", "DecrementLastDevelopParameter 1\n"}},
           {"IncreaseDecreaseRating", {"IncreaseRating 1\n", "DecreaseRating 1\n"}},
+          {"Key2Key1", {"Key2 1\n", "Key1 1\n"}},
+          {"Key4Key3", {"Key4 1\n", "Key3 1\n"}},
+          {"Key6Key5", {"Key6 1\n", "Key5 1\n"}},
+          {"Key8Key7", {"Key8 1\n", "Key7 1\n"}},
+          {"Key10Key9", {"Key10 1\n", "Key9 1\n"}},
+          {"Key12Key11", {"Key12 1\n", "Key11 1\n"}},
+          {"Key14Key13", {"Key14 1\n", "Key13 1\n"}},
+          {"Key16Key15", {"Key16 1\n", "Key15 1\n"}},
+          {"Key18Key17", {"Key18 1\n", "Key17 1\n"}},
+          {"Key20Key19", {"Key20 1\n", "Key19 1\n"}},
+          {"Key22Key21", {"Key22 1\n", "Key21 1\n"}},
+          {"Key24Key23", {"Key24 1\n", "Key23 1\n"}},
+          {"Key26Key25", {"Key26 1\n", "Key25 1\n"}},
+          {"Key28Key27", {"Key28 1\n", "Key27 1\n"}},
+          {"Key30Key29", {"Key30 1\n", "Key29 1\n"}},
           {"Key32Key31", {"Key32 1\n", "Key31 1\n"}},
           {"Key34Key33", {"Key34 1\n", "Key33 1\n"}},
           {"Key36Key35", {"Key36 1\n", "Key35 1\n"}},
@@ -219,8 +236,8 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
          return;
       const auto command_to_send = profile_.GetCommandForMessage(message);
       if (command_to_send == "PrevPro" || command_to_send == "NextPro"
-          || command_to_send == "Unmapped")
-         /* handled by ProfileManager */
+          || command_to_send == CommandSet::kUnassigned)
+         /* handled by ProfileManager or unassigned */
          [[unlikely]] return;
       /* if it is a repeated command, change command_to_send appropriately */
       if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end())
@@ -252,7 +269,7 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -277,7 +294,7 @@ void LrIpcOut::SendOut()
           });
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -289,12 +306,12 @@ void LrIpcOut::SetRecenter(rsj::MidiMessageId mm)
    try {
       asio::dispatch([this] { recenter_timer_.expires_after(kRecenterTimer); });
       recenter_timer_.async_wait([this, mm](const asio::error_code& error) {
-         if (!error && !thread_should_exit_.load(std::memory_order_relaxed))
+         if (!error && !thread_should_exit_.load(std::memory_order_acquire))
             midi_sender_.Send(mm, controls_model_.SetToCenter(mm));
       });
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

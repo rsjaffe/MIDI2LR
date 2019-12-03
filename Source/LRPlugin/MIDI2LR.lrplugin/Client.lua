@@ -109,6 +109,7 @@ LrTasks.startAsyncTask(
       BrushSizeSmaller                       = CU.fSimulateKeys(KS.KeyCode.BrushDecreaseKey,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
       ConvertToGrayscale                     = CU.fToggleTFasync('ConvertToGrayscale'),
       CloseApp                               = function() MIDI2LR.SERVER:send('TerminateApplication 1\n') end,
+      ColorLabelNone                         = function() LrSelection.setColorLabel("none") end,
       CropConstrainToWarp                    = CU.fToggle01('CropConstrainToWarp'),
       CropOverlay                            = CU.fToggleTool('crop'),
       CycleMaskOverlayColor                  = CU.fSimulateKeys(KS.KeyCode.CycleAdjustmentBrushOverlayKey,true),
@@ -355,7 +356,15 @@ LrTasks.startAsyncTask(
       profile15                       = function() Profiles.changeProfile('profile15', true) end,
       profile16                       = function() Profiles.changeProfile('profile16', true) end,
       profile17                       = function() Profiles.changeProfile('profile17', true) end,
-      profile18                       = function() Profiles.changeProfile('profile18', true) end,      
+      profile18                       = function() Profiles.changeProfile('profile18', true) end,
+      profile19                       = function() Profiles.changeProfile('profile19', true) end, 
+      profile20                       = function() Profiles.changeProfile('profile20', true) end, 
+      profile21                       = function() Profiles.changeProfile('profile21', true) end, 
+      profile22                       = function() Profiles.changeProfile('profile22', true) end, 
+      profile23                       = function() Profiles.changeProfile('profile23', true) end, 
+      profile24                       = function() Profiles.changeProfile('profile24', true) end, 
+      profile25                       = function() Profiles.changeProfile('profile25', true) end, 
+      profile26                       = function() Profiles.changeProfile('profile26', true) end, 
       PVLatest                        = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version ' .. Database.LatestPVSupported),
       RedEye                          = CU.fToggleTool('redeye'),
       Redo                            = LrUndo.redo,
@@ -465,7 +474,7 @@ LrTasks.startAsyncTask(
       local nocar = function() LrDialogs.message('Quick develop crop aspect ratio'..endmsg) end
       local nowb = function() LrDialogs.message('Quick develop white balance'..endmsg) end
       ACTIONS.AddOrRemoveFromTargetColl    =  function() LrDialogs.message('Add or remove from target collection'..endmsg)  end     
-      ACTIONS.AutoTone                     = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end
+      ACTIONS.AutoTone                     = function() CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); LrDevelopController.revealPanel('adjustPanel'); end
       ACTIONS.CycleLoupeViewInfo           = function() LrDialogs.message('Cycle loupe view style'..endmsg) end
       ACTIONS.EditPhotoshop                = function() LrDialogs.message('Edit in Photoshop action'..endmsg) end
       ACTIONS.EnableToneCurve              = function() LrDialogs.message('Enable Tone Curve action'..endmsg) end
@@ -504,7 +513,7 @@ LrTasks.startAsyncTask(
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
     else
       ACTIONS.AddOrRemoveFromTargetColl    = CU.wrapForEachPhoto('addOrRemoveFromTargetCollection')
-      ACTIONS.AutoTone                     = LrDevelopController.setAutoTone
+      ACTIONS.AutoTone                     = function() LrDevelopController.setAutoTone(); LrDevelopController.revealPanel('adjustPanel'); end
       ACTIONS.CycleLoupeViewInfo           = LrApplicationView.cycleLoupeViewInfo
       ACTIONS.EditPhotoshop                = LrDevelopController.editInPhotoshop
       ACTIONS.EnableToneCurve              = CU.fToggleTFasync('EnableToneCurve')
@@ -579,7 +588,7 @@ LrTasks.startAsyncTask(
       end,
     }
 
-    --called within LrRecursionGuard for setting
+
     function UpdateParamPickup() --closure
       local paramlastmoved = {}
       local lastfullrefresh = 0
@@ -602,6 +611,8 @@ LrTasks.startAsyncTask(
             LastParam = param
             if ProgramPreferences.ClientShowBezelOnChange and not silent then
               CU.showBezel(param,value)
+            elseif type(silent) == 'string' then
+              LrDialogs.showBezel(silent)
             end
           end
           if Database.CmdPanel[param] then
@@ -638,6 +649,8 @@ LrTasks.startAsyncTask(
         LastParam = param
         if ProgramPreferences.ClientShowBezelOnChange and not silent then
           CU.showBezel(param,value)
+        elseif type(silent) == 'string' then
+          LrDialogs.showBezel(silent)
         end
       end
       if Database.CmdPanel[param] then
@@ -653,11 +666,8 @@ LrTasks.startAsyncTask(
         --[[-----------debug section, enable by adding - to beginning this line
         LrMobdebug.on()
         --]]-----------end debug section
-        local LrRecursionGuard    = import 'LrRecursionGuard'
         local LrShell             = import 'LrShell'
         local LrSocket            = import 'LrSocket'
-        local guardreading = LrRecursionGuard('reading')
-        local guardsetting = LrRecursionGuard('setting')
         local CurrentObserver
         --call following within guard for reading
         local function AdjustmentChangeObserver()
@@ -665,6 +675,18 @@ LrTasks.startAsyncTask(
           return function(observer) -- closure
             if not sendIsConnected then return end -- can't send
             if Limits.LimitsCanBeSet() and lastrefresh < os.clock() then
+              -- refresh crop values
+              local val = LrDevelopController.getValue("CropBottom")
+              MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val))
+              MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val))
+              MIDI2LR.SERVER:send(string.format('CropAll %g\n', val))
+              MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val))
+              val = LrDevelopController.getValue("CropTop")
+              MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val))
+              MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val))
+              MIDI2LR.SERVER:send(string.format('CropTop %g\n', val))
+              MIDI2LR.SERVER:send(string.format('CropLeft %g\n', LrDevelopController.getValue("CropLeft")))
+              MIDI2LR.SERVER:send(string.format('CropRight %g\n', LrDevelopController.getValue("CropRight")))
               for param in pairs(Database.Parameters) do
                 local lrvalue = LrDevelopController.getValue(param)
                 if observer[param] ~= lrvalue and type(lrvalue) == 'number' then --testing for MIDI2LR.SERVER.send kills responsiveness
@@ -699,6 +721,80 @@ LrTasks.startAsyncTask(
           }
         end
 
+        local cropbezel = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop') .. ' ' -- no need to recompute each time we crop
+        local LrStringUtils       = import 'LrStringUtils'
+
+        local function RatioCrop(param, value)
+          if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+          if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+            LrApplicationView.switchToModule('develop')
+          end
+          LrDevelopController.selectTool('crop')
+          local prior_c_bottom = LrDevelopController.getValue("CropBottom") --starts at 1
+          local prior_c_top = LrDevelopController.getValue("CropTop") -- starts at 0
+          local prior_c_left = LrDevelopController.getValue("CropLeft") -- starts at 0
+          local prior_c_right = LrDevelopController.getValue("CropRight") -- starts at 1
+          local ratio = (prior_c_right - prior_c_left) / (prior_c_bottom - prior_c_top)
+          if param == "CropTopLeft" then
+            local new_top = tonumber(value)
+            local new_left = prior_c_right - ratio * (prior_c_bottom - new_top)
+            if new_left < 0 then
+              new_top = prior_c_bottom - prior_c_right / ratio
+              new_left = 0
+            end
+            UpdateParam("CropTop",new_top, 
+              cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(prior_c_bottom-new_top)*100,0)..'%')
+            UpdateParam("CropLeft",new_left,true)
+          elseif param == "CropTopRight" then
+            local new_top = tonumber(value)
+            local new_right = prior_c_left + ratio * (prior_c_bottom - new_top)
+            if new_right > 1 then
+              new_top = prior_c_bottom - (1 - prior_c_left) / ratio
+              new_right = 1
+            end
+            UpdateParam("CropTop",new_top,              
+              cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(prior_c_bottom-new_top)*100,0)..'%')
+            UpdateParam("CropRight",new_right,true)
+          elseif param == "CropBottomLeft" then
+            local new_bottom = tonumber(value)
+            local new_left = prior_c_right - ratio * (new_bottom - prior_c_top)
+            if new_left < 0 then
+              new_bottom = prior_c_right / ratio + prior_c_top
+              new_left = 0
+            end
+            UpdateParam("CropBottom",new_bottom,              
+              cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(new_bottom-prior_c_top)*100,0)..'%')
+            UpdateParam("CropLeft",new_left,true)
+          elseif param == "CropBottomRight" then
+            local new_bottom = tonumber(value)
+            local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
+            if new_right > 1 then
+              new_bottom = (1 - prior_c_left) / ratio + prior_c_top
+              new_right = 1
+            end
+            UpdateParam("CropBottom",new_bottom,              
+              cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(new_bottom-prior_c_top)*100,0)..'%')
+            UpdateParam("CropRight",new_right,true)
+          elseif param == "CropAll" then
+            local new_bottom = tonumber(value)
+            local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
+            if new_right > 1 then
+              new_right = 1
+            end
+            local new_top = math.max(prior_c_bottom - new_bottom + prior_c_top,0)
+            local new_left = new_right - ratio * (new_bottom - new_top)
+            if new_left < 0 then
+              new_top = new_bottom - new_right / ratio
+              new_left = 0
+            end
+            UpdateParam("CropBottom",new_bottom,              
+              cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-new_left)*(new_bottom-new_top)*100,0)..'%')
+            UpdateParam("CropRight",new_right,true)
+            UpdateParam("CropTop",new_top,true)
+            UpdateParam("CropLeft",new_left,true)
+          end
+        end
+
         MIDI2LR.CLIENT = LrSocket.bind {
           functionContext = context,
           plugin = _PLUGIN,
@@ -710,7 +806,7 @@ LrTasks.startAsyncTask(
               local param = message:sub(1,split-1)
               local value = message:sub(split+1)
               if Database.Parameters[param] then
-                guardsetting:performWithGuard(UpdateParam,param,tonumber(value))
+                UpdateParam(param,tonumber(value))
               elseif(ACTIONS[param]) then -- perform a one time action
                 if(tonumber(value) > BUTTON_ON) then
                   ACTIONS[param]()
@@ -722,6 +818,8 @@ LrTasks.startAsyncTask(
                 if lp then
                   LastParam = lp
                 end
+              elseif(param:find('Crop') == 1) then 
+                RatioCrop(param,value)
               elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
                 if(tonumber(value) > BUTTON_ON) then
                   local resetparam = param:sub(6)
@@ -762,7 +860,7 @@ LrTasks.startAsyncTask(
         -- will drop out of loop if loadversion changes or if in develop module with selected photo
         while  MIDI2LR.RUNNING and ((LrApplicationView.getCurrentModuleName() ~= 'develop') or (LrApplication.activeCatalog():getTargetPhoto() == nil)) do
           LrTasks.sleep ( .29 )
-          guardsetting:performWithGuard(Profiles.checkProfile)
+          Profiles.checkProfile()
         end --sleep away until ended or until develop module activated
         if MIDI2LR.RUNNING then --didn't drop out of loop because of program termination
           if ProgramPreferences.RevealAdjustedControls then --may be nil or false
@@ -775,12 +873,12 @@ LrTasks.startAsyncTask(
             context,
             MIDI2LR.PARAM_OBSERVER,
             function ( observer )
-              guardreading:performWithGuard(CurrentObserver,observer)
+              CurrentObserver(observer)
             end
           )
           while MIDI2LR.RUNNING do --detect halt or reload
             LrTasks.sleep( .29 )
-            guardsetting:performWithGuard(Profiles.checkProfile)
+            Profiles.checkProfile()
           end
         end
       end

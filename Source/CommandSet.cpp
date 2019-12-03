@@ -44,13 +44,15 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
 {
    /* manually insert unmapped at first position */
    try {
-      cmd_by_number_.emplace_back("Unmapped");
-      cmd_idx_["Unmapped"] = 0;
+      cmd_by_number_.emplace_back(kUnassigned);
+      cmd_label_by_number_.emplace_back(UnassignedTranslated());
+      cmd_idx_[kUnassigned] = 0;
       size_t idx = 1;
       for (const auto& by_category : m_impl_.allcommands_) {
          std::vector<MenuStringT> menu_items_temp{};
          for (const auto& cmd_pair : by_category.second) {
             cmd_by_number_.push_back(cmd_pair.first);
+            cmd_label_by_number_.push_back(by_category.first + " : " + cmd_pair.second);
             cmd_idx_[cmd_pair.first] = idx++;
             menu_items_temp.emplace_back(cmd_pair.second);
          }
@@ -59,7 +61,7 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -88,7 +90,7 @@ CommandSet::Impl::Impl()
              juce::translate("Unable to load MenuTrans.xml."), "Unable to load MenuTrans.xml.");
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -100,7 +102,7 @@ const CommandSet::Impl& CommandSet::MakeImpl() const
       return kImpl;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -116,7 +118,7 @@ size_t CommandSet::CommandTextIndex(const std::string& command) const
       return found->second;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

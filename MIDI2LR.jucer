@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.3.2.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.4.2.1"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="5.4.5" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
@@ -9,6 +9,10 @@
               headerPath="../../&#10;../../asio/">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <FILE id="Dx8BIb" name="TextButtonAligned.cpp" compile="1" resource="0"
+            file="Source/TextButtonAligned.cpp"/>
+      <FILE id="SupFD5" name="TextButtonAligned.h" compile="0" resource="0"
+            file="Source/TextButtonAligned.h"/>
       <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="Source/CCoptions.cpp"/>
       <FILE id="gmEPgP" name="CCoptions.h" compile="0" resource="0" file="Source/CCoptions.h"/>
       <FILE id="oXdqCC" name="CommandMenu.cpp" compile="1" resource="0" file="Source/CommandMenu.cpp"/>
@@ -92,7 +96,8 @@
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxCompatibility="10.12 SDK" osxArchitecture="64BitIntel"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
-                       codeSigningIdentity="Developer ID Application" recommendedWarnings="LLVM"/>
+                       codeSigningIdentity="Developer ID Application" recommendedWarnings="LLVM"
+                       isDebug="1" linkTimeOptimisation="0" optimisation="1"/>
         <CONFIGURATION name="Release" osxCompatibility="10.12 SDK" osxArchitecture="64BitIntel"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"
                        codeSigningIdentity="Developer ID Application"/>
@@ -110,8 +115,11 @@
     <VS2019 targetFolder="Builds/VisualStudio2019" smallIcon="WdgQGt" bigIcon="WdgQGt"
             extraDefs="_WIN32_WINNT=0x0601">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1" useRuntimeLibDLL="0"/>
-        <CONFIGURATION name="Release" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"/>
+        <CONFIGURATION name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1" useRuntimeLibDLL="0"
+                       isDebug="1" linkTimeOptimisation="0" optimisation="1" enableIncrementalLinking="1"
+                       alwaysGenerateDebugSymbols="1"/>
+        <CONFIGURATION name="Release" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"
+                       useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics"/>

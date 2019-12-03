@@ -18,6 +18,7 @@
 #include <fstream>
 #include <memory>
 #include <mutex>
+
 #ifndef _WIN32
 #include <AvailabilityMacros.h>
 #if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
@@ -99,13 +100,13 @@ namespace {
 class MIDI2LRApplication final : public juce::JUCEApplication {
  public:
    // ReSharper disable once CppConstValueFunctionReturnType
-   const juce::String getApplicationName() override
+   const juce::String getApplicationName() override // NOLINT(readability-const-return-type)
    {
       return ProjectInfo::projectName;
    }
 
    // ReSharper disable once CppConstValueFunctionReturnType
-   const juce::String getApplicationVersion() override
+   const juce::String getApplicationVersion() override // NOLINT(readability-const-return-type)
    {
       return ProjectInfo::versionString;
    }
@@ -126,6 +127,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
           * start-up after all, it can just call the quit() method and the event loop won't be
           * run. */
          if (command_line != kShutDownString) {
+            _mm_setcsr(_mm_getcsr() | 0x8040);
             CCoptions::LinkToControlsModel(&controls_model_);
             PWoptions::LinkToControlsModel(&controls_model_);
             juce::LookAndFeel::setDefaultLookAndFeel(&look_feel_);
@@ -149,7 +151,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -199,7 +201,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          });
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -251,7 +253,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          rsj::Log("Default profile saved to " + profile_file.getFullPathName());
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -280,7 +282,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                 juce::translate("Unable to save settings.xml"), "Unable to save settings.xml");
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       }
    }
 
@@ -305,7 +307,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       }
    }
 
@@ -368,7 +370,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          rsj::Translate(lang);
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
          throw;
       }
    }

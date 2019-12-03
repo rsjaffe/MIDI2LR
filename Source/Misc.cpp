@@ -32,32 +32,14 @@
 #endif
 
 /* XCode has issues with std:: in this file, using ::std:: to fix when necessary */
+
+/*****************************************************************************/
+/**************String Routines************************************************/
 namespace {
    ::std::array ascii_map{"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a",
        "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12",
        "\\x13", "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C",
        "\\x1D", "\\x1E", "\\x1F", " ", "!", "\\\""};
-
-#ifdef __GNUG__ /* gnu C++ compiler */
-#include <cxxabi.h>
-#include <memory>
-#include <type_traits>
-   [[nodiscard]] juce::String Demangle(gsl::czstring<> mangled_name)
-   {
-      ::std::size_t len = 0;
-      int status = 0;
-      ::std::unique_ptr<char, decltype(&::std::free)> ptr(
-          ::abi::__cxa_demangle(mangled_name, nullptr, &len, &status), &::std::free);
-      if (status)
-         return mangled_name;
-      return juce::String(juce::CharPointer_UTF8(ptr.get()));
-   }
-#else  /* ndef _GNUG_ */
-   [[nodiscard]] juce::String Demangle(gsl::czstring<> mangled_name)
-   {
-      return juce::String(juce::CharPointer_UTF8(mangled_name));
-   }
-#endif /* _GNUG_ */
 } // namespace
 
 ::std::string rsj::ReplaceInvisibleChars(::std::string_view in)
@@ -79,7 +61,7 @@ namespace {
       return result;
    }
    catch (const ::std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -97,7 +79,7 @@ namespace {
       return result;
    }
    catch (const ::std::exception& e) {
-      rsj::ExceptionResponse("rsj", __func__, e);
+      rsj::ExceptionResponse("rsj", MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -127,11 +109,13 @@ bool rsj::EndsWith(::std::string_view main_str, ::std::string_view to_match)
              && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
    }
    catch (const ::std::exception& e) {
-      rsj::ExceptionResponse("rsj", __func__, e);
+      rsj::ExceptionResponse("rsj", MIDI2LR_FUNC, e);
       throw;
    }
 }
 
+/*****************************************************************************/
+/**************Error Logging**************************************************/
 /* from http://www.cplusplus.com/forum/beginner/175177 and
  * https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/libsupc%2B%2B/cxxabi.h#L156 */
 
@@ -199,25 +183,43 @@ void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
 
 #pragma warning(push)
 #pragma warning(disable : 26447)
+#if defined(__GNUC__) || defined(__clang__)
+void rsj::ExceptionResponse(
+    [[maybe_unused]] gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
+{
+   try {
+      const auto w = e.what();
+      const auto alert_text{juce::translate("Exception ") + w + ' ' + fu + ' '
+                            + juce::translate("Version ") + ProjectInfo::versionString};
+      const auto error_text{
+          juce::String("Exception ") + w + ' ' + fu + " Version " + ProjectInfo::versionString};
+      rsj::LogAndAlertError(alert_text, error_text);
+   }
+   catch (...) { //-V565
+   }
+}
+#else
 /* Use typeid(this).name() for first argument to add class information. Typical call:
- * rsj::ExceptionResponse(typeid(this).name(), __func__, e); */
+ * rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e); */
 void rsj::ExceptionResponse(
     gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
 {
    try {
-      const auto d = Demangle(id);
       const auto w = e.what();
-      const auto alert_text{juce::translate("Exception ") + w + ' ' + d + "::" + fu + ' '
+      const auto alert_text{juce::translate("Exception ") + w + ' ' + id + "::" + fu + ' '
                             + juce::translate("Version ") + ProjectInfo::versionString};
-      const auto error_text{juce::String("Exception ") + w + ' ' + d + "::" + fu + " Version "
+      const auto error_text{juce::String("Exception ") + w + ' ' + id + "::" + fu + " Version "
                             + ProjectInfo::versionString};
       rsj::LogAndAlertError(alert_text, error_text);
    }
    catch (...) { //-V565
    }
 }
+#endif
 #pragma warning(pop)
 
+/*****************************************************************************/
+/*************File Paths******************************************************/
 #ifdef _WIN32
 std::wstring rsj::AppDataFilePath(std::wstring_view file_name)
 {
@@ -253,7 +255,7 @@ namespace {
          return ret;
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
+         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -274,7 +276,7 @@ namespace {
          return ret;
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
+         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
          throw;
       }
    }
@@ -293,7 +295,7 @@ std::wstring rsj::Utf8ToWide(std::string_view in)
       return buffer.data();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse("rsj", __func__, e);
+      rsj::ExceptionResponse("rsj", MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -311,7 +313,7 @@ std::string rsj::WideToUtf8(std::wstring_view in)
       return buffer.data();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse("rsj", __func__, e);
+      rsj::ExceptionResponse("rsj", MIDI2LR_FUNC, e);
       throw;
    }
 }

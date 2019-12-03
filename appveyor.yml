@@ -3,10 +3,6 @@ image: Visual Studio 2019
 configuration: 
   - Debug
   - Release
-before_build:
-  - ps: Start-FileDownload 'https://versaweb.dl.sourceforge.net/project/luabinaries/5.1.5/Tools%20Executables/lua-5.1.5_Win64_bin.zip'
-  - 7z e lua-5.1.5_Win64_bin.zip luac5.1.exe
-  - rename luac5.1.exe luac.exe
 build:
   project: Builds\VisualStudio2019\MIDI2LR.sln
   verbosity: minimal

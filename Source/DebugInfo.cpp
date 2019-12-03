@@ -146,7 +146,7 @@ std::string rsj::GetKeyboardLayout()
       return msg;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse("rsj", __func__, e);
+      rsj::ExceptionResponse("rsj", MIDI2LR_FUNC, e);
       throw;
    }
 }

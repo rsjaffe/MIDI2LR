@@ -30,11 +30,12 @@ void MidiReceiver::Start()
       InitDevices();
       dispatch_messages_future_ = std::async(std::launch::async, [this] {
          rsj::LabelThread(L"MidiReceiver dispatch messages thread");
+         _mm_setcsr(_mm_getcsr() | 0x8040);
          DispatchMessages();
       });
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -80,7 +81,7 @@ void MidiReceiver::handleIncomingMidiMessage(
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -96,7 +97,7 @@ void MidiReceiver::RescanDevices()
       rsj::Log("Cleared input devices");
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
    InitDevices(); /* initdevices has own try catch block */
@@ -116,7 +117,7 @@ void MidiReceiver::TryToOpen()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -141,7 +142,7 @@ void MidiReceiver::InitDevices()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -160,7 +161,7 @@ void MidiReceiver::DispatchMessages()
       } while (true);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

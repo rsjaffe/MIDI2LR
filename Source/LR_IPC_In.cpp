@@ -49,16 +49,18 @@ void LrIpcIn::Start()
    try {
       process_line_future_ = std::async(std::launch::async, [this] {
          rsj::LabelThread(L"LrIpcIn ProcessLine thread");
+         _mm_setcsr(_mm_getcsr() | 0x8040);
          ProcessLine();
       });
       Connect();
       io_thread_ = std::async(std::launch::async, [this] {
          rsj::LabelThread(L"LrIpcIn io_thread_");
+         _mm_setcsr(_mm_getcsr() | 0x8040);
          io_context_.run();
       });
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -66,7 +68,7 @@ void LrIpcIn::Start()
 void LrIpcIn::Stop()
 {
    try {
-      thread_should_exit_.store(true, std::memory_order_seq_cst);
+      thread_should_exit_.store(true, std::memory_order_release);
       asio::post([this] {
          if (socket_.is_open()) {
             asio::error_code ec;
@@ -111,7 +113,7 @@ void LrIpcIn::Connect()
           });
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -137,22 +139,19 @@ void LrIpcIn::ProcessLine()
             return;
          auto [command_view, value_view] = SplitLine(line_copy);
          const auto command{std::string(command_view)};
-         if (value_view.empty() && command != "TerminateApplication") {
-            rsj::Log("No value attached to message. Message from plugin was \""
-                     + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
-            /* nothing to act upon */
-            continue;
-         }
-         if (command == "SwitchProfile") {
-            profile_manager_.SwitchToProfile(std::string(value_view));
-         }
-         else if (command == "TerminateApplication") {
+         if (command == "TerminateApplication") {
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
             return;
          }
+         if (value_view.empty()) {
+            rsj::Log("No value attached to message. Message from plugin was \""
+                     + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
+         }
+         else if (command == "SwitchProfile") {
+            profile_manager_.SwitchToProfile(std::string(value_view));
+         }
          else if (command == "Log") {
-            rsj::Log("From plugin: "
-                     + juce::String(juce::CharPointer_UTF8(value_view.data()), value_view.size()));
+            rsj::Log("From plugin: " + rsj::toString(value_view));
          }
          else if (command == "SendKey") {
             const auto modifiers = std::stoi(std::string(value_view));
@@ -163,7 +162,7 @@ void LrIpcIn::ProcessLine()
                if (!value_view.empty()) {
                   rsj::SendKeyDownUp(
                       std::string(value_view), rsj::ActiveModifiers::FromMidi2LR(modifiers));
-                  /* skip log and alert error */
+                  /* skip logandalert error */
                   continue;
                }
             }
@@ -182,7 +181,7 @@ void LrIpcIn::ProcessLine()
       } while (true);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -190,7 +189,7 @@ void LrIpcIn::ProcessLine()
 void LrIpcIn::Read()
 {
    try {
-      if (!thread_should_exit_.load(std::memory_order_relaxed)) {
+      if (!thread_should_exit_.load(std::memory_order_acquire)) {
          asio::async_read_until(socket_, streambuf_, '\n',
              [this](const asio::error_code& error, std::size_t bytes_transferred) {
                 if (!error)
@@ -202,7 +201,7 @@ void LrIpcIn::Read()
                          std::string command{buffers_begin(streambuf_.data()),
                              buffers_begin(streambuf_.data()) + bytes_transferred};
                          if (command == "TerminateApplication 1\n")
-                            thread_should_exit_.store(true, std::memory_order_seq_cst);
+                            thread_should_exit_.store(true, std::memory_order_release);
                          line_.push(std::move(command));
                          streambuf_.consume(bytes_transferred);
                       }
@@ -218,7 +217,7 @@ void LrIpcIn::Read()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

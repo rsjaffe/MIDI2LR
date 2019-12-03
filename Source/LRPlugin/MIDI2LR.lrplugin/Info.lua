@@ -41,11 +41,11 @@ return {
       file = 'KeywordsDialog.lua',
     },
     {
-      title = LOC("$$$/AgPluginManager/Status/HttpServer/StartServer=Start Server"),
+      title = LOC("$$$/MIDI2LR/Menu/StartApplication=&Start application"),
       file = "LaunchServer.lua"
     },
     {
-      title = LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stop Server"),
+      title = LOC("$$$/MIDI2LR/Menu/CloseApplication=&Close application"),
       file = "StopServer.lua"
     },
     {
@@ -87,5 +87,5 @@ return {
       file = "About.lua",
     },
   },
-  VERSION = { major=3, minor=3, revision=2, build=0}
+  VERSION = { major=3, minor=4, revision=2, build=1}
 }

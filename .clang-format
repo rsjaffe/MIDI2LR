@@ -1,10 +1,12 @@
 ---
-# Visual Studio 2019 currently (June 2019) using clang-format v 4. Options for later versions
+# Visual Studio 2019 currently (October 2019) using clang-format v8. Options for later versions
 # may be included but are commented out. Uncomment if used with a later version of clang-format.
+# currently includes options for version 10.
 AccessModifierOffset: -2
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
+#AlignConsecutiveMacros: true
 AlignEscapedNewlines: Right
 AlignOperands: true
 AlignTrailingComments: true
@@ -28,10 +30,9 @@ BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: false
 BreakConstructorInitializers: BeforeColon
 BreakAfterJavaFieldAnnotations: false
-#BreakInheritanceList: AfterColon
+BreakInheritanceList: AfterColon
 BreakStringLiterals: true
 ColumnLimit: 100
-CommentPragmas: '^ IWYU pragma:'
 CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ConstructorInitializerIndentWidth: 4
@@ -41,20 +42,15 @@ DerivePointerAlignment: false
 DisableFormat: false
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
-ForEachMacros:
-  - foreach
-  - Q_FOREACH
-  - BOOST_FOREACH
-#IncludeBlocks: Preserve
+IncludeBlocks: Preserve
 IndentCaseLabels: false
+#IndentGotoLabels: false
 IndentPPDirectives: None
 IndentWidth: 3
 IndentWrappedFunctionNames: false
 JavaScriptQuotes: Single
 JavaScriptWrapImports: false
 KeepEmptyLinesAtTheStartOfBlocks: false
-MacroBlockBegin: ''
-MacroBlockEnd: ''
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
 PenaltyBreakAssignment: 2
@@ -62,7 +58,7 @@ PenaltyBreakBeforeFirstCallParameter: 75
 PenaltyBreakComment: 50
 PenaltyBreakFirstLessLess: 1
 PenaltyBreakString: 80
-#PenaltyBreakTemplateDeclaration: 50
+PenaltyBreakTemplateDeclaration: 50
 PenaltyExcessCharacter: 1000
 PenaltyReturnTypeOnItsOwnLine: 200
 PointerAlignment: Left
@@ -73,11 +69,12 @@ SpaceAfterCStyleCast: false
 #SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: false
 SpaceBeforeAssignmentOperators: true
-#SpaceBeforeCpp11BracedList: false
+SpaceBeforeCpp11BracedList: false
 SpaceBeforeCtorInitializerColon: true
 SpaceBeforeInheritanceColon: true
 SpaceBeforeParens: ControlStatements
 SpaceBeforeRangeBasedForLoopColon: true
+#SpaceInEmptyBlock: false
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
 SpacesInAngles: false
@@ -85,7 +82,7 @@ SpacesInContainerLiterals: false
 SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard: Cpp11
+Standard: Cpp11 #Cpp20
 TabWidth: 2
 UseTab: Never
 ---

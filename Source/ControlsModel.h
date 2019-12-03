@@ -26,7 +26,6 @@
 #include <cereal/types/array.hpp>
 #include <cereal/types/vector.hpp>
 #include <gsl/gsl>
-#include "Concurrency.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
 
@@ -126,7 +125,7 @@ namespace rsj {
             }
          }
          catch (const std::exception& e) {
-            rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+            rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
             throw;
          }
       }
@@ -146,12 +145,6 @@ class ChannelModel {
 
  public:
    ChannelModel();
-   ~ChannelModel() = default;
-   /* Can write copy and move with special handling for atomics, but in lieu of that, delete */
-   ChannelModel(const ChannelModel&) = delete;
-   ChannelModel& operator=(const ChannelModel&) = delete;
-   ChannelModel(ChannelModel&&) = delete;
-   ChannelModel& operator=(ChannelModel&&) = delete;
    double ControllerToPlugin(rsj::MessageType controltype, int controlnumber, int value);
    int MeasureChange(rsj::MessageType controltype, int controlnumber, int value);
    int SetToCenter(rsj::MessageType controltype, int controlnumber);
@@ -215,26 +208,18 @@ class ChannelModel {
    template<class Archive> void save(Archive& archive, uint32_t const version) const;
    // ReSharper restore CppConstParameterInDeclaration
 
-   mutable rsj::SpinLock current_v_mtx_;
    mutable std::vector<rsj::SettingsStruct> settings_to_save_{};
    int pitch_wheel_max_{kMaxNrpn};
    int pitch_wheel_min_{0};
-   std::atomic<int> pitch_wheel_current_{0};
+   std::atomic<int> pitch_wheel_current_{kMaxNrpnHalf};
    std::array<rsj::CCmethod, kMaxControls> cc_method_{};
    std::array<int, kMaxControls> cc_high_{};
    std::array<int, kMaxControls> cc_low_{};
-   std::array<int, kMaxControls> current_v_{};
+   std::array<std::atomic<int>, kMaxControls> current_v_{};
 };
 
 class ControlsModel {
  public:
-   ControlsModel() = default;
-   ~ControlsModel() = default;
-   /* Can write copy and move with special handling for atomics, but in lieu of that, delete */
-   ControlsModel(const ControlsModel&) = delete;
-   ControlsModel& operator=(const ControlsModel&) = delete;
-   ControlsModel(ControlsModel&&) = delete;
-   ControlsModel& operator=(ControlsModel&&) = delete;
    double ControllerToPlugin(const rsj::MidiMessage& mm)
    {
       return all_controls_.at(mm.channel)
@@ -371,7 +356,7 @@ template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -405,7 +390,7 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

@@ -24,6 +24,7 @@
 #include <string_view>
 #include <thread>   //sleep_for
 #include <typeinfo> //for typeid, used in calls to ExceptionResponse
+#include <xmmintrin.h> /* for rounding intrinsics */
 
 #include <JuceLibraryCode/JuceHeader.h>
 #include <gsl/gsl>
@@ -32,6 +33,12 @@
 static constexpr bool kNdebug = true;
 #else
 static constexpr bool kNdebug = false;
+#endif
+
+#if defined(__GNUC__) || defined(__clang__)
+#define MIDI2LR_FUNC __PRETTY_FUNCTION__
+#else
+#define MIDI2LR_FUNC __func__
 #endif
 
 #ifndef NDEBUG
@@ -66,9 +73,22 @@ constexpr auto OSX{true};
 #endif
 
 namespace rsj {
+   /*****************************************************************************/
+   /**************String Routines************************************************/
+   [[nodiscard]] inline juce::String toString(std::string_view in)
+   {
+      return juce::String(juce::CharPointer_UTF8(in.data()), in.size());
+   }
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
-   /* typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e); */
+   [[nodiscard]] std::string ToLower(std::string_view in);
+   void Trim(std::string_view& value) noexcept;
+   void Trim(std::string_view&& value) = delete;
+   void TrimL(std::string_view& value) noexcept;
+   void TrimL(std::string_view&& value) = delete;
+   /*****************************************************************************/
+   /**************Error Logging**************************************************/
+   /* typical call: rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e); */
    void ExceptionResponse(gsl::czstring<> id, gsl::czstring<> fu, const std::exception& e) noexcept;
    /* char* overloads here are to allow catch clauses to avoid a juce::String conversion at the
     * caller location, thus avoiding a potential exception in the catch clause. string_view
@@ -78,11 +98,8 @@ namespace rsj {
    void LogAndAlertError(gsl::czstring<> error_text) noexcept;
    void Log(const juce::String& info) noexcept;
    void Log(gsl::czstring<> info) noexcept;
-   [[nodiscard]] std::string ToLower(std::string_view in);
-   void Trim(std::string_view& value) noexcept;
-   void Trim(std::string_view&& value) = delete;
-   void TrimL(std::string_view& value) noexcept;
-   void TrimL(std::string_view&& value) = delete;
+   /*****************************************************************************/
+   /*************File Paths******************************************************/
 #ifdef _WIN32
    [[nodiscard]] std::wstring AppDataFilePath(std::wstring_view file_name);
    [[nodiscard]] std::wstring AppDataFilePath(std::string_view file_name);
@@ -100,7 +117,8 @@ namespace rsj {
    [[nodiscard]] std::string AppDataFilePath(const std::string& file_name);
    [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);
 #endif // def _WIN32
-
+   /*****************************************************************************/
+   /**************Reversed Iterator**********************************************/
    /* Reversed iterable SEE:https://stackoverflow.com/a/42221253/5699329 */
    template<class T> struct ReverseWrapper {
       T o;
@@ -135,7 +153,8 @@ namespace rsj {
    {
       return ReverseWrapper<T>{std::forward<T>(ob)};
    }
-
+   /*****************************************************************************/
+   /*******************Sleep Timed and Logged************************************/
 #pragma warning(push)
 #pragma warning(disable : 4127) /* constant conditional expression */
    /* zepto yocto zetta and yotta too large/small to be represented by intmax_t TODO: change to
@@ -208,8 +227,24 @@ namespace rsj {
        std::string_view msg_prefix, const std::chrono::duration<Rep, Period> sleep_duration) //-V801
    {
       const auto elapsed = SleepTimed(sleep_duration);
-      rsj::Log(juce::String(msg_prefix.data(), msg_prefix.size()) + " thread slept for "
-               + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
+      rsj::Log(rsj::toString(msg_prefix) + " thread slept for " + juce::String(elapsed.count())
+               + ' ' + RatioToPrefix<Period>() + "seconds.");
+   }
+   /*****************************************************************************/
+   /*******************Fast Rounding*********************************************/
+
+   inline int RoundToInt(float source)
+   {
+      return _mm_cvtss_si32(_mm_set_ss(source));
+   }
+   inline int RoundToInt(double source)
+   {
+      return _mm_cvtsd_si32(_mm_set_sd(source));
+   }
+   int RoundToInt(long double source) = delete;
+   inline void IgnoreDenormals()
+   { /* speed up floating point ops; we're not worried about precision of very small values */
+      _mm_setcsr(_mm_getcsr() | 0x8040);
    }
 } // namespace rsj
 

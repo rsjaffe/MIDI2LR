@@ -44,9 +44,6 @@ local function setOptions()
       --following not managed by another module
       properties.ClientShowBezelOnChange = ProgramPreferences.ClientShowBezelOnChange
       properties.TrackingDelay = ProgramPreferences.TrackingDelay
-      if ProgramPreferences.RevealAdjustedControls == nil then
-        ProgramPreferences.RevealAdjustedControls = true
-      end
       properties.RevealAdjustedControls = ProgramPreferences.RevealAdjustedControls
 
       -- assemble dialog box contents

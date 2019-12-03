@@ -20,11 +20,6 @@
 #include <string>
 
 #include "DebugInfo.h"
-#include "LR_IPC_Out.h"
-#include "ProfileManager.h"
-namespace {
-   constexpr auto kAutoHideSection{"autohide"};
-}
 
 SettingsManager::SettingsManager(ProfileManager& profile_manager, LrIpcOut& lr_ipc_out)
     : lr_ipc_out_{lr_ipc_out}, profile_manager_{profile_manager}
@@ -39,33 +34,12 @@ SettingsManager::SettingsManager(ProfileManager& profile_manager, LrIpcOut& lr_i
       properties_file_ = std::make_unique<juce::PropertiesFile>(file_options);
       /* add a listener to LR_IPC_OUT so that we can send plugin settings on connection */
       lr_ipc_out_.AddCallback(this, &SettingsManager::ConnectionCallback);
-      /* set the profile directory */
       profile_manager_.SetProfileDirectory(GetProfileDirectory());
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
-}
-
-int SettingsManager::GetAutoHideTime() const noexcept
-{
-   return properties_file_->getIntValue(kAutoHideSection, 0);
-}
-
-int SettingsManager::GetLastVersionFound() const noexcept
-{
-   return properties_file_->getIntValue("LastVersionFound", 0);
-}
-
-bool SettingsManager::GetPickupEnabled() const noexcept
-{
-   return properties_file_->getBoolValue("pickup_enabled", true);
-}
-
-juce::String SettingsManager::GetProfileDirectory() const noexcept
-{
-   return properties_file_->getValue("profile_directory");
 }
 
 // ReSharper disable CppMemberFunctionMayBeConst
@@ -93,62 +67,7 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
-
-void SettingsManager::SetAutoHideTime(int new_time)
-{
-   try {
-      properties_file_->setValue(kAutoHideSection, new_time);
-      properties_file_->saveIfNeeded();
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
-
-void SettingsManager::SetLastVersionFound(int version_number)
-{
-   try {
-      properties_file_->setValue("LastVersionFound", version_number);
-      if (!properties_file_->saveIfNeeded())
-         rsj::Log("SettingsManager::SetLastVersionFound saveIfNeeded failed. Directory "
-                  + GetProfileDirectory());
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
-
-void SettingsManager::SetPickupEnabled(bool enabled)
-{
-   try {
-      using namespace std::literals::string_literals; /* needed to append char to string */
-      properties_file_->setValue("pickup_enabled", enabled);
-      properties_file_->saveIfNeeded();
-      lr_ipc_out_.SendCommand("Pickup "s + (enabled ? '1' : '0') + '\n');
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
-
-void SettingsManager::SetProfileDirectory(const juce::String& profile_directory)
-{
-   try {
-      properties_file_->setValue("profile_directory", profile_directory);
-      if (!properties_file_->saveIfNeeded())
-         rsj::Log("SettingsManager::SetProfileDirectory saveIfNeeded failed. Directory "
-                  + profile_directory);
-      profile_manager_.SetProfileDirectory(profile_directory);
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

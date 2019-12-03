@@ -32,7 +32,7 @@
 #include "SettingsManager.h"
 
 namespace {
-   constexpr int kMainWidth = 400;
+   constexpr int kMainWidth = 560; /* equals CommandTable columns total width plus 60 */
    constexpr int kMainHeight = 650;
    constexpr int kMainLeft = 20;
    constexpr int kSpaceBetweenButton = 10;
@@ -46,14 +46,12 @@ namespace {
    constexpr int kFirstButtonX = kMainLeft;
    constexpr int kSecondButtonX = kMainLeft + kButtonXIncrement;
    constexpr int kThirdButtonX = kMainLeft + kButtonXIncrement * 2;
-   constexpr int kCommandTableHeight = kMainHeight - 210;
+   constexpr int kCommandTableHeight = kMainHeight - 160;
    constexpr int kLabelWidth = kFullWidth / 2;
-   constexpr int kProfileNameY = kMainHeight - 100;
+   constexpr int kProfileNameY = kMainHeight - 50;
    constexpr int kCommandLabelX = kMainLeft + kLabelWidth;
-   constexpr int kCommandLabelY = kMainHeight - 100;
-   constexpr int kRemoveRowY = kMainHeight - 75;
-   constexpr int kRescanY = kMainHeight - 50;
-   constexpr int kDisconnect = kMainHeight - 25;
+   constexpr int kCommandLabelY = kProfileNameY;
+   constexpr int kBottomButtonY = kMainHeight - 25;
    constexpr auto kDefaultsFile{"default.xml"};
 } // namespace
 
@@ -71,7 +69,7 @@ try : ResizableLayout {
 }
 catch (const std::exception& e)
 {
-   rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+   rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
    throw;
 }
 
@@ -118,10 +116,11 @@ void MainContentComponent::Init()
             if (result)
                SaveProfile();
          }
-         juce::File profile_directory;
-         profile_directory = settings_manager_.GetProfileDirectory();
-         if (!profile_directory.exists())
-            profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+         juce::File profile_directory{settings_manager_.GetProfileDirectory()};
+         const auto directory_saved{profile_directory.exists()};
+         if (!directory_saved)
+            [[unlikely]] profile_directory =
+                juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
          juce::FileChooser chooser{
              juce::translate("Open profile"), profile_directory, "*.xml", true};
          if (chooser.browseForFileToOpen()) {
@@ -135,6 +134,9 @@ void MainContentComponent::Init()
                profile_.FromXml(parsed.get());
                command_table_.updateContent();
                command_table_.repaint();
+               if (!directory_saved) /* haven't saved a directory yet */
+                  [[unlikely]] settings_manager_.SetProfileDirectory(
+                      new_profile.getParentDirectory().getFullPathName());
             }
             else {
                rsj::Log("Unable to load profile " + chooser.getResult().getFullPathName());
@@ -172,6 +174,7 @@ void MainContentComponent::Init()
 
       /* Profile name label */
       StandardLabelSettings(profile_name_label_);
+      profile_name_label_.setColour(juce::Label::textColourId, juce::Colours::black);
       profile_name_label_.setBounds(kMainLeft, kProfileNameY, kLabelWidth, kStandardHeight);
       profile_name_label_.setJustificationType(juce::Justification::centred);
       addToLayout(&profile_name_label_, anchorMidLeft, anchorMidRight);
@@ -184,7 +187,7 @@ void MainContentComponent::Init()
       addAndMakeVisible(command_label_);
 
       /* Remove row button */
-      remove_row_button_.setBounds(kMainLeft, kRemoveRowY, kFullWidth, kStandardHeight);
+      remove_row_button_.setBounds(kFirstButtonX, kBottomButtonY, kButtonWidth, kStandardHeight);
       addToLayout(&remove_row_button_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(remove_row_button_);
       remove_row_button_.onClick = [this] {
@@ -195,7 +198,7 @@ void MainContentComponent::Init()
       };
 
       /* Rescan MIDI button */
-      rescan_button_.setBounds(kMainLeft, kRescanY, kFullWidth, kStandardHeight);
+      rescan_button_.setBounds(kSecondButtonX, kBottomButtonY, kButtonWidth, kStandardHeight);
       addToLayout(&rescan_button_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(rescan_button_);
       rescan_button_.onClick = [this] {
@@ -207,7 +210,7 @@ void MainContentComponent::Init()
       };
 
       /* Disconnect button */
-      disconnect_button_.setBounds(kMainLeft, kDisconnect, kFullWidth, kStandardHeight);
+      disconnect_button_.setBounds(kThirdButtonX, kBottomButtonY, kButtonWidth, kStandardHeight);
       disconnect_button_.setClickingTogglesState(true);
       addToLayout(&disconnect_button_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(disconnect_button_);
@@ -239,15 +242,14 @@ void MainContentComponent::Init()
       activateLayout();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
 
-void MainContentComponent::SaveProfile()
+void MainContentComponent::SaveProfile() const
 {
-   juce::File profile_directory;
-   profile_directory = settings_manager_.GetProfileDirectory();
+   juce::File profile_directory = settings_manager_.GetProfileDirectory();
    if (!profile_directory.exists())
       profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
    juce::FileChooser chooser{juce::translate("Save profile"), profile_directory, "*.xml", true};
@@ -263,7 +265,7 @@ void MainContentComponent::paint(juce::Graphics& g)
       g.fillAll(juce::Colours::white);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -282,7 +284,7 @@ void MainContentComponent::MidiCmdCallback(const rsj::MidiMessage& mm)
       triggerAsyncUpdate();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -311,7 +313,7 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -332,7 +334,7 @@ void MainContentComponent::ProfileChanged(
       lr_ipc_out_.SendCommand("FullRefresh 1\n");
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -345,7 +347,7 @@ void MainContentComponent::StandardLabelSettings(juce::Label& label_to_set)
       label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -362,7 +364,7 @@ void MainContentComponent::handleAsyncUpdate()
       command_table_.selectRow(gsl::narrow_cast<int>(row_to_select_));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }
@@ -375,7 +377,7 @@ void MainContentComponent::timerCallback()
       juce::Timer::stopTimer();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
       throw;
    }
 }

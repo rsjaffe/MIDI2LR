@@ -34,12 +34,28 @@ On Github, we only accept issues that are bug reports or feature requests. Bugs 
 - If adding something that is stored in the Preferences, there are four functions needed: StartDialog, EndDialog, Loaded..., UseDefaults.... The Loaded... and UseDefaults... functions must be in *Init.lua*, exported, and used in the LoadedAll and UseDefaultsAll functions in *Init.lua*.
 
 ## Typical process for adding new types of actions
-- First, write new .lua file with specialized code, if storage in Preferences is needed or if the function requires new extensive code.
-- Then, add *Loaded* and *Default* methods to *Init.lua* to handle preference file loading, if using Preferences.
+- **If storage in Preferences is needed or if the function requires new extensive code**, write new .lua file with specialized code.
+- **If using Preferences**, add *Loaded* and *Default* methods to *Init.lua* to handle preference file loading. Add menu building code to the .lua file for these actions and integrate into *Options.lua*.
+- Integrate commands into Client.lua and **require** new lua file (if new lua file written).
 - Add actions to *Database.lua* and regenerate the database in Lightroom by deleting the existing MenuTrans.xml and running Lightroom.
-- Integrate commands into Client.lua and **require** new lua file.
 - Using the *Build files (development use only)* option in the MIDI2LR menu generate .md file for the wiki.
-- Add menu building code to the .lua file for these actions (if needed) and integrate into *Options.lua*.
+
+## Versioning
+
+Version number is in the style *major.minor.maintenance.build* and needs to be updated in four places:
+
+- The Projucer program: project version property 
+- Info.lua: VERSION
+- Midi2lr.Doxyfile: PROJECT_NUMBER
+- Installer/MIDI2LR.xml: \<version\>\</version\>
+
+## Notarizing for MacOS
+
+Both the app and the installer need to be notarized for MacOS distribution. Use XCode to notarize and staple application. To notarize and staple installer, run (substitute correct username, password, and MIDI2LR version number)
+`xcrun altool --notarize-app --primary-bundle-id "com.rsjaffe.MIDI2LR.installer" --username "InsertUsernameHere" --password "InsertPasswordHere" --file MIDI2LR-W.X.Y.Z-osx-installer.dmg`
+
+After successful notarization, run (substitute correct MIDI2LR version number)
+`xcrun stapler staple MIDI2LR-W.X.Y.Z-osx-installer.dmg`
 
 ## License
 
