@@ -6,9 +6,10 @@
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright=""
               defines="DONT_SET_USING_JUCE_NAMESPACE=1" compilerFlagSchemes=""
-              headerPath="../../&#10;../../asio/">
+              headerPath="../../&#10;../../asio/&#10;">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <FILE id="K5h83d" name="format.cc" compile="1" resource="0" file="fmt/format.cc"/>
       <FILE id="Dx8BIb" name="TextButtonAligned.cpp" compile="1" resource="0"
             file="Source/TextButtonAligned.cpp"/>
       <FILE id="SupFD5" name="TextButtonAligned.h" compile="0" resource="0"

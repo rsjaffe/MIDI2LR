@@ -54,15 +54,11 @@ namespace rsj {
             archive(control_number, high, low, method);
             break;
          default: {
-            const auto v = juce::String(version);
-            rsj::LogAndAlertError(
-                juce::translate(
-                    "The file, 'settings.xml', is marked as a version not supported by the current "
-                    "version of MIDI2LR SettingsStruct, and won't be loaded. File version: ")
-                    + v + '.',
+            constexpr auto msg =
                 "The file, 'settings.xml', is marked as a version not supported by the current "
-                "version of MIDI2LR SettingsStruct, and won't be loaded. File version: "
-                    + v + '.');
+                "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}.";
+            rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
+                fmt::format(msg, version));
          }
          }
       }
@@ -112,15 +108,11 @@ namespace rsj {
                break;
             }
             default: {
-               const auto v = juce::String(version);
-               rsj::LogAndAlertError(
-                   juce::translate("The file, 'settings.xml', is marked as a version not supported "
-                                   "by the current version of MIDI2LR SettingsStruct, and won't be "
-                                   "loaded. File version: ")
-                       + v + '.',
+               constexpr auto msg =
                    "The file, 'settings.xml', is marked as a version not supported by the current "
-                   "version of MIDI2LR SettingsStruct, and won't be loaded. File version: "
-                       + v + '.');
+                   "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}.";
+               rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
+                   fmt::format(msg, version));
             }
             }
          }
@@ -344,14 +336,11 @@ template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const
          SavedToActive();
          break;
       default: {
-         const auto v = juce::String(version);
-         rsj::LogAndAlertError(juce::translate("The file, 'settings.xml', is marked as a version "
-                                               "not supported by the current version of MIDI2LR "
-                                               "ChannelModel, and won't be loaded. File version: ")
-                                   + v + '.',
+         constexpr auto msg =
              "The file, 'settings.xml', is marked as a version not supported by the current "
-             "version of MIDI2LR ChannelModel, and won't be loaded. File version: "
-                 + v + '.');
+             "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}.";
+         rsj::LogAndAlertError(
+             fmt::format(juce::translate(msg).toStdString(), version), fmt::format(msg, version));
       }
       }
    }
@@ -378,14 +367,11 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
              cereal::make_nvp("PWmin", pitch_wheel_min_));
          break;
       default: {
-         const auto v = juce::String(version);
-         rsj::LogAndAlertError(juce::translate("The file, 'settings.xml', is marked as a version "
-                                               "not supported by the current version of MIDI2LR "
-                                               "ChannelModel, and won't be loaded. File version: ")
-                                   + v + '.',
+         constexpr auto msg =
              "The file, 'settings.xml', is marked as a version not supported by the current "
-             "version of MIDI2LR ChannelModel, and won't be loaded. File version: "
-                 + v + '.');
+             "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}.";
+         rsj::LogAndAlertError(
+             fmt::format(juce::translate(msg).toStdString(), version), fmt::format(msg, version));
       }
       }
    }

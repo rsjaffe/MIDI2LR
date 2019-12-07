@@ -20,6 +20,7 @@
 #include <string_view>
 #include <unordered_map>
 #include <vector>
+#include <fmt/format.h>
 
 #include "Misc.h"
 #ifdef _WIN32
@@ -75,9 +76,7 @@ namespace {
          return GetKeyboardLayout(thread_id);
       }
       /* FindWindowA failed */
-      const auto error_msg =
-          "FindWindowA failed with error code: " + std::to_string(GetLastError());
-      rsj::Log(error_msg);
+      rsj::Log(fmt::format("FindWindowA failed with error code: {}.", GetLastError()));
       /* use keyboard of MIDI2LR application */
       return GetKeyboardLayout(0);
    }
@@ -86,11 +85,9 @@ namespace {
    {
       try {
          const auto vk_code_and_shift = VkKeyScanExW(ch, dwhkl);
-         if (vk_code_and_shift == 0xffff) { //-V547
-            const auto error_msg =
-                "VkKeyScanExW failed with error code: " + std::to_string(GetLastError());
-            throw std::runtime_error(error_msg.c_str());
-         }
+         if (vk_code_and_shift == 0xffff) //-V547
+            throw std::runtime_error(
+                fmt::format("VkKeyScanExW failed with error code: {}.", GetLastError()));
          return vk_code_and_shift;
       }
       catch (const std::exception& e) {
@@ -119,11 +116,9 @@ namespace {
    {
       try {
          const auto result = SendInput(cinputs, pinputs, cbSize);
-         if (result == 0) {
-            const auto error_msg =
-                "SendInput failed with error code: " + std::to_string(GetLastError());
-            throw std::runtime_error(error_msg.c_str());
-         }
+         if (result == 0)
+            throw std::runtime_error(
+                fmt::format("SendInput failed with error code: {}.", GetLastError()));
          return result;
       }
       catch (const std::exception& e) {
@@ -240,10 +235,9 @@ namespace {
              &real_length, chars);
          if (real_length != 1) {
             if (real_length > 1)
-               rsj::Log(juce::String("For key code ") + juce::String(key_code)
-                        + juce::String(", Unicode character is ") + juce::String(real_length)
-                        + juce::String(" long. It starts with ") + juce::String(chars[0])
-                        + juce::String("."));
+               rsj::Log(
+                   fmt::format("For key code {}, Unicode character is {} long. It starts with {}.",
+                       key_code, real_length, chars[0]));
             chars[0] = 0;
          }
          /* shifted */
@@ -256,10 +250,9 @@ namespace {
              &s_real_length, s_chars);
          if (s_real_length != 1) {
             if (s_real_length > 1)
-               rsj::Log(juce::String("For shifted key code ") + juce::String(key_code)
-                        + juce::String(", Unicode character is ") + juce::String(s_real_length)
-                        + juce::String(" long. It starts with ") + juce::String(s_chars[0])
-                        + juce::String("."));
+               rsj::Log(fmt::format(
+                   "For shifted key code {}, Unicode character is {} long. It starts with {}.",
+                   key_code, s_real_length, s_chars[0]));
             s_chars[0] = 0;
          }
          if (chars[0] == s_chars[0])
@@ -423,7 +416,7 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
 #else
       static const pid_t lr_pid{GetPid()};
       if (!lr_pid) {
-         rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp");
+         rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp.");
          return;
       }
       CGKeyCode vk{0};
@@ -435,7 +428,7 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
          const UniChar uc{rsj::Utf8ToUtf16(key)};
          const auto key_code_result = KeyCodeForChar(uc);
          if (!key_code_result) {
-            rsj::LogAndAlertError("Unsupported character was used: " + key);
+            rsj::LogAndAlertError(fmt::format("Unsupported character was used: \"{}\".", key));
             return;
          }
          vk = key_code_result->first;
@@ -454,10 +447,12 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
 #endif
    }
    catch (const std::exception& e) {
-      rsj::LogAndAlertError("Exception in key sending function for key: " + key + ". " + e.what());
+      rsj::LogAndAlertError(fmt::format(
+          "Exception in key sending function for key: \"{}\". Exception: {}.", key, e.what()));
    }
    catch (...) {
-      rsj::LogAndAlertError("Non-standard exception in key sending function for key: " + key + ".");
+      rsj::LogAndAlertError(
+          fmt::format("Non-standard exception in key sending function for key: \"{}\".", key));
    }
 }
 #pragma warning(pop)

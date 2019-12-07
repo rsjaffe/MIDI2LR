@@ -49,6 +49,10 @@
 			isa = PBXBuildFile;
 			fileRef = 78C490E72B571C45E9BF65BE;
 		};
+		BC25302F3E7D28AEBB8B1FD0 = {
+			isa = PBXBuildFile;
+			fileRef = 2D22DEDAD3937109B1AE2127;
+		};
 		E84B9F94B2BDF252A535BB01 = {
 			isa = PBXBuildFile;
 			fileRef = BC2DEB32C59CF4720281C133;
@@ -289,6 +293,13 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = "LR_IPC_Out.cpp";
 			path = "../../Source/LR_IPC_Out.cpp";
+			sourceTree = "SOURCE_ROOT";
+		};
+		2D22DEDAD3937109B1AE2127 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = format.cc;
+			path = ../../fmt/format.cc;
 			sourceTree = "SOURCE_ROOT";
 		};
 		334B209B53531AD494AD8132 = {
@@ -819,6 +830,7 @@
 		55BA6062DF892191C9E9B3BE = {
 			isa = PBXGroup;
 			children = (
+				2D22DEDAD3937109B1AE2127,
 				BC2DEB32C59CF4720281C133,
 				F675B2D85B415E2C87CEF455,
 				0ED56980FCA5D40E4BCC5C8A,
@@ -1200,6 +1212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC25302F3E7D28AEBB8B1FD0,
 				E84B9F94B2BDF252A535BB01,
 				BFAB1A9B97A0C128DF41C02A,
 				FD5777A03748CDE3465E71D3,

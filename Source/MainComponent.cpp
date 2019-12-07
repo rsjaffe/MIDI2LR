@@ -19,6 +19,7 @@
 #include <functional>
 #include <string>
 #include <utility>
+#include <fmt/format.h>
 
 #include <gsl/gsl>
 #include "LR_IPC_Out.h"
@@ -139,7 +140,8 @@ void MainContentComponent::Init()
                       new_profile.getParentDirectory().getFullPathName());
             }
             else {
-               rsj::Log("Unable to load profile " + chooser.getResult().getFullPathName());
+               rsj::Log(fmt::format("Unable to load profile {}.",
+                   chooser.getResult().getFullPathName().toStdString()));
             }
          }
       };
@@ -217,11 +219,11 @@ void MainContentComponent::Init()
       disconnect_button_.onClick = [this] {
          if (disconnect_button_.getToggleState()) {
             lr_ipc_out_.SendingStop();
-            rsj::Log("Sending halted");
+            rsj::Log("Sending halted.");
          }
          else {
             lr_ipc_out_.SendingRestart();
-            rsj::Log("Sending restarted");
+            rsj::Log("Sending restarted.");
          }
       };
 
@@ -276,9 +278,8 @@ void MainContentComponent::MidiCmdCallback(const rsj::MidiMessage& mm)
       /* Display the MIDI parameters and add/highlight row in table corresponding to the message msg
        * is 1-based for channel, which display expects */
       const rsj::MidiMessageId msg{mm};
-      last_command_ = juce::String(msg.channel) + ": "
-                      + rsj::MessageTypeToLabel(mm.message_type_byte)
-                      + juce::String(msg.control_number) + " [" + juce::String(mm.value) + "]";
+      last_command_ = fmt::format(
+          "{}: {}{} [{}]", msg.channel, mm.message_type_byte, msg.control_number, mm.value);
       profile_.AddRowUnmapped(msg);
       row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
       triggerAsyncUpdate();

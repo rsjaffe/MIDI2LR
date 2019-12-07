@@ -15,9 +15,10 @@
  */
 #include "VersionChecker.h"
 
+#include <algorithm>
 #include <exception>
-#include <sstream>
 #include <type_traits>
+#include <fmt/format.h>
 
 #include "Misc.h"
 #include "SettingsManager.h"
@@ -30,9 +31,7 @@ namespace {
       const auto minor{vers >> 16 & 0xFFu};
       const auto rev{vers >> 8 & 0xFFu};
       const auto build{vers & 0xFFu};
-      std::ostringstream version_string;
-      version_string << major << '.' << minor << '.' << rev << '.' << build;
-      return version_string.str();
+      return fmt::format("{}.{}.{}.{}", major, minor, rev, build);
    }
 } // namespace
 
@@ -44,7 +43,7 @@ VersionChecker::VersionChecker(SettingsManager& settings_manager)
 void VersionChecker::Stop()
 {
    if (!juce::Thread::stopThread(1000))
-      rsj::Log("stopThread failed in VersionChecker destructor");
+      rsj::Log("stopThread failed in VersionChecker destructor.");
 }
 
 void VersionChecker::handleAsyncUpdate()
@@ -63,7 +62,7 @@ void VersionChecker::handleAsyncUpdate()
                    settings_manager_.SetLastVersionFound(new_version_);
              }
              else
-                /* user doesn't want it */
+                /* user doesn't want it, don't show again */
                 settings_manager_.SetLastVersionFound(new_version_);
           }));
    }
@@ -80,11 +79,15 @@ void VersionChecker::run()
       const juce::URL version_url{"https://rsjaffe.github.io/MIDI2LR/version.xml"};
       const auto version_xml_element{version_url.readEntireXmlStream()};
       if (version_xml_element && !juce::Thread::threadShouldExit()) {
-         const auto last_checked = settings_manager_.GetLastVersionFound();
+         auto last_checked = settings_manager_.GetLastVersionFound();
          new_version_ = version_xml_element->getIntAttribute("latest");
-         rsj::Log("Version available " + IntToVersion(new_version_) + ", version last checked "
-                  + IntToVersion(last_checked) + ", current version "
-                  + IntToVersion(ProjectInfo::versionNumber) + '.');
+         if (last_checked == 0) {
+            last_checked = std::min(new_version_, ProjectInfo::versionNumber);
+            settings_manager_.SetLastVersionFound(last_checked);
+         }
+         rsj::Log(fmt::format("Version available {}, version last checked {}, current version {}.",
+             IntToVersion(new_version_), IntToVersion(last_checked),
+             IntToVersion(ProjectInfo::versionNumber)));
          if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked
              && !juce::Thread::threadShouldExit()) {
             triggerAsyncUpdate();

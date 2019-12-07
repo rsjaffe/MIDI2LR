@@ -21,6 +21,7 @@
  * include than <functional>. See https://en.cppreference.com/w/cpp/language/extending_std. */
 #include <typeindex>
 #include <type_traits>
+#include <fmt/format.h>
 
 #include "Misc.h"
 namespace juce {
@@ -133,6 +134,34 @@ namespace rsj {
       }
    };
 } // namespace rsj
+
+namespace fmt {
+   template<typename Char> struct formatter<rsj::MessageType, Char> {
+      template<typename ParseContext> constexpr auto parse(ParseContext& ctx)
+      { /* parsing copied from fmt's chrono.h */
+         auto it = ctx.begin();
+         if (it != ctx.end() && *it == static_cast<Char>(':'))
+            ++it;
+         auto end = it;
+         while (end != ctx.end() && *end != static_cast<Char>('}'))
+            ++end;
+         tm_format.reserve(internal::to_unsigned(end - it + 1));
+         tm_format.append(it, end);
+         tm_format.push_back('\0');
+         return end;
+      }
+
+      template<typename FormatContext> auto format(const rsj::MessageType& p, FormatContext& ctx)
+      {
+         if (tm_format[0] == static_cast<Char>('n'))
+            return format_to(ctx.out(), "{}", rsj::MessageTypeToName(p));
+         return format_to(ctx.out(), "{}", rsj::MessageTypeToLabel(p));
+      }
+
+    private:
+      basic_memory_buffer<Char> tm_format;
+   };
+} // namespace fmt
 
 namespace std {
    /*It is allowed to add template specializations for any standard library class template to the

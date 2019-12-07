@@ -16,7 +16,7 @@
 #include "CommandTableModel.h"
 
 #include <exception>
-#include <sstream>
+#include <fmt/format.h>
 #include <utility>
 
 #include <gsl/gsl>
@@ -43,39 +43,38 @@ void CommandTableModel::paintCell(
          if (profile_.Size() <= gsl::narrow_cast<size_t>(row_number)) {
             /* error condition */
             g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
-            rsj::Log("Unknown control CommandTableModel::paintCell. "
-                     + juce::String(profile_.Size())
-                     + " rows in profile, row number to be painted is " + juce::String(row_number)
-                     + '.');
+            rsj::Log(fmt::format("Unknown control CommandTableModel::paintCell. {} rows in "
+                                 "profile, row number to be painted is {}.",
+                profile_.Size(), row_number));
          }
          else {
-            std::ostringstream format_str;
+            std::string format_str;
             switch (
                 const auto cmd = profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
                 cmd.msg_id_type) {
             case rsj::MessageType::NoteOn:
-               format_str << cmd.channel << " | Note : " << cmd.control_number;
+               format_str = fmt::format("{} | Note : {}", cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::NoteOff:
-               format_str << cmd.channel << " | Note Off: " << cmd.control_number;
+               format_str = fmt::format("{} | Note Off: {}", cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::Cc:
-               format_str << cmd.channel << " | CC: " << cmd.control_number;
+               format_str = fmt::format("{} | CC: {}", cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::Pw:
-               format_str << cmd.channel << " | Pitch Bend";
+               format_str = fmt::format("{} | Pitch Bend", cmd.channel);
                break;
             case rsj::MessageType::KeyPressure:
-               format_str << cmd.channel << " | Key Pressure: " << cmd.control_number;
+               format_str = fmt::format("{} | Key Pressure: {}", cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::ChanPressure:
-               format_str << cmd.channel << " | Channel Pressure";
+               format_str = fmt::format("{} | Channel Pressure", cmd.channel);
                break;
             case rsj::MessageType::PgmChange: /* TODO: not handled currently */
             case rsj::MessageType::System:
                break;
             }
-            g.drawText(format_str.str(), 0, 0, width, height, juce::Justification::centredLeft);
+            g.drawText(format_str, 0, 0, width, height, juce::Justification::centredLeft);
          }
       }
    }

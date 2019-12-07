@@ -16,6 +16,7 @@
 #include "SettingsComponent.h"
 
 #include <exception>
+#include <fmt/format.h>
 
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
@@ -61,7 +62,7 @@ void SettingsComponent::Init()
       pickup_enabled_.onClick = [this] {
          const auto pickup_state = pickup_enabled_.getToggleState();
          settings_manager_.SetPickupEnabled(pickup_state);
-         rsj::Log(pickup_state ? "Pickup set to enabled" : "Pickup set to disabled");
+         rsj::Log(pickup_state ? "Pickup set to enabled." : "Pickup set to disabled.");
       };
 
       /* profile */
@@ -80,7 +81,7 @@ void SettingsComponent::Init()
          if (chooser.browseForDirectory()) {
             const auto profile_location = chooser.getResult().getFullPathName();
             settings_manager_.SetProfileDirectory(profile_location);
-            rsj::Log("Profile location set to " + profile_location);
+            rsj::Log(fmt::format("Profile location set to {}.", profile_location.toStdString()));
             profile_location_label_.setText(
                 profile_location, juce::NotificationType::dontSendNotification);
          }
@@ -120,8 +121,8 @@ void SettingsComponent::Init()
       addAndMakeVisible(autohide_setting_);
       autohide_setting_.onValueChange = [this] {
          settings_manager_.SetAutoHideTime(rsj::RoundToInt(autohide_setting_.getValue()));
-         rsj::Log("Autohide time set to " + juce::String(settings_manager_.GetAutoHideTime())
-                  + " seconds");
+         rsj::Log(
+             fmt::format("Autohide time set to {} seconds.", settings_manager_.GetAutoHideTime()));
       };
       /* turn it on */
       activateLayout();

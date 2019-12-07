@@ -53,7 +53,7 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
       using namespace std::literals::string_literals; /* needed to append char to string */
       if (connected && !blocked) {
          lr_ipc_out_.SendCommand("Pickup "s + (GetPickupEnabled() ? '1' : '0') + '\n');
-         rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
+         rsj::Log(GetPickupEnabled() ? "Pickup is enabled." : "Pickup is disabled.");
          static std::once_flag of; /* add debug info once to logs */
          std::call_once(of, [this] {
             const DebugInfo db{GetProfileDirectory()};

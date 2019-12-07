@@ -20,6 +20,7 @@
 // ReSharper disable once CppUnusedIncludeDirective
 #include <string_view>
 #include <thread>
+#include <fmt/format.h>
 
 #include <gsl/gsl>
 #include "ControlsModel.h"
@@ -76,16 +77,16 @@ void LrIpcIn::Stop()
              * shutdown() before closing the socket. */
             socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
             if (ec) {
-               rsj::Log("LR_IPC_In socket shutdown error " + ec.message());
+               rsj::Log(fmt::format("LR_IPC_In socket shutdown error {}.", ec.message()));
                ec.clear();
             }
             socket_.close(ec);
             if (ec)
-               rsj::Log("LR_IPC_In socket close error " + ec.message());
+               rsj::Log(fmt::format("LR_IPC_In socket close error {}.", ec.message()));
          }
          /* pump input queue after port closed */
          if (const auto m = line_.clear_count_emplace(kTerminate))
-            rsj::Log(juce::String(m) + " left in queue in LrIpcIn destructor");
+            rsj::Log(fmt::format("{} left in queue in LrIpcIn destructor.", m));
       });
    }
    catch (const std::exception& e) {
@@ -100,15 +101,15 @@ void LrIpcIn::Connect()
       socket_.async_connect(asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrInPort),
           [this](const asio::error_code& error) {
              if (!error) {
-                rsj::Log("Socket connected in LR_IPC_In");
+                rsj::Log("Socket connected in LR_IPC_In.");
                 Read();
              }
              else if (error) {
-                rsj::Log("LR_IPC_In did not connect. " + error.message());
+                rsj::Log(fmt::format("LR_IPC_In did not connect. {}.", error.message()));
                 asio::error_code ec2;
                 socket_.close(ec2);
                 if (ec2)
-                   rsj::Log("LR_IPC_In socket close error " + ec2.message());
+                   rsj::Log(fmt::format("LR_IPC_In socket close error {}.", ec2.message()));
              }
           });
    }
@@ -144,14 +145,14 @@ void LrIpcIn::ProcessLine()
             return;
          }
          if (value_view.empty()) {
-            rsj::Log("No value attached to message. Message from plugin was \""
-                     + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
+            rsj::Log(fmt::format("No value attached to message. Message from plugin was \"{}\".",
+                rsj::ReplaceInvisibleChars(line_copy)));
          }
          else if (command == "SwitchProfile") {
             profile_manager_.SwitchToProfile(std::string(value_view));
          }
          else if (command == "Log") {
-            rsj::Log("From plugin: " + rsj::toString(value_view));
+            rsj::Log(fmt::format("Plugin: {}.", value_view));
          }
          else if (command == "SendKey") {
             const auto modifiers = std::stoi(std::string(value_view));
@@ -166,8 +167,9 @@ void LrIpcIn::ProcessLine()
                   continue;
                }
             }
-            rsj::LogAndAlertError("SendKey couldn't identify keystroke. Message from plugin was \""
-                                  + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
+            rsj::LogAndAlertError(
+                fmt::format("SendKey couldn't identify keystroke. Message from plugin was \"{}\".",
+                    rsj::ReplaceInvisibleChars(line_copy)));
          }
          else {
             /* send associated messages to MIDI OUT devices */
@@ -208,7 +210,7 @@ void LrIpcIn::Read()
                       Read();
                    }
                 else {
-                   rsj::Log("LR_IPC_In Read: " + error.message());
+                   rsj::Log(fmt::format("LR_IPC_In Read error: {}.", error.message()));
                    if (error == asio::error::misc_errors::eof)
                       /* LR closed socket */
                       juce::JUCEApplication::getInstance()->systemRequestedQuit();

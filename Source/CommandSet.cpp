@@ -16,6 +16,7 @@
 #include "CommandSet.h"
 
 #include <exception>
+#include <fmt/format.h>
 #ifndef _WIN32
 #include <AvailabilityMacros.h>
 #if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
@@ -112,7 +113,7 @@ size_t CommandSet::CommandTextIndex(const std::string& command) const
    try {
       const auto found = cmd_idx_.find(command);
       if (found == cmd_idx_.end()) {
-         rsj::Log("Command not found in CommandTextIndex: " + command);
+         rsj::Log(fmt::format("Command not found in CommandTextIndex: {}.", command));
          return 0;
       }
       return found->second;

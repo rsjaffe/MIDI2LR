@@ -22,9 +22,9 @@
 #include <string>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <string_view>
-#include <thread>   //sleep_for
-#include <typeinfo> //for typeid, used in calls to ExceptionResponse
+#include <thread>      //sleep_for
 #include <xmmintrin.h> /* for rounding intrinsics */
+#include <fmt/format.h>
 
 #include <JuceLibraryCode/JuceHeader.h>
 #include <gsl/gsl>
@@ -227,8 +227,9 @@ namespace rsj {
        std::string_view msg_prefix, const std::chrono::duration<Rep, Period> sleep_duration) //-V801
    {
       const auto elapsed = SleepTimed(sleep_duration);
-      rsj::Log(rsj::toString(msg_prefix) + " thread slept for " + juce::String(elapsed.count())
-               + ' ' + RatioToPrefix<Period>() + "seconds.");
+      const auto fmtstring =
+          std::string(msg_prefix) + " thread slept for {} " + RatioToPrefix<Period>() + "seconds.";
+      rsj::Log(fmt::format(fmtstring, elapsed.count()));
    }
    /*****************************************************************************/
    /*******************Fast Rounding*********************************************/

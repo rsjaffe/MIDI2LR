@@ -17,6 +17,7 @@
 
 #import <Carbon/Carbon.h>
 #import <Cocoa/Cocoa.h> /* for CheckPermission */
+#include <fmt/format.h>
 
 #include "DebugInfo.h"  /* for GetKeyboardLayout */
 #include "Misc.h"
@@ -35,7 +36,7 @@ std::string rsj::AppDataMac()
 {
    NSString* result = (@"~/Library/Application Support/MIDI2LR").stringByExpandingTildeInPath;
    return std::string(result.UTF8String);
-} 
+}
 
 std::string rsj::AppLogMac()
 {
@@ -85,15 +86,15 @@ void rsj::CheckPermission(pid_t pid)
          switch (status) {
          case errAEEventWouldRequireUserConsent:
             rsj::Log(
-                juce::String("Automation permission pending for ") + bundleIdentifier.UTF8String);
+                fmt::format("Automation permission pending for {}.", bundleIdentifier.UTF8String));
             break;
          case noErr:
             rsj::Log(
-                juce::String("Automation permission granted for ") + bundleIdentifier.UTF8String);
+                fmt::format("Automation permission granted for {}.", bundleIdentifier.UTF8String));
             break;
          case errAEEventNotPermitted: {
             rsj::Log(
-                juce::String("Automation permission denied for ") + bundleIdentifier.UTF8String);
+                fmt::format("Automation permission denied for {}.", bundleIdentifier.UTF8String));
             auto title =
                 juce::translate("MIDI2LR needs your authorization to send keystrokes to Lightroom");
             auto message = juce::translate(
@@ -103,22 +104,23 @@ void rsj::CheckPermission(pid_t pid)
                 "the checkbox for MIDI2LR on the right\r\n6) Check that checkbox");
             {
                const juce::MessageManagerLock mmLock; /* this may be unnecessary */
-               juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, title, message);
+               juce::NativeMessageBox::showMessageBox(
+                   juce::AlertWindow::WarningIcon, title, message);
             }
             break;
          }
          case procNotFound:
-            rsj::Log(juce::String("Application not found. Automation permission unknown for ")
-                     + bundleIdentifier.UTF8String);
+            rsj::Log(fmt::format("Application not found. Automation permission unknown for {}.",
+                bundleIdentifier.UTF8String));
             break;
          default:
-            rsj::Log(juce::String("Unexpected return value when checking automation permission for ")
-                     + bundleIdentifier.UTF8String); 
+            rsj::Log(
+                fmt::format("Unexpected return value when checking automation permission for {}.",
+                    bundleIdentifier.UTF8String));
             break;
          }
       }
       else
-         rsj::Log("AECreateDesc returned error " + juce::String(aeresult));
+         rsj::Log(fmt::format("AECreateDesc returned error {}.", aeresult));
    }
 }
-
