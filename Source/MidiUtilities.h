@@ -70,7 +70,8 @@ namespace rsj {
       static std::array translation_table{"NOTE OFF", "NOTE ON", "KEY PRESSURE", "CC",
           "PROGRAM CHANGE", "CHANNEL PRESSURE", "PITCHBEND", "SYSTEM"};
 #pragma warning(suppress : 26446 26482)
-      return translation_table[static_cast<size_t>(from) - static_cast<size_t>(MessageType::NoteOff)];
+      return translation_table[static_cast<size_t>(from)
+                               - static_cast<size_t>(MessageType::NoteOff)];
    }
 
    /* channel is 0-based in MidiMessage, 1-based in MidiMessageId */

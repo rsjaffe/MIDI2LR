@@ -1,12 +1,12 @@
 ---
-# Visual Studio 2019 currently (October 2019) using clang-format v8. Options for later versions
+# Visual Studio 2019 currently (December 2019) using clang-format v9. Options for later versions
 # may be included but are commented out. Uncomment if used with a later version of clang-format.
 # currently includes options for version 10.
 AccessModifierOffset: -2
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
-#AlignConsecutiveMacros: true
+AlignConsecutiveMacros: true
 AlignEscapedNewlines: Right
 AlignOperands: true
 AlignTrailingComments: true
@@ -15,7 +15,7 @@ AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: false
-#AllowShortLambdasOnASingleLine: All
+AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
@@ -66,7 +66,7 @@ ReflowComments: true
 SortIncludes: false
 SortUsingDeclarations: false
 SpaceAfterCStyleCast: false
-#SpaceAfterLogicalNot: false
+SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: false
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeCpp11BracedList: false
