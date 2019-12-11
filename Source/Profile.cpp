@@ -24,7 +24,7 @@ void Profile::AddCommandForMessageI(size_t command, rsj::MidiMessageId message)
 {
    try {
       if (command < command_set_.CommandAbbrevSize()) {
-         auto cmd_abbreviation = command_set_.CommandAbbrevAt(command);
+         const auto& cmd_abbreviation = command_set_.CommandAbbrevAt(command);
          message_map_[message] = cmd_abbreviation;
          command_string_map_.emplace(cmd_abbreviation, message);
          SortI();

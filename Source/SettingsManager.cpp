@@ -50,10 +50,15 @@ SettingsManager::SettingsManager(ProfileManager& profile_manager, LrIpcOut& lr_i
 void SettingsManager::ConnectionCallback(bool connected, bool blocked)
 {
    try {
-      using namespace std::literals::string_literals; /* needed to append char to string */
       if (connected && !blocked) {
-         lr_ipc_out_.SendCommand("Pickup "s + (GetPickupEnabled() ? '1' : '0') + '\n');
-         rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
+         if (GetPickupEnabled()) {
+            lr_ipc_out_.SendCommand("Pickup 1\n");
+            rsj::Log("Pickup is enabled.");
+         }
+         else {
+            lr_ipc_out_.SendCommand("Pickup 0\n");
+            rsj::Log("Pickup is disabled.");
+         }
          static std::once_flag of; /* add debug info once to logs */
          std::call_once(of, [this] {
             const DebugInfo db{GetProfileDirectory()};

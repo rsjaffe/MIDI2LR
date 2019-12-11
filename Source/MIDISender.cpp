@@ -16,6 +16,7 @@
 #include "MIDISender.h"
 
 #include <exception>
+#include <fmt/format.h>
 
 #include <gsl/gsl>
 #include <JuceLibraryCode/JuceHeader.h>
@@ -74,9 +75,11 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
          }
       }
       else {
-         const auto t = rsj::MessageTypeToName(id.msg_id_type);
-         rsj::LogAndAlertError("MIDISender: " + juce::translate("Unexpected Data Type: ") + t,
-             juce::String("MIDISender: Unexpected Data Type: ") + t);
+         constexpr auto msge = "MIDISender: Unexpected data type: {:n}.";
+         const auto msgt =
+             "MIDISender: " + juce::translate("Unexpected Data Type: ").toStdString() + " {:n}.";
+         rsj::LogAndAlertError(
+             fmt::format(msgt, id.msg_id_type), fmt::format(msge, id.msg_id_type));
       }
    }
 
@@ -90,7 +93,7 @@ void MidiSender::RescanDevices()
 {
    try {
       output_devices_.clear();
-      rsj::Log("Cleared output devices");
+      rsj::Log("Cleared output devices.");
       InitDevices();
    }
    catch (const std::exception& e) {
@@ -106,8 +109,12 @@ void MidiSender::InitDevices()
       for (const auto& device : available_devices) {
          auto open_device{juce::MidiOutput::openDevice(device.identifier)};
          if (open_device) {
-            rsj::Log("Opened output device " + open_device->getName());
-            output_devices_.emplace_back(std::move(open_device));
+            if (const auto devname = open_device->getName().toStdString();
+                devname != "Microsoft GS Wavetable Synth") {
+               rsj::Log(
+                   fmt::format("Opened output device {}.", devname));
+               output_devices_.emplace_back(std::move(open_device));
+            }
          }
       }
    }

@@ -17,6 +17,7 @@
 
 #include <chrono>
 #include <exception>
+#include <fmt/format.h>
 
 #include "Misc.h"
 
@@ -44,10 +45,10 @@ void MidiReceiver::Stop()
 {
    for (const auto& dev : devices_) {
       dev->stop();
-      rsj::Log("Stopped input device " + dev->getName());
+      rsj::Log(fmt::format("Stopped input device {}.", dev->getName().toStdString()));
    }
    if (const auto remaining = messages_.clear_count_push(kTerminate))
-      rsj::Log(juce::String(remaining) + " left in queue in MidiReceiver StopRunning");
+      rsj::Log(fmt::format("{} left in queue in MidiReceiver StopRunning.", remaining));
    callbacks_.clear(); /* after queue emptied */
 }
 
@@ -91,10 +92,10 @@ void MidiReceiver::RescanDevices()
    try {
       for (const auto& dev : devices_) {
          dev->stop();
-         rsj::Log("Stopped input device " + dev->getName());
+         rsj::Log(fmt::format("Stopped input device {}.", dev->getName().toStdString()));
       }
       devices_.clear();
-      rsj::Log("Cleared input devices");
+      rsj::Log("Cleared input devices.");
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
@@ -111,7 +112,7 @@ void MidiReceiver::TryToOpen()
          auto open_device{juce::MidiInput::openDevice(device.identifier, this)};
          if (open_device) {
             open_device->start();
-            rsj::Log("Opened input device " + open_device->getName());
+            rsj::Log(fmt::format("Opened input device {}.", open_device->getName().toStdString()));
             devices_.emplace_back(std::move(open_device));
          }
       }
@@ -126,16 +127,16 @@ void MidiReceiver::InitDevices()
 {
    using namespace std::literals::chrono_literals;
    try {
-      rsj::Log("Trying to open input devices");
+      rsj::Log("Trying to open input devices.");
       TryToOpen();
       if (devices_.empty()) /* encountering errors first try on MacOS */
       {
-         rsj::Log("Retrying to open input devices");
+         rsj::Log("Retrying to open input devices.");
          rsj::SleepTimedLogged("Open input devices", 20ms);
          TryToOpen();
          if (devices_.empty()) /* encountering errors second try on MacOS */
          {
-            rsj::Log("Retrying second time to open input devices");
+            rsj::Log("Retrying second time to open input devices.");
             rsj::SleepTimedLogged("Open input devices", 80ms);
             TryToOpen();
          }

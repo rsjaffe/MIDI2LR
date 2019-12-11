@@ -18,6 +18,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <fmt/format.h>
 
 #include <cereal/access.hpp>
 #include <cereal/types/utility.hpp>
@@ -83,14 +84,11 @@ class CommandSet {
             archive(cereal::make_nvp("language", language_),
                 cereal::make_nvp("all_commands", allcommands_));
          else {
-            const auto v = juce::String(version);
-            rsj::LogAndAlertError(juce::translate("The file, 'MenuTrans.xml', is marked as a "
-                                                  "version not supported by the current version of "
-                                                  "MIDI2LR, and won't be loaded. File version: ")
-                                      + v,
+            constexpr auto msg =
                 "The file, 'MenuTrans.xml', is marked as a version not supported by the current "
-                "version of MIDI2LR, and won't be loaded. File version: "
-                    + v);
+                "version of MIDI2LR, and won't be loaded. File version: {}.";
+            rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
+                fmt::format(msg, version));
          }
       }
       std::string language_;

@@ -22,7 +22,7 @@
 #include <optional>
 #include <type_traits>
 extern "C" {
-extern void _mm_pause(void);
+extern void _mm_pause();
 }
 
 namespace rsj {
@@ -190,9 +190,9 @@ namespace rsj {
       T pop()
       {
          auto lock{std::unique_lock(mutex_)};
-         condition_.wait(
-             lock, [this]() noexcept(
-                       noexcept(std::declval<Container>().empty())) { return !queue_.empty(); });
+         condition_.wait(lock, [this]() noexcept(noexcept(std::declval<Container>().empty())) {
+            return !queue_.empty();
+         });
          T rc{std::move(queue_.front())};
          queue_.pop_front();
          return rc;
@@ -237,7 +237,7 @@ namespace rsj {
           noexcept(std::declval<Container>().clear()) && noexcept(std::declval<Container>().size()))
       {
          auto lock{std::scoped_lock(mutex_)};
-         auto ret = queue_.size();
+         const auto ret = queue_.size();
          queue_.clear();
          return ret;
       }

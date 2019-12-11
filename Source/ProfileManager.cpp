@@ -17,7 +17,6 @@
 
 #include <exception>
 #include <string>
-#include <utility>
 
 #include <gsl/gsl>
 #include "ControlsModel.h"
@@ -82,13 +81,12 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
          if (const auto parsed{juce::XmlDocument::parse(profile_file)}) {
             for (const auto& cb : callbacks_)
                cb(parsed.get(), profile);
-            auto command = "ChangedToDirectory "
-                           + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
-                                 .toStdString()
-                           + '\n';
-            lr_ipc_out_.SendCommand(std::move(command));
-            command = "ChangedToFile " + profile.toStdString() + '\n';
-            lr_ipc_out_.SendCommand(std::move(command));
+            lr_ipc_out_.SendCommand(
+                "ChangedToDirectory "
+                + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
+                      .toStdString()
+                + '\n');
+            lr_ipc_out_.SendCommand("ChangedToFile " + profile.toStdString() + '\n');
          }
       }
    }

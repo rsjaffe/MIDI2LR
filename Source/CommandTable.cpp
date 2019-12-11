@@ -15,6 +15,7 @@
  */
 #include "CommandTable.h"
 
+#include <algorithm>
 #include <exception>
 #include <memory>
 
@@ -74,20 +75,15 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
       }
       if (key_pressed == juce::KeyPress::pageUpKey) {
          if (juce::TableListBox::getNumRows() > 0) {
-            auto row = juce::ListBox::getSelectedRow() - 20;
-            if (row < 0)
-               row = 0;
-            juce::ListBox::selectRow(row);
+            juce::ListBox::selectRow(std::max(juce::ListBox::getSelectedRow() - 20, 0));
             return true;
          }
          return false;
       }
       if (key_pressed == juce::KeyPress::pageDownKey) {
          if (juce::TableListBox::getNumRows() > 0) {
-            auto row = juce::ListBox::getSelectedRow() + 20;
-            if (row >= juce::TableListBox::getNumRows())
-               row = juce::TableListBox::getNumRows() - 1;
-            juce::ListBox::selectRow(row);
+            juce::ListBox::selectRow(std::min(
+                juce::ListBox::getSelectedRow() + 20, juce::TableListBox::getNumRows() - 1));
             return true;
          }
          return false;

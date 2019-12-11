@@ -241,6 +241,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\fmt\format.cc">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\TextButtonAligned.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>

@@ -21,6 +21,7 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <fmt/format.h>
 
 #include "ControlsModel.h"
 #include "MIDIReceiver.h"
@@ -132,7 +133,7 @@ void LrIpcOut::Stop()
    thread_should_exit_.store(true, std::memory_order_release);
    /* pump output queue before port closed */
    if (const auto m = command_.clear_count_emplace(kTerminate))
-      rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
+      rsj::Log(fmt::format("{} left in queue in LrIpcOut destructor.", m));
    /* no more connect/disconnect notifications */
    callbacks_.clear();
    asio::post([this] {
@@ -142,12 +143,12 @@ void LrIpcOut::Stop()
           * shutdown() before closing the socket. */
          socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
          if (ec) {
-            rsj::Log("LR_IPC_Out socket shutdown error " + ec.message());
+            rsj::Log(fmt::format("LR_IPC_Out socket shutdown error {}.", ec.message()));
             ec.clear();
          }
          socket_.close(ec);
          if (ec)
-            rsj::Log("LR_IPC_Out socket close error " + ec.message());
+            rsj::Log(fmt::format("LR_IPC_Out socket close error {}.", ec.message()));
       }
       recenter_timer_.cancel();
    });
@@ -163,11 +164,11 @@ void LrIpcOut::Connect()
                 SendOut();
              }
              else if (error) {
-                rsj::Log("LR_IPC_Out did not connect. " + error.message());
+                rsj::Log(fmt::format("LR_IPC_Out did not connect. {}.", error.message()));
                 asio::error_code ec2;
                 socket_.close(ec2);
                 if (ec2)
-                   rsj::Log("LR_IPC_Out socket close error " + ec2.message());
+                   rsj::Log(fmt::format("LR_IPC_Out socket close error {}.", ec2.message()));
              }
           });
    }
@@ -181,7 +182,7 @@ void LrIpcOut::ConnectionMade()
 {
    connected_.store(true, std::memory_order_release);
    try {
-      rsj::Log("Socket connected in LR_IPC_Out");
+      rsj::Log("Socket connected in LR_IPC_Out.");
       for (const auto& cb : callbacks_)
          cb(true, sending_stopped_);
    }
@@ -289,7 +290,7 @@ void LrIpcOut::SendOut()
              if (!error)
                 [[likely]] SendOut();
              else {
-                rsj::Log("LR_IPC_Out Write: " + error.message());
+                rsj::Log(fmt::format("LR_IPC_Out Write: {}.", error.message()));
              }
           });
    }

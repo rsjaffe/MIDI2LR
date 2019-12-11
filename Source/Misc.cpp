@@ -72,10 +72,9 @@ namespace {
    try {
       ::std::string result;
       result.resize(in.size());
-      ::std::transform(
-          in.begin(), in.end(), result.begin(), [](unsigned char c) noexcept {
-             return gsl::narrow_cast<unsigned char>(::std::tolower(c));
-          });
+      ::std::transform(in.begin(), in.end(), result.begin(), [](unsigned char c) noexcept {
+         return gsl::narrow_cast<unsigned char>(::std::tolower(c));
+      });
       return result;
    }
    catch (const ::std::exception& e) {
@@ -247,11 +246,9 @@ namespace {
       try {
          const auto ret = MultiByteToWideChar(
              CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
-         if (!ret) {
-            const auto error_msg =
-                "MultiByteToWideChar failed with error code: " + std::to_string(GetLastError());
-            throw std::runtime_error(error_msg.c_str());
-         }
+         if (!ret)
+            throw std::runtime_error(
+                fmt::format("MultiByteToWideChar failed with error code: {}.", GetLastError()));
          return ret;
       }
       catch (const std::exception& e) {
@@ -268,11 +265,9 @@ namespace {
       try {
          const auto ret = WideCharToMultiByte(CodePage, dwFlags, lpWideCharStr, cchWideChar,
              lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar);
-         if (!ret) {
-            const auto error_msg =
-                "WideCharToMultiByte failed with error code: " + std::to_string(GetLastError());
-            throw std::runtime_error(error_msg.c_str());
-         }
+         if (!ret)
+            throw std::runtime_error(
+                fmt::format("WideCharToMultiByte failed with error code: {}.", GetLastError()));
          return ret;
       }
       catch (const std::exception& e) {

@@ -21,6 +21,7 @@
  * include than <functional>. See https://en.cppreference.com/w/cpp/language/extending_std. */
 #include <typeindex>
 #include <type_traits>
+#include <fmt/format.h>
 
 #include "Misc.h"
 namespace juce {
@@ -43,15 +44,15 @@ namespace rsj {
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
       const auto from = value >> 4 & 0xF;
-      return from >= 0x9;
+      return from >= static_cast<decltype(from)>(MessageType::NoteOff);
    }
 
    constexpr MessageType ToMessageType(uint8_t value)
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
       const auto from = value >> 4 & 0xF;
-      if (from < 0x9)
-         throw std::out_of_range("ToMessageType: MessageType range error, muxt be 0x9 to 0xF");
+      if (from < static_cast<decltype(from)>(MessageType::NoteOff))
+         throw std::out_of_range("ToMessageType: MessageType range error, must be 0x8 to 0xF");
       return static_cast<MessageType>(from);
    }
 
@@ -60,7 +61,8 @@ namespace rsj {
       static std::array translation_table{"Note Off", "Note On", "Key Pressure", "Control Change",
           "Program Change", "Channel Pressure", "Pitch Bend", "System"};
 #pragma warning(suppress : 26446 26482)
-      return translation_table[static_cast<size_t>(from) - 0x8];
+      return translation_table[static_cast<size_t>(from)
+                               - static_cast<size_t>(MessageType::NoteOff)];
    }
 
    inline const char* MessageTypeToLabel(MessageType from) noexcept
@@ -68,7 +70,8 @@ namespace rsj {
       static std::array translation_table{"NOTE OFF", "NOTE ON", "KEY PRESSURE", "CC",
           "PROGRAM CHANGE", "CHANNEL PRESSURE", "PITCHBEND", "SYSTEM"};
 #pragma warning(suppress : 26446 26482)
-      return translation_table[static_cast<size_t>(from) - 0x8];
+      return translation_table[static_cast<size_t>(from)
+                               - static_cast<size_t>(MessageType::NoteOff)];
    }
 
    /* channel is 0-based in MidiMessage, 1-based in MidiMessageId */
@@ -132,6 +135,34 @@ namespace rsj {
       }
    };
 } // namespace rsj
+
+namespace fmt {
+   template<typename Char> struct formatter<rsj::MessageType, Char> {
+      template<typename ParseContext> constexpr auto parse(ParseContext& ctx)
+      { /* parsing copied from fmt's chrono.h */
+         auto it = ctx.begin();
+         if (it != ctx.end() && *it == static_cast<Char>(':'))
+            ++it;
+         auto end = it;
+         while (end != ctx.end() && *end != static_cast<Char>('}'))
+            ++end;
+         tm_format.reserve(internal::to_unsigned(end - it + 1));
+         tm_format.append(it, end);
+         tm_format.push_back('\0');
+         return end;
+      }
+
+      template<typename FormatContext> auto format(const rsj::MessageType& p, FormatContext& ctx)
+      {
+         if (tm_format[0] == static_cast<Char>('n'))
+            return format_to(ctx.out(), "{}", rsj::MessageTypeToName(p));
+         return format_to(ctx.out(), "{}", rsj::MessageTypeToLabel(p));
+      }
+
+    private:
+      basic_memory_buffer<Char> tm_format;
+   };
+} // namespace fmt
 
 namespace std {
    /*It is allowed to add template specializations for any standard library class template to the

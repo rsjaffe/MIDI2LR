@@ -18,6 +18,7 @@
 #include <fstream>
 #include <memory>
 #include <mutex>
+#include <fmt/format.h>
 
 #ifndef _WIN32
 #include <AvailabilityMacros.h>
@@ -78,7 +79,7 @@ namespace {
                std::rethrow_exception(exc);
             }
             catch (const std::exception& e) {
-               rsj::Log("Terminate called, exception " + juce::String(e.what()));
+               rsj::Log(fmt::format("Terminate called, exception {}.", e.what()));
             }
             catch (...) {
                rsj::Log("Terminate called, unknown exception type.");
@@ -220,20 +221,24 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        * the type of exception is derived from the std::exception class, the pointer passed-in will
        * be valid. If the exception is of unknown type, this pointer will be null. */
       try {
-         const auto u = juce::String(std::uncaught_exceptions());
-         const auto l = juce::String(lineNumber);
-
          if (e) {
-            const auto w = juce::String(e->what());
-            rsj::LogAndAlertError(juce::translate("unhandled exception") + ' ' + w + " "
-                                      + source_filename + " line " + l + " Total uncaught = " + u,
-                "unhandled exception " + w + " " + source_filename + " line " + l
-                    + " Total uncaught = " + u);
+            constexpr auto msge = "Unhandled exception {}, {} line {}. Total uncaught {}.";
+            const auto msgt = juce::translate("unhandled exception").toStdString()
+                              + " {}, {} line {}. Total uncaught {}.";
+            rsj::LogAndAlertError(fmt::format(msgt, e->what(), source_filename.toStdString(),
+                                      lineNumber, std::uncaught_exceptions()),
+                fmt::format(msge, e->what(), source_filename.toStdString(), lineNumber,
+                    std::uncaught_exceptions()));
          }
-         else
-            rsj::LogAndAlertError(juce::translate("unhandled exception") + ' ' + source_filename
-                                      + " line " + l + " Total uncaught = " + u,
-                "unhandled exception " + source_filename + " line " + l + " Total uncaught = " + u);
+         else {
+            constexpr auto msge = "Unhandled exception {} line {}. Total uncaught {}.";
+            const auto msgt = juce::translate("unhandled exception").toStdString()
+                              + " {} line {}. Total uncaught {}.";
+            rsj::LogAndAlertError(fmt::format(msgt, source_filename.toStdString(), lineNumber,
+                                      std::uncaught_exceptions()),
+                fmt::format(
+                    msge, source_filename.toStdString(), lineNumber, std::uncaught_exceptions()));
+         }
       }
       catch (...) {
          /* we'll terminate anyway */

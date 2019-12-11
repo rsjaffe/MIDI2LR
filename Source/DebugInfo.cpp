@@ -19,6 +19,7 @@
 
 #ifdef _WIN32
 #include <array>
+#include <fmt/format.h>
 #include <string>
 #include <unordered_map>
 
@@ -125,7 +126,6 @@ namespace {
 std::string rsj::GetKeyboardLayout()
 {
    try {
-      using namespace std::literals::string_literals;
       static_assert(sizeof(CHAR) == sizeof(char), "Windows CHAR and char different sizes.");
       std::array<CHAR, KL_NAMELENGTH> klid_ascii{};
       if (GetKeyboardLayoutNameA(klid_ascii.data())) {
@@ -133,17 +133,16 @@ std::string rsj::GetKeyboardLayout()
             const auto klid{std::stoul(std::string(klid_ascii.data()), nullptr, 16)};
             if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end())
                return f->second;
-            return "KLID not in keyboard_names: 0x"s + klid_ascii.data();
+            return fmt::format("KLID not in keyboard_names: 0x{}.", klid_ascii.data());
          }
          catch (...) {
-            const auto msg{"Exception when finding KLID name. KLID: 0x"s + klid_ascii.data()};
+            const auto msg{
+                fmt::format("Exception when finding KLID name. KLID: 0x{}.", klid_ascii.data())};
             rsj::Log(msg);
             return msg;
          }
       }
-      const auto msg{"Unable to get KLID. Error " + std::to_string(GetLastError()) + "."s};
-      rsj::Log(msg);
-      return msg;
+      return fmt::format("Unable to get KLID. Error {}.", GetLastError());
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse("rsj", MIDI2LR_FUNC, e);
@@ -157,32 +156,33 @@ std::string rsj::GetKeyboardLayout()
 DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
 {
    try {
-      using namespace std::literals::string_literals;
-      LogAndSave("From application: System language "
-                 + juce::SystemStats::getDisplayLanguage().toStdString());
-      LogAndSave("From application: Keyboard type " + rsj::GetKeyboardLayout());
+      LogAndSave(fmt::format("Application: System language {}.",
+          juce::SystemStats::getDisplayLanguage().toStdString()));
+      LogAndSave(fmt::format("Application: Keyboard type {}.", rsj::GetKeyboardLayout()));
       // ReSharper disable CppUnreachableCode
       if constexpr (kNdebug) {
-         LogAndSave("From application: Application version "s + ProjectInfo::versionString);
+         LogAndSave(
+             fmt::format("Application: Application version {}.", ProjectInfo::versionString));
       }
       else {
          LogAndSave(
-             "From application: Application version "s + ProjectInfo::versionString + "-debug");
+             fmt::format("Application: Application version {}-debug.", ProjectInfo::versionString));
       }
       // ReSharper restore CppUnreachableCode
-      LogAndSave("From application: Application path "
-                 + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
-                       .getFullPathName()
-                       .toStdString());
-      LogAndSave("From application: Profile directory " + profile_directory.toStdString());
-#ifdef _WIN32
+      LogAndSave(fmt::format("Application: Application path {}.",
+          juce::File::getSpecialLocation(juce::File::currentApplicationFile)
+              .getFullPathName()
+              .toStdString()));
       LogAndSave(
-          "From application: Log file directory " + rsj::WideToUtf8(rsj::AppLogFilePath(L"")));
-      LogAndSave("From application: Settings file directory "
-                 + rsj::WideToUtf8(rsj::AppDataFilePath(L"")));
+          fmt::format("Application: Profile directory {}.", profile_directory.toStdString()));
+#ifdef _WIN32
+      LogAndSave(fmt::format(
+          "Application: Log file directory {}.", rsj::WideToUtf8(rsj::AppLogFilePath(L""))));
+      LogAndSave(fmt::format(
+          "Application: Settings file directory {}.", rsj::WideToUtf8(rsj::AppDataFilePath(L""))));
 #else
-      LogAndSave("From application: Log file directory "s + rsj::AppLogFilePath(""));
-      LogAndSave("From application: Settings file directory "s + rsj::AppDataFilePath(""));
+      LogAndSave(fmt::format("Application: Log file directory {}.", rsj::AppLogFilePath("")));
+      LogAndSave(fmt::format("Application: Settings file directory {}.", rsj::AppDataFilePath("")));
 #endif
    }
    catch (...) {

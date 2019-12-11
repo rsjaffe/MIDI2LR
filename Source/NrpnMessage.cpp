@@ -16,6 +16,7 @@
 #include "NrpnMessage.h"
 
 #include <exception>
+#include <fmt/format.h>
 
 #include <gsl/gsl>
 #include "Misc.h"
@@ -24,8 +25,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
 {
    try {
       if (message.channel < 0 || message.channel >= kChannels)
-         throw std::out_of_range(
-             "Channel msg.value in ProcessMIDI is " + std::to_string(message.channel) + '.');
+         throw std::out_of_range(fmt::format("Channel in ProcessMIDI is {}.", message.channel));
       Expects(message.value <= 0x7F && message.value >= 0);
       Expects(message.control_number <= 0x7F && message.control_number >= 0);
 #pragma warning(push)
