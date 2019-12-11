@@ -109,8 +109,12 @@ void MidiSender::InitDevices()
       for (const auto& device : available_devices) {
          auto open_device{juce::MidiOutput::openDevice(device.identifier)};
          if (open_device) {
-            rsj::Log(fmt::format("Opened output device {}.", open_device->getName().toStdString()));
-            output_devices_.emplace_back(std::move(open_device));
+            if (const auto devname = open_device->getName().toStdString();
+                devname != "Microsoft GS Wavetable Synth") {
+               rsj::Log(
+                   fmt::format("Opened output device {}.", devname));
+               output_devices_.emplace_back(std::move(open_device));
+            }
          }
       }
    }
