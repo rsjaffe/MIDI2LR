@@ -175,9 +175,11 @@ void LrIpcIn::ProcessLine()
             /* send associated messages to MIDI OUT devices */
             const auto original_value = std::stod(std::string(value_view));
             for (const auto& msg : profile_.GetMessagesForCommand(command)) {
+               /* following needs to run for all controls: sets saved value */
+               const auto value = controls_model_.PluginToController(msg, original_value);
                if (msg.msg_id_type != rsj::MessageType::Cc
                    || controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute)
-                  midi_sender_.Send(msg, controls_model_.PluginToController(msg, original_value));
+                  midi_sender_.Send(msg, value);
             }
          }
       } while (true);
