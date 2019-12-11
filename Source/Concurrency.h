@@ -22,7 +22,7 @@
 #include <optional>
 #include <type_traits>
 extern "C" {
-extern void _mm_pause(void);
+extern void _mm_pause();
 }
 
 namespace rsj {
@@ -237,7 +237,7 @@ namespace rsj {
           noexcept(std::declval<Container>().clear()) && noexcept(std::declval<Container>().size()))
       {
          auto lock{std::scoped_lock(mutex_)};
-         auto ret = queue_.size();
+         const auto ret = queue_.size();
          queue_.clear();
          return ret;
       }

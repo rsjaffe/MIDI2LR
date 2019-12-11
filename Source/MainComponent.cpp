@@ -18,7 +18,6 @@
 #include <exception>
 #include <functional>
 #include <string>
-#include <utility>
 #include <fmt/format.h>
 
 #include <gsl/gsl>
@@ -127,9 +126,8 @@ void MainContentComponent::Init()
          if (chooser.browseForFileToOpen()) {
             if (const auto parsed{juce::XmlDocument::parse(chooser.getResult())}) {
                const auto new_profile = chooser.getResult();
-               auto command =
-                   "ChangedToFullPath " + new_profile.getFullPathName().toStdString() + '\n';
-               lr_ipc_out_.SendCommand(std::move(command));
+               lr_ipc_out_.SendCommand(
+                   "ChangedToFullPath " + new_profile.getFullPathName().toStdString() + '\n');
                profile_name_label_.setText(
                    new_profile.getFileName(), juce::NotificationType::dontSendNotification);
                profile_.FromXml(parsed.get());

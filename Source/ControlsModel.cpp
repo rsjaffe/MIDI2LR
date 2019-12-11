@@ -199,18 +199,18 @@ int ChannelModel::PluginToController(rsj::MessageType controltype, int controlnu
       switch (controltype) {
       case rsj::MessageType::Pw: {
          /* TODO(C26451): int subtraction: can it overflow? */
-         auto newv =
-             rsj::RoundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_)) + pitch_wheel_min_;
-         newv = std::clamp(newv, pitch_wheel_min_, pitch_wheel_max_);
+         const auto newv = std::clamp(
+             rsj::RoundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_)) + pitch_wheel_min_,
+             pitch_wheel_min_, pitch_wheel_max_);
          pitch_wheel_current_.store(newv, std::memory_order_release);
          return newv;
       }
       case rsj::MessageType::Cc: {
          /* TODO(C26451): int subtraction: can it overflow? */
-         auto newv =
+         const auto newv = std::clamp(
              rsj::RoundToInt(value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)))
-             + cc_low_.at(controlnumber);
-         newv = std::clamp(newv, cc_low_.at(controlnumber), cc_high_.at(controlnumber));
+                 + cc_low_.at(controlnumber),
+             cc_low_.at(controlnumber), cc_high_.at(controlnumber));
          current_v_.at(controlnumber).store(newv, std::memory_order_release);
          return newv;
       }

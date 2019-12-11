@@ -52,9 +52,10 @@ class ControlsModel;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class CCoptions final : public juce::Component,
-                        juce::TextEditor::Listener,
-                        public juce::Button::Listener {
+class CCoptions final :
+    public juce::Component,
+    juce::TextEditor::Listener,
+    public juce::Button::Listener {
  public:
    //==============================================================================
    CCoptions();
