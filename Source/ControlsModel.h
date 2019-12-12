@@ -80,7 +80,7 @@ namespace rsj {
                   methodstr = "BinaryOffset";
                   break;
                case CCmethod::kSignMagnitude:
-                  methodstr = "SignMagnitute";
+                  methodstr = "SignMagnitude";
                   break;
                case CCmethod::kTwosComplement:
                   methodstr = "TwosComplement";
