@@ -30,7 +30,7 @@
 #include "Misc.h"
 #include "Profile.h"
 
-using Clock = std::chrono::high_resolution_clock;
+using Clock = std::chrono::steady_clock;
 using TimePoint = Clock::time_point;
 using namespace std::literals::chrono_literals;
 
