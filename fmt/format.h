@@ -69,7 +69,16 @@
 #  define FMT_HAS_BUILTIN(x) 0
 #endif
 
-#if FMT_HAS_CPP_ATTRIBUTE(fallthrough) >= 201603 && __cplusplus >= 201703
+#if __cplusplus  == 201103L || __cplusplus  == 201402L
+#  if defined(__clang__)
+#    define FMT_FALLTHROUGH [[clang::fallthrough]]
+#  elif FMT_GCC_VERSION >= 700
+#    define FMT_FALLTHROUGH [[gnu::fallthrough]]
+#  else
+#    define FMT_FALLTHROUGH
+#  endif
+#elif (FMT_HAS_CPP_ATTRIBUTE(fallthrough) && (__cplusplus >= 201703)) || \
+      (defined(_MSVC_LANG) && _MSVC_LANG >= 201703L)
 #  define FMT_FALLTHROUGH [[fallthrough]]
 #else
 #  define FMT_FALLTHROUGH
@@ -801,60 +810,6 @@ template <> int count_digits<4>(internal::fallback_uintptr n);
 #  define FMT_ALWAYS_INLINE
 #endif
 
-// Computes g = floor(log10(n)) and calls h.on<g>(n);
-template <typename Handler> FMT_ALWAYS_INLINE char* lg(uint32_t n, Handler h) {
-  return n < 100 ? n < 10 ? h.template on<0>(n) : h.template on<1>(n)
-                 : n < 1000000
-                       ? n < 10000 ? n < 1000 ? h.template on<2>(n)
-                                              : h.template on<3>(n)
-                                   : n < 100000 ? h.template on<4>(n)
-                                                : h.template on<5>(n)
-                       : n < 100000000 ? n < 10000000 ? h.template on<6>(n)
-                                                      : h.template on<7>(n)
-                                       : n < 1000000000 ? h.template on<8>(n)
-                                                        : h.template on<9>(n);
-}
-
-// An lg handler that formats a decimal number.
-// Usage: lg(n, decimal_formatter(buffer));
-class decimal_formatter {
- private:
-  char* buffer_;
-
-  void write_pair(unsigned N, uint32_t index) {
-    std::memcpy(buffer_ + N, data::digits + index * 2, 2);
-  }
-
- public:
-  explicit decimal_formatter(char* buf) : buffer_(buf) {}
-
-  template <unsigned N> char* on(uint32_t u) {
-    if (N == 0) {
-      *buffer_ = static_cast<char>(u) + '0';
-    } else if (N == 1) {
-      write_pair(0, u);
-    } else {
-      // The idea of using 4.32 fixed-point numbers is based on
-      // https://github.com/jeaiii/itoa
-      unsigned n = N - 1;
-      unsigned a = n / 5 * n * 53 / 16;
-      uint64_t t =
-          ((1ULL << (32 + a)) / data::zero_or_powers_of_10_32[n] + 1 - n / 9);
-      t = ((t * u) >> a) + n / 5 * 4;
-      write_pair(0, t >> 32);
-      for (unsigned i = 2; i < N; i += 2) {
-        t = 100ULL * static_cast<uint32_t>(t);
-        write_pair(i, t >> 32);
-      }
-      if (N % 2 == 0) {
-        buffer_[N] =
-            static_cast<char>((10ULL * static_cast<uint32_t>(t)) >> 32) + '0';
-      }
-    }
-    return buffer_ += N + 1;
-  }
-};
-
 #ifdef FMT_BUILTIN_CLZ
 // Optional version of count_digits for better performance on 32-bit platforms.
 inline int count_digits(uint32_t n) {
@@ -1145,10 +1100,11 @@ template <typename Char> class float_writer {
     if (specs_.format == float_format::exp) {
       // Insert a decimal point after the first digit and add an exponent.
       *it++ = static_cast<Char>(*digits_);
-      if (num_digits_ > 1) *it++ = decimal_point_;
-      it = copy_str<Char>(digits_ + 1, digits_ + num_digits_, it);
       int num_zeros = specs_.precision - num_digits_;
-      if (num_zeros > 0 && specs_.trailing_zeros)
+      bool trailing_zeros = num_zeros > 0 && specs_.trailing_zeros;
+      if (num_digits_ > 1 || trailing_zeros) *it++ = decimal_point_;
+      it = copy_str<Char>(digits_ + 1, digits_ + num_digits_, it);
+      if (trailing_zeros)
         it = std::fill_n(it, num_zeros, static_cast<Char>('0'));
       *it++ = static_cast<Char>(specs_.upper ? 'E' : 'e');
       return write_exponent<Char>(full_exp - 1, it);
@@ -2619,7 +2575,7 @@ class format_string_checker {
  public:
   explicit FMT_CONSTEXPR format_string_checker(
       basic_string_view<Char> format_str, ErrorHandler eh)
-      : arg_id_(max_value<unsigned>()),
+      : arg_id_(-1),
         context_(format_str, eh),
         parse_funcs_{&parse_format_specs<Args, parse_context_type>...} {}
 
@@ -2660,7 +2616,7 @@ class format_string_checker {
   // Format specifier parsing function.
   using parse_func = const Char* (*)(parse_context_type&);
 
-  unsigned arg_id_;
+  int arg_id_;
   parse_context_type context_;
   parse_func parse_funcs_[num_args > 0 ? num_args : 1];
 };

@@ -15,7 +15,7 @@
 #include <type_traits>
 
 // The fmt library version in the form major * 10000 + minor * 100 + patch.
-#define FMT_VERSION 60100
+#define FMT_VERSION 60102
 
 #ifdef __has_feature
 #  define FMT_HAS_FEATURE(x) __has_feature(x)
@@ -167,9 +167,9 @@
 
 #if !defined(FMT_HEADER_ONLY) && defined(_WIN32)
 #  ifdef FMT_EXPORT
-#    define FMT_API __pragma(warning(suppress : 4275)) __declspec(dllexport)
+#    define FMT_API __declspec(dllexport)
 #  elif defined(FMT_SHARED)
-#    define FMT_API __pragma(warning(suppress : 4275)) __declspec(dllimport)
+#    define FMT_API __declspec(dllimport)
 #    define FMT_EXTERN_TEMPLATE_API FMT_API
 #  endif
 #endif
@@ -224,7 +224,7 @@ namespace internal {
 // A workaround for gcc 4.8 to make void_t work in a SFINAE context.
 template <typename... Ts> struct void_t_impl { using type = void; };
 
-void assert_fail(const char* file, int line, const char* message);
+FMT_API void assert_fail(const char* file, int line, const char* message);
 
 #ifndef FMT_ASSERT
 #  ifdef NDEBUG
@@ -878,7 +878,7 @@ template <typename Context> struct arg_mapper {
       FMT_ENABLE_IF(
           std::is_constructible<std_string_view<char_type>, T>::value &&
           !std::is_constructible<basic_string_view<char_type>, T>::value &&
-          !is_string<T>::value)>
+          !is_string<T>::value && !has_formatter<T, Context>::value)>
   FMT_CONSTEXPR basic_string_view<char_type> map(const T& val) {
     return std_string_view<char_type>(val);
   }
@@ -911,12 +911,14 @@ template <typename Context> struct arg_mapper {
       map(static_cast<typename std::underlying_type<T>::type>(val))) {
     return map(static_cast<typename std::underlying_type<T>::type>(val));
   }
-  template <typename T,
-            FMT_ENABLE_IF(!is_string<T>::value && !is_char<T>::value &&
-                          !std::is_constructible<basic_string_view<char_type>,
-                                                 T>::value &&
-                          (has_formatter<T, Context>::value ||
-                           has_fallback_formatter<T, Context>::value))>
+  template <
+      typename T,
+      FMT_ENABLE_IF(
+          !is_string<T>::value && !is_char<T>::value &&
+          !std::is_constructible<basic_string_view<char_type>, T>::value &&
+          (has_formatter<T, Context>::value ||
+           (has_fallback_formatter<T, Context>::value &&
+            !std::is_constructible<std_string_view<char_type>, T>::value)))>
   FMT_CONSTEXPR const T& map(const T& val) {
     return val;
   }
@@ -1206,7 +1208,6 @@ template <typename Context, typename... Args> class format_arg_store {
   static constexpr unsigned long long types =
       is_packed ? internal::encode_types<Context, Args...>()
                 : internal::is_unpacked_bit | num_args;
-  FMT_DEPRECATED static constexpr unsigned long long TYPES = types;
 
   format_arg_store(const Args&... args)
       : data_{internal::make_arg<is_packed, Context>(args)...} {}
@@ -1284,7 +1285,7 @@ template <typename Context> class basic_format_args {
    */
   template <typename... Args>
   basic_format_args(const format_arg_store<Context, Args...>& store)
-      : types_(static_cast<unsigned long long>(store.types)) {
+      : types_(store.types) {
     set_data(store.data_);
   }
 
