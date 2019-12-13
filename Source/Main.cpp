@@ -255,7 +255,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          const auto file_name = rsj::AppDataFilePath(kDefaultsFile);
          const auto profile_file = juce::File(file_name.data());
          profile_.ToXmlFile(profile_file);
-         rsj::Log("Default profile saved to " + profile_file.getFullPathName());
+         rsj::Log(fmt::format("Default profile saved to {}.", profile_file.getFullPathName().toStdString()));
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
@@ -277,9 +277,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             const auto oarchive = std::make_unique<cereal::XMLOutputArchive>(outfile);
             (*oarchive)(controls_model_);
 #ifdef FILESYSTEM_AVAILABLE_MIDI2LR
-            rsj::Log("ControlsModel archive in Main saved to " + juce::String(p.c_str()));
+            rsj::Log(fmt::format("ControlsModel archive in Main saved to {}.", p.string()));
 #else
-            rsj::Log("ControlsModel archive in Main saved to " + p);
+            rsj::Log(fmt::format("ControlsModel archive in Main saved to {}.", p));
 #endif
          }
          else
@@ -305,9 +305,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             const auto iarchive = std::make_unique<cereal::XMLInputArchive>(in_file);
             (*iarchive)(controls_model_);
 #ifdef FILESYSTEM_AVAILABLE_MIDI2LR
-            rsj::Log("ControlsModel archive in Main loaded from " + juce::String(px.c_str()));
+            rsj::Log(fmt::format("ControlsModel archive in Main loaded from {}.", px.string()));
 #else
-            rsj::Log("ControlsModel archive in Main loaded from " + px);
+            rsj::Log(fmt::format("ControlsModel archive in Main loaded from {}.", px));
 #endif
          }
       }

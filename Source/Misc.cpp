@@ -187,11 +187,9 @@ void rsj::ExceptionResponse(
     [[maybe_unused]] gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
 {
    try {
-      const auto w = e.what();
-      const auto alert_text{juce::translate("Exception ") + w + ' ' + fu + ' '
-                            + juce::translate("Version ") + ProjectInfo::versionString};
-      const auto error_text{
-          juce::String("Exception ") + w + ' ' + fu + " Version " + ProjectInfo::versionString};
+      const auto alert_text{
+          fmt::format(juce::translate("Exception ").toStdString() + "{} {}.", e.what(), fu)};
+      const auto error_text{fmt::format("Exception {} {}.", e.what(), fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
    catch (...) { //-V565
@@ -204,11 +202,9 @@ void rsj::ExceptionResponse(
     gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
 {
    try {
-      const auto w = e.what();
-      const auto alert_text{juce::translate("Exception ") + w + ' ' + id + "::" + fu + ' '
-                            + juce::translate("Version ") + ProjectInfo::versionString};
-      const auto error_text{juce::String("Exception ") + w + ' ' + id + "::" + fu + " Version "
-                            + ProjectInfo::versionString};
+      const auto alert_text{fmt::format(
+          juce::translate("Exception ").toStdString() + "{} {}::{}.", e.what(), id, fu)};
+      const auto error_text{fmt::format("Exception {} {}::{}.", e.what(), id, fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
    catch (...) { //-V565
