@@ -191,6 +191,7 @@ namespace {
     * Japanese keyboards */
    const UCKeyboardLayout* GetKeyboardData()
    {
+      const juce::MessageManagerLock mmLock;
       TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
       CFDataRef data =
           (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
