@@ -215,9 +215,9 @@ namespace rsj {
    template<class Rep, class Period>
    auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) //-V801
    {
-      const auto start = std::chrono::high_resolution_clock::now();
+      const auto start = std::chrono::steady_clock::now();
       std::this_thread::sleep_for(sleep_duration);
-      const auto end = std::chrono::high_resolution_clock::now();
+      const auto end = std::chrono::steady_clock::now();
       const std::chrono::duration<double, Period> elapsed = end - start;
       return elapsed;
    }

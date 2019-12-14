@@ -17,6 +17,7 @@
 
 #import <Carbon/Carbon.h>
 #import <Cocoa/Cocoa.h> /* for CheckPermission */
+#include <JuceLibraryCode/JuceHeader.h>
 #include <fmt/format.h>
 
 #include "DebugInfo.h"  /* for GetKeyboardLayout */
@@ -46,6 +47,7 @@ std::string rsj::AppLogMac()
 
 std::string rsj::GetKeyboardLayout()
 {
+   const juce::MessageManagerLock mmLock;
    /* get current keyboard layout by name */
    TISInputSourceRef current_source = TISCopyCurrentKeyboardInputSource();
    /* returns null with Japanese keyboard layout */

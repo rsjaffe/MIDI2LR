@@ -81,9 +81,9 @@ CommandSet::Impl::Impl()
          const auto iarchive = std::make_unique<cereal::XMLInputArchive>(infile);
          (*iarchive)(*this);
 #ifdef FILESYSTEM_AVAILABLE_MIDI2LR
-         rsj::Log("MenuTrans.xml archive loaded from " + juce::String(p.c_str()));
+         rsj::Log(fmt::format("MenuTrans.xml archive loaded from {}.", p.string()));
 #else
-         rsj::Log("MenuTrans.xml archive loaded from " + p);
+         rsj::Log(fmt::format("MenuTrans.xml archive loaded from {}.", p));
 #endif
       }
       else
