@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.4.3
+  Created with Projucer version: 5.4.5
 
   ------------------------------------------------------------------------------
 
@@ -38,231 +38,240 @@
 
 #include "CCoptions.h"
 
+
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 #include "ControlsModel.h"
 using namespace juce;
 //[/MiscUserDefs]
 
 //==============================================================================
-CCoptions::CCoptions()
+CCoptions::CCoptions ()
 {
-   //[Constructor_pre] You can add your own custom stuff here..
-   //[/Constructor_pre]
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
 
-   groupComponent.reset(new GroupComponent("CCmethod", TRANS("CC Message Type")));
-   addAndMakeVisible(groupComponent.get());
+    groupComponent.reset (new GroupComponent ("CCmethod",
+                                              TRANS("CC Message Type")));
+    addAndMakeVisible (groupComponent.get());
 
-   groupComponent->setBounds(16, 60, 240, 157);
+    groupComponent->setBounds (16, 60, 240, 157);
 
-   twosbutton.reset(new ToggleButton("twoscomp"));
-   addAndMakeVisible(twosbutton.get());
-   twosbutton->setTooltip(TRANS("Control value is 1 or greater when turned one way, and 127 or "
-                                "smaller when turned the other."));
-   twosbutton->setExplicitFocusOrder(2);
-   twosbutton->setButtonText(TRANS("Two\'s complement"));
-   twosbutton->setConnectedEdges(Button::ConnectedOnTop | Button::ConnectedOnBottom);
-   twosbutton->setRadioGroupId(1);
-   twosbutton->addListener(this);
+    twosbutton.reset (new ToggleButton ("twoscomp"));
+    addAndMakeVisible (twosbutton.get());
+    twosbutton->setTooltip (TRANS("Control value is 1 or greater when turned one way, and 127 or smaller when turned the other."));
+    twosbutton->setExplicitFocusOrder (2);
+    twosbutton->setButtonText (TRANS("Two\'s complement"));
+    twosbutton->setConnectedEdges (Button::ConnectedOnTop | Button::ConnectedOnBottom);
+    twosbutton->setRadioGroupId (1);
+    twosbutton->addListener (this);
 
-   twosbutton->setBounds(40, 117, 150, 24);
+    twosbutton->setBounds (40, 117, 150, 24);
 
-   absbutton.reset(new ToggleButton("Absolute"));
-   addAndMakeVisible(absbutton.get());
-   absbutton->setTooltip(
-       TRANS("Control value increases when turned one way, decreases when turned the other."));
-   absbutton->setExplicitFocusOrder(1);
-   absbutton->setConnectedEdges(Button::ConnectedOnBottom);
-   absbutton->setRadioGroupId(1);
-   absbutton->addListener(this);
-   absbutton->setToggleState(true, dontSendNotification);
+    absbutton.reset (new ToggleButton ("Absolute"));
+    addAndMakeVisible (absbutton.get());
+    absbutton->setTooltip (TRANS("Control value increases when turned one way, decreases when turned the other."));
+    absbutton->setExplicitFocusOrder (1);
+    absbutton->setConnectedEdges (Button::ConnectedOnBottom);
+    absbutton->setRadioGroupId (1);
+    absbutton->addListener (this);
+    absbutton->setToggleState (true, dontSendNotification);
 
-   absbutton->setBounds(40, 85, 150, 24);
+    absbutton->setBounds (40, 85, 150, 24);
 
-   binbutton.reset(new ToggleButton("Binaryoffset"));
-   addAndMakeVisible(binbutton.get());
-   binbutton->setTooltip(
-       TRANS("Control value is near 63 when turned one way, and near 65 when turned the other."));
-   binbutton->setExplicitFocusOrder(3);
-   binbutton->setButtonText(TRANS("Binary offset"));
-   binbutton->setConnectedEdges(Button::ConnectedOnTop | Button::ConnectedOnBottom);
-   binbutton->setRadioGroupId(1);
-   binbutton->addListener(this);
+    binbutton.reset (new ToggleButton ("Binaryoffset"));
+    addAndMakeVisible (binbutton.get());
+    binbutton->setTooltip (TRANS("Control value is near 63 when turned one way, and near 65 when turned the other."));
+    binbutton->setExplicitFocusOrder (3);
+    binbutton->setButtonText (TRANS("Binary offset"));
+    binbutton->setConnectedEdges (Button::ConnectedOnTop | Button::ConnectedOnBottom);
+    binbutton->setRadioGroupId (1);
+    binbutton->addListener (this);
 
-   binbutton->setBounds(40, 149, 150, 24);
+    binbutton->setBounds (40, 149, 150, 24);
 
-   signbutton.reset(new ToggleButton("Signmagnitude"));
-   addAndMakeVisible(signbutton.get());
-   signbutton->setTooltip(
-       TRANS("Control value is near 1 when turned one way, and near 65 when turned the other."));
-   signbutton->setExplicitFocusOrder(4); //-V112
-   signbutton->setButtonText(TRANS("Sign and magnitude"));
-   signbutton->setConnectedEdges(Button::ConnectedOnTop);
-   signbutton->setRadioGroupId(1);
-   signbutton->addListener(this);
+    signbutton.reset (new ToggleButton ("Signmagnitude"));
+    addAndMakeVisible (signbutton.get());
+    signbutton->setTooltip (TRANS("Control value is near 1 when turned one way, and near 65 when turned the other."));
+    signbutton->setExplicitFocusOrder (4);
+    signbutton->setButtonText (TRANS("Sign and magnitude"));
+    signbutton->setConnectedEdges (Button::ConnectedOnTop);
+    signbutton->setRadioGroupId (1);
+    signbutton->addListener (this);
 
-   signbutton->setBounds(40, 181, 150, 24);
+    signbutton->setBounds (40, 181, 150, 24);
 
-   maxvaltext.reset(new TextEditor("maxvaltext"));
-   addAndMakeVisible(maxvaltext.get());
-   maxvaltext->setExplicitFocusOrder(6);
-   maxvaltext->setMultiLine(false);
-   maxvaltext->setReturnKeyStartsNewLine(false);
-   maxvaltext->setReadOnly(false);
-   maxvaltext->setScrollbarsShown(true);
-   maxvaltext->setCaretVisible(true);
-   maxvaltext->setPopupMenuEnabled(true);
-   maxvaltext->setText(TRANS("127"));
+    maxvaltext.reset (new TextEditor ("maxvaltext"));
+    addAndMakeVisible (maxvaltext.get());
+    maxvaltext->setExplicitFocusOrder (6);
+    maxvaltext->setMultiLine (false);
+    maxvaltext->setReturnKeyStartsNewLine (false);
+    maxvaltext->setReadOnly (false);
+    maxvaltext->setScrollbarsShown (true);
+    maxvaltext->setCaretVisible (true);
+    maxvaltext->setPopupMenuEnabled (true);
+    maxvaltext->setText (TRANS("127"));
 
-   maxvaltext->setBounds(200, 268, 56, 24);
+    maxvaltext->setBounds (200, 268, 56, 24);
 
-   minvaltext.reset(new TextEditor("minvaltext"));
-   addAndMakeVisible(minvaltext.get());
-   minvaltext->setExplicitFocusOrder(5);
-   minvaltext->setMultiLine(false);
-   minvaltext->setReturnKeyStartsNewLine(false);
-   minvaltext->setReadOnly(false);
-   minvaltext->setScrollbarsShown(true);
-   minvaltext->setCaretVisible(true);
-   minvaltext->setPopupMenuEnabled(true);
-   minvaltext->setText(TRANS("0"));
+    minvaltext.reset (new TextEditor ("minvaltext"));
+    addAndMakeVisible (minvaltext.get());
+    minvaltext->setExplicitFocusOrder (5);
+    minvaltext->setMultiLine (false);
+    minvaltext->setReturnKeyStartsNewLine (false);
+    minvaltext->setReadOnly (false);
+    minvaltext->setScrollbarsShown (true);
+    minvaltext->setCaretVisible (true);
+    minvaltext->setPopupMenuEnabled (true);
+    minvaltext->setText (TRANS("0"));
 
-   minvaltext->setBounds(200, 228, 56, 24);
+    minvaltext->setBounds (200, 228, 56, 24);
 
-   minvallabel.reset(new Label("new label", TRANS("Minimum value")));
-   addAndMakeVisible(minvallabel.get());
-   minvallabel->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
-   minvallabel->setJustificationType(Justification::centredLeft);
-   minvallabel->setEditable(false, false, false);
-   minvallabel->setColour(TextEditor::textColourId, Colours::black);
-   minvallabel->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
+    minvallabel.reset (new Label ("new label",
+                                  TRANS("Minimum value")));
+    addAndMakeVisible (minvallabel.get());
+    minvallabel->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    minvallabel->setJustificationType (Justification::centredLeft);
+    minvallabel->setEditable (false, false, false);
+    minvallabel->setColour (TextEditor::textColourId, Colours::black);
+    minvallabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-   minvallabel->setBounds(16, 228, 150, 24);
+    minvallabel->setBounds (16, 228, 150, 24);
 
-   maxvallabel.reset(new Label("maxlabel", TRANS("Maximum value")));
-   addAndMakeVisible(maxvallabel.get());
-   maxvallabel->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
-   maxvallabel->setJustificationType(Justification::centredLeft);
-   maxvallabel->setEditable(false, false, false);
-   maxvallabel->setColour(TextEditor::textColourId, Colours::black);
-   maxvallabel->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
+    maxvallabel.reset (new Label ("maxlabel",
+                                  TRANS("Maximum value")));
+    addAndMakeVisible (maxvallabel.get());
+    maxvallabel->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    maxvallabel->setJustificationType (Justification::centredLeft);
+    maxvallabel->setEditable (false, false, false);
+    maxvallabel->setColour (TextEditor::textColourId, Colours::black);
+    maxvallabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-   maxvallabel->setBounds(16, 268, 150, 24);
+    maxvallabel->setBounds (16, 268, 150, 24);
 
-   applyAll.reset(new TextButton("new button"));
-   addAndMakeVisible(applyAll.get());
-   applyAll->setTooltip(TRANS("Apply these settings to all similar controls."));
-   applyAll->setExplicitFocusOrder(7);
-   applyAll->setButtonText(TRANS("Apply to all"));
-   applyAll->addListener(this);
+    applyAll.reset (new TextButton ("new button"));
+    addAndMakeVisible (applyAll.get());
+    applyAll->setTooltip (TRANS("Apply these settings to all similar controls."));
+    applyAll->setExplicitFocusOrder (7);
+    applyAll->setButtonText (TRANS("Apply to all"));
+    applyAll->addListener (this);
 
-   controlID.reset(new Label("channel 0 number 0", TRANS("Channel 0 Number 0")));
-   addAndMakeVisible(controlID.get());
-   controlID->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
-   controlID->setJustificationType(Justification::centred);
-   controlID->setEditable(false, false, false);
-   controlID->setColour(TextEditor::textColourId, Colours::black);
-   controlID->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
+    controlID.reset (new Label ("channel 0 number 0",
+                                TRANS("Channel 0 Number 0")));
+    addAndMakeVisible (controlID.get());
+    controlID->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    controlID->setJustificationType (Justification::centred);
+    controlID->setEditable (false, false, false);
+    controlID->setColour (TextEditor::textColourId, Colours::black);
+    controlID->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-   //[UserPreSize]
-   //[/UserPreSize]
 
-   setSize(280, 350);
+    //[UserPreSize]
+    //[/UserPreSize]
 
-   //[Constructor] You can add your own custom stuff here..
+    setSize (280, 350);
+
+
+    //[Constructor] You can add your own custom stuff here..
    maxvaltext->setInputFilter(&numrestrict_, false);
    minvaltext->setInputFilter(&numrestrict_, false);
    maxvaltext->addListener(this);
    minvaltext->addListener(this);
-   //[/Constructor]
+    //[/Constructor]
 }
 
 CCoptions::~CCoptions()
 {
-   //[Destructor_pre]. You can add your own custom destruction code here..
-   //[/Destructor_pre]
+    //[Destructor_pre]. You can add your own custom destruction code here..
+    //[/Destructor_pre]
 
-   groupComponent = nullptr;
-   twosbutton = nullptr;
-   absbutton = nullptr;
-   binbutton = nullptr;
-   signbutton = nullptr;
-   maxvaltext = nullptr;
-   minvaltext = nullptr;
-   minvallabel = nullptr;
-   maxvallabel = nullptr;
-   applyAll = nullptr;
-   controlID = nullptr;
+    groupComponent = nullptr;
+    twosbutton = nullptr;
+    absbutton = nullptr;
+    binbutton = nullptr;
+    signbutton = nullptr;
+    maxvaltext = nullptr;
+    minvaltext = nullptr;
+    minvallabel = nullptr;
+    maxvallabel = nullptr;
+    applyAll = nullptr;
+    controlID = nullptr;
 
-   //[Destructor]. You can add your own custom destruction code here..
-   //[/Destructor]
+
+    //[Destructor]. You can add your own custom destruction code here..
+    //[/Destructor]
 }
 
 //==============================================================================
-void CCoptions::paint(Graphics& g)
+void CCoptions::paint (Graphics& g)
 {
-   //[UserPrePaint] Add your own custom painting code here..
-   //[/UserPrePaint]
+    //[UserPrePaint] Add your own custom painting code here..
+    //[/UserPrePaint]
 
-   g.fillAll(Colours::white);
+    g.fillAll (Colours::white);
 
-   //[UserPaint] Add your own custom painting code here..
-   //[/UserPaint]
+    //[UserPaint] Add your own custom painting code here..
+    //[/UserPaint]
 }
 
 void CCoptions::resized()
 {
-   //[UserPreResize] Add your own custom resize code here..
-   //[/UserPreResize]
+    //[UserPreResize] Add your own custom resize code here..
+    //[/UserPreResize]
 
-   applyAll->setBounds((getWidth() / 2) - (150 / 2), (getHeight() / 2) + 141, 150, 24);
-   controlID->setBounds((getWidth() / 2) - (248 / 2), 16, 248, 24);
-   //[UserResized] Add your own custom resize handling here..
-   //[/UserResized]
+    applyAll->setBounds ((getWidth() / 2) - (150 / 2), (getHeight() / 2) + 141, 150, 24);
+    controlID->setBounds ((getWidth() / 2) - (248 / 2), 16, 248, 24);
+    //[UserResized] Add your own custom resize handling here..
+    //[/UserResized]
 }
 
-void CCoptions::buttonClicked(Button* buttonThatWasClicked)
+void CCoptions::buttonClicked (Button* buttonThatWasClicked)
 {
-   //[UserbuttonClicked_Pre]
-   //[/UserbuttonClicked_Pre]
+    //[UserbuttonClicked_Pre]
+    //[/UserbuttonClicked_Pre]
 
-   if (buttonThatWasClicked == twosbutton.get()) {
-      //[UserButtonCode_twosbutton] -- add your button handler code here..
+    if (buttonThatWasClicked == twosbutton.get())
+    {
+        //[UserButtonCode_twosbutton] -- add your button handler code here..
       minvaltext->setVisible(false);
       minvallabel->setVisible(false);
       maxvallabel->setText(TRANS("Resolution"), juce::dontSendNotification);
       minvaltext->setText("0", juce::dontSendNotification);
       controls_model_->SetCcMethod(bound_channel_, bound_number_, rsj::CCmethod::kTwosComplement);
-      //[/UserButtonCode_twosbutton]
-   }
-   else if (buttonThatWasClicked == absbutton.get()) {
-      //[UserButtonCode_absbutton] -- add your button handler code here..
+        //[/UserButtonCode_twosbutton]
+    }
+    else if (buttonThatWasClicked == absbutton.get())
+    {
+        //[UserButtonCode_absbutton] -- add your button handler code here..
       minvaltext->setVisible(true);
       minvallabel->setVisible(true);
       maxvallabel->setText(TRANS("Maximum value"), juce::dontSendNotification);
       controls_model_->SetCcMethod(bound_channel_, bound_number_, rsj::CCmethod::kAbsolute);
-      //[/UserButtonCode_absbutton]
-   }
-   else if (buttonThatWasClicked == binbutton.get()) {
-      //[UserButtonCode_binbutton] -- add your button handler code here..
+        //[/UserButtonCode_absbutton]
+    }
+    else if (buttonThatWasClicked == binbutton.get())
+    {
+        //[UserButtonCode_binbutton] -- add your button handler code here..
       minvaltext->setVisible(false);
       minvallabel->setVisible(false);
       maxvallabel->setText(TRANS("Resolution"), juce::dontSendNotification);
       minvaltext->setText("0", juce::dontSendNotification);
       controls_model_->SetCcMethod(bound_channel_, bound_number_, rsj::CCmethod::kBinaryOffset);
 
-      //[/UserButtonCode_binbutton]
-   }
-   else if (buttonThatWasClicked == signbutton.get()) {
-      //[UserButtonCode_signbutton] -- add your button handler code here..
+        //[/UserButtonCode_binbutton]
+    }
+    else if (buttonThatWasClicked == signbutton.get())
+    {
+        //[UserButtonCode_signbutton] -- add your button handler code here..
       minvaltext->setVisible(false);
       minvallabel->setVisible(false);
       maxvallabel->setText(TRANS("Resolution"), juce::dontSendNotification);
       minvaltext->setText("0", juce::dontSendNotification);
       controls_model_->SetCcMethod(bound_channel_, bound_number_, rsj::CCmethod::kSignMagnitude);
-      //[/UserButtonCode_signbutton]
-   }
-   else if (buttonThatWasClicked == applyAll.get()) {
-      //[UserButtonCode_applyAll] -- add your button handler code here..
+        //[/UserButtonCode_signbutton]
+    }
+    else if (buttonThatWasClicked == applyAll.get())
+    {
+        //[UserButtonCode_applyAll] -- add your button handler code here..
       rsj::CCmethod ccm{};
       if (twosbutton->getToggleState())
          ccm = rsj::CCmethod::kTwosComplement;
@@ -278,12 +287,14 @@ void CCoptions::buttonClicked(Button* buttonThatWasClicked)
       }
       controls_model_->SetCcAll(bound_channel_, bound_number_, minvaltext->getText().getIntValue(),
           maxvaltext->getText().getIntValue(), ccm);
-      //[/UserButtonCode_applyAll]
-   }
+        //[/UserButtonCode_applyAll]
+    }
 
-   //[UserbuttonClicked_Post]
-   //[/UserbuttonClicked_Post]
+    //[UserbuttonClicked_Post]
+    //[/UserbuttonClicked_Post]
 }
+
+
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void CCoptions::textEditorFocusLost(TextEditor& t)
@@ -323,6 +334,7 @@ void CCoptions::BindToControl(int channel, int control_number)
    }
 }
 //[/MiscUserCode]
+
 
 //==============================================================================
 #if 0
@@ -369,12 +381,12 @@ BEGIN_JUCER_METADATA
          virtualName="" explicitFocusOrder="0" pos="16 228 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Minimum value" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="1.5e1" kerning="0" bold="0" italic="0" justification="33"/>
+         fontsize="15.0" kerning="0.0" bold="0" italic="0" justification="33"/>
   <LABEL name="maxlabel" id="e9c5639016533dbc" memberName="maxvallabel"
          virtualName="" explicitFocusOrder="0" pos="16 268 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Maximum value" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="1.5e1" kerning="0" bold="0" italic="0" justification="33"/>
+         fontsize="15.0" kerning="0.0" bold="0" italic="0" justification="33"/>
   <TEXTBUTTON name="new button" id="836af06f251dc94d" memberName="applyAll"
               virtualName="" explicitFocusOrder="7" pos="0Cc 141C 150 24" tooltip="Apply these settings to all similar controls."
               buttonText="Apply to all" connectedEdges="0" needsCallback="1"
@@ -383,12 +395,14 @@ BEGIN_JUCER_METADATA
          virtualName="" explicitFocusOrder="0" pos="0Cc 16 248 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Channel 0 Number 0" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="1.5e1" kerning="0" bold="0" italic="0" justification="36"/>
+         fontsize="15.0" kerning="0.0" bold="0" italic="0" justification="36"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
 */
 #endif
 
+
 //[EndFile] You can add extra defines here...
 //[/EndFile]
+

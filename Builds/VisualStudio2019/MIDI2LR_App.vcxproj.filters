@@ -2,6 +2,12 @@
 
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="MIDI2LR\Source\Generated">
+      <UniqueIdentifier>{3DF35296-1F92-7A70-7608-F03CE74C99D8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MIDI2LR\Source\Libraries">
+      <UniqueIdentifier>{1C7B7594-EEFE-7657-6BA7-B85C42C454C9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="MIDI2LR\Source">
       <UniqueIdentifier>{9CED966C-7B4E-F384-6407-7CEF1B0DF423}</UniqueIdentifier>
     </Filter>
@@ -242,7 +248,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\CCoptions.cpp">
-      <Filter>MIDI2LR\Source</Filter>
+      <Filter>MIDI2LR\Source\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PWoptions.cpp">
+      <Filter>MIDI2LR\Source\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\fmt\format.cc">
+      <Filter>MIDI2LR\Source\Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ResizableLayout.cpp">
+      <Filter>MIDI2LR\Source\Libraries</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\CommandMenu.cpp">
       <Filter>MIDI2LR\Source</Filter>
@@ -260,9 +275,6 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\DebugInfo.cpp">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\fmt\format.cc">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\KeyMap.mm">
@@ -305,12 +317,6 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ProfileManager.cpp">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\PWoptions.cpp">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\ResizableLayout.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\SendKeys.cpp">
@@ -1687,7 +1693,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\CCoptions.h">
-      <Filter>MIDI2LR\Source</Filter>
+      <Filter>MIDI2LR\Source\Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PWoptions.h">
+      <Filter>MIDI2LR\Source\Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ResizableLayout.h">
+      <Filter>MIDI2LR\Source\Libraries</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\CommandMenu.h">
       <Filter>MIDI2LR\Source</Filter>
@@ -1744,12 +1756,6 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ProfileManager.h">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PWoptions.h">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ResizableLayout.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SendKeys.h">

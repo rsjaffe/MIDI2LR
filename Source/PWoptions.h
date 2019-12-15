@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.4.3
+  Created with Projucer version: 5.4.5
 
   ------------------------------------------------------------------------------
 
@@ -44,6 +44,8 @@ class ControlsModel;
 // NOTE: must add juce:: qualifiers in header if regenerate file
 //[/Headers]
 
+
+
 //==============================================================================
 /**
                                                                     //[Comments]
@@ -52,14 +54,16 @@ class ControlsModel;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class PWoptions final : public juce::Component, juce::TextEditor::Listener {
- public:
-   //==============================================================================
-   PWoptions();
-   ~PWoptions();
+class PWoptions  : public juce::Component,
+                   private juce::TextEditor::Listener
+{
+public:
+    //==============================================================================
+    PWoptions ();
+    ~PWoptions();
 
-   //==============================================================================
-   //[UserMethods]     -- You can add your own custom methods in this section.
+    //==============================================================================
+    //[UserMethods]     -- You can add your own custom methods in this section.
    static void LinkToControlsModel(_In_ ControlsModel* model) noexcept
    {
       controls_model_ = model;
@@ -67,30 +71,34 @@ class PWoptions final : public juce::Component, juce::TextEditor::Listener {
    void BindToControl(int channel);
    PWoptions(PWoptions&& other) noexcept = delete;
    PWoptions& operator=(PWoptions&& other) noexcept = delete;
-   //[/UserMethods]
+    //[/UserMethods]
 
-   void paint(juce::Graphics& g) override;
-   void resized() override;
+    void paint (juce::Graphics& g) override;
+    void resized() override;
 
- private:
-   //[UserVariables]   -- You can add your own custom variables in this section.
+
+
+private:
+    //[UserVariables]   -- You can add your own custom variables in this section.
    juce::TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
    void textEditorFocusLost(juce::TextEditor& t) override;
    inline static ControlsModel* controls_model_{nullptr};
    int boundchannel_{0}; // note: 0-based
 
-   //[/UserVariables]
+    //[/UserVariables]
 
-   //==============================================================================
-   std::unique_ptr<juce::Label> label;
-   std::unique_ptr<juce::TextEditor> minval;
-   std::unique_ptr<juce::Label> label2;
-   std::unique_ptr<juce::TextEditor> maxval;
-   std::unique_ptr<juce::Label> label3;
+    //==============================================================================
+    std::unique_ptr<juce::Label> label;
+    std::unique_ptr<juce::TextEditor> minval;
+    std::unique_ptr<juce::Label> label2;
+    std::unique_ptr<juce::TextEditor> maxval;
+    std::unique_ptr<juce::Label> label3;
 
-   //==============================================================================
-   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PWoptions)
+
+    //==============================================================================
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PWoptions)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
+

@@ -140,13 +140,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\CCoptions.cpp"/>
+    <ClCompile Include="..\..\Source\PWoptions.cpp"/>
+    <ClCompile Include="..\..\fmt\format.cc"/>
+    <ClCompile Include="..\..\Source\ResizableLayout.cpp"/>
     <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
     <ClCompile Include="..\..\Source\CommandSet.cpp"/>
     <ClCompile Include="..\..\Source\CommandTable.cpp"/>
     <ClCompile Include="..\..\Source\CommandTableModel.cpp"/>
     <ClCompile Include="..\..\Source\ControlsModel.cpp"/>
     <ClCompile Include="..\..\Source\DebugInfo.cpp"/>
-    <ClCompile Include="..\..\fmt\format.cc"/>
     <ClCompile Include="..\..\Source\LR_IPC_In.cpp"/>
     <ClCompile Include="..\..\Source\LR_IPC_Out.cpp"/>
     <ClCompile Include="..\..\Source\Main.cpp"/>
@@ -159,8 +161,6 @@
     <ClCompile Include="..\..\Source\NrpnMessage.cpp"/>
     <ClCompile Include="..\..\Source\Profile.cpp"/>
     <ClCompile Include="..\..\Source\ProfileManager.cpp"/>
-    <ClCompile Include="..\..\Source\PWoptions.cpp"/>
-    <ClCompile Include="..\..\Source\ResizableLayout.cpp"/>
     <ClCompile Include="..\..\Source\SendKeys.cpp"/>
     <ClCompile Include="..\..\Source\SettingsComponent.cpp"/>
     <ClCompile Include="..\..\Source\SettingsManager.cpp"/>
@@ -1435,6 +1435,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\CCoptions.h"/>
+    <ClInclude Include="..\..\Source\PWoptions.h"/>
+    <ClInclude Include="..\..\Source\ResizableLayout.h"/>
     <ClInclude Include="..\..\Source\CommandMenu.h"/>
     <ClInclude Include="..\..\Source\CommandSet.h"/>
     <ClInclude Include="..\..\Source\CommandTable.h"/>
@@ -1454,8 +1456,6 @@
     <ClInclude Include="..\..\Source\Ocpp.h"/>
     <ClInclude Include="..\..\Source\Profile.h"/>
     <ClInclude Include="..\..\Source\ProfileManager.h"/>
-    <ClInclude Include="..\..\Source\PWoptions.h"/>
-    <ClInclude Include="..\..\Source\ResizableLayout.h"/>
     <ClInclude Include="..\..\Source\SendKeys.h"/>
     <ClInclude Include="..\..\Source\SettingsComponent.h"/>
     <ClInclude Include="..\..\Source\SettingsManager.h"/>
