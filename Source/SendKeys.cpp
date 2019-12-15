@@ -186,12 +186,13 @@ namespace {
          throw;
       }
    }
-   /* Returns key code for given character via the above function.
-    * Bool in pair represents shift key */
+
+   /* Returns key code for given character. Bool in pair represents shift key */
    std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c)
    {
       try {
-         static const std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map{rsj::GetKeyMap()};
+         static const std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map{
+             rsj::GetKeyMap()};
          const auto result = char_code_map.find(c);
          if (result != char_code_map.end())
             return result->second;

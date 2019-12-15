@@ -83,13 +83,13 @@ std::unordered_map<UniChar, std::pair<size_t, bool>> rsj::GetKeyMap()
 
 std::string rsj::GetKeyboardLayout()
 {
-   std::string result;
+   std::string result{"Id = "};
    const juce::MessageManagerLock mmLock;
 
    TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
    CFStringRef sourceId = (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyInputSourceID);
    if (sourceId)
-      result = "Id = " + std::string(((NSString*)sourceId).UTF8String);
+      result += std::string(((NSString*)sourceId).UTF8String);
 
    TISInputSourceRef nameSource = TISCopyCurrentKeyboardInputSource();
    CFStringRef localizedName =
@@ -104,5 +104,5 @@ std::string rsj::GetKeyboardLayout()
       if (lang)
          result += ". Language = " + std::string(lang.UTF8String);
    }
-   return result + ".";
+   return result;
 }
