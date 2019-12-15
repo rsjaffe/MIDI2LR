@@ -45,26 +45,6 @@ std::string rsj::AppLogMac()
    return std::string(result.UTF8String);
 }
 
-std::string rsj::GetKeyboardLayout()
-{
-   const juce::MessageManagerLock mmLock;
-   /* get current keyboard layout by name */
-   TISInputSourceRef current_source = TISCopyCurrentKeyboardInputSource();
-   /* returns null with Japanese keyboard layout */
-   if (!current_source)
-      current_source = TISCopyCurrentKeyboardLayoutInputSource();
-   NSString* s =
-       (__bridge NSString*)(TISGetInputSourceProperty(current_source, kTISPropertyInputSourceID));
-   NSString* t =
-       (__bridge NSString*)(TISGetInputSourceProperty(current_source, kTISPropertyLocalizedName));
-   if (current_source)
-      CFRelease(current_source);
-   if (s and t) {
-      return std::string(s.UTF8String) + ' ' + std::string(t.UTF8String);
-   }
-   return std::string("Could not get keyboard input source ID");
-}
-
 #if __MAC_OS_X_VERSION_MIN_REQUIRED <= __MAC_10_14
 enum {
     errAEEventWouldRequireUserConsent = -1744,
