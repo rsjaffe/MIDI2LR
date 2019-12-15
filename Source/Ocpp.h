@@ -1,5 +1,5 @@
-#ifndef MIDI2LR_COMMANDSET_H_INCLUDED
-#define MIDI2LR_COMMANDSET_H_INCLUDED
+#ifndef MIDI2_LR_OCPP_H_INCLUDED
+#define MIDI2_LR_OCPP_H_INCLUDED
 /*
  * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
  *
@@ -17,13 +17,17 @@
  */
 #ifndef _WIN32
 #include <string>
+#include <unordered_map>
+#include <utility>
 typedef uint16_t UniChar;
 typedef int pid_t;
 
 namespace rsj {
-   [[nodiscard]] UniChar Utf8ToUtf16(const std::string& param);
    [[nodiscard]] std::string AppDataMac();
    [[nodiscard]] std::string AppLogMac();
+   [[nodiscard]] std::string GetKeyboardLayout();
+   [[nodiscard]] std::unordered_map<UniChar, std::pair<size_t, bool>> GetKeyMap();
+   [[nodiscard]] UniChar Utf8ToUtf16(const std::string& param);
    void CheckPermission(pid_t pid);
 } // namespace rsj
 #endif

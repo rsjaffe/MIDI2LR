@@ -139,8 +139,6 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\fmt\format.cc"/>
-    <ClCompile Include="..\..\Source\TextButtonAligned.cpp"/>
     <ClCompile Include="..\..\Source\CCoptions.cpp"/>
     <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
     <ClCompile Include="..\..\Source\CommandSet.cpp"/>
@@ -148,6 +146,7 @@
     <ClCompile Include="..\..\Source\CommandTableModel.cpp"/>
     <ClCompile Include="..\..\Source\ControlsModel.cpp"/>
     <ClCompile Include="..\..\Source\DebugInfo.cpp"/>
+    <ClCompile Include="..\..\fmt\format.cc"/>
     <ClCompile Include="..\..\Source\LR_IPC_In.cpp"/>
     <ClCompile Include="..\..\Source\LR_IPC_Out.cpp"/>
     <ClCompile Include="..\..\Source\Main.cpp"/>
@@ -165,6 +164,7 @@
     <ClCompile Include="..\..\Source\SendKeys.cpp"/>
     <ClCompile Include="..\..\Source\SettingsComponent.cpp"/>
     <ClCompile Include="..\..\Source\SettingsManager.cpp"/>
+    <ClCompile Include="..\..\Source\TextButtonAligned.cpp"/>
     <ClCompile Include="..\..\Source\Translate.cpp"/>
     <ClCompile Include="..\..\Source\VersionChecker.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -1434,7 +1434,6 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_basics.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\TextButtonAligned.h"/>
     <ClInclude Include="..\..\Source\CCoptions.h"/>
     <ClInclude Include="..\..\Source\CommandMenu.h"/>
     <ClInclude Include="..\..\Source\CommandSet.h"/>
@@ -1460,6 +1459,7 @@
     <ClInclude Include="..\..\Source\SendKeys.h"/>
     <ClInclude Include="..\..\Source\SettingsComponent.h"/>
     <ClInclude Include="..\..\Source\SettingsManager.h"/>
+    <ClInclude Include="..\..\Source\TextButtonAligned.h"/>
     <ClInclude Include="..\..\Source\Translate.h"/>
     <ClInclude Include="..\..\Source\VersionChecker.h"/>
     <ClInclude Include="..\..\Source\WinDef.h"/>

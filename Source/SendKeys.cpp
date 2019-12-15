@@ -186,114 +186,12 @@ namespace {
          throw;
       }
    }
-
-   /* See https://github.com/Microsoft/node-native-keymap src/keyboard_mac.mm for issue with
-    * Japanese keyboards */
-   const UCKeyboardLayout* GetKeyboardData()
-   {
-      const juce::MessageManagerLock mmLock;
-      TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
-      CFDataRef data =
-          (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
-      if (source)
-         CFRelease(source);
-      /* data is null with Japanese keyboard layout */
-      if (!data) {
-         source = TISCopyCurrentKeyboardLayoutInputSource();
-         data = (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
-         if (source)
-            CFRelease(source);
-         if (!data)
-            return nullptr;
-      }
-      return (const UCKeyboardLayout*)CFDataGetBytePtr(data);
-   }
-
-   /* Altered significantly, originally from:
-    * https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
-    *
-    * Returns unshifted and shifted UniChar (UTF-16) for each key code
-    * Zero return for character indicates it should be ignored (duplicate code or error)
-    * Ignores characters requiring dead key */
-   std::pair<UniChar, UniChar> CreateStringForKey(CGKeyCode key_code)
-   {
-      try {
-         static const UCKeyboardLayout* keyboard_layout{GetKeyboardData()};
-         if (!keyboard_layout) {
-            static auto notwarned{true};
-            if (notwarned) {
-               notwarned = false;
-               rsj::LogAndAlertError("Keyboard layout is null. Cannot send keystrokes.");
-            }
-            return {0, 0};
-         }
-         UInt32 keys_down = 0;
-         UniChar chars[4];
-         /* unshifted */
-         UniCharCount real_length;
-         UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 0, LMGetKbdType(),
-             kUCKeyTranslateNoDeadKeysMask, &keys_down, sizeof(chars) / sizeof(chars[0]),
-             &real_length, chars);
-         if (real_length != 1) {
-            if (real_length > 1)
-               rsj::Log(
-                   fmt::format("For key code {}, Unicode character is {} long. It starts with {}.",
-                       key_code, real_length, chars[0]));
-            chars[0] = 0;
-         }
-         /* shifted */
-         UInt32 s_keys_down = 0;
-         UniChar s_chars[4];
-         UniCharCount s_real_length;
-         /* 2 == left shift key, 4 == right shift key */
-         UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 2, LMGetKbdType(),
-             kUCKeyTranslateNoDeadKeysMask, &s_keys_down, sizeof(s_chars) / sizeof(s_chars[0]),
-             &s_real_length, s_chars);
-         if (s_real_length != 1) {
-            if (s_real_length > 1)
-               rsj::Log(fmt::format(
-                   "For shifted key code {}, Unicode character is {} long. It starts with {}.",
-                   key_code, s_real_length, s_chars[0]));
-            s_chars[0] = 0;
-         }
-         if (chars[0] == s_chars[0])
-            /* if unshifted and shifted same, only return unshifted */
-            s_chars[0] = 0;
-         return {chars[0], s_chars[0]};
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
-         throw;
-      }
-   }
-
-   /* initializes unordered map for KeyCodeForChar UCKeyTranslate returns the same UniChar for
-    * several different (typically unused) key codes, so will only add first one */
-   std::unordered_map<UniChar, std::pair<size_t, bool>> MakeMap()
-   {
-      try {
-         std::unordered_map<UniChar, std::pair<size_t, bool>> temp_map{};
-         for (size_t i = 0; i < 128; ++i) {
-            const auto uc = CreateStringForKey((CGKeyCode)i);
-            if (uc.first && !temp_map.count(uc.first))
-               temp_map[uc.first] = {i, false};
-            if (uc.second && !temp_map.count(uc.second))
-               temp_map[uc.second] = {i, true};
-         }
-         return temp_map;
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
-         throw;
-      }
-   }
-
    /* Returns key code for given character via the above function.
     * Bool in pair represents shift key */
    std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c)
    {
       try {
-         static const std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map{MakeMap()};
+         static const std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map{rsj::GetKeyMap()};
          const auto result = char_code_map.find(c);
          if (result != char_code_map.end())
             return result->second;

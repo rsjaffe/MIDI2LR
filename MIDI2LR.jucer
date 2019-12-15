@@ -9,11 +9,6 @@
               headerPath="../../&#10;../../asio/&#10;">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
-      <FILE id="K5h83d" name="format.cc" compile="1" resource="0" file="fmt/format.cc"/>
-      <FILE id="Dx8BIb" name="TextButtonAligned.cpp" compile="1" resource="0"
-            file="Source/TextButtonAligned.cpp"/>
-      <FILE id="SupFD5" name="TextButtonAligned.h" compile="0" resource="0"
-            file="Source/TextButtonAligned.h"/>
       <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="Source/CCoptions.cpp"/>
       <FILE id="gmEPgP" name="CCoptions.h" compile="0" resource="0" file="Source/CCoptions.h"/>
       <FILE id="oXdqCC" name="CommandMenu.cpp" compile="1" resource="0" file="Source/CommandMenu.cpp"/>
@@ -33,6 +28,8 @@
       <FILE id="RYkZlQ" name="ControlsModel.h" compile="0" resource="0" file="Source/ControlsModel.h"/>
       <FILE id="XJw3l2" name="DebugInfo.cpp" compile="1" resource="0" file="Source/DebugInfo.cpp"/>
       <FILE id="ayq2tF" name="DebugInfo.h" compile="0" resource="0" file="Source/DebugInfo.h"/>
+      <FILE id="K5h83d" name="format.cc" compile="1" resource="0" file="fmt/format.cc"/>
+      <FILE id="WlKXbD" name="KeyMap.mm" compile="1" resource="0" file="Source/KeyMap.mm"/>
       <FILE id="rBAqs7" name="LR_IPC_In.cpp" compile="1" resource="0" file="Source/LR_IPC_In.cpp"/>
       <FILE id="KuUBCX" name="LR_IPC_In.h" compile="0" resource="0" file="Source/LR_IPC_In.h"/>
       <FILE id="IDzpMr" name="LR_IPC_Out.cpp" compile="1" resource="0" file="Source/LR_IPC_Out.cpp"/>
@@ -80,6 +77,10 @@
             file="Source/SettingsManager.cpp"/>
       <FILE id="qQDY29" name="SettingsManager.h" compile="0" resource="0"
             file="Source/SettingsManager.h"/>
+      <FILE id="Dx8BIb" name="TextButtonAligned.cpp" compile="1" resource="0"
+            file="Source/TextButtonAligned.cpp"/>
+      <FILE id="SupFD5" name="TextButtonAligned.h" compile="0" resource="0"
+            file="Source/TextButtonAligned.h"/>
       <FILE id="ltTGX1" name="Translate.cpp" compile="1" resource="0" file="Source/Translate.cpp"/>
       <FILE id="tBhQEV" name="Translate.h" compile="0" resource="0" file="Source/Translate.h"/>
       <FILE id="g6LPFD" name="VersionChecker.cpp" compile="1" resource="0"

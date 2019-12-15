@@ -241,12 +241,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\fmt\format.cc">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\TextButtonAligned.cpp">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\CCoptions.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -266,6 +260,12 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\DebugInfo.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\fmt\format.cc">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\KeyMap.mm">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\LR_IPC_In.cpp">
@@ -320,6 +320,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\SettingsManager.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\TextButtonAligned.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Translate.cpp">
@@ -1683,9 +1686,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\TextButtonAligned.h">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\CCoptions.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
@@ -1759,6 +1759,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SettingsManager.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\TextButtonAligned.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Translate.h">
