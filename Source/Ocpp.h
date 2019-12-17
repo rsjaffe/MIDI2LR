@@ -29,6 +29,7 @@ namespace rsj {
    [[nodiscard]] std::unordered_map<UniChar, std::pair<size_t, bool>> GetKeyMap();
    [[nodiscard]] UniChar Utf8ToUtf16(const std::string& param);
    void CheckPermission(pid_t pid);
+   void FillInMessageLoop();
 } // namespace rsj
 #endif
 #endif
