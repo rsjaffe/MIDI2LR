@@ -20,7 +20,6 @@
 #include <JuceLibraryCode/JuceHeader.h>
 #include <fmt/format.h>
 
-#include "DebugInfo.h"  /* for GetKeyboardLayout */
 #include "Misc.h"
 
 UniChar rsj::Utf8ToUtf16(const std::string& param)

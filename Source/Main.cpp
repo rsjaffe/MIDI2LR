@@ -47,6 +47,7 @@ namespace fs = std::filesystem;
 #include "MIDIReceiver.h"
 #include "MIDISender.h"
 #include "Misc.h"
+#include "Ocpp.h"
 #include "Profile.h"
 #include "ProfileManager.h"
 #include "PWoptions.h"
@@ -146,6 +147,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             lr_ipc_in_.Start();
             /* Check for latest version */
             version_checker_.startThread();
+#ifndef _WIN32
+            juce::MessageManager::callAsync(rsj::FillInMessageLoop);
+#endif
          }
          else {
             quit();
@@ -255,7 +259,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          const auto file_name = rsj::AppDataFilePath(kDefaultsFile);
          const auto profile_file = juce::File(file_name.data());
          profile_.ToXmlFile(profile_file);
-         rsj::Log(fmt::format("Default profile saved to {}.", profile_file.getFullPathName().toStdString()));
+         rsj::Log(fmt::format(
+             "Default profile saved to {}.", profile_file.getFullPathName().toStdString()));
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
