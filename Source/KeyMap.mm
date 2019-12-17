@@ -56,7 +56,7 @@ namespace {
    std::string localizedNameString;
    std::string langString;
    const UCKeyboardLayout* keyboardLayout{nullptr};
-   std::unordered_map<UniChar, std::pair<size_t, bool>> KeyMap;
+   std::unordered_map<UniChar, std::pair<size_t, bool>> KeyMapA;
 } // namespace
 
 void rsj::FillInMessageLoop()
@@ -113,16 +113,16 @@ void rsj::FillInMessageLoop()
    else
       for (UInt16 native_keycode = 0; native_keycode <= 0xFF; ++native_keycode) {
          if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 0))
-            KeyMap.try_emplace(value->second, std::make_pair(native_keycode, false));
+            KeyMapA.try_emplace(value->second, std::make_pair(native_keycode, false));
          if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 2))
-            KeyMap.try_emplace(value->second, std::make_pair(native_keycode, true));
+            KeyMapA.try_emplace(value->second, std::make_pair(native_keycode, true));
       }
    CFRelease(source);
 }
 
 std::unordered_map<UniChar, std::pair<size_t, bool>> rsj::GetKeyMap()
 {
-   return KeyMap;
+   return KeyMapA;
 }
 
 std::string rsj::GetKeyboardLayout()
