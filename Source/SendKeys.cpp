@@ -164,7 +164,7 @@ namespace {
          static const std::string kLr{".app/Contents/MacOS/Adobe Lightroom"};
          static const std::string kLrc{".app/Contents/MacOS/Adobe Lightroom Classic"};
          /* add 20 in case more processes show up */
-         const int number_processes{proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) + 20};
+         const int number_processes{proc_listpids(PROC_ALL_PIDS, 0, nullptr, 0) + 20};
          std::vector<pid_t> pids(number_processes, 0);
          proc_listpids(
              PROC_ALL_PIDS, 0, pids.data(), gsl::narrow_cast<int>(sizeof(pids[0]) * pids.size()));
@@ -208,25 +208,20 @@ namespace {
    void MacKeyDownUp(pid_t lr_pid, CGKeyCode vk, CGEventFlags flags)
    {
       try {
-         CGEventRef d = CGEventCreateKeyboardEvent(NULL, vk, true);
+         CGEventRef d = CGEventCreateKeyboardEvent(nullptr, vk, true);
          auto dd = gsl::finally([&d] {
             if (d)
                CFRelease(d);
          });
-         CGEventRef u = CGEventCreateKeyboardEvent(NULL, vk, false);
+         CGEventRef u = CGEventCreateKeyboardEvent(nullptr, vk, false);
          auto du = gsl::finally([&u] {
             if (u)
                CFRelease(u);
          });
          CGEventSetFlags(d, flags);
          CGEventSetFlags(u, flags);
-         {
-            /* scope for the mutex */
-            static std::mutex mtx{};
-            auto lock = std::scoped_lock(mtx);
-            CGEventPostToPid(lr_pid, d);
-            CGEventPostToPid(lr_pid, u);
-         }
+         CGEventPostToPid(lr_pid, d);
+         CGEventPostToPid(lr_pid, u);
          static std::once_flag of;
          std::call_once(of, [lr_pid]() { rsj::CheckPermission(lr_pid); });
       }
@@ -343,7 +338,8 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
          flags |= kCGEventFlagMaskControl;
       if (mods.shift)
          flags |= kCGEventFlagMaskShift;
-      MacKeyDownUp(lr_pid, vk, flags);
+      if (!juce::MessageManager::callAsync([vk, flags] { MacKeyDownUp(lr_pid, vk, flags); }))
+         rsj::Log("Unable to post keystroke to message queue.");
 #endif
    }
    catch (const std::exception& e) {
