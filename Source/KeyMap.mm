@@ -20,6 +20,7 @@
 #import <Carbon/Carbon.h>
 #include <cctype>
 #include <mutex>
+#include <shared_mutex>
 #include <optional>
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
@@ -51,17 +52,16 @@ namespace {
       return {};
    }
 
-   std::mutex mtx; /* since following are filled in in Message Loop asynchronously */
+   std::shared_mutex mtx; /* since following are filled in in Message Loop asynchronously */
    std::string sourceIdString;
    std::string localizedNameString;
    std::string langString;
-   const UCKeyboardLayout* keyboardLayout{nullptr};
-   std::unordered_map<UniChar, std::pair<size_t, bool>> KeyMapA;
+   std::unordered_map<UniChar, std::pair<size_t, bool>> KeyMapA{};
 } // namespace
 
 void rsj::FillInMessageLoop()
 {
-   auto lock = std::scoped_lock(mtx);
+   std::unique_lock lock(mtx);
    TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
    if (!source)
       source = TISCopyCurrentKeyboardLayoutInputSource();
@@ -106,7 +106,7 @@ void rsj::FillInMessageLoop()
           juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
       return;
    }
-   keyboardLayout = reinterpret_cast<const UCKeyboardLayout*>(CFDataGetBytePtr(layout_data));
+   const UCKeyboardLayout* keyboardLayout = reinterpret_cast<const UCKeyboardLayout*>(CFDataGetBytePtr(layout_data));
    if (!keyboardLayout)
       rsj::LogAndAlertError(
           juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
@@ -122,13 +122,14 @@ void rsj::FillInMessageLoop()
 
 std::unordered_map<UniChar, std::pair<size_t, bool>> rsj::GetKeyMap()
 {
+   std::shared_lock lock(mtx);
    return KeyMapA;
 }
 
 std::string rsj::GetKeyboardLayout()
 {
-   std::string result{};
-   auto lock = std::scoped_lock(mtx);
+   std::shared_lock lock(mtx);
+   std::string result;
    if (!sourceIdString.empty())
       result = "Id " + sourceIdString;
    if (!localizedNameString.empty())
