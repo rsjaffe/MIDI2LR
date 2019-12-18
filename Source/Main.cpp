@@ -47,6 +47,7 @@ namespace fs = std::filesystem;
 #include "MIDIReceiver.h"
 #include "MIDISender.h"
 #include "Misc.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "Ocpp.h"
 #include "Profile.h"
 #include "ProfileManager.h"

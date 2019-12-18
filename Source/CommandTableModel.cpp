@@ -123,7 +123,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(
          auto command_select = dynamic_cast<CommandMenu*>(existing_component);
          if (command_select == nullptr) {
             /* create a new command menu, delete old one if it exists */
-            delete existing_component;
+            delete existing_component;  // NOLINT(cppcoreguidelines-owning-memory)
             auto new_select = std::make_unique<CommandMenu>(
                 profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)), command_set_,
                 profile_);

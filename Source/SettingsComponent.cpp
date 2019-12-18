@@ -42,10 +42,9 @@ void SettingsComponent::Init()
       addToLayout(&pickup_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(pickup_group_);
       pickup_label_.setFont(juce::Font{12.f, juce::Font::bold});
-      pickup_label_.setText(
-          juce::translate(
-              "Disabling the pickup mode may be better for touchscreen interfaces and may solve "
-              "issues with LR not picking up fast fader/knob movements"),
+      pickup_label_.setText(juce::translate("Disabling the pickup mode may be better for "
+                                            "touchscreen interfaces and may solve issues with "
+                                            "Lightroom not picking up fast fader/knob movements"),
           juce::NotificationType::dontSendNotification);
       pickup_label_.setBounds(kSettingsLeft, 15, kSettingsWidth - 2 * kSettingsLeft, 50);
       addToLayout(&pickup_label_, anchorMidLeft, anchorMidRight);
