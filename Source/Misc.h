@@ -19,6 +19,7 @@
 
 #include <chrono>
 #include <exception>
+#include <ratio>
 #include <string>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <string_view>
@@ -169,53 +170,42 @@ namespace rsj {
     * e.g., "23425/125557 ", instead of error message */
    template<class R>[[nodiscard]] constexpr auto RatioToPrefix() noexcept
    {
-      if (R::num == 1) {
-         switch (R::den) {
-         case 1:
-            return "";
-         case 10:
-            return "deci";
-         case 100:
-            return "centi";
-         case 1000:
-            return "milli";
-         case 1000000:
-            return "micro";
-         case 1000000000:
-            return "nano";
-         case 1000000000000:
-            return "pico";
-         case 1000000000000000:
-            return "femto";
-         case 1000000000000000000:
-            return "atto";
-         default:
-             /* empty */;
-         }
-      }
-      if (R::den == 1) {
-         switch (R::num) {
-         case 10:
-            return "deca";
-         case 100:
-            return "hecto";
-         case 1000:
-            return "kilo";
-         case 1000000:
-            return "mega";
-         case 1000000000:
-            return "giga";
-         case 1000000000000:
-            return "tera";
-         case 1000000000000000:
-            return "peta";
-         case 1000000000000000000:
-            return "exa";
-         default:
-             /* empty */;
-         }
-      }
-      return "unexpected ratio encountered ";
+      if constexpr (std::ratio_equal_v<R, std::atto>)
+         return "atto";
+      if constexpr (std::ratio_equal_v<R, std::femto>)
+         return "femto";
+      if constexpr (std::ratio_equal_v<R, std::pico>)
+         return "pico";
+      if constexpr (std::ratio_equal_v<R, std::nano>)
+         return "nano";
+      if constexpr (std::ratio_equal_v<R, std::micro>)
+         return "micro";
+      if constexpr (std::ratio_equal_v<R, std::milli>)
+         return "milli";
+      if constexpr (std::ratio_equal_v<R, std::centi>)
+         return "centi";
+      if constexpr (std::ratio_equal_v<R, std::deci>)
+         return "deci";
+      if constexpr (std::ratio_equal_v<R, std::ratio<1, 1>>)
+         return "";
+      if constexpr (std::ratio_equal_v<R, std::deca>)
+         return "deca";
+      if constexpr (std::ratio_equal_v<R, std::hecto>)
+         return "hecto";
+      if constexpr (std::ratio_equal_v<R, std::kilo>)
+         return "kilo";
+      if constexpr (std::ratio_equal_v<R, std::mega>)
+         return "mega";
+      if constexpr (std::ratio_equal_v<R, std::giga>)
+         return "giga";
+      if constexpr (std::ratio_equal_v<R, std::tera>)
+         return "tera";
+      if constexpr (std::ratio_equal_v<R, std::peta>)
+         return "peta";
+      if constexpr (std::ratio_equal_v<R, std::exa>)
+         return "exa";
+      else
+         return "unexpected ratio encountered ";
    }
 #pragma warning(pop)
 
