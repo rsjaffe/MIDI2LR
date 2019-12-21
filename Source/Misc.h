@@ -80,7 +80,14 @@ namespace rsj {
       return juce::String(juce::CharPointer_UTF8(in.data()), in.size());
    }
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
+#ifdef __cpp_lib_starts_ends_with
+   [[nodiscard]] inline bool EndsWith(std::string_view main_str, std::string_view to_match) noexcept
+   {
+      return main_str.ends_with(to_match);
+   }
+#else
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
+#endif
    [[nodiscard]] std::string ToLower(std::string_view in);
    void Trim(std::string_view& value) noexcept;
    void Trim(std::string_view&& value) = delete;

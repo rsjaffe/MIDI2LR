@@ -15,25 +15,30 @@
  * see <http://www.gnu.org/licenses/>.
  *
  */
+#include <atomic>
+#include <future>
 #include <JuceLibraryCode/JuceHeader.h>
 class SettingsManager;
 
-class VersionChecker final : public juce::Thread, juce::AsyncUpdater {
+class VersionChecker final : juce::AsyncUpdater {
  public:
-   explicit VersionChecker(SettingsManager& settings_manager);
+   explicit VersionChecker(SettingsManager& settings_manager) noexcept;
    ~VersionChecker() = default;
    VersionChecker(const VersionChecker& other) = delete;
    VersionChecker(VersionChecker&& other) = delete;
    VersionChecker& operator=(const VersionChecker& other) = delete;
    VersionChecker& operator=(VersionChecker&& other) = delete;
-   void Stop();
+   void Start();
+   void Stop() noexcept;
 
  private:
    void handleAsyncUpdate() override;
-   void run() override;
+   void Run();
 
    int new_version_ {0};
    SettingsManager& settings_manager_;
+   std::atomic<bool> thread_should_exit_ {false};
+   std::future<void> run_future_;
 };
 
 #endif // VERSIONCHECKER_H_INCLUDED

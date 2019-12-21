@@ -35,21 +35,29 @@ namespace {
    }
 } // namespace
 
-VersionChecker::VersionChecker(SettingsManager& settings_manager)
-    : juce::Thread{"VersionChecker"}, settings_manager_{settings_manager}
+VersionChecker::VersionChecker(SettingsManager& settings_manager) noexcept
+    : settings_manager_ {settings_manager}
 {
 }
 
-void VersionChecker::Stop()
+void VersionChecker::Start()
 {
-   if (!juce::Thread::stopThread(1000))
-      rsj::Log("stopThread failed in VersionChecker destructor.");
+   run_future_ = std::async(std::launch::async, [this] {
+      rsj::LabelThread(L"VersionChecker run thread");
+      _mm_setcsr(_mm_getcsr() | 0x8040);
+      Run();
+   });
+}
+
+void VersionChecker::Stop() noexcept
+{
+   thread_should_exit_.store(true, std::memory_order_release);
 }
 
 void VersionChecker::handleAsyncUpdate()
 {
    try {
-      if (juce::Thread::threadShouldExit())
+      if (thread_should_exit_.load(std::memory_order_acquire))
          return;
       juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::AlertIconType::QuestionIcon,
           juce::translate("A new version of MIDI2LR is available."),
@@ -72,14 +80,13 @@ void VersionChecker::handleAsyncUpdate()
    }
 }
 
-void VersionChecker::run()
+void VersionChecker::Run()
 {
    try {
-      rsj::LabelThread(L"VersionChecker run thread");
-      const juce::URL version_url{"https://rsjaffe.github.io/MIDI2LR/version.xml"};
-      const auto version_xml_element{version_url.readEntireXmlStream()};
-      if (version_xml_element && !juce::Thread::threadShouldExit()) {
-         auto last_checked = settings_manager_.GetLastVersionFound();
+      const juce::URL version_url {"https://rsjaffe.github.io/MIDI2LR/version.xml"};
+      const auto version_xml_element {version_url.readEntireXmlStream()};
+      if (version_xml_element && !thread_should_exit_.load(std::memory_order_acquire)) {
+         auto last_checked {settings_manager_.GetLastVersionFound()};
          new_version_ = version_xml_element->getIntAttribute("latest");
          if (last_checked == 0) {
             last_checked = std::min(new_version_, ProjectInfo::versionNumber);
@@ -89,7 +96,7 @@ void VersionChecker::run()
              IntToVersion(new_version_), IntToVersion(last_checked),
              IntToVersion(ProjectInfo::versionNumber)));
          if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked
-             && !juce::Thread::threadShouldExit()) {
+             && thread_should_exit_.load(std::memory_order_acquire)) {
             triggerAsyncUpdate();
          }
       }

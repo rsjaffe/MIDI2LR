@@ -19,6 +19,9 @@
 /* Get the declaration of the primary std::hash template. We are not permitted to declare it
  * ourselves. <typeindex> is guaranteed to provide such a declaration, and is much cheaper to
  * include than <functional>. See https://en.cppreference.com/w/cpp/language/extending_std. */
+#ifdef __cpp_impl_three_way_comparison
+#include <compare>
+#endif
 #include <typeindex>
 #include <type_traits>
 #include <fmt/format.h>
@@ -98,9 +101,9 @@ namespace rsj {
 
    /* channel is 0-based in MidiMessage, 1-based in MidiMessageId */
    struct MidiMessageId {
-      MessageType msg_id_type {MessageType::NoteOn};
       int channel {1}; /* 1-based */
       int control_number {0};
+      MessageType msg_id_type {MessageType::NoteOn};
 
       constexpr MidiMessageId() noexcept = default;
 
@@ -114,7 +117,10 @@ namespace rsj {
             control_number {other.control_number}
       {
       }
-
+#ifdef __cpp_impl_three_way_comparison
+      constexpr std::strong_ordering operator<=>(const MidiMessageId& other) const
+          noexcept = default;
+#else
       constexpr bool operator==(const MidiMessageId& other) const noexcept
       {
          return msg_id_type == other.msg_id_type && channel == other.channel
@@ -133,6 +139,7 @@ namespace rsj {
          }
          return false;
       }
+#endif
    };
 } // namespace rsj
 

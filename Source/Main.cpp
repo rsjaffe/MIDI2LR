@@ -147,7 +147,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             lr_ipc_out_.Start();
             lr_ipc_in_.Start();
             /* Check for latest version */
-            version_checker_.startThread();
+            version_checker_.Start();
 #ifndef _WIN32
             if (!juce::MessageManager::callAsync(rsj::FillInMessageLoop))
                rsj::Log("Unable to post FillInMessageLoop to message queue.");

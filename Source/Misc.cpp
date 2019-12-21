@@ -100,7 +100,7 @@ void rsj::TrimL(::std::string_view& value) noexcept
       value.remove_prefix(first_not);
 }
 
-/* note: C++20 will have ends_with */
+#ifndef __cpp_lib_starts_ends_with
 bool rsj::EndsWith(::std::string_view main_str, ::std::string_view to_match)
 {
    try {
@@ -112,7 +112,7 @@ bool rsj::EndsWith(::std::string_view main_str, ::std::string_view to_match)
       throw;
    }
 }
-
+#endif
 /*****************************************************************************/
 /**************Error Logging**************************************************/
 /* from http://www.cplusplus.com/forum/beginner/175177 and
