@@ -19,11 +19,11 @@
 
 namespace rsj {
    struct ActiveModifiers {
-      bool alt_opt{false};
-      bool command{false};
-      bool control{false};
-      bool shift{false};
-      bool hankaku{false};
+      bool alt_opt {false};
+      bool command {false};
+      bool control {false};
+      bool shift {false};
+      bool hankaku {false};
 
       static ActiveModifiers FromWindows(int from) noexcept;
       static ActiveModifiers FromMidi2LR(int from) noexcept;

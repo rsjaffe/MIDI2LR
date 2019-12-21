@@ -54,7 +54,7 @@ class MainWindow final : juce::DocumentWindow, juce::Timer {
    }
    void timerCallback() override;
 
-   std::unique_ptr<MainContentComponent> window_content_{};
+   std::unique_ptr<MainContentComponent> window_content_ {};
 };
 
 #endif // MAINWINDOW_H_INCLUDED

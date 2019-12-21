@@ -20,14 +20,14 @@
 class TextButtonAligned : public juce::TextButton {
  public:
    using TextButton::TextButton;
-   explicit TextButtonAligned(juce::Justification::Flags alignment) : alignment_{alignment} {}
+   explicit TextButtonAligned(juce::Justification::Flags alignment) : alignment_ {alignment} {}
    TextButtonAligned(const juce::String& button_name, juce::Justification::Flags alignment)
-       : juce::TextButton(button_name), alignment_{alignment}
+       : juce::TextButton(button_name), alignment_ {alignment}
    {
    }
    TextButtonAligned(const juce::String& button_name, const juce::String& tool_tip,
        juce::Justification::Flags alignment)
-       : juce::TextButton(button_name, tool_tip), alignment_{alignment}
+       : juce::TextButton(button_name, tool_tip), alignment_ {alignment}
    {
    }
    void paintButton(juce::Graphics&, bool, bool) override;
@@ -37,6 +37,6 @@ class TextButtonAligned : public juce::TextButton {
        [[maybe_unused]] bool should_draw_button_as_highlighted,
        [[maybe_unused]] bool should_draw_button_as_down);
 
-   juce::Justification::Flags alignment_{juce::Justification::centredLeft};
+   juce::Justification::Flags alignment_ {juce::Justification::centredLeft};
 };
 #endif

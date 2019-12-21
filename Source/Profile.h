@@ -33,7 +33,7 @@
  * do have mutex and could be called by another class */
 class Profile {
  public:
-   explicit Profile(const CommandSet& command_set) : command_set_{command_set} {}
+   explicit Profile(const CommandSet& command_set) : command_set_ {command_set} {}
    void AddCommandForMessage(size_t command, rsj::MidiMessageId message);
    void AddRowMapped(const std::string& command, rsj::MidiMessageId message);
    void AddRowUnmapped(rsj::MidiMessageId message);
@@ -60,31 +60,31 @@ class Profile {
    bool MessageExistsInMapI(rsj::MidiMessageId message) const;
    void SortI();
 
-   bool profile_unsaved_{false};
+   bool profile_unsaved_ {false};
    const CommandSet& command_set_;
    mutable std::shared_mutex mutex_;
-   std::multimap<std::string, rsj::MidiMessageId> command_string_map_{};
-   std::pair<int, bool> current_sort_{2, true};
-   std::unordered_map<rsj::MidiMessageId, std::string> message_map_{};
-   std::unordered_map<rsj::MidiMessageId, std::string> saved_map_{};
-   std::vector<rsj::MidiMessageId> command_table_{};
+   std::multimap<std::string, rsj::MidiMessageId> command_string_map_ {};
+   std::pair<int, bool> current_sort_ {2, true};
+   std::unordered_map<rsj::MidiMessageId, std::string> message_map_ {};
+   std::unordered_map<rsj::MidiMessageId, std::string> saved_map_ {};
+   std::vector<rsj::MidiMessageId> command_table_ {};
 };
 
 inline void Profile::AddCommandForMessage(size_t command, rsj::MidiMessageId message)
 {
-   auto guard = std::unique_lock{mutex_};
+   auto guard {std::unique_lock {mutex_}};
    AddCommandForMessageI(command, message);
 }
 
 inline bool Profile::CommandHasAssociatedMessage(const std::string& command) const
 {
-   auto guard = std::shared_lock{mutex_};
+   auto guard {std::shared_lock {mutex_}};
    return command_string_map_.find(command) != command_string_map_.end();
 }
 
 inline const std::string& Profile::GetCommandForMessage(rsj::MidiMessageId message) const
 {
-   auto guard = std::shared_lock{mutex_};
+   auto guard {std::shared_lock {mutex_}};
    return GetCommandForMessageI(message);
 }
 
@@ -95,7 +95,7 @@ inline const std::string& Profile::GetCommandForMessageI(rsj::MidiMessageId mess
 
 inline rsj::MidiMessageId Profile::GetMessageForNumber(size_t num) const
 {
-   auto guard = std::shared_lock{mutex_};
+   auto guard {std::shared_lock {mutex_}};
    return GetMessageForNumberI(num);
 }
 
@@ -106,14 +106,14 @@ inline rsj::MidiMessageId Profile::GetMessageForNumberI(size_t num) const
 
 inline int Profile::GetRowForMessage(rsj::MidiMessageId message) const
 {
-   auto guard = std::shared_lock{mutex_};
+   auto guard {std::shared_lock {mutex_}};
    return gsl::narrow_cast<int>(
        std::find(command_table_.begin(), command_table_.end(), message) - command_table_.begin());
 }
 
 inline bool Profile::MessageExistsInMap(rsj::MidiMessageId message) const
 {
-   auto guard = std::shared_lock{mutex_};
+   auto guard {std::shared_lock {mutex_}};
    return MessageExistsInMapI(message);
 }
 
@@ -124,13 +124,13 @@ inline bool Profile::MessageExistsInMapI(rsj::MidiMessageId message) const
 
 inline bool Profile::ProfileUnsaved() const
 {
-   auto guard = std::shared_lock{mutex_};
+   auto guard {std::shared_lock {mutex_}};
    return profile_unsaved_ && !command_table_.empty() && saved_map_ != message_map_;
 }
 
 inline size_t Profile::Size() const
 {
-   auto guard = std::shared_lock{mutex_};
+   auto guard {std::shared_lock {mutex_}};
    return command_table_.size();
 }
 

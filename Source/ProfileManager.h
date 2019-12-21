@@ -75,12 +75,12 @@ class ProfileManager final : juce::AsyncUpdater {
 
    const Profile& current_profile_;
    ControlsModel& controls_model_;
-   int current_profile_index_{0};
+   int current_profile_index_ {0};
    juce::File profile_location_;
    LrIpcOut& lr_ipc_out_;
    std::vector<juce::String> profiles_;
    std::vector<std::function<void(juce::XmlElement*, const juce::String&)>> callbacks_;
-   SwitchState switch_state_{SwitchState::kNone};
+   SwitchState switch_state_ {SwitchState::kNone};
 };
 
 #endif // PROFILEMANAGER_H_INCLUDED

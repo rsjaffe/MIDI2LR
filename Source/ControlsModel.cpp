@@ -26,9 +26,9 @@ double ChannelModel::OffsetResult(int diff, int controlnumber)
       Expects(cc_high_.at(controlnumber) > 0); /* CCLow will always be 0 for offset controls */
       Expects(diff <= kMaxNrpn && diff >= -kMaxNrpn);
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
-      const auto high_limit = cc_high_.at(controlnumber);
-      auto cached_v = current_v_.at(controlnumber).load(std::memory_order_acquire);
-      const auto new_v = std::clamp(cached_v + diff, 0, high_limit);
+      const auto high_limit {cc_high_.at(controlnumber)};
+      auto cached_v {current_v_.at(controlnumber).load(std::memory_order_acquire)};
+      const auto new_v {std::clamp(cached_v + diff, 0, high_limit)};
       if (current_v_.at(controlnumber)
               .compare_exchange_strong(
                   cached_v, new_v, std::memory_order_release, std::memory_order_acquire))
@@ -111,7 +111,7 @@ double ChannelModel::ControllerToPlugin(rsj::MessageType controltype, int contro
 int ChannelModel::SetToCenter(rsj::MessageType controltype, int controlnumber)
 {
    try {
-      auto retval{0};
+      auto retval {0};
       switch (controltype) {
       case rsj::MessageType::Pw:
          retval = CenterPw();
@@ -172,15 +172,15 @@ int ChannelModel::MeasureChange(rsj::MessageType controltype, int controlnumber,
          default:
             Ensures(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
             // ReSharper disable once CppUnreachableCode
-            return int{0};
+            return int {0};
          }
       case rsj::MessageType::NoteOn:
       case rsj::MessageType::NoteOff:
-         return int{0};
+         return int {0};
       default:
          Ensures(!"Should be unreachable code in ControllerToPlugin--unknown control type");
          // ReSharper disable once CppUnreachableCode
-         return int{0};
+         return int {0};
       }
    }
    catch (const std::exception& e) {
@@ -199,18 +199,18 @@ int ChannelModel::PluginToController(rsj::MessageType controltype, int controlnu
       switch (controltype) {
       case rsj::MessageType::Pw: {
          /* TODO(C26451): int subtraction: can it overflow? */
-         const auto newv = std::clamp(
+         const auto newv {std::clamp(
              rsj::RoundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_)) + pitch_wheel_min_,
-             pitch_wheel_min_, pitch_wheel_max_);
+             pitch_wheel_min_, pitch_wheel_max_)};
          pitch_wheel_current_.store(newv, std::memory_order_release);
          return newv;
       }
       case rsj::MessageType::Cc: {
          /* TODO(C26451): int subtraction: can it overflow? */
-         const auto newv = std::clamp(
+         const auto newv {std::clamp(
              rsj::RoundToInt(value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)))
                  + cc_low_.at(controlnumber),
-             cc_low_.at(controlnumber), cc_high_.at(controlnumber));
+             cc_low_.at(controlnumber), cc_high_.at(controlnumber))};
          current_v_.at(controlnumber).store(newv, std::memory_order_release);
          return newv;
       }
@@ -247,10 +247,10 @@ void ChannelModel::SetCcAll(int controlnumber, int min, int max, rsj::CCmethod c
 {
    try {
       if (IsNRPN_(controlnumber))
-         for (auto a = kMaxMidi + 1; a <= kMaxNrpn; ++a)
+         for (auto a {kMaxMidi + 1}; a <= kMaxNrpn; ++a)
             SetCc(a, min, max, controltype);
       else
-         for (auto a = 0; a <= kMaxMidi; ++a)
+         for (auto a {0}; a <= kMaxMidi; ++a)
             SetCc(a, min, max, controltype);
    }
    catch (const std::exception& e) {
@@ -267,7 +267,7 @@ void ChannelModel::SetCcMax(int controlnumber, int value)
       if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
          cc_high_.at(controlnumber) = value < 0 ? 1000 : value;
       else {
-         const auto max = IsNRPN_(controlnumber) ? kMaxNrpn : kMaxMidi;
+         const auto max {IsNRPN_(controlnumber) ? kMaxNrpn : kMaxMidi};
          cc_high_.at(controlnumber) =
              value <= cc_low_.at(controlnumber) || value > max ? max : value;
       }
@@ -311,11 +311,11 @@ void ChannelModel::ActiveToSaved() const
 {
    try {
       settings_to_save_.clear();
-      for (auto i = 0; i <= kMaxMidi; ++i)
+      for (auto i {0}; i <= kMaxMidi; ++i)
          if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxMidi
              || cc_low_.at(i) != 0)
             settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
-      for (auto i = kMaxMidi + 1; i <= kMaxNrpn; ++i)
+      for (auto i {kMaxMidi + 1}; i <= kMaxNrpn; ++i)
          if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxNrpn
              || cc_low_.at(i) != 0)
             settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
@@ -336,7 +336,7 @@ void ChannelModel::CcDefaults()
       cc_method_.fill(rsj::CCmethod::kAbsolute);
       for (auto&& a : current_v_)
          a.store(kMaxNrpnHalf, std::memory_order_relaxed);
-      for (size_t a = 0; a <= kMaxMidi; ++a) {
+      for (size_t a {0}; a <= kMaxMidi; ++a) {
          cc_high_.at(a) = kMaxMidi;
          current_v_.at(a).store(kMaxMidiHalf, std::memory_order_relaxed);
       }

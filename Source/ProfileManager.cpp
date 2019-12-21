@@ -28,7 +28,7 @@
 
 ProfileManager::ProfileManager(
     ControlsModel& c_model, const Profile& profile, LrIpcOut& out, MidiReceiver& midi_receiver)
-    : current_profile_{profile}, controls_model_{c_model}, lr_ipc_out_{out}
+    : current_profile_ {profile}, controls_model_ {c_model}, lr_ipc_out_ {out}
 {
    /* add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection */
    midi_receiver.AddCallback(this, &ProfileManager::MidiCmdCallback);
@@ -39,7 +39,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
 {
    try {
       profile_location_ = directory;
-      auto file_array{directory.findChildFiles(juce::File::findFiles, false, "*.xml")};
+      auto file_array {directory.findChildFiles(juce::File::findFiles, false, "*.xml")};
       file_array.sort();
       profiles_.clear();
       for (const auto& file : file_array)
@@ -76,9 +76,9 @@ void ProfileManager::SwitchToProfile(int profile_index)
 void ProfileManager::SwitchToProfile(const juce::String& profile)
 {
    try {
-      const auto profile_file = profile_location_.getChildFile(profile);
+      const auto profile_file {profile_location_.getChildFile(profile)};
       if (profile_file.exists()) {
-         if (const auto parsed{juce::XmlDocument::parse(profile_file)}) {
+         if (const auto parsed {juce::XmlDocument::parse(profile_file)}) {
             for (const auto& cb : callbacks_)
                cb(parsed.get(), profile);
             lr_ipc_out_.SendCommand(
@@ -125,7 +125,7 @@ void ProfileManager::SwitchToPreviousProfile()
 void ProfileManager::MapCommand(rsj::MidiMessageId msg)
 {
    try {
-      const auto cmd = current_profile_.GetCommandForMessage(msg);
+      const auto cmd {current_profile_.GetCommandForMessage(msg)};
       if (cmd == "PrevPro") {
          switch_state_ = SwitchState::kPrev;
          triggerAsyncUpdate();
@@ -144,7 +144,7 @@ void ProfileManager::MapCommand(rsj::MidiMessageId msg)
 void ProfileManager::MidiCmdCallback(const rsj::MidiMessage& mm)
 {
    try {
-      const rsj::MidiMessageId cc{mm};
+      const rsj::MidiMessageId cc {mm};
       /* return if the value isn't high enough (notes may be < 1), or the command isn't a valid
        * profile-related command */
       if (controls_model_.ControllerToPlugin(mm) < 0.4 || !current_profile_.MessageExistsInMap(cc))

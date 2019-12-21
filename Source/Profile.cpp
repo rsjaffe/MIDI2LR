@@ -24,7 +24,7 @@ void Profile::AddCommandForMessageI(size_t command, rsj::MidiMessageId message)
 {
    try {
       if (command < command_set_.CommandAbbrevSize()) {
-         const auto& cmd_abbreviation = command_set_.CommandAbbrevAt(command);
+         const auto& cmd_abbreviation {command_set_.CommandAbbrevAt(command)};
          message_map_[message] = cmd_abbreviation;
          command_string_map_.emplace(cmd_abbreviation, message);
          SortI();
@@ -40,7 +40,7 @@ void Profile::AddCommandForMessageI(size_t command, rsj::MidiMessageId message)
 void Profile::AddRowMapped(const std::string& command, rsj::MidiMessageId message)
 {
    try {
-      auto guard = std::unique_lock{mutex_};
+      auto guard {std::unique_lock {mutex_}};
       if (!MessageExistsInMapI(message)) {
          if (!command_set_.CommandTextIndex(command)) {
             message_map_[message] = CommandSet::kUnassigned;
@@ -64,7 +64,7 @@ void Profile::AddRowMapped(const std::string& command, rsj::MidiMessageId messag
 void Profile::AddRowUnmapped(rsj::MidiMessageId message)
 {
    try {
-      auto guard = std::unique_lock{mutex_};
+      auto guard {std::unique_lock {mutex_}};
       if (!MessageExistsInMapI(message)) {
          AddCommandForMessageI(0, message); /* add an entry for 'no command' */
          command_table_.push_back(message);
@@ -86,26 +86,26 @@ void Profile::FromXml(const juce::XmlElement* root)
       if (!root || root->getTagName().compare("settings") != 0)
          return;
       RemoveAllRows();
-      const auto* setting = root->getFirstChildElement();
+      const auto* setting {root->getFirstChildElement()};
       while (setting) {
          if (setting->hasAttribute("controller")) {
-            const rsj::MidiMessageId message{setting->getIntAttribute("channel"),
+            const rsj::MidiMessageId message {setting->getIntAttribute("channel"),
                 setting->getIntAttribute("controller"), rsj::MessageType::Cc};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), message);
          }
          else if (setting->hasAttribute("note")) {
-            const rsj::MidiMessageId note{setting->getIntAttribute("channel"),
+            const rsj::MidiMessageId note {setting->getIntAttribute("channel"),
                 setting->getIntAttribute("note"), rsj::MessageType::NoteOn};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), note);
          }
          else if (setting->hasAttribute("pitchbend")) {
-            const rsj::MidiMessageId pb{
+            const rsj::MidiMessageId pb {
                 setting->getIntAttribute("channel"), 0, rsj::MessageType::Pw};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), pb);
          }
          setting = setting->getNextElement();
       }
-      auto guard = std::unique_lock{mutex_};
+      auto guard {std::unique_lock {mutex_}};
       SortI();
       saved_map_ = message_map_;
       profile_unsaved_ = false;
@@ -119,9 +119,9 @@ void Profile::FromXml(const juce::XmlElement* root)
 std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string& command) const
 {
    try {
-      auto guard = std::shared_lock{mutex_};
+      auto guard {std::shared_lock {mutex_}};
       std::vector<rsj::MidiMessageId> mm;
-      const auto range = command_string_map_.equal_range(command);
+      const auto range {command_string_map_.equal_range(command)};
       std::for_each(range.first, range.second, [&mm](auto&& x) { mm.push_back(x.second); });
       return mm;
    }
@@ -134,7 +134,7 @@ std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string
 void Profile::RemoveAllRows()
 {
    try {
-      auto guard = std::unique_lock{mutex_};
+      auto guard {std::unique_lock {mutex_}};
       command_string_map_.clear();
       command_table_.clear();
       message_map_.clear();
@@ -150,7 +150,7 @@ void Profile::RemoveAllRows()
 void Profile::RemoveMessage(rsj::MidiMessageId message)
 {
    try {
-      auto guard = std::unique_lock{mutex_};
+      auto guard {std::unique_lock {mutex_}};
       command_string_map_.erase(message_map_.at(message));
       message_map_.erase(message);
       profile_unsaved_ = true;
@@ -164,8 +164,8 @@ void Profile::RemoveMessage(rsj::MidiMessageId message)
 void Profile::RemoveRow(size_t row)
 {
    try {
-      auto guard = std::unique_lock{mutex_};
-      const auto msg = GetMessageForNumberI(row);
+      auto guard {std::unique_lock {mutex_}};
+      const auto msg {GetMessageForNumberI(row)};
       command_string_map_.erase(message_map_.at(msg));
       command_table_.erase(command_table_.cbegin() + row);
       message_map_.erase(msg);
@@ -180,7 +180,7 @@ void Profile::RemoveRow(size_t row)
 void Profile::Resort(std::pair<int, bool> new_order)
 {
    try {
-      auto guard = std::unique_lock{mutex_};
+      auto guard {std::unique_lock {mutex_}};
       current_sort_ = new_order;
       SortI();
    }
@@ -193,12 +193,12 @@ void Profile::Resort(std::pair<int, bool> new_order)
 void Profile::SortI()
 {
    try {
-      const auto msg_idx = [this](rsj::MidiMessageId a) {
+      const auto msg_idx {[this](rsj::MidiMessageId a) {
          return command_set_.CommandTextIndex(GetCommandForMessageI(a));
-      };
-      const auto msg_sort = [&msg_idx](rsj::MidiMessageId a, rsj::MidiMessageId b) {
+      }};
+      const auto msg_sort {[&msg_idx](rsj::MidiMessageId a, rsj::MidiMessageId b) {
          return msg_idx(a) < msg_idx(b);
-      };
+      }};
       if (current_sort_.first == 1)
          if (current_sort_.second)
             std::sort(command_table_.begin(), command_table_.end());
@@ -218,13 +218,13 @@ void Profile::SortI()
 void Profile::ToXmlFile(const juce::File& file)
 {
    try {
-      auto guard = std::shared_lock{mutex_};
+      auto guard {std::shared_lock {mutex_}};
       /* don't bother if map is empty */
       if (!message_map_.empty()) {
          /* save the contents of the command map to an xml file */
-         juce::XmlElement root{"settings"};
+         juce::XmlElement root {"settings"};
          for (const auto& map_entry : message_map_) {
-            auto setting = std::make_unique<juce::XmlElement>("setting");
+            auto setting {std::make_unique<juce::XmlElement>("setting")};
             setting->setAttribute("channel", map_entry.first.channel);
             switch (map_entry.first.msg_id_type) {
             case rsj::MessageType::NoteOn:
@@ -245,7 +245,7 @@ void Profile::ToXmlFile(const juce::File& file)
          }
          if (!root.writeTo(file)) {
             /* Give feedback if file-save doesn't work */
-            const auto& p = file.getFullPathName();
+            const auto& p {file.getFullPathName()};
             rsj::LogAndAlertError(
                 juce::translate("Unable to save file. Choose a different location and try again.")
                     + ' ' + p,

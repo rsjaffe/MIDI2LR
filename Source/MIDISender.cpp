@@ -38,12 +38,12 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
 {
    try {
       if (id.msg_id_type == rsj::MessageType::Pw) {
-         const auto msg{juce::MidiMessage::pitchWheel(id.channel, value)};
+         const auto msg {juce::MidiMessage::pitchWheel(id.channel, value)};
          for (const auto& dev : output_devices_)
             dev->sendMessageNow(msg);
       }
       else if (id.msg_id_type == rsj::MessageType::NoteOn) {
-         const auto msg{juce::MidiMessage::noteOn(
+         const auto msg {juce::MidiMessage::noteOn(
              id.channel, id.control_number, gsl::narrow_cast<juce::uint8>(value))};
          for (const auto& dev : output_devices_)
             dev->sendMessageNow(msg);
@@ -51,20 +51,20 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
       else if (id.msg_id_type == rsj::MessageType::Cc) {
          if (id.control_number < 128) {
             /* regular message */
-            const auto msg{
+            const auto msg {
                 juce::MidiMessage::controllerEvent(id.channel, id.control_number, value)};
             for (const auto& dev : output_devices_)
                dev->sendMessageNow(msg);
          }
          else {
             /* NRPN */
-            const auto msg_parm_msb{
+            const auto msg_parm_msb {
                 juce::MidiMessage::controllerEvent(id.channel, 99, id.control_number >> 7 & 0x7F)};
-            const auto msg_parm_lsb{
+            const auto msg_parm_lsb {
                 juce::MidiMessage::controllerEvent(id.channel, 98, id.control_number & 0x7f)};
-            const auto msg_val_msb{
+            const auto msg_val_msb {
                 juce::MidiMessage::controllerEvent(id.channel, 6, value >> 7 & 0x7F)};
-            const auto msg_val_lsb{
+            const auto msg_val_lsb {
                 juce::MidiMessage::controllerEvent(id.channel, 38, value & 0x7f)};
             for (const auto& dev : output_devices_) {
                dev->sendMessageNow(msg_parm_msb);
@@ -75,9 +75,9 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
          }
       }
       else {
-         constexpr auto msge = "MIDISender: Unexpected data type: {:n}.";
-         const auto msgt =
-             "MIDISender: " + juce::translate("Unexpected Data Type: ").toStdString() + " {:n}.";
+         constexpr auto msge {"MIDISender: Unexpected data type: {:n}."};
+         const auto msgt {
+             "MIDISender: " + juce::translate("Unexpected Data Type: ").toStdString() + " {:n}."};
          rsj::LogAndAlertError(
              fmt::format(msgt, id.msg_id_type), fmt::format(msge, id.msg_id_type));
       }
@@ -105,14 +105,13 @@ void MidiSender::RescanDevices()
 void MidiSender::InitDevices()
 {
    try {
-      const auto available_devices{juce::MidiOutput::getAvailableDevices()};
+      const auto available_devices {juce::MidiOutput::getAvailableDevices()};
       for (const auto& device : available_devices) {
-         auto open_device{juce::MidiOutput::openDevice(device.identifier)};
+         auto open_device {juce::MidiOutput::openDevice(device.identifier)};
          if (open_device) {
-            if (const auto devname = open_device->getName().toStdString();
+            if (const auto devname {open_device->getName().toStdString()};
                 devname != "Microsoft GS Wavetable Synth") {
-               rsj::Log(
-                   fmt::format("Opened output device {}.", devname));
+               rsj::Log(fmt::format("Opened output device {}.", devname));
                output_devices_.emplace_back(std::move(open_device));
             }
          }

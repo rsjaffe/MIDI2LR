@@ -23,17 +23,17 @@ MainWindow::MainWindow(const juce::String& name, const CommandSet& command_set, 
     ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
     MidiReceiver& midi_receiver, MidiSender& midi_sender)
 try : juce
-   ::DocumentWindow{name, juce::Colours::lightgrey,
+   ::DocumentWindow {name, juce::Colours::lightgrey,
        juce::DocumentWindow::minimiseButton | juce::DocumentWindow::closeButton},
-       window_content_{std::make_unique<MainContentComponent>(command_set, profile, profile_manager,
-           settings_manager, lr_ipc_out, midi_receiver, midi_sender)}
+       window_content_ {std::make_unique<MainContentComponent>(command_set, profile,
+           profile_manager, settings_manager, lr_ipc_out, midi_receiver, midi_sender)}
    {
       juce::TopLevelWindow::setUsingNativeTitleBar(true);
       juce::ResizableWindow::setContentNonOwned(window_content_.get(), true);
       juce::Component::centreWithSize(getWidth(), getHeight());
       juce::Component::setVisible(true);
       window_content_->Init();
-      const auto hide_sec = settings_manager.GetAutoHideTime();
+      const auto hide_sec {settings_manager.GetAutoHideTime()};
       if (hide_sec)
          /* don't start timer if time is zero */
          juce::Timer::startTimer(1000 * hide_sec);

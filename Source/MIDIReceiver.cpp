@@ -22,7 +22,7 @@
 #include "Misc.h"
 
 namespace {
-   constexpr rsj::MidiMessage kTerminate{rsj::MessageType::Cc, 129, 0, 0}; /* impossible channel */
+   constexpr rsj::MidiMessage kTerminate {rsj::MessageType::Cc, 129, 0, 0}; /* impossible channel */
 }
 
 void MidiReceiver::Start()
@@ -47,7 +47,7 @@ void MidiReceiver::Stop()
       dev->stop();
       rsj::Log(fmt::format("Stopped input device {}.", dev->getName().toStdString()));
    }
-   if (const auto remaining = messages_.clear_count_push(kTerminate))
+   if (const auto remaining {messages_.clear_count_push(kTerminate)})
       rsj::Log(fmt::format("{} left in queue in MidiReceiver StopRunning.", remaining));
    callbacks_.clear(); /* after queue emptied */
 }
@@ -59,10 +59,10 @@ void MidiReceiver::handleIncomingMidiMessage(
     * near-real-time, so must return quickly. will place message in multithreaded queue and let
     * separate process handle the messages */
    try {
-      const rsj::MidiMessage mess{message};
+      const rsj::MidiMessage mess {message};
       switch (mess.message_type_byte) {
       case rsj::MessageType::Cc: {
-         const auto result = filters_[device](mess);
+         const auto result {filters_[device](mess)};
          if (result.is_nrpn) {
             /* send when complete */
             if (result.is_ready)
@@ -107,9 +107,9 @@ void MidiReceiver::RescanDevices()
 void MidiReceiver::TryToOpen()
 {
    try {
-      const auto available_devices{juce::MidiInput::getAvailableDevices()};
+      const auto available_devices {juce::MidiInput::getAvailableDevices()};
       for (const auto& device : available_devices) {
-         auto open_device{juce::MidiInput::openDevice(device.identifier, this)};
+         auto open_device {juce::MidiInput::openDevice(device.identifier, this)};
          if (open_device) {
             open_device->start();
             rsj::Log(fmt::format("Opened input device {}.", open_device->getName().toStdString()));
@@ -152,7 +152,7 @@ void MidiReceiver::DispatchMessages()
 {
    try {
       do {
-         const auto message_copy = messages_.pop();
+         const auto message_copy {messages_.pop()};
          if (message_copy == kTerminate)
             return;
          for (const auto& cb : callbacks_)

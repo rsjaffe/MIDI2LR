@@ -24,7 +24,7 @@
 #include "Misc.h"
 
 CommandTableModel::CommandTableModel(const CommandSet& command_set, Profile& profile) noexcept
-    : command_set_{command_set}, profile_{profile}
+    : command_set_ {command_set}, profile_ {profile}
 {
 }
 
@@ -50,7 +50,7 @@ void CommandTableModel::paintCell(
          else {
             std::string format_str;
             switch (
-                const auto cmd = profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
+                const auto cmd {profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))};
                 cmd.msg_id_type) {
             case rsj::MessageType::NoteOn:
                format_str = fmt::format("{} | Note : {}", cmd.channel, cmd.control_number);
@@ -120,13 +120,13 @@ juce::Component* CommandTableModel::refreshComponentForCell(
    try {
       if (column_id == 2) /* LR command column */
       {
-         auto command_select = dynamic_cast<CommandMenu*>(existing_component);
+         auto command_select {dynamic_cast<CommandMenu*>(existing_component)};
          if (command_select == nullptr) {
             /* create a new command menu, delete old one if it exists */
-            delete existing_component;  // NOLINT(cppcoreguidelines-owning-memory)
-            auto new_select = std::make_unique<CommandMenu>(
+            delete existing_component; // NOLINT(cppcoreguidelines-owning-memory)
+            auto new_select {std::make_unique<CommandMenu>(
                 profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)), command_set_,
-                profile_);
+                profile_)};
             new_select->SetSelectedItem(
                 command_set_.CommandTextIndex(profile_.GetCommandForMessage(
                     profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
@@ -152,7 +152,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(
 void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forwards)
 {
    try {
-      const auto current_sort = std::make_pair(new_sort_column_id, is_forwards);
+      const auto current_sort {std::make_pair(new_sort_column_id, is_forwards)};
       profile_.Resort(current_sort);
    }
    catch (const std::exception& e) {

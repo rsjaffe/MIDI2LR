@@ -36,7 +36,7 @@
 /*****************************************************************************/
 /**************String Routines************************************************/
 namespace {
-   ::std::array ascii_map{"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a",
+   ::std::array ascii_map {"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a",
        "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12",
        "\\x13", "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C",
        "\\x1D", "\\x1E", "\\x1F", " ", "!", "\\\""};
@@ -45,7 +45,7 @@ namespace {
 ::std::string rsj::ReplaceInvisibleChars(::std::string_view in)
 {
    try {
-      ::std::string result{};
+      ::std::string result {};
       result.reserve(in.size()); /* minimum final size */
       for (const auto& a : in) {
          if (gsl::narrow_cast<size_t>(a) < ascii_map.size())
@@ -85,17 +85,17 @@ namespace {
 
 void rsj::Trim(::std::string_view& value) noexcept
 {
-   const auto first_not = value.find_first_not_of(" \t\n");
+   const auto first_not {value.find_first_not_of(" \t\n")};
    if (first_not != ::std::string_view::npos)
       value.remove_prefix(first_not);
-   const auto last_not = value.find_last_not_of(" \t\n");
+   const auto last_not {value.find_last_not_of(" \t\n")};
    if (last_not != ::std::string_view::npos)
       value.remove_suffix(value.size() - last_not - 1);
 }
 
 void rsj::TrimL(::std::string_view& value) noexcept
 {
-   const auto first_not = value.find_first_not_of(" \t\n");
+   const auto first_not {value.find_first_not_of(" \t\n")};
    if (first_not != ::std::string_view::npos)
       value.remove_prefix(first_not);
 }
@@ -187,9 +187,9 @@ void rsj::ExceptionResponse(
     [[maybe_unused]] gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
 {
    try {
-      const auto alert_text{
+      const auto alert_text {
           fmt::format(juce::translate("Exception ").toStdString() + "{} {}.", e.what(), fu)};
-      const auto error_text{fmt::format("Exception {} {}.", e.what(), fu)};
+      const auto error_text {fmt::format("Exception {} {}.", e.what(), fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
    catch (...) { //-V565
@@ -202,9 +202,9 @@ void rsj::ExceptionResponse(
     gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
 {
    try {
-      const auto alert_text{fmt::format(
+      const auto alert_text {fmt::format(
           juce::translate("Exception ").toStdString() + "{} {}::{}.", e.what(), id, fu)};
-      const auto error_text{fmt::format("Exception {} {}::{}.", e.what(), id, fu)};
+      const auto error_text {fmt::format("Exception {} {}::{}.", e.what(), id, fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
    catch (...) { //-V565
@@ -218,12 +218,12 @@ void rsj::ExceptionResponse(
 #ifdef _WIN32
 std::wstring rsj::AppDataFilePath(std::wstring_view file_name)
 {
-   wchar_t* pathptr{nullptr};
-   auto dp = gsl::finally([&pathptr] {
+   wchar_t* pathptr {nullptr};
+   auto dp {gsl::finally([&pathptr] {
       if (pathptr)
          CoTaskMemFree(pathptr);
-   });
-   const auto hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathptr);
+   })};
+   const auto hr {SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathptr)};
    if (SUCCEEDED(hr))
       return std::wstring(pathptr) + L"\\MIDI2LR\\" + std::wstring(file_name);
    return std::wstring(file_name);
@@ -240,8 +240,8 @@ namespace {
        _Out_writes_to_opt_(cchWideChar, return ) LPWSTR lpWideCharStr, _In_ int cchWideChar)
    {
       try {
-         const auto ret = MultiByteToWideChar(
-             CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
+         const auto ret {MultiByteToWideChar(
+             CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar)};
          if (!ret)
             throw std::runtime_error(
                 fmt::format("MultiByteToWideChar failed with error code: {}.", GetLastError()));
@@ -259,8 +259,8 @@ namespace {
        _In_opt_ LPCCH lpDefaultChar, _Out_opt_ LPBOOL lpUsedDefaultChar)
    {
       try {
-         const auto ret = WideCharToMultiByte(CodePage, dwFlags, lpWideCharStr, cchWideChar,
-             lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar);
+         const auto ret {WideCharToMultiByte(CodePage, dwFlags, lpWideCharStr, cchWideChar,
+             lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar)};
          if (!ret)
             throw std::runtime_error(
                 fmt::format("WideCharToMultiByte failed with error code: {}.", GetLastError()));
@@ -277,9 +277,9 @@ std::wstring rsj::Utf8ToWide(std::string_view in)
 {
    /* add terminating null */
    try {
-      const auto buffer_size = MultiByteToWideCharErrorChecked(CP_UTF8, 0, in.data(),
-                                   gsl::narrow_cast<int>(in.size()), nullptr, 0)
-                               + 1;
+      const auto buffer_size {MultiByteToWideCharErrorChecked(CP_UTF8, 0, in.data(),
+                                  gsl::narrow_cast<int>(in.size()), nullptr, 0)
+                              + 1};
       std::vector<wchar_t> buffer(buffer_size, 0); /* all zero */
       MultiByteToWideCharErrorChecked(CP_UTF8, 0, in.data(), gsl::narrow_cast<int>(in.size()),
           buffer.data(), gsl::narrow_cast<int>(buffer.size()));
@@ -295,9 +295,9 @@ std::string rsj::WideToUtf8(std::wstring_view in)
 {
    /* add terminating null */
    try {
-      const auto buffer_size = WideCharToMultiByteErrorChecked(CP_UTF8, 0, in.data(),
-                                   gsl::narrow_cast<int>(in.size()), nullptr, 0, nullptr, nullptr)
-                               + 1;
+      const auto buffer_size {WideCharToMultiByteErrorChecked(CP_UTF8, 0, in.data(),
+                                  gsl::narrow_cast<int>(in.size()), nullptr, 0, nullptr, nullptr)
+                              + 1};
       std::vector<char> buffer(buffer_size, 0);
       WideCharToMultiByteErrorChecked(CP_UTF8, 0, in.data(), gsl::narrow_cast<int>(in.size()),
           buffer.data(), gsl::narrow_cast<int>(buffer.size()), nullptr, nullptr);

@@ -23,13 +23,13 @@
 #include "SettingsManager.h"
 
 namespace {
-   constexpr auto kSettingsLeft = 20;
-   constexpr auto kSettingsWidth = 400;
-   constexpr auto kSettingsHeight = 300;
+   constexpr auto kSettingsLeft {20};
+   constexpr auto kSettingsWidth {400};
+   constexpr auto kSettingsHeight {300};
 } // namespace
 
 SettingsComponent::SettingsComponent(SettingsManager& settings_manager)
-    : ResizableLayout{this}, settings_manager_{settings_manager}
+    : ResizableLayout {this}, settings_manager_ {settings_manager}
 {
 }
 
@@ -41,7 +41,7 @@ void SettingsComponent::Init()
       pickup_group_.setBounds(0, 0, kSettingsWidth, 100);
       addToLayout(&pickup_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(pickup_group_);
-      pickup_label_.setFont(juce::Font{12.f, juce::Font::bold});
+      pickup_label_.setFont(juce::Font {12.f, juce::Font::bold});
       pickup_label_.setText(juce::translate("Disabling the pickup mode may be better for "
                                             "touchscreen interfaces and may solve issues with "
                                             "Lightroom not picking up fast fader/knob movements"),
@@ -59,7 +59,7 @@ void SettingsComponent::Init()
       addToLayout(&pickup_enabled_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(pickup_enabled_);
       pickup_enabled_.onClick = [this] {
-         const auto pickup_state = pickup_enabled_.getToggleState();
+         const auto pickup_state {pickup_enabled_.getToggleState()};
          settings_manager_.SetPickupEnabled(pickup_state);
          rsj::Log(pickup_state ? "Pickup set to enabled." : "Pickup set to disabled.");
       };
@@ -75,10 +75,10 @@ void SettingsComponent::Init()
       addToLayout(&profile_location_button_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(profile_location_button_);
       profile_location_button_.onClick = [this] {
-         juce::FileChooser chooser{juce::translate("Select Folder"),
+         juce::FileChooser chooser {juce::translate("Select Folder"),
              juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "", true};
          if (chooser.browseForDirectory()) {
-            const auto profile_location = chooser.getResult().getFullPathName();
+            const auto profile_location {chooser.getResult().getFullPathName()};
             settings_manager_.SetProfileDirectory(profile_location);
             rsj::Log(fmt::format("Profile location set to {}.", profile_location.toStdString()));
             profile_location_label_.setText(
@@ -100,14 +100,14 @@ void SettingsComponent::Init()
       addToLayout(&autohide_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(autohide_group_);
 
-      autohide_explain_label_.setFont(juce::Font{12.f, juce::Font::bold});
+      autohide_explain_label_.setFont(juce::Font {12.f, juce::Font::bold});
       autohide_explain_label_.setText(juce::translate("Autohide the plugin window in x seconds, "
                                                       "select 0 for disabling autohide"),
           juce::NotificationType::dontSendNotification);
       autohide_explain_label_.setBounds(kSettingsLeft, 215, kSettingsWidth - 2 * kSettingsLeft, 50);
       addToLayout(&autohide_explain_label_, anchorMidLeft, anchorMidRight);
       autohide_explain_label_.setEditable(false);
-      autohide_explain_label_.setFont(juce::Font{12.f, juce::Font::bold});
+      autohide_explain_label_.setFont(juce::Font {12.f, juce::Font::bold});
       autohide_explain_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
       addAndMakeVisible(autohide_explain_label_);
 

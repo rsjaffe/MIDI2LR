@@ -24,6 +24,7 @@ On Github, we only accept issues that are bug reports or feature requests. Bugs 
 - For C++ and Objective-C++ files, use the formatting rules in `.clang-format`.
 - Comments are C-style: /* comment here */, even for single-line comments. The exceptions are comments placed automatically by programs (e.g., static analyzer skip-error comments).
 - Names and order of includes in C++ files follows the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html#Names_and_Order_of_Includes).
+- Use braced initialization whenever possible (which means almost always).
 - Naming rules in C++:
   - UpperCamelCase: Classes, Structs, Enums, Unions, Template parameters, Global functions, Class and struct methods, Typedefs, Properties
   - all_lower: Parameters, Local variables, Global variables, Class and struct public fields, Union members, Namespaces

@@ -25,8 +25,8 @@
 UniChar rsj::Utf8ToUtf16(const std::string& param)
 {
    if (!param.empty()) {
-      NSString* result = @(param.c_str());
-      UniChar ch = [result characterAtIndex:0];
+      NSString* result {@(param.c_str())};
+      UniChar ch {[result characterAtIndex:0]};
       return ch;
    }
    return 0;
@@ -34,19 +34,19 @@ UniChar rsj::Utf8ToUtf16(const std::string& param)
 
 std::string rsj::AppDataMac()
 {
-   NSString* result = (@"~/Library/Application Support/MIDI2LR").stringByExpandingTildeInPath;
+   NSString* result {(@"~/Library/Application Support/MIDI2LR").stringByExpandingTildeInPath};
    return std::string(result.UTF8String);
 }
 
 std::string rsj::AppLogMac()
 {
-   NSString* result = (@"~/Library/Logs/MIDI2LR").stringByExpandingTildeInPath;
+   NSString* result {(@"~/Library/Logs/MIDI2LR").stringByExpandingTildeInPath};
    return std::string(result.UTF8String);
 }
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED <= __MAC_10_14
 enum {
-    errAEEventWouldRequireUserConsent = -1744,
+   errAEEventWouldRequireUserConsent = -1744,
 };
 #endif
 
@@ -54,15 +54,15 @@ void rsj::CheckPermission(pid_t pid)
 {
    if (@available(macOS 10.14, *)) {
       AEAddressDesc addressDesc;
-      NSString* bundleIdentifier =
-          [NSRunningApplication runningApplicationWithProcessIdentifier:pid].bundleIdentifier;
-      const char* bundleIdentifierCString =
-          [bundleIdentifier cStringUsingEncoding:NSUTF8StringEncoding];
-      auto aeresult = AECreateDesc(typeApplicationBundleID, bundleIdentifierCString,
-          strlen(bundleIdentifierCString), &addressDesc);
+      NSString* bundleIdentifier {
+          [NSRunningApplication runningApplicationWithProcessIdentifier:pid].bundleIdentifier};
+      const char* bundleIdentifierCString {
+          [bundleIdentifier cStringUsingEncoding:NSUTF8StringEncoding]};
+      auto aeresult {AECreateDesc(typeApplicationBundleID, bundleIdentifierCString,
+          strlen(bundleIdentifierCString), &addressDesc)};
       if (aeresult == noErr) {
-         auto status =
-             AEDeterminePermissionToAutomateTarget(&addressDesc, typeWildCard, typeWildCard, true);
+         auto status {
+             AEDeterminePermissionToAutomateTarget(&addressDesc, typeWildCard, typeWildCard, true)};
          AEDisposeDesc(&addressDesc);
          switch (status) {
          case errAEEventWouldRequireUserConsent:
@@ -76,13 +76,13 @@ void rsj::CheckPermission(pid_t pid)
          case errAEEventNotPermitted: {
             rsj::Log(
                 fmt::format("Automation permission denied for {}.", bundleIdentifier.UTF8String));
-            auto title =
-                juce::translate("MIDI2LR needs your authorization to send keystrokes to Lightroom");
-            auto message = juce::translate(
+            auto title {juce::translate(
+                "MIDI2LR needs your authorization to send keystrokes to Lightroom")};
+            auto message {juce::translate(
                 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these "
                 "steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) "
                 "Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find "
-                "the checkbox for MIDI2LR on the right\r\n6) Check that checkbox");
+                "the checkbox for MIDI2LR on the right\r\n6) Check that checkbox")};
             juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, title, message);
             break;
          }

@@ -32,7 +32,7 @@ class VersionChecker final : public juce::Thread, juce::AsyncUpdater {
    void handleAsyncUpdate() override;
    void run() override;
 
-   int new_version_{0};
+   int new_version_ {0};
    SettingsManager& settings_manager_;
 };
 

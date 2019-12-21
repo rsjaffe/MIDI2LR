@@ -32,27 +32,27 @@
 #include "SettingsManager.h"
 
 namespace {
-   constexpr int kMainWidth = 560; /* equals CommandTable columns total width plus 60 */
-   constexpr int kMainHeight = 650;
-   constexpr int kMainLeft = 20;
-   constexpr int kSpaceBetweenButton = 10;
-   constexpr int kStandardHeight = 20;
-   constexpr int kFullWidth = kMainWidth - kMainLeft * 2;
-   constexpr int kButtonWidth = (kFullWidth - kSpaceBetweenButton * 2) / 3;
-   constexpr int kButtonXIncrement = kButtonWidth + kSpaceBetweenButton;
-   constexpr int kConnectionLabelWidth = kMainWidth - kMainLeft - 200;
-   constexpr int kTopButtonY = 60;
-   constexpr int kCommandTableY = 100;
-   constexpr int kFirstButtonX = kMainLeft;
-   constexpr int kSecondButtonX = kMainLeft + kButtonXIncrement;
-   constexpr int kThirdButtonX = kMainLeft + kButtonXIncrement * 2;
-   constexpr int kCommandTableHeight = kMainHeight - 160;
-   constexpr int kLabelWidth = kFullWidth / 2;
-   constexpr int kProfileNameY = kMainHeight - 50;
-   constexpr int kCommandLabelX = kMainLeft + kLabelWidth;
-   constexpr int kCommandLabelY = kProfileNameY;
-   constexpr int kBottomButtonY = kMainHeight - 25;
-   constexpr auto kDefaultsFile{"default.xml"};
+   constexpr int kMainWidth {560}; /* equals CommandTable columns total width plus 60 */
+   constexpr int kMainHeight {650};
+   constexpr int kMainLeft {20};
+   constexpr int kSpaceBetweenButton {10};
+   constexpr int kStandardHeight {20};
+   constexpr int kFullWidth {kMainWidth - kMainLeft * 2};
+   constexpr int kButtonWidth {(kFullWidth - kSpaceBetweenButton * 2) / 3};
+   constexpr int kButtonXIncrement {kButtonWidth + kSpaceBetweenButton};
+   constexpr int kConnectionLabelWidth = {kMainWidth - kMainLeft - 200};
+   constexpr int kTopButtonY {60};
+   constexpr int kCommandTableY {100};
+   constexpr int kFirstButtonX {kMainLeft};
+   constexpr int kSecondButtonX {kMainLeft + kButtonXIncrement};
+   constexpr int kThirdButtonX {kMainLeft + kButtonXIncrement * 2};
+   constexpr int kCommandTableHeight {kMainHeight - 160};
+   constexpr int kLabelWidth {kFullWidth / 2};
+   constexpr int kProfileNameY {kMainHeight - 50};
+   constexpr int kCommandLabelX {kMainLeft + kLabelWidth};
+   constexpr int kCommandLabelY {kProfileNameY};
+   constexpr int kBottomButtonY {kMainHeight - 25};
+   constexpr auto kDefaultsFile {"default.xml"};
 } // namespace
 
 MainContentComponent::MainContentComponent(const CommandSet& command_set, Profile& profile,
@@ -61,8 +61,8 @@ MainContentComponent::MainContentComponent(const CommandSet& command_set, Profil
 try : ResizableLayout {
    this
 }
-, command_table_model_(command_set, profile), lr_ipc_out_{lr_ipc_out},
-    midi_receiver_{midi_receiver}, midi_sender_{midi_sender}, profile_(profile),
+, command_table_model_(command_set, profile), lr_ipc_out_ {lr_ipc_out},
+    midi_receiver_ {midi_receiver}, midi_sender_ {midi_sender}, profile_(profile),
     profile_manager_(profile_manager), settings_manager_(settings_manager)
 {
    setSize(kMainWidth, kMainHeight);
@@ -82,7 +82,7 @@ void MainContentComponent::Init()
 
       /* Main title */
       StandardLabelSettings(title_label_);
-      title_label_.setFont(juce::Font{36.f, juce::Font::bold});
+      title_label_.setFont(juce::Font {36.f, juce::Font::bold});
       title_label_.setComponentEffect(&title_shadow_);
       title_label_.setBounds(kMainLeft, 10, kFullWidth, 30);
       addToLayout(&title_label_, anchorMidLeft, anchorMidRight);
@@ -109,23 +109,23 @@ void MainContentComponent::Init()
       addAndMakeVisible(load_button_);
       load_button_.onClick = [this] {
          if (profile_.ProfileUnsaved()) {
-            const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
+            const auto result {juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
                 juce::translate("MIDI2LR profiles"),
                 juce::translate("Profile changed. Do you want to save your changes? If you "
-                                "continue without saving, your changes will be lost."));
+                                "continue without saving, your changes will be lost."))};
             if (result)
                SaveProfile();
          }
-         juce::File profile_directory{settings_manager_.GetProfileDirectory()};
-         const auto directory_saved{profile_directory.exists()};
+         juce::File profile_directory {settings_manager_.GetProfileDirectory()};
+         const auto directory_saved {profile_directory.exists()};
          if (!directory_saved)
             [[unlikely]] profile_directory =
                 juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
-         juce::FileChooser chooser{
+         juce::FileChooser chooser {
              juce::translate("Open profile"), profile_directory, "*.xml", true};
          if (chooser.browseForFileToOpen()) {
-            if (const auto parsed{juce::XmlDocument::parse(chooser.getResult())}) {
-               const auto new_profile = chooser.getResult();
+            if (const auto parsed {juce::XmlDocument::parse(chooser.getResult())}) {
+               const auto new_profile {chooser.getResult()};
                lr_ipc_out_.SendCommand(
                    "ChangedToFullPath " + new_profile.getFullPathName().toStdString() + '\n');
                profile_name_label_.setText(
@@ -158,7 +158,7 @@ void MainContentComponent::Init()
          juce::DialogWindow::LaunchOptions dialog_options;
          dialog_options.dialogTitle = juce::translate("Settings");
          /* create new object */
-         auto component = std::make_unique<SettingsComponent>(settings_manager_);
+         auto component {std::make_unique<SettingsComponent>(settings_manager_)};
          component->Init();
          dialog_options.content.setOwned(component.release());
          dialog_options.content->setSize(400, 300);
@@ -227,9 +227,9 @@ void MainContentComponent::Init()
 
       /* Try to load a default.xml if the user has not set a profile directory */
       if (settings_manager_.GetProfileDirectory().isEmpty()) {
-         const auto filename = rsj::AppDataFilePath(kDefaultsFile);
-         const auto default_profile = juce::File(filename.data());
-         if (const auto parsed{juce::XmlDocument::parse(default_profile)}) {
+         const auto filename {rsj::AppDataFilePath(kDefaultsFile)};
+         const auto default_profile {juce::File(filename.data())};
+         if (const auto parsed {juce::XmlDocument::parse(default_profile)}) {
             profile_.FromXml(parsed.get());
             command_table_.updateContent();
          }
@@ -249,12 +249,12 @@ void MainContentComponent::Init()
 
 void MainContentComponent::SaveProfile() const
 {
-   juce::File profile_directory = settings_manager_.GetProfileDirectory();
+   juce::File profile_directory {settings_manager_.GetProfileDirectory()};
    if (!profile_directory.exists())
       profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
-   juce::FileChooser chooser{juce::translate("Save profile"), profile_directory, "*.xml", true};
+   juce::FileChooser chooser {juce::translate("Save profile"), profile_directory, "*.xml", true};
    if (chooser.browseForFileToSave(true)) {
-      const auto selected_file = chooser.getResult().withFileExtension("xml");
+      const auto selected_file {chooser.getResult().withFileExtension("xml")};
       profile_.ToXmlFile(selected_file);
    }
 }
@@ -275,7 +275,7 @@ void MainContentComponent::MidiCmdCallback(const rsj::MidiMessage& mm)
    try {
       /* Display the MIDI parameters and add/highlight row in table corresponding to the message msg
        * is 1-based for channel, which display expects */
-      const rsj::MidiMessageId msg{mm};
+      const rsj::MidiMessageId msg {mm};
       last_command_ = fmt::format(
           "{}: {}{} [{}]", msg.channel, mm.message_type_byte, msg.control_number, mm.value);
       profile_.AddRowUnmapped(msg);
@@ -341,7 +341,7 @@ void MainContentComponent::ProfileChanged(
 void MainContentComponent::StandardLabelSettings(juce::Label& label_to_set)
 {
    try {
-      label_to_set.setFont(juce::Font{12.f, juce::Font::bold});
+      label_to_set.setFont(juce::Font {12.f, juce::Font::bold});
       label_to_set.setEditable(false);
       label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
    }

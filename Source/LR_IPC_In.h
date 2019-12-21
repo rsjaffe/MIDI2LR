@@ -42,15 +42,15 @@ class LrIpcIn {
    void ProcessLine();
    void Read();
 
-   asio::io_context io_context_{1};
-   asio::ip::tcp::socket socket_{io_context_};
-   asio::streambuf streambuf_{};
+   asio::io_context io_context_ {1};
+   asio::ip::tcp::socket socket_ {io_context_};
+   asio::streambuf streambuf_ {};
    const MidiSender& midi_sender_;
    const Profile& profile_;
    ControlsModel& controls_model_;
    ProfileManager& profile_manager_;
    rsj::ConcurrentQueue<std::string> line_;
-   std::atomic<bool> thread_should_exit_{false};
+   std::atomic<bool> thread_should_exit_ {false};
    std::future<void> io_thread_;
    std::future<void> process_line_future_;
 };

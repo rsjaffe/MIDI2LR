@@ -50,7 +50,7 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
       cmd_idx_[kUnassigned] = 0;
       size_t idx = 1;
       for (const auto& by_category : m_impl_.allcommands_) {
-         std::vector<MenuStringT> menu_items_temp{};
+         std::vector<MenuStringT> menu_items_temp {};
          for (const auto& cmd_pair : by_category.second) {
             cmd_by_number_.push_back(cmd_pair.first);
             cmd_label_by_number_.push_back(by_category.first + " : " + cmd_pair.second);
@@ -71,14 +71,14 @@ CommandSet::Impl::Impl()
 {
    try {
 #ifdef FILESYSTEM_AVAILABLE_MIDI2LR
-      const fs::path p{rsj::AppDataFilePath("MenuTrans.xml")};
+      const fs::path p {rsj::AppDataFilePath("MenuTrans.xml")};
 #else
-      const auto p = rsj::AppDataFilePath("MenuTrans.xml");
+      const auto p {rsj::AppDataFilePath("MenuTrans.xml")};
 #endif
-      std::ifstream infile(p);
+      std::ifstream infile {p};
       if (infile.is_open()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
-         const auto iarchive = std::make_unique<cereal::XMLInputArchive>(infile);
+         const auto iarchive {std::make_unique<cereal::XMLInputArchive>(infile)};
          (*iarchive)(*this);
 #ifdef FILESYSTEM_AVAILABLE_MIDI2LR
          rsj::Log(fmt::format("MenuTrans.xml archive loaded from {}.", p.string()));
@@ -111,7 +111,7 @@ const CommandSet::Impl& CommandSet::MakeImpl() const
 size_t CommandSet::CommandTextIndex(const std::string& command) const
 {
    try {
-      const auto found = cmd_idx_.find(command);
+      const auto found {cmd_idx_.find(command)};
       if (found == cmd_idx_.end()) {
          rsj::Log(fmt::format("Command not found in CommandTextIndex: {}.", command));
          return 0;

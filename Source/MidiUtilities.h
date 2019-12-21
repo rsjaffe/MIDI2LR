@@ -43,14 +43,14 @@ namespace rsj {
    constexpr bool ValidMessageType(uint8_t value)
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
-      const auto from = value >> 4 & 0xF;
+      const auto from {value >> 4 & 0xF};
       return from >= static_cast<decltype(from)>(MessageType::NoteOff);
    }
 
    constexpr MessageType ToMessageType(uint8_t value)
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
-      const auto from = value >> 4 & 0xF;
+      const auto from {value >> 4 & 0xF};
       if (from < static_cast<decltype(from)>(MessageType::NoteOff))
          throw std::out_of_range("ToMessageType: MessageType range error, must be 0x8 to 0xF");
       return static_cast<MessageType>(from);
@@ -58,7 +58,7 @@ namespace rsj {
 
    inline const char* MessageTypeToName(MessageType from) noexcept
    {
-      static std::array translation_table{"Note Off", "Note On", "Key Pressure", "Control Change",
+      static std::array translation_table {"Note Off", "Note On", "Key Pressure", "Control Change",
           "Program Change", "Channel Pressure", "Pitch Bend", "System"};
 #pragma warning(suppress : 26446 26482)
       return translation_table[static_cast<size_t>(from)
@@ -67,7 +67,7 @@ namespace rsj {
 
    inline const char* MessageTypeToLabel(MessageType from) noexcept
    {
-      static std::array translation_table{"NOTE OFF", "NOTE ON", "KEY PRESSURE", "CC",
+      static std::array translation_table {"NOTE OFF", "NOTE ON", "KEY PRESSURE", "CC",
           "PROGRAM CHANGE", "CHANNEL PRESSURE", "PITCHBEND", "SYSTEM"};
 #pragma warning(suppress : 26446 26482)
       return translation_table[static_cast<size_t>(from)
@@ -76,10 +76,10 @@ namespace rsj {
 
    /* channel is 0-based in MidiMessage, 1-based in MidiMessageId */
    struct MidiMessage {
-      MessageType message_type_byte{MessageType::NoteOn};
-      int channel{0}; /* 0-based */
-      int control_number{0};
-      int value{0};
+      MessageType message_type_byte {MessageType::NoteOn};
+      int channel {0}; /* 0-based */
+      int control_number {0};
+      int value {0};
       constexpr MidiMessage() noexcept = default;
 
       constexpr MidiMessage(MessageType mt, int ch, int nu, int va) noexcept
@@ -98,9 +98,9 @@ namespace rsj {
 
    /* channel is 0-based in MidiMessage, 1-based in MidiMessageId */
    struct MidiMessageId {
-      MessageType msg_id_type{MessageType::NoteOn};
-      int channel{1}; /* 1-based */
-      int control_number{0};
+      MessageType msg_id_type {MessageType::NoteOn};
+      int channel {1}; /* 1-based */
+      int control_number {0};
 
       constexpr MidiMessageId() noexcept = default;
 
@@ -110,8 +110,8 @@ namespace rsj {
       }
 
       explicit constexpr MidiMessageId(const MidiMessage& other) noexcept
-          : msg_id_type{other.message_type_byte}, channel{other.channel + 1},
-            control_number{other.control_number}
+          : msg_id_type {other.message_type_byte}, channel {other.channel + 1},
+            control_number {other.control_number}
       {
       }
 
@@ -140,10 +140,10 @@ namespace fmt {
    template<typename Char> struct formatter<rsj::MessageType, Char> {
       template<typename ParseContext> constexpr auto parse(ParseContext& ctx)
       { /* parsing copied from fmt's chrono.h */
-         auto it = ctx.begin();
+         auto it {ctx.begin()};
          if (it != ctx.end() && *it == static_cast<Char>(':'))
             ++it;
-         auto end = it;
+         auto end {it};
          while (end != ctx.end() && *end != static_cast<Char>('}'))
             ++end;
          tm_format.reserve(internal::to_unsigned(end - it + 1));

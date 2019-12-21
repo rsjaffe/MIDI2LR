@@ -22,7 +22,7 @@
 #include "DebugInfo.h"
 
 SettingsManager::SettingsManager(ProfileManager& profile_manager, LrIpcOut& lr_ipc_out)
-    : lr_ipc_out_{lr_ipc_out}, profile_manager_{profile_manager}
+    : lr_ipc_out_ {lr_ipc_out}, profile_manager_ {profile_manager}
 {
    try {
       juce::PropertiesFile::Options file_options;
@@ -61,7 +61,7 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
          }
          static std::once_flag of; /* add debug info once to logs */
          std::call_once(of, [this] {
-            const DebugInfo db{GetProfileDirectory()};
+            const DebugInfo db {GetProfileDirectory()};
             lr_ipc_out_.SendCommand("AppInfoClear 1\n");
             for (const auto& info : db.GetInfo()) {
                lr_ipc_out_.SendCommand("AppInfo " + info + '\n');

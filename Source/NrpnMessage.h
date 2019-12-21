@@ -26,10 +26,10 @@ class NrpnFilter {
     * without emitting anything. */
  public:
    struct ProcessResult {
-      bool is_nrpn{};
-      bool is_ready{};
-      int control{};
-      int value{};
+      bool is_nrpn {};
+      bool is_ready {};
+      int control {};
+      int value {};
    };
    ProcessResult operator()(const rsj::MidiMessage& message);
 
@@ -40,15 +40,15 @@ class NrpnFilter {
       intermediate_results_[channel] = {0, 0, 0, 0, 0};
    }
    struct InternalStructure {
-      int control_lsb_{0};
-      int control_msb_{0};
-      int ready_flags_{0};
-      int value_lsb_{0};
-      int value_msb_{0};
+      int control_lsb_ {0};
+      int control_msb_ {0};
+      int ready_flags_ {0};
+      int value_lsb_ {0};
+      int value_msb_ {0};
    };
    mutable rsj::SpinLock filter_mutex_;
-   static constexpr int kChannels{16};
-   std::array<InternalStructure, kChannels> intermediate_results_{};
+   static constexpr int kChannels {16};
+   std::array<InternalStructure, kChannels> intermediate_results_ {};
 };
 
 #endif

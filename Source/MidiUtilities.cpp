@@ -23,7 +23,7 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm)
    /* anything not set below is set to zero by default constructor */
 #pragma warning(push)
 #pragma warning(disable : 26481) /* doing raw pointer arithmetic, parsing low-level structure */
-   const auto raw = mm.getRawData();
+   const auto raw {mm.getRawData()};
    Ensures(raw);
    if (rsj::ValidMessageType(raw[0])) {
       message_type_byte = rsj::ToMessageType(raw[0]);

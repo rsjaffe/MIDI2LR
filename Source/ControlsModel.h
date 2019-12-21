@@ -40,7 +40,7 @@ namespace rsj {
       // ReSharper disable once CppNonExplicitConvertingConstructor
       SettingsStruct(
           int n = 0, int l = 0, int h = 0x7F, rsj::CCmethod m = rsj::CCmethod::kAbsolute) noexcept
-          : control_number{n}, low{l}, high{h}, method{m}
+          : control_number {n}, low {l}, high {h}, method {m}
       {
       }
 
@@ -54,9 +54,9 @@ namespace rsj {
             archive(control_number, high, low, method);
             break;
          default: {
-            constexpr auto msg =
+            constexpr auto msg {
                 "The file, 'settings.xml', is marked as a version not supported by the current "
-                "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}.";
+                "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."};
             rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
                 fmt::format(msg, version));
          }
@@ -71,7 +71,7 @@ namespace rsj {
          try {
             switch (version) {
             case 1: {
-               std::string methodstr{"undefined"};
+               std::string methodstr {"undefined"};
                switch (method) {
                case CCmethod::kAbsolute:
                   methodstr = "Absolute";
@@ -108,9 +108,9 @@ namespace rsj {
                break;
             }
             default: {
-               constexpr auto msg =
+               constexpr auto msg {
                    "The file, 'settings.xml', is marked as a version not supported by the current "
-                   "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}.";
+                   "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."};
                rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
                    fmt::format(msg, version));
             }
@@ -125,15 +125,15 @@ namespace rsj {
 } // namespace rsj
 
 class ChannelModel {
-   static constexpr int kBit14 = 0x2000;
-   static constexpr int kBit7 = 0x40;
-   static constexpr int kLow13Bits = 0x1FFF;
-   static constexpr int kLow6Bits = 0x3F;
-   static constexpr int kMaxMidi = 0x7F;
-   static constexpr int kMaxMidiHalf = kMaxMidi / 2;
-   static constexpr int kMaxNrpn = 0x3FFF;
-   static constexpr int kMaxNrpnHalf = kMaxNrpn / 2;
-   static constexpr size_t kMaxControls = 0x4000;
+   static constexpr int kBit14 {0x2000};
+   static constexpr int kBit7 {0x40};
+   static constexpr int kLow13Bits {0x1FFF};
+   static constexpr int kLow6Bits {0x3F};
+   static constexpr int kMaxMidi {0x7F};
+   static constexpr int kMaxMidiHalf {kMaxMidi / 2};
+   static constexpr int kMaxNrpn {0x3FFF};
+   static constexpr int kMaxNrpnHalf {kMaxNrpn / 2};
+   static constexpr size_t kMaxControls {0x4000};
 
  public:
    ChannelModel();
@@ -200,14 +200,14 @@ class ChannelModel {
    template<class Archive> void save(Archive& archive, uint32_t const version) const;
    // ReSharper restore CppConstParameterInDeclaration
 
-   mutable std::vector<rsj::SettingsStruct> settings_to_save_{};
-   int pitch_wheel_max_{kMaxNrpn};
-   int pitch_wheel_min_{0};
-   std::atomic<int> pitch_wheel_current_{kMaxNrpnHalf};
-   std::array<rsj::CCmethod, kMaxControls> cc_method_{};
-   std::array<int, kMaxControls> cc_high_{};
-   std::array<int, kMaxControls> cc_low_{};
-   std::array<std::atomic<int>, kMaxControls> current_v_{};
+   mutable std::vector<rsj::SettingsStruct> settings_to_save_ {};
+   int pitch_wheel_max_ {kMaxNrpn};
+   int pitch_wheel_min_ {0};
+   std::atomic<int> pitch_wheel_current_ {kMaxNrpnHalf};
+   std::array<rsj::CCmethod, kMaxControls> cc_method_ {};
+   std::array<int, kMaxControls> cc_high_ {};
+   std::array<int, kMaxControls> cc_low_ {};
+   std::array<std::atomic<int>, kMaxControls> current_v_ {};
 };
 
 class ControlsModel {
@@ -336,9 +336,9 @@ template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const
          SavedToActive();
          break;
       default: {
-         constexpr auto msg =
+         constexpr auto msg {
              "The file, 'settings.xml', is marked as a version not supported by the current "
-             "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}.";
+             "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
          rsj::LogAndAlertError(
              fmt::format(juce::translate(msg).toStdString(), version), fmt::format(msg, version));
       }
@@ -367,9 +367,9 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
              cereal::make_nvp("PWmin", pitch_wheel_min_));
          break;
       default: {
-         constexpr auto msg =
+         constexpr auto msg {
              "The file, 'settings.xml', is marked as a version not supported by the current "
-             "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}.";
+             "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
          rsj::LogAndAlertError(
              fmt::format(juce::translate(msg).toStdString(), version), fmt::format(msg, version));
       }

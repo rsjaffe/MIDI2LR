@@ -36,17 +36,17 @@ using namespace std::literals::chrono_literals;
 
 namespace {
    /* in between recurrent actions */
-   constexpr auto kDelay{8ms};
-   constexpr auto kLrOutPort{58763};
+   constexpr auto kDelay {8ms};
+   constexpr auto kLrOutPort {58763};
    /* give controller a minimum refractory period before resetting */
-   constexpr auto kMinRecenterTime(250ms);
-   constexpr auto kRecenterTimer{std::max(kMinRecenterTime, kDelay + kDelay / 2)};
-   constexpr auto kTerminate{"!!!@#$%^"};
+   constexpr auto kMinRecenterTime {250ms};
+   constexpr auto kRecenterTimer {std::max(kMinRecenterTime, kDelay + kDelay / 2)};
+   constexpr auto kTerminate {"!!!@#$%^"};
 } // namespace
 
 LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile, const MidiSender& midi_sender,
     MidiReceiver& midi_receiver)
-    : midi_sender_{midi_sender}, profile_{profile}, controls_model_{c_model}
+    : midi_sender_ {midi_sender}, profile_ {profile}, controls_model_ {c_model}
 {
    midi_receiver.AddCallback(this, &LrIpcOut::MidiCmdCallback);
 }
@@ -81,7 +81,7 @@ void LrIpcOut::SendingRestart()
 {
    try {
       sending_stopped_ = false;
-      const auto con{connected_.load(std::memory_order_acquire)};
+      const auto con {connected_.load(std::memory_order_acquire)};
       for (const auto& cb : callbacks_)
          cb(con, false);
       /* resync controls */
@@ -97,7 +97,7 @@ void LrIpcOut::SendingStop()
 {
    try {
       sending_stopped_ = true;
-      const auto con{connected_.load(std::memory_order_acquire)};
+      const auto con {connected_.load(std::memory_order_acquire)};
       for (const auto& cb : callbacks_)
          cb(con, true);
    }
@@ -132,7 +132,7 @@ void LrIpcOut::Stop()
 {
    thread_should_exit_.store(true, std::memory_order_release);
    /* pump output queue before port closed */
-   if (const auto m = command_.clear_count_emplace(kTerminate))
+   if (const auto m {command_.clear_count_emplace(kTerminate)})
       rsj::Log(fmt::format("{} left in queue in LrIpcOut destructor.", m));
    /* no more connect/disconnect notifications */
    callbacks_.clear();
@@ -199,8 +199,8 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
       std::string ccw;
    };
    try {
-      const rsj::MidiMessageId message{mm};
-      static const std::unordered_map<std::string, RepeatMessage> kCmdUpDown{
+      const rsj::MidiMessageId message {mm};
+      static const std::unordered_map<std::string, RepeatMessage> kCmdUpDown {
           {"ChangeBrushSize", {"BrushSizeLarger 1\n", "BrushSizeSmaller 1\n"}},
           {"ChangeCurrentSlider", {"SliderIncrease 1\n", "SliderDecrease 1\n"}},
           {"ChangeFeatherSize", {"BrushFeatherLarger 1\n", "BrushFeatherSmaller 1\n"}},
@@ -235,23 +235,23 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
       };
       if (!profile_.MessageExistsInMap(message))
          return;
-      const auto command_to_send = profile_.GetCommandForMessage(message);
+      const auto command_to_send {profile_.GetCommandForMessage(message)};
       if (command_to_send == "PrevPro" || command_to_send == "NextPro"
           || command_to_send == CommandSet::kUnassigned)
          /* handled by ProfileManager or unassigned */
          [[unlikely]] return;
       /* if it is a repeated command, change command_to_send appropriately */
-      if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end())
+      if (const auto a {kCmdUpDown.find(command_to_send)}; a != kCmdUpDown.end())
          [[unlikely]]
          {
-            static TimePoint next_response{};
-            if (const auto now = Clock::now(); next_response < now) {
+            static TimePoint next_response {};
+            if (const auto now {Clock::now()}; next_response < now) {
                next_response = now + kDelay;
                if (mm.message_type_byte == rsj::MessageType::Pw
                    || (mm.message_type_byte == rsj::MessageType::Cc
                        && controls_model_.GetCcMethod(message) == rsj::CCmethod::kAbsolute))
                   SetRecenter(message);
-               const auto change = controls_model_.MeasureChange(mm);
+               const auto change {controls_model_.MeasureChange(mm)};
                if (change == 0)
                   /* don't send any signal */
                   return;
@@ -265,7 +265,7 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
          }
       else {
          /* not repeated command */
-         const auto computed_value = controls_model_.ControllerToPlugin(mm);
+         const auto computed_value {controls_model_.ControllerToPlugin(mm)};
          SendCommand(command_to_send + ' ' + std::to_string(computed_value) + '\n');
       }
    }
@@ -278,7 +278,7 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
 void LrIpcOut::SendOut()
 {
    try {
-      auto command_copy = std::make_shared<std::string>(command_.pop());
+      auto command_copy {std::make_shared<std::string>(command_.pop())};
       if (*command_copy == kTerminate)
          [[unlikely]] return;
       /* always connected when running SendOut, no need to check flag */

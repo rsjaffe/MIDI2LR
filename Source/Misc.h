@@ -30,9 +30,9 @@
 #include <gsl/gsl>
 
 #ifdef NDEBUG /* asserts disabled */
-static constexpr bool kNdebug = true;
+static constexpr bool kNdebug {true};
 #else
-static constexpr bool kNdebug = false;
+static constexpr bool kNdebug {false};
 #endif
 
 #if defined(__GNUC__) || defined(__clang__)
@@ -65,11 +65,11 @@ namespace rsj {
 #endif
 
 #ifdef _WIN32
-constexpr auto MSWindows{true};
-constexpr auto OSX{false};
+constexpr auto MSWindows {true};
+constexpr auto OSX {false};
 #else
-constexpr auto MSWindows{false};
-constexpr auto OSX{true};
+constexpr auto MSWindows {false};
+constexpr auto OSX {true};
 #endif
 
 namespace rsj {
@@ -151,7 +151,7 @@ namespace rsj {
 
    template<class T> auto Reverse(T&& ob) noexcept
    {
-      return ReverseWrapper<T>{std::forward<T>(ob)};
+      return ReverseWrapper<T> {std::forward<T>(ob)};
    }
    /*****************************************************************************/
    /*******************Sleep Timed and Logged************************************/
@@ -215,10 +215,10 @@ namespace rsj {
    template<class Rep, class Period>
    auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) //-V801
    {
-      const auto start = std::chrono::steady_clock::now();
+      const auto start {std::chrono::steady_clock::now()};
       std::this_thread::sleep_for(sleep_duration);
-      const auto end = std::chrono::steady_clock::now();
-      const std::chrono::duration<double, Period> elapsed = end - start;
+      const auto end {std::chrono::steady_clock::now()};
+      const std::chrono::duration<double, Period> elapsed {end - start};
       return elapsed;
    }
 
@@ -226,9 +226,9 @@ namespace rsj {
    void SleepTimedLogged(
        std::string_view msg_prefix, const std::chrono::duration<Rep, Period> sleep_duration) //-V801
    {
-      const auto elapsed = SleepTimed(sleep_duration);
-      const auto fmtstring =
-          std::string(msg_prefix) + " thread slept for {} " + RatioToPrefix<Period>() + "seconds.";
+      const auto elapsed {SleepTimed(sleep_duration)};
+      const auto fmtstring {
+          std::string(msg_prefix) + " thread slept for {} " + RatioToPrefix<Period>() + "seconds."};
       rsj::Log(fmt::format(fmtstring, elapsed.count()));
    }
    /*****************************************************************************/

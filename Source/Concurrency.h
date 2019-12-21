@@ -55,7 +55,7 @@ namespace rsj {
       }
 
     private:
-      std::atomic<bool> flag_{false};
+      std::atomic<bool> flag_ {false};
    };
 
    /* all but blocking pops use scoped_lock. blocking pops use unique_lock noexcept specifications
@@ -74,33 +74,33 @@ namespace rsj {
       /*1*/ ConcurrentQueue() noexcept(std::is_nothrow_default_constructible_v<Container>) {}
       /*2*/ explicit ConcurrentQueue(const Container& cont) noexcept(
           std::is_nothrow_copy_constructible_v<Container>)
-          : queue_{cont}
+          : queue_ {cont}
       {
       }
       /*3*/ explicit ConcurrentQueue(Container&& cont) noexcept(
           std::is_nothrow_move_constructible_v<Container>)
-          : queue_{std::move(cont)}
+          : queue_ {std::move(cont)}
       {
       }
       /*4*/ ConcurrentQueue(const ConcurrentQueue& other)
       {
-         auto lock{std::scoped_lock(other.mutex_)};
+         auto lock {std::scoped_lock(other.mutex_)};
          queue_ = other.queue_;
       }
       /*5*/ ConcurrentQueue(ConcurrentQueue&& other) noexcept(
           std::is_nothrow_move_constructible_v<Container>)
       {
-         auto lock{std::scoped_lock(other.mutex_)};
+         auto lock {std::scoped_lock(other.mutex_)};
          queue_ = std::move(other.queue_);
       }
       /*6*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       explicit ConcurrentQueue(const Alloc& alloc) noexcept(
           std::is_nothrow_constructible_v<Container, const Alloc&>)
-          : queue_{alloc}
+          : queue_ {alloc}
       {
       }
       /*7*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
-      ConcurrentQueue(const Container& cont, const Alloc& alloc) : queue_{cont, alloc}
+      ConcurrentQueue(const Container& cont, const Alloc& alloc) : queue_ {cont, alloc}
       {
       }
       /*8*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
@@ -112,7 +112,7 @@ namespace rsj {
       /*9*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       ConcurrentQueue(const ConcurrentQueue& other, const Alloc& alloc) : queue_(alloc)
       {
-         auto lock{std::scoped_lock(other.mutex_)};
+         auto lock {std::scoped_lock(other.mutex_)};
          queue_ = Container(other.queue_, alloc);
       }
       /*10*/ template<class Alloc,
@@ -121,14 +121,14 @@ namespace rsj {
           std::is_nothrow_constructible_v<Container, Container, const Alloc&>)
           : queue_(alloc)
       {
-         auto lock{std::scoped_lock(other.mutex_)};
+         auto lock {std::scoped_lock(other.mutex_)};
          queue_ = Container(std::move(other.queue_), alloc);
       }
       /* operator= */
       ConcurrentQueue& operator=(const ConcurrentQueue& other)
       {
          {
-            auto lock{std::scoped_lock(mutex_, other.mutex_)};
+            auto lock {std::scoped_lock(mutex_, other.mutex_)};
             queue_ = other.queue_;
          }
          condition_.notify_all();
@@ -138,7 +138,7 @@ namespace rsj {
           std::is_nothrow_move_assignable_v<Container>)
       {
          {
-            auto lock{std::scoped_lock(mutex_, other.mutex_)};
+            auto lock {std::scoped_lock(mutex_, other.mutex_)};
             queue_ = std::move(other.queue_);
          }
          condition_.notify_all();
@@ -149,24 +149,24 @@ namespace rsj {
       /* methods */
       [[nodiscard]] auto empty() const noexcept(noexcept(std::declval<Container>().empty()))
       {
-         auto lock{std::scoped_lock(mutex_)};
+         auto lock {std::scoped_lock(mutex_)};
          return queue_.empty();
       }
       [[nodiscard]] size_type size() const noexcept(noexcept(std::declval<Container>().size()))
       {
-         auto lock{std::scoped_lock(mutex_)};
+         auto lock {std::scoped_lock(mutex_)};
          return queue_.size();
       }
       [[nodiscard]] size_type max_size() const
           noexcept(noexcept(std::declval<Container>().max_size()))
       {
-         auto lock{std::scoped_lock(mutex_)};
+         auto lock {std::scoped_lock(mutex_)};
          return queue_.max_size();
       }
       void push(const T& value)
       {
          {
-            auto lock{std::scoped_lock(mutex_)};
+            auto lock {std::scoped_lock(mutex_)};
             queue_.push_back(value);
          }
          condition_.notify_one();
@@ -174,7 +174,7 @@ namespace rsj {
       void push(T&& value)
       {
          {
-            auto lock{std::scoped_lock(mutex_)};
+            auto lock {std::scoped_lock(mutex_)};
             queue_.push_back(std::move(value));
          }
          condition_.notify_one();
@@ -182,34 +182,34 @@ namespace rsj {
       template<class... Args> void emplace(Args&&... args)
       {
          {
-            auto lock{std::scoped_lock(mutex_)};
+            auto lock {std::scoped_lock(mutex_)};
             queue_.emplace_back(std::forward<Args>(args)...);
          }
          condition_.notify_one();
       }
       T pop()
       {
-         auto lock{std::unique_lock(mutex_)};
+         auto lock {std::unique_lock(mutex_)};
          condition_.wait(lock, [this]() noexcept(noexcept(std::declval<Container>().empty())) {
             return !queue_.empty();
          });
-         T rc{std::move(queue_.front())};
+         T rc {std::move(queue_.front())};
          queue_.pop_front();
          return rc;
       }
       std::optional<T> try_pop()
       {
-         auto lock{std::scoped_lock(mutex_)};
+         auto lock {std::scoped_lock(mutex_)};
          if (queue_.empty())
             return std::nullopt;
-         T rc{std::move(queue_.front())};
+         T rc {std::move(queue_.front())};
          queue_.pop_front();
          return rc;
       }
       void swap(ConcurrentQueue& other) noexcept(std::is_nothrow_swappable_v<Container>)
       {
          {
-            auto lock{std::scoped_lock(mutex_, other.mutex_)};
+            auto lock {std::scoped_lock(mutex_, other.mutex_)};
             queue_.swap(other.queue_);
          }
          condition_.notify_all();
@@ -217,27 +217,27 @@ namespace rsj {
       }
       void resize(size_type count)
       {
-         auto lock{std::scoped_lock(mutex_)};
+         auto lock {std::scoped_lock(mutex_)};
          queue_.resize(count);
       }
       void resize(size_type count, const value_type& value)
       {
          {
-            auto lock{std::scoped_lock(mutex_)};
+            auto lock {std::scoped_lock(mutex_)};
             queue_.resize(count, value);
          }
          condition_.notify_all();
       }
       void clear() noexcept(noexcept(std::declval<Container>().clear()))
       {
-         auto lock{std::scoped_lock(mutex_)};
+         auto lock {std::scoped_lock(mutex_)};
          queue_.clear();
       }
       [[nodiscard]] size_type clear_count() noexcept(
           noexcept(std::declval<Container>().clear()) && noexcept(std::declval<Container>().size()))
       {
-         auto lock{std::scoped_lock(mutex_)};
-         const auto ret = queue_.size();
+         auto lock {std::scoped_lock(mutex_)};
+         const auto ret {queue_.size()};
          queue_.clear();
          return ret;
       }
@@ -245,7 +245,7 @@ namespace rsj {
       {
          size_type ret;
          {
-            auto lock{std::scoped_lock(mutex_)};
+            auto lock {std::scoped_lock(mutex_)};
             ret = queue_.size();
             queue_.clear();
             queue_.push_back(value);
@@ -257,7 +257,7 @@ namespace rsj {
       {
          size_type ret;
          {
-            auto lock{std::scoped_lock(mutex_)};
+            auto lock {std::scoped_lock(mutex_)};
             ret = queue_.size();
             queue_.clear();
             queue_.push_back(std::move(value));
@@ -269,7 +269,7 @@ namespace rsj {
       {
          size_type ret;
          {
-            auto lock{std::scoped_lock(mutex_)};
+            auto lock {std::scoped_lock(mutex_)};
             ret = queue_.size();
             queue_.clear();
             queue_.emplace_back(std::forward<Args>(args)...);
@@ -279,11 +279,11 @@ namespace rsj {
       }
 
     private:
-      Container queue_{};
+      Container queue_ {};
       mutable std::conditional_t<std::is_same_v<Mutex, std::mutex>, std::condition_variable,
           std::condition_variable_any>
-          condition_{};
-      mutable Mutex mutex_{};
+          condition_ {};
+      mutable Mutex mutex_ {};
    };
 } // namespace rsj
 #endif

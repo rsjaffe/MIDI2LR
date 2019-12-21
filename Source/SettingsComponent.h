@@ -32,15 +32,15 @@ class SettingsComponent final : public juce::Component, ResizableLayout {
  private:
    void paint(juce::Graphics&) override;
 
-   juce::GroupComponent autohide_group_{};
-   juce::GroupComponent pickup_group_{};
-   juce::GroupComponent profile_group_{};
-   juce::Label autohide_explain_label_{};
-   juce::Label pickup_label_{"PickupLabel", ""};
-   juce::Label profile_location_label_{"Profile Label"};
+   juce::GroupComponent autohide_group_ {};
+   juce::GroupComponent pickup_group_ {};
+   juce::GroupComponent profile_group_ {};
+   juce::Label autohide_explain_label_ {};
+   juce::Label pickup_label_ {"PickupLabel", ""};
+   juce::Label profile_location_label_ {"Profile Label"};
    juce::Slider autohide_setting_;
-   juce::TextButton profile_location_button_{juce::translate("Choose Profile Folder")};
-   juce::ToggleButton pickup_enabled_{juce::translate("Enable Pickup Mode")};
+   juce::TextButton profile_location_button_ {juce::translate("Choose Profile Folder")};
+   juce::ToggleButton pickup_enabled_ {juce::translate("Enable Pickup Mode")};
    SettingsManager& settings_manager_;
 };
 

@@ -63,11 +63,11 @@ class CommandSet {
 
    [[nodiscard]] static const auto& UnassignedTranslated()
    {
-      static const auto unassigned{juce::translate("Unassigned").toStdString()};
+      static const auto unassigned {juce::translate("Unassigned").toStdString()};
       return unassigned;
    }
 
-   inline static const std::string kUnassigned{"Unassigned"};
+   inline static const std::string kUnassigned {"Unassigned"};
 
  private:
    class Impl {
@@ -84,9 +84,9 @@ class CommandSet {
             archive(cereal::make_nvp("language", language_),
                 cereal::make_nvp("all_commands", allcommands_));
          else {
-            constexpr auto msg =
+            constexpr auto msg {
                 "The file, 'MenuTrans.xml', is marked as a version not supported by the current "
-                "version of MIDI2LR, and won't be loaded. File version: {}.";
+                "version of MIDI2LR, and won't be loaded. File version: {}."};
             rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
                 fmt::format(msg, version));
          }
@@ -101,11 +101,11 @@ class CommandSet {
    friend struct cereal::detail::Version<CommandSet::Impl>;
    [[nodiscard]] const Impl& MakeImpl() const;
    const Impl& m_impl_;
-   std::unordered_map<std::string, size_t> cmd_idx_{}; /* for CommandTextIndex */
-   std::vector<MenuStringT> menus_{};                  /* use for commandmenu */
-   std::vector<std::string> cmd_by_number_{}; /* use for command_set_.CommandAbbrevAt, .size */
-   std::vector<std::string> cmd_label_by_number_{};
-   std::vector<std::vector<MenuStringT>> menu_entries_{}; /* use for commandmenu */
+   std::unordered_map<std::string, size_t> cmd_idx_ {}; /* for CommandTextIndex */
+   std::vector<MenuStringT> menus_ {};                  /* use for commandmenu */
+   std::vector<std::string> cmd_by_number_ {}; /* use for command_set_.CommandAbbrevAt, .size */
+   std::vector<std::string> cmd_label_by_number_ {};
+   std::vector<std::vector<MenuStringT>> menu_entries_ {}; /* use for commandmenu */
 };
 #pragma warning(push)
 #pragma warning(disable : 26426 26440 26444)

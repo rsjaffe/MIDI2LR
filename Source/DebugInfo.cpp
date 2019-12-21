@@ -32,7 +32,7 @@
  */
 namespace {
 #pragma warning(suppress : 26426)
-   const std::unordered_map<unsigned long int, std::string> kKeyboardNames{//-V126
+   const std::unordered_map<unsigned long int, std::string> kKeyboardNames {//-V126
        {0x0000041c, "Albanian"}, {0x00000401, "Arabic (101)"}, {0x00010401, "Arabic (102)"},
        {0x00020401, "Arabic (102) AZERTY"}, {0x0000042b, "Armenian Eastern"},
        {0x0002042b, "Armenian Phonetic"}, {0x0003042b, "Armenian Typewriter"},
@@ -127,16 +127,16 @@ std::string rsj::GetKeyboardLayout()
 {
    try {
       static_assert(sizeof(CHAR) == sizeof(char), "Windows CHAR and char different sizes.");
-      std::array<CHAR, KL_NAMELENGTH> klid_ascii{};
+      std::array<CHAR, KL_NAMELENGTH> klid_ascii {};
       if (GetKeyboardLayoutNameA(klid_ascii.data())) {
          try {
-            const auto klid{std::stoul(std::string(klid_ascii.data()), nullptr, 16)};
-            if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end())
+            const auto klid {std::stoul(std::string(klid_ascii.data()), nullptr, 16)};
+            if (const auto f {kKeyboardNames.find(klid)}; f != kKeyboardNames.end())
                return f->second;
             return fmt::format("KLID not in keyboard_names: 0x{}.", klid_ascii.data());
          }
          catch (...) {
-            const auto msg{
+            const auto msg {
                 fmt::format("Exception when finding KLID name. KLID: 0x{}.", klid_ascii.data())};
             rsj::Log(msg);
             return msg;
@@ -187,7 +187,7 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
    }
    catch (...) {
       try {
-         static constexpr auto kErr{"Failed to obtain app info. Exception."};
+         static constexpr auto kErr {"Failed to obtain app info. Exception."};
          info_.emplace_back(kErr);
          rsj::Log(kErr);
       }

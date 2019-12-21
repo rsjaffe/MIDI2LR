@@ -35,22 +35,23 @@ void TextButtonAligned::DrawButtonText(juce::Graphics& g, juce::TextButton& butt
 {
    /* Based on drawButtonText in LookAndFeel_V2 (V3 doesn't override V2 for this call). Only change
     * in my version is alignment on last line. */
-   const auto font{juce::Component::getLookAndFeel().getTextButtonFont(button, button.getHeight())};
+   const auto font {
+       juce::Component::getLookAndFeel().getTextButtonFont(button, button.getHeight())};
    g.setFont(font);
    g.setColour(button
                    .findColour(button.getToggleState() ? juce::TextButton::textColourOnId
                                                        : juce::TextButton::textColourOffId)
                    .withMultipliedAlpha(button.isEnabled() ? 1.0f : 0.5f));
 
-   const auto y_indent = juce::jmin(4, button.proportionOfHeight(0.3f)); //-V112
-   const auto corner_size = juce::jmin(button.getHeight(), button.getWidth()) / 2;
+   const auto y_indent {juce::jmin(4, button.proportionOfHeight(0.3f))}; //-V112
+   const auto corner_size {juce::jmin(button.getHeight(), button.getWidth()) / 2};
 
-   const auto font_height = juce::roundToInt(font.getHeight() * 0.6f);
-   const auto left_indent =
-       juce::jmin(font_height, 2 + corner_size / (button.isConnectedOnLeft() ? 4 : 2)); //-V112
-   const auto right_indent =
-       juce::jmin(font_height, 2 + corner_size / (button.isConnectedOnRight() ? 4 : 2)); //-V112
-   const auto text_width = button.getWidth() - left_indent - right_indent;
+   const auto font_height {juce::roundToInt(font.getHeight() * 0.6f)};
+   const auto left_indent {
+       juce::jmin(font_height, 2 + corner_size / (button.isConnectedOnLeft() ? 4 : 2))}; //-V112
+   const auto right_indent {
+       juce::jmin(font_height, 2 + corner_size / (button.isConnectedOnRight() ? 4 : 2))}; //-V112
+   const auto text_width {button.getWidth() - left_indent - right_indent};
 
    if (text_width > 0)
       g.drawFittedText(button.getButtonText(), left_indent, y_indent, text_width,

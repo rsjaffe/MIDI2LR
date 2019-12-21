@@ -27,10 +27,10 @@ namespace {
    [[nodiscard]] std::string IntToVersion(unsigned int vers)
    {
       static_assert(std::is_unsigned_v<decltype(vers)>, "Avoid sign extension");
-      const auto major{vers >> 24 & 0xFFu};
-      const auto minor{vers >> 16 & 0xFFu};
-      const auto rev{vers >> 8 & 0xFFu};
-      const auto build{vers & 0xFFu};
+      const auto major {vers >> 24 & 0xFFu};
+      const auto minor {vers >> 16 & 0xFFu};
+      const auto rev {vers >> 8 & 0xFFu};
+      const auto build {vers & 0xFFu};
       return fmt::format("{}.{}.{}.{}", major, minor, rev, build);
    }
 } // namespace
@@ -56,7 +56,7 @@ void VersionChecker::handleAsyncUpdate()
           juce::translate("Download new version of MIDI2LR") + ' ' + IntToVersion(new_version_),
           nullptr, juce::ModalCallbackFunction::create([this](int result) {
              if (result) {
-                const auto git{juce::URL("https://github.com/rsjaffe/MIDI2LR/releases")};
+                const auto git {juce::URL("https://github.com/rsjaffe/MIDI2LR/releases")};
                 if (git.launchInDefaultBrowser())
                    /* successfully opened browser */
                    settings_manager_.SetLastVersionFound(new_version_);

@@ -57,9 +57,9 @@ namespace fs = std::filesystem;
 #include "VersionChecker.h"
 
 namespace {
-   constexpr auto kShutDownString{"--LRSHUTDOWN"};
-   constexpr auto kSettingsFileX("settings.xml");
-   constexpr auto kDefaultsFile{"default.xml"};
+   constexpr auto kShutDownString {"--LRSHUTDOWN"};
+   constexpr auto kSettingsFileX {"settings.xml"};
+   constexpr auto kDefaultsFile {"default.xml"};
 
    class UpdateCurrentLogger {
     public:
@@ -73,8 +73,8 @@ namespace {
    {
       static rsj::SpinLock terminate_mutex;
       try {
-         auto lock = std::scoped_lock(terminate_mutex);
-         if (const auto exc = std::current_exception()) {
+         auto lock {std::scoped_lock(terminate_mutex)};
+         if (const auto exc {std::current_exception()}) {
             /* we have an exception */
             try {
                /* throw to recognize the type */
@@ -97,7 +97,7 @@ namespace {
 /* global to install prior to program start order of initialization unimportant for this global
  * object */
 #pragma warning(suppress : 26426)
-   [[maybe_unused]] const auto kInstalled{std::set_terminate(&OnTerminate)};
+   [[maybe_unused]] const auto kInstalled {std::set_terminate(&OnTerminate)};
 } // namespace
 
 class MIDI2LRApplication final : public juce::JUCEApplication {
@@ -197,10 +197,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          std::call_once(of, [this] {
             if (profile_.ProfileUnsaved() && main_window_) {
                const juce::MessageManagerLock mmLock; /* this may be unnecessary */
-               const auto result = juce::NativeMessageBox::showYesNoBox(
+               const auto result {juce::NativeMessageBox::showYesNoBox(
                    juce::AlertWindow::WarningIcon, juce::translate("MIDI2LR profiles"),
                    juce::translate("Profile changed. Do you want to save your changes? If you "
-                                   "continue without saving, your changes will be lost."));
+                                   "continue without saving, your changes will be lost."))};
                if (result)
                   main_window_->SaveProfile();
             }
@@ -228,18 +228,18 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        * be valid. If the exception is of unknown type, this pointer will be null. */
       try {
          if (e) {
-            constexpr auto msge = "Unhandled exception {}, {} line {}. Total uncaught {}.";
-            const auto msgt = juce::translate("unhandled exception").toStdString()
-                              + " {}, {} line {}. Total uncaught {}.";
+            constexpr auto msge {"Unhandled exception {}, {} line {}. Total uncaught {}."};
+            const auto msgt {juce::translate("unhandled exception").toStdString()
+                             + " {}, {} line {}. Total uncaught {}."};
             rsj::LogAndAlertError(fmt::format(msgt, e->what(), source_filename.toStdString(),
                                       lineNumber, std::uncaught_exceptions()),
                 fmt::format(msge, e->what(), source_filename.toStdString(), lineNumber,
                     std::uncaught_exceptions()));
          }
          else {
-            constexpr auto msge = "Unhandled exception {} line {}. Total uncaught {}.";
-            const auto msgt = juce::translate("unhandled exception").toStdString()
-                              + " {} line {}. Total uncaught {}.";
+            constexpr auto msge {"Unhandled exception {} line {}. Total uncaught {}."};
+            const auto msgt {juce::translate("unhandled exception").toStdString()
+                             + " {} line {}. Total uncaught {}."};
             rsj::LogAndAlertError(fmt::format(msgt, source_filename.toStdString(), lineNumber,
                                       std::uncaught_exceptions()),
                 fmt::format(
@@ -258,8 +258,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    void DefaultProfileSave()
    {
       try {
-         const auto file_name = rsj::AppDataFilePath(kDefaultsFile);
-         const auto profile_file = juce::File(file_name.data());
+         const auto file_name {rsj::AppDataFilePath(kDefaultsFile)};
+         const auto profile_file {juce::File(file_name.data())};
          profile_.ToXmlFile(profile_file);
          rsj::Log(fmt::format(
              "Default profile saved to {}.", profile_file.getFullPathName().toStdString()));
@@ -274,14 +274,14 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    {
       try {
 #ifdef FILESYSTEM_AVAILABLE_MIDI2LR
-         const fs::path p{rsj::AppDataFilePath(kSettingsFileX)};
+         const fs::path p {rsj::AppDataFilePath(kSettingsFileX)};
 #else
-         const auto p = rsj::AppDataFilePath(kSettingsFileX);
+         const auto p {rsj::AppDataFilePath(kSettingsFileX)};
 #endif
-         std::ofstream outfile(p, std::ios::trunc);
+         std::ofstream outfile {p, std::ios::trunc};
          if (outfile.is_open()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
-            const auto oarchive = std::make_unique<cereal::XMLOutputArchive>(outfile);
+            const auto oarchive {std::make_unique<cereal::XMLOutputArchive>(outfile)};
             (*oarchive)(controls_model_);
 #ifdef FILESYSTEM_AVAILABLE_MIDI2LR
             rsj::Log(fmt::format("ControlsModel archive in Main saved to {}.", p.string()));
@@ -302,14 +302,14 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    {
       try {
 #ifdef FILESYSTEM_AVAILABLE_MIDI2LR
-         const fs::path px{rsj::AppDataFilePath(kSettingsFileX)};
+         const fs::path px {rsj::AppDataFilePath(kSettingsFileX)};
 #else
-         const auto px = rsj::AppDataFilePath(kSettingsFileX);
+         const auto px {rsj::AppDataFilePath(kSettingsFileX)};
 #endif
-         std::ifstream in_file(px);
+         std::ifstream in_file {px};
          if (in_file.is_open() && !in_file.eof()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
-            const auto iarchive = std::make_unique<cereal::XMLInputArchive>(in_file);
+            const auto iarchive {std::make_unique<cereal::XMLInputArchive>(in_file)};
             (*iarchive)(controls_model_);
 #ifdef FILESYSTEM_AVAILABLE_MIDI2LR
             rsj::Log(fmt::format("ControlsModel archive in Main loaded from {}.", px.string()));
@@ -341,7 +341,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        *        Fixed   Menlo            Lucida Console
        */
       try {
-         const auto& lang{command_set_.GetLanguage()};
+         const auto& lang {command_set_.GetLanguage()};
          if constexpr (MSWindows) {
             if (lang == "ko") {
                juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
@@ -390,24 +390,24 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    /* create logger first, makes sure that MIDI2LR directory is created for writing by other modules
     * log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX) need to own
     * pointer created by createDefaultAppLogger */
-   std::unique_ptr<juce::FileLogger> logger_{
+   std::unique_ptr<juce::FileLogger> logger_ {
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    /* forcing assignment to static early in construction */
-   [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_{logger_.get()};
-   const CommandSet command_set_{};
-   ControlsModel controls_model_{};
-   Profile profile_{command_set_};
-   MidiSender midi_sender_{};
-   MidiReceiver midi_receiver_{};
-   LrIpcOut lr_ipc_out_{controls_model_, profile_, midi_sender_, midi_receiver_};
-   ProfileManager profile_manager_{controls_model_, profile_, lr_ipc_out_, midi_receiver_};
-   LrIpcIn lr_ipc_in_{controls_model_, profile_manager_, profile_, midi_sender_};
-   SettingsManager settings_manager_{profile_manager_, lr_ipc_out_};
-   std::unique_ptr<MainWindow> main_window_{nullptr};
+   [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_ {logger_.get()};
+   const CommandSet command_set_ {};
+   ControlsModel controls_model_ {};
+   Profile profile_ {command_set_};
+   MidiSender midi_sender_ {};
+   MidiReceiver midi_receiver_ {};
+   LrIpcOut lr_ipc_out_ {controls_model_, profile_, midi_sender_, midi_receiver_};
+   ProfileManager profile_manager_ {controls_model_, profile_, lr_ipc_out_, midi_receiver_};
+   LrIpcIn lr_ipc_in_ {controls_model_, profile_manager_, profile_, midi_sender_};
+   SettingsManager settings_manager_ {profile_manager_, lr_ipc_out_};
+   std::unique_ptr<MainWindow> main_window_ {nullptr};
    /* destroy after window that uses it */
    juce::LookAndFeel_V3 look_feel_;
    /* initialize this last as it needs window to exist */
-   VersionChecker version_checker_{settings_manager_};
+   VersionChecker version_checker_ {settings_manager_};
 };
 
 /* This macro generates the main() routine that launches the application. */

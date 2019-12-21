@@ -46,7 +46,7 @@ namespace rsj {
    ActiveModifiers ActiveModifiers::FromWindows(int from) noexcept
    {
       /* shift coded as follows: 1: shift, 2: ctrl, 4: alt, 8: hankaku */
-      ActiveModifiers am{};
+      ActiveModifiers am {};
       am.alt_opt = from & 4;
       am.control = from & 2;
       am.hankaku = from & 8;
@@ -56,7 +56,7 @@ namespace rsj {
 
    ActiveModifiers ActiveModifiers::FromMidi2LR(int from) noexcept
    {
-      ActiveModifiers am{};
+      ActiveModifiers am {};
       am.alt_opt = from & 1;
       am.command = from & 8;
       am.control = from & 2;
@@ -69,10 +69,10 @@ namespace {
 #ifdef _WIN32
    HKL GetLanguage(const std::string& program_name)
    {
-      const auto h_lr_wnd = FindWindowA(nullptr, program_name.c_str());
+      const auto h_lr_wnd {FindWindowA(nullptr, program_name.c_str())};
       if (h_lr_wnd) {
          /* get language that LR is using (if hLrWnd is found) */
-         const auto thread_id = GetWindowThreadProcessId(h_lr_wnd, nullptr);
+         const auto thread_id {GetWindowThreadProcessId(h_lr_wnd, nullptr)};
          return GetKeyboardLayout(thread_id);
       }
       /* FindWindowA failed */
@@ -84,7 +84,7 @@ namespace {
    SHORT VkKeyScanExWErrorChecked(_In_ WCHAR ch, _In_ HKL dwhkl)
    {
       try {
-         const auto vk_code_and_shift = VkKeyScanExW(ch, dwhkl);
+         const auto vk_code_and_shift {VkKeyScanExW(ch, dwhkl)};
          if (vk_code_and_shift == 0xffff) //-V547
             throw std::runtime_error(
                 fmt::format("VkKeyScanExW failed with error code: {}.", GetLastError()));
@@ -99,9 +99,9 @@ namespace {
    std::pair<BYTE, rsj::ActiveModifiers> KeyToVk(std::string_view key)
    {
       try {
-         const auto uc{rsj::Utf8ToWide(key).at(0)};
-         static const auto kLanguageId = GetLanguage("Lightroom");
-         const auto vk_code_and_shift = VkKeyScanExWErrorChecked(uc, kLanguageId);
+         const auto uc {rsj::Utf8ToWide(key).at(0)};
+         static const auto kLanguageId {GetLanguage("Lightroom")};
+         const auto vk_code_and_shift {VkKeyScanExWErrorChecked(uc, kLanguageId)};
          return {LOBYTE(vk_code_and_shift),
              rsj::ActiveModifiers::FromWindows(HIBYTE(vk_code_and_shift))};
       }
@@ -115,7 +115,7 @@ namespace {
        _In_ UINT cinputs, _In_reads_(cinputs) LPINPUT pinputs, _In_ int cbSize)
    {
       try {
-         const auto result = SendInput(cinputs, pinputs, cbSize);
+         const auto result {SendInput(cinputs, pinputs, cbSize)};
          if (result == 0)
             throw std::runtime_error(
                 fmt::format("SendInput failed with error code: {}.", GetLastError()));
@@ -132,15 +132,15 @@ namespace {
    {
       try {
          /* construct input event. */
-         INPUT ip{};
-         constexpr int size_ip = sizeof ip;
+         INPUT ip {};
+         constexpr int size_ip {sizeof ip};
          ip.type = INPUT_KEYBOARD;
          /* ki: wVk, wScan, dwFlags, time, dwExtraInfo */
          ip.ki = {0, 0, 0, 0, 0};
 
          /* send key down strokes */
-         static std::mutex mutex_sending{};
-         auto lock = std::scoped_lock(mutex_sending);
+         static std::mutex mutex_sending {};
+         auto lock {std::scoped_lock(mutex_sending)};
          for (const auto it : rsj::Reverse(strokes)) {
             ip.ki.wVk = it;
             SendInputErrorChecked(1, &ip, size_ip);
@@ -161,10 +161,10 @@ namespace {
    pid_t GetPid()
    {
       try {
-         static const std::string kLr{".app/Contents/MacOS/Adobe Lightroom"};
-         static const std::string kLrc{".app/Contents/MacOS/Adobe Lightroom Classic"};
+         static const std::string kLr {".app/Contents/MacOS/Adobe Lightroom"};
+         static const std::string kLrc {".app/Contents/MacOS/Adobe Lightroom Classic"};
          /* add 20 in case more processes show up */
-         const int number_processes{proc_listpids(PROC_ALL_PIDS, 0, nullptr, 0) + 20};
+         const int number_processes {proc_listpids(PROC_ALL_PIDS, 0, nullptr, 0) + 20};
          std::vector<pid_t> pids(number_processes, 0);
          proc_listpids(
              PROC_ALL_PIDS, 0, pids.data(), gsl::narrow_cast<int>(sizeof(pids[0]) * pids.size()));
@@ -191,9 +191,9 @@ namespace {
    std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c)
    {
       try {
-         static const std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map{
+         static const std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map {
              rsj::GetKeyMap()};
-         const auto result = char_code_map.find(c);
+         const auto result {char_code_map.find(c)};
          if (result != char_code_map.end())
             return result->second;
          else
@@ -208,16 +208,16 @@ namespace {
    void MacKeyDownUp(pid_t lr_pid, CGKeyCode vk, CGEventFlags flags)
    {
       try {
-         CGEventRef d = CGEventCreateKeyboardEvent(nullptr, vk, true);
-         auto dd = gsl::finally([&d] {
+         CGEventRef d {CGEventCreateKeyboardEvent(nullptr, vk, true)};
+         auto dd {gsl::finally([&d] {
             if (d)
                CFRelease(d);
-         });
-         CGEventRef u = CGEventCreateKeyboardEvent(nullptr, vk, false);
-         auto du = gsl::finally([&u] {
+         })};
+         CGEventRef u {CGEventCreateKeyboardEvent(nullptr, vk, false)};
+         auto du {gsl::finally([&u] {
             if (u)
                CFRelease(u);
-         });
+         })};
          CGEventSetFlags(d, flags);
          CGEventSetFlags(u, flags);
          CGEventPostToPid(lr_pid, d);
@@ -233,7 +233,7 @@ namespace {
 #endif
 
 #pragma warning(suppress : 4244 26426) /* assigned to char intentionally */
-   const std::unordered_map<std::string, unsigned char> kKeyMap = {
+   const std::unordered_map<std::string, unsigned char> kKeyMap {
 #ifdef _WIN32
        {"backspace", VK_BACK}, {"cursor down", VK_DOWN}, {"cursor left", VK_LEFT},
        {"cursor right", VK_RIGHT}, {"cursor up", VK_UP}, {"delete", VK_DELETE}, {"end", VK_END},
@@ -275,18 +275,18 @@ namespace {
 void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexcept
 {
    try {
-      const auto mapped_key = kKeyMap.find(rsj::ToLower(key));
-      const auto in_keymap = mapped_key != kKeyMap.end();
+      const auto mapped_key {kKeyMap.find(rsj::ToLower(key))};
+      const auto in_keymap {mapped_key != kKeyMap.end()};
 #ifdef _WIN32
-      BYTE vk = 0;
-      rsj::ActiveModifiers vk_mod{};
+      BYTE vk {0};
+      rsj::ActiveModifiers vk_mod {};
       if (in_keymap)
          vk = mapped_key->second;
       else
          /* Translate key code to keyboard-dependent scan code, may be UTF-8 */
          std::tie(vk, vk_mod) = KeyToVk(key);
       /* construct virtual keystroke sequence */
-      std::vector<WORD> strokes{vk};
+      std::vector<WORD> strokes {vk};
       /* start with actual key, then mods */
       if (mods.shift || vk_mod.shift)
          strokes.push_back(VK_SHIFT);
@@ -309,19 +309,19 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
       //   strokes.push_back(VK_OEM_AUTO);
       WinSendKeyStrokes(strokes);
 #else
-      static const pid_t lr_pid{GetPid()};
+      static const pid_t lr_pid {GetPid()};
       if (!lr_pid) {
          rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp.");
          return;
       }
-      CGKeyCode vk{0};
-      CGEventFlags flags{0};
+      CGKeyCode vk {0};
+      CGEventFlags flags {0};
       if (in_keymap) {
          vk = mapped_key->second;
       }
       else {
-         const UniChar uc{rsj::Utf8ToUtf16(key)};
-         const auto key_code_result = KeyCodeForChar(uc);
+         const UniChar uc {rsj::Utf8ToUtf16(key)};
+         const auto key_code_result {KeyCodeForChar(uc)};
          if (!key_code_result) {
             rsj::LogAndAlertError(fmt::format("Unsupported character was used: \"{}\".", key));
             return;

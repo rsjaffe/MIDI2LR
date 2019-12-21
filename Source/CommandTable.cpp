@@ -25,9 +25,9 @@
 
 CommandTable::CommandTable(const juce::String& component_name, CommandTableModel* model)
 try : juce
-   ::TableListBox{component_name, model}
+   ::TableListBox {component_name, model}
    {
-      auto head = std::make_unique<juce::TableHeaderComponent>();
+      auto head {std::make_unique<juce::TableHeaderComponent>()};
       juce::TableListBox::setHeader(head.release());
       juce::TableListBox::getHeader().addColumn(juce::translate("MIDI Command"), 1, 150, 30, -1,
           juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable);
@@ -43,12 +43,12 @@ catch (const std::exception& e) {
 bool CommandTable::keyPressed(const juce::KeyPress& k)
 {
    try {
-      const auto key_pressed = k.getKeyCode();
+      const auto key_pressed {k.getKeyCode()};
       if (key_pressed == juce::KeyPress::deleteKey) {
          if (juce::ListBox::getSelectedRow() != -1) {
-            const auto last =
-                juce::ListBox::getSelectedRow() == juce::TableListBox::getNumRows() - 1;
-            if (const auto ptr = dynamic_cast<CommandTableModel*>(juce::TableListBox::getModel()))
+            const auto last {
+                juce::ListBox::getSelectedRow() == juce::TableListBox::getNumRows() - 1};
+            if (const auto ptr {dynamic_cast<CommandTableModel*>(juce::TableListBox::getModel())})
                ptr->RemoveRow(gsl::narrow_cast<size_t>(juce::ListBox::getSelectedRow()));
             juce::ListBox::updateContent();
             if (last)

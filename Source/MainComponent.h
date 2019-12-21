@@ -58,29 +58,29 @@ class MainContentComponent final :
    void StandardLabelSettings(juce::Label& label_to_set);
    void timerCallback() override;
 
-   CommandTable command_table_{"Table", nullptr};
+   CommandTable command_table_ {"Table", nullptr};
    CommandTableModel command_table_model_;
    juce::DropShadowEffect title_shadow_;
-   juce::Label command_label_{"Command", ""};
-   juce::Label connection_label_{"Connection", juce::translate("Not connected to Lightroom")};
-   juce::Label profile_name_label_{"ProfileNameLabel", ""};
-   juce::Label title_label_{"Title", "MIDI2LR"};
-   juce::Label version_label_{
-       "Version", juce::translate("Version ") + juce::String{ProjectInfo::versionString}};
+   juce::Label command_label_ {"Command", ""};
+   juce::Label connection_label_ {"Connection", juce::translate("Not connected to Lightroom")};
+   juce::Label profile_name_label_ {"ProfileNameLabel", ""};
+   juce::Label title_label_ {"Title", "MIDI2LR"};
+   juce::Label version_label_ {
+       "Version", juce::translate("Version ") + juce::String {ProjectInfo::versionString}};
    juce::String last_command_;
-   juce::TextButton disconnect_button_{juce::translate("Halt sending to Lightroom")};
-   juce::TextButton load_button_{juce::translate("Load")};
-   juce::TextButton remove_row_button_{juce::translate("Clear ALL rows")};
-   juce::TextButton rescan_button_{juce::translate("Rescan MIDI devices")};
-   juce::TextButton save_button_{juce::translate("Save")};
-   juce::TextButton settings_button_{juce::translate("Settings")};
+   juce::TextButton disconnect_button_ {juce::translate("Halt sending to Lightroom")};
+   juce::TextButton load_button_ {juce::translate("Load")};
+   juce::TextButton remove_row_button_ {juce::translate("Clear ALL rows")};
+   juce::TextButton rescan_button_ {juce::translate("Rescan MIDI devices")};
+   juce::TextButton save_button_ {juce::translate("Save")};
+   juce::TextButton settings_button_ {juce::translate("Settings")};
    LrIpcOut& lr_ipc_out_;
    MidiReceiver& midi_receiver_;
    MidiSender& midi_sender_;
    Profile& profile_;
    ProfileManager& profile_manager_;
    SettingsManager& settings_manager_;
-   size_t row_to_select_{0};
+   size_t row_to_select_ {0};
    std::unique_ptr<juce::DialogWindow> settings_dialog_;
 };
 

@@ -33,15 +33,15 @@
 using namespace std::literals::chrono_literals;
 
 namespace {
-   constexpr auto kEmptyWait = 100ms;
-   constexpr auto kLrInPort = 58764;
-   constexpr auto kTerminate = "MBxegp3VXilFy0";
+   constexpr auto kEmptyWait {100ms};
+   constexpr auto kLrInPort {58764};
+   constexpr auto kTerminate {"MBxegp3VXilFy0"};
 } // namespace
 
 LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const Profile& profile,
     const MidiSender& midi_sender)
-    : midi_sender_{midi_sender}, profile_{profile}, controls_model_{c_model}, profile_manager_{
-                                                                                  profile_manager}
+    : midi_sender_ {midi_sender}, profile_ {profile}, controls_model_ {c_model},
+      profile_manager_ {profile_manager}
 {
 }
 
@@ -85,7 +85,7 @@ void LrIpcIn::Stop()
                rsj::Log(fmt::format("LR_IPC_In socket close error {}.", ec.message()));
          }
          /* pump input queue after port closed */
-         if (const auto m = line_.clear_count_emplace(kTerminate))
+         if (const auto m {line_.clear_count_emplace(kTerminate)})
             rsj::Log(fmt::format("{} left in queue in LrIpcIn destructor.", m));
       });
    }
@@ -123,10 +123,10 @@ namespace {
    std::pair<std::string_view, std::string_view> SplitLine(std::string_view msg)
    {
       rsj::Trim(msg);
-      const auto first_delimiter{msg.find_first_of(" \t\n")};
-      auto value_view{msg.substr(first_delimiter + 1)};
+      const auto first_delimiter {msg.find_first_of(" \t\n")};
+      auto value_view {msg.substr(first_delimiter + 1)};
       rsj::TrimL(value_view);
-      const auto command_view{msg.substr(0, first_delimiter)};
+      const auto command_view {msg.substr(0, first_delimiter)};
       return {command_view, value_view};
    }
 } // namespace
@@ -135,11 +135,11 @@ void LrIpcIn::ProcessLine()
 {
    try {
       do {
-         const auto line_copy{line_.pop()};
+         const auto line_copy {line_.pop()};
          if (line_copy == kTerminate)
             return;
-         auto [command_view, value_view] = SplitLine(line_copy);
-         const auto command{std::string(command_view)};
+         auto [command_view, value_view] {SplitLine(line_copy)};
+         const auto command {std::string(command_view)};
          if (command == "TerminateApplication") {
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
             return;
@@ -155,9 +155,9 @@ void LrIpcIn::ProcessLine()
             rsj::Log(fmt::format("Plugin: {}.", value_view));
          }
          else if (command == "SendKey") {
-            const auto modifiers = std::stoi(std::string(value_view));
+            const auto modifiers {std::stoi(std::string(value_view))};
             /* trim twice on purpose: first modifiers digits, then one space (fixed delimiter) */
-            const auto first_not_digit{value_view.find_first_not_of("0123456789")};
+            const auto first_not_digit {value_view.find_first_not_of("0123456789")};
             if (first_not_digit != std::string_view::npos) {
                value_view.remove_prefix(first_not_digit + 1);
                if (!value_view.empty()) {
@@ -173,10 +173,10 @@ void LrIpcIn::ProcessLine()
          }
          else {
             /* send associated messages to MIDI OUT devices */
-            const auto original_value = std::stod(std::string(value_view));
+            const auto original_value {std::stod(std::string(value_view))};
             for (const auto& msg : profile_.GetMessagesForCommand(command)) {
                /* following needs to run for all controls: sets saved value */
-               const auto value = controls_model_.PluginToController(msg, original_value);
+               const auto value {controls_model_.PluginToController(msg, original_value)};
                if (msg.msg_id_type != rsj::MessageType::Cc
                    || controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute)
                   midi_sender_.Send(msg, value);
@@ -202,7 +202,7 @@ void LrIpcIn::Read()
                       if (!bytes_transferred)
                          [[unlikely]] std::this_thread::sleep_for(kEmptyWait);
                       else {
-                         std::string command{buffers_begin(streambuf_.data()),
+                         std::string command {buffers_begin(streambuf_.data()),
                              buffers_begin(streambuf_.data()) + bytes_transferred};
                          if (command == "TerminateApplication 1\n")
                             thread_should_exit_.store(true, std::memory_order_release);
