@@ -22,16 +22,6 @@
 
 #include "Misc.h"
 
-UniChar rsj::Utf8ToUtf16(const std::string& param)
-{
-   if (!param.empty()) {
-      NSString* result {@(param.c_str())};
-      UniChar ch {[result characterAtIndex:0]};
-      return ch;
-   }
-   return 0;
-}
-
 std::string rsj::AppDataMac()
 {
    NSString* result {(@"~/Library/Application Support/MIDI2LR").stringByExpandingTildeInPath};

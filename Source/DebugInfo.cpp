@@ -16,13 +16,13 @@
 #include "DebugInfo.h"
 
 #include <exception>
+#include <ww898/utf_converters.hpp>
 
 #ifdef _WIN32
 #include <array>
 #include <fmt/format.h>
 #include <string>
 #include <unordered_map>
-
 #include "WinDef.h"
 #undef NOUSER
 #include <Windows.h>
@@ -175,15 +175,10 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
               .toStdString()));
       LogAndSave(
           fmt::format("Application: Profile directory {}.", profile_directory.toStdString()));
-#ifdef _WIN32
       LogAndSave(fmt::format(
-          "Application: Log file directory {}.", rsj::WideToUtf8(rsj::AppLogFilePath(L""))));
-      LogAndSave(fmt::format(
-          "Application: Settings file directory {}.", rsj::WideToUtf8(rsj::AppDataFilePath(L""))));
-#else
-      LogAndSave(fmt::format("Application: Log file directory {}.", rsj::AppLogFilePath("")));
-      LogAndSave(fmt::format("Application: Settings file directory {}.", rsj::AppDataFilePath("")));
-#endif
+          "Application: Log file directory {}.", ww898::utf::conv<char>(rsj::AppLogFilePath(""))));
+      LogAndSave(fmt::format("Application: Settings file directory {}.",
+          ww898::utf::conv<char>(rsj::AppDataFilePath(""))));
    }
    catch (...) {
       try {

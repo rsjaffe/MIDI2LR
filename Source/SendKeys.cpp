@@ -21,6 +21,7 @@
 #include <unordered_map>
 #include <vector>
 #include <fmt/format.h>
+#include <ww898/utf_converters.hpp>
 
 #include "Misc.h"
 #ifdef _WIN32
@@ -40,6 +41,7 @@
 #include "Ocpp.h"
 #include <JuceLibraryCode/JuceHeader.h> //creates ambiguous reference to Point if included before Mac headers
 #include <gsl/gsl>
+
 #endif
 
 namespace rsj {
@@ -99,7 +101,7 @@ namespace {
    std::pair<BYTE, rsj::ActiveModifiers> KeyToVk(std::string_view key)
    {
       try {
-         const auto uc {rsj::Utf8ToWide(key).at(0)};
+         const auto uc {ww898::utf::conv<wchar_t>(key).front()};
          static const auto kLanguageId {GetLanguage("Lightroom")};
          const auto vk_code_and_shift {VkKeyScanExWErrorChecked(uc, kLanguageId)};
          return {LOBYTE(vk_code_and_shift),
@@ -320,7 +322,7 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
          vk = mapped_key->second;
       }
       else {
-         const UniChar uc {rsj::Utf8ToUtf16(key)};
+         const UniChar uc {ww898::utf::conv<char16_t>(key).front()};
          const auto key_code_result {KeyCodeForChar(uc)};
          if (!key_code_result) {
             rsj::LogAndAlertError(fmt::format("Unsupported character was used: \"{}\".", key));

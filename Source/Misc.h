@@ -119,8 +119,6 @@ namespace rsj {
    {
       return AppDataFilePath(file_name);
    }
-   [[nodiscard]] std::wstring Utf8ToWide(std::string_view in);
-   [[nodiscard]] std::string WideToUtf8(std::wstring_view in);
 #else
    [[nodiscard]] std::string AppDataFilePath(const std::string& file_name);
    [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);

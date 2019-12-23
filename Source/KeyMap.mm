@@ -51,15 +51,15 @@ namespace {
    }
 
    std::shared_mutex mtx; /* since following are filled in in Message Loop asynchronously */
-   std::string source_id_string;
-   std::string localized_name_string;
-   std::string lang_string;
+   std::string source_id_string {};
+   std::string localized_name_string {};
+   std::string lang_string {};
    std::unordered_map<UniChar, std::pair<size_t, bool>> key_map {};
 } // namespace
 
 void rsj::FillInMessageLoop()
 {
-   std::unique_lock lock(mtx);
+   std::unique_lock lock {mtx};
    TISInputSourceRef source {TISCopyCurrentKeyboardInputSource()};
    if (!source)
       source = TISCopyCurrentKeyboardLayoutInputSource();
@@ -123,14 +123,14 @@ void rsj::FillInMessageLoop()
 
 std::unordered_map<UniChar, std::pair<size_t, bool>> rsj::GetKeyMap()
 {
-   std::shared_lock lock(mtx);
+   std::shared_lock lock {mtx};
    return key_map;
 }
 
 std::string rsj::GetKeyboardLayout()
 {
-   std::shared_lock lock(mtx);
-   std::string result;
+   std::shared_lock lock {mtx};
+   std::string result {};
    if (!source_id_string.empty())
       result = "Id " + source_id_string;
    if (!localized_name_string.empty())
