@@ -84,4 +84,4 @@ class MainContentComponent final :
    std::unique_ptr<juce::DialogWindow> settings_dialog_;
 };
 
-#endif // MAINCOMPONENT_H_INCLUDED
+#endif

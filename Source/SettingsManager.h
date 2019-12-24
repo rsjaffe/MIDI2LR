@@ -73,4 +73,4 @@ class SettingsManager final {
    std::unique_ptr<juce::PropertiesFile> properties_file_;
 };
 
-#endif // SETTINGSMANAGER_H_INCLUDED
+#endif

@@ -186,7 +186,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       juce::Logger::setCurrentLogger(nullptr);
    }
 
-   //==========================================================================
    void systemRequestedQuit() override
    {
       /*This is called when the application is being asked to quit: you can ignore this request

@@ -39,7 +39,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
          if (i_ref.ready_flags_ >= 0b11) {
             ret_val.is_nrpn = true;
             i_ref.value_msb_ = message.value & 0x7F;
-            i_ref.ready_flags_ |= 0b100; //"Magic number" false alarm //-V112
+            i_ref.ready_flags_ |= 0b100; //-V112
             if (i_ref.ready_flags_ == 0b1111) {
                ret_val.is_ready = true;
                ret_val.control = (i_ref.control_msb_ << 7) + i_ref.control_lsb_;

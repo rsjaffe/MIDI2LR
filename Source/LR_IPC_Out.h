@@ -79,4 +79,4 @@ class LrIpcOut {
    std::vector<std::function<void(bool, bool)>> callbacks_ {};
 };
 
-#endif // LR_IPC_OUT_H_INCLUDED
+#endif

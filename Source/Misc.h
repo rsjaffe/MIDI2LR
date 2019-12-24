@@ -15,7 +15,7 @@
  * see <http://www.gnu.org/licenses/>.
  *
  */
-//-V813_MINSIZE=13 //warn if passing structure by value > 12 bytes (3*sizeof(int))
+//-V813_MINSIZE=13 /* warn if passing structure by value > 12 bytes (3*sizeof(int)) */
 
 #include <chrono>
 #include <exception>
@@ -23,7 +23,7 @@
 #include <string>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <string_view>
-#include <thread>      //sleep_for
+#include <thread>      /* sleep_for */
 #include <xmmintrin.h> /* for rounding intrinsics */
 #include <fmt/format.h>
 
@@ -122,7 +122,7 @@ namespace rsj {
 #else
    [[nodiscard]] std::string AppDataFilePath(const std::string& file_name);
    [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);
-#endif // def _WIN32
+#endif
    /*****************************************************************************/
    /**************Reversed Iterator**********************************************/
    /* Reversed iterable SEE:https://stackoverflow.com/a/42221253/5699329 */
@@ -244,4 +244,4 @@ namespace rsj {
    }
 } // namespace rsj
 
-#endif // MISC_H_INCLUDED
+#endif

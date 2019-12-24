@@ -55,4 +55,4 @@ class LrIpcIn {
    std::future<void> process_line_future_;
 };
 
-#endif // LR_IPC_IN_H_INCLUDED
+#endif

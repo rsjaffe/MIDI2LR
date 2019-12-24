@@ -15,7 +15,7 @@
  * see <http://www.gnu.org/licenses/>.
  *
  */
-//-V813_MINSIZE=13 //warn if passing structure by value > 12 bytes (3*sizeof(int))
+//-V813_MINSIZE=13 /* warn if passing structure by value > 12 bytes (3*sizeof(int)) */
 
 #include <map>
 #include <shared_mutex>
@@ -134,4 +134,4 @@ inline size_t Profile::Size() const
    return command_table_.size();
 }
 
-#endif // MIDI2LR_PROFILE_H_INCLUDED
+#endif

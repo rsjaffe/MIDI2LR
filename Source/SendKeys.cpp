@@ -22,6 +22,7 @@
 #include <vector>
 #include <fmt/format.h>
 #include <ww898/utf_converters.hpp>
+#include <gsl/gsl>
 
 #include "Misc.h"
 #ifdef _WIN32
@@ -37,9 +38,9 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <Carbon/Carbon.h>
-#include <libproc.h> //proc_ functions in GetPid
+#include <libproc.h> /* proc_ functions in GetPid */
 #include "Ocpp.h"
-#include <JuceLibraryCode/JuceHeader.h> //creates ambiguous reference to Point if included before Mac headers
+#include <JuceLibraryCode/JuceHeader.h> /*creates ambiguous reference to Point if included before Mac headers*/
 #include <gsl/gsl>
 
 #endif
@@ -277,6 +278,7 @@ namespace {
 void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexcept
 {
    try {
+      Expects(!key.empty(),"Key is empty in SendKeyDownUp.");
       const auto mapped_key {kKeyMap.find(rsj::ToLower(key))};
       const auto in_keymap {mapped_key != kKeyMap.end()};
 #ifdef _WIN32
@@ -307,8 +309,8 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
       }
       /* ignored for now
        * SEE:https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values */
-      // if (vk_mod.hankaku)
-      //   strokes.push_back(VK_OEM_AUTO);
+      /* if (vk_mod.hankaku)
+         strokes.push_back(VK_OEM_AUTO); */
       WinSendKeyStrokes(strokes);
 #else
       static const pid_t lr_pid {GetPid()};

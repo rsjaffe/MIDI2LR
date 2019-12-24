@@ -55,7 +55,7 @@ void SettingsComponent::Init()
       pickup_enabled_.setToggleState(
           settings_manager_.GetPickupEnabled(), juce::NotificationType::dontSendNotification);
       pickup_enabled_.setBounds(kSettingsLeft, 60, kSettingsWidth - 2 * kSettingsLeft,
-          32); //"Magic number" 32 false alarm //-V112
+          32); //-V112
       addToLayout(&pickup_enabled_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(pickup_enabled_);
       pickup_enabled_.onClick = [this] {
@@ -135,7 +135,7 @@ void SettingsComponent::Init()
 void SettingsComponent::paint(juce::Graphics& g)
 { //-V2009 overridden method
    try {
-      g.fillAll(juce::Colours::white); // clear the background
+      g.fillAll(juce::Colours::white); /* clear the background */
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);

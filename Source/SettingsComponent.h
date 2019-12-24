@@ -44,4 +44,4 @@ class SettingsComponent final : public juce::Component, ResizableLayout {
    SettingsManager& settings_manager_;
 };
 
-#endif // SETTINGSCOMPONENT_H_INCLUDED
+#endif

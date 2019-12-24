@@ -17,7 +17,7 @@
  */
 #include <functional>
 #include <future>
-#include <map> //map faster than unordered_map for very few members
+#include <map> /* map faster than unordered_map for very few members */
 #include <memory>
 #include <vector>
 
@@ -64,4 +64,4 @@ class MidiReceiver final : juce::MidiInputCallback {
    std::vector<std::unique_ptr<juce::MidiInput>> devices_;
 };
 
-#endif // MIDI2LR_MIDIRECEIVER_H_INCLUDED
+#endif

@@ -25,7 +25,7 @@ namespace juce {
 namespace rsj {
    struct MidiMessageId;
 }
-//-V813_MINSIZE=13 //warn if passing structure by value > 12 bytes (3*sizeof(int))
+//-V813_MINSIZE=13 /* warn if passing structure by value > 12 bytes (3*sizeof(int)) */
 
 /* juce MIDI send functions have 1-based channel, so does rsj::MidiMessageId */
 class MidiSender {
@@ -40,4 +40,4 @@ class MidiSender {
    std::vector<std::unique_ptr<juce::MidiOutput>> output_devices_;
 };
 
-#endif // MIDISENDER_H_INCLUDED
+#endif

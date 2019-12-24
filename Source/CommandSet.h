@@ -111,4 +111,4 @@ class CommandSet {
 #pragma warning(disable : 26426 26440 26444)
 CEREAL_CLASS_VERSION(CommandSet::Impl, 1)
 #pragma warning(pop)
-#endif // MIDI2LR_COMMANDSET_H_INCLUDED
+#endif

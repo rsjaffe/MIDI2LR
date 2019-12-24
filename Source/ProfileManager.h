@@ -83,4 +83,4 @@ class ProfileManager final : juce::AsyncUpdater {
    SwitchState switch_state_ {SwitchState::kNone};
 };
 
-#endif // PROFILEMANAGER_H_INCLUDED
+#endif

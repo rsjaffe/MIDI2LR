@@ -41,4 +41,4 @@ class VersionChecker final : juce::AsyncUpdater {
    std::future<void> run_future_;
 };
 
-#endif // VERSIONCHECKER_H_INCLUDED
+#endif

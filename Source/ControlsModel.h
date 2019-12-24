@@ -15,7 +15,7 @@
  * see <http://www.gnu.org/licenses/>.
  *
  */
-//-V813_MINSIZE=13 //warn if passing structure by value > 12 bytes (3*sizeof(int))
+//-V813_MINSIZE=13 /*warn if passing structure by value > 12 bytes (3*sizeof(int)) */
 #include <array>
 #include <atomic>
 #include <exception>
