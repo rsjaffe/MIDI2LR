@@ -52,7 +52,7 @@ local function setOptions()
         bind_to_object = properties, -- default bound table
         f:tab_view {
           f:tab_view_item{
-            title = LOC("$$$/CRaw/Style/Profiles=Profiles"),
+            title = LOC("$$$/CRaw/Style/ProfileGroup/Profiles=Profile"),
             identifier = 'profiles',
             Profiles.StartDialog(properties,f),
           },

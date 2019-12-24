@@ -76,11 +76,11 @@ for _,k in ipairs(completion) do
   legalanswers[k] = true
 end
 
-local control, alt, command
+local alt, command
 local shift = LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Shift=Shift")
-control = LOC("$$$/AgBezels/KeyRemapping/WinControl=Control")
+local control = LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Ctrl=Ctrl")
 if(WIN_ENV) then
-  alt = LOC("$$$/AgBezels/KeyRemapping/WinAlt=Alt")
+  alt = LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Alt=Alt")
 else
   command = LOC("$$$/AgBezels/KeyRemapping/MacCommand=Command")
   alt = LOC("$$$/AgBezels/KeyRemapping/MacOption=Option")
