@@ -19,6 +19,7 @@
 #include <string>
 
 #include <gsl/gsl>
+
 #include "ControlsModel.h"
 #include "LR_IPC_Out.h"
 #include "MIDIReceiver.h"

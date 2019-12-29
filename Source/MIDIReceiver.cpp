@@ -17,6 +17,7 @@
 
 #include <chrono>
 #include <exception>
+
 #include <fmt/format.h>
 
 #include "Misc.h"

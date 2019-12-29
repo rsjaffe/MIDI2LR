@@ -17,6 +17,7 @@
  */
 #include <atomic>
 #include <future>
+
 #include <JuceLibraryCode/JuceHeader.h>
 class SettingsManager;
 

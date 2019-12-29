@@ -18,11 +18,13 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <fmt/format.h>
 
 #include <cereal/access.hpp>
 #include <cereal/types/utility.hpp>
+#include <fmt/format.h>
+
 #include <JuceLibraryCode/JuceHeader.h>
+
 #include "Misc.h"
 
 class CommandSet {

@@ -22,6 +22,7 @@
 #include <vector>
 
 #include <asio.hpp>
+
 #include "Concurrency.h"
 #include "MidiUtilities.h"
 class ControlsModel;

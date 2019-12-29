@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <cctype>
+
 #include <ww898/utf_converters.hpp>
 
 #ifdef _WIN32

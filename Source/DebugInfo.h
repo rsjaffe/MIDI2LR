@@ -19,6 +19,7 @@
 #include <vector>
 
 #include <JuceLibraryCode/JuceHeader.h>
+
 #include "Misc.h"
 
 class DebugInfo {

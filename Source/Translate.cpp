@@ -20,6 +20,7 @@
 #include <memory>
 
 #include <JuceLibraryCode/JuceHeader.h>
+
 #include "Misc.h"
 #include "Translate.txt"
 /* char8_t currently in MSVC, not Xcode. Breaking change, so need to address here. */

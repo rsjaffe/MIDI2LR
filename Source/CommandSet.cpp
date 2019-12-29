@@ -16,6 +16,7 @@
 #include "CommandSet.h"
 
 #include <exception>
+
 #include <fmt/format.h>
 #ifndef _WIN32
 #include <AvailabilityMacros.h>
@@ -36,10 +37,8 @@ namespace fs = std::filesystem;
 #include <memory>
 
 #include <cereal/archives/xml.hpp>
-// ReSharper disable CppUnusedIncludeDirective
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
-// ReSharper restore CppUnusedIncludeDirective
 
 CommandSet::CommandSet() : m_impl_(MakeImpl())
 {

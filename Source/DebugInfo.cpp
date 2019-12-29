@@ -16,16 +16,20 @@
 #include "DebugInfo.h"
 
 #include <exception>
+
 #include <ww898/utf_converters.hpp>
 
 #ifdef _WIN32
 #include <array>
-#include <fmt/format.h>
 #include <string>
 #include <unordered_map>
+
+#include <fmt/format.h>
+
 #include "WinDef.h"
 #undef NOUSER
 #include <Windows.h>
+
 #include "Misc.h"
 
 /* SEE:https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values

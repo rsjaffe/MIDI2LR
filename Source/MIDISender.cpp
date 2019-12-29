@@ -16,10 +16,12 @@
 #include "MIDISender.h"
 
 #include <exception>
-#include <fmt/format.h>
 
+#include <fmt/format.h>
 #include <gsl/gsl>
+
 #include <JuceLibraryCode/JuceHeader.h>
+
 #include "MidiUtilities.h"
 #include "Misc.h"
 

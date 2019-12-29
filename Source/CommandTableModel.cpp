@@ -16,10 +16,11 @@
 #include "CommandTableModel.h"
 
 #include <exception>
-#include <fmt/format.h>
 #include <utility>
 
+#include <fmt/format.h>
 #include <gsl/gsl>
+
 #include "CommandMenu.h"
 #include "Misc.h"
 

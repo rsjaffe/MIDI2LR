@@ -16,6 +16,7 @@
  *
  */
 #include <JuceLibraryCode/JuceHeader.h>
+
 #include "ResizableLayout.h"
 class SettingsManager;
 

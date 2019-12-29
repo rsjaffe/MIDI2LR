@@ -20,6 +20,7 @@
 #include <string>
 
 #include <asio.hpp>
+
 #include "Concurrency.h"
 class ControlsModel;
 class MidiSender;

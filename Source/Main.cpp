@@ -18,6 +18,7 @@
 #include <fstream>
 #include <memory>
 #include <mutex>
+
 #include <fmt/format.h>
 
 #ifndef _WIN32
@@ -37,21 +38,22 @@ namespace fs = std::filesystem;
 #endif
 
 #include <cereal/archives/xml.hpp>
+
 #include <JuceLibraryCode/JuceHeader.h>
+
 #include "CCoptions.h"
 #include "CommandSet.h"
 #include "ControlsModel.h"
 #include "LR_IPC_In.h"
 #include "LR_IPC_Out.h"
-#include "MainWindow.h"
 #include "MIDIReceiver.h"
 #include "MIDISender.h"
+#include "MainWindow.h"
 #include "Misc.h"
-// ReSharper disable once CppUnusedIncludeDirective
 #include "Ocpp.h"
+#include "PWoptions.h"
 #include "Profile.h"
 #include "ProfileManager.h"
-#include "PWoptions.h"
 #include "SettingsManager.h"
 #include "Translate.h"
 #include "VersionChecker.h"

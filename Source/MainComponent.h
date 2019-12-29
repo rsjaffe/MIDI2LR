@@ -18,6 +18,7 @@
 #include <memory>
 
 #include <JuceLibraryCode/JuceHeader.h>
+
 #include "CommandTable.h"
 #include "CommandTableModel.h"
 #include "ResizableLayout.h"

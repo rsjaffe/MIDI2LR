@@ -20,9 +20,10 @@
 #include <string_view>
 #include <unordered_map>
 #include <vector>
+
 #include <fmt/format.h>
-#include <ww898/utf_converters.hpp>
 #include <gsl/gsl>
+#include <ww898/utf_converters.hpp>
 
 #include "Misc.h"
 #ifdef _WIN32
@@ -35,13 +36,15 @@
 #else
 #include <optional>
 
+#import <Carbon/Carbon.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
-#import <Carbon/Carbon.h>
-#include <libproc.h> /* proc_ functions in GetPid */
-#include "Ocpp.h"
-#include <JuceLibraryCode/JuceHeader.h> /*creates ambiguous reference to Point if included before Mac headers*/
 #include <gsl/gsl>
+#include <libproc.h> /* proc_ functions in GetPid */
+
+#include <JuceLibraryCode/JuceHeader.h> /*creates ambiguous reference to Point if included before Mac headers*/
+
+#include "Ocpp.h"
 
 #endif
 

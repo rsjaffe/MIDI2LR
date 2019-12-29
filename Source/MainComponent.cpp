@@ -18,9 +18,10 @@
 #include <exception>
 #include <functional>
 #include <string>
-#include <fmt/format.h>
 
+#include <fmt/format.h>
 #include <gsl/gsl>
+
 #include "LR_IPC_Out.h"
 #include "MIDIReceiver.h"
 #include "MIDISender.h"

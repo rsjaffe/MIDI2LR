@@ -17,12 +17,12 @@
 
 #include <algorithm>
 #include <exception>
-// ReSharper disable once CppUnusedIncludeDirective
 #include <string_view>
 #include <thread>
-#include <fmt/format.h>
 
+#include <fmt/format.h>
 #include <gsl/gsl>
+
 #include "ControlsModel.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"

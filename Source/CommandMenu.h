@@ -20,6 +20,7 @@
 #include <limits>
 
 #include <JuceLibraryCode/JuceHeader.h>
+
 #include "CommandSet.h"
 #include "MidiUtilities.h"
 #include "TextButtonAligned.h"

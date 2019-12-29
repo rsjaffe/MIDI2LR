@@ -20,6 +20,7 @@
 #include <memory>
 
 #include <gsl/gsl_util>
+
 #include "CommandTableModel.h"
 #include "Misc.h"
 

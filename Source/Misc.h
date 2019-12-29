@@ -21,14 +21,14 @@
 #include <exception>
 #include <ratio>
 #include <string>
-// ReSharper disable once CppUnusedIncludeDirective
 #include <string_view>
-#include <thread>      /* sleep_for */
-#include <xmmintrin.h> /* for rounding intrinsics */
+#include <thread> /* sleep_for */
+
 #include <fmt/format.h>
+#include <gsl/gsl>
+#include <xmmintrin.h> /* for rounding intrinsics */
 
 #include <JuceLibraryCode/JuceHeader.h>
-#include <gsl/gsl>
 
 #ifdef NDEBUG /* asserts disabled */
 static constexpr bool kNdebug {true};

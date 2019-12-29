@@ -22,6 +22,7 @@
 #include <vector>
 
 #include <JuceLibraryCode/JuceHeader.h>
+
 #include "Concurrency.h"
 #include "MidiUtilities.h"
 #include "NrpnMessage.h"

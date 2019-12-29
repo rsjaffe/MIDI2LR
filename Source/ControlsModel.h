@@ -22,10 +22,10 @@
 #include <vector>
 
 #include <cereal/access.hpp>
-// ReSharper disable once CppUnusedIncludeDirective
 #include <cereal/types/array.hpp>
 #include <cereal/types/vector.hpp>
 #include <gsl/gsl>
+
 #include "MidiUtilities.h"
 #include "Misc.h"
 

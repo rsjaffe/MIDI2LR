@@ -21,6 +21,7 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+
 #include <fmt/format.h>
 
 #include "ControlsModel.h"

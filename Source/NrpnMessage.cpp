@@ -16,9 +16,10 @@
 #include "NrpnMessage.h"
 
 #include <exception>
-#include <fmt/format.h>
 
+#include <fmt/format.h>
 #include <gsl/gsl>
+
 #include "Misc.h"
 
 NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message)

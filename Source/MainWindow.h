@@ -18,6 +18,7 @@
 #include <memory>
 
 #include <JuceLibraryCode/JuceHeader.h>
+
 #include "MainComponent.h"
 
 class CommandSet;

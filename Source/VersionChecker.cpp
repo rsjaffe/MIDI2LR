@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <exception>
 #include <type_traits>
+
 #include <fmt/format.h>
 
 #include "Misc.h"

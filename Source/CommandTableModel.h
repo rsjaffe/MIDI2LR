@@ -16,6 +16,7 @@
  *
  */
 #include <JuceLibraryCode/JuceHeader.h>
+
 #include "CommandSet.h"
 #include "Profile.h"
 

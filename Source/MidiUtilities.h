@@ -22,8 +22,9 @@
 #ifdef __cpp_impl_three_way_comparison
 #include <compare>
 #endif
-#include <typeindex>
 #include <type_traits>
+#include <typeindex>
+
 #include <fmt/format.h>
 
 #include "Misc.h"

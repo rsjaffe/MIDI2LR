@@ -25,7 +25,9 @@
 #include <vector>
 
 #include <gsl/gsl>
+
 #include <JuceLibraryCode/JuceHeader.h>
+
 #include "CommandSet.h"
 #include "MidiUtilities.h"
 
