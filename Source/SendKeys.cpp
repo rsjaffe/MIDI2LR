@@ -39,7 +39,6 @@
 #import <Carbon/Carbon.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
-#include <gsl/gsl>
 #include <libproc.h> /* proc_ functions in GetPid */
 
 #include <JuceLibraryCode/JuceHeader.h> /*creates ambiguous reference to Point if included before Mac headers*/

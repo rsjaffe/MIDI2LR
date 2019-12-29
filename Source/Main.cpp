@@ -18,9 +18,6 @@
 #include <fstream>
 #include <memory>
 #include <mutex>
-
-#include <fmt/format.h>
-
 #ifndef _WIN32
 #include <AvailabilityMacros.h>
 #if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
@@ -38,6 +35,7 @@ namespace fs = std::filesystem;
 #endif
 
 #include <cereal/archives/xml.hpp>
+#include <fmt/format.h>
 
 #include <JuceLibraryCode/JuceHeader.h>
 

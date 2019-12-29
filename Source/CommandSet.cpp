@@ -15,9 +15,6 @@
  */
 #include "CommandSet.h"
 
-#include <exception>
-
-#include <fmt/format.h>
 #ifndef _WIN32
 #include <AvailabilityMacros.h>
 #if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
@@ -33,12 +30,14 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 #endif
+#include <exception>
 #include <fstream>
 #include <memory>
 
 #include <cereal/archives/xml.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
+#include <fmt/format.h>
 
 CommandSet::CommandSet() : m_impl_(MakeImpl())
 {
