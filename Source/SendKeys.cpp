@@ -278,7 +278,7 @@ namespace {
 void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexcept
 {
    try {
-      Expects(!key.empty(),"Key is empty in SendKeyDownUp.");
+      Expects(!key.empty());
       const auto mapped_key {kKeyMap.find(rsj::ToLower(key))};
       const auto in_keymap {mapped_key != kKeyMap.end()};
 #ifdef _WIN32
