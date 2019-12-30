@@ -22,7 +22,7 @@
 #include <vector>
 
 #include <cereal/access.hpp>
-#include <cereal/types/array.hpp>
+#include <cereal/types/array.hpp> //ReSharper false alarm
 #include <cereal/types/vector.hpp>
 #include <gsl/gsl>
 

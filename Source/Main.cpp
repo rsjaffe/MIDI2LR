@@ -48,7 +48,7 @@ namespace fs = std::filesystem;
 #include "MIDISender.h"
 #include "MainWindow.h"
 #include "Misc.h"
-#include "Ocpp.h"
+#include "Ocpp.h" //ReSharper false alarm
 #include "PWoptions.h"
 #include "Profile.h"
 #include "ProfileManager.h"

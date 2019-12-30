@@ -35,8 +35,8 @@ namespace fs = std::filesystem;
 #include <memory>
 
 #include <cereal/archives/xml.hpp>
-#include <cereal/types/string.hpp>
-#include <cereal/types/vector.hpp>
+#include <cereal/types/string.hpp> //ReSharper false alarm
+#include <cereal/types/vector.hpp> //ReSharper false alarm
 #include <fmt/format.h>
 
 CommandSet::CommandSet() : m_impl_(MakeImpl())

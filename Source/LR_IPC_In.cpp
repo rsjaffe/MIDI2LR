@@ -17,7 +17,7 @@
 
 #include <algorithm>
 #include <exception>
-#include <string_view>
+#include <string_view> //ReSharper false alarm
 #include <thread>
 
 #include <fmt/format.h>
