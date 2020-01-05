@@ -121,6 +121,12 @@ void rsj::FillInMessageLoop()
    CFRelease(source);
 }
 
+bool rsj::FillInSucceeded()
+{
+   std::shared_lock lock(mtx);
+   return !KeyMapA.empty();
+}
+
 std::unordered_map<UniChar, std::pair<size_t, bool>> rsj::GetKeyMap()
 {
    std::shared_lock lock {mtx};
