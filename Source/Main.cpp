@@ -47,7 +47,6 @@ namespace fs = std::filesystem;
 #include "MIDIReceiver.h"
 #include "MIDISender.h"
 #include "Misc.h"
-#include "Ocpp.h"
 #include "Profile.h"
 #include "ProfileManager.h"
 #include "PWoptions.h"
@@ -147,10 +146,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             lr_ipc_in_.Start();
             /* Check for latest version */
             version_checker_.startThread();
-#ifndef _WIN32
-            if (!juce::MessageManager::callAsync(rsj::FillInMessageLoop))
-               rsj::Log("Unable to post FillInMessageLoop to message queue.");
-#endif
          }
          else {
             quit();

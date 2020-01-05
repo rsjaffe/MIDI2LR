@@ -149,6 +149,8 @@ std::string rsj::GetKeyboardLayout()
       throw;
    }
 }
+#else
+#include "Ocpp.h"
 #endif
 
 #pragma warning(push)
@@ -156,9 +158,12 @@ std::string rsj::GetKeyboardLayout()
 DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
 {
    try {
+#ifndef _WIN32
+      if (!juce::MessageManager::callAsync(rsj::FillInMessageLoop))
+         rsj::Log("Unable to post FillInMessageLoop to message queue.");
+#endif
       LogAndSave(fmt::format("Application: System language {}.",
           juce::SystemStats::getDisplayLanguage().toStdString()));
-      LogAndSave(fmt::format("Application: Keyboard type {}.", rsj::GetKeyboardLayout()));
       // ReSharper disable CppUnreachableCode
       if constexpr (kNdebug) {
          LogAndSave(
@@ -184,6 +189,7 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
       LogAndSave(fmt::format("Application: Log file directory {}.", rsj::AppLogFilePath("")));
       LogAndSave(fmt::format("Application: Settings file directory {}.", rsj::AppDataFilePath("")));
 #endif
+      LogAndSave(fmt::format("Application: Keyboard type {}.", rsj::GetKeyboardLayout()));
    }
    catch (...) {
       try {
