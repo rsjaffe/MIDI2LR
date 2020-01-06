@@ -19,7 +19,7 @@
 /* Get the declaration of the primary std::hash template. We are not permitted to declare it
  * ourselves. <typeindex> is guaranteed to provide such a declaration, and is much cheaper to
  * include than <functional>. See https://en.cppreference.com/w/cpp/language/extending_std. */
-#ifdef __cpp_impl_three_way_comparison
+#ifdef __cpp_lib_three_way_comparison
 #include <compare>
 #endif
 #include <type_traits>
@@ -109,16 +109,16 @@ namespace rsj {
       constexpr MidiMessageId() noexcept = default;
 
       constexpr MidiMessageId(int ch, int dat, MessageType msgType) noexcept
-          : msg_id_type(msgType), channel(ch), control_number(dat)
+          : channel(ch), control_number(dat), msg_id_type(msgType)
       {
       }
 
       explicit constexpr MidiMessageId(const MidiMessage& other) noexcept
-          : msg_id_type {other.message_type_byte}, channel {other.channel + 1},
-            control_number {other.control_number}
+          : channel {other.channel + 1}, control_number {other.control_number},
+            msg_id_type {other.message_type_byte}
       {
       }
-#ifdef __cpp_impl_three_way_comparison
+#ifdef __cpp_lib_three_way_comparison
       constexpr std::strong_ordering operator<=>(const MidiMessageId& other) const
           noexcept = default;
 #else
