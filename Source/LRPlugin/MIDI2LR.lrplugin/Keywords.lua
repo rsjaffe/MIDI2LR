@@ -29,11 +29,11 @@ local ListReady = false
 local NotifyFinished = false
 local numseries = 16 -- number of keywords allowed
 
-local function GetKeywordChildren(KeywordList, Keyword, Name)
+local function GetKeywordChildren(Keyword, Name)
   local KeywordChildren = Keyword:getChildren()
   for _,v in ipairs(KeywordChildren) do
     table.insert(KeywordList, {title=Name..'\226\134\146'..string.lower(v:getName()), value=v.localIdentifier } )
-    GetKeywordChildren(KeywordList, v, Name..'\226\134\146'..string.lower(v:getName()))
+    GetKeywordChildren(v, Name..'\226\134\146'..string.lower(v:getName()))
     LrTasks.yield()
   end
 end
@@ -49,7 +49,7 @@ local function GetKeywords()
       local Keywords = LrCat:getKeywords()
       for _,v in ipairs(Keywords) do
         table.insert(KeywordList, { title=string.lower(v:getName()), value=v.localIdentifier } )
-        GetKeywordChildren(KeywordList, v, string.lower(v:getName()))
+        GetKeywordChildren(v, string.lower(v:getName()))
         LrTasks.yield()
       end
       table.sort(KeywordList,function(k1, k2) return k1.title < k2.title end) 

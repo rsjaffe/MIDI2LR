@@ -42,9 +42,9 @@ return {
       UpdateParam(param, midi_value, true)
     end
     if ProgramPreferences.ClientShowBezelOnChange then
-      local value = CU.MIDIValueToLRValue("SaturationAdjustmentRed", midi_value)
+      local display_value = CU.MIDIValueToLRValue("SaturationAdjustmentRed", midi_value)
       local bezelname = Database.CmdTrans.AllSaturationAdjustment or "AllSaturationAdjustment"
-      LrDialogs.showBezel(bezelname .. '  ' .. LrStringUtils.numberToStringWithSeparators(value, 0))
+      LrDialogs.showBezel(bezelname .. '  ' .. LrStringUtils.numberToStringWithSeparators(display_value, 0))
     end
     return "AllSaturationAdjustment"
   end,

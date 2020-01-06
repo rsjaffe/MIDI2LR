@@ -18,11 +18,12 @@
 #include <exception>
 
 #include <gsl/gsl>
+
 #include "CCoptions.h"
 #include "CommandSet.h"
 #include "Misc.h"
-#include "Profile.h"
 #include "PWoptions.h"
+#include "Profile.h"
 
 CommandMenu::CommandMenu(
     rsj::MidiMessageId message, const CommandSet& command_set, Profile& profile)
