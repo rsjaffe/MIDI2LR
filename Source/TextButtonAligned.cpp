@@ -20,6 +20,7 @@ void TextButtonAligned::paintButton(
     juce::Graphics& g, bool should_draw_button_as_highlighted, bool should_draw_button_as_down)
 {
    /* from TextButton.cpp: only change is second call from lf:: to TextButtonAligned:: */
+#pragma warning(suppress : 26812)
    juce::Component::getLookAndFeel().drawButtonBackground(g, *this,
        juce::Component::findColour(juce::Button::getToggleState()
                                        ? juce::TextButton::ColourIds::buttonOnColourId

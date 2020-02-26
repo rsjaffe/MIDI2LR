@@ -20,6 +20,7 @@
 class TextButtonAligned : public juce::TextButton {
  public:
    using TextButton::TextButton;
+#pragma warning(suppress : 26812)
    explicit TextButtonAligned(juce::Justification::Flags alignment) : alignment_ {alignment} {}
    TextButtonAligned(const juce::String& button_name, juce::Justification::Flags alignment)
        : juce::TextButton(button_name), alignment_ {alignment}
