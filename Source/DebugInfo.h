@@ -38,8 +38,4 @@ class DebugInfo {
    std::vector<std::string> info_;
 };
 
-namespace rsj {
-   std::string GetKeyboardLayout();
-}
-
 #endif

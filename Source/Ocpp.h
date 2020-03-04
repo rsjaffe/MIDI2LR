@@ -25,12 +25,9 @@ typedef int pid_t;
 namespace rsj {
    [[nodiscard]] std::string AppDataMac();
    [[nodiscard]] std::string AppLogMac();
-   [[nodiscard]] std::string GetKeyboardLayout();
    [[nodiscard]] std::unordered_map<UniChar, std::pair<size_t, bool>> GetKeyMap();
    [[nodiscard]] UniChar Utf8ToUtf16(const std::string& param);
    void CheckPermission(pid_t pid);
-   void FillInMessageLoop();
-   bool FillInSucceeded();
 } // namespace rsj
 #endif
 #endif
