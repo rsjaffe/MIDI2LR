@@ -14,7 +14,6 @@
  *
  */
 
- /* the following is adapted from https://github.com/microsoft/node-native-keymap/blob/master/src/keyboard_mac.mm */
 #include "Ocpp.h"
 #import <Cocoa/Cocoa.h>
 #import <Carbon/Carbon.h>
@@ -30,12 +29,12 @@
 #include "DebugInfo.h"
 #include "Misc.h"
 
-/* note that, in MacOS Catalina, TISGetInputSourceProperty() must execute on the main thread, or crash */
-
 namespace {
    std::optional<std::pair<bool, UniChar>> ConvertKeyCodeToText(
        const UCKeyboardLayout* keyboard_layout, UInt16 virtual_key_code, UInt32 modifiers)
    {
+      /* the following is adapted from
+       * https://github.com/microsoft/node-native-keymap/blob/master/src/keyboard_mac.mm */
       /* Note that modifiers are the eventrecord modifiers >> 8 & 0xFF. So shift is 0x2.*/
       UInt32 dead_key_state {0};
       UniCharCount char_count {0};
@@ -59,7 +58,7 @@ namespace {
    std::string sourceIdString;
    std::string localizedNameString;
    std::string langString;
-   std::unordered_map<UniChar, std::pair<size_t, bool>> KeyMapA{};
+   std::unordered_map<UniChar, std::pair<size_t, bool>> KeyMapA {};
 
    void FillInMessageLoop()
    {
@@ -95,8 +94,8 @@ namespace {
       CFDataRef layout_data = static_cast<CFDataRef>(
           (TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData)));
       if (!layout_data) {
-         // TISGetInputSourceProperty returns null with  Japanese keyboard layout.
-         // Using TISCopyCurrentKeyboardLayoutInputSource to fix NULL return.
+         /* TISGetInputSourceProperty returns null with  Japanese keyboard layout. Using
+          * TISCopyCurrentKeyboardLayoutInputSource to fix NULL return. */
          TISInputSourceRef sourcea = TISCopyCurrentKeyboardLayoutInputSource();
          if (sourcea) {
             layout_data = static_cast<CFDataRef>(
@@ -143,7 +142,8 @@ namespace {
       return result;
    }
 
-   std::unordered_map<UniChar, std::pair<size_t, bool>> InternalKeyMap() {
+   std::unordered_map<UniChar, std::pair<size_t, bool>> InternalKeyMap()
+   {
       std::shared_lock lock(mtx);
       return KeyMapA;
    }
@@ -158,9 +158,9 @@ std::unordered_map<UniChar, std::pair<size_t, bool>> rsj::GetKeyMap()
       if (FillInSucceeded())
          break;
       std::this_thread::sleep_for(20ms);
-      rsj::Log("20ms sleep for message queue.");
+      rsj::Log("20ms sleep for message queue waiting for FillInMessageLoop to run.");
    }
    rsj::Log(fmt::format(
-       "Making KeyMap. Keyboard type {}. KeyMap is {}", GetKeyboardLayout(), FillInSucceeded()));
+       "Making KeyMap. Keyboard type {}. KeyMap is {}.", GetKeyboardLayout(), FillInSucceeded()));
    return InternalKeyMap();
 }
