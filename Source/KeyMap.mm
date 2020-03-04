@@ -19,10 +19,14 @@
 #import <Cocoa/Cocoa.h>
 #import <Carbon/Carbon.h>
 #include <cctype>
+#include <chrono>
 #include <mutex>
 #include <shared_mutex>
 #include <optional>
+#include <thread>
+#include <fmt/format.h>
 #include <JuceLibraryCode/JuceHeader.h>
+#include "DebugInfo.h"
 #include "Misc.h"
 
 /* note that, in MacOS Catalina, TISGetInputSourceProperty() must execute on the main thread, or crash */
@@ -57,90 +61,107 @@ namespace {
    std::string localizedNameString;
    std::string langString;
    std::unordered_map<UniChar, std::pair<size_t, bool>> KeyMapA{};
+
+   void FillInMessageLoop()
+   {
+      std::unique_lock lock(mtx);
+      TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
+      if (!source)
+         source = TISCopyCurrentKeyboardLayoutInputSource();
+      if (!source) {
+         rsj::LogAndAlertError(
+             juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
+         return;
+      }
+      CFStringRef sourceId =
+          (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyInputSourceID);
+      if (sourceId)
+         sourceIdString = std::string(((NSString*)sourceId).UTF8String);
+
+      CFStringRef localizedName =
+          (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyLocalizedName);
+      if (localizedName)
+         localizedNameString = std::string(((NSString*)localizedName).UTF8String);
+
+      NSArray* languages =
+          (NSArray*)TISGetInputSourceProperty(source, kTISPropertyInputSourceLanguages);
+      if (languages && languages.count > 0) {
+         NSString* lang = languages[0];
+         if (lang)
+            langString = std::string(lang.UTF8String);
+      }
+
+      /* get layout data here since it's before use is needed and it crashes if done on another
+       * thread since MacOS Catalina. it must happen on the main message thread */
+      CFDataRef layout_data = static_cast<CFDataRef>(
+          (TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData)));
+      if (!layout_data) {
+         // TISGetInputSourceProperty returns null with  Japanese keyboard layout.
+         // Using TISCopyCurrentKeyboardLayoutInputSource to fix NULL return.
+         TISInputSourceRef sourcea = TISCopyCurrentKeyboardLayoutInputSource();
+         if (sourcea) {
+            layout_data = static_cast<CFDataRef>(
+                (TISGetInputSourceProperty(sourcea, kTISPropertyUnicodeKeyLayoutData)));
+            CFRelease(sourcea);
+         }
+      }
+      if (!layout_data) {
+         rsj::LogAndAlertError(
+             juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
+         return;
+      }
+      const UCKeyboardLayout* keyboardLayout =
+          reinterpret_cast<const UCKeyboardLayout*>(CFDataGetBytePtr(layout_data));
+      if (!keyboardLayout)
+         rsj::LogAndAlertError(
+             juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
+      else
+         for (UInt16 native_keycode = 0; native_keycode <= 0xFF; ++native_keycode) {
+            if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 0))
+               KeyMapA.try_emplace(value->second, std::make_pair(native_keycode, false));
+            if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 2))
+               KeyMapA.try_emplace(value->second, std::make_pair(native_keycode, true));
+         }
+      CFRelease(source);
+   }
+
+   bool FillInSucceeded()
+   {
+      std::shared_lock lock(mtx);
+      return !KeyMapA.empty();
+   }
+
+   std::string GetKeyboardLayout()
+   {
+      std::shared_lock lock(mtx);
+      std::string result;
+      if (!sourceIdString.empty())
+         result = "Id " + sourceIdString;
+      if (!localizedNameString.empty())
+         result += ". Localized name = " + localizedNameString;
+      if (!langString.empty())
+         result += ". Language = " + langString;
+      return result;
+   }
+
+   std::unordered_map<UniChar, std::pair<size_t, bool>> InternalKeyMap() {
+      std::shared_lock lock(mtx);
+      return KeyMapA;
+   }
 } // namespace
-
-void rsj::FillInMessageLoop()
-{
-   std::unique_lock lock(mtx);
-   TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
-   if (!source)
-      source = TISCopyCurrentKeyboardLayoutInputSource();
-   if (!source) {
-      rsj::LogAndAlertError(
-          juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
-      return;
-   }
-   CFStringRef sourceId = (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyInputSourceID);
-   if (sourceId)
-      sourceIdString = std::string(((NSString*)sourceId).UTF8String);
-
-   CFStringRef localizedName =
-       (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyLocalizedName);
-   if (localizedName)
-      localizedNameString = std::string(((NSString*)localizedName).UTF8String);
-
-   NSArray* languages =
-       (NSArray*)TISGetInputSourceProperty(source, kTISPropertyInputSourceLanguages);
-   if (languages && languages.count > 0) {
-      NSString* lang = languages[0];
-      if (lang)
-         langString = std::string(lang.UTF8String);
-   }
-
-   /* get layout data here since it's before use is needed and it crashes if done on another thread
-    * since MacOS Catalina. it must happen on the main message thread */
-   CFDataRef layout_data = static_cast<CFDataRef>(
-       (TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData)));
-   if (!layout_data) {
-      // TISGetInputSourceProperty returns null with  Japanese keyboard layout.
-      // Using TISCopyCurrentKeyboardLayoutInputSource to fix NULL return.
-      TISInputSourceRef sourcea = TISCopyCurrentKeyboardLayoutInputSource();
-      if (sourcea) {
-         layout_data = static_cast<CFDataRef>(
-             (TISGetInputSourceProperty(sourcea, kTISPropertyUnicodeKeyLayoutData)));
-         CFRelease(sourcea);
-      }
-   }
-   if (!layout_data) {
-      rsj::LogAndAlertError(
-          juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
-      return;
-   }
-   const UCKeyboardLayout* keyboardLayout = reinterpret_cast<const UCKeyboardLayout*>(CFDataGetBytePtr(layout_data));
-   if (!keyboardLayout)
-      rsj::LogAndAlertError(
-          juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
-   else
-      for (UInt16 native_keycode = 0; native_keycode <= 0xFF; ++native_keycode) {
-         if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 0))
-            KeyMapA.try_emplace(value->second, std::make_pair(native_keycode, false));
-         if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 2))
-            KeyMapA.try_emplace(value->second, std::make_pair(native_keycode, true));
-      }
-   CFRelease(source);
-}
-
-bool rsj::FillInSucceeded()
-{
-   std::shared_lock lock(mtx);
-   return !KeyMapA.empty();
-}
 
 std::unordered_map<UniChar, std::pair<size_t, bool>> rsj::GetKeyMap()
 {
-   std::shared_lock lock(mtx);
-   return KeyMapA;
-}
-
-std::string rsj::GetKeyboardLayout()
-{
-   std::shared_lock lock(mtx);
-   std::string result;
-   if (!sourceIdString.empty())
-      result = "Id " + sourceIdString;
-   if (!localizedNameString.empty())
-      result += ". Localized name = " + localizedNameString;
-   if (!langString.empty())
-      result += ". Language = " + langString;
-   return result;
+   using namespace std::chrono_literals;
+   if (!FillInSucceeded() && !juce::MessageManager::callAsync(FillInMessageLoop))
+      rsj::Log("Unable to post FillInMessageLoop to message queue.");
+   for (int i = 0; i < 4; ++i) {
+      if (FillInSucceeded())
+         break;
+      std::this_thread::sleep_for(20ms);
+      rsj::Log("20ms sleep for message queue.");
+   }
+   rsj::Log(fmt::format(
+       "Making KeyMap. Keyboard type {}. KeyMap is {}", GetKeyboardLayout(), FillInSucceeded()));
+   return InternalKeyMap();
 }

@@ -19,9 +19,10 @@
 
 #ifdef _WIN32
 #include <array>
-#include <fmt/format.h>
 #include <string>
 #include <unordered_map>
+
+#include <fmt/format.h>
 
 #include "WinDef.h"
 #undef NOUSER
@@ -121,36 +122,34 @@ namespace {
        {0x00040409, "United States-Dvorak for right hand"}, {0x00000409, "United States - English"},
        {0x00000420, "Urdu"}, {0x00010480, "Uyghur (Legacy)"}, {0x00000843, "Uzbek Cyrillic"},
        {0x0000042a, "Vietnamese"}, {0x00000488, "Wolof"}, {0x0000046a, "Yoruba"}};
-} // namespace
 
-std::string rsj::GetKeyboardLayout()
-{
-   try {
-      static_assert(sizeof(CHAR) == sizeof(char), "Windows CHAR and char different sizes.");
-      std::array<CHAR, KL_NAMELENGTH> klid_ascii{};
-      if (GetKeyboardLayoutNameA(klid_ascii.data())) {
-         try {
-            const auto klid{std::stoul(std::string(klid_ascii.data()), nullptr, 16)};
-            if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end())
-               return f->second;
-            return fmt::format("KLID not in keyboard_names: 0x{}.", klid_ascii.data());
+   std::string GetKeyboardLayout()
+   {
+      try {
+         static_assert(sizeof(CHAR) == sizeof(char), "Windows CHAR and char different sizes.");
+         std::array<CHAR, KL_NAMELENGTH> klid_ascii{};
+         if (GetKeyboardLayoutNameA(klid_ascii.data())) {
+            try {
+               const auto klid{std::stoul(std::string(klid_ascii.data()), nullptr, 16)};
+               if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end())
+                  return f->second;
+               return fmt::format("KLID not in keyboard_names: 0x{}.", klid_ascii.data());
+            }
+            catch (...) {
+               const auto msg{
+                   fmt::format("Exception when finding KLID name. KLID: 0x{}.", klid_ascii.data())};
+               rsj::Log(msg);
+               return msg;
+            }
          }
-         catch (...) {
-            const auto msg{
-                fmt::format("Exception when finding KLID name. KLID: 0x{}.", klid_ascii.data())};
-            rsj::Log(msg);
-            return msg;
-         }
+         return fmt::format("Unable to get KLID. Error {}.", GetLastError());
       }
-      return fmt::format("Unable to get KLID. Error {}.", GetLastError());
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse("GetKeyboardLayout", MIDI2LR_FUNC, e);
+         throw;
+      }
    }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse("rsj", MIDI2LR_FUNC, e);
-      throw;
-   }
-}
-#else
-#include "Ocpp.h"
+} // namespace
 #endif
 
 #pragma warning(push)
@@ -158,10 +157,6 @@ std::string rsj::GetKeyboardLayout()
 DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
 {
    try {
-#ifndef _WIN32
-      if (!juce::MessageManager::callAsync(rsj::FillInMessageLoop))
-         rsj::Log("Unable to post FillInMessageLoop to message queue.");
-#endif
       LogAndSave(fmt::format("Application: System language {}.",
           juce::SystemStats::getDisplayLanguage().toStdString()));
       // ReSharper disable CppUnreachableCode
@@ -185,11 +180,12 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
           "Application: Log file directory {}.", rsj::WideToUtf8(rsj::AppLogFilePath(L""))));
       LogAndSave(fmt::format(
           "Application: Settings file directory {}.", rsj::WideToUtf8(rsj::AppDataFilePath(L""))));
+      /* MacOS keyboard type read when first trying to send keystroke */
+      LogAndSave(fmt::format("Application: Keyboard type {}.", GetKeyboardLayout()));
 #else
       LogAndSave(fmt::format("Application: Log file directory {}.", rsj::AppLogFilePath("")));
       LogAndSave(fmt::format("Application: Settings file directory {}.", rsj::AppDataFilePath("")));
 #endif
-      LogAndSave(fmt::format("Application: Keyboard type {}.", rsj::GetKeyboardLayout()));
    }
    catch (...) {
       try {

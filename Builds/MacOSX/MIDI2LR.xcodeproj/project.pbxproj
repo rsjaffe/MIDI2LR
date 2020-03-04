@@ -383,6 +383,13 @@
 			path = ../../Source/Translate.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		4DBBB1B379D37503D066D6C7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			name = App.entitlements;
+			path = App.entitlements;
+			sourceTree = "SOURCE_ROOT";
+		};
 		5205E1551934B25B9956903B = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -570,13 +577,6 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = ProfileManager.h;
 			path = ../../Source/ProfileManager.h;
-			sourceTree = "SOURCE_ROOT";
-		};
-		909A37E13D2D591340143ADC = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
-			name = MIDI2LR.entitlements;
-			path = MIDI2LR.entitlements;
 			sourceTree = "SOURCE_ROOT";
 		};
 		92C2D3FB1EEBAD3ABBBD265E = {
@@ -1014,7 +1014,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_ENTITLEMENTS = "MIDI2LR.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "App.entitlements";
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
@@ -1029,8 +1029,8 @@
 					"DONT_SET_USING_JUCE_NAMESPACE=1",
 					"GSL_THROW_ON_CONTRACT_VIOLATION=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=3.4.9.1",
-					"JUCE_APP_VERSION_HEX=0x3040901",
+					"JUCE_APP_VERSION=3.4.10.0",
+					"JUCE_APP_VERSION_HEX=0x3040a00",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -1067,7 +1067,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_ENTITLEMENTS = "MIDI2LR.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "App.entitlements";
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
@@ -1082,8 +1082,8 @@
 					"DONT_SET_USING_JUCE_NAMESPACE=1",
 					"GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=3.4.9.1",
-					"JUCE_APP_VERSION_HEX=0x3040901",
+					"JUCE_APP_VERSION=3.4.10.0",
+					"JUCE_APP_VERSION_HEX=0x3040a00",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -1155,6 +1155,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PRODUCT_NAME = "MIDI2LR";
+				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wreorder";
 				ZERO_LINK = NO;
 			};
@@ -1200,6 +1201,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PRODUCT_NAME = "MIDI2LR";
+				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wreorder";
 				ZERO_LINK = NO;
 			};
