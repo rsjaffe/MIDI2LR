@@ -88,7 +88,11 @@ void VersionChecker::Run()
       const auto version_xml_element {version_url.readEntireXmlStream()};
       if (version_xml_element && !thread_should_exit_.load(std::memory_order_acquire)) {
          auto last_checked {settings_manager_.GetLastVersionFound()};
-         new_version_ = version_xml_element->getIntAttribute("latest");
+         if (const auto os_specific_version =
+                 version_xml_element->getIntAttribute(MSWindows ? "MSWindows" : "MacOS"))
+            new_version_ = os_specific_version;
+         else
+            new_version_ = version_xml_element->getIntAttribute("latest");
          if (last_checked == 0) {
             last_checked = std::min(new_version_, ProjectInfo::versionNumber);
             settings_manager_.SetLastVersionFound(last_checked);

@@ -67,10 +67,10 @@ namespace rsj {
 
 #ifdef _WIN32
 constexpr auto MSWindows {true};
-constexpr auto OSX {false};
+constexpr auto MacOS {false};
 #else
 constexpr auto MSWindows {false};
-constexpr auto OSX {true};
+constexpr auto MacOS {true};
 #endif
 
 namespace rsj {

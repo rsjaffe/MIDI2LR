@@ -22,11 +22,9 @@
 #include <mutex>
 #include <optional>
 #include <shared_mutex>
-#include <optional>
 #include <thread>
 #include <fmt/format.h>
 #include <JuceLibraryCode/JuceHeader.h>
-#include "DebugInfo.h"
 #include "Misc.h"
 
 namespace {
