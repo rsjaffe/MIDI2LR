@@ -161,49 +161,54 @@ namespace rsj {
    }
    /*****************************************************************************/
    /*******************Sleep Timed and Logged************************************/
+
+#ifdef __cpp_consteval
+#define RSJ_CONSTEVAL consteval
+#else
+#define RSJ_CONSTEVAL constexpr
+#endif
 #pragma warning(push)
 #pragma warning(disable : 4127) /* constant conditional expression */
    /* zepto yocto zetta and yotta too large/small to be represented by intmax_t TODO: change to
     * consteval, find way to convert digit to string for unexpected values, so return could be,
     * e.g., "23425/125557 ", instead of error message */
-   template<class R>[[nodiscard]] constexpr auto RatioToPrefix() noexcept
+   template<class R>[[nodiscard]] RSJ_CONSTEVAL auto RatioToPrefix() noexcept
    {
-      if constexpr (std::ratio_equal_v<R, std::atto>)
+      if (std::ratio_equal_v<R, std::atto>)
          return "atto";
-      if constexpr (std::ratio_equal_v<R, std::femto>)
+      if (std::ratio_equal_v<R, std::femto>)
          return "femto";
-      if constexpr (std::ratio_equal_v<R, std::pico>)
+      if (std::ratio_equal_v<R, std::pico>)
          return "pico";
-      if constexpr (std::ratio_equal_v<R, std::nano>)
+      if (std::ratio_equal_v<R, std::nano>)
          return "nano";
-      if constexpr (std::ratio_equal_v<R, std::micro>)
+      if (std::ratio_equal_v<R, std::micro>)
          return "micro";
-      if constexpr (std::ratio_equal_v<R, std::milli>)
+      if (std::ratio_equal_v<R, std::milli>)
          return "milli";
-      if constexpr (std::ratio_equal_v<R, std::centi>)
+      if (std::ratio_equal_v<R, std::centi>)
          return "centi";
-      if constexpr (std::ratio_equal_v<R, std::deci>)
+      if (std::ratio_equal_v<R, std::deci>)
          return "deci";
-      if constexpr (std::ratio_equal_v<R, std::ratio<1, 1>>)
+      if (std::ratio_equal_v<R, std::ratio<1, 1>>)
          return "";
-      if constexpr (std::ratio_equal_v<R, std::deca>)
+      if (std::ratio_equal_v<R, std::deca>)
          return "deca";
-      if constexpr (std::ratio_equal_v<R, std::hecto>)
+      if (std::ratio_equal_v<R, std::hecto>)
          return "hecto";
-      if constexpr (std::ratio_equal_v<R, std::kilo>)
+      if (std::ratio_equal_v<R, std::kilo>)
          return "kilo";
-      if constexpr (std::ratio_equal_v<R, std::mega>)
+      if (std::ratio_equal_v<R, std::mega>)
          return "mega";
-      if constexpr (std::ratio_equal_v<R, std::giga>)
+      if (std::ratio_equal_v<R, std::giga>)
          return "giga";
-      if constexpr (std::ratio_equal_v<R, std::tera>)
+      if (std::ratio_equal_v<R, std::tera>)
          return "tera";
-      if constexpr (std::ratio_equal_v<R, std::peta>)
+      if (std::ratio_equal_v<R, std::peta>)
          return "peta";
-      if constexpr (std::ratio_equal_v<R, std::exa>)
+      if (std::ratio_equal_v<R, std::exa>)
          return "exa";
-      else
-         return "unexpected ratio encountered ";
+      return "unexpected ratio encountered ";
    }
 #pragma warning(pop)
 
