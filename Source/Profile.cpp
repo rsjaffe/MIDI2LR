@@ -45,6 +45,7 @@ void Profile::AddRowMapped(const std::string& command, rsj::MidiMessageId messag
          if (!command_set_.CommandTextIndex(command)) {
             message_map_[message] = CommandSet::kUnassigned;
             command_string_map_.emplace(CommandSet::kUnassigned, message);
+            rsj::Log(fmt::format("AddRowMapped: {} not found in CommandTextIndex.",command));
          }
          else {
             message_map_[message] = command;
