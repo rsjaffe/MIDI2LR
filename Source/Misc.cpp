@@ -306,11 +306,11 @@ std::wstring rsj::AppDataFilePath(std::string_view file_name)
 #else
 ::std::string rsj::AppDataFilePath(const ::std::string& file_name)
 {
-   return rsj::AppDataMac() + '/' + file_name;
+   return rsj::AppDataMac() + "/MIDI2LR/" + file_name;
 }
 ::std::string rsj::AppLogFilePath(const ::std::string& file_name)
 {
-   return rsj::AppLogMac() + '/' + file_name;
+   return rsj::AppLogMac() + "/MIDI2LR/" + file_name;
 }
 
 #endif

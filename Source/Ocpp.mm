@@ -24,13 +24,13 @@
 
 std::string rsj::AppDataMac()
 {
-   NSString* result {(@"~/Library/Application Support/MIDI2LR").stringByExpandingTildeInPath};
+   NSString* result {(@"~/Library/Application Support").stringByExpandingTildeInPath};
    return std::string(result.UTF8String);
 }
 
 std::string rsj::AppLogMac()
 {
-   NSString* result {(@"~/Library/Logs/MIDI2LR").stringByExpandingTildeInPath};
+   NSString* result {(@"~/Library/Logs").stringByExpandingTildeInPath};
    return std::string(result.UTF8String);
 }
 
