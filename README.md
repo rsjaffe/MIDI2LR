@@ -6,7 +6,7 @@
 
 **MIDI2LR** is an application that interfaces MIDI controllers with Lightroom 6+/CC classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). [A listing of available Lightroom commands is in the Wiki](https://github.com/rsjaffe/MIDI2LR/wiki/Commands). Assistance on the code and design is welcome.
 
-MIDI2LR supports all languages Lightroom supports.
+MIDI2LR supports all languages Lightroom supports: Deutsch, English, español, français, italiano, 日本語, 한국어, Nederlands, português, Svenska and 中文 (简体中文 and 繁體中文).
 
 ## Support MIDI2LR 💸
 [Donate to support project development](https://paypal.me/MIDI2LR)<br />[Unterstützen Sie die Projektentwicklung mit Ihrer Spende](https://paypal.me/MIDI2LR)<br />
