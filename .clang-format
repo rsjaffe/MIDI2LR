@@ -1,7 +1,7 @@
 ---
 # Visual Studio 2019 currently (December 2019) using clang-format v9. Options for later versions
 # may be included but are commented out. Uncomment if used with a later version of clang-format.
-# currently includes options for version 10.
+# currently includes options for version 11.
 AccessModifierOffset: -2
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: false
@@ -10,7 +10,9 @@ AlignConsecutiveMacros: true
 AlignEscapedNewlines: Right
 AlignOperands: true
 AlignTrailingComments: true
-AllowAllParametersOfDeclarationOnNextLine: false
+#AllowAllArgumentsOnNextLine: true
+#AllowAllConstructorInitializersOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Empty
@@ -38,12 +40,12 @@ ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
+#DeriveLineEnding: false
 DerivePointerAlignment: false
 DisableFormat: false
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
 IncludeBlocks: Regroup
-IndentCaseLabels: false
 IncludeCategories:
 #creates ambiguous reference to Point if included before Mac headers
   - Regex:           '^<Juce.*>$'
@@ -59,6 +61,8 @@ IncludeCategories:
 #project headers
   - Regex:           '^".*"$'
     Priority:        4
+#IndentCaseBlocks: false
+IndentCaseLabels: false
 #IndentGotoLabels: false
 IndentPPDirectives: None
 IndentWidth: 3
@@ -89,10 +93,12 @@ SpaceBeforeCtorInitializerColon: true
 SpaceBeforeInheritanceColon: true
 SpaceBeforeParens: ControlStatements
 SpaceBeforeRangeBasedForLoopColon: true
+#SpaceBeforeSquareBrackets: false
 #SpaceInEmptyBlock: false
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
 SpacesInAngles: false
+#SpacesInConditionalStatement: false
 SpacesInContainerLiterals: false
 SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
@@ -106,6 +112,7 @@ Language: Cpp
 Language: ObjC
 #ObjCBinPackProtocolList: always
 ObjCBlockIndentWidth: 3
+#ObjCBreakBeforeNestedBlockParam: false
 ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: false
 ...
