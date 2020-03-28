@@ -110,6 +110,84 @@ bool rsj::EndsWith(::std::string_view main_str, ::std::string_view to_match)
 #endif
 /*****************************************************************************/
 /**************Error Logging**************************************************/
+#ifdef __cpp_lib_source_location
+void rsj::Log(const juce::String& info, const std::source_location& location) noexcept
+{
+   try {
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ":"
+                                  + location.file_name() + ":" + location.line() + " " + info);
+   }
+   catch (...) { //-V565
+   }
+}
+
+void rsj::Log(gsl::czstring<> info, const std::source_location& location) noexcept
+{
+   try {
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ":"
+                                  + location.file_name() + ":" + location.line() + " " + info);
+   }
+   catch (...) { //-V565
+   }
+}
+
+void rsj::LogAndAlertError(
+    const juce::String& error_text, const std::source_location& location) noexcept
+{
+   try {
+      {
+         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
+         juce::NativeMessageBox::showMessageBox(
+             juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+      }
+      rsj::Log(error_text, location);
+   }
+   catch (...) { //-V565
+   }
+}
+
+void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& error_text,
+    const std::source_location& location) noexcept
+{
+   try {
+      {
+         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
+         juce::NativeMessageBox::showMessageBox(
+             juce::AlertWindow::WarningIcon, juce::translate("Error"), alert_text);
+      }
+      rsj::Log(error_text, location);
+   }
+   catch (...) { //-V565
+   }
+}
+
+void rsj::LogAndAlertError(
+    gsl::czstring<> error_text, const std::source_location& location) noexcept
+{
+   try {
+      {
+         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
+         juce::NativeMessageBox::showMessageBox(
+             juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+      }
+      rsj::Log(error_text, location);
+   }
+   catch (...) { //-V565
+   }
+}
+void rsj::ExceptionResponse(const std::exception& e, const std::source_location& location) noexcept
+{
+   try {
+      const auto alert_text {juce::translate("Exception ").toStdString() + " " e.what())};
+      const auto error_text {std::string("Exception ") + e.what()};
+      rsj::LogAndAlertError(alert_text, error_text, location);
+   }
+   catch (...) { //-V565
+   }
+}
+#else
 void rsj::Log(const juce::String& info) noexcept
 {
    try {
@@ -171,7 +249,7 @@ void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
    catch (...) { //-V565
    }
 }
-
+#endif
 #pragma warning(push)
 #pragma warning(disable : 26447)
 #if defined(__GNUC__) || defined(__clang__)
