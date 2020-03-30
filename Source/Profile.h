@@ -35,7 +35,7 @@
  * do have mutex and could be called by another class */
 class Profile {
  public:
-   explicit Profile(const CommandSet& command_set) : command_set_ {command_set} {}
+   explicit Profile(const CommandSet& command_set) noexcept : command_set_ {command_set} {}
    void AddCommandForMessage(size_t command, rsj::MidiMessageId message);
    void AddRowMapped(const std::string& command, rsj::MidiMessageId message);
    void AddRowUnmapped(rsj::MidiMessageId message);

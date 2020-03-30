@@ -164,7 +164,7 @@ void LrIpcOut::Connect()
                 ConnectionMade();
                 SendOut();
              }
-             else if (error) {
+             else {
                 rsj::Log(fmt::format("LR_IPC_Out did not connect. {}.", error.message()));
                 asio::error_code ec2;
                 socket_.close(ec2);
