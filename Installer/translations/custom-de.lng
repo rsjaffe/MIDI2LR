@@ -1,0 +1,6 @@
+midi.instructions.exp=Öffnet einen Webbrowser mit dem Handbuch. Bitte setzen Sie ein Lesezeichen für das Handbuch, da es viele Optionen und Einstellungen gibt, die Sie in ${project.fullName} verwenden können.
+midi.instructions=Onlinehilfe
+midi.donate.exp=Öffnet einen Webbrowser mit einem PayPal-Formular, in dem Sie eine Spende tätigen können, um die weitere Entwicklung von ${project.fullName} zu unterstützen.
+midi.donate=Unterstützen Sie die Projektentwicklung mit Ihrer Spende
+midi.install.win=${project.fullName} kann nur unter einer 64-Bit-Version von Microsoft Windows 7 oder höher installiert werden.
+midi.install.mac=Erfordert MacOS Sierra 10.12 oder höher.

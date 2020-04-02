@@ -296,7 +296,7 @@
     </preBuildActionList>
     <initializationActionList>
         <throwError>
-            <text>This version of ${project.fullName} runs on MacOS 10.12 or above only. Use ${project.fullName} version 2.9.3 or earlier if you must use an earlier version of MacOS.</text>
+            <text>${msg(midi.install.mac)}</text>
             <ruleList>
                 <platformTest>
                     <type>osx</type>
@@ -310,13 +310,16 @@
         </throwError>
         <throwError>
             <ruleEvaluationLogic>or</ruleEvaluationLogic>
-            <text>${project.fullName} runs on Windows 7 or above only.</text>
+            <text>${msg(midi.install.win)}</text>
             <ruleList>
                 <platformTest>
                     <type>windows-vista</type>
                 </platformTest>
                 <platformTest>
                     <type>windows-xp</type>
+                </platformTest>
+                <platformTest>
+                    <type>windows-x86</type>
                 </platformTest>
             </ruleList>
         </throwError>
@@ -383,6 +386,7 @@
             <path>${project.rollbackBackupDirectory}</path>
         </deleteFile>
     </postInstallationActionList>
+    <allowedLanguages>es_AR pt_BR nl en fr de it ja ko pt ru zh_CN es sv zh_TW</allowedLanguages>
     <compressPackedFiles>1</compressPackedFiles>
     <compressionAlgorithm>lzham-ultra</compressionAlgorithm>
     <createOsxBundleDmg>1</createOsxBundleDmg>
@@ -408,15 +412,92 @@
     <width>600</width>
     <windowsExecutableIcon>../Builds/VisualStudio2019/icon.ico</windowsExecutableIcon>
     <windowsUninstallerExecutableIcon>../Builds/VisualStudio2019/icon.ico</windowsUninstallerExecutableIcon>
+    <customLanguageFileList>
+        <language>
+            <code>en</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-en.lng</file>
+        </language>
+        <language>
+            <code>de</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-de.lng</file>
+        </language>
+        <language>
+            <code>es</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-es.lng</file>
+        </language>
+        <language>
+            <code>es_AR</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-es.lng</file>
+        </language>
+        <language>
+            <code>fr</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-fr.lng</file>
+        </language>
+        <language>
+            <code>it</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-it.lng</file>
+        </language>
+        <language>
+            <code>ja</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-ja.lng</file>
+        </language>
+        <language>
+            <code>ko</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-ko.lng</file>
+        </language>
+        <language>
+            <code>nl</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-nl.lng</file>
+        </language>
+        <language>
+            <code>pt</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-pt.lng</file>
+        </language>
+        <language>
+            <code>pt_BR</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-pt.lng</file>
+        </language>
+        <language>
+            <code>ru</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-ru.lng</file>
+        </language>
+        <language>
+            <code>sv</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-sv.lng</file>
+        </language>
+        <language>
+            <code>zh_CN</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-zh_CN.lng</file>
+        </language>
+        <language>
+            <code>zh_TW</code>
+            <encoding>utf-8</encoding>
+            <file>translations/custom-zh_TW.lng</file>
+        </language>
+    </customLanguageFileList>
     <finalPageActionList>
         <launchBrowser>
-            <explanation>Opens a web browser showing the manual. Please bookmark the manual as there are many options and settings you can use in ${project.fullName}.</explanation>
-            <progressText>View instructions.</progressText>
+            <explanation>${msg(midi.instructions.exp)}</explanation>
+            <progressText>${msg(midi.instructions)}</progressText>
             <url>https://github.com/rsjaffe/MIDI2LR/wiki</url>
         </launchBrowser>
         <launchBrowser>
-            <explanation>Opens a web browser with a PayPal form where you can make a donation to support further ${project.fullName} development.</explanation>
-            <progressText>Donate to ${project.fullName} development.</progressText>
+            <explanation>${msg(midi.donate.exp)}</explanation>
+            <progressText>${msg(midi.donate)}</progressText>
             <url>https://paypal.me/MIDI2LR</url>
         </launchBrowser>
     </finalPageActionList>
@@ -434,5 +515,82 @@
             <width>67</width>
         </directoryParameter>
     </parameterList>
+    <readmeFileList>
+        <readmeFile>
+            <code>en</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>de</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-de.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>es</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-es.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>es_AR</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-es.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>fr</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-fr.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>it</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-it.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>ja</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-ja.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>ko</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-ko.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>nl</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-nl.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>pt</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-pt.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>pt_BR</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-pt.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>ru</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-ru.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>sv</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-sv.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>zh_CN</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-zh_CN.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>zh_TW</code>
+            <encoding>utf-8</encoding>
+            <file>translations/ReadMe-zh_TW.txt</file>
+        </readmeFile>
+    </readmeFileList>
 </project>
 
