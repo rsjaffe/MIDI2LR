@@ -37,7 +37,7 @@ SettingsManager::SettingsManager(ProfileManager& profile_manager, LrIpcOut& lr_i
       profile_manager_.SetProfileDirectory(GetProfileDirectory());
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -72,7 +72,7 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }

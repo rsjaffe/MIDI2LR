@@ -19,6 +19,7 @@
 #include <cctype>
 
 #include <ww898/utf_converters.hpp>
+#include "Misc.h"
 
 #ifdef _WIN32
 #include <ShlObj.h>
@@ -57,7 +58,7 @@ namespace {
       return result;
    }
    catch (const ::std::exception& e) {
-      rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE_F;
       throw;
    }
 }
@@ -74,7 +75,7 @@ namespace {
       return result;
    }
    catch (const ::std::exception& e) {
-      rsj::ExceptionResponse("rsj", MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE_F;
       throw;
    }
 }
@@ -104,7 +105,7 @@ bool rsj::EndsWith(::std::string_view main_str, ::std::string_view to_match)
              && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
    }
    catch (const ::std::exception& e) {
-      rsj::ExceptionResponse("rsj", MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE_F;
       throw;
    }
 }

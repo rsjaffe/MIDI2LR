@@ -70,7 +70,7 @@ try : ResizableLayout {
 }
 catch (const std::exception& e)
 {
-   rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+   MIDI2LR_E_RESPONSE;
    throw;
 }
 
@@ -243,7 +243,7 @@ void MainContentComponent::Init()
       activateLayout();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -266,7 +266,7 @@ void MainContentComponent::paint(juce::Graphics& g)
       g.fillAll(juce::Colours::white);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -284,7 +284,7 @@ void MainContentComponent::MidiCmdCallback(const rsj::MidiMessage& mm)
       triggerAsyncUpdate();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -313,7 +313,7 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -334,7 +334,7 @@ void MainContentComponent::ProfileChanged(
       lr_ipc_out_.SendCommand("FullRefresh 1\n");
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -347,7 +347,7 @@ void MainContentComponent::StandardLabelSettings(juce::Label& label_to_set)
       label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -364,7 +364,7 @@ void MainContentComponent::handleAsyncUpdate()
       command_table_.selectRow(gsl::narrow_cast<int>(row_to_select_));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -377,7 +377,7 @@ void MainContentComponent::timerCallback()
       juce::Timer::stopTimer();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }

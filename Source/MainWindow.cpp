@@ -39,7 +39,7 @@ try : juce
          juce::Timer::startTimer(1000 * hide_sec);
    }
 catch (const std::exception& e) {
-   rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+   MIDI2LR_E_RESPONSE;
    throw;
 }
 
@@ -51,7 +51,7 @@ void MainWindow::timerCallback()
          juce::DocumentWindow::minimiseButtonPressed();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }

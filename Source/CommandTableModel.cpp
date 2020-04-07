@@ -80,7 +80,7 @@ void CommandTableModel::paintCell(
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -97,7 +97,7 @@ void CommandTableModel::paintRowBackground(
          g.fillAll(juce::Colours::lightblue);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -145,7 +145,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(
       return nullptr;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -157,7 +157,7 @@ void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forward
       profile_.Resort(current_sort);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }

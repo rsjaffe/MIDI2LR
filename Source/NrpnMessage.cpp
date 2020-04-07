@@ -94,7 +94,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
 #pragma warning(pop)
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }

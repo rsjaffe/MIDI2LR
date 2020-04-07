@@ -153,7 +153,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE;
          throw;
       }
    }
@@ -202,7 +202,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          });
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE;
          throw;
       }
    }
@@ -259,7 +259,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
              "Default profile saved to {}.", profile_file.getFullPathName().toStdString()));
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE;
          throw;
       }
    }
@@ -288,7 +288,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                 juce::translate("Unable to save settings.xml"), "Unable to save settings.xml");
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE;
       }
    }
 
@@ -313,7 +313,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE;
       }
    }
 
@@ -376,7 +376,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          rsj::Translate(lang);
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE;
          throw;
       }
    }

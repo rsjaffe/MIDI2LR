@@ -50,7 +50,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       current_profile_index_ = 0;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -69,7 +69,7 @@ void ProfileManager::SwitchToProfile(int profile_index)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -92,7 +92,7 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -105,7 +105,7 @@ void ProfileManager::SwitchToNextProfile()
       SwitchToProfile(current_profile_index_);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -118,7 +118,7 @@ void ProfileManager::SwitchToPreviousProfile()
       SwitchToProfile(current_profile_index_);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -137,7 +137,7 @@ void ProfileManager::MapCommand(rsj::MidiMessageId msg)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -153,7 +153,7 @@ void ProfileManager::MidiCmdCallback(const rsj::MidiMessage& mm)
       MapCommand(cc);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -170,7 +170,7 @@ void ProfileManager::ConnectionCallback(bool connected, bool blocked)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -192,7 +192,7 @@ void ProfileManager::handleAsyncUpdate()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }

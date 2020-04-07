@@ -32,7 +32,7 @@ void Profile::AddCommandForMessageI(size_t command, rsj::MidiMessageId message)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -56,7 +56,7 @@ void Profile::AddRowMapped(const std::string& command, rsj::MidiMessageId messag
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -73,7 +73,7 @@ void Profile::AddRowUnmapped(rsj::MidiMessageId message)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -111,7 +111,7 @@ void Profile::FromXml(const juce::XmlElement* root)
       profile_unsaved_ = false;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -126,7 +126,7 @@ std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string
       return mm;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -142,7 +142,7 @@ void Profile::RemoveAllRows()
       profile_unsaved_ = false;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -156,7 +156,7 @@ void Profile::RemoveMessage(rsj::MidiMessageId message)
       profile_unsaved_ = true;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -172,7 +172,7 @@ void Profile::RemoveRow(size_t row)
       profile_unsaved_ = true;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -185,7 +185,7 @@ void Profile::Resort(std::pair<int, bool> new_order)
       SortI();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -210,7 +210,7 @@ void Profile::SortI()
          std::sort(command_table_.rbegin(), command_table_.rend(), msg_sort);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }
@@ -256,7 +256,7 @@ void Profile::ToXmlFile(const juce::File& file)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }

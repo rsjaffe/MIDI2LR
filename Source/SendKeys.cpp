@@ -96,7 +96,7 @@ namespace {
          return vk_code_and_shift;
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE_F;
          throw;
       }
    }
@@ -111,7 +111,7 @@ namespace {
              rsj::ActiveModifiers::FromWindows(HIBYTE(vk_code_and_shift))};
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE_F;
          throw;
       }
    }
@@ -127,7 +127,7 @@ namespace {
          return result;
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE_F;
          throw;
       }
    }
@@ -158,7 +158,7 @@ namespace {
          }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE_F;
          throw;
       }
    }
@@ -187,7 +187,7 @@ namespace {
          return 0;
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE_F;
          throw;
       }
    }
@@ -205,7 +205,7 @@ namespace {
             return {};
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE_F;
          throw;
       }
    }
@@ -231,7 +231,7 @@ namespace {
          std::call_once(of, [lr_pid]() { rsj::CheckPermission(lr_pid); });
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE_F;
          throw;
       }
    }

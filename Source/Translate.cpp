@@ -50,7 +50,7 @@ void rsj::Translate(const std::string& lg)
          juce::LocalisedStrings::setCurrentMappings(nullptr);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse("rsj", MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE_F;
       throw;
    }
 }

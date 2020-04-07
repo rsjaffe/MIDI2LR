@@ -33,7 +33,7 @@ try : TextButtonAligned {
 , command_set_(command_set), profile_(profile), message_ {message} {}
 catch (const std::exception& e)
 {
-   rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+   MIDI2LR_E_RESPONSE;
    throw;
 }
 
@@ -104,7 +104,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e);
+      MIDI2LR_E_RESPONSE;
       throw;
    }
 }

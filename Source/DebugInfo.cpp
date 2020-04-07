@@ -148,7 +148,7 @@ namespace {
          return fmt::format("Unable to get KLID. Error {}.", GetLastError());
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse("GetKeyboardLayout", MIDI2LR_FUNC, e);
+         MIDI2LR_E_RESPONSE_F;
          throw;
       }
    }
