@@ -19,7 +19,6 @@
 
 #include <chrono>
 #include <exception>
-#include <ratio>
 #ifdef __cpp_lib_source_location
 #include <source_location>
 #endif
@@ -27,6 +26,7 @@
 #include <string_view>
 #include <thread> /* sleep_for */
 
+#include <fmt/chrono.h>
 #include <fmt/format.h>
 #include <gsl/gsl>
 #include <xmmintrin.h> /* for rounding intrinsics */
@@ -45,29 +45,6 @@ static constexpr bool kNdebug {false};
 #define MIDI2LR_FUNC __func__
 #endif
 
-#ifndef NDEBUG
-#ifdef _WIN32
-/* declarations from processthreadsapi.h */
-extern "C" __declspec(dllimport) long __stdcall SetThreadDescription( //-V126
-    _In_ void* hThread, _In_ const wchar_t* lpThreadDescription);
-extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
-namespace rsj {
-   inline void LabelThread(gsl::cwzstring<> threadname) noexcept
-   {
-      SetThreadDescription(GetCurrentThread(), threadname);
-   }
-} // namespace rsj
-#else
-namespace rsj {
-   constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
-} // namespace rsj
-#endif
-#else
-namespace rsj {
-   constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
-} // namespace rsj
-#endif
-
 #ifdef _WIN32
 constexpr auto MSWindows {true};
 constexpr auto MacOS {false};
@@ -78,7 +55,27 @@ constexpr auto MacOS {true};
 
 namespace rsj {
    /*****************************************************************************/
+   /**************Thread Labels**************************************************/
+   /*****************************************************************************/
+#ifndef NDEBUG
+#ifdef _WIN32
+   /* declarations from processthreadsapi.h */
+   extern "C" __declspec(dllimport) long __stdcall SetThreadDescription( //-V126
+       _In_ void* hThread, _In_ const wchar_t* lpThreadDescription);
+   extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
+   inline void LabelThread(gsl::cwzstring<> threadname) noexcept
+   {
+      SetThreadDescription(GetCurrentThread(), threadname);
+   }
+#else
+   constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
+#endif
+#else
+   constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
+#endif
+   /*****************************************************************************/
    /**************String Routines************************************************/
+   /*****************************************************************************/
    [[nodiscard]] inline juce::String toString(std::string_view in)
    {
       return juce::String(juce::CharPointer_UTF8(in.data()), in.size());
@@ -99,6 +96,7 @@ namespace rsj {
    void TrimL(std::string_view&& value) = delete;
    /*****************************************************************************/
    /**************Error Logging**************************************************/
+   /*****************************************************************************/
    /* typical call: rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e); */
    void ExceptionResponse(gsl::czstring<> id, gsl::czstring<> fu, const std::exception& e) noexcept;
    /* char* overloads here are to allow catch clauses to avoid a juce::String conversion at the
@@ -126,6 +124,7 @@ namespace rsj {
 #endif
    /*****************************************************************************/
    /*************File Paths******************************************************/
+   /*****************************************************************************/
 #ifdef _WIN32
    [[nodiscard]] std::wstring AppDataFilePath(std::wstring_view file_name);
    [[nodiscard]] std::wstring AppDataFilePath(std::string_view file_name);
@@ -143,6 +142,7 @@ namespace rsj {
 #endif
    /*****************************************************************************/
    /**************Reversed Iterator**********************************************/
+   /*****************************************************************************/
    /* Reversed iterable SEE:https://stackoverflow.com/a/42221253/5699329 */
    template<class T> struct ReverseWrapper {
       T o;
@@ -179,59 +179,9 @@ namespace rsj {
    }
    /*****************************************************************************/
    /*******************Sleep Timed and Logged************************************/
-
-#ifdef __cpp_consteval
-#define RSJ_CONSTEVAL consteval
-#else
-#define RSJ_CONSTEVAL constexpr
-#endif
-#pragma warning(push)
-#pragma warning(disable : 4127) /* constant conditional expression */
-   /* zepto yocto zetta and yotta too large/small to be represented by intmax_t TODO: change to
-    * consteval, find way to convert digit to string for unexpected values, so return could be,
-    * e.g., "23425/125557 ", instead of error message */
-   template<class R>[[nodiscard]] RSJ_CONSTEVAL auto RatioToPrefix() noexcept
-   {
-      if (std::ratio_equal_v<R, std::atto>)
-         return "atto";
-      if (std::ratio_equal_v<R, std::femto>)
-         return "femto";
-      if (std::ratio_equal_v<R, std::pico>)
-         return "pico";
-      if (std::ratio_equal_v<R, std::nano>)
-         return "nano";
-      if (std::ratio_equal_v<R, std::micro>)
-         return "micro";
-      if (std::ratio_equal_v<R, std::milli>)
-         return "milli";
-      if (std::ratio_equal_v<R, std::centi>)
-         return "centi";
-      if (std::ratio_equal_v<R, std::deci>)
-         return "deci";
-      if (std::ratio_equal_v<R, std::ratio<1, 1>>)
-         return "";
-      if (std::ratio_equal_v<R, std::deca>)
-         return "deca";
-      if (std::ratio_equal_v<R, std::hecto>)
-         return "hecto";
-      if (std::ratio_equal_v<R, std::kilo>)
-         return "kilo";
-      if (std::ratio_equal_v<R, std::mega>)
-         return "mega";
-      if (std::ratio_equal_v<R, std::giga>)
-         return "giga";
-      if (std::ratio_equal_v<R, std::tera>)
-         return "tera";
-      if (std::ratio_equal_v<R, std::peta>)
-         return "peta";
-      if (std::ratio_equal_v<R, std::exa>)
-         return "exa";
-      return "unexpected ratio encountered ";
-   }
-#pragma warning(pop)
-
+   /*****************************************************************************/
    template<class Rep, class Period>
-   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) //-V801
+   [[nodiscard]] auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) //-V801
    {
       const auto start {std::chrono::steady_clock::now()};
       std::this_thread::sleep_for(sleep_duration);
@@ -244,14 +194,11 @@ namespace rsj {
    void SleepTimedLogged(
        std::string_view msg_prefix, const std::chrono::duration<Rep, Period> sleep_duration) //-V801
    {
-      const auto elapsed {SleepTimed(sleep_duration)};
-      const auto fmtstring {
-          std::string(msg_prefix) + " thread slept for {} " + RatioToPrefix<Period>() + "seconds."};
-      rsj::Log(fmt::format(fmtstring, elapsed.count()));
+      rsj::Log(fmt::format("{} thread slept for {}.", msg_prefix, SleepTimed(sleep_duration)));
    }
    /*****************************************************************************/
-   /*******************Fast Rounding*********************************************/
-
+   /*******************Fast Floats***********************************************/
+   /*****************************************************************************/
    inline int RoundToInt(float source)
    {
       return _mm_cvtss_si32(_mm_set_ss(source));
