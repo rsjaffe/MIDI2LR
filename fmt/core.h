@@ -18,7 +18,7 @@
 #include <vector>
 
 // The fmt library version in the form major * 10000 + minor * 100 + patch.
-#define FMT_VERSION 60200
+#define FMT_VERSION 60201
 
 #ifdef __has_feature
 #  define FMT_HAS_FEATURE(x) __has_feature(x)
@@ -971,6 +971,14 @@ template <typename Context> struct arg_mapper {
   FMT_CONSTEXPR const char* map(const unsigned char* val) {
     static_assert(std::is_same<char_type, char>::value, "invalid string type");
     return reinterpret_cast<const char*>(val);
+  }
+  FMT_CONSTEXPR const char* map(signed char* val) {
+    const auto* const_val = val;
+    return map(const_val);
+  }
+  FMT_CONSTEXPR const char* map(unsigned char* val) {
+    const auto* const_val = val;
+    return map(const_val);
   }
 
   FMT_CONSTEXPR const void* map(void* val) { return val; }
