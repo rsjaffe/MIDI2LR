@@ -386,7 +386,7 @@
             <path>${project.rollbackBackupDirectory}</path>
         </deleteFile>
     </postInstallationActionList>
-    <allowedLanguages>es_AR pt_BR nl en fr de it ja ko pt ru zh_CN es sv zh_TW</allowedLanguages>
+    <allowedLanguages>en es_AR pt_BR nl fr de it ja ko pt ru zh_CN es sv zh_TW</allowedLanguages>
     <compressPackedFiles>1</compressPackedFiles>
     <compressionAlgorithm>lzham-ultra</compressionAlgorithm>
     <createOsxBundleDmg>1</createOsxBundleDmg>
