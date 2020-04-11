@@ -1,6 +1,6 @@
-midi.instructions.exp=Abre um navegador da web mostrando o manual. Marque o manual como favorito, pois há muitas opções e configurações que você pode usar no ${project.fullName}.
+midi.instructions.exp=Abre um navegador web mostrando o manual. Marque o manual como um dos favoritos, pois existem muitas opções e configurações que pode utilizar em ${project.fullName}.
 midi.instructions=Ajuda Online
-midi.donate.exp=Abre um navegador da web com um formulário do PayPal, onde você pode fazer uma doação para apoiar o desenvolvimento de ${project.fullName}.
-midi.donate=Doar para apoiar o desenvolvimento de projetos
-midi.install.win=${project.fullName} só pode ser instalado na versão de 64 bits do Microsoft Windows 7 ou posterior.
-midi.install.mac=Requer o MacOS Sierra 10.12 ou posterior.
+midi.donate.exp=Abre um navegador web com um formulário PayPal, onde pode fazer uma doação para apoiar o desenvolvimento de ${project.fullName}.
+midi.donate=Doe para apoiar o desenvolvimento do projeto
+midi.install.win=${project.fullName} só pode ser instalado na versão de 64 bits do Microsoft Windows 7 ou posteriormente.
+midi.install.mac=Necessita do MacOS Sierra 10.12 ou posterior.
