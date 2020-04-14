@@ -88,7 +88,8 @@ namespace rsj {
          queue_ = other.queue_;
       }
       /*5*/ ConcurrentQueue(ConcurrentQueue&& other) noexcept(
-          std::is_nothrow_move_constructible_v<Container> && noexcept(std::scoped_lock(other.mutex_)))
+          std::is_nothrow_move_constructible_v<Container> && noexcept(
+              std::scoped_lock(std::declval<Mutex>())))
       {
          auto lock {std::scoped_lock(other.mutex_)};
          queue_ = std::move(other.queue_);
@@ -118,8 +119,8 @@ namespace rsj {
       /*10*/ template<class Alloc,
           class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       ConcurrentQueue(ConcurrentQueue&& other, const Alloc& alloc) noexcept(
-          std::is_nothrow_constructible_v<Container, Container, const Alloc&> && noexcept(
-              std::scoped_lock(other.mutex_)))
+          std::is_nothrow_constructible_v<Container, Container, const Alloc&> &&
+              noexcept(std::scoped_lock(std::declval<Mutex>())))
           : queue_(alloc)
       {
          auto lock {std::scoped_lock(other.mutex_)};
@@ -136,8 +137,8 @@ namespace rsj {
          return *this;
       }
       ConcurrentQueue& operator=(ConcurrentQueue&& other) noexcept(
-          std::is_nothrow_move_assignable_v<Container> && noexcept(std::scoped_lock(other.mutex_))
-          && noexcept(std::scoped_lock(std::declval<Mutex>())))
+          std::is_nothrow_move_assignable_v<Container> &&
+              noexcept(std::scoped_lock(std::declval<Mutex>())))
       {
          {
             auto lock {std::scoped_lock(mutex_, other.mutex_)};
@@ -213,8 +214,7 @@ namespace rsj {
          queue_.pop_front();
          return rc;
       }
-      void swap(ConcurrentQueue& other) noexcept(
-          std::is_nothrow_swappable_v<Container> && noexcept(std::scoped_lock(other.mutex_))
+      void swap(ConcurrentQueue& other) noexcept(std::is_nothrow_swappable_v<Container>
           && noexcept(std::scoped_lock(std::declval<Mutex>())))
       {
          {
