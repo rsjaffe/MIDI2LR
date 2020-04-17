@@ -4,6 +4,6 @@ before_install:
     - gem install xcpretty
     - gem install xcpretty-travis-formatter
 script:
-    - xcodebuild -configuration Release -project Builds/MacOSX/MIDI2LR.xcodeproj CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -f `xcpretty-travis-formatter` && exit ${PIPESTATUS[0]}
-    - xcodebuild -configuration Debug -project Builds/MacOSX/MIDI2LR.xcodeproj CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -f `xcpretty-travis-formatter` && exit ${PIPESTATUS[0]}
+    - xcodebuild -configuration Release -project build/MacOS/MIDI2LR.xcodeproj CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -f `xcpretty-travis-formatter` && exit ${PIPESTATUS[0]}
+    - xcodebuild -configuration Debug -project build/MacOS/MIDI2LR.xcodeproj CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -f `xcpretty-travis-formatter` && exit ${PIPESTATUS[0]}
 

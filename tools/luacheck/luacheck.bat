@@ -1,1 +1,1 @@
-luacheck MIDI2LR.lrplugin > luacheck.results
+luacheck ..\..\src\plugin > luacheck.results

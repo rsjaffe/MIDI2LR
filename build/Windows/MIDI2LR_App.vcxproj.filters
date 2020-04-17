@@ -247,94 +247,94 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\CCoptions.cpp">
+    <ClCompile Include="..\..\src\application\CCoptions.cpp">
       <Filter>MIDI2LR\Source\Generated</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\PWoptions.cpp">
+    <ClCompile Include="..\..\src\application\PWoptions.cpp">
       <Filter>MIDI2LR\Source\Generated</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\fmt\format.cc">
+    <ClCompile Include="..\..\external\fmt\format.cc">
       <Filter>MIDI2LR\Source\Libraries</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\ResizableLayout.cpp">
+    <ClCompile Include="..\..\src\application\ResizableLayout.cpp">
       <Filter>MIDI2LR\Source\Libraries</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\CommandMenu.cpp">
+    <ClCompile Include="..\..\src\application\CommandMenu.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\CommandSet.cpp">
+    <ClCompile Include="..\..\src\application\CommandSet.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\CommandTable.cpp">
+    <ClCompile Include="..\..\src\application\CommandTable.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\CommandTableModel.cpp">
+    <ClCompile Include="..\..\src\application\CommandTableModel.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\ControlsModel.cpp">
+    <ClCompile Include="..\..\src\application\ControlsModel.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\DebugInfo.cpp">
+    <ClCompile Include="..\..\src\application\DebugInfo.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\KeyMap.mm">
+    <ClCompile Include="..\..\src\application\KeyMap.mm">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\LR_IPC_In.cpp">
+    <ClCompile Include="..\..\src\application\LR_IPC_In.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\LR_IPC_Out.cpp">
+    <ClCompile Include="..\..\src\application\LR_IPC_Out.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Main.cpp">
+    <ClCompile Include="..\..\src\application\Main.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\MainComponent.cpp">
+    <ClCompile Include="..\..\src\application\MainComponent.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\MainWindow.cpp">
+    <ClCompile Include="..\..\src\application\MainWindow.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\MIDIReceiver.cpp">
+    <ClCompile Include="..\..\src\application\MIDIReceiver.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\MIDISender.cpp">
+    <ClCompile Include="..\..\src\application\MIDISender.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\MidiUtilities.cpp">
+    <ClCompile Include="..\..\src\application\MidiUtilities.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Misc.cpp">
+    <ClCompile Include="..\..\src\application\Misc.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\NrpnMessage.cpp">
+    <ClCompile Include="..\..\src\application\NrpnMessage.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Ocpp.mm">
+    <ClCompile Include="..\..\src\application\Ocpp.mm">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Profile.cpp">
+    <ClCompile Include="..\..\src\application\Profile.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\ProfileManager.cpp">
+    <ClCompile Include="..\..\src\application\ProfileManager.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\SendKeys.cpp">
+    <ClCompile Include="..\..\src\application\SendKeys.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\SettingsComponent.cpp">
+    <ClCompile Include="..\..\src\application\SettingsComponent.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\SettingsManager.cpp">
+    <ClCompile Include="..\..\src\application\SettingsManager.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\TextButtonAligned.cpp">
+    <ClCompile Include="..\..\src\application\TextButtonAligned.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Translate.cpp">
+    <ClCompile Include="..\..\src\application\Translate.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\VersionChecker.cpp">
+    <ClCompile Include="..\..\src\application\VersionChecker.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -596,9 +596,6 @@
       <Filter>JUCE Modules\juce_core\misc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_RuntimePermissions.cpp">
-      <Filter>JUCE Modules\juce_core\misc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_StdFunctionCompat.cpp">
       <Filter>JUCE Modules\juce_core\misc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_Uuid.cpp">
@@ -1695,91 +1692,91 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\CCoptions.h">
+    <ClInclude Include="..\..\src\application\CCoptions.h">
       <Filter>MIDI2LR\Source\Generated</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\PWoptions.h">
+    <ClInclude Include="..\..\src\application\PWoptions.h">
       <Filter>MIDI2LR\Source\Generated</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ResizableLayout.h">
+    <ClInclude Include="..\..\src\application\ResizableLayout.h">
       <Filter>MIDI2LR\Source\Libraries</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\CommandMenu.h">
+    <ClInclude Include="..\..\src\application\CommandMenu.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\CommandSet.h">
+    <ClInclude Include="..\..\src\application\CommandSet.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\CommandTable.h">
+    <ClInclude Include="..\..\src\application\CommandTable.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\CommandTableModel.h">
+    <ClInclude Include="..\..\src\application\CommandTableModel.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Concurrency.h">
+    <ClInclude Include="..\..\src\application\Concurrency.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ControlsModel.h">
+    <ClInclude Include="..\..\src\application\ControlsModel.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\DebugInfo.h">
+    <ClInclude Include="..\..\src\application\DebugInfo.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\LR_IPC_In.h">
+    <ClInclude Include="..\..\src\application\LR_IPC_In.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\LR_IPC_Out.h">
+    <ClInclude Include="..\..\src\application\LR_IPC_Out.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\MainComponent.h">
+    <ClInclude Include="..\..\src\application\MainComponent.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\MainWindow.h">
+    <ClInclude Include="..\..\src\application\MainWindow.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\MIDIReceiver.h">
+    <ClInclude Include="..\..\src\application\MIDIReceiver.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\MIDISender.h">
+    <ClInclude Include="..\..\src\application\MIDISender.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\MidiUtilities.h">
+    <ClInclude Include="..\..\src\application\MidiUtilities.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Misc.h">
+    <ClInclude Include="..\..\src\application\Misc.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\NrpnMessage.h">
+    <ClInclude Include="..\..\src\application\NrpnMessage.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Ocpp.h">
+    <ClInclude Include="..\..\src\application\Ocpp.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Profile.h">
+    <ClInclude Include="..\..\src\application\Profile.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ProfileManager.h">
+    <ClInclude Include="..\..\src\application\ProfileManager.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\SendKeys.h">
+    <ClInclude Include="..\..\src\application\SendKeys.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\SettingsComponent.h">
+    <ClInclude Include="..\..\src\application\SettingsComponent.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\SettingsManager.h">
+    <ClInclude Include="..\..\src\application\SettingsManager.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\TextButtonAligned.h">
+    <ClInclude Include="..\..\src\application\TextButtonAligned.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Translate.h">
+    <ClInclude Include="..\..\src\application\Translate.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\VersionChecker.h">
+    <ClInclude Include="..\..\src\application\VersionChecker.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\WinDef.h">
+    <ClInclude Include="..\..\src\application\WinDef.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
@@ -2098,9 +2095,6 @@
       <Filter>JUCE Modules\juce_core\misc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_RuntimePermissions.h">
-      <Filter>JUCE Modules\juce_core\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_StdFunctionCompat.h">
       <Filter>JUCE Modules\juce_core\misc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_Uuid.h">
@@ -3062,7 +3056,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Source\MIDI2LR.png">
+    <None Include="..\..\data\application\MIDI2LR.png">
       <Filter>MIDI2LR\Source</Filter>
     </None>
     <None Include="..\..\JuceLibraryCode\modules\juce_core\native\java\README.txt">

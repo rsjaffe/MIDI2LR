@@ -64,8 +64,8 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../;../../asio/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;DONT_SET_USING_JUCE_NAMESPACE=1;GSL_THROW_ON_CONTRACT_VIOLATION=1;_WIN32_WINNT=0x0601;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=3.4.10.0;JUCE_APP_VERSION_HEX=0x3040a00;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../;../../external/;../../external/asio/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;DONT_SET_USING_JUCE_NAMESPACE=1;GSL_THROW_ON_CONTRACT_VIOLATION=1;_WIN32_WINNT=0x0601;JUCER_VS2019_A3DCEFC2=1;JUCE_APP_VERSION=3.4.10.0;JUCE_APP_VERSION_HEX=0x3040a00;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -105,8 +105,8 @@
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../;../../asio/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;DONT_SET_USING_JUCE_NAMESPACE=1;GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1;_WIN32_WINNT=0x0601;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=3.4.10.0;JUCE_APP_VERSION_HEX=0x3040a00;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../;../../external/;../../external/asio/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;DONT_SET_USING_JUCE_NAMESPACE=1;GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1;_WIN32_WINNT=0x0601;JUCER_VS2019_A3DCEFC2=1;JUCE_APP_VERSION=3.4.10.0;JUCE_APP_VERSION_HEX=0x3040a00;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -139,34 +139,34 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\CCoptions.cpp"/>
-    <ClCompile Include="..\..\Source\PWoptions.cpp"/>
-    <ClCompile Include="..\..\fmt\format.cc"/>
-    <ClCompile Include="..\..\Source\ResizableLayout.cpp"/>
-    <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
-    <ClCompile Include="..\..\Source\CommandSet.cpp"/>
-    <ClCompile Include="..\..\Source\CommandTable.cpp"/>
-    <ClCompile Include="..\..\Source\CommandTableModel.cpp"/>
-    <ClCompile Include="..\..\Source\ControlsModel.cpp"/>
-    <ClCompile Include="..\..\Source\DebugInfo.cpp"/>
-    <ClCompile Include="..\..\Source\LR_IPC_In.cpp"/>
-    <ClCompile Include="..\..\Source\LR_IPC_Out.cpp"/>
-    <ClCompile Include="..\..\Source\Main.cpp"/>
-    <ClCompile Include="..\..\Source\MainComponent.cpp"/>
-    <ClCompile Include="..\..\Source\MainWindow.cpp"/>
-    <ClCompile Include="..\..\Source\MIDIReceiver.cpp"/>
-    <ClCompile Include="..\..\Source\MIDISender.cpp"/>
-    <ClCompile Include="..\..\Source\MidiUtilities.cpp"/>
-    <ClCompile Include="..\..\Source\Misc.cpp"/>
-    <ClCompile Include="..\..\Source\NrpnMessage.cpp"/>
-    <ClCompile Include="..\..\Source\Profile.cpp"/>
-    <ClCompile Include="..\..\Source\ProfileManager.cpp"/>
-    <ClCompile Include="..\..\Source\SendKeys.cpp"/>
-    <ClCompile Include="..\..\Source\SettingsComponent.cpp"/>
-    <ClCompile Include="..\..\Source\SettingsManager.cpp"/>
-    <ClCompile Include="..\..\Source\TextButtonAligned.cpp"/>
-    <ClCompile Include="..\..\Source\Translate.cpp"/>
-    <ClCompile Include="..\..\Source\VersionChecker.cpp"/>
+    <ClCompile Include="..\..\src\application\CCoptions.cpp"/>
+    <ClCompile Include="..\..\src\application\PWoptions.cpp"/>
+    <ClCompile Include="..\..\external\fmt\format.cc"/>
+    <ClCompile Include="..\..\src\application\ResizableLayout.cpp"/>
+    <ClCompile Include="..\..\src\application\CommandMenu.cpp"/>
+    <ClCompile Include="..\..\src\application\CommandSet.cpp"/>
+    <ClCompile Include="..\..\src\application\CommandTable.cpp"/>
+    <ClCompile Include="..\..\src\application\CommandTableModel.cpp"/>
+    <ClCompile Include="..\..\src\application\ControlsModel.cpp"/>
+    <ClCompile Include="..\..\src\application\DebugInfo.cpp"/>
+    <ClCompile Include="..\..\src\application\LR_IPC_In.cpp"/>
+    <ClCompile Include="..\..\src\application\LR_IPC_Out.cpp"/>
+    <ClCompile Include="..\..\src\application\Main.cpp"/>
+    <ClCompile Include="..\..\src\application\MainComponent.cpp"/>
+    <ClCompile Include="..\..\src\application\MainWindow.cpp"/>
+    <ClCompile Include="..\..\src\application\MIDIReceiver.cpp"/>
+    <ClCompile Include="..\..\src\application\MIDISender.cpp"/>
+    <ClCompile Include="..\..\src\application\MidiUtilities.cpp"/>
+    <ClCompile Include="..\..\src\application\Misc.cpp"/>
+    <ClCompile Include="..\..\src\application\NrpnMessage.cpp"/>
+    <ClCompile Include="..\..\src\application\Profile.cpp"/>
+    <ClCompile Include="..\..\src\application\ProfileManager.cpp"/>
+    <ClCompile Include="..\..\src\application\SendKeys.cpp"/>
+    <ClCompile Include="..\..\src\application\SettingsComponent.cpp"/>
+    <ClCompile Include="..\..\src\application\SettingsManager.cpp"/>
+    <ClCompile Include="..\..\src\application\TextButtonAligned.cpp"/>
+    <ClCompile Include="..\..\src\application\Translate.cpp"/>
+    <ClCompile Include="..\..\src\application\VersionChecker.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -420,9 +420,6 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_RuntimePermissions.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_StdFunctionCompat.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_Uuid.cpp">
@@ -1437,35 +1434,35 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_basics.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\CCoptions.h"/>
-    <ClInclude Include="..\..\Source\PWoptions.h"/>
-    <ClInclude Include="..\..\Source\ResizableLayout.h"/>
-    <ClInclude Include="..\..\Source\CommandMenu.h"/>
-    <ClInclude Include="..\..\Source\CommandSet.h"/>
-    <ClInclude Include="..\..\Source\CommandTable.h"/>
-    <ClInclude Include="..\..\Source\CommandTableModel.h"/>
-    <ClInclude Include="..\..\Source\Concurrency.h"/>
-    <ClInclude Include="..\..\Source\ControlsModel.h"/>
-    <ClInclude Include="..\..\Source\DebugInfo.h"/>
-    <ClInclude Include="..\..\Source\LR_IPC_In.h"/>
-    <ClInclude Include="..\..\Source\LR_IPC_Out.h"/>
-    <ClInclude Include="..\..\Source\MainComponent.h"/>
-    <ClInclude Include="..\..\Source\MainWindow.h"/>
-    <ClInclude Include="..\..\Source\MIDIReceiver.h"/>
-    <ClInclude Include="..\..\Source\MIDISender.h"/>
-    <ClInclude Include="..\..\Source\MidiUtilities.h"/>
-    <ClInclude Include="..\..\Source\Misc.h"/>
-    <ClInclude Include="..\..\Source\NrpnMessage.h"/>
-    <ClInclude Include="..\..\Source\Ocpp.h"/>
-    <ClInclude Include="..\..\Source\Profile.h"/>
-    <ClInclude Include="..\..\Source\ProfileManager.h"/>
-    <ClInclude Include="..\..\Source\SendKeys.h"/>
-    <ClInclude Include="..\..\Source\SettingsComponent.h"/>
-    <ClInclude Include="..\..\Source\SettingsManager.h"/>
-    <ClInclude Include="..\..\Source\TextButtonAligned.h"/>
-    <ClInclude Include="..\..\Source\Translate.h"/>
-    <ClInclude Include="..\..\Source\VersionChecker.h"/>
-    <ClInclude Include="..\..\Source\WinDef.h"/>
+    <ClInclude Include="..\..\src\application\CCoptions.h"/>
+    <ClInclude Include="..\..\src\application\PWoptions.h"/>
+    <ClInclude Include="..\..\src\application\ResizableLayout.h"/>
+    <ClInclude Include="..\..\src\application\CommandMenu.h"/>
+    <ClInclude Include="..\..\src\application\CommandSet.h"/>
+    <ClInclude Include="..\..\src\application\CommandTable.h"/>
+    <ClInclude Include="..\..\src\application\CommandTableModel.h"/>
+    <ClInclude Include="..\..\src\application\Concurrency.h"/>
+    <ClInclude Include="..\..\src\application\ControlsModel.h"/>
+    <ClInclude Include="..\..\src\application\DebugInfo.h"/>
+    <ClInclude Include="..\..\src\application\LR_IPC_In.h"/>
+    <ClInclude Include="..\..\src\application\LR_IPC_Out.h"/>
+    <ClInclude Include="..\..\src\application\MainComponent.h"/>
+    <ClInclude Include="..\..\src\application\MainWindow.h"/>
+    <ClInclude Include="..\..\src\application\MIDIReceiver.h"/>
+    <ClInclude Include="..\..\src\application\MIDISender.h"/>
+    <ClInclude Include="..\..\src\application\MidiUtilities.h"/>
+    <ClInclude Include="..\..\src\application\Misc.h"/>
+    <ClInclude Include="..\..\src\application\NrpnMessage.h"/>
+    <ClInclude Include="..\..\src\application\Ocpp.h"/>
+    <ClInclude Include="..\..\src\application\Profile.h"/>
+    <ClInclude Include="..\..\src\application\ProfileManager.h"/>
+    <ClInclude Include="..\..\src\application\SendKeys.h"/>
+    <ClInclude Include="..\..\src\application\SettingsComponent.h"/>
+    <ClInclude Include="..\..\src\application\SettingsManager.h"/>
+    <ClInclude Include="..\..\src\application\TextButtonAligned.h"/>
+    <ClInclude Include="..\..\src\application\Translate.h"/>
+    <ClInclude Include="..\..\src\application\VersionChecker.h"/>
+    <ClInclude Include="..\..\src\application\WinDef.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
@@ -1572,7 +1569,6 @@
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_ConsoleApplication.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_Result.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_RuntimePermissions.h"/>
-    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_StdFunctionCompat.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_Uuid.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\misc\juce_WindowsRegistry.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_android_JNIHelpers.h"/>
@@ -1894,7 +1890,7 @@
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Source\MIDI2LR.png"/>
+    <None Include="..\..\data\application\MIDI2LR.png"/>
     <None Include="..\..\JuceLibraryCode\modules\juce_core\native\java\README.txt"/>
     <None Include="..\..\JuceLibraryCode\modules\juce_graphics\image_formats\jpglib\changes to libjpeg for JUCE.txt"/>
     <None Include="..\..\JuceLibraryCode\modules\juce_graphics\image_formats\pnglib\libpng_readme.txt"/>

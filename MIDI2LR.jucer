@@ -6,96 +6,96 @@
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright=""
               defines="DONT_SET_USING_JUCE_NAMESPACE=1" compilerFlagSchemes=""
-              headerPath="../../&#10;../../asio/&#10;">
+              headerPath="../../&#10;../../external/&#10;../../external/asio/&#10;">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
       <GROUP id="{0641120F-1C58-9E83-5AD3-3DCDB4C233AB}" name="Generated">
-        <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="Source/CCoptions.cpp"/>
-        <FILE id="gmEPgP" name="CCoptions.h" compile="0" resource="0" file="Source/CCoptions.h"/>
-        <FILE id="ClSPd1" name="PWoptions.cpp" compile="1" resource="0" file="Source/PWoptions.cpp"/>
-        <FILE id="IXtTCs" name="PWoptions.h" compile="0" resource="0" file="Source/PWoptions.h"/>
+        <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="src/application/CCoptions.cpp"/>
+        <FILE id="gmEPgP" name="CCoptions.h" compile="0" resource="0" file="src/application/CCoptions.h"/>
+        <FILE id="ClSPd1" name="PWoptions.cpp" compile="1" resource="0" file="src/application/PWoptions.cpp"/>
+        <FILE id="IXtTCs" name="PWoptions.h" compile="0" resource="0" file="src/application/PWoptions.h"/>
       </GROUP>
       <GROUP id="{8FAB947F-D106-DE1C-F42D-76CB0D4560A0}" name="Libraries">
-        <FILE id="K5h83d" name="format.cc" compile="1" resource="0" file="fmt/format.cc"/>
+        <FILE id="K5h83d" name="format.cc" compile="1" resource="0" file="external/fmt/format.cc"/>
         <FILE id="aE8ojc" name="ResizableLayout.cpp" compile="1" resource="0"
-              file="Source/ResizableLayout.cpp"/>
+              file="src/application/ResizableLayout.cpp"/>
         <FILE id="s4VIaO" name="ResizableLayout.h" compile="0" resource="0"
-              file="Source/ResizableLayout.h"/>
+              file="src/application/ResizableLayout.h"/>
       </GROUP>
-      <FILE id="oXdqCC" name="CommandMenu.cpp" compile="1" resource="0" file="Source/CommandMenu.cpp"/>
-      <FILE id="x6sgxb" name="CommandMenu.h" compile="0" resource="0" file="Source/CommandMenu.h"/>
-      <FILE id="zfXWOg" name="CommandSet.cpp" compile="1" resource="0" file="Source/CommandSet.cpp"/>
-      <FILE id="XITg44" name="CommandSet.h" compile="0" resource="0" file="Source/CommandSet.h"/>
+      <FILE id="oXdqCC" name="CommandMenu.cpp" compile="1" resource="0" file="src/application/CommandMenu.cpp"/>
+      <FILE id="x6sgxb" name="CommandMenu.h" compile="0" resource="0" file="src/application/CommandMenu.h"/>
+      <FILE id="zfXWOg" name="CommandSet.cpp" compile="1" resource="0" file="src/application/CommandSet.cpp"/>
+      <FILE id="XITg44" name="CommandSet.h" compile="0" resource="0" file="src/application/CommandSet.h"/>
       <FILE id="qgvDuW" name="CommandTable.cpp" compile="1" resource="0"
-            file="Source/CommandTable.cpp"/>
-      <FILE id="AOfNMq" name="CommandTable.h" compile="0" resource="0" file="Source/CommandTable.h"/>
+            file="src/application/CommandTable.cpp"/>
+      <FILE id="AOfNMq" name="CommandTable.h" compile="0" resource="0" file="src/application/CommandTable.h"/>
       <FILE id="PShp7M" name="CommandTableModel.cpp" compile="1" resource="0"
-            file="Source/CommandTableModel.cpp"/>
+            file="src/application/CommandTableModel.cpp"/>
       <FILE id="MgYWRn" name="CommandTableModel.h" compile="0" resource="0"
-            file="Source/CommandTableModel.h"/>
-      <FILE id="GcWnmU" name="Concurrency.h" compile="0" resource="0" file="Source/Concurrency.h"/>
+            file="src/application/CommandTableModel.h"/>
+      <FILE id="GcWnmU" name="Concurrency.h" compile="0" resource="0" file="src/application/Concurrency.h"/>
       <FILE id="zLeGKN" name="ControlsModel.cpp" compile="1" resource="0"
-            file="Source/ControlsModel.cpp"/>
-      <FILE id="RYkZlQ" name="ControlsModel.h" compile="0" resource="0" file="Source/ControlsModel.h"/>
-      <FILE id="XJw3l2" name="DebugInfo.cpp" compile="1" resource="0" file="Source/DebugInfo.cpp"/>
-      <FILE id="ayq2tF" name="DebugInfo.h" compile="0" resource="0" file="Source/DebugInfo.h"/>
-      <FILE id="WlKXbD" name="KeyMap.mm" compile="1" resource="0" file="Source/KeyMap.mm"/>
-      <FILE id="rBAqs7" name="LR_IPC_In.cpp" compile="1" resource="0" file="Source/LR_IPC_In.cpp"/>
-      <FILE id="KuUBCX" name="LR_IPC_In.h" compile="0" resource="0" file="Source/LR_IPC_In.h"/>
-      <FILE id="IDzpMr" name="LR_IPC_Out.cpp" compile="1" resource="0" file="Source/LR_IPC_Out.cpp"/>
-      <FILE id="SAormw" name="LR_IPC_Out.h" compile="0" resource="0" file="Source/LR_IPC_Out.h"/>
-      <FILE id="DX1wJU" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+            file="src/application/ControlsModel.cpp"/>
+      <FILE id="RYkZlQ" name="ControlsModel.h" compile="0" resource="0" file="src/application/ControlsModel.h"/>
+      <FILE id="XJw3l2" name="DebugInfo.cpp" compile="1" resource="0" file="src/application/DebugInfo.cpp"/>
+      <FILE id="ayq2tF" name="DebugInfo.h" compile="0" resource="0" file="src/application/DebugInfo.h"/>
+      <FILE id="WlKXbD" name="KeyMap.mm" compile="1" resource="0" file="src/application/KeyMap.mm"/>
+      <FILE id="rBAqs7" name="LR_IPC_In.cpp" compile="1" resource="0" file="src/application/LR_IPC_In.cpp"/>
+      <FILE id="KuUBCX" name="LR_IPC_In.h" compile="0" resource="0" file="src/application/LR_IPC_In.h"/>
+      <FILE id="IDzpMr" name="LR_IPC_Out.cpp" compile="1" resource="0" file="src/application/LR_IPC_Out.cpp"/>
+      <FILE id="SAormw" name="LR_IPC_Out.h" compile="0" resource="0" file="src/application/LR_IPC_Out.h"/>
+      <FILE id="DX1wJU" name="Main.cpp" compile="1" resource="0" file="src/application/Main.cpp"/>
       <FILE id="DR9WJZ" name="MainComponent.cpp" compile="1" resource="0"
-            file="Source/MainComponent.cpp"/>
-      <FILE id="teVB2z" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
-      <FILE id="hbC1l2" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
-      <FILE id="hctg9F" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
-      <FILE id="WdgQGt" name="MIDI2LR.png" compile="0" resource="1" file="Source/MIDI2LR.png"/>
+            file="src/application/MainComponent.cpp"/>
+      <FILE id="teVB2z" name="MainComponent.h" compile="0" resource="0" file="src/application/MainComponent.h"/>
+      <FILE id="hbC1l2" name="MainWindow.cpp" compile="1" resource="0" file="src/application/MainWindow.cpp"/>
+      <FILE id="hctg9F" name="MainWindow.h" compile="0" resource="0" file="src/application/MainWindow.h"/>
+      <FILE id="WdgQGt" name="MIDI2LR.png" compile="0" resource="1" file="data/application/MIDI2LR.png"/>
       <FILE id="fZR0db" name="MIDIReceiver.cpp" compile="1" resource="0"
-            file="Source/MIDIReceiver.cpp"/>
-      <FILE id="Kudv1C" name="MIDIReceiver.h" compile="0" resource="0" file="Source/MIDIReceiver.h"/>
-      <FILE id="byYQ7u" name="MIDISender.cpp" compile="1" resource="0" file="Source/MIDISender.cpp"/>
-      <FILE id="kFbCBA" name="MIDISender.h" compile="0" resource="0" file="Source/MIDISender.h"/>
+            file="src/application/MIDIReceiver.cpp"/>
+      <FILE id="Kudv1C" name="MIDIReceiver.h" compile="0" resource="0" file="src/application/MIDIReceiver.h"/>
+      <FILE id="byYQ7u" name="MIDISender.cpp" compile="1" resource="0" file="src/application/MIDISender.cpp"/>
+      <FILE id="kFbCBA" name="MIDISender.h" compile="0" resource="0" file="src/application/MIDISender.h"/>
       <FILE id="Z5nYLY" name="MidiUtilities.cpp" compile="1" resource="0"
-            file="Source/MidiUtilities.cpp"/>
-      <FILE id="rID3Fo" name="MidiUtilities.h" compile="0" resource="0" file="Source/MidiUtilities.h"/>
-      <FILE id="gxafEg" name="Misc.cpp" compile="1" resource="0" file="Source/Misc.cpp"/>
-      <FILE id="cl1k7L" name="Misc.h" compile="0" resource="0" file="Source/Misc.h"/>
-      <FILE id="b8rH7o" name="NrpnMessage.cpp" compile="1" resource="0" file="Source/NrpnMessage.cpp"/>
-      <FILE id="Vg4s1B" name="NrpnMessage.h" compile="0" resource="0" file="Source/NrpnMessage.h"/>
-      <FILE id="GAROt6" name="Ocpp.h" compile="0" resource="0" file="Source/Ocpp.h"/>
-      <FILE id="NLGqmV" name="Ocpp.mm" compile="1" resource="0" file="Source/Ocpp.mm"/>
-      <FILE id="XmHz5G" name="Profile.cpp" compile="1" resource="0" file="Source/Profile.cpp"/>
-      <FILE id="Z6tVEH" name="Profile.h" compile="0" resource="0" file="Source/Profile.h"/>
+            file="src/application/MidiUtilities.cpp"/>
+      <FILE id="rID3Fo" name="MidiUtilities.h" compile="0" resource="0" file="src/application/MidiUtilities.h"/>
+      <FILE id="gxafEg" name="Misc.cpp" compile="1" resource="0" file="src/application/Misc.cpp"/>
+      <FILE id="cl1k7L" name="Misc.h" compile="0" resource="0" file="src/application/Misc.h"/>
+      <FILE id="b8rH7o" name="NrpnMessage.cpp" compile="1" resource="0" file="src/application/NrpnMessage.cpp"/>
+      <FILE id="Vg4s1B" name="NrpnMessage.h" compile="0" resource="0" file="src/application/NrpnMessage.h"/>
+      <FILE id="GAROt6" name="Ocpp.h" compile="0" resource="0" file="src/application/Ocpp.h"/>
+      <FILE id="NLGqmV" name="Ocpp.mm" compile="1" resource="0" file="src/application/Ocpp.mm"/>
+      <FILE id="XmHz5G" name="Profile.cpp" compile="1" resource="0" file="src/application/Profile.cpp"/>
+      <FILE id="Z6tVEH" name="Profile.h" compile="0" resource="0" file="src/application/Profile.h"/>
       <FILE id="OF5z5S" name="ProfileManager.cpp" compile="1" resource="0"
-            file="Source/ProfileManager.cpp"/>
+            file="src/application/ProfileManager.cpp"/>
       <FILE id="o8SiAm" name="ProfileManager.h" compile="0" resource="0"
-            file="Source/ProfileManager.h"/>
-      <FILE id="kES39X" name="SendKeys.cpp" compile="1" resource="0" file="Source/SendKeys.cpp"/>
-      <FILE id="Sgq8EC" name="SendKeys.h" compile="0" resource="0" file="Source/SendKeys.h"/>
+            file="src/application/ProfileManager.h"/>
+      <FILE id="kES39X" name="SendKeys.cpp" compile="1" resource="0" file="src/application/SendKeys.cpp"/>
+      <FILE id="Sgq8EC" name="SendKeys.h" compile="0" resource="0" file="src/application/SendKeys.h"/>
       <FILE id="mUzFUq" name="SettingsComponent.cpp" compile="1" resource="0"
-            file="Source/SettingsComponent.cpp"/>
+            file="src/application/SettingsComponent.cpp"/>
       <FILE id="aX6rBU" name="SettingsComponent.h" compile="0" resource="0"
-            file="Source/SettingsComponent.h"/>
+            file="src/application/SettingsComponent.h"/>
       <FILE id="RKQ9iV" name="SettingsManager.cpp" compile="1" resource="0"
-            file="Source/SettingsManager.cpp"/>
+            file="src/application/SettingsManager.cpp"/>
       <FILE id="qQDY29" name="SettingsManager.h" compile="0" resource="0"
-            file="Source/SettingsManager.h"/>
+            file="src/application/SettingsManager.h"/>
       <FILE id="Dx8BIb" name="TextButtonAligned.cpp" compile="1" resource="0"
-            file="Source/TextButtonAligned.cpp"/>
+            file="src/application/TextButtonAligned.cpp"/>
       <FILE id="SupFD5" name="TextButtonAligned.h" compile="0" resource="0"
-            file="Source/TextButtonAligned.h"/>
-      <FILE id="ltTGX1" name="Translate.cpp" compile="1" resource="0" file="Source/Translate.cpp"/>
-      <FILE id="tBhQEV" name="Translate.h" compile="0" resource="0" file="Source/Translate.h"/>
+            file="src/application/TextButtonAligned.h"/>
+      <FILE id="ltTGX1" name="Translate.cpp" compile="1" resource="0" file="src/application/Translate.cpp"/>
+      <FILE id="tBhQEV" name="Translate.h" compile="0" resource="0" file="src/application/Translate.h"/>
       <FILE id="g6LPFD" name="VersionChecker.cpp" compile="1" resource="0"
-            file="Source/VersionChecker.cpp"/>
+            file="src/application/VersionChecker.cpp"/>
       <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"
-            file="Source/VersionChecker.h"/>
-      <FILE id="x4x0Pz" name="WinDef.h" compile="0" resource="0" file="Source/WinDef.h"/>
+            file="src/application/VersionChecker.h"/>
+      <FILE id="x4x0Pz" name="WinDef.h" compile="0" resource="0" file="src/application/WinDef.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="WdgQGt" bigIcon="WdgQGt"
+    <XCODE_MAC targetFolder="build/MacOS" smallIcon="WdgQGt" bigIcon="WdgQGt"
                customPList="&lt;plist&gt;&#10;&lt;dict&gt;&#10;&lt;key&gt;NSAppleEventsUsageDescription&lt;/key&gt;&#10;&lt;string&gt;MIDI2LR needs to send keystrokes to Lightroom to help automate your tasks.&lt;/string&gt;&#10;&lt;/dict&gt;&#10;&lt;/plist&gt;"
                hardenedRuntime="1" hardenedRuntimeOptions="com.apple.security.automation.apple-events"
                iosDevelopmentTeamID="VN44PD5JV9">
@@ -118,7 +118,7 @@
         <MODULEPATH id="juce_audio_devices" path="JuceLibraryCode\modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2019 targetFolder="Builds/VisualStudio2019" smallIcon="WdgQGt" bigIcon="WdgQGt"
+    <VS2019 targetFolder="build/Windows" smallIcon="WdgQGt" bigIcon="WdgQGt"
             extraDefs="_WIN32_WINNT=0x0601">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1" useRuntimeLibDLL="0"

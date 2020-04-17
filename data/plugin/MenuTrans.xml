@@ -168,25 +168,85 @@
               <second>Key 40</second>
             </value39>
             <value40>
-              <first>Key32Key31</first>
-              <second>Key 32 – Key 31</second>
+              <first>Key2Key1</first>
+              <second>Key 2 – Key 1</second>
             </value40>
             <value41>
-              <first>Key34Key33</first>
-              <second>Key 34 – Key 33</second>
+              <first>Key4Key3</first>
+              <second>Key 4 – Key 3</second>
             </value41>
             <value42>
-              <first>Key36Key35</first>
-              <second>Key 36 – Key 35</second>
+              <first>Key6Key5</first>
+              <second>Key 6 – Key 5</second>
             </value42>
             <value43>
-              <first>Key38Key37</first>
-              <second>Key 38 – Key 37</second>
+              <first>Key8Key7</first>
+              <second>Key 8 – Key 7</second>
             </value43>
             <value44>
+              <first>Key10Key9</first>
+              <second>Key 10 – Key 9</second>
+            </value44>
+            <value45>
+              <first>Key12Key11</first>
+              <second>Key 12 – Key 11</second>
+            </value45>
+            <value46>
+              <first>Key14Key13</first>
+              <second>Key 14 – Key 13</second>
+            </value46>
+            <value47>
+              <first>Key16Key15</first>
+              <second>Key 16 – Key 15</second>
+            </value47>
+            <value48>
+              <first>Key18Key17</first>
+              <second>Key 18 – Key 17</second>
+            </value48>
+            <value49>
+              <first>Key20Key19</first>
+              <second>Key 20 – Key 19</second>
+            </value49>
+            <value50>
+              <first>Key22Key21</first>
+              <second>Key 22 – Key 21</second>
+            </value50>
+            <value51>
+              <first>Key24Key23</first>
+              <second>Key 24 – Key 23</second>
+            </value51>
+            <value52>
+              <first>Key26Key25</first>
+              <second>Key 26 – Key 24</second>
+            </value52>
+            <value53>
+              <first>Key28Key27</first>
+              <second>Key 28 – Key 27</second>
+            </value53>
+            <value54>
+              <first>Key30Key29</first>
+              <second>Key 30 – Key 29</second>
+            </value54>
+            <value55>
+              <first>Key32Key31</first>
+              <second>Key 32 – Key 31</second>
+            </value55>
+            <value56>
+              <first>Key34Key33</first>
+              <second>Key 34 – Key 33</second>
+            </value56>
+            <value57>
+              <first>Key36Key35</first>
+              <second>Key 36 – Key 35</second>
+            </value57>
+            <value58>
+              <first>Key38Key37</first>
+              <second>Key 38 – Key 37</second>
+            </value58>
+            <value59>
               <first>Key40Key39</first>
               <second>Key 40 – Key 39</second>
-            </value44>
+            </value59>
         </second>
       </value0>
       <value1>
@@ -228,6 +288,34 @@
               <first>ActionSeries9</first>
               <second>Series of commands 9</second>
             </value8>
+            <value9>
+              <first>ActionSeries10</first>
+              <second>Series of commands 10</second>
+            </value9>
+            <value10>
+              <first>ActionSeries11</first>
+              <second>Series of commands 11</second>
+            </value10>
+            <value11>
+              <first>ActionSeries12</first>
+              <second>Series of commands 12</second>
+            </value11>
+            <value12>
+              <first>ActionSeries13</first>
+              <second>Series of commands 13</second>
+            </value12>
+            <value13>
+              <first>ActionSeries14</first>
+              <second>Series of commands 14</second>
+            </value13>
+            <value14>
+              <first>ActionSeries15</first>
+              <second>Series of commands 15</second>
+            </value14>
+            <value15>
+              <first>ActionSeries16</first>
+              <second>Series of commands 16</second>
+            </value15>
         </second>
       </value1>
       <value2>
@@ -444,6 +532,10 @@
               <first>ToggleYellow</first>
               <second>Label Yellow Enable/Disable</second>
             </value7>
+            <value8>
+              <first>ColorLabelNone</first>
+              <second>Remove color label</second>
+            </value8>
         </second>
       </value5>
       <value6>
@@ -814,7 +906,7 @@
             </value31>
             <value32>
               <first>ResetTexture</first>
-              <second>ResetTexture</second>
+              <second>Reset Texture</second>
             </value32>
             <value33>
               <first>ResetClarity</first>
@@ -2242,11 +2334,11 @@
         <second size="dynamic">
             <value0>
               <first>GraduatedFilter</first>
-              <second>Graduated Filters</second>
+              <second>Show Graduated Filters</second>
             </value0>
             <value1>
               <first>RadialFilter</first>
-              <second>Radial Filters</second>
+              <second>Show Radial Filters</second>
             </value1>
             <value2>
               <first>RedEye</first>
@@ -2254,7 +2346,7 @@
             </value2>
             <value3>
               <first>SpotRemoval</first>
-              <second>Spot Removal</second>
+              <second>Show Spot Removal</second>
             </value3>
             <value4>
               <first>AdjustmentBrush</first>
@@ -2370,7 +2462,7 @@
             </value31>
             <value32>
               <first>local_LuminanceNoise</first>
-              <second>Local Adjustments Luminence Noise Reduction (PV 3+)</second>
+              <second>Local Adjustments Luminance Noise Reduction (PV 3+)</second>
             </value32>
             <value33>
               <first>local_Moire</first>
@@ -2475,7 +2567,7 @@
             </value20>
             <value21>
               <first>Resetlocal_ToningLuminance</first>
-              <second>Reset Local Adjustments Luminanz (PV 2)</second>
+              <second>Reset Local Adjustments Luminance (PV 2)</second>
             </value21>
         </second>
       </value22>
@@ -2576,17 +2668,37 @@
               <second>Crop - Top</second>
             </value5>
             <value6>
-              <first>ResetCrop</first>
-              <second>Reset Crop</second>
+              <first>CropTopLeft</first>
+              <second>Crop - Top - Left</second>
             </value6>
             <value7>
-              <first>ResetstraightenAngle</first>
-              <second>Reset Straighten Angle</second>
+              <first>CropTopRight</first>
+              <second>Crop - Top - Right</second>
             </value7>
             <value8>
+              <first>CropBottomLeft</first>
+              <second>Crop - Bottom - Left</second>
+            </value8>
+            <value9>
+              <first>CropBottomRight</first>
+              <second>Crop - Bottom - Right</second>
+            </value9>
+            <value10>
+              <first>CropAll</first>
+              <second>Crop - All</second>
+            </value10>
+            <value11>
+              <first>ResetCrop</first>
+              <second>Reset Crop</second>
+            </value11>
+            <value12>
+              <first>ResetstraightenAngle</first>
+              <second>Reset Straighten Angle</second>
+            </value12>
+            <value13>
               <first>CropOverlay</first>
               <second>Show Crop</second>
-            </value8>
+            </value13>
         </second>
       </value24>
       <value25>
@@ -2731,13 +2843,45 @@
               <second>Profile: 18</second>
             </value17>
             <value18>
-              <first>PrevPro</first>
-              <second>Previous Profile</second>
+              <first>profile19</first>
+              <second>Profile: 19</second>
             </value18>
             <value19>
+              <first>profile20</first>
+              <second>Profile: 20</second>
+            </value19>
+            <value20>
+              <first>profile21</first>
+              <second>Profile: 21</second>
+            </value20>
+            <value21>
+              <first>profile22</first>
+              <second>Profile: 22</second>
+            </value21>
+            <value22>
+              <first>profile23</first>
+              <second>Profile: 23</second>
+            </value22>
+            <value23>
+              <first>profile24</first>
+              <second>Profile: 24</second>
+            </value23>
+            <value24>
+              <first>profile25</first>
+              <second>Profile: 25</second>
+            </value24>
+            <value25>
+              <first>profile26</first>
+              <second>Profile: 26</second>
+            </value25>
+            <value26>
+              <first>PrevPro</first>
+              <second>Previous Profile</second>
+            </value26>
+            <value27>
               <first>NextPro</first>
               <second>Next Profile</second>
-            </value19>
+            </value27>
         </second>
       </value27>
     </all_commands>

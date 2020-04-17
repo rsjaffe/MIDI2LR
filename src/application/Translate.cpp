@@ -22,7 +22,7 @@
 #include <JuceLibraryCode/JuceHeader.h>
 
 #include "Misc.h"
-#include "Translate.txt"
+#include "../../data/application/Translate.txt"
 /* char8_t currently in MSVC, not Xcode. Breaking change, so need to address here. */
 #ifdef __cpp_char8_t
 using TransType = const char8_t*;

@@ -4,5 +4,5 @@ configuration:
   - Debug
   - Release
 build:
-  project: Builds\VisualStudio2019\MIDI2LR.sln
+  project: build\Windows\MIDI2LR.sln
   verbosity: minimal

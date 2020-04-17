@@ -3,11 +3,11 @@
     <fullName>MIDI2LR</fullName>
     <version>3.4.10.0</version>
     <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
-    <readmeFile>../Source/LRPlugin/ReadMe.txt</readmeFile>
-    <licenseFile>../LICENSE.txt</licenseFile>
-    <htmlLicenseFile>LICENSE.html</htmlLicenseFile>
-    <logoImage>MIDI2LR48.png</logoImage>
-    <splashImage>../Source/MIDI2LR.png</splashImage>
+    <readmeFile>data/translations/ReadMe.txt</readmeFile>
+    <licenseFile>../../LICENSE.txt</licenseFile>
+    <htmlLicenseFile>data/LICENSE.html</htmlLicenseFile>
+    <logoImage>data/MIDI2LR48.png</logoImage>
+    <splashImage>../../data/application/MIDI2LR.png</splashImage>
     <defaultLanguage>auto</defaultLanguage>
     <allowLanguageSelection>1</allowLanguageSelection>
     <componentList>
@@ -25,148 +25,148 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../LICENSE.txt</origin>
+                            <origin>../../LICENSE.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/About.lua</origin>
+                            <origin>../../src/plugin/About.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/ActionSeries.lua</origin>
+                            <origin>../../src/plugin/ActionSeries.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Build.lua</origin>
+                            <origin>../../src/plugin/Build.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Client.lua</origin>
+                            <origin>../../src/plugin/Client.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/ClientUtilities.lua</origin>
+                            <origin>../../src/plugin/ClientUtilities.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Database.lua</origin>
+                            <origin>../../src/plugin/Database.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/DebugInfo.lua</origin>
+                            <origin>../../src/plugin/DebugInfo.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Donate.lua</origin>
+                            <origin>../../src/plugin/Donate.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/FileLoadPref.lua</origin>
+                            <origin>../../src/plugin/FileLoadPref.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/FileSavePref.lua</origin>
+                            <origin>../../src/plugin/FileSavePref.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Filters.lua</origin>
+                            <origin>../../src/plugin/Filters.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Info.lua</origin>
+                            <origin>../../src/plugin/Info.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Init.lua</origin>
+                            <origin>../../src/plugin/Init.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Latest.lua</origin>
+                            <origin>../../src/plugin/Latest.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Keys.lua</origin>
+                            <origin>../../src/plugin/Keys.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Keywords.lua</origin>
+                            <origin>../../src/plugin/Keywords.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/KeywordsDialog.lua</origin>
+                            <origin>../../src/plugin/KeywordsDialog.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/KeyShortcuts.lua</origin>
+                            <origin>../../src/plugin/KeyShortcuts.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/LaunchServer.lua</origin>
+                            <origin>../../src/plugin/LaunchServer.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Limits.lua</origin>
+                            <origin>../../src/plugin/Limits.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/LocalPresets.lua</origin>
+                            <origin>../../src/plugin/LocalPresets.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/OnlineHelp.lua</origin>
+                            <origin>../../src/plugin/OnlineHelp.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Options.lua</origin>
+                            <origin>../../src/plugin/Options.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/OptionsUtilities.lua</origin>
+                            <origin>../../src/plugin/OptionsUtilities.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Preferences.lua</origin>
+                            <origin>../../src/plugin/Preferences.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Presets.lua</origin>
+                            <origin>../../src/plugin/Presets.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/PresetsDialog.lua</origin>
+                            <origin>../../src/plugin/PresetsDialog.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Profiles.lua</origin>
+                            <origin>../../src/plugin/Profiles.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/ProfileTypes.lua</origin>
+                            <origin>../../src/plugin/ProfileTypes.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/serpent.lua</origin>
+                            <origin>../../src/plugin/serpent.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/ShutDownPlugin.lua</origin>
+                            <origin>../../src/plugin/ShutDownPlugin.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/StopServer.lua</origin>
+                            <origin>../../src/plugin/StopServer.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Support.lua</origin>
+                            <origin>../../src/plugin/Support.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_de.txt</origin>
+                            <origin>../../data/plugin/TranslatedStrings_de.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_en.txt</origin>
+                            <origin>../../data/plugin/TranslatedStrings_en.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_es.txt</origin>
+                            <origin>../../data/plugin/TranslatedStrings_es.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_fr.txt</origin>
+                            <origin>../../data/plugin/TranslatedStrings_fr.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_it.txt</origin>
+                            <origin>../../data/plugin/TranslatedStrings_it.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_ja.txt</origin>
+                            <origin>../../data/plugin/TranslatedStrings_ja.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_ko.txt</origin>
+                            <origin>../../data/plugin/TranslatedStrings_ko.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_nl.txt</origin>
+                            <origin>../../data/plugin/TranslatedStrings_nl.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_pt.txt</origin>
+                            <origin>../../data/plugin/TranslatedStrings_pt.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_sv.txt</origin>
+                            <origin>../../data/plugin/TranslatedStrings_sv.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_zh_cn.txt</origin>
+                            <origin>../../data/plugin/TranslatedStrings_zh_cn.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_zh_tw.txt</origin>
+                            <origin>../../data/plugin/TranslatedStrings_zh_tw.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Utilities.lua</origin>
+                            <origin>../../src/plugin/Utilities.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>${lua}/Virtual.lua</origin>
+                            <origin>../../src/plugin/Virtual.lua</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
@@ -188,10 +188,10 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../Builds/VisualStudio2019/EnableUserDumps.reg</origin>
+                            <origin>../windows_dump/EnableUserDumps.reg</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Builds/VisualStudio2019/EnableUserDumps.txt</origin>
+                            <origin>../windows_dump/EnableUserDumps.txt</origin>
                         </distributionFile>
                     </distributionFileList>
                     <ruleList>
@@ -218,7 +218,7 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../Source/UserSettings/MenuTrans.xml</origin>
+                            <origin>../../data/plugin/MenuTrans.xml</origin>
                         </distributionFile>
                     </distributionFileList>
                     <ruleList>
@@ -235,7 +235,7 @@
                     <platforms>osx</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../Source/UserSettings/MenuTrans.xml</origin>
+                            <origin>../../data/plugin/MenuTrans.xml</origin>
                         </distributionFile>
                     </distributionFileList>
                     <ruleList>
@@ -252,16 +252,12 @@
         <if>
             <actionList>
                 <setInstallerVariable>
-                    <name>lua</name>
-                    <value>../Source/LRPlugin/MIDI2LR.lrplugin/compiled</value>
-                </setInstallerVariable>
-                <setInstallerVariable>
                     <name>exe</name>
-                    <value>../Builds/VisualStudio2019/x64/Release/App</value>
+                    <value>../../build/Windows/x64/Release/App</value>
                 </setInstallerVariable>
                 <setInstallerVariable>
                     <name>app</name>
-                    <value>../Builds/MacOSX/build/Notarized</value>
+                    <value>../../build/MacOS/build/Notarized</value>
                 </setInstallerVariable>
                 <setInstallerVariable>
                     <name>debuglabel</name>
@@ -276,16 +272,12 @@
             </conditionRuleList>
             <elseActionList>
                 <setInstallerVariable>
-                    <name>lua</name>
-                    <value>../Source/LRPlugin/MIDI2LR.lrplugin</value>
-                </setInstallerVariable>
-                <setInstallerVariable>
                     <name>exe</name>
-                    <value>../Builds/VisualStudio2019/x64/Debug/App</value>
+                    <value>../../build/Windows/x64/Debug/App</value>
                 </setInstallerVariable>
                 <setInstallerVariable>
                     <name>app</name>
-                    <value>../Builds/MacOSX/build/Debug</value>
+                    <value>../../build/MacOS/build/Debug</value>
                 </setInstallerVariable>
                 <setInstallerVariable>
                     <name>debuglabel</name>
@@ -395,12 +387,12 @@
     <enableTimestamp>1</enableTimestamp>
     <height>400</height>
     <licenseFileEncoding>utf-8</licenseFileEncoding>
-    <osxApplicationBundleIcon>../Builds/MacOSX/Icon.icns</osxApplicationBundleIcon>
+    <osxApplicationBundleIcon>../../build/MacOS/Icon.icns</osxApplicationBundleIcon>
     <osxSigningPkcs12File>../osx-signing.p12</osxSigningPkcs12File>
     <osxSigningPkcs12Password>${env(OSX_SIGNING_PASSWORD)}</osxSigningPkcs12Password>
-    <osxUninstallerApplicationBundleIcon>../Builds/MacOSX/Icon.icns</osxUninstallerApplicationBundleIcon>
+    <osxUninstallerApplicationBundleIcon>../../build/MacOS/Icon.icns</osxUninstallerApplicationBundleIcon>
     <outputDirectory>../..</outputDirectory>
-    <productDisplayIcon>../Builds/VisualStudio2019/icon.ico</productDisplayIcon>
+    <productDisplayIcon>../../build/Windows/icon.ico</productDisplayIcon>
     <productUrlHelpLink>https://groups.google.com/forum/#!forum/midi2lr</productUrlHelpLink>
     <productUrlInfoAbout>https://rsjaffe.github.io/MIDI2LR/</productUrlInfoAbout>
     <readmeFileEncoding>utf-8</readmeFileEncoding>
@@ -410,83 +402,83 @@
     <uninstallerName>uninstallMIDI2LR</uninstallerName>
     <vendor>MIDI2LR</vendor>
     <width>600</width>
-    <windowsExecutableIcon>../Builds/VisualStudio2019/icon.ico</windowsExecutableIcon>
-    <windowsUninstallerExecutableIcon>../Builds/VisualStudio2019/icon.ico</windowsUninstallerExecutableIcon>
+    <windowsExecutableIcon>../../build/Windows/icon.ico</windowsExecutableIcon>
+    <windowsUninstallerExecutableIcon>../../build/Windows/icon.ico</windowsUninstallerExecutableIcon>
     <customLanguageFileList>
         <language>
             <code>en</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-en.lng</file>
+            <file>data/translations/custom-en.lng</file>
         </language>
         <language>
             <code>de</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-de.lng</file>
+            <file>data/translations/custom-de.lng</file>
         </language>
         <language>
             <code>es</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-es.lng</file>
+            <file>data/translations/custom-es.lng</file>
         </language>
         <language>
             <code>es_AR</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-es.lng</file>
+            <file>data/translations/custom-es.lng</file>
         </language>
         <language>
             <code>fr</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-fr.lng</file>
+            <file>data/translations/custom-fr.lng</file>
         </language>
         <language>
             <code>it</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-it.lng</file>
+            <file>data/translations/custom-it.lng</file>
         </language>
         <language>
             <code>ja</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-ja.lng</file>
+            <file>data/translations/custom-ja.lng</file>
         </language>
         <language>
             <code>ko</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-ko.lng</file>
+            <file>data/translations/custom-ko.lng</file>
         </language>
         <language>
             <code>nl</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-nl.lng</file>
+            <file>data/translations/custom-nl.lng</file>
         </language>
         <language>
             <code>pt</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-pt.lng</file>
+            <file>data/translations/custom-pt.lng</file>
         </language>
         <language>
             <code>pt_BR</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-pt.lng</file>
+            <file>data/translations/custom-pt.lng</file>
         </language>
         <language>
             <code>ru</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-ru.lng</file>
+            <file>data/translations/custom-ru.lng</file>
         </language>
         <language>
             <code>sv</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-sv.lng</file>
+            <file>data/translations/custom-sv.lng</file>
         </language>
         <language>
             <code>zh_CN</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-zh_CN.lng</file>
+            <file>data/translations/custom-zh_CN.lng</file>
         </language>
         <language>
             <code>zh_TW</code>
             <encoding>utf-8</encoding>
-            <file>translations/custom-zh_TW.lng</file>
+            <file>data/translations/custom-zh_TW.lng</file>
         </language>
     </customLanguageFileList>
     <finalPageActionList>
@@ -519,77 +511,77 @@
         <readmeFile>
             <code>en</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe.txt</file>
+            <file>data/translations/ReadMe.txt</file>
         </readmeFile>
         <readmeFile>
             <code>de</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-de.txt</file>
+            <file>data/translations/ReadMe-de.txt</file>
         </readmeFile>
         <readmeFile>
             <code>es</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-es.txt</file>
+            <file>data/translations/ReadMe-es.txt</file>
         </readmeFile>
         <readmeFile>
             <code>es_AR</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-es.txt</file>
+            <file>data/translations/ReadMe-es.txt</file>
         </readmeFile>
         <readmeFile>
             <code>fr</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-fr.txt</file>
+            <file>data/translations/ReadMe-fr.txt</file>
         </readmeFile>
         <readmeFile>
             <code>it</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-it.txt</file>
+            <file>data/translations/ReadMe-it.txt</file>
         </readmeFile>
         <readmeFile>
             <code>ja</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-ja.txt</file>
+            <file>data/translations/ReadMe-ja.txt</file>
         </readmeFile>
         <readmeFile>
             <code>ko</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-ko.txt</file>
+            <file>data/translations/ReadMe-ko.txt</file>
         </readmeFile>
         <readmeFile>
             <code>nl</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-nl.txt</file>
+            <file>data/translations/ReadMe-nl.txt</file>
         </readmeFile>
         <readmeFile>
             <code>pt</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-pt.txt</file>
+            <file>data/translations/ReadMe-pt.txt</file>
         </readmeFile>
         <readmeFile>
             <code>pt_BR</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-pt_BR.txt</file>
+            <file>data/translations/ReadMe-pt.txt</file>
         </readmeFile>
         <readmeFile>
             <code>ru</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-ru.txt</file>
+            <file>data/translations/ReadMe-ru.txt</file>
         </readmeFile>
         <readmeFile>
             <code>sv</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-sv.txt</file>
+            <file>data/translations/ReadMe-sv.txt</file>
         </readmeFile>
         <readmeFile>
             <code>zh_CN</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-zh_CN.txt</file>
+            <file>data/translations/ReadMe-zh_CN.txt</file>
         </readmeFile>
         <readmeFile>
             <code>zh_TW</code>
             <encoding>utf-8</encoding>
-            <file>translations/ReadMe-zh_TW.txt</file>
+            <file>data/translations/ReadMe-zh_TW.txt</file>
         </readmeFile>
     </readmeFileList>
 </project>
