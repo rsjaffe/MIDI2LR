@@ -54,17 +54,49 @@ namespace fs = std::filesystem;
 #include "SettingsManager.h"
 #include "Translate.h"
 #include "VersionChecker.h"
+#ifdef _WIN32
+#include <string_view>
+
+#include <wil/result.h> /* including too early causes conflicts with other windows includes */
+#endif
 
 namespace {
    constexpr auto kShutDownString {"--LRSHUTDOWN"};
    constexpr auto kSettingsFileX {"settings.xml"};
    constexpr auto kDefaultsFile {"default.xml"};
 
+#ifdef _WIN32
+   void WilCallback(const wil::FailureInfo& failure) noexcept
+   {
+      auto file_name {std::string_view(failure.pszFile)};
+      file_name.remove_prefix(file_name.find_last_of('\\') + 1);
+      auto failure_type {"undefined"};
+      switch (failure.type) {
+      case wil::FailureType::Exception:
+         failure_type = "exception";
+         break;
+      case wil::FailureType::Log:
+         failure_type = "log";
+         break;
+      case wil::FailureType::FailFast:
+         failure_type = "fail fast";
+         break;
+      case wil::FailureType::Return:
+         failure_type = "return";
+      }
+      rsj::Log(fmt::format("WIL reports file: {}, line: {}, action: {}, HRESULT: {:#08x}.",
+          file_name, failure.uLineNumber, failure_type, static_cast<unsigned>(failure.hr)));
+   }
+#endif
+
    class UpdateCurrentLogger {
     public:
       explicit UpdateCurrentLogger(juce::Logger* new_logger) noexcept
       {
          juce::Logger::setCurrentLogger(new_logger);
+#ifdef _WIN32
+         wil::SetResultLoggingCallback(&WilCallback);
+#endif
       }
    };
 

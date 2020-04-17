@@ -59,14 +59,7 @@ namespace rsj {
    /*****************************************************************************/
 #ifndef NDEBUG
 #ifdef _WIN32
-   /* declarations from processthreadsapi.h */
-   extern "C" __declspec(dllimport) long __stdcall SetThreadDescription( //-V126
-       _In_ void* hThread, _In_ const wchar_t* lpThreadDescription);
-   extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
-   inline void LabelThread(gsl::cwzstring<> threadname) noexcept
-   {
-      SetThreadDescription(GetCurrentThread(), threadname);
-   }
+   void LabelThread(gsl::cwzstring<> threadname) noexcept;
 #else
    constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
 #endif
@@ -115,7 +108,7 @@ namespace rsj {
        const std::source_location& location = std::source_location::current()) noexcept;
    void Log(gsl::czstring<> info,
        const std::source_location& location = std::source_location::current()) noexcept;
-#define MIDI2LR_E_RESPONSE rsj::ExceptionResponse(e)
+#define MIDI2LR_E_RESPONSE   rsj::ExceptionResponse(e)
 #define MIDI2LR_E_RESPONSE_F rsj::ExceptionResponse(e)
 #else
    void LogAndAlertError(const juce::String& error_text) noexcept;
@@ -123,7 +116,7 @@ namespace rsj {
    void LogAndAlertError(gsl::czstring<> error_text) noexcept;
    void Log(const juce::String& info) noexcept;
    void Log(gsl::czstring<> info) noexcept;
-#define MIDI2LR_E_RESPONSE rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e)
+#define MIDI2LR_E_RESPONSE   rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e)
 #define MIDI2LR_E_RESPONSE_F rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e)
 #endif
    /*****************************************************************************/

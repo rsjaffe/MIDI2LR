@@ -19,16 +19,27 @@
 #include <cctype>
 
 #include <ww898/utf_converters.hpp>
+
 #include "Misc.h"
 
 #ifdef _WIN32
 #include <ShlObj.h>
+#include <wil/resource.h>
 #else
 #include "Ocpp.h"
 #endif
 
 /* XCode has issues with std:: in this file, using ::std:: to fix when necessary */
 
+/*****************************************************************************/
+/**************Thread Labels**************************************************/
+/*****************************************************************************/
+#if !defined(NDEBUG) && defined(_WIN32)
+void rsj::LabelThread(gsl::cwzstring<> threadname) noexcept
+{
+   LOG_IF_FAILED(SetThreadDescription(GetCurrentThread(), threadname));
+}
+#endif
 /*****************************************************************************/
 /**************String Routines************************************************/
 /*****************************************************************************/
@@ -292,14 +303,9 @@ void rsj::ExceptionResponse(
 #ifdef _WIN32
 std::wstring rsj::AppDataFilePath(std::wstring_view file_name)
 {
-   wchar_t* pathptr {nullptr};
-   auto dp {gsl::finally([&pathptr] {
-      if (pathptr)
-         CoTaskMemFree(pathptr);
-   })};
-   const auto hr {SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathptr)};
-   if (SUCCEEDED(hr))
-      return std::wstring(pathptr) + L"\\MIDI2LR\\" + std::wstring(file_name);
+   wil::unique_cotaskmem_string pathptr {nullptr};
+   if (SUCCEEDED_LOG(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathptr)))
+      return std::wstring(pathptr.get()) + L"\\MIDI2LR\\" + std::wstring(file_name);
    return std::wstring(file_name);
 }
 

@@ -29,6 +29,7 @@
 #include "WinDef.h"
 #undef NOUSER
 #include <Windows.h>
+#include <wil/result.h>
 
 #include "Misc.h"
 
@@ -131,7 +132,7 @@ namespace {
       try {
          static_assert(sizeof(CHAR) == sizeof(char), "Windows CHAR and char different sizes.");
          std::array<CHAR, KL_NAMELENGTH> klid_ascii {};
-         if (GetKeyboardLayoutNameA(klid_ascii.data())) {
+         if (LOG_IF_WIN32_BOOL_FALSE(GetKeyboardLayoutNameA(klid_ascii.data()))) {
             try {
                const auto klid {std::stoul(std::string(klid_ascii.data()), nullptr, 16)};
                if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end())
@@ -145,7 +146,7 @@ namespace {
                return msg;
             }
          }
-         return fmt::format("Unable to get KLID. Error {}.", GetLastError());
+         return "Unable to get KLID.";
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE_F;

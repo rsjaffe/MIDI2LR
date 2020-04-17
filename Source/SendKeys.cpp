@@ -27,12 +27,14 @@
 
 #include "Misc.h"
 #ifdef _WIN32
+#include <array>
 #include <utility>
 
 #include "WinDef.h"
 #undef NOUSER
 #undef NOVIRTUALKEYCODES
 #include <Windows.h>
+#include <wil/result.h>
 #else
 #include <optional>
 
@@ -72,41 +74,70 @@ namespace rsj {
 
 namespace {
 #ifdef _WIN32
-   HKL GetLanguage(const std::string& program_name)
+
+   HWND h_lr_wnd {nullptr};
+   HWND h_lr_wnd_1word {nullptr};
+
+   BOOL CALLBACK EnumWindowsProc(_In_ HWND hwnd, [[maybe_unused]] _In_ LPARAM lParam)
    {
-      const auto h_lr_wnd {FindWindowA(nullptr, program_name.c_str())};
+      if (!IsWindowVisible(hwnd))
+         return true;
+      std::array<char, 500> buffer {};
+      const auto length = GetWindowTextA(hwnd, buffer.data(), gsl::narrow_cast<int>(buffer.size()));
+      if (GetWindowTextLengthA(hwnd) > gsl::narrow_cast<int>(buffer.size()))
+         rsj::Log(fmt::format(
+             "EnumWindowsProc window text length > {}, truncated text is {}.", buffer.size(), buffer.data()));
+      if (length) {
+         /* look for Lightroom Classic. If that fails, look for Lightroom */
+         const auto title = std::string_view(buffer.data(), length);
+         if (title.find("Lightroom Classic") != std::string_view::npos) {
+            h_lr_wnd = hwnd;
+            return false; /* stop EnumWindows */
+         }
+         if (title.find("Lightroom") != std::string_view::npos) {
+            h_lr_wnd_1word = hwnd;
+            return true; /* only stop enum if full name found, just in case two windows use
+                            "Lightroom"*/
+         }
+      }
+      return true;
+   }
+
+   HKL GetLanguage()
+   {
+      static std::once_flag of;
+      std::call_once(of, [] {
+         EnumWindows(&EnumWindowsProc, 0);
+         if (!h_lr_wnd && !h_lr_wnd_1word) {
+            if (GetLastError())
+               LOG_LAST_ERROR();
+            rsj::Log("Unable to find Lightroom in EnumWindows.");
+         }
+         else {
+            if (!h_lr_wnd)
+               h_lr_wnd = h_lr_wnd_1word;
+         }
+      });
       if (h_lr_wnd) {
          /* get language that LR is using (if hLrWnd is found) */
          const auto thread_id {GetWindowThreadProcessId(h_lr_wnd, nullptr)};
-         return GetKeyboardLayout(thread_id);
+         if (thread_id)
+            return GetKeyboardLayout(thread_id);
+         h_lr_wnd = nullptr;
+         rsj::Log("Unable to find lightroom thread id in GetLanguage.");
       }
-      /* FindWindowA failed */
-      rsj::Log(fmt::format("FindWindowA failed with error code: {}.", GetLastError()));
-      /* use keyboard of MIDI2LR application */
+      /* EnumWindows failed, use keyboard of MIDI2LR application */
       return GetKeyboardLayout(0);
-   }
-
-   SHORT VkKeyScanExWErrorChecked(_In_ WCHAR ch, _In_ HKL dwhkl)
-   {
-      try {
-         const auto vk_code_and_shift {VkKeyScanExW(ch, dwhkl)};
-         if (vk_code_and_shift == 0xffff) //-V547
-            throw std::runtime_error(
-                fmt::format("VkKeyScanExW failed with error code: {}.", GetLastError()));
-         return vk_code_and_shift;
-      }
-      catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE_F;
-         throw;
-      }
    }
 
    std::pair<BYTE, rsj::ActiveModifiers> KeyToVk(std::string_view key)
    {
       try {
          const auto uc {ww898::utf::conv<wchar_t>(key).front()};
-         static const auto kLanguageId {GetLanguage("Lightroom")};
-         const auto vk_code_and_shift {VkKeyScanExWErrorChecked(uc, kLanguageId)};
+         static const auto kLanguageId {GetLanguage()};
+         const auto vk_code_and_shift {VkKeyScanExW(uc, kLanguageId)};
+         THROW_LAST_ERROR_IF(
+             LOBYTE(vk_code_and_shift) == 0xFF && HIBYTE(vk_code_and_shift) == 0xFF);
          return {LOBYTE(vk_code_and_shift),
              rsj::ActiveModifiers::FromWindows(HIBYTE(vk_code_and_shift))};
       }
@@ -114,22 +145,7 @@ namespace {
          MIDI2LR_E_RESPONSE_F;
          throw;
       }
-   }
-
-   UINT SendInputErrorChecked(
-       _In_ UINT cinputs, _In_reads_(cinputs) LPINPUT pinputs, _In_ int cbSize)
-   {
-      try {
-         const auto result {SendInput(cinputs, pinputs, cbSize)};
-         if (result == 0)
-            throw std::runtime_error(
-                fmt::format("SendInput failed with error code: {}.", GetLastError()));
-         return result;
-      }
-      catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE_F;
-         throw;
-      }
+      CATCH_FAIL_FAST();
    }
 
    /* expects key first, followed by modifiers */
@@ -148,19 +164,20 @@ namespace {
          auto lock {std::scoped_lock(mutex_sending)};
          for (const auto it : rsj::Reverse(strokes)) {
             ip.ki.wVk = it;
-            SendInputErrorChecked(1, &ip, size_ip);
+            THROW_LAST_ERROR_IF(!SendInput(1, &ip, size_ip));
          }
          /* send key up strokes, KEYEVENTF_KEYUP for key release */
          ip.ki.dwFlags = KEYEVENTF_KEYUP;
          for (const auto it : strokes) {
             ip.ki.wVk = it;
-            SendInputErrorChecked(1, &ip, size_ip);
+            THROW_LAST_ERROR_IF(!SendInput(1, &ip, size_ip));
          }
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE_F;
          throw;
       }
+      CATCH_FAIL_FAST();
    }
 #else
    pid_t GetPid()
