@@ -1044,7 +1044,6 @@
 				HEADER_SEARCH_PATHS = (
 					"../../external/JuceLibraryCode",
 					"../../external/JuceLibraryCode/modules",
-					"../../",
 					"../../external/",
 					"../../external/asio/",
 					"$(inherited)",
@@ -1099,7 +1098,6 @@
 				HEADER_SEARCH_PATHS = (
 					"../../external/JuceLibraryCode",
 					"../../external/JuceLibraryCode/modules",
-					"../../",
 					"../../external/",
 					"../../external/asio/",
 					"$(inherited)",

@@ -85,8 +85,8 @@ namespace {
       std::array<char, 500> buffer {};
       const auto length = GetWindowTextA(hwnd, buffer.data(), gsl::narrow_cast<int>(buffer.size()));
       if (GetWindowTextLengthA(hwnd) > gsl::narrow_cast<int>(buffer.size()))
-         rsj::Log(fmt::format(
-             "EnumWindowsProc window text length > {}, truncated text is {}.", buffer.size(), buffer.data()));
+         rsj::Log(fmt::format("EnumWindowsProc window text length > {}, truncated text is {}.",
+             buffer.size(), buffer.data()));
       if (length) {
          /* look for Lightroom Classic. If that fails, look for Lightroom */
          const auto title = std::string_view(buffer.data(), length);
@@ -145,7 +145,10 @@ namespace {
          MIDI2LR_E_RESPONSE_F;
          throw;
       }
-      CATCH_FAIL_FAST();
+      catch (...) {
+         LOG_CAUGHT_EXCEPTION();
+         THROW_NORMALIZED_CAUGHT_EXCEPTION();
+      }
    }
 
    /* expects key first, followed by modifiers */
@@ -177,7 +180,10 @@ namespace {
          MIDI2LR_E_RESPONSE_F;
          throw;
       }
-      CATCH_FAIL_FAST();
+      catch (...) {
+         LOG_CAUGHT_EXCEPTION();
+         THROW_NORMALIZED_CAUGHT_EXCEPTION();
+      }
    }
 #else
    pid_t GetPid()

@@ -9,7 +9,7 @@
 namespace BinaryData
 {
     extern const char*   MIDI2LR_png;
-    const int            MIDI2LR_pngSize = 19720;
+    const int            MIDI2LR_pngSize = 6750;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
     const int namedResourceListSize = 1;
