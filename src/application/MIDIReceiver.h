@@ -34,7 +34,7 @@
 class MidiReceiver final : juce::MidiInputCallback {
  public:
    MidiReceiver() = default;
-   ~MidiReceiver() = default;
+   ~MidiReceiver() = default; // NOLINT(modernize-use-override)
    MidiReceiver(const MidiReceiver& other) = delete;
    MidiReceiver(MidiReceiver&& other) = delete;
    MidiReceiver& operator=(const MidiReceiver& other) = delete;

@@ -23,7 +23,7 @@ class SettingsManager;
 class SettingsComponent final : public juce::Component, ResizableLayout {
  public:
    explicit SettingsComponent(SettingsManager& settings_manager);
-   ~SettingsComponent() = default;
+   ~SettingsComponent() = default; // NOLINT(modernize-use-override)
    SettingsComponent(const SettingsComponent& other) = delete;
    SettingsComponent(SettingsComponent&& other) = delete;
    SettingsComponent& operator=(const SettingsComponent& other) = delete;

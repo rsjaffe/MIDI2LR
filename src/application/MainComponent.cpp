@@ -149,7 +149,7 @@ void MainContentComponent::Init()
       save_button_.setBounds(kSecondButtonX, kTopButtonY, kButtonWidth, kStandardHeight);
       addToLayout(&save_button_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(save_button_);
-      save_button_.onClick = std::bind(&MainContentComponent::SaveProfile, this);
+      save_button_.onClick = [this] { SaveProfile(); };
 
       /* Settings button */
       settings_button_.setBounds(kThirdButtonX, kTopButtonY, kButtonWidth, kStandardHeight);

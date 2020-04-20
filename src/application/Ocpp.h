@@ -19,8 +19,8 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
-typedef uint16_t UniChar;
-typedef int pid_t;
+using UniChar = uint16_t;
+using pid_t = int;
 
 namespace rsj {
    [[nodiscard]] std::string AppDataMac();

@@ -56,6 +56,7 @@ namespace {
       for (const auto& a : in) {
          if (gsl::narrow_cast<size_t>(a) < ascii_map.size())
 #pragma warning(suppress : 26446 26482) /* false alarm, range checked by if statement */
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
             result.append(ascii_map[gsl::narrow_cast<size_t>(a)]);
          else if (a == 127)
             result.append("\\x7F");

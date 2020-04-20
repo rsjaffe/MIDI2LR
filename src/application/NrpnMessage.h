@@ -37,6 +37,7 @@ class NrpnFilter {
    void Clear(int channel) noexcept
    {
 #pragma warning(suppress : 26446 26482) /* Channel bounds-checked in calling functions */
+      // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
       intermediate_results_[channel] = {0, 0, 0, 0, 0};
    }
    struct InternalStructure {

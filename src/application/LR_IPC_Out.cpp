@@ -286,6 +286,7 @@ void LrIpcOut::SendOut()
       if (command_copy->back() != '\n')
          /* should be terminated with \n */
          [[unlikely]]* command_copy += '\n';
+      // ReSharper disable once CppLambdaCaptureNeverUsed
       asio::async_write(socket_, asio::buffer(*command_copy),
           [this, command_copy](const asio::error_code& error, std::size_t) {
              if (!error)

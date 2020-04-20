@@ -207,10 +207,9 @@ int ChannelModel::PluginToController(rsj::MessageType controltype, int controlnu
       }
       case rsj::MessageType::Cc: {
          /* TODO(C26451): int subtraction: can it overflow? */
-         const auto newv {std::clamp(
-             rsj::RoundToInt(value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)))
-                 + cc_low_.at(controlnumber),
-             cc_low_.at(controlnumber), cc_high_.at(controlnumber))};
+         const auto clow {cc_low_.at(controlnumber)};
+         const auto chigh {cc_high_.at(controlnumber)};
+         const auto newv {std::clamp(rsj::RoundToInt(value * (chigh - clow)) + clow, clow, chigh)};
          current_v_.at(controlnumber).store(newv, std::memory_order_release);
          return newv;
       }

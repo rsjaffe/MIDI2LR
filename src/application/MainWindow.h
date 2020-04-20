@@ -34,7 +34,7 @@ class MainWindow final : juce::DocumentWindow, juce::Timer {
    MainWindow(const juce::String& name, const CommandSet& command_set, Profile& profile,
        ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
        MidiReceiver& midi_receiver, MidiSender& midi_sender);
-   ~MainWindow() = default;
+   ~MainWindow() = default; // NOLINT(modernize-use-override)
    MainWindow(const MainWindow& other) = delete;
    MainWindow(MainWindow&& other) = delete;
    MainWindow& operator=(const MainWindow& other) = delete;

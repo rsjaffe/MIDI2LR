@@ -21,8 +21,8 @@
 
 #include <JuceLibraryCode/JuceHeader.h>
 
-#include "Misc.h"
 #include "../../data/application/Translate.txt"
+#include "Misc.h"
 /* char8_t currently in MSVC, not Xcode. Breaking change, so need to address here. */
 #ifdef __cpp_char8_t
 using TransType = const char8_t*;
@@ -40,7 +40,7 @@ void rsj::Translate(const std::string& lg)
 #pragma warning(suppress : 26490)
          /* SEE: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1423r0.html for rationale
           * for reinterpret_cast */
-         const juce::String str(
+         const juce::String str( // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
              juce::CharPointer_UTF8(reinterpret_cast<const char*>(found->second)));
          auto ls {std::make_unique<juce::LocalisedStrings>(str, false)};
          /* take ownership of ls */

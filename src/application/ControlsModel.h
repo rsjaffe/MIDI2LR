@@ -33,10 +33,10 @@ namespace rsj {
    enum struct CCmethod : char { kAbsolute, kTwosComplement, kBinaryOffset, kSignMagnitude };
 
    struct SettingsStruct {
-      int control_number;
-      int low;
-      int high;
-      rsj::CCmethod method;
+      int control_number {};
+      int low {};
+      int high {};
+      rsj::CCmethod method {};
       // ReSharper disable once CppNonExplicitConvertingConstructor
       SettingsStruct(
           int n = 0, int l = 0, int h = 0x7F, rsj::CCmethod m = rsj::CCmethod::kAbsolute) noexcept

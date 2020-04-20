@@ -36,7 +36,7 @@ class ProfileManager final : juce::AsyncUpdater {
  public:
    ProfileManager(
        ControlsModel& c_model, const Profile& profile, LrIpcOut& out, MidiReceiver& midi_receiver);
-   ~ProfileManager() = default;
+   ~ProfileManager() = default; // NOLINT(modernize-use-override)
    ProfileManager(const ProfileManager& other) = delete;
    ProfileManager(ProfileManager&& other) = delete;
    ProfileManager& operator=(const ProfileManager& other) = delete;
