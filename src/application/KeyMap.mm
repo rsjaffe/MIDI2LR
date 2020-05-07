@@ -33,7 +33,8 @@ namespace {
    {
       /* the following is adapted from
        * https://github.com/microsoft/node-native-keymap/blob/master/src/keyboard_mac.mm */
-      /* Note that modifiers are the eventrecord modifiers >> 8 & 0xFF. So shift is 0x2.*/
+      /* Note that modifiers are the eventrecord modifiers >> 8 & 0xFF. So shift is 0x2.
+       * Option (altgr) is 0x8. Option + shift is 0xA. */
       UInt32 dead_key_state {0};
       UniCharCount char_count {0};
       UniChar character {0};
@@ -56,7 +57,7 @@ namespace {
    std::string sourceIdString;
    std::string localizedNameString;
    std::string langString;
-   std::unordered_map<UniChar, std::pair<size_t, bool>> KeyMapA {};
+   std::unordered_map<UniChar, rsj::KeyData> KeyMapA {};
 
    void FillInMessageLoop()
    {
@@ -114,9 +115,13 @@ namespace {
       else
          for (UInt16 native_keycode = 0; native_keycode <= 0xFF; ++native_keycode) {
             if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 0))
-               KeyMapA.try_emplace(value->second, std::make_pair(native_keycode, false));
+               KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, false, false));
             if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 2))
-               KeyMapA.try_emplace(value->second, std::make_pair(native_keycode, true));
+               KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, true, false));
+            if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 8))
+               KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, false, true));
+            if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 10))
+               KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, true, true));
          }
       CFRelease(source);
    }
@@ -140,14 +145,14 @@ namespace {
       return result;
    }
 
-   std::unordered_map<UniChar, std::pair<size_t, bool>> InternalKeyMap()
+   std::unordered_map<UniChar, rsj::KeyData> InternalKeyMap()
    {
       std::shared_lock lock(mtx);
       return KeyMapA;
    }
 } // namespace
 
-std::unordered_map<UniChar, std::pair<size_t, bool>> rsj::GetKeyMap()
+std::unordered_map<UniChar, rsj::KeyData> rsj::GetKeyMap()
 {
    using namespace std::chrono_literals;
    if (!FillInSucceeded() && !juce::MessageManager::callAsync(FillInMessageLoop))

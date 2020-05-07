@@ -109,8 +109,7 @@ namespace {
       std::call_once(of, [] {
          EnumWindows(&EnumWindowsProc, 0);
          if (!h_lr_wnd && !h_lr_wnd_1word) {
-            if (GetLastError())
-               LOG_LAST_ERROR();
+            LOG_LAST_ERROR_IF(GetLastError() != ERROR_SUCCESS);
             rsj::Log("Unable to find Lightroom in EnumWindows.");
          }
          else {
@@ -215,11 +214,11 @@ namespace {
       }
    }
 
-   /* Returns key code for given character. Bool in pair represents shift key */
-   std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c)
+   /* Returns key code for given character. Bool represents shift, option (AltGr) keys */
+   std::optional<rsj::KeyData> KeyCodeForChar(UniChar c)
    {
       try {
-         static const std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map {
+         static const std::unordered_map<UniChar, rsj::KeyData> char_code_map {
              rsj::GetKeyMap()};
          const auto result {char_code_map.find(c)};
          if (result != char_code_map.end())
@@ -355,9 +354,12 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
             rsj::LogAndAlertError(fmt::format("Unsupported character was used: \"{}\".", key));
             return;
          }
-         vk = key_code_result->first;
-         if (key_code_result->second)
+         const auto k_data {*key_code_result};
+         vk = k_data.keycode;
+         if (k_data.shift)
             flags |= kCGEventFlagMaskShift;
+         if (k_data.option)
+            flags |= kCGEventFlagMaskAlternate;
       }
       if (mods.alt_opt)
          flags |= kCGEventFlagMaskAlternate;
