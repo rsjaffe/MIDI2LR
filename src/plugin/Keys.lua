@@ -20,7 +20,9 @@ local LrView = import 'LrView'
 
 local legalanswers = {}
 local maxlength = 0
-local completion = {  
+local completion = { 
+  'apostrophe',
+  'backslash',
   'backspace',
   'cursor down',
   'cursor left',
@@ -93,7 +95,7 @@ local function validate(_,value)
   if count < 2 then return true,value end --one key or empty string
   value = LrStringUtils.lower(value)
   if legalanswers[value] then return true,value end
-  return false, '', 'Value must be single character or spell out an F key (F1-F16) or: backspace (means delete in OS X), cursor down, cursor left, cursor right, cursor up, delete (means delete right in OS X), end, escape, home, page down, page up, return, space, tab, or numpad 0 (through numpad 9), numpad add (or decimal, divide, multiply, subtract).'
+  return false, '', 'Value must be single character or spell out an F key (F1-F16) or: apostrophe, backslash, backspace (means delete in OS X), cursor down, cursor left, cursor right, cursor up, delete (means delete right in OS X), end, escape, home, page down, page up, return, space, tab, or numpad 0 (through numpad 9), numpad add (or decimal, divide, multiply, subtract).'
 end
 
 
@@ -170,6 +172,11 @@ local function EndDialog(obstable, status)
         ProgramPreferences.Keys[i]['control'] = obstable['Keyscontrol'..i]
         ProgramPreferences.Keys[i]['key'] = obstable['Keyskey'..i]
         ProgramPreferences.Keys[i]['shift'] = obstable['Keysshift'..i]
+        if ProgramPreferences.Keys[i]['key'] == 'apostrophe' then
+          ProgramPreferences.Keys[i]['key']  = '\''
+        elseif ProgramPreferences.Keys[i]['key'] == 'backslash' then
+          ProgramPreferences.Keys[i]['key'] = '\\'
+        end
       else
         ProgramPreferences.Keys[i]['alt'] = false
         ProgramPreferences.Keys[i]['command'] = false
