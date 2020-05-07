@@ -17,7 +17,7 @@
  */
 #include <JuceLibraryCode/JuceHeader.h>
 
-#include "ResizableLayout.h"
+#include "falco/ResizableLayout.h"
 class SettingsManager;
 
 class SettingsComponent final : public juce::Component, ResizableLayout {

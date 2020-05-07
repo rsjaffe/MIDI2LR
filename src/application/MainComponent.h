@@ -21,7 +21,7 @@
 
 #include "CommandTable.h"
 #include "CommandTableModel.h"
-#include "ResizableLayout.h"
+#include "falco/ResizableLayout.h"
 class CommandSet;
 class LrIpcOut;
 class MidiReceiver;

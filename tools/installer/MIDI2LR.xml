@@ -115,7 +115,7 @@
                             <origin>../../src/plugin/ProfileTypes.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../../src/plugin/serpent.lua</origin>
+                            <origin>../../external/serpent/serpent.lua</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../../src/plugin/ShutDownPlugin.lua</origin>

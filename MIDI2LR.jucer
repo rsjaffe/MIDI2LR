@@ -17,10 +17,10 @@
       </GROUP>
       <GROUP id="{8FAB947F-D106-DE1C-F42D-76CB0D4560A0}" name="Libraries">
         <FILE id="K5h83d" name="format.cc" compile="1" resource="0" file="external/fmt/format.cc"/>
-        <FILE id="aE8ojc" name="ResizableLayout.cpp" compile="1" resource="0"
-              file="src/application/ResizableLayout.cpp"/>
-        <FILE id="s4VIaO" name="ResizableLayout.h" compile="0" resource="0"
-              file="src/application/ResizableLayout.h"/>
+        <FILE id="CroK1m" name="ResizableLayout.cpp" compile="1" resource="0"
+              file="external/falco/ResizableLayout.cpp"/>
+        <FILE id="ylz9XF" name="ResizableLayout.h" compile="0" resource="0"
+              file="external/falco/ResizableLayout.h"/>
       </GROUP>
       <FILE id="oXdqCC" name="CommandMenu.cpp" compile="1" resource="0" file="src/application/CommandMenu.cpp"/>
       <FILE id="x6sgxb" name="CommandMenu.h" compile="0" resource="0" file="src/application/CommandMenu.h"/>

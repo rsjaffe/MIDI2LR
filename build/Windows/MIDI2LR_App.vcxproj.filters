@@ -256,7 +256,7 @@
     <ClCompile Include="..\..\external\fmt\format.cc">
       <Filter>MIDI2LR\Source\Libraries</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\application\ResizableLayout.cpp">
+    <ClCompile Include="..\..\external\falco\ResizableLayout.cpp">
       <Filter>MIDI2LR\Source\Libraries</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\application\CommandMenu.cpp">
@@ -1698,7 +1698,7 @@
     <ClInclude Include="..\..\src\application\PWoptions.h">
       <Filter>MIDI2LR\Source\Generated</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\application\ResizableLayout.h">
+    <ClInclude Include="..\..\external\falco\ResizableLayout.h">
       <Filter>MIDI2LR\Source\Libraries</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\application\CommandMenu.h">

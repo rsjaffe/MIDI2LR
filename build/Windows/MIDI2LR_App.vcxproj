@@ -142,7 +142,7 @@
     <ClCompile Include="..\..\src\application\CCoptions.cpp"/>
     <ClCompile Include="..\..\src\application\PWoptions.cpp"/>
     <ClCompile Include="..\..\external\fmt\format.cc"/>
-    <ClCompile Include="..\..\src\application\ResizableLayout.cpp"/>
+    <ClCompile Include="..\..\external\falco\ResizableLayout.cpp"/>
     <ClCompile Include="..\..\src\application\CommandMenu.cpp"/>
     <ClCompile Include="..\..\src\application\CommandSet.cpp"/>
     <ClCompile Include="..\..\src\application\CommandTable.cpp"/>
@@ -1436,7 +1436,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\application\CCoptions.h"/>
     <ClInclude Include="..\..\src\application\PWoptions.h"/>
-    <ClInclude Include="..\..\src\application\ResizableLayout.h"/>
+    <ClInclude Include="..\..\external\falco\ResizableLayout.h"/>
     <ClInclude Include="..\..\src\application\CommandMenu.h"/>
     <ClInclude Include="..\..\src\application\CommandSet.h"/>
     <ClInclude Include="..\..\src\application\CommandTable.h"/>

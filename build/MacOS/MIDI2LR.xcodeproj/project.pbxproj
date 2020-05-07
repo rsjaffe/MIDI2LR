@@ -61,9 +61,9 @@
 			isa = PBXBuildFile;
 			fileRef = CC740965E3ED4C3B3E84201C;
 		};
-		2349F03C7229C7F18FF3B955 = {
+		DFBBCD3B1D7E1764FD63C141 = {
 			isa = PBXBuildFile;
-			fileRef = 385352EC3DB410DC00AE4C2E;
+			fileRef = E35092CFA6219FEC9D4CEE88;
 		};
 		F332B4AF98148B10A19768F7 = {
 			isa = PBXBuildFile;
@@ -355,13 +355,6 @@
 			path = ../../src/application/ProfileManager.h;
 			sourceTree = "SOURCE_ROOT";
 		};
-		385352EC3DB410DC00AE4C2E = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = ResizableLayout.cpp;
-			path = ../../src/application/ResizableLayout.cpp;
-			sourceTree = "SOURCE_ROOT";
-		};
 		3B8837E2AC355C780919021F = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -549,13 +542,6 @@
 			lastKnownFileType = file;
 			name = "juce_events";
 			path = "../../external/JuceLibraryCode/modules/juce_events";
-			sourceTree = "SOURCE_ROOT";
-		};
-		8995DF14F34572E46978BFAA = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = ResizableLayout.h;
-			path = ../../src/application/ResizableLayout.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		8A1B5F83CBE85334B5E2FC87 = {
@@ -782,6 +768,20 @@
 			path = ../../src/application/MidiUtilities.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		E35092CFA6219FEC9D4CEE88 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = ResizableLayout.cpp;
+			path = ../../external/falco/ResizableLayout.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		E35135CA919819AB0B52D53D = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = ResizableLayout.h;
+			path = ../../external/falco/ResizableLayout.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		E6F6D41D1E1EE0C8A33EFDF3 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -853,8 +853,8 @@
 			isa = PBXGroup;
 			children = (
 				CC740965E3ED4C3B3E84201C,
-				385352EC3DB410DC00AE4C2E,
-				8995DF14F34572E46978BFAA,
+				E35092CFA6219FEC9D4CEE88,
+				E35135CA919819AB0B52D53D,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1245,7 +1245,7 @@
 				7CE773EEA754656954F8C3A6,
 				D2702BEDFD96DEAEE2CDCE86,
 				8D7D2E2EC512686E50347C95,
-				2349F03C7229C7F18FF3B955,
+				DFBBCD3B1D7E1764FD63C141,
 				F332B4AF98148B10A19768F7,
 				D7E9C5BDDAFB6A9B70D194F8,
 				86CFBC7826D42D9825CA453D,
