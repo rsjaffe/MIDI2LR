@@ -58,8 +58,7 @@ namespace rsj {
       std::atomic<bool> flag_ {false};
    };
 
-   /* all but blocking pops use scoped_lock. blocking pops use unique_lock noexcept specifications
-    * assume that std::scoped_lock won't throw */
+   /* all but blocking pops use scoped_lock. blocking pops use unique_lock */
    template<typename T, class Container = std::deque<T>, class Mutex = std::mutex>
    class ConcurrentQueue {
     public:
