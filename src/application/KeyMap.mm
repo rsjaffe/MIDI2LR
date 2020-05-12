@@ -62,7 +62,7 @@ namespace {
    void FillInMessageLoop()
    {
       std::unique_lock lock(mtx);
-      TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
+      TISInputSourceRef source {TISCopyCurrentKeyboardInputSource()};
       if (!source)
          source = TISCopyCurrentKeyboardLayoutInputSource();
       if (!source) {
@@ -70,32 +70,32 @@ namespace {
              juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
          return;
       }
-      CFStringRef sourceId =
-          (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyInputSourceID);
+      CFStringRef sourceId {
+          (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyInputSourceID)};
       if (sourceId)
          sourceIdString = std::string(((NSString*)sourceId).UTF8String);
 
-      CFStringRef localizedName =
-          (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyLocalizedName);
+      CFStringRef localizedName {
+          (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyLocalizedName)};
       if (localizedName)
          localizedNameString = std::string(((NSString*)localizedName).UTF8String);
 
-      NSArray* languages =
-          (NSArray*)TISGetInputSourceProperty(source, kTISPropertyInputSourceLanguages);
+      NSArray* languages {
+          (NSArray*)TISGetInputSourceProperty(source, kTISPropertyInputSourceLanguages)};
       if (languages && languages.count > 0) {
-         NSString* lang = languages[0];
+         NSString* lang {languages[0]};
          if (lang)
             langString = std::string(lang.UTF8String);
       }
 
       /* get layout data here since it's before use is needed and it crashes if done on another
        * thread since MacOS Catalina. it must happen on the main message thread */
-      CFDataRef layout_data = static_cast<CFDataRef>(
-          (TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData)));
+      CFDataRef layout_data {static_cast<CFDataRef>(
+          (TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData)))};
       if (!layout_data) {
          /* TISGetInputSourceProperty returns null with  Japanese keyboard layout. Using
           * TISCopyCurrentKeyboardLayoutInputSource to fix NULL return. */
-         TISInputSourceRef sourcea = TISCopyCurrentKeyboardLayoutInputSource();
+         TISInputSourceRef sourcea {TISCopyCurrentKeyboardLayoutInputSource()};
          if (sourcea) {
             layout_data = static_cast<CFDataRef>(
                 (TISGetInputSourceProperty(sourcea, kTISPropertyUnicodeKeyLayoutData)));
@@ -107,20 +107,20 @@ namespace {
              juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
          return;
       }
-      const UCKeyboardLayout* keyboardLayout =
-          reinterpret_cast<const UCKeyboardLayout*>(CFDataGetBytePtr(layout_data));
+      const UCKeyboardLayout* keyboardLayout {
+          reinterpret_cast<const UCKeyboardLayout*>(CFDataGetBytePtr(layout_data))};
       if (!keyboardLayout)
          rsj::LogAndAlertError(
              juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
       else
          for (UInt16 native_keycode = 0; native_keycode <= 0xFF; ++native_keycode) {
-            if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 0))
+            if (const auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 0))
                KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, false, false));
-            if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 2))
+            if (const auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 2))
                KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, true, false));
-            if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 8))
+            if (const auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 8))
                KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, false, true));
-            if (auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 10))
+            if (const auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 10))
                KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, true, true));
          }
       CFRelease(source);

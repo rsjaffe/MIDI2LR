@@ -73,6 +73,7 @@ namespace {
       std::array<wchar_t, 2048> debug_string {};
       wil::GetFailureLogString(debug_string.data(), debug_string.size(), failure);
       std::string u8_debug_string;
+      u8_debug_string.reserve(debug_string.size() * 2); /* maximum size of resulting string */
       ww898::utf::convz<ww898::utf::utf16, ww898::utf::utf8>(
           debug_string.data(), std::back_inserter(u8_debug_string));
       rsj::Log(fmt::format("WIL reports {}", u8_debug_string));

@@ -82,22 +82,27 @@ namespace {
    {
       if (!IsWindowVisible(hwnd))
          return true;
-      std::array<char, 500> buffer {};
-      const auto length = GetWindowTextA(hwnd, buffer.data(), gsl::narrow_cast<int>(buffer.size()));
-      if (GetWindowTextLengthA(hwnd) > gsl::narrow_cast<int>(buffer.size()))
-         rsj::Log(fmt::format("EnumWindowsProc window text length > {}, truncated text is {}.",
-             buffer.size(), buffer.data()));
+      std::array<WCHAR, 500> buffer {};
+      const auto length {GetWindowTextW(hwnd, buffer.data(), gsl::narrow_cast<int>(buffer.size()))};
       if (length) {
-         /* look for Lightroom Classic. If that fails, look for Lightroom */
-         const auto title = std::string_view(buffer.data(), length);
-         if (title.find("Lightroom Classic") != std::string_view::npos) {
-            h_lr_wnd = hwnd;
-            return false; /* stop EnumWindows */
+         /* check for issues with extra-long window titles and log them */
+         if (GetWindowTextLengthW(hwnd) > gsl::narrow_cast<int>(buffer.size())) {
+            std::string fullname;
+            fullname.reserve(buffer.size() * 2); /* maximum size of resulting string */
+            ww898::utf::convz<ww898::utf::utf16, ww898::utf::utf8>(
+                buffer.data(), std::back_inserter(fullname));
+            rsj::Log(fmt::format("EnumWindowsProc window text length > {}, truncated text is {}.",
+                buffer.size(), fullname));
          }
-         if (title.find("Lightroom") != std::string_view::npos) {
+         /* try to find Lightroom Classic. Use Lightroom as fallback */
+         const auto title {std::wstring_view(buffer.data(), length)};
+         const auto lr_start {title.find(L"Lightroom")};
+         if (lr_start != std::string_view::npos) {
             h_lr_wnd_1word = hwnd;
-            return true; /* only stop enum if full name found, just in case two windows use
-                            "Lightroom"*/
+            if (title.find(L"Lightroom Classic", lr_start) != std::string_view::npos) {
+               h_lr_wnd = hwnd;
+               return false; /* found full title, stop EnumWindows */
+            }
          }
       }
       return true;
@@ -195,7 +200,7 @@ namespace {
          std::vector<pid_t> pids(number_processes, 0);
          proc_listpids(
              PROC_ALL_PIDS, 0, pids.data(), gsl::narrow_cast<int>(sizeof(pids[0]) * pids.size()));
-         char path_buffer[PROC_PIDPATHINFO_MAXSIZE];
+         char path_buffer[PROC_PIDPATHINFO_MAXSIZE] {};
          for (const auto pid : pids) {
             if (pid == 0)
                continue;
@@ -218,8 +223,7 @@ namespace {
    std::optional<rsj::KeyData> KeyCodeForChar(UniChar c)
    {
       try {
-         static const std::unordered_map<UniChar, rsj::KeyData> char_code_map {
-             rsj::GetKeyMap()};
+         static const std::unordered_map<UniChar, rsj::KeyData> char_code_map {rsj::GetKeyMap()};
          const auto result {char_code_map.find(c)};
          if (result != char_code_map.end())
             return result->second;
