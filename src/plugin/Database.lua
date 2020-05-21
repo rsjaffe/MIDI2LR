@@ -182,7 +182,7 @@ local DataBase = {
   {Command='Key20Key19',Type='repeat',Translation=key..' 20 – '..key..' 19',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key20 signals to Lightroom, counterclockwise Key19.'..repeatexp}, 
   {Command='Key22Key21',Type='repeat',Translation=key..' 22 – '..key..' 21',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key22 signals to Lightroom, counterclockwise Key21.'..repeatexp},  
   {Command='Key24Key23',Type='repeat',Translation=key..' 24 – '..key..' 23',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key24 signals to Lightroom, counterclockwise Key23.'..repeatexp}, 
-  {Command='Key26Key25',Type='repeat',Translation=key..' 26 – '..key..' 24',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key26 signals to Lightroom, counterclockwise Key25.'..repeatexp},  
+  {Command='Key26Key25',Type='repeat',Translation=key..' 26 – '..key..' 25',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key26 signals to Lightroom, counterclockwise Key25.'..repeatexp},  
   {Command='Key28Key27',Type='repeat',Translation=key..' 28 – '..key..' 27',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key28 signals to Lightroom, counterclockwise Key27.'..repeatexp}, 
   {Command='Key30Key29',Type='repeat',Translation=key..' 30 – '..key..' 29',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key30 signals to Lightroom, counterclockwise Key29.'..repeatexp},
   {Command='Key32Key31',Type='repeat',Translation=key..' 32 – '..key..' 31',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key32 signals to Lightroom, counterclockwise Key31.'..repeatexp},
