@@ -16,10 +16,12 @@
  *
  */
 #include <atomic>
+#include <chrono>
 #include <condition_variable>
 #include <deque>
 #include <mutex>
 #include <optional>
+#include <thread>
 #include <type_traits>
 extern "C" {
 extern void _mm_pause();
@@ -37,9 +39,19 @@ namespace rsj {
       void lock() noexcept
       {
          do {
+            using namespace std::chrono_literals;
             /* avoid cache invalidation if lock appears to be unavailable */
-            while (flag_.load(std::memory_order_relaxed))
-               _mm_pause(); /* spin without expensive exchange */
+            for (std::uint64_t k {0}; flag_.load(std::memory_order_relaxed); ++k) {
+               /* spin without expensive exchange */
+               if (k < 4)
+                  continue;
+               if (k < 16)
+                  _mm_pause();
+               else if (k < 64)
+                  std::this_thread::yield();
+               else
+                  std::this_thread::sleep_for(1ms);
+            }
          } while (flag_.exchange(true, std::memory_order_acquire));
       }
       bool try_lock() noexcept
