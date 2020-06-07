@@ -21,8 +21,10 @@
 #include <deque>
 #include <mutex>
 #include <optional>
+#include <random>
 #include <thread>
 #include <type_traits>
+
 extern "C" {
 extern void _mm_pause();
 }
@@ -37,17 +39,36 @@ namespace rsj {
       SpinLock& operator=(const SpinLock& other) = delete;
       SpinLock& operator=(SpinLock&& other) = delete;
       void lock() noexcept
-      {
+      { /* if uncontested, don't bother with exponential back-off */
+         if (!flag_.load(std::memory_order_relaxed)
+             && !flag_.exchange(true, std::memory_order_acquire))
+            return;
+         /* set up back-off numbers once per thread */
+         using LoopT = std::uint64_t;
+         const auto static thread_local [kB1, kB2, kB3] {
+            [] {
+               static_assert(
+                   std::is_unsigned_v<std::random_device::
+                           result_type> && sizeof std::random_device::result_type >= sizeof uint16_t);
+               const auto rn {std::random_device {}()};
+               return std::tuple {
+                   1 + (rn & 0b11), 12 + (rn >> 2 & 0b111), 56 + (rn >> 5 & 0b1111)};
+            }()
+         };
+         /* Expensive to refer to thread_local storage, ensure compiler doesn't keep reloading from
+          * there in loop. This may be unnecessary but harmless if so.*/
+         const LoopT back_off_1 {kB1};
+         const LoopT back_off_2 {kB2};
+         const LoopT back_off_3 {kB3};
          do {
-            using namespace std::chrono_literals;
             /* avoid cache invalidation if lock appears to be unavailable */
-            for (std::uint64_t k {0}; flag_.load(std::memory_order_relaxed); ++k) {
-               /* spin without expensive exchange */
-               if (k < 4)
+            for (LoopT k {0}; flag_.load(std::memory_order_relaxed); ++k) {
+               using namespace std::chrono_literals;
+               if (k < back_off_1)
                   continue;
-               if (k < 16)
+               if (k < back_off_2)
                   _mm_pause();
-               else if (k < 64)
+               else if (k < back_off_3)
                   std::this_thread::yield();
                else
                   std::this_thread::sleep_for(1ms);
@@ -99,7 +120,7 @@ namespace rsj {
          queue_ = other.queue_;
       }
       /*5*/ ConcurrentQueue(ConcurrentQueue&& other) noexcept(
-          std::is_nothrow_move_constructible_v<Container> && noexcept(
+          std::is_nothrow_move_constructible_v<Container>&& noexcept(
               std::scoped_lock(std::declval<Mutex>())))
       {
          auto lock {std::scoped_lock(other.mutex_)};
@@ -130,8 +151,8 @@ namespace rsj {
       /*10*/ template<class Alloc,
           class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       ConcurrentQueue(ConcurrentQueue&& other, const Alloc& alloc) noexcept(
-          std::is_nothrow_constructible_v<Container, Container, const Alloc&> &&
-              noexcept(std::scoped_lock(std::declval<Mutex>())))
+          std::is_nothrow_constructible_v<Container, Container, const Alloc&>&& noexcept(
+              std::scoped_lock(std::declval<Mutex>())))
           : queue_(alloc)
       {
          auto lock {std::scoped_lock(other.mutex_)};
@@ -148,8 +169,8 @@ namespace rsj {
          return *this;
       }
       ConcurrentQueue& operator=(ConcurrentQueue&& other) noexcept(
-          std::is_nothrow_move_assignable_v<Container> &&
-              noexcept(std::scoped_lock(std::declval<Mutex>())))
+          std::is_nothrow_move_assignable_v<Container>&& noexcept(
+              std::scoped_lock(std::declval<Mutex>())))
       {
          {
             auto lock {std::scoped_lock(mutex_, other.mutex_)};
@@ -161,23 +182,21 @@ namespace rsj {
       /* destructor */
       ~ConcurrentQueue() = default;
       /* methods */
-      [[nodiscard]] auto empty() const
-          noexcept(noexcept(std::declval<Container>().empty())
-                   && noexcept(std::scoped_lock(std::declval<Mutex>())))
+      [[nodiscard]] auto empty() const noexcept(noexcept(
+          std::declval<Container>().empty()) && noexcept(std::scoped_lock(std::declval<Mutex>())))
       {
          auto lock {std::scoped_lock(mutex_)};
          return queue_.empty();
       }
-      [[nodiscard]] size_type size() const
-          noexcept(noexcept(std::declval<Container>().size())
-                   && noexcept(std::scoped_lock(std::declval<Mutex>())))
+      [[nodiscard]] size_type size() const noexcept(noexcept(
+          std::declval<Container>().size()) && noexcept(std::scoped_lock(std::declval<Mutex>())))
       {
          auto lock {std::scoped_lock(mutex_)};
          return queue_.size();
       }
       [[nodiscard]] size_type max_size() const
-          noexcept(noexcept(std::declval<Container>().max_size())
-                   && noexcept(std::scoped_lock(std::declval<Mutex>())))
+          noexcept(noexcept(std::declval<Container>().max_size()) && noexcept(
+              std::scoped_lock(std::declval<Mutex>())))
       {
          auto lock {std::scoped_lock(mutex_)};
          return queue_.max_size();
@@ -225,8 +244,8 @@ namespace rsj {
          queue_.pop_front();
          return rc;
       }
-      void swap(ConcurrentQueue& other) noexcept(std::is_nothrow_swappable_v<Container>
-          && noexcept(std::scoped_lock(std::declval<Mutex>())))
+      void swap(ConcurrentQueue& other) noexcept(std::is_nothrow_swappable_v<Container>&& noexcept(
+          std::scoped_lock(std::declval<Mutex>())))
       {
          {
             auto lock {std::scoped_lock(mutex_, other.mutex_)};
@@ -248,15 +267,15 @@ namespace rsj {
          }
          condition_.notify_all();
       }
-      void clear() noexcept(noexcept(std::declval<Container>().clear())
-                            && noexcept(std::scoped_lock(std::declval<Mutex>())))
+      void clear() noexcept(noexcept(std::declval<Container>().clear()) && noexcept(
+          std::scoped_lock(std::declval<Mutex>())))
       {
          auto lock {std::scoped_lock(mutex_)};
          queue_.clear();
       }
-      [[nodiscard]] size_type clear_count() noexcept(
-          noexcept(std::declval<Container>().clear()) && noexcept(std::declval<Container>().size())
-          && noexcept(std::scoped_lock(std::declval<Mutex>())))
+      [[nodiscard]] size_type
+      clear_count() noexcept(noexcept(std::declval<Container>().clear()) && noexcept(
+          std::declval<Container>().size()) && noexcept(std::scoped_lock(std::declval<Mutex>())))
       {
          auto lock {std::scoped_lock(mutex_)};
          const auto ret {queue_.size()};
