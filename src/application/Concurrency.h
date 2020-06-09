@@ -43,7 +43,8 @@ namespace rsj {
          if (!flag_.load(std::memory_order_relaxed)
              && !flag_.exchange(true, std::memory_order_acquire))
             return;
-         /* set up back-off numbers once per thread */
+         /* set up back-off numbers once per thread. do not use for large number of threads as this
+          * pulls entropy from system random device */
          using LoopT = std::uint64_t;
          const auto static thread_local [kB1, kB2, kB3] {
             [] {
@@ -51,8 +52,7 @@ namespace rsj {
                    std::is_unsigned_v<std::random_device::
                            result_type> && sizeof std::random_device::result_type >= sizeof uint16_t);
                const auto rn {std::random_device {}()};
-               return std::tuple {
-                   1 + (rn & 0b11), 12 + (rn >> 2 & 0b111), 56 + (rn >> 5 & 0b1111)};
+               return std::tuple {1 + (rn & 0b11), 12 + (rn >> 2 & 0b111), 56 + (rn >> 5 & 0b1111)};
             }()
          };
          /* Expensive to refer to thread_local storage, ensure compiler doesn't keep reloading from
@@ -87,8 +87,9 @@ namespace rsj {
          flag_.store(false, std::memory_order_release);
       }
 
-    private:
-      std::atomic<bool> flag_ {false};
+    private: /* see https://stackoverflow.com/a/52158819/5699329 for 128 value */
+      alignas(128) std::atomic<bool> flag_ {false};
+      [[maybe_unused]] alignas(1) bool padding_[128 / sizeof(bool) - sizeof(bool)];
    };
 
    /* all but blocking pops use scoped_lock. blocking pops use unique_lock */
