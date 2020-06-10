@@ -30,6 +30,19 @@ extern void _mm_pause();
 }
 
 namespace rsj {
+   namespace detail {
+      /* from http://prng.di.unimi.it/splitmix64.c, made state atomically updated */
+      using RT = uint64_t;
+      inline static std::atomic<RT> state {static_cast<RT>(std::random_device {}()) << 32
+                                           | static_cast<RT>(std::random_device {}())};
+      inline RT NextRandom() noexcept
+      {
+         RT z {state += 0x9e3779b97f4a7c15};
+         z = (z ^ z >> 30) * 0xbf58476d1ce4e5b9;
+         z = (z ^ z >> 27) * 0x94d049bb133111eb;
+         return z ^ z >> 31;
+      }
+   } // namespace detail
    class SpinLock {
     public:
       SpinLock() noexcept = default;
@@ -43,15 +56,13 @@ namespace rsj {
          if (!flag_.load(std::memory_order_relaxed)
              && !flag_.exchange(true, std::memory_order_acquire))
             return;
-         /* set up back-off numbers once per thread. do not use for large number of threads as this
-          * pulls entropy from system random device */
+         /* set up back-off numbers once per thread. */
          using LoopT = std::uint64_t;
          const auto static thread_local [kB1, kB2, kB3] {
-            [] {
+            []() noexcept {
                static_assert(
-                   std::is_unsigned_v<std::random_device::
-                           result_type> && sizeof std::random_device::result_type >= sizeof uint16_t);
-               const auto rn {std::random_device {}()};
+                   std::is_unsigned_v<detail::RT> && sizeof detail::RT >= sizeof uint16_t);
+               const auto rn {detail::NextRandom()};
                return std::tuple {1 + (rn & 0b11), 12 + (rn >> 2 & 0b111), 56 + (rn >> 5 & 0b1111)};
             }()
          };
