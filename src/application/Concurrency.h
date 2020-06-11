@@ -30,19 +30,39 @@ extern void _mm_pause();
 }
 
 namespace rsj {
-   namespace detail {
-      /* from http://prng.di.unimi.it/splitmix64.c, made state atomically updated */
-      using RT = uint64_t;
-      inline static std::atomic<RT> state {static_cast<RT>(std::random_device {}()) << 32
-                                           | static_cast<RT>(std::random_device {}())};
-      inline RT NextRandom() noexcept
+
+   /* from http://prng.di.unimi.it/splitmix64.c, made state atomically updated */
+
+   class PRNG {
+    public:
+      using result_type = uint64_t;
+      static result_type NextRandom() noexcept
       {
-         RT z {state += 0x9e3779b97f4a7c15};
+         result_type z {state += 0x9e3779b97f4a7c15};
          z = (z ^ z >> 30) * 0xbf58476d1ce4e5b9;
          z = (z ^ z >> 27) * 0x94d049bb133111eb;
          return z ^ z >> 31;
       }
-   } // namespace detail
+      constexpr result_type min() const noexcept
+      {
+         return std::numeric_limits<result_type>::min();
+
+      }
+      constexpr result_type max() const noexcept
+      {
+         return std::numeric_limits<result_type>::max();
+      }
+      result_type operator()() noexcept
+      {
+         return NextRandom();
+      }
+
+    private:
+      inline static std::atomic<result_type> state {
+          static_cast<result_type>(std::random_device {}()) << 32
+          | static_cast<result_type>(std::random_device {}())};
+   };
+
    class SpinLock {
     public:
       SpinLock() noexcept = default;
@@ -58,19 +78,18 @@ namespace rsj {
             return;
          /* set up back-off numbers once per thread. */
          using LoopT = std::uint64_t;
-         const auto static thread_local [kB1, kB2, kB3] {
+         const static thread_local std::tuple<LoopT,LoopT,LoopT> bo {
             []() noexcept {
                static_assert(
-                   std::is_unsigned_v<detail::RT> && sizeof detail::RT >= sizeof uint16_t);
-               const auto rn {detail::NextRandom()};
+                   std::is_unsigned_v<PRNG::
+                           result_type> && sizeof (PRNG::result_type) >= sizeof (uint16_t));
+               const auto rn {PRNG::NextRandom()};
                return std::tuple {1 + (rn & 0b11), 12 + (rn >> 2 & 0b111), 56 + (rn >> 5 & 0b1111)};
             }()
          };
          /* Expensive to refer to thread_local storage, ensure compiler doesn't keep reloading from
           * there in loop. This may be unnecessary but harmless if so.*/
-         const LoopT back_off_1 {kB1};
-         const LoopT back_off_2 {kB2};
-         const LoopT back_off_3 {kB3};
+         const auto [back_off_1, back_off_2, back_off_3] {bo};
          do {
             /* avoid cache invalidation if lock appears to be unavailable */
             for (LoopT k {0}; flag_.load(std::memory_order_relaxed); ++k) {
