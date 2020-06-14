@@ -58,9 +58,10 @@ namespace rsj {
       }
 
     private:
-      inline static std::atomic<result_type> state {
-          static_cast<result_type>(std::random_device {}()) << 32
-          | static_cast<result_type>(std::random_device {}())};
+      inline static std::atomic<result_type> state {[] {
+         auto rd {std::random_device {}};
+         return static_cast<result_type>(rd()) << 32 | static_cast<result_type>(rd());
+      }()};
    };
 
    class SpinLock {
