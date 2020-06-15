@@ -1,0 +1,6 @@
+midi.instructions.exp=매뉴얼을 보여주는 웹 브라우저를 엽니 다. ${project.fullName}에서 사용할 수있는 많은 옵션과 설정이 있으므로 매뉴얼을 북마크하십시오.
+midi.instructions=온라인 도움말
+midi.donate.exp=추가 ${project.fullName} 개발을 지원하기 위해 기부 할 수있는 PayPal 양식으로 웹 브라우저를 엽니 다.
+midi.donate=프로젝트 개발 지원을 위해 기부
+midi.install.win=${project.fullName}은(는) 64비트 버전의 Microsoft Windows 7 이상에만 설치할 수 있습니다.
+midi.install.mac=MacOS Sierra 10.12 이상이 필요합니다.

@@ -1,0 +1,6 @@
+midi.instructions.exp=打開顯示該手冊的網絡瀏覽器。 請在手冊中加上書籤，因為您可以在${project.fullName}中使用許多選項和設置。
+midi.instructions=線上說明
+midi.donate.exp=打開一個帶有PayPal表單的Web瀏覽器，您可以在其中捐款以支持${project.fullName}的進一步開發。
+midi.donate=捐贈以支持項目開發
+midi.install.win=${project.fullName} 只能安裝在 64 位元版本的 Microsoft Windows 7 或更新的版本上。
+midi.install.mac=需要 MacOS Sierra 10.12 或更新版本。

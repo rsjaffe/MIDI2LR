@@ -1,1 +1,0 @@
-luacheck MIDI2LR.lrplugin > luacheck.results

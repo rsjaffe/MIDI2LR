@@ -1,8 +1,7 @@
 version: 1.0.{build}
 image: Visual Studio 2019
 configuration: 
-  - Debug
   - Release
 build:
-  project: Builds\VisualStudio2019\MIDI2LR.sln
+  project: build\Windows\MIDI2LR.sln
   verbosity: minimal
