@@ -87,7 +87,7 @@ namespace {
 
    [[noreturn]] void OnTerminate() noexcept
    {
-      static rsj::SpinLock terminate_mutex;
+      static std::mutex terminate_mutex;
       try {
          auto lock {std::scoped_lock(terminate_mutex)};
          if (const auto exc {std::current_exception()}) {

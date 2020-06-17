@@ -46,7 +46,6 @@ namespace rsj {
       constexpr result_type min() const noexcept
       {
          return std::numeric_limits<result_type>::min();
-
       }
       constexpr result_type max() const noexcept
       {
@@ -77,29 +76,22 @@ namespace rsj {
          if (!flag_.load(std::memory_order_relaxed)
              && !flag_.exchange(true, std::memory_order_acquire))
             return;
-         /* set up back-off numbers once per thread. */
          using LoopT = std::uint64_t;
-         const static thread_local std::tuple<LoopT,LoopT,LoopT> bo {
-            []() noexcept {
-               static_assert(
-                   std::is_unsigned_v<PRNG::
-                           result_type> && sizeof (PRNG::result_type) >= sizeof (uint16_t));
-               const auto rn {PRNG::NextRandom()};
-               return std::tuple {1 + (rn & 0b11), 12 + (rn >> 2 & 0b111), 56 + (rn >> 5 & 0b1111)};
-            }()
-         };
-         /* Expensive to refer to thread_local storage, ensure compiler doesn't keep reloading from
-          * there in loop. This may be unnecessary but harmless if so.*/
-         const auto [back_off_1, back_off_2, back_off_3] {bo};
+         const auto [bo1, bo2, bo3] {[]() noexcept -> std::tuple<LoopT, LoopT, LoopT> {
+            static_assert(std::is_unsigned_v<
+                              PRNG::result_type> && sizeof(PRNG::result_type) >= sizeof(uint16_t));
+            const auto rn {PRNG::NextRandom()};
+            return {1 + (rn & 0b11), 12 + (rn >> 2 & 0b111), 56 + (rn >> 5 & 0b1111)};
+         }()};
          do {
             /* avoid cache invalidation if lock appears to be unavailable */
             for (LoopT k {0}; flag_.load(std::memory_order_relaxed); ++k) {
                using namespace std::chrono_literals;
-               if (k < back_off_1)
+               if (k < bo1)
                   continue;
-               if (k < back_off_2)
+               if (k < bo2)
                   _mm_pause();
-               else if (k < back_off_3)
+               else if (k < bo3)
                   std::this_thread::yield();
                else
                   std::this_thread::sleep_for(1ms);
