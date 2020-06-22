@@ -31,7 +31,8 @@ extern void _mm_pause();
 
 namespace rsj {
 
-   /* from http://prng.di.unimi.it/splitmix64.c, made state atomically updated */
+   /* from http://prng.di.unimi.it/splitmix64.c, made state atomically updated and added methods to
+    * satisfy concept std::uniform_random_bit_generator */
 
    class PRNG {
     public:
