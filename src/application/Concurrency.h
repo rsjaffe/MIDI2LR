@@ -18,6 +18,7 @@
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
+#include <cstddef>
 #include <deque>
 #include <mutex>
 #include <optional>
@@ -58,11 +59,15 @@ namespace rsj {
       }
 
     private:
-      inline static std::atomic<result_type> state {[] {
-         auto rd {std::random_device {}};
-         return static_cast<result_type>(rd()) << 32 | static_cast<result_type>(rd());
-      }()};
+      alignas(128) static std::atomic<result_type> state;
    };
+   /* have to separate declaration from definition due to MSVC bug when std:c++latest
+    * https://developercommunity.visualstudio.com/content/problem/1079261/alignas-not-accepted-when-applied-to-inline-static.html
+    */
+   alignas(128) inline std::atomic<PRNG::result_type> PRNG::state {[] {
+      auto rd {std::random_device {}};
+      return static_cast<result_type>(rd()) << 32 | static_cast<result_type>(rd());
+   }()};
 
    class SpinLock {
     public:
@@ -113,7 +118,9 @@ namespace rsj {
 
     private: /* see https://stackoverflow.com/a/52158819/5699329 for 128 value */
       alignas(128) std::atomic<bool> flag_ {false};
-      [[maybe_unused]] alignas(1) bool padding_[128 / sizeof(bool) - sizeof(bool)];
+      static_assert(sizeof(bool) == 1, "Padding assumes size of bool is 1.");
+      // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
+      [[maybe_unused]] alignas(1) std::byte padding_[127];
    };
 
    /* all but blocking pops use scoped_lock. blocking pops use unique_lock */
