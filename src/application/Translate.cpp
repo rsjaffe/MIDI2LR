@@ -19,7 +19,7 @@
 #include <map>
 #include <memory>
 
-#include <JuceLibraryCode/JuceHeader.h>
+#include <juce_core/juce_core.h>
 
 #include "../../data/application/Translate.txt"
 #include "Misc.h"

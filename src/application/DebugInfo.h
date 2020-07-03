@@ -18,7 +18,7 @@
 #include <string>
 #include <vector>
 
-#include <JuceLibraryCode/JuceHeader.h>
+#include <juce_core/juce_core.h>
 
 #include "Misc.h"
 

@@ -21,6 +21,8 @@
 
 #include <fmt/format.h>
 
+#include <JuceHeader.h>
+
 #include "Misc.h"
 #include "SettingsManager.h"
 

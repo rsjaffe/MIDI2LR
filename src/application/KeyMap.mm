@@ -14,18 +14,22 @@
  *
  */
 
-#include "Ocpp.h"
-#import <Cocoa/Cocoa.h>
-#import <Carbon/Carbon.h>
 #include <cctype>
 #include <chrono>
 #include <mutex>
 #include <optional>
 #include <shared_mutex>
 #include <thread>
+
+#import <Carbon/Carbon.h>
+#import <Cocoa/Cocoa.h>
 #include <fmt/format.h>
-#include <JuceLibraryCode/JuceHeader.h>
+
+#include <juce_core/juce_core.h>
+#include <juce_events/juce_events.h>
+
 #include "Misc.h"
+#include "Ocpp.h"
 
 namespace {
    std::optional<std::pair<bool, UniChar>> ConvertKeyCodeToText(

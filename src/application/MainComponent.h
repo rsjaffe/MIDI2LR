@@ -17,7 +17,10 @@
  */
 #include <memory>
 
-#include <JuceLibraryCode/JuceHeader.h>
+#include <juce_core/juce_core.h>
+#include <juce_events/juce_events.h>
+#include <juce_graphics/juce_graphics.h>
+#include <juce_gui_basics/juce_gui_basics.h>
 
 #include "CommandTable.h"
 #include "CommandTableModel.h"

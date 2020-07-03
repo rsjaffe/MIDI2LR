@@ -20,6 +20,9 @@
 
 #include <ww898/utf_converters.hpp>
 
+#include <juce_events/juce_events.h>
+#include <juce_gui_basics/juce_gui_basics.h>
+
 #ifdef _WIN32
 #include <ShlObj.h>
 #include <wil/resource.h>

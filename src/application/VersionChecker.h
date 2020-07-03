@@ -18,7 +18,8 @@
 #include <atomic>
 #include <future>
 
-#include <JuceLibraryCode/JuceHeader.h>
+#include <juce_events/juce_events.h>
+
 class SettingsManager;
 
 class VersionChecker final : juce::AsyncUpdater {

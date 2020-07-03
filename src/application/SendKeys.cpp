@@ -43,7 +43,8 @@
 #import <CoreGraphics/CoreGraphics.h>
 #include <libproc.h> /* proc_ functions in GetPid */
 
-#include <JuceLibraryCode/JuceHeader.h> /*creates ambiguous reference to Point if included before Mac headers*/
+#include <juce_core/juce_core.h>/*creates ambiguous reference to Point if included before Mac headers*/
+#include <juce_events/juce_events.h>
 
 #include "Ocpp.h"
 

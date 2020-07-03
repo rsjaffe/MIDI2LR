@@ -31,7 +31,7 @@
 #include <gsl/gsl>
 #include <xmmintrin.h> /* for rounding intrinsics */
 
-#include <JuceLibraryCode/JuceHeader.h>
+#include <juce_core/juce_core.h>
 
 #ifdef NDEBUG /* asserts disabled */
 static constexpr bool kNdebug {true};
