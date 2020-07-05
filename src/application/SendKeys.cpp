@@ -15,6 +15,7 @@
  */
 #include "SendKeys.h"
 
+#include <array>
 #include <exception>
 #include <mutex>
 #include <string_view>
@@ -27,7 +28,6 @@
 
 #include "Misc.h"
 #ifdef _WIN32
-#include <array>
 #include <utility>
 
 #include "WinDef.h"
@@ -185,14 +185,15 @@ namespace {
          std::vector<pid_t> pids(number_processes, 0);
          proc_listpids(
              PROC_ALL_PIDS, 0, pids.data(), gsl::narrow_cast<int>(sizeof(pids[0]) * pids.size()));
-         char path_buffer[PROC_PIDPATHINFO_MAXSIZE] {};
+         std::array<char, PROC_PIDPATHINFO_MAXSIZE> path_buffer {};
          for (const auto pid : pids) {
             if (pid == 0)
                continue;
-            memset(path_buffer, 0, sizeof(path_buffer));
-            proc_pidpath(pid, path_buffer, sizeof(path_buffer));
-            if (strlen(path_buffer) > 0
-                && (rsj::EndsWith(path_buffer, kLr) || rsj::EndsWith(path_buffer, kLrc)))
+            std::memset(path_buffer.data(), 0, path_buffer.size());
+            proc_pidpath(pid, path_buffer.data(), path_buffer.size());
+            if (strlen(path_buffer.data()) > 0
+                && (rsj::EndsWith(path_buffer.data(), kLr)
+                    || rsj::EndsWith(path_buffer.data(), kLrc)))
                return pid;
          }
          rsj::LogAndAlertError("Lightroom PID not found.");
