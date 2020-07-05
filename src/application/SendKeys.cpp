@@ -77,7 +77,6 @@ namespace {
 #ifdef _WIN32
 
    HWND h_lr_wnd {nullptr};
-   HWND h_lr_wnd_1word {nullptr};
 
    BOOL CALLBACK EnumWindowsProc(_In_ HWND hwnd, [[maybe_unused]] _In_ LPARAM lParam)
    {
@@ -87,21 +86,16 @@ namespace {
       const auto length {GetWindowTextW(hwnd, buffer.data(), gsl::narrow_cast<int>(buffer.size()))};
       if (length) {
          /* check for issues with extra-long window titles and log them */
-         if (GetWindowTextLengthW(hwnd) > gsl::narrow_cast<int>(buffer.size())) {
-            std::string fullname;
-            fullname.reserve(buffer.size() * 2); /* maximum size of resulting string */
-            ww898::utf::convz<ww898::utf::utf16, ww898::utf::utf8>(
-                buffer.data(), std::back_inserter(fullname));
-            rsj::Log(fmt::format("EnumWindowsProc window text length > {}, truncated text is {}.",
-                buffer.size(), fullname));
-         }
+         if (length + 1 >= gsl::narrow_cast<int>(buffer.size()))
+            rsj::Log(fmt::format(L"EnumWindowsProc window text length > {}, truncated text is {}.",
+                buffer.size(), buffer.data())
+                         .data());
          /* try to find Lightroom Classic. Use Lightroom as fallback */
          const auto title {std::wstring_view(buffer.data(), length)};
          const auto lr_start {title.find(L"Lightroom")};
          if (lr_start != std::string_view::npos) {
-            h_lr_wnd_1word = hwnd;
+            h_lr_wnd = hwnd;
             if (title.find(L"Lightroom Classic", lr_start) != std::string_view::npos) {
-               h_lr_wnd = hwnd;
                return false; /* found full title, stop EnumWindows */
             }
          }
@@ -113,20 +107,15 @@ namespace {
    {
       static std::once_flag of;
       std::call_once(of, [] {
+         SetLastError(ERROR_SUCCESS);
          EnumWindows(&EnumWindowsProc, 0);
-         if (!h_lr_wnd && !h_lr_wnd_1word) {
-            LOG_LAST_ERROR_IF(GetLastError() != ERROR_SUCCESS);
+         LOG_LAST_ERROR_IF(GetLastError() != ERROR_SUCCESS);
+         if (!h_lr_wnd)
             rsj::Log("Unable to find Lightroom in EnumWindows.");
-         }
-         else {
-            if (!h_lr_wnd)
-               h_lr_wnd = h_lr_wnd_1word;
-         }
       });
       if (h_lr_wnd) {
          /* get language that LR is using (if hLrWnd is found) */
-         const auto thread_id {GetWindowThreadProcessId(h_lr_wnd, nullptr)};
-         if (thread_id)
+         if (const auto thread_id {GetWindowThreadProcessId(h_lr_wnd, nullptr)})
             return GetKeyboardLayout(thread_id);
          h_lr_wnd = nullptr;
          rsj::Log("Unable to find lightroom thread id in GetLanguage.");

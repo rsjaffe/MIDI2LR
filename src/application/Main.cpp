@@ -69,22 +69,17 @@ namespace {
    constexpr auto kSettingsFileX {"settings.xml"};
    constexpr auto kDefaultsFile {"default.xml"};
 
-#ifdef _WIN32
-   void WilCallback(const wil::FailureInfo& failure) noexcept
-   {
-      std::array<wchar_t, 2048> debug_string {};
-      wil::GetFailureLogString(debug_string.data(), debug_string.size(), failure);
-      rsj::Log(debug_string.data());
-   }
-#endif
-
    class UpdateCurrentLogger {
     public:
       explicit UpdateCurrentLogger(juce::Logger* new_logger) noexcept
       {
          juce::Logger::setCurrentLogger(new_logger);
 #ifdef _WIN32
-         wil::SetResultLoggingCallback(&WilCallback);
+         wil::SetResultLoggingCallback([](wil::FailureInfo const& failure) noexcept {
+            std::array<wchar_t, 2048> debug_string {};
+            wil::GetFailureLogString(debug_string.data(), debug_string.size(), failure);
+            rsj::Log(debug_string.data());
+         });
 #endif
       }
    };
