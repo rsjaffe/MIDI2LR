@@ -151,19 +151,21 @@ namespace {
       try {
          /* construct input event. */
          INPUT ip {.type = INPUT_KEYBOARD, .ki = {0, 0, 0, 0, 0}};
-         /* send key down strokes */
-         static std::mutex mutex_sending {};
-         auto lock {std::scoped_lock(mutex_sending)};
+         /* key down strokes */
+         std::vector<INPUT> stroke_vector {};
          for (const auto it : rsj::Reverse(strokes)) {
             ip.ki.wVk = it;
-            THROW_LAST_ERROR_IF(!SendInput(1, &ip, sizeof ip));
+            stroke_vector.push_back(ip);
          }
-         /* send key up strokes, KEYEVENTF_KEYUP for key release */
+         /* key up strokes, KEYEVENTF_KEYUP for key release */
          ip.ki.dwFlags = KEYEVENTF_KEYUP;
          for (const auto it : strokes) {
             ip.ki.wVk = it;
-            THROW_LAST_ERROR_IF(!SendInput(1, &ip, sizeof ip));
+            stroke_vector.push_back(ip);
          }
+         static std::mutex mutex_sending {};
+         auto lock {std::scoped_lock(mutex_sending)};
+         THROW_LAST_ERROR_IF(!SendInput(stroke_vector.size(), stroke_vector.data(), sizeof ip));
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE_F;
