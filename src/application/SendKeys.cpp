@@ -150,24 +150,19 @@ namespace {
    {
       try {
          /* construct input event. */
-         INPUT ip {};
-         constexpr int size_ip {sizeof ip};
-         ip.type = INPUT_KEYBOARD;
-         /* ki: wVk, wScan, dwFlags, time, dwExtraInfo */
-         ip.ki = {0, 0, 0, 0, 0};
-
+         INPUT ip {.type = INPUT_KEYBOARD, .ki = {0, 0, 0, 0, 0}};
          /* send key down strokes */
          static std::mutex mutex_sending {};
          auto lock {std::scoped_lock(mutex_sending)};
          for (const auto it : rsj::Reverse(strokes)) {
             ip.ki.wVk = it;
-            THROW_LAST_ERROR_IF(!SendInput(1, &ip, size_ip));
+            THROW_LAST_ERROR_IF(!SendInput(1, &ip, sizeof ip));
          }
          /* send key up strokes, KEYEVENTF_KEYUP for key release */
          ip.ki.dwFlags = KEYEVENTF_KEYUP;
          for (const auto it : strokes) {
             ip.ki.wVk = it;
-            THROW_LAST_ERROR_IF(!SendInput(1, &ip, size_ip));
+            THROW_LAST_ERROR_IF(!SendInput(1, &ip, sizeof ip));
          }
       }
       catch (const std::exception& e) {
