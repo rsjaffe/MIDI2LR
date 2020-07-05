@@ -96,6 +96,7 @@ namespace {
        * thread since MacOS Catalina. it must happen on the main message thread */
       CFDataRef layout_data {static_cast<CFDataRef>(
           (TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData)))};
+      CFRelease(source);
       if (!layout_data) {
          /* TISGetInputSourceProperty returns null with  Japanese keyboard layout. Using
           * TISCopyCurrentKeyboardLayoutInputSource to fix NULL return. */
@@ -127,7 +128,6 @@ namespace {
             if (const auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 10))
                KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, true, true));
          }
-      CFRelease(source);
    }
 
    bool FillInSucceeded()
