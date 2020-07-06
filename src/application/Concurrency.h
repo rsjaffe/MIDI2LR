@@ -260,9 +260,8 @@ namespace rsj {
       T pop()
       {
          auto lock {std::unique_lock(mutex_)};
-         condition_.wait(lock, [this]() noexcept(noexcept(std::declval<Container>().empty())) {
-            return !queue_.empty();
-         });
+         while (queue_.empty())
+            condition_.wait(lock);
          T rc {std::move(queue_.front())};
          queue_.pop_front();
          return rc;
