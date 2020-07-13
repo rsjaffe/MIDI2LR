@@ -1,4 +1,5 @@
 ﻿"$$$/MIDI2LR/About/about=사용 방법 : MIDI 컨트롤러를 연결하여  MIDI2LR를 실행시키고, 편집을 시작합니다!  자세한 내용은 https://github.com/rsjaffe/MIDI2LR/wiki를 참조하십시오."
+"$$$/MIDI2LR/Database/LocalHue=로컬 색조 편집"
 "$$$/MIDI2LR/Help/Donate=프로젝트 개발 지원을 위해 기부(&D)"
 "$$$/MIDI2LR/Help/Latest=최신 릴리스 보기(&V)"
 "$$$/MIDI2LR/Help/OnlineHelp=온라인 도움말(&O)"
