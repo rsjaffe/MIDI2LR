@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.4.10.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.5.0.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
-              jucerVersion="5.4.7" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
-              companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
-              splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright=""
-              compilerFlagSchemes="" headerPath="../../external/&#10;../../external/asio/&#10;"
-              useAppConfig="0" addUsingNamespaceToJuceHeader="0">
+              companyWebsite="http://rsjaffe.github.io/MIDI2LR/" companyEmail="rsjaffe@gmail.com"
+              displaySplashScreen="0" reportAppUsage="0" splashScreenColour="Dark"
+              cppLanguageStandard="latest" companyCopyright="" compilerFlagSchemes=""
+              headerPath="../../external/&#10;../../external/asio/&#10;" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
       <GROUP id="{0641120F-1C58-9E83-5AD3-3DCDB4C233AB}" name="Generated">
@@ -121,9 +121,7 @@
     <VS2019 targetFolder="build/Windows" smallIcon="WdgQGt" bigIcon="WdgQGt"
             extraDefs="_WIN32_WINNT=0x0601">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1" useRuntimeLibDLL="0"
-                       isDebug="1" linkTimeOptimisation="0" debugInformationFormat="EditAndContinue"
-                       optimisation="1"/>
+        <CONFIGURATION name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1" isDebug="1"/>
         <CONFIGURATION name="Release" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"
                        useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
