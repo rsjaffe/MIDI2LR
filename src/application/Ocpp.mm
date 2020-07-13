@@ -36,6 +36,12 @@ std::string rsj::AppLogMac()
    return std::string(result.UTF8String);
 }
 
+std::string rsj::SystemFontMac()
+{
+   NSFont* font {[NSFont systemFontOfSize:NSFont.systemFontSize]};
+   return std::string ((font.displayName).UTF8String);
+}
+
 #if __MAC_OS_X_VERSION_MIN_REQUIRED <= __MAC_10_14
 enum {
    errAEEventWouldRequireUserConsent = -1744,

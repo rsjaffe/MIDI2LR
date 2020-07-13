@@ -25,6 +25,7 @@
 #define FILESYSTEM_AVAILABLE_MIDI2LR
 #endif
 #else
+
 #ifdef __cpp_lib_filesystem
 #define FILESYSTEM_AVAILABLE_MIDI2LR
 #endif
@@ -352,43 +353,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        */
       try {
          const auto& lang {command_set_.GetLanguage()};
-         if constexpr (MSWindows) {
-            if (lang == "ko") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "Malgun Gothic");
-            }
-            else if (lang == "zh_tw") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "Microsoft JhengHei UI");
-            }
-            else if (lang == "zh_cn") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "Microsoft YaHei UI");
-            }
-            else if (lang == "ja") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "MS UI Gothic");
-            }
+         auto sf {rsj::SystemFont()};
+         if (sf) {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(*sf);
+            rsj::Log("System font is " + *sf);
          }
-         // ReSharper disable once CppUnreachableCode
-         else {
-            if (lang == "ko") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "Apple SD Gothic Neo");
-            }
-            else if (lang == "zh_cn") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "PingFang SC");
-            }
-            else if (lang == "zh_tw") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "PingFang TC");
-            }
-            else if (lang == "ja") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "Hiragino Kaku Gothic Pro");
-            }
-         }
+         else
+            rsj::Log("Unable to obtain system font.");
          rsj::Translate(lang);
       }
       catch (const std::exception& e) {

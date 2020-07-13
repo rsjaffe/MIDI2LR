@@ -38,6 +38,7 @@ namespace rsj {
    };
    [[nodiscard]] std::string AppDataMac();
    [[nodiscard]] std::string AppLogMac();
+   [[nodiscard]] std::string SystemFontMac();
    [[nodiscard]] std::unordered_map<UniChar, KeyData> GetKeyMap();
    void CheckPermission(pid_t pid);
 } // namespace rsj
