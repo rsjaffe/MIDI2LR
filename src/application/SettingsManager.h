@@ -17,7 +17,8 @@
  */
 #include <memory>
 
-#include <JuceLibraryCode/JuceHeader.h>
+#include <juce_core/juce_core.h>
+#include <juce_data_structures/juce_data_structures.h>
 
 #include "LR_IPC_Out.h"
 #include "ProfileManager.h"

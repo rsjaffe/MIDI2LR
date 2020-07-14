@@ -14,18 +14,22 @@
  *
  */
 
-#include "Ocpp.h"
-#import <Cocoa/Cocoa.h>
-#import <Carbon/Carbon.h>
 #include <cctype>
 #include <chrono>
 #include <mutex>
 #include <optional>
 #include <shared_mutex>
 #include <thread>
+
+#import <Carbon/Carbon.h>
+#import <Cocoa/Cocoa.h>
 #include <fmt/format.h>
-#include <JuceLibraryCode/JuceHeader.h>
+
+#include <juce_core/juce_core.h>
+#include <juce_events/juce_events.h>
+
 #include "Misc.h"
+#include "Ocpp.h"
 
 namespace {
    std::optional<std::pair<bool, UniChar>> ConvertKeyCodeToText(
@@ -92,6 +96,7 @@ namespace {
        * thread since MacOS Catalina. it must happen on the main message thread */
       CFDataRef layout_data {static_cast<CFDataRef>(
           (TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData)))};
+      CFRelease(source);
       if (!layout_data) {
          /* TISGetInputSourceProperty returns null with  Japanese keyboard layout. Using
           * TISCopyCurrentKeyboardLayoutInputSource to fix NULL return. */
@@ -123,7 +128,6 @@ namespace {
             if (const auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 10))
                KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, true, true));
          }
-      CFRelease(source);
    }
 
    bool FillInSucceeded()

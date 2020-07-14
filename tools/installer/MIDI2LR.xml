@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>3.4.10.0</version>
+    <version>3.5.0.0</version>
     <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>data/translations/ReadMe.txt</readmeFile>
     <licenseFile>../../LICENSE.txt</licenseFile>
@@ -154,7 +154,13 @@
                             <origin>../../data/plugin/TranslatedStrings_pt.txt</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>../../data/plugin/TranslatedStrings_ru.txt</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>../../data/plugin/TranslatedStrings_sv.txt</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../../data/plugin/TranslatedStrings_th.txt</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../../data/plugin/TranslatedStrings_zh_cn.txt</origin>
@@ -378,7 +384,7 @@
             <path>${project.rollbackBackupDirectory}</path>
         </deleteFile>
     </postInstallationActionList>
-    <allowedLanguages>en es_AR pt_BR nl fr de it ja ko pt ru zh_CN es sv zh_TW</allowedLanguages>
+    <allowedLanguages>en es_AR pt_BR nl fr de it ja ko pt ru zh_CN es sv th zh_TW</allowedLanguages>
     <compressPackedFiles>1</compressPackedFiles>
     <compressionAlgorithm>lzham-ultra</compressionAlgorithm>
     <createOsxBundleDmg>1</createOsxBundleDmg>
@@ -469,6 +475,11 @@
             <code>sv</code>
             <encoding>utf-8</encoding>
             <file>data/translations/custom-sv.lng</file>
+        </language>
+        <language>
+            <code>th</code>
+            <encoding>utf-8</encoding>
+            <file>data/translations/custom-th.lng</file>
         </language>
         <language>
             <code>zh_CN</code>
@@ -572,6 +583,11 @@
             <code>sv</code>
             <encoding>utf-8</encoding>
             <file>data/translations/ReadMe-sv.txt</file>
+        </readmeFile>
+       <readmeFile>
+            <code>th</code>
+            <encoding>utf-8</encoding>
+            <file>data/translations/ReadMe-th.txt</file>
         </readmeFile>
         <readmeFile>
             <code>zh_CN</code>

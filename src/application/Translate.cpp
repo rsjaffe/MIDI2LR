@@ -19,7 +19,7 @@
 #include <map>
 #include <memory>
 
-#include <JuceLibraryCode/JuceHeader.h>
+#include <juce_core/juce_core.h>
 
 #include "../../data/application/Translate.txt"
 #include "Misc.h"
@@ -34,8 +34,8 @@ void rsj::Translate(const std::string& lg)
 {
    try {
       static const std::map<std::string, TransType> kTranslationTable {{"de", de}, {"es", es},
-          {"fr", fr}, {"it", it}, {"ja", ja}, {"ko", ko}, {"nl", nl}, {"pt", pt}, {"sv", sv},
-          {"zh_cn", zh_cn}, {"zh_tw", zh_tw}};
+          {"fr", fr}, {"it", it}, {"ja", ja}, {"ko", ko}, {"nl", nl}, {"pt", pt}, {"ru", ru},
+          {"sv", sv}, {"th", th}, {"zh_cn", zh_cn}, {"zh_tw", zh_tw}};
       if (const auto found {kTranslationTable.find(lg)}; found != kTranslationTable.end()) {
 #pragma warning(suppress : 26490)
          /* SEE: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1423r0.html for rationale

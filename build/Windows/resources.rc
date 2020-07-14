@@ -1,3 +1,5 @@
+#pragma code_page(65001)
+
 #ifdef JUCE_USER_DEFINED_RC_FILE
  #include JUCE_USER_DEFINED_RC_FILE
 #else
@@ -7,16 +9,16 @@
 #include <windows.h>
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION  3,4,10,0
+FILEVERSION  3,5,0,0
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
     BLOCK "040904E4"
     BEGIN
       VALUE "FileDescription",  "MIDI2LR\0"
-      VALUE "FileVersion",  "3.4.10.0\0"
+      VALUE "FileVersion",  "3.5.0.0\0"
       VALUE "ProductName",  "MIDI2LR\0"
-      VALUE "ProductVersion",  "3.4.10.0\0"
+      VALUE "ProductVersion",  "3.5.0.0\0"
     END
   END
 

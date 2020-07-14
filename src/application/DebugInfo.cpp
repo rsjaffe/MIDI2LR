@@ -19,6 +19,8 @@
 
 #include <ww898/utf_converters.hpp>
 
+#include <JuceLibraryCode/JuceHeader.h>
+
 #ifdef _WIN32
 #include <array>
 #include <string>

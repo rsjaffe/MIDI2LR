@@ -18,7 +18,9 @@
 #include <functional>
 #include <vector>
 
-#include <JuceLibraryCode/JuceHeader.h>
+#include <juce_core/juce_core.h>
+#include <juce_events/juce_events.h>
+
 #ifndef _MSC_VER
 #define _In_
 #endif

@@ -3,7 +3,7 @@
 =============
 
 -Lightroom 6 이상 또는 CC 클래식
--Windowws 7 이상 또는 MacOS 10.12 이상
+-Windows 7 이상 또는 MacOS 10.12 이상
 -USB MIDI 컨트롤러 (예 : Korg nanoKONTROL 등)
 
 =====

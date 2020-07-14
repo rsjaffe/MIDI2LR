@@ -23,6 +23,8 @@
 #include <fmt/format.h>
 #include <gsl/gsl>
 
+#include <juce_gui_basics/juce_gui_basics.h>
+
 #include "ControlsModel.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
@@ -104,7 +106,7 @@ void LrIpcIn::Connect()
                 rsj::Log("Socket connected in LR_IPC_In.");
                 Read();
              }
-             else if (error) {
+             else {
                 rsj::Log(fmt::format("LR_IPC_In did not connect. {}.", error.message()));
                 asio::error_code ec2;
                 socket_.close(ec2);

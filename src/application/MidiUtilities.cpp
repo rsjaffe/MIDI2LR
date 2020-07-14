@@ -17,7 +17,8 @@
 
 #include <gsl/gsl>
 
-#include <JuceLibraryCode/JuceHeader.h>
+#include <juce_audio_basics/juce_audio_basics.h>
+#include <juce_core/juce_core.h>
 
 rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm)
 {

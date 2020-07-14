@@ -17,8 +17,10 @@
 
 #import <Carbon/Carbon.h>
 #import <Cocoa/Cocoa.h> /* for CheckPermission */
-#include <JuceLibraryCode/JuceHeader.h>
 #include <fmt/format.h>
+
+#include <juce_core/juce_core.h>
+#include <juce_gui_basics/juce_gui_basics.h>
 
 #include "Misc.h"
 
@@ -32,6 +34,12 @@ std::string rsj::AppLogMac()
 {
    NSString* result {(@"~/Library/Logs").stringByExpandingTildeInPath};
    return std::string(result.UTF8String);
+}
+
+std::string rsj::SystemFontMac()
+{
+   NSFont* font {[NSFont systemFontOfSize:NSFont.systemFontSize]};
+   return std::string ((font.displayName).UTF8String);
 }
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED <= __MAC_10_14

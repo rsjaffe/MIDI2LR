@@ -15,6 +15,7 @@
  */
 #include "SendKeys.h"
 
+#include <array>
 #include <exception>
 #include <mutex>
 #include <string_view>
@@ -27,7 +28,6 @@
 
 #include "Misc.h"
 #ifdef _WIN32
-#include <array>
 #include <utility>
 
 #include "WinDef.h"
@@ -43,7 +43,8 @@
 #import <CoreGraphics/CoreGraphics.h>
 #include <libproc.h> /* proc_ functions in GetPid */
 
-#include <JuceLibraryCode/JuceHeader.h> /*creates ambiguous reference to Point if included before Mac headers*/
+#include <juce_core/juce_core.h>/*creates ambiguous reference to Point if included before Mac headers*/
+#include <juce_events/juce_events.h>
 
 #include "Ocpp.h"
 
@@ -76,7 +77,6 @@ namespace {
 #ifdef _WIN32
 
    HWND h_lr_wnd {nullptr};
-   HWND h_lr_wnd_1word {nullptr};
 
    BOOL CALLBACK EnumWindowsProc(_In_ HWND hwnd, [[maybe_unused]] _In_ LPARAM lParam)
    {
@@ -86,21 +86,16 @@ namespace {
       const auto length {GetWindowTextW(hwnd, buffer.data(), gsl::narrow_cast<int>(buffer.size()))};
       if (length) {
          /* check for issues with extra-long window titles and log them */
-         if (GetWindowTextLengthW(hwnd) > gsl::narrow_cast<int>(buffer.size())) {
-            std::string fullname;
-            fullname.reserve(buffer.size() * 2); /* maximum size of resulting string */
-            ww898::utf::convz<ww898::utf::utf16, ww898::utf::utf8>(
-                buffer.data(), std::back_inserter(fullname));
-            rsj::Log(fmt::format("EnumWindowsProc window text length > {}, truncated text is {}.",
-                buffer.size(), fullname));
-         }
+         if (length + 1 >= gsl::narrow_cast<int>(buffer.size()))
+            rsj::Log(fmt::format(L"EnumWindowsProc window text length > {}, truncated text is {}.",
+                buffer.size(), buffer.data())
+                         .data());
          /* try to find Lightroom Classic. Use Lightroom as fallback */
          const auto title {std::wstring_view(buffer.data(), length)};
          const auto lr_start {title.find(L"Lightroom")};
          if (lr_start != std::string_view::npos) {
-            h_lr_wnd_1word = hwnd;
+            h_lr_wnd = hwnd;
             if (title.find(L"Lightroom Classic", lr_start) != std::string_view::npos) {
-               h_lr_wnd = hwnd;
                return false; /* found full title, stop EnumWindows */
             }
          }
@@ -112,20 +107,15 @@ namespace {
    {
       static std::once_flag of;
       std::call_once(of, [] {
+         SetLastError(ERROR_SUCCESS);
          EnumWindows(&EnumWindowsProc, 0);
-         if (!h_lr_wnd && !h_lr_wnd_1word) {
-            LOG_LAST_ERROR_IF(GetLastError() != ERROR_SUCCESS);
+         LOG_LAST_ERROR_IF(GetLastError() != ERROR_SUCCESS);
+         if (!h_lr_wnd)
             rsj::Log("Unable to find Lightroom in EnumWindows.");
-         }
-         else {
-            if (!h_lr_wnd)
-               h_lr_wnd = h_lr_wnd_1word;
-         }
       });
       if (h_lr_wnd) {
          /* get language that LR is using (if hLrWnd is found) */
-         const auto thread_id {GetWindowThreadProcessId(h_lr_wnd, nullptr)};
-         if (thread_id)
+         if (const auto thread_id {GetWindowThreadProcessId(h_lr_wnd, nullptr)})
             return GetKeyboardLayout(thread_id);
          h_lr_wnd = nullptr;
          rsj::Log("Unable to find lightroom thread id in GetLanguage.");
@@ -160,25 +150,22 @@ namespace {
    {
       try {
          /* construct input event. */
-         INPUT ip {};
-         constexpr int size_ip {sizeof ip};
-         ip.type = INPUT_KEYBOARD;
-         /* ki: wVk, wScan, dwFlags, time, dwExtraInfo */
-         ip.ki = {0, 0, 0, 0, 0};
-
-         /* send key down strokes */
-         static std::mutex mutex_sending {};
-         auto lock {std::scoped_lock(mutex_sending)};
+         INPUT ip {.type = INPUT_KEYBOARD, .ki = {0, 0, 0, 0, 0}};
+         /* key down strokes */
+         std::vector<INPUT> stroke_vector {};
          for (const auto it : rsj::Reverse(strokes)) {
             ip.ki.wVk = it;
-            THROW_LAST_ERROR_IF(!SendInput(1, &ip, size_ip));
+            stroke_vector.push_back(ip);
          }
-         /* send key up strokes, KEYEVENTF_KEYUP for key release */
+         /* key up strokes, KEYEVENTF_KEYUP for key release */
          ip.ki.dwFlags = KEYEVENTF_KEYUP;
          for (const auto it : strokes) {
             ip.ki.wVk = it;
-            THROW_LAST_ERROR_IF(!SendInput(1, &ip, size_ip));
+            stroke_vector.push_back(ip);
          }
+         static std::mutex mutex_sending {};
+         auto lock {std::scoped_lock(mutex_sending)};
+         THROW_LAST_ERROR_IF(!SendInput(stroke_vector.size(), stroke_vector.data(), sizeof ip));
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE_F;
@@ -200,14 +187,15 @@ namespace {
          std::vector<pid_t> pids(number_processes, 0);
          proc_listpids(
              PROC_ALL_PIDS, 0, pids.data(), gsl::narrow_cast<int>(sizeof(pids[0]) * pids.size()));
-         char path_buffer[PROC_PIDPATHINFO_MAXSIZE] {};
+         std::array<char, PROC_PIDPATHINFO_MAXSIZE> path_buffer {};
          for (const auto pid : pids) {
             if (pid == 0)
                continue;
-            memset(path_buffer, 0, sizeof(path_buffer));
-            proc_pidpath(pid, path_buffer, sizeof(path_buffer));
-            if (strlen(path_buffer) > 0
-                && (rsj::EndsWith(path_buffer, kLr) || rsj::EndsWith(path_buffer, kLrc)))
+            std::memset(path_buffer.data(), 0, path_buffer.size());
+            proc_pidpath(pid, path_buffer.data(), path_buffer.size());
+            if (strlen(path_buffer.data()) > 0
+                && (rsj::EndsWith(path_buffer.data(), kLr)
+                    || rsj::EndsWith(path_buffer.data(), kLrc)))
                return pid;
          }
          rsj::LogAndAlertError("Lightroom PID not found.");

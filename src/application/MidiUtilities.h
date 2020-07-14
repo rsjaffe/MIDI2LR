@@ -22,6 +22,7 @@
 #ifdef __cpp_lib_three_way_comparison
 #include <compare>
 #endif
+#include <cassert>
 #include <type_traits>
 #include <typeindex>
 
@@ -156,7 +157,7 @@ namespace fmt {
          auto end {it};
          while (end != ctx.end() && *end != static_cast<Char>('}'))
             ++end;
-         tm_format.reserve(internal::to_unsigned(end - it + 1));
+         tm_format.reserve(detail::to_unsigned(end - it + 1));
          tm_format.append(it, end);
          tm_format.push_back('\0');
          return end;

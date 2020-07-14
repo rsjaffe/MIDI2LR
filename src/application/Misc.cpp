@@ -20,6 +20,9 @@
 
 #include <ww898/utf_converters.hpp>
 
+#include <juce_events/juce_events.h>
+#include <juce_gui_basics/juce_gui_basics.h>
+
 #ifdef _WIN32
 #include <ShlObj.h>
 #include <wil/resource.h>
@@ -28,7 +31,18 @@
 #endif
 
 /* XCode has issues with std:: in this file, using ::std:: to fix when necessary */
-
+::std::optional<juce::String> rsj::SystemFont()
+{
+#ifdef _WIN32
+   NONCLIENTMETRICSW client_metrics {.cbSize = sizeof(NONCLIENTMETRICSW)};
+   if (LOG_IF_WIN32_BOOL_FALSE(SystemParametersInfoW(
+           SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICSW), &client_metrics, 0)))
+      return client_metrics.lfMessageFont.lfFaceName;
+   return {};
+#else
+   return rsj::SystemFontMac();
+#endif
+}
 /*****************************************************************************/
 /**************Thread Labels**************************************************/
 /*****************************************************************************/

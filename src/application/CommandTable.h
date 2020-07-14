@@ -15,7 +15,8 @@
  * see <http://www.gnu.org/licenses/>.
  *
  */
-#include <JuceLibraryCode/JuceHeader.h>
+#include <juce_core/juce_core.h>
+#include <juce_gui_basics/juce_gui_basics.h>
 class CommandTableModel;
 
 class CommandTable final : public juce::TableListBox {

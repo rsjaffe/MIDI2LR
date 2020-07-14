@@ -26,7 +26,7 @@
 
 #include <gsl/gsl>
 
-#include <JuceLibraryCode/JuceHeader.h>
+#include <juce_core/juce_core.h>
 
 #include "CommandSet.h"
 #include "MidiUtilities.h"

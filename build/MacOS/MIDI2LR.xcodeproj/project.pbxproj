@@ -796,13 +796,6 @@
 			path = "../../external/JuceLibraryCode/modules/juce_core";
 			sourceTree = "SOURCE_ROOT";
 		};
-		EF56A6F26BF944CDFBDCADBB = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = AppConfig.h;
-			path = ../../external/JuceLibraryCode/AppConfig.h;
-			sourceTree = "SOURCE_ROOT";
-		};
 		F20F6CF6FB96E8AA2A4A7866 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -946,7 +939,6 @@
 		880ECA955CB34C1D3A0D3CAE = {
 			isa = PBXGroup;
 			children = (
-				EF56A6F26BF944CDFBDCADBB,
 				6ADE841D44E001D612C21D75,
 				FF6F53CD6CB88CBE1ED74BDC,
 				2B65519DB9584C850A7E1B35,
@@ -1026,11 +1018,10 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_DEBUG=1",
 					"DEBUG=1",
-					"DONT_SET_USING_JUCE_NAMESPACE=1",
 					"GSL_THROW_ON_CONTRACT_VIOLATION=1",
 					"JUCER_XCODE_MAC_46BB2872=1",
-					"JUCE_APP_VERSION=3.4.10.0",
-					"JUCE_APP_VERSION_HEX=0x3040a00",
+					"JUCE_APP_VERSION=3.5.0.0",
+					"JUCE_APP_VERSION_HEX=0x3050000",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -1039,6 +1030,34 @@
 					"JucePlugin_Build_AAX=0",
 					"JucePlugin_Build_Standalone=0",
 					"JucePlugin_Build_Unity=0",
+					"JUCE_DISPLAY_SPLASH_SCREEN=0",
+					"JUCE_USE_DARK_SPLASH_SCREEN=1",
+					"JUCE_PROJUCER_VERSION=0x60001",
+					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
+					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
+					"JUCE_MODULE_AVAILABLE_juce_core=1",
+					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_events=1",
+					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
+					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
+					"JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1",
+					"JUCE_USE_WINRT_MIDI=0",
+					"JUCE_ASIO=0",
+					"JUCE_WASAPI=0",
+					"JUCE_WASAPI_EXCLUSIVE=0",
+					"JUCE_DIRECTSOUND=0",
+					"JUCE_ALSA=0",
+					"JUCE_JACK=0",
+					"JUCE_BELA=0",
+					"JUCE_USE_ANDROID_OBOE=0",
+					"JUCE_USE_ANDROID_OPENSLES=0",
+					"JUCE_DISABLE_AUDIO_MIXING_WITH_OTHER_APPS=0",
+					"JUCE_FORCE_DEBUG=0",
+					"JUCE_LOG_ASSERTIONS=0",
+					"JUCE_CATCH_UNHANDLED_EXCEPTIONS=1",
+					"JUCE_ALLOW_STATIC_NULL_VARIABLES=0",
+					"JUCE_STRICT_REFCOUNTEDPOINTER=1",
+					"JUCE_STANDALONE_APPLICATION=1",
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
@@ -1052,7 +1071,7 @@
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				OTHER_CPLUSPLUSFLAGS = "-Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Woverloaded-virtual -Wreorder -Wconstant-conversion -Wsign-conversion -Wunused-private-field -Wbool-conversion -Wextra-semi -Wunreachable-code -Wzero-as-null-pointer-constant -Wcast-align -Winconsistent-missing-destructor-override -Wshift-sign-overflow -Wnullable-to-nonnull-conversion -Wno-missing-field-initializers -Wno-ignored-qualifiers";
+				OTHER_CPLUSPLUSFLAGS = "-Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Woverloaded-virtual -Wreorder -Wconstant-conversion -Wsign-conversion -Wunused-private-field -Wbool-conversion -Wextra-semi -Wunreachable-code -Wzero-as-null-pointer-constant -Wcast-align -Winconsistent-missing-destructor-override -Wshift-sign-overflow -Wnullable-to-nonnull-conversion -Wno-missing-field-initializers -Wno-ignored-qualifiers -Wswitch-enum";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
 				PRODUCT_NAME = "MIDI2LR";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1079,11 +1098,10 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_NDEBUG=1",
 					"NDEBUG=1",
-					"DONT_SET_USING_JUCE_NAMESPACE=1",
 					"GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1",
 					"JUCER_XCODE_MAC_46BB2872=1",
-					"JUCE_APP_VERSION=3.4.10.0",
-					"JUCE_APP_VERSION_HEX=0x3040a00",
+					"JUCE_APP_VERSION=3.5.0.0",
+					"JUCE_APP_VERSION_HEX=0x3050000",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -1092,8 +1110,35 @@
 					"JucePlugin_Build_AAX=0",
 					"JucePlugin_Build_Standalone=0",
 					"JucePlugin_Build_Unity=0",
+					"JUCE_DISPLAY_SPLASH_SCREEN=0",
+					"JUCE_USE_DARK_SPLASH_SCREEN=1",
+					"JUCE_PROJUCER_VERSION=0x60001",
+					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
+					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
+					"JUCE_MODULE_AVAILABLE_juce_core=1",
+					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_events=1",
+					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
+					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
+					"JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1",
+					"JUCE_USE_WINRT_MIDI=0",
+					"JUCE_ASIO=0",
+					"JUCE_WASAPI=0",
+					"JUCE_WASAPI_EXCLUSIVE=0",
+					"JUCE_DIRECTSOUND=0",
+					"JUCE_ALSA=0",
+					"JUCE_JACK=0",
+					"JUCE_BELA=0",
+					"JUCE_USE_ANDROID_OBOE=0",
+					"JUCE_USE_ANDROID_OPENSLES=0",
+					"JUCE_DISABLE_AUDIO_MIXING_WITH_OTHER_APPS=0",
+					"JUCE_FORCE_DEBUG=0",
+					"JUCE_LOG_ASSERTIONS=0",
+					"JUCE_CATCH_UNHANDLED_EXCEPTIONS=1",
+					"JUCE_ALLOW_STATIC_NULL_VARIABLES=0",
+					"JUCE_STRICT_REFCOUNTEDPOINTER=1",
+					"JUCE_STANDALONE_APPLICATION=1",
 				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"../../external/JuceLibraryCode",
@@ -1139,11 +1184,12 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
+				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -1186,10 +1232,12 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -1206,10 +1254,6 @@
 				ZERO_LINK = NO;
 			};
 			name = Release;
-		};
-		56132FE101EBF256A976191E = {
-			isa = PBXTargetDependency;
-			target = FD946FDE29418E71B61DACDC;
 		};
 		1F2C01BA514CBFEA905450CC = {
 			isa = XCConfigurationList;

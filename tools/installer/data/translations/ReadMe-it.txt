@@ -3,7 +3,7 @@ Prerequisiti
 =============
 
 - Lightroom 6+ o CC classic
-- Windowws 7+ o MacOS 10.12+
+- Windows 7+ o MacOS 10.12+
 - Un controller MIDI USB (ad esempio: Korg nanoKONTROL, ecc.)
 
 =====

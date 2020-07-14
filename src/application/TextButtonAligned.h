@@ -15,7 +15,10 @@
  * see <http://www.gnu.org/licenses/>.
  *
  */
-#include <JuceLibraryCode/JuceHeader.h>
+
+#include <juce_core/juce_core.h>
+#include <juce_graphics/juce_graphics.h>
+#include <juce_gui_basics/juce_gui_basics.h>
 
 class TextButtonAligned : public juce::TextButton {
  public:

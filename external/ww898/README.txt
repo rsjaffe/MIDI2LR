@@ -1,1 +1,1 @@
-utf-cpp https://github.com/ww898/utf-cpp from December 22 2019
+utf-cpp https://github.com/ww898/utf-cpp version 2.2.1 downloaded June 22 2020

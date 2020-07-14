@@ -18,6 +18,7 @@
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
+#include <cstddef>
 #include <deque>
 #include <mutex>
 #include <optional>
@@ -31,7 +32,8 @@ extern void _mm_pause();
 
 namespace rsj {
 
-   /* from http://prng.di.unimi.it/splitmix64.c, made state atomically updated */
+   /* from http://prng.di.unimi.it/splitmix64.c, made state atomically updated and added methods to
+    * satisfy concept std::uniform_random_bit_generator */
 
    class PRNG {
     public:
@@ -46,7 +48,6 @@ namespace rsj {
       constexpr result_type min() const noexcept
       {
          return std::numeric_limits<result_type>::min();
-
       }
       constexpr result_type max() const noexcept
       {
@@ -58,11 +59,15 @@ namespace rsj {
       }
 
     private:
-      inline static std::atomic<result_type> state {[] {
-         auto rd {std::random_device {}};
-         return static_cast<result_type>(rd()) << 32 | static_cast<result_type>(rd());
-      }()};
+      alignas(128) static std::atomic<result_type> state;
    };
+   /* have to separate declaration from definition due to MSVC bug when std:c++latest
+    * https://developercommunity.visualstudio.com/content/problem/1079261/alignas-not-accepted-when-applied-to-inline-static.html
+    */
+   alignas(128) inline std::atomic<PRNG::result_type> PRNG::state {[] {
+      auto rd {std::random_device {}};
+      return static_cast<result_type>(rd()) << 32 | static_cast<result_type>(rd());
+   }()};
 
    class SpinLock {
     public:
@@ -77,29 +82,22 @@ namespace rsj {
          if (!flag_.load(std::memory_order_relaxed)
              && !flag_.exchange(true, std::memory_order_acquire))
             return;
-         /* set up back-off numbers once per thread. */
          using LoopT = std::uint64_t;
-         const static thread_local std::tuple<LoopT,LoopT,LoopT> bo {
-            []() noexcept {
-               static_assert(
-                   std::is_unsigned_v<PRNG::
-                           result_type> && sizeof (PRNG::result_type) >= sizeof (uint16_t));
-               const auto rn {PRNG::NextRandom()};
-               return std::tuple {1 + (rn & 0b11), 12 + (rn >> 2 & 0b111), 56 + (rn >> 5 & 0b1111)};
-            }()
-         };
-         /* Expensive to refer to thread_local storage, ensure compiler doesn't keep reloading from
-          * there in loop. This may be unnecessary but harmless if so.*/
-         const auto [back_off_1, back_off_2, back_off_3] {bo};
+         const auto [bo1, bo2, bo3] {[]() noexcept -> std::tuple<LoopT, LoopT, LoopT> {
+            static_assert(std::is_unsigned_v<
+                              PRNG::result_type> && sizeof(PRNG::result_type) >= sizeof(uint16_t));
+            const auto rn {PRNG::NextRandom()};
+            return {1 + (rn & 0b11), 12 + (rn >> 2 & 0b111), 56 + (rn >> 5 & 0b1111)};
+         }()};
          do {
             /* avoid cache invalidation if lock appears to be unavailable */
             for (LoopT k {0}; flag_.load(std::memory_order_relaxed); ++k) {
                using namespace std::chrono_literals;
-               if (k < back_off_1)
+               if (k < bo1)
                   continue;
-               if (k < back_off_2)
+               if (k < bo2)
                   _mm_pause();
-               else if (k < back_off_3)
+               else if (k < bo3)
                   std::this_thread::yield();
                else
                   std::this_thread::sleep_for(1ms);
@@ -120,7 +118,9 @@ namespace rsj {
 
     private: /* see https://stackoverflow.com/a/52158819/5699329 for 128 value */
       alignas(128) std::atomic<bool> flag_ {false};
-      [[maybe_unused]] alignas(1) bool padding_[128 / sizeof(bool) - sizeof(bool)];
+      static_assert(sizeof(bool) == 1, "Padding assumes size of bool is 1.");
+      // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
+      [[maybe_unused]] alignas(1) std::byte padding_[127];
    };
 
    /* all but blocking pops use scoped_lock. blocking pops use unique_lock */
@@ -260,9 +260,8 @@ namespace rsj {
       T pop()
       {
          auto lock {std::unique_lock(mutex_)};
-         condition_.wait(lock, [this]() noexcept(noexcept(std::declval<Container>().empty())) {
-            return !queue_.empty();
-         });
+         while (queue_.empty())
+            condition_.wait(lock);
          T rc {std::move(queue_.front())};
          queue_.pop_front();
          return rc;

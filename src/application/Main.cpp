@@ -25,6 +25,7 @@
 #define FILESYSTEM_AVAILABLE_MIDI2LR
 #endif
 #else
+
 #ifdef __cpp_lib_filesystem
 #define FILESYSTEM_AVAILABLE_MIDI2LR
 #endif
@@ -37,7 +38,11 @@ namespace fs = std::filesystem;
 #include <cereal/archives/xml.hpp>
 #include <fmt/format.h>
 
-#include <JuceLibraryCode/JuceHeader.h>
+#include <juce_audio_basics/juce_audio_basics.h>
+#include <juce_audio_devices/juce_audio_devices.h>
+#include <juce_core/juce_core.h>
+#include <juce_events/juce_events.h>
+#include <juce_gui_basics/juce_gui_basics.h>
 
 #include "CCoptions.h"
 #include "CommandSet.h"
@@ -65,29 +70,24 @@ namespace {
    constexpr auto kSettingsFileX {"settings.xml"};
    constexpr auto kDefaultsFile {"default.xml"};
 
-#ifdef _WIN32
-   void WilCallback(const wil::FailureInfo& failure) noexcept
-   {
-      std::array<wchar_t, 2048> debug_string {};
-      wil::GetFailureLogString(debug_string.data(), debug_string.size(), failure);
-      rsj::Log(debug_string.data());
-   }
-#endif
-
    class UpdateCurrentLogger {
     public:
       explicit UpdateCurrentLogger(juce::Logger* new_logger) noexcept
       {
          juce::Logger::setCurrentLogger(new_logger);
 #ifdef _WIN32
-         wil::SetResultLoggingCallback(&WilCallback);
+         wil::SetResultLoggingCallback([](wil::FailureInfo const& failure) noexcept {
+            std::array<wchar_t, 2048> debug_string {};
+            wil::GetFailureLogString(debug_string.data(), debug_string.size(), failure);
+            rsj::Log(debug_string.data());
+         });
 #endif
       }
    };
 
    [[noreturn]] void OnTerminate() noexcept
    {
-      static rsj::SpinLock terminate_mutex;
+      static std::mutex terminate_mutex;
       try {
          auto lock {std::scoped_lock(terminate_mutex)};
          if (const auto exc {std::current_exception()}) {
@@ -353,43 +353,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        */
       try {
          const auto& lang {command_set_.GetLanguage()};
-         if constexpr (MSWindows) {
-            if (lang == "ko") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "Malgun Gothic");
-            }
-            else if (lang == "zh_tw") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "Microsoft JhengHei UI");
-            }
-            else if (lang == "zh_cn") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "Microsoft YaHei UI");
-            }
-            else if (lang == "ja") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "MS UI Gothic");
-            }
+         auto sf {rsj::SystemFont()};
+         if (sf) {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(*sf);
+            rsj::Log("System font is " + *sf);
          }
-         // ReSharper disable once CppUnreachableCode
-         else {
-            if (lang == "ko") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "Apple SD Gothic Neo");
-            }
-            else if (lang == "zh_cn") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "PingFang SC");
-            }
-            else if (lang == "zh_tw") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "PingFang TC");
-            }
-            else if (lang == "ja") {
-               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                   "Hiragino Kaku Gothic Pro");
-            }
-         }
+         else
+            rsj::Log("Unable to obtain system font.");
          rsj::Translate(lang);
       }
       catch (const std::exception& e) {

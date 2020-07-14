@@ -20,7 +20,9 @@
 #include <fmt/format.h>
 #include <gsl/gsl>
 
-#include <JuceLibraryCode/JuceHeader.h>
+#include <juce_audio_basics/juce_audio_basics.h>
+#include <juce_audio_devices/juce_audio_devices.h>
+#include <juce_core/juce_core.h>
 
 #include "MidiUtilities.h"
 #include "Misc.h"
@@ -111,8 +113,14 @@ void MidiSender::InitDevices()
       for (const auto& device : available_devices) {
          auto open_device {juce::MidiOutput::openDevice(device.identifier)};
          if (open_device) {
-            if (const auto devname {open_device->getName().toStdString()};
-                devname != "Microsoft GS Wavetable Synth") {
+            const auto devname {open_device->getName().toStdString()};
+            if constexpr (MSWindows) {
+               if (devname != "Microsoft GS Wavetable Synth") {
+                  rsj::Log(fmt::format("Opened output device {}.", devname));
+                  output_devices_.emplace_back(std::move(open_device));
+               }
+            }
+            else {
                rsj::Log(fmt::format("Opened output device {}.", devname));
                output_devices_.emplace_back(std::move(open_device));
             }

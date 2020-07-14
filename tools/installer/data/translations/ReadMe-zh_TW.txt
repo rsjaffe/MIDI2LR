@@ -3,7 +3,7 @@
 =============
 
 -Lightroom 6+或CC Classic
--Windowws 7以上版本或MacOS 10.12以上版本
+-Windows 7以上版本或MacOS 10.12以上版本
 -USB MIDI控制器（例如：Korg nanoKONTROL等）
 
 =====
