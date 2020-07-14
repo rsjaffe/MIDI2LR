@@ -1,5 +1,5 @@
 ﻿"$$$/MIDI2LR/About/about=使用方法：连接MIDI控制器，打开MIDI2LR，就可以啦！详情请参考 https://github.com/rsjaffe/MIDI2LR/wiki"
-"$$$/MIDI2LR/Database/LocalHue=局部色相编辑"
+"$$$/MIDI2LR/Database/Hue=色调"
 "$$$/MIDI2LR/Help/Donate=捐赠以支持项目开发(&D)"
 "$$$/MIDI2LR/Help/Latest=查看最新发布(&V)"
 "$$$/MIDI2LR/Help/OnlineHelp=联机帮助(&O)"
