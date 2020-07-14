@@ -38,7 +38,7 @@ std::string rsj::AppLogMac()
 
 std::string rsj::SystemFontMac()
 {
-   NSFont* font {[NSFont systemFontOfSize:NSFont.systemFontSize]};
+   NSFont* font {[NSFont controlContentFontOfSize:0.0]};
    return std::string ((font.displayName).UTF8String);
 }
 
