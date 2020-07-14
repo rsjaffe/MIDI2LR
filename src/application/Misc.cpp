@@ -34,10 +34,10 @@
 ::std::optional<juce::String> rsj::SystemFont()
 {
 #ifdef _WIN32
-   NONCLIENTMETRICSW client_metrics {.cbSize = sizeof(NONCLIENTMETRICSW)};
-   if (LOG_IF_WIN32_BOOL_FALSE(SystemParametersInfoW(
-           SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICSW), &client_metrics, 0)))
-      return client_metrics.lfMessageFont.lfFaceName;
+   NONCLIENTMETRICSW metrics {.cbSize = sizeof(NONCLIENTMETRICSW)};
+   if (LOG_IF_WIN32_BOOL_FALSE(
+           SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICSW), &metrics, 0)))
+      return metrics.lfMessageFont.lfFaceName;
    return {};
 #else
    return rsj::SystemFontMac();

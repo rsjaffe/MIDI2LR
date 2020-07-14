@@ -1,5 +1,5 @@
 ﻿"$$$/MIDI2LR/About/about=วิธีใช้: เชื่อมต่อคอนโทรลเลอร์ MIDI เปิด MIDI2LR และเริ่มแก้ไข! ดู https://github.com/rsjaffe/MIDI2LR/wiki สำหรับรายละเอียด"
-"$$$/MIDI2LR/Database/LocalHue=การแก้ไขเฉดสีที่มีอยู่แล้ว"
+"$$$/MIDI2LR/Database/Hue=สีสัน"
 "$$$/MIDI2LR/Help/Donate=บริจาคเพื่อสนับสนุนการพัฒนาโครงการ"
 "$$$/MIDI2LR/Help/Latest=ดูรุ่นล่าสุด"
 "$$$/MIDI2LR/Help/OnlineHelp=วิธีใช้ทางออนไลน์"

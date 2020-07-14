@@ -87,5 +87,5 @@ return {
       file = "About.lua",
     },
   },
-  VERSION = { major=3, minor=5, revision=0, build=0}
+  VERSION = { major=3, minor=5, revision=0, build=1}
 }

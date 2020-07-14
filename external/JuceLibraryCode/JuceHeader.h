@@ -38,7 +38,7 @@ namespace ProjectInfo
 {
     const char* const  projectName    = "MIDI2LR";
     const char* const  companyName    = "";
-    const char* const  versionString  = "3.5.0.0";
-    const int          versionNumber  = 0x3050000;
+    const char* const  versionString  = "3.5.0.1";
+    const int          versionNumber  = 0x3050001;
 }
 #endif

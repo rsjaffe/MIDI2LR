@@ -1,5 +1,5 @@
 ﻿"$$$/MIDI2LR/About/about=Modo de empleo: conectar un controlador MIDI, lanzar MIDI2LR, y comenzar a editar! Ver https://github.com/rsjaffe/MIDI2LR/wiki para más detalles."
-"$$$/MIDI2LR/Database/LocalHue=Edición de tono local"
+"$$$/MIDI2LR/Database/Hue=matiz"
 "$$$/MIDI2LR/Help/Donate=&Donación para ayuda al desarrollo de proyectos"
 "$$$/MIDI2LR/Help/Latest=&Ver la versión más reciente"
 "$$$/MIDI2LR/Help/OnlineHelp=&Ayuda en pantalla"

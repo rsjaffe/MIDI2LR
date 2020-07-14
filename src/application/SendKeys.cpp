@@ -165,7 +165,8 @@ namespace {
          }
          static std::mutex mutex_sending {};
          auto lock {std::scoped_lock(mutex_sending)};
-         THROW_LAST_ERROR_IF(!SendInput(stroke_vector.size(), stroke_vector.data(), sizeof ip));
+         THROW_LAST_ERROR_IF(!SendInput(
+             gsl::narrow_cast<UINT>(stroke_vector.size()), stroke_vector.data(), sizeof ip));
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE_F;
