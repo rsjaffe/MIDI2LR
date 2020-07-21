@@ -63,7 +63,7 @@ void VersionChecker::handleAsyncUpdate()
       if (thread_should_exit_.load(std::memory_order_acquire))
          return;
       juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::AlertIconType::QuestionIcon,
-          juce::translate("A new version of MIDI2LR is available."),
+          juce::translate(fmt::format("A new version of {} is available."), "MIDI2LR"),
           juce::translate("Download new version of MIDI2LR") + ' ' + IntToVersion(new_version_),
           nullptr, juce::ModalCallbackFunction::create([this](int result) {
              if (result) {

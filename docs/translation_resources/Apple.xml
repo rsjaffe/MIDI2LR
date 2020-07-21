@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Proj>
+  <ProjName>UniversalAccessPref</ProjName>
+  <File>
+    <Filepath>UniversalAccessPref/System/Library/PrivateFrameworks/UniversalAccess.framework/Versions/A/Resources/en.lproj/Localizable.strings</Filepath>
+    <TextItem>
+      <Description/>
+      <Position>instructions.content.events</Position>
+      <TranslationSet>
+        <base loc="en">1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) Select “Accessibility Apps”\r\n4) Add this application to the approval list</base>
+        <tran loc="de">1) Öffne die Systemeinstellungen\r\n2) Öffne die Bedienungshilfen \r\n3) Wähle „App-Zugriff“\r\n4) Füge diese App zur Liste der erlaubten Apps hinzu</tran>
+      </TranslationSet>
+    </TextItem>
+    <TextItem>
+      <Description/>
+      <Position>instructions.content.events</Position>
+      <TranslationSet>
+        <base loc="en">1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) Select “Accessibility Apps”\r\n4) Add this application to the approval list</base>
+        <tran loc="pt-BR">1) Abra as Preferências do Sistema\r\n2) Abra as preferências de Acessibilidade \r\n3) Selecione “Apps de Acessibilidade”\r\n4) Adicione este aplicativo à lista de aprovados</tran>
+      </TranslationSet>
+    </TextItem>
+    <TextItem>
+      <Description/>
+      <Position>instructions.content.events</Position>
+      <TranslationSet>
+        <base loc="en">1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) Select “Accessibility Apps”\r\n4) Add this application to the approval list</base>
+        <tran loc="es">1) Abre Preferencias del Sistema.\r\n2) Abre el panel de preferencias Accesibilidad.\r\n3) Selecciona “Apps de accesibilidad”.\r\n4) Añade esta aplicación a la lista de aplicaciones aprobadas.</tran>
+      </TranslationSet>
+    </TextItem>
+    <TextItem>
+      <Description/>
+      <Position>instructions.content.events</Position>
+      <TranslationSet>
+        <base loc="en">1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) Select “Accessibility Apps”\r\n4) Add this application to the approval list</base>
+        <tran loc="nl">1) Open Systeemvoorkeuren\r\n2) Open het voorkeurenpaneel 'Toegankelijkheid' \r\n3) Selecteer 'Apps'\r\n4) Voeg deze app toe aan de lijst</tran>
+      </TranslationSet>
+    </TextItem>
+    <TextItem>
+      <Description/>
+      <Position>instructions.content.events</Position>
+      <TranslationSet>
+        <base loc="en">1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) Select “Accessibility Apps”\r\n4) Add this application to the approval list</base>
+        <tran loc="fr">1) Ouvrez Préférences Système\r\n2) Ouvrez les préférences Accessibilité\r\n3) Choisissez « Applications d’accessibilité »\r\n4) Ajoutez l’application à la liste approuvée</tran>
+      </TranslationSet>
+    </TextItem>
+    <TextItem>
+      <Description/>
+      <Position>instructions.content.events</Position>
+      <TranslationSet>
+        <base loc="en">1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) Select “Accessibility Apps”\r\n4) Add this application to the approval list</base>
+        <tran loc="it">1) Apri Preferenze di Sistema\r\n2) Apri le preferenze Accessibilità \r\n3) Seleziona “App accessibilità”\r\n4) Aggiungi l’applicazione all’elenco delle approvazioni</tran>
+      </TranslationSet>
+    </TextItem>
+    <TextItem>
+      <Description/>
+      <Position>instructions.content.events</Position>
+      <TranslationSet>
+        <base loc="en">1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) Select “Accessibility Apps”\r\n4) Add this application to the approval list</base>
+        <tran loc="ja">1）“システム環境設定”を開きます\r\n2）“アクセシビリティ”環境設定を開きます\r\n3）“アクセシビリティアプリケーション”を選択します\r\n4）このアプリケーションを許可リストに追加します</tran>
+      </TranslationSet>
+    </TextItem>
+    <TextItem>
+      <Description/>
+      <Position>instructions.content.events</Position>
+      <TranslationSet>
+        <base loc="en">1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) Select “Accessibility Apps”\r\n4) Add this application to the approval list</base>
+        <tran loc="ko">1) 시스템 환경설정 열기\r\n2) 손쉬운 사용 환경설정 열기 \r\n3) ‘손쉬운 사용 앱’ 선택\r\n4) 이 응용 프로그램을 승인 목록에 추가</tran>
+      </TranslationSet>
+    </TextItem>
+    <TextItem>
+      <Description/>
+      <Position>instructions.content.events</Position>
+      <TranslationSet>
+        <base loc="en">1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) Select “Accessibility Apps”\r\n4) Add this application to the approval list</base>
+        <tran loc="ru">1) Откройте Системные настройки.\r\n2) Перейдите в раздел «Универсальный доступ».\r\n3) Выберите «ПО Универсального доступа».\r\n4) Добавьте эту программу в утвержденный список.</tran>
+      </TranslationSet>
+    </TextItem>
+    <TextItem>
+      <Description/>
+      <Position>instructions.content.events</Position>
+      <TranslationSet>
+        <base loc="en">1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) Select “Accessibility Apps”\r\n4) Add this application to the approval list</base>
+        <tran loc="zh-CN">1)打开“系统偏好设置”\r\n2)打开“辅助功能”偏好设置\r\n3)选择“辅助功能App”\r\n4)将此应用程序添加到批准列表</tran>
+      </TranslationSet>
+    </TextItem>
+    <TextItem>
+      <Description/>
+      <Position>instructions.content.events</Position>
+      <TranslationSet>
+        <base loc="en">1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) Select “Accessibility Apps”\r\n4) Add this application to the approval list</base>
+        <tran loc="sv">1) Öppna Systeminställningar.\r\n2) Öppna Hjälpmedel. \r\n3) Markera Hjälpmedelsprogram.\r\n4) Lägg till det här programmet i listan över godkända program.</tran>
+      </TranslationSet>
+    </TextItem>
+    <TextItem>
+      <Description/>
+      <Position>instructions.content.events</Position>
+      <TranslationSet>
+        <base loc="en">1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) Select “Accessibility Apps”\r\n4) Add this application to the approval list</base>
+        <tran loc="th">1) เปิดการตั้งค่าระบบ\r\n2) เปิดการตั้งค่าการช่วยการเข้าถึง \r\n3) เลือก “แอพการช่วยการเข้าถึง”\r\n4) เพิ่มแอพพลิเคชั่นนี้ไปที่รายการที่ให้อนุญาต</tran>
+      </TranslationSet>
+    </TextItem>
+    <TextItem>
+      <Description/>
+      <Position>instructions.content.events</Position>
+      <TranslationSet>
+        <base loc="en">1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) Select “Accessibility Apps”\r\n4) Add this application to the approval list</base>
+        <tran loc="zh-TW">1) 打開「系統偏好設定」\r\n2) 打開「輔助使用」偏好設定\r\n3) 選擇「輔助使用App」\r\n4) 將此應用程式加入允許列表</tran>
+      </TranslationSet>
+    </TextItem>
+  </File>
+</Proj>
