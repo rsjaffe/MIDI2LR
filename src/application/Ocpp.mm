@@ -39,7 +39,7 @@ std::string rsj::AppLogMac()
 std::string rsj::SystemFontMac()
 {
    NSFont* font {[NSFont controlContentFontOfSize:0.0]};
-   return std::string ((font.displayName).UTF8String);
+   return std::string((font.displayName).UTF8String);
 }
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED <= __MAC_10_14
@@ -78,9 +78,8 @@ void rsj::CheckPermission(pid_t pid)
                 "MIDI2LR needs your authorization to send keystrokes to Lightroom")};
             auto message {juce::translate(
                 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these "
-                "steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) "
-                "Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find "
-                "the checkbox for MIDI2LR on the right\r\n6) Check that checkbox")};
+                "steps:\r\n1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) "
+                "Select \"Accessibility Apps\"\r\n4) Add this application to the approval list")};
             juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, title, message);
             break;
          }
