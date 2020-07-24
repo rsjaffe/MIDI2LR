@@ -103,7 +103,7 @@ void VersionChecker::Run()
              IntToVersion(new_version_), IntToVersion(last_checked),
              IntToVersion(ProjectInfo::versionNumber)));
          if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked
-             && thread_should_exit_.load(std::memory_order_acquire)) {
+             && !thread_should_exit_.load(std::memory_order_acquire)) {
             triggerAsyncUpdate();
          }
       }
