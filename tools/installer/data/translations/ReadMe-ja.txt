@@ -24,7 +24,7 @@
 以前のバージョンからの更新
 ================================
 
-1. Lightroomを閉じます。
+1. Lightroom の終了。
 
 2.以前のバージョンで使用されていたのと同じディレクトリにインストールします。
 
@@ -45,4 +45,4 @@ https://github.com/rsjaffe/MIDI2LR/wiki/Version-Historyを参照してくださ�
 =======
 サポート
 =======
-寄付歓迎：https://paypal.me/MIDI2LR
+プロジェクト開発をサポートするための寄付をお願いします：https://paypal.me/MIDI2LR

@@ -24,7 +24,7 @@ Uppstart
 Uppdatering från en tidigare version
 ================================
 
-1. Stäng Lightroom.
+1. Avsluta Lightroom.
 
 2. Installera i samma katalog som användes i den tidigare versionen.
 
@@ -45,4 +45,4 @@ Se https://github.com/rsjaffe/MIDI2LR/wiki/Version-History
 =======
 Stöd
 =======
-Donationer Välkommen: https://paypal.me/MIDI2LR
+Donera för att stödja projektutveckling: https://paypal.me/MIDI2LR

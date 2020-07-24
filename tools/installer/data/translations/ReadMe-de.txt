@@ -24,7 +24,7 @@ Konfiguration
 Aktualisieren von einer früheren Version
 ===============================
 
-1. Schließen Sie Lightroom.
+1. Lightroom beenden.
 
 2. Installieren Sie in demselben Verzeichnis wie in der vorherigen Version.
 
@@ -45,4 +45,4 @@ Siehe https://github.com/rsjaffe/MIDI2LR/wiki/Version-History
 =======
 Unterstützung
 =======
-Spenden willkommen: https://paypal.me/MIDI2LR
+Unterstützen Sie die Projektentwicklung mit Ihrer Spende: https://paypal.me/MIDI2LR
