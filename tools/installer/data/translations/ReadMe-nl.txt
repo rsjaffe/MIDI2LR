@@ -24,7 +24,7 @@ Opstelling
 Bijwerken vanaf een vorige versie
 ================================
 
-1. Sluit Lightroom.
+1. Lightroom afsluiten.
 
 2. Installeer in dezelfde map als in de vorige versie.
 
@@ -45,4 +45,4 @@ Zie https://github.com/rsjaffe/MIDI2LR/wiki/Version-History
 =======
 Ondersteuning
 =======
-Donaties Welkom: https://paypal.me/MIDI2LR
+Doneren om projectontwikkeling te steunen: https://paypal.me/MIDI2LR

@@ -45,4 +45,4 @@ Vedi https://github.com/rsjaffe/MIDI2LR/wiki/Version-History
 =======
 Supporto
 =======
-Donazioni Benvenuti: https://paypal.me/MIDI2LR
+Dona per supportare lo sviluppo del progetto: https://paypal.me/MIDI2LR

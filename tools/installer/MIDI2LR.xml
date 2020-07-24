@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>3.5.0.2</version>
+    <version>3.5.0.3</version>
     <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>data/translations/ReadMe.txt</readmeFile>
     <licenseFile>../../LICENSE.txt</licenseFile>
@@ -464,7 +464,7 @@
         <language>
             <code>pt_BR</code>
             <encoding>utf-8</encoding>
-            <file>data/translations/custom-pt.lng</file>
+            <file>data/translations/custom-pt_BR.lng</file>
         </language>
         <language>
             <code>ru</code>
@@ -572,7 +572,7 @@
         <readmeFile>
             <code>pt_BR</code>
             <encoding>utf-8</encoding>
-            <file>data/translations/ReadMe-pt.txt</file>
+            <file>data/translations/ReadMe-pt_BR.txt</file>
         </readmeFile>
         <readmeFile>
             <code>ru</code>

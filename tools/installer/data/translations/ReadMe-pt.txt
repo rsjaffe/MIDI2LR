@@ -10,23 +10,23 @@ Pré-requisitos
 Configuração
 =====
 
-1. Faça o download do instalador do seu sistema operacional em https://github.com/rsjaffe/MIDI2LR/releases, onde você sempre encontrará a versão mais recente. Ao selecionar uma pasta para instalação, verifique se você não precisa de privilégios de administrador para gravar nessa pasta - o plug-in poderá falhar se estiver sendo executado em uma pasta restrita.
+1. Descarregue o instalador para o seu sistema operativo a partir de https://github.com/rsjaffe/MIDI2LR/releases, onde encontrará sempre a versão mais recente. Ao selecionar uma pasta para instalação, certifique-se de que não necessita de privilégios de administrador para escrever para essa pasta — o plugin pode falhar se estiver a funcionar numa pasta restrita.
 
-2. No Lightroom, adicione o plug-in MIDI2LR, vá para Arquivo → Gerenciador de plug-ins → Adicionar, navegando e selecionando a pasta MIDI2LR.lrplugin.
+2. No Lightroom, adicione o plugin MIDI2LR indo para Ficheiro → Gerenciador de plug-ins → Adicionar, e navegar e selecionar a pasta MIDI2LR.lrplugin.
 
-3. O aplicativo MIDI2LR deve iniciar automaticamente. Se estiver fechado, pode ser iniciado acessando Arquivo → Extras do plug-in → Iniciar MIDI2LR
+3. A aplicação MIDI2LR deve ser lançada automaticamente. Se estiver fechado, pode ser lançado indo para Ficheiro → Extras do plug-in → Iniciar MIDI2LR
 
-4. Mover qualquer controlador preencherá a tabela de mapeamento e permitirá definir funções. Você também pode salvar / carregar mapeamentos.
+4. A deslocação de quaisquer controladores irá povoar a mesa de mapeamento e permitir-lhe definir funções. Também pode guardar/carregar mapeamentos.
 
-5. Informações sobre todas as configurações e opções estão no wiki: https://github.com/rsjaffe/MIDI2LR/wiki.
+5. As informações sobre todas as configurações e opções estão no wiki: https://github.com/rsjaffe/MIDI2LR/wiki.
 
 ================================
-Atualizando de uma versão anterior
+Atualização a partir de uma versão anterior
 ================================
 
-1. Feche o Lightroom.
+1. Saída em Lightroom.
 
-2. Instale no mesmo diretório usado na versão anterior.
+2. Instale no mesmo diretório utilizado na versão anterior.
 
 3. Reinicie o Lightroom.
 
@@ -34,15 +34,15 @@ Atualizando de uma versão anterior
 Problemas / perguntas freqüentes
 ===================================
 
-Primeiro, consulte as Perguntas frequentes em https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues. Se você ainda tiver dúvidas, poste-as em https://groups.google.com/forum/#!forum/midi2lr.
+Primeiro ver as FAQ no https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues.  Se ainda tiver perguntas, coloque-as na https://groups.google.com/forum/#!forum/midi2lr.
 
 =========
-Changelog
+Alterlog
 =========
 
-Consulte https://github.com/rsjaffe/MIDI2LR/wiki/Version-History
+Ver https://github.com/rsjaffe/MIDI2LR/wiki/Version-History
 
 =======
-Apoio, suporte
+Apoio
 =======
-Bem-vindo a doações: https://paypal.me/MIDI2LR
+Doe para apoiar o desenvolvimento do projeto: https://paypal.me/MIDI2LR
