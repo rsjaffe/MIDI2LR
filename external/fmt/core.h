@@ -18,7 +18,7 @@
 #include <vector>
 
 // The fmt library version in the form major * 10000 + minor * 100 + patch.
-#define FMT_VERSION 70000
+#define FMT_VERSION 70003
 
 #ifdef __clang__
 #  define FMT_CLANG_VERSION (__clang_major__ * 100 + __clang_minor__)
@@ -299,7 +299,7 @@ template <typename T> struct std_string_view {};
 
 #ifdef FMT_USE_INT128
 // Do nothing.
-#elif defined(__SIZEOF_INT128__) && !FMT_NVCC
+#elif defined(__SIZEOF_INT128__) && !FMT_NVCC && !(FMT_CLANG_VERSION && FMT_MSC_VER)
 #  define FMT_USE_INT128 1
 using int128_t = __int128_t;
 using uint128_t = __uint128_t;
@@ -1360,6 +1360,10 @@ using buffer_context =
 using format_context = buffer_context<char>;
 using wformat_context = buffer_context<wchar_t>;
 
+// Workaround a bug in gcc: https://stackoverflow.com/q/62767544/471164.
+#define FMT_BUFFER_CONTEXT(Char) \
+  basic_format_context<std::back_insert_iterator<detail::buffer<Char>>, Char>
+
 /**
   \rst
   An array of references to arguments. It can be implicitly converted into
@@ -1709,7 +1713,7 @@ template <typename Context> class basic_format_args {
   }
 
   template <typename Char> int get_id(basic_string_view<Char> name) const {
-    if (!has_named_args()) return {};
+    if (!has_named_args()) return -1;
     const auto& named_args =
         (is_packed() ? values_[-1] : args_[-1].value_).named_args;
     for (size_t i = 0; i < named_args.size; ++i) {
@@ -1765,12 +1769,12 @@ std::basic_string<Char> vformat(
     basic_string_view<Char> format_str,
     basic_format_args<buffer_context<type_identity_t<Char>>> args);
 
-std::string vformat(string_view format_str, format_args args);
+FMT_API std::string vformat(string_view format_str, format_args args);
 
 template <typename Char>
-typename buffer_context<Char>::iterator vformat_to(
+typename FMT_BUFFER_CONTEXT(Char)::iterator vformat_to(
     buffer<Char>& buf, basic_string_view<Char> format_str,
-    basic_format_args<buffer_context<type_identity_t<Char>>> args);
+    basic_format_args<FMT_BUFFER_CONTEXT(type_identity_t<Char>)> args);
 
 template <typename Char, typename Args,
           FMT_ENABLE_IF(!std::is_same<Char, char>::value)>

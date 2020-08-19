@@ -120,9 +120,8 @@ span<T, dynamic_extent> ensure_sentinel(T* seq,
 }
 
 //
-// ensure_z - creates a span for a zero terminated strings.
-// Will fail fast if a null-terminator cannot be found before
-// the limit of size_type.
+// ensure_z - creates a span for a zero terminated strings. The span will not contain the zero termination.
+// Will fail fast if a null-terminator cannot be found before the limit of size_type.
 //
 template <typename CharT>
 span<CharT, dynamic_extent> ensure_z(CharT* const& sz,
@@ -395,7 +394,8 @@ public:
     constexpr basic_zstring_span(impl_type s) : span_(s)
     {
         // expects a zero-terminated span
-        Expects(s[s.size() - 1] == '\0');
+        Expects(s.size() > 0);
+        Expects(s[s.size() - 1] == value_type{});
     }
 
     // copy
@@ -410,12 +410,11 @@ public:
     // move assign
     constexpr basic_zstring_span& operator=(basic_zstring_span&& other) = default;
 
-    constexpr bool empty() const noexcept { return span_.size() == 0; }
+    constexpr bool empty() const noexcept { return false; }
 
     constexpr string_span_type as_string_span() const noexcept
     {
-        const auto sz = span_.size();
-        return {span_.data(), sz > 1 ? sz - 1 : 0};
+        return {span_.data(), span_.size() - 1};
     }
     constexpr string_span_type ensure_z() const { return gsl::ensure_z(span_); }
 
@@ -471,7 +470,7 @@ bool operator==(const T& one, const gsl::basic_string_span<CharT, Extent>& other
 }
 
 // operator !=
-template <typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+template <typename CharT, std::size_t Extent = dynamic_extent, typename T,
           typename = std::enable_if_t<std::is_convertible<
               T, gsl::basic_string_span<std::add_const_t<CharT>, Extent>>::value>>
 bool operator!=(gsl::basic_string_span<CharT, Extent> one, const T& other)
@@ -480,7 +479,7 @@ bool operator!=(gsl::basic_string_span<CharT, Extent> one, const T& other)
 }
 
 template <
-    typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+    typename CharT, std::size_t Extent = dynamic_extent, typename T,
     typename = std::enable_if_t<
         std::is_convertible<T, gsl::basic_string_span<std::add_const_t<CharT>, Extent>>::value &&
         !gsl::details::is_basic_string_span<T>::value>>
@@ -490,7 +489,7 @@ bool operator!=(const T& one, gsl::basic_string_span<CharT, Extent> other)
 }
 
 // operator<
-template <typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+template <typename CharT, std::size_t Extent = dynamic_extent, typename T,
           typename = std::enable_if_t<std::is_convertible<
               T, gsl::basic_string_span<std::add_const_t<CharT>, Extent>>::value>>
 bool operator<(gsl::basic_string_span<CharT, Extent> one, const T& other)
@@ -500,7 +499,7 @@ bool operator<(gsl::basic_string_span<CharT, Extent> one, const T& other)
 }
 
 template <
-    typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+    typename CharT, std::size_t Extent = dynamic_extent, typename T,
     typename = std::enable_if_t<
         std::is_convertible<T, gsl::basic_string_span<std::add_const_t<CharT>, Extent>>::value &&
         !gsl::details::is_basic_string_span<T>::value>>
@@ -516,7 +515,7 @@ bool operator<(const T& one, gsl::basic_string_span<CharT, Extent> other)
 // so the cases below are already covered by the previous operators
 
 template <
-    typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+    typename CharT, std::size_t Extent = dynamic_extent, typename T,
     typename DataType = typename T::value_type,
     typename = std::enable_if_t<
         !gsl::details::is_span<T>::value && !gsl::details::is_basic_string_span<T>::value &&
@@ -530,7 +529,7 @@ bool operator<(gsl::basic_string_span<CharT, Extent> one, const T& other)
 }
 
 template <
-    typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+    typename CharT, std::size_t Extent = dynamic_extent, typename T,
     typename DataType = typename T::value_type,
     typename = std::enable_if_t<
         !gsl::details::is_span<T>::value && !gsl::details::is_basic_string_span<T>::value &&
@@ -545,7 +544,7 @@ bool operator<(const T& one, gsl::basic_string_span<CharT, Extent> other)
 #endif
 
 // operator <=
-template <typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+template <typename CharT, std::size_t Extent = dynamic_extent, typename T,
           typename = std::enable_if_t<std::is_convertible<
               T, gsl::basic_string_span<std::add_const_t<CharT>, Extent>>::value>>
 bool operator<=(gsl::basic_string_span<CharT, Extent> one, const T& other)
@@ -554,7 +553,7 @@ bool operator<=(gsl::basic_string_span<CharT, Extent> one, const T& other)
 }
 
 template <
-    typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+    typename CharT, std::size_t Extent = dynamic_extent, typename T,
     typename = std::enable_if_t<
         std::is_convertible<T, gsl::basic_string_span<std::add_const_t<CharT>, Extent>>::value &&
         !gsl::details::is_basic_string_span<T>::value>>
@@ -569,7 +568,7 @@ bool operator<=(const T& one, gsl::basic_string_span<CharT, Extent> other)
 // so the cases below are already covered by the previous operators
 
 template <
-    typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+    typename CharT, std::size_t Extent = dynamic_extent, typename T,
     typename DataType = typename T::value_type,
     typename = std::enable_if_t<
         !gsl::details::is_span<T>::value && !gsl::details::is_basic_string_span<T>::value &&
@@ -582,7 +581,7 @@ bool operator<=(gsl::basic_string_span<CharT, Extent> one, const T& other)
 }
 
 template <
-    typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+    typename CharT, std::size_t Extent = dynamic_extent, typename T,
     typename DataType = typename T::value_type,
     typename = std::enable_if_t<
         !gsl::details::is_span<T>::value && !gsl::details::is_basic_string_span<T>::value &&
@@ -596,7 +595,7 @@ bool operator<=(const T& one, gsl::basic_string_span<CharT, Extent> other)
 #endif
 
 // operator>
-template <typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+template <typename CharT, std::size_t Extent = dynamic_extent, typename T,
           typename = std::enable_if_t<std::is_convertible<
               T, gsl::basic_string_span<std::add_const_t<CharT>, Extent>>::value>>
 bool operator>(gsl::basic_string_span<CharT, Extent> one, const T& other)
@@ -605,7 +604,7 @@ bool operator>(gsl::basic_string_span<CharT, Extent> one, const T& other)
 }
 
 template <
-    typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+    typename CharT, std::size_t Extent = dynamic_extent, typename T,
     typename = std::enable_if_t<
         std::is_convertible<T, gsl::basic_string_span<std::add_const_t<CharT>, Extent>>::value &&
         !gsl::details::is_basic_string_span<T>::value>>
@@ -620,7 +619,7 @@ bool operator>(const T& one, gsl::basic_string_span<CharT, Extent> other)
 // so the cases below are already covered by the previous operators
 
 template <
-    typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+    typename CharT, std::size_t Extent = dynamic_extent, typename T,
     typename DataType = typename T::value_type,
     typename = std::enable_if_t<
         !gsl::details::is_span<T>::value && !gsl::details::is_basic_string_span<T>::value &&
@@ -633,7 +632,7 @@ bool operator>(gsl::basic_string_span<CharT, Extent> one, const T& other)
 }
 
 template <
-    typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+    typename CharT, std::size_t Extent = dynamic_extent, typename T,
     typename DataType = typename T::value_type,
     typename = std::enable_if_t<
         !gsl::details::is_span<T>::value && !gsl::details::is_basic_string_span<T>::value &&
@@ -647,7 +646,7 @@ bool operator>(const T& one, gsl::basic_string_span<CharT, Extent> other)
 #endif
 
 // operator >=
-template <typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+template <typename CharT, std::size_t Extent = dynamic_extent, typename T,
           typename = std::enable_if_t<std::is_convertible<
               T, gsl::basic_string_span<std::add_const_t<CharT>, Extent>>::value>>
 bool operator>=(gsl::basic_string_span<CharT, Extent> one, const T& other)
@@ -656,7 +655,7 @@ bool operator>=(gsl::basic_string_span<CharT, Extent> one, const T& other)
 }
 
 template <
-    typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+    typename CharT, std::size_t Extent = dynamic_extent, typename T,
     typename = std::enable_if_t<
         std::is_convertible<T, gsl::basic_string_span<std::add_const_t<CharT>, Extent>>::value &&
         !gsl::details::is_basic_string_span<T>::value>>
@@ -671,7 +670,7 @@ bool operator>=(const T& one, gsl::basic_string_span<CharT, Extent> other)
 // so the cases below are already covered by the previous operators
 
 template <
-    typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+    typename CharT, std::size_t Extent = dynamic_extent, typename T,
     typename DataType = typename T::value_type,
     typename = std::enable_if_t<
         !gsl::details::is_span<T>::value && !gsl::details::is_basic_string_span<T>::value &&
@@ -684,7 +683,7 @@ bool operator>=(gsl::basic_string_span<CharT, Extent> one, const T& other)
 }
 
 template <
-    typename CharT, std::size_t Extent = gsl::dynamic_extent, typename T,
+    typename CharT, std::size_t Extent = dynamic_extent, typename T,
     typename DataType = typename T::value_type,
     typename = std::enable_if_t<
         !gsl::details::is_span<T>::value && !gsl::details::is_basic_string_span<T>::value &&

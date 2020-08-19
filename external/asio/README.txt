@@ -2,4 +2,4 @@ asio
 
 latest version downloaded https://github.com/chriskohlhoff/asio/releases
 
-1.16.1 June 22 2020
+1.18.0 August 19 2020
