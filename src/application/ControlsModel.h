@@ -84,6 +84,7 @@ namespace rsj {
                   break;
                case CCmethod::kTwosComplement:
                   methodstr = "TwosComplement";
+                  break;
                default:
                   /* leave "undefined" */
                   break;

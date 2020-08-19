@@ -124,7 +124,7 @@ int ChannelModel::SetToCenter(rsj::MessageType controltype, int controlnumber)
          }
          break;
       default:
-          /* */;
+         break;
       }
       return retval;
    }

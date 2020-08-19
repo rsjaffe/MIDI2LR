@@ -75,11 +75,13 @@ void MidiReceiver::handleIncomingMidiMessage(
          /* if not nrpn, handle like other messages */
          [[fallthrough]];
       case rsj::MessageType::NoteOn:
+         [[fallthrough]];
       case rsj::MessageType::Pw:
          messages_.push(mess);
          break;
       default:
           /* no action if other type of MIDI message */;
+         break;
       }
    }
    catch (const std::exception& e) {

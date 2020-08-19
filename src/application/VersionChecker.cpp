@@ -107,6 +107,8 @@ void VersionChecker::Run()
             triggerAsyncUpdate();
          }
       }
+      else
+         rsj::Log("Unable to download MIDI2LR/version.xml and parse into valid XML document.");
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

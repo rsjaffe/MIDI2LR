@@ -15,6 +15,8 @@ BEGIN
   BEGIN
     BLOCK "040904E4"
     BEGIN
+      VALUE "CompanyName",  "Rory Jaffe\0"
+      VALUE "LegalCopyright",  "Copyright (C) 2015 by Rory Jaffe.\0"
       VALUE "FileDescription",  "MIDI2LR\0"
       VALUE "FileVersion",  "3.5.0.3\0"
       VALUE "ProductName",  "MIDI2LR\0"
