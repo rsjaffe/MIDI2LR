@@ -1,5 +1,6 @@
 ﻿"$$$/MIDI2LR/About/about=Instructies; sluit een MIDI controller aan, start MIDI2LR, en begin met bewerken! Zie https://github.com/rsjaffe/MIDI2LR/wiki voor meer gegevens."
 "$$$/MIDI2LR/Database/Hue=tint"
+"$$$/MIDI2LR/Database/latestversion=laatste versie"
 "$$$/MIDI2LR/Help/Donate=&Doneren om projectontwikkeling te steunen"
 "$$$/MIDI2LR/Help/Latest=&Bekijk de meest recente release"
 "$$$/MIDI2LR/Help/OnlineHelp=online-&Help"
