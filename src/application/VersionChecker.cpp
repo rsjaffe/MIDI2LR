@@ -64,7 +64,8 @@ void VersionChecker::handleAsyncUpdate()
          return;
       juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::AlertIconType::QuestionIcon,
           juce::translate(fmt::format("A new version of {} is available."), "MIDI2LR"),
-          juce::translate("Do you want to download the latest version?") + ' ' + IntToVersion(new_version_),
+          juce::translate("Do you want to download the latest version?") + ' '
+              + IntToVersion(new_version_),
           nullptr, juce::ModalCallbackFunction::create([this](int result) {
              if (result) {
                 const auto git {juce::URL("https://github.com/rsjaffe/MIDI2LR/releases")};

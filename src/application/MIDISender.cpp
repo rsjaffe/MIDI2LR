@@ -80,8 +80,8 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
       }
       else {
          constexpr auto msg {"MIDISender: Unexpected data type: {:n}."};
-         rsj::LogAndAlertError(
-             fmt::format(juce::translate(msg).toStdString(), id.msg_id_type), fmt::format(msg, id.msg_id_type));
+         rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), id.msg_id_type),
+             fmt::format(msg, id.msg_id_type));
       }
    }
 

@@ -15,11 +15,18 @@
  */
 #include "MidiUtilities.h"
 
+#include <exception>
+
+#include <fmt/format.h>
 #include <gsl/gsl>
 
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_core/juce_core.h>
 
+#include "Misc.h"
+/*****************************************************************************/
+/*************MidiMessage*****************************************************/
+/*****************************************************************************/
 rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm)
 {
    /* anything not set below is set to zero by default constructor */
@@ -55,4 +62,83 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm)
    else
       message_type_byte = MessageType::System;
 #pragma warning(pop)
+}
+/*****************************************************************************/
+/*************NrpnFilter******************************************************/
+/*****************************************************************************/
+NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message)
+{
+   try {
+      if (message.channel < 0 || message.channel >= kChannels)
+         throw std::out_of_range(fmt::format("Channel in ProcessMIDI is {}.", message.channel));
+      Expects(message.value <= 0x7F && message.value >= 0);
+      Expects(message.control_number <= 0x7F && message.control_number >= 0);
+#pragma warning(push)
+#pragma warning(disable : 26482 26446) /* message.channel range-checked already */
+      ProcessResult ret_val {false, false, 0, 0};
+      switch (message.control_number) {
+      case 6: {
+         // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+         auto& i_ref {intermediate_results_[message.channel]};
+         auto lock {std::scoped_lock(filter_mutex_)};
+         if (i_ref.ready_flags_ >= 0b11) {
+            ret_val.is_nrpn = true;
+            i_ref.value_msb_ = message.value & 0x7F;
+            i_ref.ready_flags_ |= 0b100; //-V112
+            if (i_ref.ready_flags_ == 0b1111) {
+               ret_val.is_ready = true;
+               ret_val.control = (i_ref.control_msb_ << 7) + i_ref.control_lsb_;
+               ret_val.value = (i_ref.value_msb_ << 7) + i_ref.value_lsb_;
+               Clear(message.channel);
+            }
+         }
+      }
+         return ret_val;
+      case 38: {
+         // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+         auto& i_ref {intermediate_results_[message.channel]};
+         auto lock {std::scoped_lock(filter_mutex_)};
+         if (i_ref.ready_flags_ >= 0b11) {
+            ret_val.is_nrpn = true;
+            i_ref.value_lsb_ = message.value & 0x7F;
+            i_ref.ready_flags_ |= 0b1000;
+            if (i_ref.ready_flags_ == 0b1111) {
+               ret_val.is_ready = true;
+               ret_val.control = (i_ref.control_msb_ << 7) + i_ref.control_lsb_;
+               ret_val.value = (i_ref.value_msb_ << 7) + i_ref.value_lsb_;
+               Clear(message.channel);
+            }
+         }
+      }
+         return ret_val;
+      case 98:
+         ret_val.is_nrpn = true;
+         {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+            auto& i_ref {intermediate_results_[message.channel]};
+            auto lock {std::scoped_lock(filter_mutex_)};
+            i_ref.control_lsb_ = message.value & 0x7F;
+            i_ref.ready_flags_ |= 0b10;
+         }
+         return ret_val;
+      case 99:
+         ret_val.is_nrpn = true;
+         {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+            auto& i_ref {intermediate_results_[message.channel]};
+            auto lock {std::scoped_lock(filter_mutex_)};
+            i_ref.control_msb_ = message.value & 0x7F;
+            i_ref.ready_flags_ |= 0b1;
+         }
+         return ret_val;
+      default:
+         /* not an expected nrpn control #, handle as typical midi message */
+         return ret_val;
+      }
+#pragma warning(pop)
+   }
+   catch (const std::exception& e) {
+      MIDI2LR_E_RESPONSE;
+      throw;
+   }
 }

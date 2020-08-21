@@ -23,14 +23,12 @@
 
 #ifdef _WIN32
 #include <array>
+#include <exception>
 #include <string>
 #include <unordered_map>
 
-#include <fmt/format.h>
-
-#include "WinDef.h"
-#undef NOUSER
 #include <Windows.h>
+#include <fmt/format.h>
 #include <wil/result.h>
 
 #include "Misc.h"

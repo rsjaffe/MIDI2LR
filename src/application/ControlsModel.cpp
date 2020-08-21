@@ -16,6 +16,7 @@
 #include "ControlsModel.h"
 
 #include <algorithm>
+#include <exception>
 
 #include "MidiUtilities.h"
 #include "Misc.h"

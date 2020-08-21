@@ -340,9 +340,6 @@
     <ClCompile Include="..\..\src\application\Misc.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\application\NrpnMessage.cpp">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\application\Ocpp.mm">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -1938,9 +1935,6 @@
     <ClInclude Include="..\..\src\application\Misc.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\application\NrpnMessage.h">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\application\Ocpp.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
@@ -1966,9 +1960,6 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\application\VersionChecker.h">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\application\WinDef.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\external\JuceLibraryCode\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">

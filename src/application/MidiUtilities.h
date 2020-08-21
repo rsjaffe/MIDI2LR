@@ -19,20 +19,24 @@
 /* Get the declaration of the primary std::hash template. We are not permitted to declare it
  * ourselves. <typeindex> is guaranteed to provide such a declaration, and is much cheaper to
  * include than <functional>. See https://en.cppreference.com/w/cpp/language/extending_std. */
+#include <array>
 #ifdef __cpp_lib_three_way_comparison
 #include <compare>
 #endif
-#include <cassert>
 #include <type_traits>
-#include <typeindex>
+#include <typeindex> /*declaration of std::hash template*/
 
 #include <fmt/format.h>
 
+#include "Concurrency.h"
 #include "Misc.h"
 namespace juce {
    class MidiMessage;
 }
 
+/*****************************************************************************/
+/*************MessageType*****************************************************/
+/*****************************************************************************/
 namespace rsj {
    enum struct MessageType : uint8_t {
       NoteOff = 0x8,
@@ -80,7 +84,40 @@ namespace rsj {
       return translation_table[static_cast<size_t>(from)
                                - static_cast<size_t>(MessageType::NoteOff)];
    }
+} // namespace rsj
 
+namespace fmt {
+   template<typename Char> struct formatter<rsj::MessageType, Char> {
+      template<typename ParseContext> constexpr auto parse(ParseContext& ctx)
+      { /* parsing copied from fmt's chrono.h */
+         auto it {ctx.begin()};
+         if (it != ctx.end() && *it == static_cast<Char>(':'))
+            ++it;
+         auto end {it};
+         while (end != ctx.end() && *end != static_cast<Char>('}'))
+            ++end;
+         tm_format.reserve(detail::to_unsigned(end - it + 1));
+         tm_format.append(it, end);
+         tm_format.push_back('\0');
+         return end;
+      }
+
+      template<typename FormatContext> auto format(const rsj::MessageType& p, FormatContext& ctx)
+      {
+         if (tm_format[0] == static_cast<Char>('n'))
+            return format_to(ctx.out(), "{}", rsj::MessageTypeToName(p));
+         return format_to(ctx.out(), "{}", rsj::MessageTypeToLabel(p));
+      }
+
+    private:
+      basic_memory_buffer<Char> tm_format;
+   };
+} // namespace fmt
+
+/*****************************************************************************/
+/*************MidiMessage*****************************************************/
+/*****************************************************************************/
+namespace rsj {
    /* channel is 0-based in MidiMessage, 1-based in MidiMessageId */
    struct MidiMessage {
       MessageType message_type_byte {MessageType::NoteOn};
@@ -122,8 +159,8 @@ namespace rsj {
       {
       }
 #ifdef __cpp_lib_three_way_comparison
-      constexpr std::strong_ordering operator<=>(const MidiMessageId& other) const
-          noexcept = default;
+      constexpr std::strong_ordering operator<=>(
+          const MidiMessageId& other) const noexcept = default;
 #else
       constexpr bool operator==(const MidiMessageId& other) const noexcept
       {
@@ -147,34 +184,6 @@ namespace rsj {
    };
 } // namespace rsj
 
-namespace fmt {
-   template<typename Char> struct formatter<rsj::MessageType, Char> {
-      template<typename ParseContext> constexpr auto parse(ParseContext& ctx)
-      { /* parsing copied from fmt's chrono.h */
-         auto it {ctx.begin()};
-         if (it != ctx.end() && *it == static_cast<Char>(':'))
-            ++it;
-         auto end {it};
-         while (end != ctx.end() && *end != static_cast<Char>('}'))
-            ++end;
-         tm_format.reserve(detail::to_unsigned(end - it + 1));
-         tm_format.append(it, end);
-         tm_format.push_back('\0');
-         return end;
-      }
-
-      template<typename FormatContext> auto format(const rsj::MessageType& p, FormatContext& ctx)
-      {
-         if (tm_format[0] == static_cast<Char>('n'))
-            return format_to(ctx.out(), "{}", rsj::MessageTypeToName(p));
-         return format_to(ctx.out(), "{}", rsj::MessageTypeToLabel(p));
-      }
-
-    private:
-      basic_memory_buffer<Char> tm_format;
-   };
-} // namespace fmt
-
 namespace std {
    /*It is allowed to add template specializations for any standard library class template to the
     * namespace std only if the declaration depends on at least one program-defined type and the
@@ -189,5 +198,40 @@ namespace std {
       }
    };
 } // namespace std
+
+/*****************************************************************************/
+/*************NrpnFilter******************************************************/
+/*****************************************************************************/
+class NrpnFilter {
+   /* This  assumes that all NRPN messages have 4 messages, though the NRPN standard allows omission
+    * of the 4th message. If the 4th message is dropped, this class silently consumes the message
+    * without emitting anything. */
+ public:
+   struct ProcessResult {
+      bool is_nrpn {};
+      bool is_ready {};
+      int control {};
+      int value {};
+   };
+   ProcessResult operator()(const rsj::MidiMessage& message);
+
+ private:
+   void Clear(int channel) noexcept
+   {
+#pragma warning(suppress : 26446 26482) /* Channel bounds-checked in calling functions */
+      // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+      intermediate_results_[channel] = {0, 0, 0, 0, 0};
+   }
+   struct InternalStructure {
+      int control_lsb_ {0};
+      int control_msb_ {0};
+      int ready_flags_ {0};
+      int value_lsb_ {0};
+      int value_msb_ {0};
+   };
+   mutable rsj::SpinLock filter_mutex_;
+   static constexpr int kChannels {16};
+   std::array<InternalStructure, kChannels> intermediate_results_ {};
+};
 
 #endif

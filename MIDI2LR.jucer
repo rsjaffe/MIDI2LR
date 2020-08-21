@@ -62,8 +62,6 @@
       <FILE id="rID3Fo" name="MidiUtilities.h" compile="0" resource="0" file="src/application/MidiUtilities.h"/>
       <FILE id="gxafEg" name="Misc.cpp" compile="1" resource="0" file="src/application/Misc.cpp"/>
       <FILE id="cl1k7L" name="Misc.h" compile="0" resource="0" file="src/application/Misc.h"/>
-      <FILE id="b8rH7o" name="NrpnMessage.cpp" compile="1" resource="0" file="src/application/NrpnMessage.cpp"/>
-      <FILE id="Vg4s1B" name="NrpnMessage.h" compile="0" resource="0" file="src/application/NrpnMessage.h"/>
       <FILE id="GAROt6" name="Ocpp.h" compile="0" resource="0" file="src/application/Ocpp.h"/>
       <FILE id="NLGqmV" name="Ocpp.mm" compile="1" resource="0" file="src/application/Ocpp.mm"/>
       <FILE id="XmHz5G" name="Profile.cpp" compile="1" resource="0" file="src/application/Profile.cpp"/>
@@ -92,7 +90,6 @@
             file="src/application/VersionChecker.cpp"/>
       <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"
             file="src/application/VersionChecker.h"/>
-      <FILE id="x4x0Pz" name="WinDef.h" compile="0" resource="0" file="src/application/WinDef.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

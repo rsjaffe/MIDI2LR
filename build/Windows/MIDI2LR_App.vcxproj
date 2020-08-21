@@ -157,7 +157,6 @@
     <ClCompile Include="..\..\src\application\MIDISender.cpp"/>
     <ClCompile Include="..\..\src\application\MidiUtilities.cpp"/>
     <ClCompile Include="..\..\src\application\Misc.cpp"/>
-    <ClCompile Include="..\..\src\application\NrpnMessage.cpp"/>
     <ClCompile Include="..\..\src\application\Profile.cpp"/>
     <ClCompile Include="..\..\src\application\ProfileManager.cpp"/>
     <ClCompile Include="..\..\src\application\SendKeys.cpp"/>
@@ -1610,7 +1609,6 @@
     <ClInclude Include="..\..\src\application\MIDISender.h"/>
     <ClInclude Include="..\..\src\application\MidiUtilities.h"/>
     <ClInclude Include="..\..\src\application\Misc.h"/>
-    <ClInclude Include="..\..\src\application\NrpnMessage.h"/>
     <ClInclude Include="..\..\src\application\Ocpp.h"/>
     <ClInclude Include="..\..\src\application\Profile.h"/>
     <ClInclude Include="..\..\src\application\ProfileManager.h"/>
@@ -1620,7 +1618,6 @@
     <ClInclude Include="..\..\src\application\TextButtonAligned.h"/>
     <ClInclude Include="..\..\src\application\Translate.h"/>
     <ClInclude Include="..\..\src\application\VersionChecker.h"/>
-    <ClInclude Include="..\..\src\application\WinDef.h"/>
     <ClInclude Include="..\..\external\JuceLibraryCode\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>
     <ClInclude Include="..\..\external\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>
     <ClInclude Include="..\..\external\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>

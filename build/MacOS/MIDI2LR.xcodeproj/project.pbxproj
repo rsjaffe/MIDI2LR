@@ -129,10 +129,6 @@
 			isa = PBXBuildFile;
 			fileRef = 8E60E714C3CCB6A973E6FD1A;
 		};
-		12072FF5B45DC5DEE87F73AB = {
-			isa = PBXBuildFile;
-			fileRef = 37DCDE46011822C5FEFBB926;
-		};
 		5EB062682030763D6568C2FD = {
 			isa = PBXBuildFile;
 			fileRef = 37170CE85ACF118DF761CEB8;
@@ -292,13 +288,6 @@
 			path = "../../external/JuceLibraryCode/include_juce_audio_basics.mm";
 			sourceTree = "SOURCE_ROOT";
 		};
-		32B82D83449438E552AB8868 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = WinDef.h;
-			path = ../../src/application/WinDef.h;
-			sourceTree = "SOURCE_ROOT";
-		};
 		3520273114C17F954392826D = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
@@ -339,13 +328,6 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = Ocpp.mm;
 			path = ../../src/application/Ocpp.mm;
-			sourceTree = "SOURCE_ROOT";
-		};
-		37DCDE46011822C5FEFBB926 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = NrpnMessage.cpp;
-			path = ../../src/application/NrpnMessage.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		37FEB57B61384D8D0405A5FB = {
@@ -642,13 +624,6 @@
 			path = ../../src/application/ControlsModel.h;
 			sourceTree = "SOURCE_ROOT";
 		};
-		A91711C9FF7CD1CC1346C122 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = NrpnMessage.h;
-			path = ../../src/application/NrpnMessage.h;
-			sourceTree = "SOURCE_ROOT";
-		};
 		AAB944ACE5E8F4F702FDB13D = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
@@ -889,8 +864,6 @@
 				C2E5A6879829975AC9563BE9,
 				8E60E714C3CCB6A973E6FD1A,
 				F568EE9983C787D856C111FF,
-				37DCDE46011822C5FEFBB926,
-				A91711C9FF7CD1CC1346C122,
 				CCD3AA56FF49ED87A074EDD9,
 				37170CE85ACF118DF761CEB8,
 				71BA19677BA7D564A2C16275,
@@ -909,7 +882,6 @@
 				3520273114C17F954392826D,
 				6DB41504C16C973B4D6A85FB,
 				127C5D10AA909AEA887CFC5F,
-				32B82D83449438E552AB8868,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -1304,7 +1276,6 @@
 				35083D700EFC3AAC1C2FF545,
 				6F337E48685CF073A7A2DC6D,
 				6FC10574044B2681BD318AC4,
-				12072FF5B45DC5DEE87F73AB,
 				5EB062682030763D6568C2FD,
 				FC74B26CD05687C5FFD1A1C8,
 				925E0D4D6DD289DBC2589206,

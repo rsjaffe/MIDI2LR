@@ -26,7 +26,6 @@
 
 #include "Concurrency.h"
 #include "MidiUtilities.h"
-#include "NrpnMessage.h"
 
 #ifndef _MSC_VER
 #define _In_

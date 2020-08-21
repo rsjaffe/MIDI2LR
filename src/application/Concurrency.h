@@ -65,6 +65,8 @@ namespace rsj {
     * https://developercommunity.visualstudio.com/content/problem/1079261/alignas-not-accepted-when-applied-to-inline-static.html
     */
    alignas(128) inline std::atomic<PRNG::result_type> PRNG::state {[] {
+      static_assert(sizeof(std::random_device::result_type) * 2 == sizeof(result_type)
+                    && sizeof(std::random_device::result_type) == sizeof(uint32_t));
       auto rd {std::random_device {}};
       return static_cast<result_type>(rd()) << 32 | static_cast<result_type>(rd());
    }()};

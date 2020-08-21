@@ -30,9 +30,6 @@
 #ifdef _WIN32
 #include <utility>
 
-#include "WinDef.h"
-#undef NOUSER
-#undef NOVIRTUALKEYCODES
 #include <Windows.h>
 #include <wil/result.h>
 #else
