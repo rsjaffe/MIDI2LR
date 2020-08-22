@@ -60,6 +60,12 @@ Both the app and the installer need to be notarized for MacOS distribution. Use 
 After successful notarization, run (substitute correct MIDI2LR version number)
 `xcrun stapler staple MIDI2LR-W.X.Y.Z-osx-installer.dmg`
 
+## Translations
+
+There are three components to localize: the application, the plugin and the installer. Each unfortunately uses a different format but the program overseeing all localizations (except for the installer's readme file) is POEditor.com. To contribute to the translating effort, either by revising translations or adding new terms, contact mailto:rsjaffe@gmail.com to sign up.
+
+The resulting translation files are located in *data/application*, *data/plugin* and *tools/installer/data/translations*.
+
 ## License
 
 By contributing your code, you agree to license your contribution under the terms of the GPLv3: https://github.com/rsjaffe/MIDI2LR/blob/master/LICENSE.txt.
