@@ -79,9 +79,11 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
          }
       }
       else {
-         constexpr auto msg {"MIDISender: Unexpected data type: {:n}."};
-         rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), id.msg_id_type),
-             fmt::format(msg, id.msg_id_type));
+         constexpr auto msge {"MIDISender: Unexpected data type: {:n}."};
+         const auto msgt {
+             "MIDISender: " + juce::translate("Unexpected Data Type: ").toStdString() + " {:n}."};
+         rsj::LogAndAlertError(
+             fmt::format(msgt, id.msg_id_type), fmt::format(msge, id.msg_id_type));
       }
    }
 
@@ -113,17 +115,24 @@ void MidiSender::InitDevices()
          if (open_device) {
             const auto devname {open_device->getName().toStdString()};
             if constexpr (MSWindows) {
-               if (devname != "Microsoft GS Wavetable Synth") {
+               if (devname != "Microsoft GS Wavetable Synth"
+                   && devices_.EnabledOrNew(open_device->getDeviceInfo(), "output")) {
                   rsj::Log(fmt::format("Opened output device {}.", devname));
                   output_devices_.emplace_back(std::move(open_device));
                }
+               else
+                  rsj::Log(fmt::format("Ignored output device {}.", devname));
             }
             else {
-               rsj::Log(fmt::format("Opened output device {}.", devname));
-               output_devices_.emplace_back(std::move(open_device));
+               if (devices_.EnabledOrNew(open_device->getDeviceInfo(), "output")) {
+                  rsj::Log(fmt::format("Opened output device {}.", devname));
+                  output_devices_.emplace_back(std::move(open_device));
+               }
+               else
+                  rsj::Log(fmt::format("Ignored output device {}.", devname));
             }
          }
-      }
+      } // devices that are skipped have their pointers deleted and are automatically closed
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

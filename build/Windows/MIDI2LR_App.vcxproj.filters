@@ -310,6 +310,9 @@
     <ClCompile Include="..\..\src\application\DebugInfo.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\application\Devices.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\application\KeyMap.mm">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -1909,6 +1912,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\application\DebugInfo.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\application\Devices.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\application\LR_IPC_In.h">

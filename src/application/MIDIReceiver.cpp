@@ -44,7 +44,7 @@ void MidiReceiver::Start()
 
 void MidiReceiver::Stop()
 {
-   for (const auto& dev : devices_) {
+   for (const auto& dev : input_devices_) {
       dev->stop();
       rsj::Log(fmt::format("Stopped input device {}.", dev->getName().toStdString()));
    }
@@ -75,13 +75,11 @@ void MidiReceiver::handleIncomingMidiMessage(
          /* if not nrpn, handle like other messages */
          [[fallthrough]];
       case rsj::MessageType::NoteOn:
-         [[fallthrough]];
       case rsj::MessageType::Pw:
          messages_.push(mess);
          break;
       default:
           /* no action if other type of MIDI message */;
-         break;
       }
    }
    catch (const std::exception& e) {
@@ -93,11 +91,11 @@ void MidiReceiver::handleIncomingMidiMessage(
 void MidiReceiver::RescanDevices()
 {
    try {
-      for (const auto& dev : devices_) {
+      for (const auto& dev : input_devices_) {
          dev->stop();
          rsj::Log(fmt::format("Stopped input device {}.", dev->getName().toStdString()));
       }
-      devices_.clear();
+      input_devices_.clear();
       rsj::Log("Cleared input devices.");
    }
    catch (const std::exception& e) {
@@ -114,9 +112,15 @@ void MidiReceiver::TryToOpen()
       for (const auto& device : available_devices) {
          auto open_device {juce::MidiInput::openDevice(device.identifier, this)};
          if (open_device) {
-            open_device->start();
-            rsj::Log(fmt::format("Opened input device {}.", open_device->getName().toStdString()));
-            devices_.emplace_back(std::move(open_device));
+            if (devices_.EnabledOrNew(open_device->getDeviceInfo(), "input")) {
+               open_device->start();
+               rsj::Log(
+                   fmt::format("Opened input device {}.", open_device->getName().toStdString()));
+               input_devices_.emplace_back(std::move(open_device));
+            }
+            else
+               rsj::Log(
+                   fmt::format("Ignored input device {}.", open_device->getName().toStdString()));
          }
       }
    }
@@ -132,12 +136,12 @@ void MidiReceiver::InitDevices()
    try {
       rsj::Log("Trying to open input devices.");
       TryToOpen();
-      if (devices_.empty()) /* encountering errors first try on MacOS */
+      if (input_devices_.empty()) /* encountering errors first try on MacOS */
       {
          rsj::Log("Retrying to open input devices.");
          rsj::SleepTimedLogged("Open input devices", 20ms);
          TryToOpen();
-         if (devices_.empty()) /* encountering errors second try on MacOS */
+         if (input_devices_.empty()) /* encountering errors second try on MacOS */
          {
             rsj::Log("Retrying second time to open input devices.");
             rsj::SleepTimedLogged("Open input devices", 80ms);

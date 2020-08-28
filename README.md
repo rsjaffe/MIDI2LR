@@ -8,6 +8,8 @@
 
 MIDI2LR supports all languages Lightroom supports: Deutsch, English, español, français, italiano, 日本語, 한국어, Nederlands, português, русский, Svenska, ภาษาไทย and 中文 (简体中文和繁體中文).
 
+Translation assistance welcome. Sign up at https://poeditor.com/join/project?hash=v6U0MvufAn.
+
 ## Support MIDI2LR 💸
 [Donate to support project development](https://paypal.me/MIDI2LR)<br />[Unterstützen Sie die Projektentwicklung mit Ihrer Spende](https://paypal.me/MIDI2LR)<br />
 [Donación para ayuda al desarrollo de proyectos](https://paypal.me/MIDI2LR)<br />

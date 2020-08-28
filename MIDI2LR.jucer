@@ -40,6 +40,8 @@
       <FILE id="RYkZlQ" name="ControlsModel.h" compile="0" resource="0" file="src/application/ControlsModel.h"/>
       <FILE id="XJw3l2" name="DebugInfo.cpp" compile="1" resource="0" file="src/application/DebugInfo.cpp"/>
       <FILE id="ayq2tF" name="DebugInfo.h" compile="0" resource="0" file="src/application/DebugInfo.h"/>
+      <FILE id="nMP2vQ" name="Devices.cpp" compile="1" resource="0" file="src/application/Devices.cpp"/>
+      <FILE id="a6dMvA" name="Devices.h" compile="0" resource="0" file="src/application/Devices.h"/>
       <FILE id="WlKXbD" name="KeyMap.mm" compile="1" resource="0" file="src/application/KeyMap.mm"/>
       <FILE id="rBAqs7" name="LR_IPC_In.cpp" compile="1" resource="0" file="src/application/LR_IPC_In.cpp"/>
       <FILE id="KuUBCX" name="LR_IPC_In.h" compile="0" resource="0" file="src/application/LR_IPC_In.h"/>

@@ -47,6 +47,7 @@ namespace fs = std::filesystem;
 #include "CCoptions.h"
 #include "CommandSet.h"
 #include "ControlsModel.h"
+#include "Devices.h"
 #include "LR_IPC_In.h"
 #include "LR_IPC_Out.h"
 #include "MIDIReceiver.h"
@@ -375,11 +376,12 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    /* forcing assignment to static early in construction */
    [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_ {logger_.get()};
+   Devices devices_ {};
    const CommandSet command_set_ {};
    ControlsModel controls_model_ {};
    Profile profile_ {command_set_};
-   MidiSender midi_sender_ {};
-   MidiReceiver midi_receiver_ {};
+   MidiSender midi_sender_ {devices_};
+   MidiReceiver midi_receiver_ {devices_};
    LrIpcOut lr_ipc_out_ {controls_model_, profile_, midi_sender_, midi_receiver_};
    ProfileManager profile_manager_ {controls_model_, profile_, lr_ipc_out_, midi_receiver_};
    LrIpcIn lr_ipc_in_ {controls_model_, profile_manager_, profile_, midi_sender_};

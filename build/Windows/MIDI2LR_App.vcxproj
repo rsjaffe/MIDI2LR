@@ -148,6 +148,7 @@
     <ClCompile Include="..\..\src\application\CommandTableModel.cpp"/>
     <ClCompile Include="..\..\src\application\ControlsModel.cpp"/>
     <ClCompile Include="..\..\src\application\DebugInfo.cpp"/>
+    <ClCompile Include="..\..\src\application\Devices.cpp"/>
     <ClCompile Include="..\..\src\application\LR_IPC_In.cpp"/>
     <ClCompile Include="..\..\src\application\LR_IPC_Out.cpp"/>
     <ClCompile Include="..\..\src\application\Main.cpp"/>
@@ -1601,6 +1602,7 @@
     <ClInclude Include="..\..\src\application\Concurrency.h"/>
     <ClInclude Include="..\..\src\application\ControlsModel.h"/>
     <ClInclude Include="..\..\src\application\DebugInfo.h"/>
+    <ClInclude Include="..\..\src\application\Devices.h"/>
     <ClInclude Include="..\..\src\application\LR_IPC_In.h"/>
     <ClInclude Include="..\..\src\application\LR_IPC_Out.h"/>
     <ClInclude Include="..\..\src\application\MainComponent.h"/>
