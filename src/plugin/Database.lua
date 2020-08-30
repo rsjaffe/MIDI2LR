@@ -84,8 +84,6 @@ local profile = LOC('$$$/AgDevelop/CameraRawPanel/Profile=Profile:')
 local quickdev = LOC('$$$/AgLibrary/Panel/DevelopTitle=Quick develop')
 local repeatexp = ' Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'
 local serexp = 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'
-local setcropasp = LOC('$$$/AgLibrary/CameraRawView/Ops/CropAspect=Set crop aspect ratio')
-local show = LOC('$$$/AgLibrary/LibraryInfo/Show=Show')
 local size = LOC('$$$/AgDevelop/Toolbar/Localized/BrushSize=Size')
 local smaller = LOC('$$$/AgEmail/FontSize/smaller=smaller')
 local whiteBalance = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/WhiteBalance=White Balance')
@@ -220,7 +218,7 @@ local DataBase = {
   {Command='Filter_11',Type='button',Translation=filter..' 11',Group=filter,Explanation='Library filter 11'..filtexp},  
   {Command='Filter_12',Type='button',Translation=filter..' 12',Group=filter,Explanation='Library filter 12'..filtexp},  
   --view
-  {Command='SwToMlibrary',Type='button',Translation=show..' '..LOC('$$$/AgLibraryModule/ModuleTitle=Library'),Group=view,Explanation='Switch to Library module.'},
+  {Command='SwToMlibrary',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgLibraryModule/ModuleTitle=Library')),Group=view,Explanation='Switch to Library module.'},
   {Command='ShoVwpeople',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/People=People'),Group=view,Explanation='In the People view, the different faces are organized by people stacks.'},  
   {Command='ShoVwgrid',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Grid=Grid'),Group=view,Explanation='Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes.'},
   {Command='GridViewStyle',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/CycleGridViews=Cycle grid views'),Group=view,Explanation='Changes the grid view style. Supported in LR versions 7.4 and later.'},
@@ -285,18 +283,18 @@ local DataBase = {
   {Command='QuickDevWBFlash',Type='button',Translation=quickdev..' '..whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Flash=Flash'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets Auto flash balance for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
   {Command='SetTreatmentBW',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetGrayscale=Set treatment B&W'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets the treatment to B&W for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
   {Command='SetTreatmentColor',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/TreatmentColor=Set treatment Color'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets the treatment to Color for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
-  {Command='QuickDevCropAspectOriginal',Type='button',Translation=quickdev..' '..setcropasp..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/CropName/Original=Original'),Group=quickdev,Explanation='Set crop ratio to original. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
-  {Command='QuickDevCropAspectAsShot',Type='button',Translation=quickdev..' '..setcropasp..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/CropName/AsShot=As shot'),Group=quickdev,Explanation='Set crop ratio to as shot. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
-  {Command='QuickDevCropAspect1x1',Type='button',Translation=quickdev..' '..setcropasp..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','1','1'),Group=quickdev,Explanation='Set crop ratio to 1 by 1. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
-  {Command='QuickDevCropAspect2x3',Type='button',Translation=quickdev..' '..setcropasp..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','2','3'),Group=quickdev,Explanation='Set crop ratio to 2 by 3. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
-  {Command='QuickDevCropAspect3x4',Type='button',Translation=quickdev..' '..setcropasp..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','3','4'),Group=quickdev,Explanation='Set crop ratio to 3 by 4. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},  
-  {Command='QuickDevCropAspect4x5',Type='button',Translation=quickdev..' '..setcropasp..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','4','5'),Group=quickdev,Explanation='Set crop ratio to 4 by 5. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
-  {Command='QuickDevCropAspect5x7',Type='button',Translation=quickdev..' '..setcropasp..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','5','7'),Group=quickdev,Explanation='Set crop ratio to 5 by 7. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
-  {Command='QuickDevCropAspect85x11',Type='button',Translation=quickdev..' '..setcropasp..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','8.5','11'),Group=quickdev,Explanation='Set crop ratio to 8.5 by 11. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
-  {Command='QuickDevCropAspect9x16',Type='button',Translation=quickdev..' '..setcropasp..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','9','16'),Group=quickdev,Explanation='Set crop ratio to 9 by 16. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},  
+  {Command='QuickDevCropAspectOriginal',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropName/Original=Original')),Group=quickdev,Explanation='Set crop ratio to original. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
+  {Command='QuickDevCropAspectAsShot',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropName/AsShot=As shot')),Group=quickdev,Explanation='Set crop ratio to as shot. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
+  {Command='QuickDevCropAspect1x1',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','1','1')),Group=quickdev,Explanation='Set crop ratio to 1 by 1. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
+  {Command='QuickDevCropAspect2x3',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','2','3')),Group=quickdev,Explanation='Set crop ratio to 2 by 3. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
+  {Command='QuickDevCropAspect3x4',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','3','4')),Group=quickdev,Explanation='Set crop ratio to 3 by 4. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},  
+  {Command='QuickDevCropAspect4x5',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','4','5')),Group=quickdev,Explanation='Set crop ratio to 4 by 5. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
+  {Command='QuickDevCropAspect5x7',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','5','7')),Group=quickdev,Explanation='Set crop ratio to 5 by 7. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
+  {Command='QuickDevCropAspect85x11',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','8.5','11')),Group=quickdev,Explanation='Set crop ratio to 8.5 by 11. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
+  {Command='QuickDevCropAspect9x16',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','9','16')),Group=quickdev,Explanation='Set crop ratio to 9 by 16. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},  
 
   --Develop
-  {Command='SwToMdevelop',Type='button',Translation=show..' '..LOC('$$$/SmartCollection/Criteria/Heading/Develop=Develop'),Group=develop,Explanation='Switch to Develop module.'},
+  {Command='SwToMdevelop',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/SmartCollection/Criteria/Heading/Develop=Develop')),Group=develop,Explanation='Switch to Develop module.'},
   --develop: copy paste sync
   {Command='LRCopy',Type='button',Translation='Lightroom '..LOC('$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings'):gsub('%(%&%a%)',''):gsub('%&',''),Group=develop,Explanation='Lightroom Copy (open the selection box). Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>c</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>c</kbd> (OSX) to Lightroom.'},
   {Command='LRPaste',Type='button',Translation='Lightroom '..LOC('$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings'),Group=develop,Explanation='Lightroom Paste. Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>v</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>v</kbd> (OSX) to Lightroom.'},
@@ -329,7 +327,7 @@ local DataBase = {
   --
   --develop: basic tone panel
   --
-  {Command='RevealPanelAdjust',Type='button',Translation=show..' '..basicTone,Group=basicTone,Explanation='Open Basic Adjustments Panel in Develop Module.'},
+  {Command='RevealPanelAdjust',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',basicTone),Group=basicTone,Explanation='Open Basic Adjustments Panel in Develop Module.'},
   {Command='WhiteBalanceAs_Shot',Type='button',Experimental=true,Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/AsShot=As Shot'),Group=basicTone,Explanation='Use Temperature and Tint as determined by camera.',Panel='adjustPanel'},
   {Command='WhiteBalanceAuto',Type='button',Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Auto=Auto'),Group=basicTone,Explanation='Have Lightroom determine Temperature and Tint.',Panel='adjustPanel'},
   {Command='WhiteBalanceDaylight',Type='button',Experimental=true,Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Daylight=Daylight'),Group=basicTone,Explanation='Use daylight white balance.',Panel='adjustPanel'},
@@ -369,7 +367,7 @@ local DataBase = {
 --
 --develop: tone curve panel
 --
-  {Command='RevealPanelTone',Type='button',Translation=show..' '..toneCurve,Group=toneCurve,Explanation='Open Tone Curve Panel in Develop Module.'},
+  {Command='RevealPanelTone',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',toneCurve),Group=toneCurve,Explanation='Open Tone Curve Panel in Develop Module.'},
   {Command='EnableToneCurve',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableToneCurve=Enable Tone Curve'),Group=toneCurve,Explanation='Enable or disable tone curve.  Supported in LR versions 7.4 and later.',Panel='tonePanel'},
   {Command='ParametricDarks',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneDarks=Dark Tones'),Group=toneCurve,Explanation='Adjust darks.',Panel='tonePanel'},
   {Command='ParametricLights',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneLights=Light Tones'),Group=toneCurve,Explanation='Adjust lights.',Panel='tonePanel'},
@@ -391,7 +389,7 @@ local DataBase = {
 --
 --develop: mixer panel
 --
-  {Command='RevealPanelMixer',Type='button',Translation=show..' '..colorAdjustments,Group=colorAdjustments,Explanation='Open Mixer Panel in Develop Module.'},
+  {Command='RevealPanelMixer',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',colorAdjustments),Group=colorAdjustments,Explanation='Open Mixer Panel in Develop Module.'},
   {Command='EnableColorAdjustments',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableColorAdjustments=Enable Color Adjustments'),Group=colorAdjustments,Explanation='Enable or disable color adjustments.',Panel='mixerPanel'},
   {Command='SaturationAdjustmentRed',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentRed=Saturation Adjustment Red'),Group=colorAdjustments,Explanation='Changes the color vividness or purity of the color.',Panel='mixerPanel'},
   {Command='SaturationAdjustmentOrange',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentOrange=Saturation Adjustment Orange'),Group=colorAdjustments,Explanation='Changes the color vividness or purity of the color.',Panel='mixerPanel'},
@@ -464,7 +462,7 @@ local DataBase = {
 --
 --develop: split toning panel
 --
-  {Command='RevealPanelSplit',Type='button',Translation=show..' '..splitToning,Group=splitToning,Explanation='Open Split Toning Panel in Develop Module.'},
+  {Command='RevealPanelSplit',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',splitToning),Group=splitToning,Explanation='Open Split Toning Panel in Develop Module.'},
   {Command='EnableSplitToning',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableSplitToning=Enable Split Toning'),Group=splitToning,Explanation='Enable or disable split toning effects.',Panel='splitToningPanel'},
   {Command='SplitToningShadowHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowHue=Shadow Hue'),Group=splitToning,Explanation='Color of the tone for shadows.',Panel='splitToningPanel'},
   {Command='SplitToningShadowSaturation',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowSaturation=Shadow Saturation'),Group=splitToning,Explanation='Strength of the effect.',Panel='splitToningPanel'},
@@ -479,7 +477,7 @@ local DataBase = {
 --
 --develop: detail panel
 --
-  {Command='RevealPanelDetail',Type='button',Translation=show..' '..detail,Group=detail,Explanation='Open Detail Panel in Develop Module.'},
+  {Command='RevealPanelDetail',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',detail),Group=detail,Explanation='Open Detail Panel in Develop Module.'},
   {Command='EnableDetail',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableDetail=Enable Detail'),Group=detail,Explanation='Enable or disable noise reduction and sharpening.',Panel='detailPanel'},
   {Command='Sharpness',Type='parameter',Translation=LOC('$$$/AgDevelop/Localized/Sharpness=Sharpness'),Group=detail,Explanation='Adjusts edge definition. Increase the Amount value to increase sharpening. A value of zero (0) turns off sharpening. In general, set Amount to a lower value for cleaner images. The adjustment locates pixels that differ from surrounding pixels based on the threshold you specify and increases the pixels\226\128\153 contrast by the amount you specify.',Panel='detailPanel'},
   {Command='SharpenRadius',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SharpenRadius=Sharpen Radius'),Group=detail,Explanation='Adjusts the size of the details that sharpening is applied to. Photos with very fine details may need a lower radius setting. Photos with larger details may be able to use a larger radius. Using too large a radius generally results in unnatural-looking results.',Panel='detailPanel'},
@@ -504,7 +502,7 @@ local DataBase = {
 --
 --develop: lens corrections panel
 --
-  {Command='RevealPanelLens',Type='button',Translation=show..' '..lensCorrections,Group=lensCorrections,Explanation='Open Lens Corrections Panel in Develop Module.'},
+  {Command='RevealPanelLens',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',lensCorrections),Group=lensCorrections,Explanation='Open Lens Corrections Panel in Develop Module.'},
   {Command='EnableLensCorrections',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableLensCorrections=Enable Lens Corrections'),Group=lensCorrections,Explanation='Enable or disable all lens corrections.',Panel='lensCorrectionsPanel'},
   {Command='LensProfileEnable',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileEnable=Toggle Profile Corrections'),Group=lensCorrections,Explanation='Enable or disable lens profile correction.',Panel='lensCorrectionsPanel'},
   {Command='AutoLateralCA',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RemoveChromaticAberration=Remove Chromatic Aberration'),Group=lensCorrections,Explanation='Toggle Remove Chromatic Aberration.',Panel='lensCorrectionsPanel'},
@@ -536,7 +534,7 @@ local DataBase = {
 --
 --develop: transform panel menu
 --
-  {Command='RevealPanelTransform',Type='button',Translation=show..' '..transform,Group=transform,Explanation='Open Transform Panel in Develop Module.'},
+  {Command='RevealPanelTransform',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',transform),Group=transform,Explanation='Open Transform Panel in Develop Module.'},
   {Command='EnableTransform',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableTransform=Enable Transform'),Group=transform,Explanation='Enable or disable all transforms.',Panel='transformPanel'},
   {Command='UprightOff',Type='button',Translation=percor..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueOff=Off'),Group=transform,Explanation='Upright mode off.',Panel='transformPanel'},
   {Command='UprightAuto',Type='button',Translation=percor..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueAuto=Auto'),Group=transform,Explanation='Balanced level, aspect ratio, and perspective corrections.',Panel='transformPanel'},
@@ -563,7 +561,7 @@ local DataBase = {
 --
 --develop: effects panel
 --
-  {Command='RevealPanelEffects',Type='button',Translation=show..' '..effects,Group=effects,Explanation='Open Effects Panel in Develop Module.'},
+  {Command='RevealPanelEffects',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',effects),Group=effects,Explanation='Open Effects Panel in Develop Module.'},
   {Command='EnableEffects',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableEffects=Enable Effects'),Group=effects,Explanation='Enable or disable effects.',Panel='effectsPanel'},
   {Command='PostCropVignetteAmount',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteAmount=Post Crop Vignette Amount'),Group=effects,Explanation='Negative values darken the corners of the photo. Positive values lighten the corners.',Panel='effectsPanel'},
   {Command='PostCropVignetteMidpoint',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteMidpoint=Post Crop Vignette Midpoint'),Group=effects,Explanation='Lower values apply the Amount adjustment to a larger area away from the corners. Higher values restrict the adjustment to an area closer to the corners.',Panel='effectsPanel'},
@@ -589,7 +587,7 @@ local DataBase = {
 --
 --develop: calibration panel
 --
-  {Command='RevealPanelCalibrate',Type='button',Translation=show..' '..calibration,Group=calibration,Explanation='Open Camera Calibration Panel in Develop Module.'},
+  {Command='RevealPanelCalibrate',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',calibration),Group=calibration,Explanation='Open Camera Calibration Panel in Develop Module.'},
   {Command='EnableCalibration',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableCalibration=Enable Calibration'),Group=calibration,Explanation='Enable or disable custom camera calibration.',Panel='calibratePanel'},
   {Command='Profile_Adobe_Standard',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Standard=Standard'),Group=calibration,Explanation='Applies the Adobe Standard profile.',Panel='calibratePanel'},
   {Command='Profile_Camera_Bold',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Bold=Camera Bold'),Group=calibration,Explanation=profexp,Panel='calibratePanel'},
@@ -739,11 +737,11 @@ local DataBase = {
 --
 --develop: localized adjustments
 --
-  {Command='GraduatedFilter',Type='button',Translation=show..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters'),Group=localizedAdjustments,Explanation='Select Graduated Filter mode in Develop Module. Repeated press toggles Loupe View.'},
-  {Command='RadialFilter',Type='button',Translation=show..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters'),Group=localizedAdjustments,Explanation='Select Radial Filter View mode in Develop Module. Repeated press toggles Loupe View.'},
-  {Command='RedEye',Type='button',Translation=show..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction'),Group=localizedAdjustments,Explanation='Select Red Eye mode in Develop Module. Repeated press toggles Loupe View.'},
-  {Command='SpotRemoval',Type='button',Translation=show..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal'),Group=localizedAdjustments,Explanation='Select Spot Removal mode in Develop Module. Repeated press toggles Loupe View.'},
-  {Command='AdjustmentBrush',Type='button',Translation=show..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments'),Group=localizedAdjustments,Explanation='Select Adjustment Brush mode in Develop Module. Repeated press toggles Loupe View.'},
+  {Command='GraduatedFilter',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters')),Group=localizedAdjustments,Explanation='Select Graduated Filter mode in Develop Module. Repeated press toggles Loupe View.'},
+  {Command='RadialFilter',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters')),Group=localizedAdjustments,Explanation='Select Radial Filter View mode in Develop Module. Repeated press toggles Loupe View.'},
+  {Command='RedEye',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction')),Group=localizedAdjustments,Explanation='Select Red Eye mode in Develop Module. Repeated press toggles Loupe View.'},
+  {Command='SpotRemoval',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal')),Group=localizedAdjustments,Explanation='Select Spot Removal mode in Develop Module. Repeated press toggles Loupe View.'},
+  {Command='AdjustmentBrush',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments')),Group=localizedAdjustments,Explanation='Select Adjustment Brush mode in Develop Module. Repeated press toggles Loupe View.'},
   {Command='ShowMaskOverlay',Type='button',Translation=LOC('$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Show Mask Overlay'),Group=localizedAdjustments,Explanation='Sends the keystroke <kbd>o</kbd> to Lightroom. Show or hide the mask overlay.'},
   {Command='ToggleOverlay',type='button',Translation=locadj..' '..LOC('$$$/AgDevelop/Menu/View/AdjustmentMaskOverlay=Correction mask overlay')..' '..LOC('$$$/MIDI2LR/ShortCuts/ShowHide=show or hide'),Group=localizedAdjustments,Explanation='Toggles the localized adjustments mask overlay. Use only when any of the local adjustments filter is active. Supported in LR versions 7.4 and later.'},
   {Command='CycleMaskOverlayColor',Type='button',Translation=LOC('$$$/AgDevelop/Menu/View/AdjustmentBrushOverlay/CycleOverlay=Overlay Color'):gsub('%(%&%a%)',''):gsub('%&',''),Group=localizedAdjustments,Explanation='Sends the keystroke <kbd>\226\135\167 Shift</kbd>+<kbd>o</kbd> to Lightroom. Change Mask Overlay Color.'},
@@ -835,13 +833,13 @@ local DataBase = {
   {Command='CropAll', Type = 'variable',Experimental=true,Translation=crop..' - '..LOC('$$$/AgDevelop/LookBrowser/ProfileFilter/All=All'),Group=crop,Explanation='Adjust crop at all corners proportionately, preserving the current crop ratio.'},
   {Command='ResetCrop',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetCrop=Reset Crop'),Group=crop,Explanation='Reset the crop angle and frame for the current photo.'},
   {Command='ResetstraightenAngle',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle')),Group=crop,Explanation='Reset crop angle.'},
-  {Command='CropOverlay',Type='button',Translation=show..' '..crop,Group=crop,Explanation='Select Crop Overlay mode in Develop Module. Repeated press toggles Loupe View.'},
-  {Command='Loupe',Type='button',Translation=show..' '..LOC('$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe'),Group=gotoToolModulePanel,Explanation='Select Loupe View mode in Develop Module. Repeated press toggles in and out of Loupe View.'},
-  {Command='SwToMmap',Type='button',Translation=show..' '..LOC('$$$/AgLocation/ModuleTitle=Map'),Group=gotoToolModulePanel,Explanation='Switch to Map module.'},
-  {Command='SwToMbook',Type='button',Translation=show..' '..LOC('$$$/Ag/Layout/Book/ModuleTitle=Book'),Group=gotoToolModulePanel,Explanation='Switch to Book module.'},
-  {Command='SwToMslideshow',Type='button',Translation=show..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/Slideshow=Slideshow'),Group=gotoToolModulePanel,Explanation='Switch to Slideshow module.'},
-  {Command='SwToMprint',Type='button',Translation=show..' '..LOC('$$$/AgPrint/Menu/File/Print=Print'),Group=gotoToolModulePanel,Explanation='Switch to Print module.'},
-  {Command='SwToMweb',Type='button',Translation=show..' '..LOC('$$$/WPG/Help/Shortcuts/WebHeader=Web'),Group=gotoToolModulePanel,Explanation='Switch to Web module.'},
+  {Command='CropOverlay',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',crop),Group=crop,Explanation='Select Crop Overlay mode in Develop Module. Repeated press toggles Loupe View.'},
+  {Command='Loupe',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe')),Group=gotoToolModulePanel,Explanation='Select Loupe View mode in Develop Module. Repeated press toggles in and out of Loupe View.'},
+  {Command='SwToMmap',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgLocation/ModuleTitle=Map')),Group=gotoToolModulePanel,Explanation='Switch to Map module.'},
+  {Command='SwToMbook',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/Ag/Layout/Book/ModuleTitle=Book')),Group=gotoToolModulePanel,Explanation='Switch to Book module.'},
+  {Command='SwToMslideshow',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgApplication/Menu/Window/SecondMonitor/Slideshow=Slideshow')),Group=gotoToolModulePanel,Explanation='Switch to Slideshow module.'},
+  {Command='SwToMprint',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgPrint/Menu/File/Print=Print')),Group=gotoToolModulePanel,Explanation='Switch to Print module.'},
+  {Command='SwToMweb',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/WPG/Help/Shortcuts/WebHeader=Web')),Group=gotoToolModulePanel,Explanation='Switch to Web module.'},
   {Command='ShoScndVwloupe',Type='button',Translation=secondaryDisplay..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/Loupe=Loupe'),Group=secondaryDisplay,Explanation='Shows Loupe view on the secondary screen or hides the secondary screen if Loupe view was previously being shown.'},
   {Command='ShoScndVwlive_loupe',Type='button',Translation=secondaryDisplay..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/LiveLoupe=Live Loupe'),Group=secondaryDisplay,Explanation='Shows Live Loupe view on the secondary screen or hides the secondary screen if Live Loupe view was previously being shown.'},
   {Command='ShoScndVwlocked_loupe',Type='button',Translation=secondaryDisplay..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/LockedLoupe=Locked Loupe'),Group=secondaryDisplay,Explanation='Shows Locked Loupe view on the secondary screen or hides the secondary screen if Locked Loupe view was previously being shown.'},

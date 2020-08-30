@@ -2,6 +2,7 @@
 "$$$/MIDI2LR/Database/Hue=Farbton"
 "$$$/MIDI2LR/Database/latestversion=aktuelle Version"
 "$$$/MIDI2LR/Database/Reset1=^1 zurücksetzen"
+"$$$/MIDI2LR/Database/Show1=^1 anzeigen"
 "$$$/MIDI2LR/Help/Donate=&Unterstützen Sie die Projektentwicklung mit Ihrer Spende"
 "$$$/MIDI2LR/Help/Latest=&Neuestes Release anzeigen"
 "$$$/MIDI2LR/Help/OnlineHelp=&Onlinehilfe"

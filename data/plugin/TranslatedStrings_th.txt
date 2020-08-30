@@ -2,6 +2,7 @@
 "$$$/MIDI2LR/Database/Hue=สีสัน"
 "$$$/MIDI2LR/Database/latestversion=เวอร์ชันล่าสุด"
 "$$$/MIDI2LR/Database/Reset1=รีเซ็ต ^1"
+"$$$/MIDI2LR/Database/Show1=แสดง ^1"
 "$$$/MIDI2LR/Help/Donate=บริจาคเพื่อสนับสนุนการพัฒนาโครงการ"
 "$$$/MIDI2LR/Help/Latest=ดูรุ่นล่าสุด"
 "$$$/MIDI2LR/Help/OnlineHelp=วิธีใช้ทางออนไลน์"

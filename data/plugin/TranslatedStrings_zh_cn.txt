@@ -2,6 +2,7 @@
 "$$$/MIDI2LR/Database/Hue=色调"
 "$$$/MIDI2LR/Database/latestversion=最新版本"
 "$$$/MIDI2LR/Database/Reset1=重设^1"
+"$$$/MIDI2LR/Database/Show1=显示 ^1"
 "$$$/MIDI2LR/Help/Donate=捐赠以支持项目开发(&D)"
 "$$$/MIDI2LR/Help/Latest=查看最新发布(&V)"
 "$$$/MIDI2LR/Help/OnlineHelp=联机帮助(&O)"

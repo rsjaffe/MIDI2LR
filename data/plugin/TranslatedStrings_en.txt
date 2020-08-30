@@ -2,6 +2,7 @@
 "$$$/MIDI2LR/Database/Hue=Hue"
 "$$$/MIDI2LR/Database/latestversion=latest version"
 "$$$/MIDI2LR/Database/Reset1=Reset ^1"
+"$$$/MIDI2LR/Database/Show1=Show ^1"
 "$$$/MIDI2LR/Help/Donate=&Donate to support project development"
 "$$$/MIDI2LR/Help/Latest=&View latest release"
 "$$$/MIDI2LR/Help/OnlineHelp=&Online help"

@@ -2,6 +2,7 @@
 "$$$/MIDI2LR/Database/Hue=色相"
 "$$$/MIDI2LR/Database/latestversion=最新バージョン"
 "$$$/MIDI2LR/Database/Reset1=^1をリセット"
+"$$$/MIDI2LR/Database/Show1=^1 の表示"
 "$$$/MIDI2LR/Help/Donate=プロジェクト開発をサポートするための寄付をお願いします(&D)"
 "$$$/MIDI2LR/Help/Latest=最新のリリースを表示(&V)"
 "$$$/MIDI2LR/Help/OnlineHelp=オンライン ヘルプ(&O)"

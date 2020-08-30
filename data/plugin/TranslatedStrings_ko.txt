@@ -2,6 +2,7 @@
 "$$$/MIDI2LR/Database/Hue=색상"
 "$$$/MIDI2LR/Database/latestversion=최신 버전"
 "$$$/MIDI2LR/Database/Reset1=재설정 ^1"
+"$$$/MIDI2LR/Database/Show1=^1 표시"
 "$$$/MIDI2LR/Help/Donate=프로젝트 개발 지원을 위해 기부(&D)"
 "$$$/MIDI2LR/Help/Latest=최신 릴리스 보기(&V)"
 "$$$/MIDI2LR/Help/OnlineHelp=온라인 도움말(&O)"
