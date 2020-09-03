@@ -184,20 +184,18 @@ namespace rsj {
    };
 } // namespace rsj
 
-namespace std {
-   /*It is allowed to add template specializations for any standard library class template to the
-    * namespace std only if the declaration depends on at least one program-defined type and the
-    * specialization satisfies all requirements for the original template, except where such
-    * specializations are prohibited. */
-   template<> struct hash<rsj::MidiMessageId> {
-      size_t operator()(rsj::MidiMessageId k) const noexcept
-      {
-         /* channel is one byte, messagetype is one byte, controller (data) is two bytes */
-         return hash<int_fast32_t>()(int_fast32_t(k.channel) | int_fast32_t(k.msg_id_type) << 8
-                                     | int_fast32_t(k.control_number) << 16);
-      }
-   };
-} // namespace std
+/*It is allowed to add template specializations for any standard library class template to the
+ * namespace std only if the declaration depends on at least one program-defined type and the
+ * specialization satisfies all requirements for the original template, except where such
+ * specializations are prohibited. */
+template<> struct std::hash<rsj::MidiMessageId> {
+   size_t operator()(rsj::MidiMessageId k) const noexcept
+   {
+      /* channel is one byte, messagetype is one byte, controller (data) is two bytes */
+      return hash<int_fast32_t>()(int_fast32_t(k.channel) | int_fast32_t(k.msg_id_type) << 8
+                                  | int_fast32_t(k.control_number) << 16);
+   }
+};
 
 /*****************************************************************************/
 /*************NrpnFilter******************************************************/

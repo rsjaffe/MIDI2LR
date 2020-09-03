@@ -45,11 +45,11 @@ namespace rsj {
          z = (z ^ z >> 27) * 0x94d049bb133111eb;
          return z ^ z >> 31;
       }
-      constexpr result_type min() const noexcept
+      [[nodiscard]] constexpr result_type min() const noexcept
       {
          return std::numeric_limits<result_type>::min();
       }
-      constexpr result_type max() const noexcept
+      [[nodiscard]] constexpr result_type max() const noexcept
       {
          return std::numeric_limits<result_type>::max();
       }

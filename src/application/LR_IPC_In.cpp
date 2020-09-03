@@ -21,7 +21,6 @@
 #include <thread>
 
 #include <fmt/format.h>
-#include <gsl/gsl>
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
