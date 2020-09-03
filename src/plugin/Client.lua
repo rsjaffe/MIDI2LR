@@ -565,9 +565,9 @@ LrTasks.startAsyncTask(
 
     local SETTINGS = {
       AppInfo            = function(value) Info.AppInfo[#Info.AppInfo+1] = value end,
-      ChangedToDirectory = function(value) Profiles.setDirectory(value) end,
-      ChangedToFile      = function(value) Profiles.setFile(value) end,
-      ChangedToFullPath  = function(value) Profiles.setFullPath(value) end,
+      ChangedToDirectory = Profiles.setDirectory,
+      ChangedToFile      = Profiles.setFile,
+      ChangedToFullPath  = Profiles.setFullPath,
       Pickup             = function(enabled)
         if tonumber(enabled) == 1 then -- state machine
           UpdateParam = UpdateParamPickup
@@ -575,6 +575,7 @@ LrTasks.startAsyncTask(
           UpdateParam = UpdateParamNoPickup
         end
       end,
+      ProfileAmount     = CU.ProfileAmount,
       --[[
       For SetRating, if send back sync value to controller, formula is:
         (Rating * 2 + 1)/12

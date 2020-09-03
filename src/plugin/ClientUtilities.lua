@@ -526,6 +526,34 @@ local function UpdatePointCurve(settings)
   end
 end
 
+local function ProfileAmount(value)
+  local val = value -- make available to async task
+  LrTasks.startAsyncTask ( function ()
+      if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+      LrApplication.activeCatalog():withWriteAccessDo(
+        'MIDI2LR: Profile amount',
+        function()
+          local params = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
+          if params and params.Look and params.Look.Amount then
+            params.Look.Amount = val * 2
+            LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(params) 
+            if ProgramPreferences.ClientShowBezelOnChange then
+              local bezelname = (Database.CmdTrans.ProfileAmount and Database.CmdTrans.ProfileAmount[Database.LatestPVSupported]) or "Profile Amount"
+              LrDialogs.showBezel(bezelname .. '  ' .. LrStringUtils.numberToStringWithSeparators(val*200, 0))
+            end
+          end
+        end,
+        { timeout = 4,
+          callback = function()
+            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' ProfileAmount')
+          end,
+          asynchronous = true
+        }
+      )
+    end
+  )
+end
+
 return {
   ApplySettings = ApplySettings,
   FullRefresh = FullRefresh,
@@ -549,4 +577,5 @@ return {
   showBezel = showBezel,
   wrapFOM = wrapFOM,
   wrapForEachPhoto = wrapForEachPhoto,
+  ProfileAmount = ProfileAmount,
 }
