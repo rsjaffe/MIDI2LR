@@ -32,7 +32,6 @@ local LrView              = import 'LrView'
 local currentTMP = {Tool = '', Module = '', Panel = '', Profile = ''}
 local loadedprofile = ''-- according to application and us
 local profilepath = '' --according to application
-local resyncDeferred = false
 
 local function doprofilechange(newprofile)
   if ProgramPreferences.ProfilesShowBezelOnChange then
@@ -41,7 +40,6 @@ local function doprofilechange(newprofile)
     LrDialogs.showBezel(filename)
   end
   loadedprofile = newprofile
-  resyncDeferred = true
   if Limits.LimitsCanBeSet() then
     -- refresh MIDI controller since mapping has changed
     -- refresh crop values
@@ -61,10 +59,29 @@ local function doprofilechange(newprofile)
       local lrvalue = LrDevelopController.getValue(param)
       if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
         local midivalue = (lrvalue-min)/(max-min)
-        MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+        if midivalue >= 1.0 then 
+          MIDI2LR.SERVER:send(string.format('%s 1.0\n', param))
+        elseif midivalue <= 0.0 then -- = catches -0.0 and sends it as 0.0
+          MIDI2LR.SERVER:send(string.format('%s 0.0\n', param))
+        else
+          MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+        end
       end
     end
-    resyncDeferred = false
+    for trueparam,param in pairs(GradeToSplit) do
+      local min,max = Limits.GetMinMax(param)
+      local lrvalue = LrDevelopController.getValue(param)
+      if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
+        local midivalue = (lrvalue-min)/(max-min)
+        if midivalue >= 1.0 then 
+          MIDI2LR.SERVER:send(string.format('%s 1.0\n', trueparam))
+        elseif midivalue <= 0.0 then -- = catches -0.0 and sends it as 0.0
+          MIDI2LR.SERVER:send(string.format('%s 0.0\n', trueparam))
+        else
+          MIDI2LR.SERVER:send(string.format('%s %g\n', trueparam, midivalue))
+        end
+      end
+    end
   end
 end
 
@@ -190,7 +207,7 @@ local function StartDialog(obstable,f)
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           }, 
         },
-        f:spacer { height=4 },
+        f:spacer { height=11 },
         f:group_box {
           title = LOC("$$$/AgDevelop/Menu/Tools=Tools"):gsub('&',''), --string has & in it in LR database
           width = LrView.share('profile_group'),
@@ -282,6 +299,12 @@ local function StartDialog(obstable,f)
           },  
           f:row {
             font='<system>',
+            f:static_text{title = ProfileTypes.colorGradingPanel.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('ProfilecolorGradingPanel'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          },            
+          f:row {
+            font='<system>',
             f:static_text{title = ProfileTypes.detailPanel.friendlyName, width = LrView.share('profile_label'),},
             f:edit_field{ value = LrView.bind ('ProfiledetailPanel'), width = LrView.share('profile_value'), 
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
@@ -311,7 +334,7 @@ local function StartDialog(obstable,f)
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },  
         },
-        f:spacer { height=9 },
+        f:spacer { height=11 },
         f:group_box {
           title = LOC("$$$/CRaw/Style/Profiles=Profiles"),
           width = LrView.share('profile_group'),
@@ -509,5 +532,4 @@ return {
   setDirectory = setDirectory,
   setFile = setFile,
   setFullPath = setFullPath,
-  resyncDeferred = resyncDeferred,
 }

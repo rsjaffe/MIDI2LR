@@ -57,6 +57,11 @@ local needsModule = {
   [LrDevelopController.stopTracking]                   = {module = 'develop', photoSelected = false },
 }
 
+if Ut.LrVersion100orMore
+then
+  needsModule[LrDevelopController.setActiveColorGradingView]      = {module = 'develop', photoSelected = false }
+end
+
 if Ut.LrVersion74orMore
 then
   needsModule[LrDevelopController.showClipping]        = {module = 'develop', photoSelected = false}
@@ -458,7 +463,15 @@ local function ApplySettings(settings)
   )
 end
 
+local GradeToSplit = {
+  ColorGradeHighlightHue      = 'SplitToningHighlightHue',
+  ColorGradeHighlightSat      = 'SplitToningHighlightSaturation',
+  ColorGradeShadowHue         = 'SplitToningShadowHue',
+  ColorGradeShadowSat         = 'SplitToningShadowSaturation',
+  ColorGradeBalance           = 'SplitToningBalance',
+}
 local function FullRefresh()
+  -- if this code is changed, change similar code in Profiles.lua
   if Limits.LimitsCanBeSet() then
     -- refresh crop values
     local val = LrDevelopController.getValue("CropBottom")
@@ -485,10 +498,22 @@ local function FullRefresh()
           MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
         end
       end
-      Profiles.resyncDeferred = false
+    end
+    for trueparam,param in pairs(GradeToSplit) do
+      local min,max = Limits.GetMinMax(param)
+      local lrvalue = LrDevelopController.getValue(param)
+      if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
+        local midivalue = (lrvalue-min)/(max-min)
+        if midivalue >= 1.0 then 
+          MIDI2LR.SERVER:send(string.format('%s 1.0\n', trueparam))
+        elseif midivalue <= 0.0 then -- = catches -0.0 and sends it as 0.0
+          MIDI2LR.SERVER:send(string.format('%s 0.0\n', trueparam))
+        else
+          MIDI2LR.SERVER:send(string.format('%s %g\n', trueparam, midivalue))
+        end
+      end
     end
   else
-    Profiles.resyncDeferred = true
   end
 end
 
@@ -541,6 +566,100 @@ local function UpdatePointCurve(settings)
   end
 end
 
+local cg_hsl_parms = {global={'ColorGradeGlobalHue','ColorGradeGlobalSat','ColorGradeGlobalLum'},
+  highlight={'SplitToningHighlightHue','SplitToningHighlightSaturation','ColorGradeHighlightLum'},
+  midtone={'ColorGradeMidtoneHue','ColorGradeMidtoneSat','ColorGradeMidtoneLum'},
+  shadow={'SplitToningShadowHue','SplitToningShadowSaturation','ColorGradeShadowLum'}}
+
+local cg_hsl = {0,0,0}
+
+local function cg_hsl_copy()
+  local currentView = LrDevelopController.getActiveColorGradingView()
+  if currentView == '3-way' then
+    return
+  end
+  cg_hsl = {LrDevelopController.getValue(cg_hsl_parms[currentView][1]),
+    LrDevelopController.getValue(cg_hsl_parms[currentView][2]),
+    LrDevelopController.getValue(cg_hsl_parms[currentView][3])}
+end
+
+local function cg_hsl_paste()
+  local currentView = LrDevelopController.getActiveColorGradingView()
+  if currentView == '3-way' then
+    LrDevelopController.setValue(cg_hsl_parms.highlight[1],cg_hsl[1])
+    LrDevelopController.setValue(cg_hsl_parms.highlight[2],cg_hsl[2])
+    LrDevelopController.setValue(cg_hsl_parms.highlight[3],cg_hsl[3])
+    LrDevelopController.setValue(cg_hsl_parms.midtone[1],cg_hsl[1])
+    LrDevelopController.setValue(cg_hsl_parms.midtone[2],cg_hsl[2])
+    LrDevelopController.setValue(cg_hsl_parms.midtone[3],cg_hsl[3])
+    LrDevelopController.setValue(cg_hsl_parms.shadow[1],cg_hsl[1])
+    LrDevelopController.setValue(cg_hsl_parms.shadow[2],cg_hsl[2])
+    LrDevelopController.setValue(cg_hsl_parms.shadow[3],cg_hsl[3])
+    FullRefresh()
+    return
+  end
+  LrDevelopController.setValue(cg_hsl_parms[currentView][1],cg_hsl[1])
+  LrDevelopController.setValue(cg_hsl_parms[currentView][2],cg_hsl[2])
+  LrDevelopController.setValue(cg_hsl_parms[currentView][3],cg_hsl[3])
+  FullRefresh()
+end
+
+local function cg_reset_3way()
+  LrDevelopController.resetToDefault('SplitToningHighlightHue')
+  LrDevelopController.resetToDefault('SplitToningHighlightSaturation')
+  LrDevelopController.resetToDefault('ColorGradeHighlightLum')
+  LrDevelopController.resetToDefault('ColorGradeMidtoneHue')
+  LrDevelopController.resetToDefault('ColorGradeMidtoneSat')
+  LrDevelopController.resetToDefault('ColorGradeMidtoneLum')
+  LrDevelopController.resetToDefault('SplitToningShadowHue')
+  LrDevelopController.resetToDefault('SplitToningShadowSaturation')
+  LrDevelopController.resetToDefault('ColorGradeShadowLum')
+  FullRefresh()
+end
+
+local function cg_reset_all()
+  LrDevelopController.resetToDefault('ColorGradeGlobalHue')
+  LrDevelopController.resetToDefault('ColorGradeGlobalSat')
+  LrDevelopController.resetToDefault('ColorGradeGlobalLum')
+  cg_reset_3way()
+end
+
+local function cg_reset_current()
+  local currentView = LrDevelopController.getActiveColorGradingView()
+  if currentView == '3-way' then
+    cg_reset_3way()
+    return
+  end
+  if currentView == 'global' then
+    LrDevelopController.resetToDefault('ColorGradeGlobalHue')
+    LrDevelopController.resetToDefault('ColorGradeGlobalSat')
+    LrDevelopController.resetToDefault('ColorGradeGlobalLum')
+    FullRefresh()
+    return
+  end
+  if currentView == 'highlight' then
+    LrDevelopController.resetToDefault('SplitToningHighlightHue')
+    LrDevelopController.resetToDefault('SplitToningHighlightSaturation')
+    LrDevelopController.resetToDefault('ColorGradeHighlightLum')
+    FullRefresh()
+    return
+  end
+  if currentView == 'midtone' then
+    LrDevelopController.resetToDefault('ColorGradeMidtoneHue')
+    LrDevelopController.resetToDefault('ColorGradeMidtoneSat')
+    LrDevelopController.resetToDefault('ColorGradeMidtoneLum')
+    FullRefresh()
+    return
+  end
+  if currentView == 'shadow' then
+    LrDevelopController.resetToDefault('SplitToningShadowHue')
+    LrDevelopController.resetToDefault('SplitToningShadowSaturation')
+    LrDevelopController.resetToDefault('ColorGradeShadowLum')
+    FullRefresh()
+    return
+  end
+end
+
 local function ProfileAmount(value)
   local val = value -- make available to async task
   LrTasks.startAsyncTask ( function ()
@@ -577,6 +696,11 @@ return {
   QuickCropAspect = QuickCropAspect,
   UpdateCameraProfile = UpdateCameraProfile,
   UpdatePointCurve = UpdatePointCurve,
+  cg_hsl_copy = cg_hsl_copy,
+  cg_hsl_paste = cg_hsl_paste,
+  cg_reset_3way = cg_reset_3way,
+  cg_reset_all = cg_reset_all,
+  cg_reset_current = cg_reset_current,
   execFOM = execFOM,
   fApplyFilter = fApplyFilter,
   fApplyPreset = fApplyPreset,

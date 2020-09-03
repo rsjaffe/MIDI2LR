@@ -105,6 +105,7 @@ local basicTone = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/BasicTone=Ba
 local toneCurve = LOC('$$$/AgDevelop/CameraRawPanel/TargetName/ToneCurve=Tone Curve')
 local colorAdjustments = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/ColorAdjustments=Color Adjustments')
 local resetColorAdjustments = LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',colorAdjustments)
+local colorGrading = LOC('$$$/AgDevelop/Panel/ColorGrading=Color Grading')
 local splitToning = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/SplitToning=Split Toning')
 local detail = LOC('$$$/AgDevelop/Panel/Detail=Detail')
 local lensCorrections = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections')
@@ -237,6 +238,7 @@ local DataBase = {
   {Command='ZoomInSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some'),Group=view,Explanation=''},
   {Command='ZoomOutSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some'),Group=view,Explanation=''},
   {Command='ZoomOutLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out'),Group=view,Explanation=''},
+  {Command='ZoomTo100',Type='button',Experimental=true,Translation=LOC('$$$/AgLibrary/Menu/View/ZoomTo100=Zoom to 100%'),Group=view,Explanation=''},
 --rating
   {Command='SetRating0',Type='button',Translation=LOC('$$$/AgLibrary/Filter/Stars=^1 Stars','0'),Group=rating,Explanation=''},
   {Command='SetRating1',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Singular=1 star'),Group=rating,Explanation=''},
@@ -314,8 +316,8 @@ local DataBase = {
   {Command='PV2',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',2),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 2.'},
   {Command='PV3',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',3),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 3.'},
   {Command='PV4',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',4),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 4.'},
-  {Command='PV5',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',5),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 5.'},
-  {Command='PVLatest',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',LatestPVSupported),Group=develop,Explanation='Sets the Process Version of all selected photos to the latest (currently PV '.. LatestPVSupported ..'). Will not work in earlier Lightroom versions that do not support PV ' .. LatestPVSupported .. '.'},
+  --{Command='PV5',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',5),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 5.'},
+  {Command='PVLatest',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',LatestPVSupported),Group=develop,Explanation='Sets the Process Version of all selected photos to the latest (currently PV '.. LatestPVSupported ..'). Will not work in earlier Lightroom versions that do not support PV ' .. LatestPVSupported .. '. This Process Version command is recommended if you want the latest version instead of one specific version.'},
   {Command='ShowClipping',Type='button',Translation=LOC('$$$/AgDevelop/Histogram/Menu/ShowClippingIndicators=Show clipping'),Group=develop,Explanation='Toggles clipping indicators on/off. Must be called while the Develop module is active. Supported in LR versions 7.4 and later.'},
   --develop: before/after previews
   {Command='ShoVwdevelop_before_after_horiz',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterLR=Before/After Left/Right'),Group=develop,Explanation=''},
@@ -368,7 +370,7 @@ local DataBase = {
 --develop: tone curve panel
 --
   {Command='RevealPanelTone',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',toneCurve),Group=toneCurve,Explanation='Open Tone Curve Panel in Develop Module.'},
-  {Command='EnableToneCurve',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableToneCurve=Enable Tone Curve'),Group=toneCurve,Explanation='Enable or disable tone curve.  Supported in LR versions 7.4 and later.',Panel='tonePanel'},
+  {Command='EnableToneCurve',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleToneCurve=Tone curve enable/disable'),Group=toneCurve,Explanation='Enable or disable tone curve.  Supported in LR versions 7.4 and later.',Panel='tonePanel'},
   {Command='ParametricDarks',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneDarks=Dark Tones'),Group=toneCurve,Explanation='Adjust darks.',Panel='tonePanel'},
   {Command='ParametricLights',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneLights=Light Tones'),Group=toneCurve,Explanation='Adjust lights.',Panel='tonePanel'},
   {Command='ParametricShadows',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneShadows=Shadow Tones'),Group=toneCurve,Explanation='Adjust shadows.',Panel='tonePanel'},
@@ -390,7 +392,7 @@ local DataBase = {
 --develop: mixer panel
 --
   {Command='RevealPanelMixer',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',colorAdjustments),Group=colorAdjustments,Explanation='Open Mixer Panel in Develop Module.'},
-  {Command='EnableColorAdjustments',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableColorAdjustments=Enable Color Adjustments'),Group=colorAdjustments,Explanation='Enable or disable color adjustments.',Panel='mixerPanel'},
+  {Command='EnableColorAdjustments',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleColorAdjustments=Color adjustments enable/disable'),Group=colorAdjustments,Explanation='Enable or disable color adjustments.',Panel='mixerPanel'},
   {Command='SaturationAdjustmentRed',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentRed=Saturation Adjustment Red'),Group=colorAdjustments,Explanation='Changes the color vividness or purity of the color.',Panel='mixerPanel'},
   {Command='SaturationAdjustmentOrange',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentOrange=Saturation Adjustment Orange'),Group=colorAdjustments,Explanation='Changes the color vividness or purity of the color.',Panel='mixerPanel'},
   {Command='SaturationAdjustmentYellow',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentYellow=Saturation Adjustment Yellow'),Group=colorAdjustments,Explanation='Changes the color vividness or purity of the color.',Panel='mixerPanel'},
@@ -417,7 +419,7 @@ local DataBase = {
   {Command='LuminanceAdjustmentPurple',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LuminanceAdjustmentPurple=Luminance Adjustment Purple'),Group=colorAdjustments,Explanation='Changes the brightness of the color range.',Panel='mixerPanel'},
   {Command='LuminanceAdjustmentMagenta',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LuminanceAdjustmentMagenta=Luminance Adjustment Magenta'),Group=colorAdjustments,Explanation='Changes the brightness of the color range.',Panel='mixerPanel'},
   {Command='ConvertToGrayscale',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ConvertToGrayscale=Convert to Grayscale'),Group=colorAdjustments,Explanation='Enable/disable gray scale conversion.',Panel='mixerPanel'},
-  {Command='EnableGrayscaleMix',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableGrayscaleMix=Enable Grayscale Mix'),Group=colorAdjustments,Explanation='Enable or disable black and white mix.',Panel='mixerPanel'},
+  {Command='EnableGrayscaleMix',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleBlackAndWhiteMix=Grayscale mix enable/disable'),Group=colorAdjustments,Explanation='Enable or disable black and white mix.',Panel='mixerPanel'},
   {Command='GrayMixerRed',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrayMixerRed=Gray Mixer Red'),Group=colorAdjustments,Explanation='Red contribution to luminance.',Panel='mixerPanel'},
   {Command='GrayMixerOrange',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrayMixerOrange=Gray Mixer Orange'),Group=colorAdjustments,Explanation='Orange contribution to luminance.',Panel='mixerPanel'},
   {Command='GrayMixerYellow',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrayMixerYellow=Gray Mixer Yellow'),Group=colorAdjustments,Explanation='Yellow contribution to luminance.',Panel='mixerPanel'},
@@ -460,10 +462,53 @@ local DataBase = {
   {Command='ResetGrayMixerPurple',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrayMixerPurple=Gray Mixer Purple')),Group=resetColorAdjustments,Explanation='Reset to default.',Panel='mixerPanel'},
   {Command='ResetGrayMixerMagenta',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrayMixerMagenta=Gray Mixer Magenta')),Group=resetColorAdjustments,Explanation='Reset to default.',Panel='mixerPanel'},
 --
+--develop: color grading panel
+--
+  {Command='RevealPanelColorGrading',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',colorGrading),Group=colorGrading,Explanation='Open Color Grading Panel in Develop Module.'},
+  {Command='EnableColorGrading',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleColorGrading=Color grading enable/disable'),Group=colorGrading,Explanation='Enable or disable color grading.',Panel='colorGradingPanel'},
+  {Command='ColorGradeBlending',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeBlending=Color Blending'),Group=colorGrading,Explanation='Color grading blending.',Panel='colorGradingPanel'},
+  {Command='ColorGradeBalance',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeBalance=Color Grading Balance'),Group=colorGrading,Explanation='Color grading balance.',Panel='colorGradingPanel'},
+  {Command='ColorGradeGlobalHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalHue=Global Hue'),Group=colorGrading,Explanation='Adjust color grading global hue.',Panel='colorGradingPanel'},
+  {Command='ColorGradeGlobalLum',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalLum=Global Luminance'),Group=colorGrading,Explanation='Adjust color grading global luminance.',Panel='colorGradingPanel'},
+  {Command='ColorGradeGlobalSat',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalSat=Global Saturation'),Group=colorGrading,Explanation='Adjust color grading global saturation.',Panel='colorGradingPanel'},
+  {Command='ColorGradeHighlightHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningHighlightHue=Highlight Hue'),Group=colorGrading,Explanation='Adjust color grading highlight hue.',Panel='colorGradingPanel'},
+  {Command='ColorGradeHighlightLum',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeHighlightLum=Highlight Luminance'),Group=colorGrading,Explanation='Adjust color grading highlight luminance.',Panel='colorGradingPanel'},
+  {Command='ColorGradeHighlightSat',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningHighlightSaturation=Highlight Saturation'),Group=colorGrading,Explanation='Adjust color grading highlight saturation.',Panel='colorGradingPanel'},
+  {Command='ColorGradeMidtoneHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneHue=Midtone Hue'),Group=colorGrading,Explanation='Adjust color grading midtone hue.',Panel='colorGradingPanel'},
+  {Command='ColorGradeMidtoneLum',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneLum=Midtone Luminance'),Group=colorGrading,Explanation='Adjust color grading midtone luminance.',Panel='colorGradingPanel'},
+  {Command='ColorGradeMidtoneSat',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneSat=Midtone Saturation'),Group=colorGrading,Explanation='Adjust color grading midtone saturation.',Panel='colorGradingPanel'},
+  {Command='ColorGradeShadowHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowHue=Shadow Hue'),Group=colorGrading,Explanation='Adjust color grading shadow hue.',Panel='colorGradingPanel'},
+  {Command='ColorGradeShadowLum',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeShadowLum=Shadow Luminance'),Group=colorGrading,Explanation='Adjust color grading shadow luminance.',Panel='colorGradingPanel'},
+  {Command='ColorGradeShadowSat',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowSaturation=Shadow Saturation'),Group=colorGrading,Explanation='Adjust color grading shadow saturation.',Panel='colorGradingPanel'},
+  {Command='ColorGradeCopy',Type='button',Translation=LOC('$$$/AgDevelop/ColorGrading/ChannelSettings/Copy=Copy channel settings'),Group=colorGrading,Explanation='Copy settings from currently displayed channel.',Panel='colorGradingPanel'},
+  {Command='ColorGradePaste',Type='button',Translation=LOC('$$$/AgDevelop/ColorGrading/ChannelSettings/Paste=Paste channel settings'),Group=colorGrading,Explanation='Paste settings to currently displayed channel.',Panel='colorGradingPanel'},
+  {Command='ColorGradeReset3way',Type='button',Translation=LOC('$$$/AgDevelop/ColorGrading/ResetChannel/ThreeWay=Reset 3-way'),Group=colorGrading,Explanation='Reset all channels in 3-way view.',Panel='colorGradingPanel'},
+  {Command='ColorGradeResetCurrent',Type='button',Translation=LOC('$$$/AgDevelop/ColorGrading/ResetChannel/Current=Reset ^1',LOC('$$$/AgDevelop/BeforeAfter/Current=current')),Group=colorGrading,Explanation='Reset currently viewed channel(s).',Panel='colorGradingPanel'},
+  {Command='ColorGradeResetAll',Type='button',Translation=LOC('$$$/AgDevelop/ColorGrading/ResetChannel/All=Reset all channels'),Group=colorGrading,Explanation='Reset all channels.',Panel='colorGradingPanel'},
+  {Command='ColorGrade3Way',Type='button',Translation=LOC('$$$/AgDevelop/ColorGrading/Peeking/Tooltip=Click for ^1 View',LOC('$$$/CRaw/ColorGrading/Tips/3Way=3-Way')),Group=colorGrading,Explanation='Display 3-way view in color grading panel.',Panel='colorGradingPanel'},
+  {Command='ColorGradeGlobal',Type='button',Translation=LOC('$$$/AgDevelop/ColorGrading/Peeking/Tooltip=Click for ^1 View',LOC('$$$/CRaw/ColorGrading/Tips/Global=Global')),Group=colorGrading,Explanation='Display global channel in color grading panel.',Panel='colorGradingPanel'},
+  {Command='ColorGradeHighlight',Type='button',Translation=LOC('$$$/AgDevelop/ColorGrading/Peeking/Tooltip=Click for ^1 View',LOC('$$$/CRaw/ColorGrading/Tips/Highlights=Highlights')),Group=colorGrading,Explanation='Display highlights channel in color grading panel.',Panel='colorGradingPanel'},
+  {Command='ColorGradeMidtone',Type='button',Translation=LOC('$$$/AgDevelop/ColorGrading/Peeking/Tooltip=Click for ^1 View',LOC('$$$/CRaw/ColorGrading/Tips/Midtones=Midtones')),Group=colorGrading,Explanation='Display midtones channel in color grading panel.',Panel='colorGradingPanel'},
+  {Command='ColorGradeShadow',Type='button',Translation=LOC('$$$/AgDevelop/ColorGrading/Peeking/Tooltip=Click for ^1 View',LOC('$$$/CRaw/ColorGrading/Tips/Shadows=Shadows')),Group=colorGrading,Explanation='Display shadows channel in color grading panel.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeBlending',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeBlending=Color Blending')),Group=colorGrading,Explanation='Reset color grading blending to default.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeBalance',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeBalance=Color Grading Balance')),Group=colorGrading,Explanation='Reset color grading balance to default.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeGlobalHue',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalHue=Global Hue')),Group=colorGrading,Explanation='Reset color grading global hue to default.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeGlobalLum',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalLum=Global Luminance')),Group=colorGrading,Explanation='Reset color grading global luminance to default.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeGlobalSat',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalSat=Global Saturation')),Group=colorGrading,Explanation='Reset color grading global saturation to default.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeHighlightHue',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeHighlightHue=Highlight Hue')),Group=colorGrading,Explanation='Reset color grading highlight hue to default.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeHighlightLum',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeHighlightLum=Highlight Luminance')),Group=colorGrading,Explanation='Reset color grading highlight luminance to default.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeHighlightSat',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeHighlightSat=Highlight Saturation')),Group=colorGrading,Explanation='Reset color grading highlight saturation to default.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeMidtoneHue',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneHue=Midtone Hue')),Group=colorGrading,Explanation='Reset color grading midtone hue to default.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeMidtoneLum',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneLum=Midtone Luminance')),Group=colorGrading,Explanation='Reset color grading midtone luminance to default.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeMidtoneSat',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneSat=Midtone Saturation')),Group=colorGrading,Explanation='Reset color grading midtone saturation to default.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeShadowHue',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeShadowHue=Shadow Hue')),Group=colorGrading,Explanation='Reset color grading shadow hue to default.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeShadowLum',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeShadowLum=Shadow Luminance')),Group=colorGrading,Explanation='Reset color grading shadow luminance to default.',Panel='colorGradingPanel'},
+  {Command='ResetColorGradeShadowSat',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeShadowSat=Shadow Saturation')),Group=colorGrading,Explanation='Reset color grading shadow saturation to default.',Panel='colorGradingPanel'},
+--
 --develop: split toning panel
 --
   {Command='RevealPanelSplit',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',splitToning),Group=splitToning,Explanation='Open Split Toning Panel in Develop Module.'},
-  {Command='EnableSplitToning',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableSplitToning=Enable Split Toning'),Group=splitToning,Explanation='Enable or disable split toning effects.',Panel='splitToningPanel'},
+  {Command='EnableSplitToning',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleSplitToning=Split toning enable/disable'),Group=splitToning,Explanation='Enable or disable split toning effects.',Panel='splitToningPanel'},
   {Command='SplitToningShadowHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowHue=Shadow Hue'),Group=splitToning,Explanation='Color of the tone for shadows.',Panel='splitToningPanel'},
   {Command='SplitToningShadowSaturation',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowSaturation=Shadow Saturation'),Group=splitToning,Explanation='Strength of the effect.',Panel='splitToningPanel'},
   {Command='SplitToningHighlightHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningHighlightHue=Highlight Hue'),Group=splitToning,Explanation='Color of the tone for highlights.',Panel='splitToningPanel'},
@@ -478,7 +523,7 @@ local DataBase = {
 --develop: detail panel
 --
   {Command='RevealPanelDetail',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',detail),Group=detail,Explanation='Open Detail Panel in Develop Module.'},
-  {Command='EnableDetail',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableDetail=Enable Detail'),Group=detail,Explanation='Enable or disable noise reduction and sharpening.',Panel='detailPanel'},
+  {Command='EnableDetail',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleDetail=Detail enable/disable'),Group=detail,Explanation='Enable or disable noise reduction and sharpening.',Panel='detailPanel'},
   {Command='Sharpness',Type='parameter',Translation=LOC('$$$/AgDevelop/Localized/Sharpness=Sharpness'),Group=detail,Explanation='Adjusts edge definition. Increase the Amount value to increase sharpening. A value of zero (0) turns off sharpening. In general, set Amount to a lower value for cleaner images. The adjustment locates pixels that differ from surrounding pixels based on the threshold you specify and increases the pixels\226\128\153 contrast by the amount you specify.',Panel='detailPanel'},
   {Command='SharpenRadius',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SharpenRadius=Sharpen Radius'),Group=detail,Explanation='Adjusts the size of the details that sharpening is applied to. Photos with very fine details may need a lower radius setting. Photos with larger details may be able to use a larger radius. Using too large a radius generally results in unnatural-looking results.',Panel='detailPanel'},
   {Command='SharpenDetail',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SharpenDetail=Sharpen Detail'),Group=detail,Explanation='Adjusts how much high-frequency information is sharpened in the image and how much the sharpening process emphasizes edges. Lower settings primarily sharpen edges to remove blurring. Higher values are useful for making the textures in the image more pronounced.',Panel='detailPanel'},
@@ -503,7 +548,7 @@ local DataBase = {
 --develop: lens corrections panel
 --
   {Command='RevealPanelLens',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',lensCorrections),Group=lensCorrections,Explanation='Open Lens Corrections Panel in Develop Module.'},
-  {Command='EnableLensCorrections',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableLensCorrections=Enable Lens Corrections'),Group=lensCorrections,Explanation='Enable or disable all lens corrections.',Panel='lensCorrectionsPanel'},
+  {Command='EnableLensCorrections',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleLensCorrections=Lens corrections enable/disable'),Group=lensCorrections,Explanation='Enable or disable all lens corrections.',Panel='lensCorrectionsPanel'},
   {Command='LensProfileEnable',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileEnable=Toggle Profile Corrections'),Group=lensCorrections,Explanation='Enable or disable lens profile correction.',Panel='lensCorrectionsPanel'},
   {Command='AutoLateralCA',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RemoveChromaticAberration=Remove Chromatic Aberration'),Group=lensCorrections,Explanation='Toggle Remove Chromatic Aberration.',Panel='lensCorrectionsPanel'},
   {Command='LensProfileDistortionScale',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileDistortionScale=Lens Profile Distortion Scale'),Group=lensCorrections,Explanation='The default value 100 applies 100% of the distortion correction in the profile. Values over 100 apply greater correction to the distortion; values under 100 apply less correction to the distortion.',Panel='lensCorrectionsPanel'},
@@ -535,7 +580,7 @@ local DataBase = {
 --develop: transform panel menu
 --
   {Command='RevealPanelTransform',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',transform),Group=transform,Explanation='Open Transform Panel in Develop Module.'},
-  {Command='EnableTransform',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableTransform=Enable Transform'),Group=transform,Explanation='Enable or disable all transforms.',Panel='transformPanel'},
+  {Command='EnableTransform',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleTransform=Transform enable/disable'),Group=transform,Explanation='Enable or disable all transforms.',Panel='transformPanel'},
   {Command='UprightOff',Type='button',Translation=percor..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueOff=Off'),Group=transform,Explanation='Upright mode off.',Panel='transformPanel'},
   {Command='UprightAuto',Type='button',Translation=percor..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueAuto=Auto'),Group=transform,Explanation='Balanced level, aspect ratio, and perspective corrections.',Panel='transformPanel'},
   {Command='UprightLevel',Type='button',Translation=percor..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueLevel=Level'),Group=transform,Explanation='Perspective corrections are weighted toward horizontal details.',Panel='transformPanel'},
@@ -562,7 +607,7 @@ local DataBase = {
 --develop: effects panel
 --
   {Command='RevealPanelEffects',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',effects),Group=effects,Explanation='Open Effects Panel in Develop Module.'},
-  {Command='EnableEffects',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableEffects=Enable Effects'),Group=effects,Explanation='Enable or disable effects.',Panel='effectsPanel'},
+  {Command='EnableEffects',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleEffects=Effects enable/disable'),Group=effects,Explanation='Enable or disable effects.',Panel='effectsPanel'},
   {Command='PostCropVignetteAmount',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteAmount=Post Crop Vignette Amount'),Group=effects,Explanation='Negative values darken the corners of the photo. Positive values lighten the corners.',Panel='effectsPanel'},
   {Command='PostCropVignetteMidpoint',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteMidpoint=Post Crop Vignette Midpoint'),Group=effects,Explanation='Lower values apply the Amount adjustment to a larger area away from the corners. Higher values restrict the adjustment to an area closer to the corners.',Panel='effectsPanel'},
   {Command='PostCropVignetteFeather',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteFeather=Post Crop Vignette Feather'),Group=effects,Explanation='Lower values reduce softening between the vignette and the vignette\226\128\153s surrounding pixels. Higher values increase the softening.',Panel='effectsPanel'},
@@ -588,33 +633,33 @@ local DataBase = {
 --develop: calibration panel
 --
   {Command='RevealPanelCalibrate',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',calibration),Group=calibration,Explanation='Open Camera Calibration Panel in Develop Module.'},
-  {Command='EnableCalibration',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableCalibration=Enable Calibration'),Group=calibration,Explanation='Enable or disable custom camera calibration.',Panel='calibratePanel'},
+  {Command='EnableCalibration',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleCalibration=Calibration enable/disable'),Group=calibration,Explanation='Enable or disable custom camera calibration.',Panel='calibratePanel'},
   {Command='Profile_Adobe_Standard',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Standard=Standard'),Group=calibration,Explanation='Applies the Adobe Standard profile.',Panel='calibratePanel'},
   {Command='Profile_Camera_Bold',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Bold=Camera Bold'),Group=calibration,Explanation=profexp,Panel='calibratePanel'},
   {Command='Profile_Camera_Clear',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Clear=Camera Clear'),Group=calibration,Explanation=profexp1,Panel='calibratePanel'},
   {Command='Profile_Camera_Color',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Color=Camera Color'),Group=calibration,Explanation=profexp,Panel='calibratePanel'},
-  {Command='Profile_Camera_Darker_Skin_Tone',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/DarkerSkinTone=Camera Darker Skin Tone'),Group=calibration,Explanation=profexp, 'calibratePanel'},
+  {Command='Profile_Camera_Darker_Skin_Tone',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/DarkerSkinTone=Camera Darker Skin Tone'),Group=calibration,Explanation=profexp,Panel='calibratePanel'},
   {Command='Profile_Camera_Deep',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Deep=Camera Deep'),Group=calibration,Explanation=profexp1,Panel='calibratePanel'},
-  {Command='Profile_Camera_Faithful',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Faithful=Camera Faithful'),Group=calibration,Explanation=profexp, 'calibratePanel'},
-  {Command='Profile_Camera_Flat',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Flat=Camera Flat'),Group=calibration,Explanation=profexp, 'calibratePanel'},
+  {Command='Profile_Camera_Faithful',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Faithful=Camera Faithful'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
+  {Command='Profile_Camera_Flat',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Flat=Camera Flat'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
   {Command='Profile_Camera_Landscape',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Landscape=Camera Landscape'),Group=calibration,Explanation=profexp1,Panel='calibratePanel'},
   {Command='Profile_Camera_Light',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Light=Camera Light'),Group=calibration,Explanation=profexp1,Panel='calibratePanel'},
-  {Command='Profile_Camera_Lighter_Skin_Tone',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/LighterSkinTone=Camera Lighter Skin Tone'),Group=calibration,Explanation=profexp, 'calibratePanel'},
-  {Command='Profile_Camera_LMonochrome',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/LMonochrome=Camera L-Monochrome'),Group=calibration,Explanation=profexp, 'calibratePanel'},
-  {Command='Profile_Camera_Monochrome',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Monochrome=Camera Monochrome'),Group=calibration,Explanation=profexp, 'calibratePanel'},
-  {Command='Profile_Camera_Monotone',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Monotone=Camera Monotone'),Group=calibration,Explanation=profexp, 'calibratePanel'},
-  {Command='Profile_Camera_Muted',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Muted=Camera Muted'),Group=calibration,Explanation=profexp, 'calibratePanel'},
-  {Command='Profile_Camera_Natural',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Natural=Camera Natural'),Group=calibration,Explanation=profexp, 'calibratePanel'},
+  {Command='Profile_Camera_Lighter_Skin_Tone',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/LighterSkinTone=Camera Lighter Skin Tone'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
+  {Command='Profile_Camera_LMonochrome',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/LMonochrome=Camera L-Monochrome'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
+  {Command='Profile_Camera_Monochrome',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Monochrome=Camera Monochrome'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
+  {Command='Profile_Camera_Monotone',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Monotone=Camera Monotone'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
+  {Command='Profile_Camera_Muted',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Muted=Camera Muted'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
+  {Command='Profile_Camera_Natural',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Natural=Camera Natural'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
   {Command='Profile_Camera_Neutral',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Neutral=Camera Neutral'),Group=calibration,Explanation=profexp1,Panel='calibratePanel'},
   {Command='Profile_Camera_Portrait',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Portrait=Camera Portrait'),Group=calibration,Explanation=profexp1,Panel='calibratePanel'},
-  {Command='Profile_Camera_Positive_Film',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/PositiveFilm=Camera Positive Film'),Group=calibration,Explanation=profexp, 'calibratePanel'},
-  {Command='Profile_Camera_Scenery',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Scenery=Camera Scenery'),Group=calibration,Explanation=profexp, 'calibratePanel'},
+  {Command='Profile_Camera_Positive_Film',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/PositiveFilm=Camera Positive Film'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
+  {Command='Profile_Camera_Scenery',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Scenery=Camera Scenery'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
   {Command='Profile_Camera_Standard',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Standard=Camera Standard'),Group=calibration,Explanation=profexp1,Panel='calibratePanel'},
   {Command='Profile_Camera_Vibrant',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Vibrant=Camera Vibrant'),Group=calibration,Explanation=profexp,Panel='calibratePanel'},  
   {Command='Profile_Camera_Vivid',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Vivid=Camera Vivid'),Group=calibration,Explanation=profexp1,Panel='calibratePanel'},
-  {Command='Profile_Camera_Vivid_Blue',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/VividBlue=Camera Vivid Blue'),Group=calibration,Explanation=profexp, 'calibratePanel'},
-  {Command='Profile_Camera_Vivid_Green',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/VividGreen=Camera Vivid Green'),Group=calibration,Explanation=profexp, 'calibratePanel'},
-  {Command='Profile_Camera_Vivid_Red',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/VividRed=Camera Vivid Red'),Group=calibration,Explanation=profexp, 'calibratePanel'},  
+  {Command='Profile_Camera_Vivid_Blue',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/VividBlue=Camera Vivid Blue'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
+  {Command='Profile_Camera_Vivid_Green',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/VividGreen=Camera Vivid Green'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
+  {Command='Profile_Camera_Vivid_Red',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/VividRed=Camera Vivid Red'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},  
   {Command='ProfileAmount',Type='variable',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ProfileAmount=Profile amount'),Group=calibration,Explanation='Varies amount of custom calibration applied. **Note**: The MIDI controller does not get updated when the value is changed directly in Lightroom, either by using a mouse or when changing images. Pickup mode does not affect behavior of this adjustment. Also, Lightroom may complain of being unable to update the value if too many changes occur in a short period of time. Just dismiss those warnings and continue.', Panel='calibratePanel'}, 
   {Command='ShadowTint',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ShadowTintCalibration=Shadow Tint Calibration'),Group=calibration,Explanation='Corrects for any green or magenta tint in the shadow areas of the photo.',Panel='calibratePanel'},
   {Command='RedHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RedHueCalibration=Red Hue Calibration'),Group=calibration,Explanation='For the red primary. Moving the Hue slider to the left (negative value) is similar to a counterclockwise move on the color wheel; moving it to the right (positive value) is similar to a clockwise move.',Panel='calibratePanel'},
@@ -630,9 +675,9 @@ local DataBase = {
   {Command='ResetGreenSaturation',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GreenSaturationCalibration=Green Saturation Calibration')),Group=calibration,Explanation='Reset to default.',Panel='calibratePanel'},
   {Command='ResetBlueHue',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/BlueHueCalibration=Blue Hue Calibration')),Group=calibration,Explanation='Reset to default.',Panel='calibratePanel'},
   {Command='ResetBlueSaturation',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/BlueSaturationCalibration=Blue Saturation Calibration')),Group=calibration,Explanation='Reset to default.',Panel='calibratePanel'},
---
---develop: develop presets
---
+  --
+  --develop: develop presets
+  --
   {Command='Preset_1',Type='button',Translation=developPreset..' 1',Group=developPresets,Explanation='Apply preset 1 to active photo only.'},
   {Command='Preset_2',Type='button',Translation=developPreset..' 2',Group=developPresets,Explanation='Apply preset 2 to active photo only.'},
   {Command='Preset_3',Type='button',Translation=developPreset..' 3',Group=developPresets,Explanation='Apply preset 3 to active photo only.'},
@@ -714,9 +759,9 @@ local DataBase = {
   {Command='Preset_79',Type='button',Translation=developPreset..' 79',Group=developPresets,Explanation='Apply preset 79 to active photo only.'},
   {Command='Preset_80',Type='button',Translation=developPreset..' 80',Group=developPresets,Explanation='Apply preset 80 to active photo only.'},
 
---
---keywords
---
+  --
+  --keywords
+  --
 
   {Command='Keyword1',Type='button',Translation=keyword..' 1',Group=keywords,Explanation='Apply keyword 1 to all selected photos.'},
   {Command='Keyword2',Type='button',Translation=keyword..' 2',Group=keywords,Explanation='Apply keyword 2 to all selected photos.'},
@@ -746,11 +791,11 @@ local DataBase = {
   {Command='ShowMaskOverlay',Type='button',Translation=LOC('$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Show Mask Overlay'),Group=localizedAdjustments,Explanation='Sends the keystroke <kbd>o</kbd> to Lightroom. Show or hide the mask overlay.'},
   {Command='ToggleOverlay',type='button',Translation=locadj..' '..LOC('$$$/AgDevelop/Menu/View/AdjustmentMaskOverlay=Correction mask overlay')..' '..LOC('$$$/MIDI2LR/ShortCuts/ShowHide=show or hide'),Group=localizedAdjustments,Explanation='Toggles the localized adjustments mask overlay. Use only when any of the local adjustments filter is active. Supported in LR versions 7.4 and later.'},
   {Command='CycleMaskOverlayColor',Type='button',Translation=LOC('$$$/AgDevelop/Menu/View/AdjustmentBrushOverlay/CycleOverlay=Overlay Color'):gsub('%(%&%a%)',''):gsub('%&',''),Group=localizedAdjustments,Explanation='Sends the keystroke <kbd>\226\135\167 Shift</kbd>+<kbd>o</kbd> to Lightroom. Change Mask Overlay Color.'},
-  {Command='EnableCircularGradientBasedCorrections',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableRadialFilter=Enable Radial Filter'),Group=localizedAdjustments,Explanation='Enable or disable radial filter.'},
-  {Command='EnableGradientBasedCorrections',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableGraduatedFilter=Enable Graduated Filter'),Group=localizedAdjustments,Explanation='Enable or disable graduated filter.'},
-  {Command='EnablePaintBasedCorrections',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableBrushAdjustments=Enable Brush Adjustments'),Group=localizedAdjustments,Explanation='Enable or disable brush adjustments.'},
-  {Command='EnableRedEye',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableRedEye=Enable Red-Eye'),Group=localizedAdjustments,Explanation='Enable or disable red eye correction.'},
-  {Command='EnableRetouch',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableSpotRemoval=Enable Spot Removal'),Group=localizedAdjustments,Explanation='Enable or disable spot removal.'},
+  {Command='EnableCircularGradientBasedCorrections',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleCircularGradientBasedCorrections=Radial filter enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable radial filter.'},
+  {Command='EnableGradientBasedCorrections',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleGradientBasedCorrections=Graduated filter enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable graduated filter.'},
+  {Command='EnablePaintBasedCorrections',Type='button',Translation=LOC('$$$/AgDevelop/Settings/TogglePaintBasedCorrections=Brush adjustments enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable brush adjustments.'},
+  {Command='EnableRedEye',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleRedEye=Red-Eye enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable red eye correction.'},
+  {Command='EnableRetouch',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleSpotRemoval=Spot removal enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable spot removal.'},
   {Command='ChangeBrushSize',Type='repeat',Translation=brush..' — '..size,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Change adjustment brush size. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size.'..repeatexp},
   {Command='BrushSizeSmaller',Type='button',Translation=brush..' — '..size..' — '..smaller,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Reduce adjustment brush size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.'},
   {Command='BrushSizeLarger',Type='button',Translation=brush..' — '..size..' — '..larger,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Increase adjustment brush size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.'},
@@ -775,7 +820,7 @@ local DataBase = {
   {Command='local_Moire',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire')..' (PV 3+)',PV3=locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire'),Group=localizedAdjustments,Explanation='Adjust Moire for the currently active tool: Brush, Radial Filter, or Graduated Filter.'},
   {Command='local_Defringe',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')..' (PV 3+)',PV3=locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe'),Group=localizedAdjustments,Explanation='Adjust Defringe for the currently active tool: Brush, Radial Filter, or Graduated Filter.'},
   {Command='local_ToningLuminance',Type='parameter',Translation=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)',PV2=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance'),PV3=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)',Group=localizedAdjustments,Explanation='Adjust Toning Luminance for the currently active tool: Brush, Radial Filter, or Graduated Filter.'},
---local adjustment resets 
+  --local adjustment resets 
   {Command='ResetCircGrad',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetRadialFilters=Reset Radial Filters'),Group=localadjresets,Explanation='Delete radial filter.'},
   {Command='ResetGradient',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetGraduatedFilters=Reset Graduated Filters'),Group=localadjresets,Explanation='Delete graduated filter.'},
   {Command='ResetBrushing',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetBrushing=Reset Brush Corrections'),Group=localadjresets,Explanation='Delete brush adjustments.'},
@@ -799,7 +844,7 @@ local DataBase = {
   {Command='Resetlocal_Moire',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire')..' (PV 3+)'),PV3=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Defringe',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')..' (PV 3+)'),PV3=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_ToningLuminance',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)'),PV2=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminanz')),PV3=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminanz')..' (PV 2)'),Group=localadjresets,Explanation='Reset to default.'}, 
---local adjustment presets
+  --local adjustment presets
   {Command='LocalPreset1',Type='button',Translation=locadjpre..' 1',Group=locadjpre,Explanation='Use preset 1 for localized adjustments.'},
   {Command='LocalPreset2',Type='button',Translation=locadjpre..' 2',Group=locadjpre,Explanation='Use preset 2 for localized adjustments.'},
   {Command='LocalPreset3',Type='button',Translation=locadjpre..' 3',Group=locadjpre,Explanation='Use preset 3 for localized adjustments.'},
@@ -817,9 +862,9 @@ local DataBase = {
   {Command='LocalPreset15',Type='button',Translation=locadjpre..' 15',Group=locadjpre,Explanation='Use preset 15 for localized adjustments.'}, 
   {Command='LocalPreset16',Type='button',Translation=locadjpre..' 16',Group=locadjpre,Explanation='Use preset 16 for localized adjustments.'},  
 
---
--- Misc
---
+  --
+  -- Misc
+  --
 
   {Command='straightenAngle',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle'),Group=crop,Explanation='Rotate crop angle. Moves angle in crop tool panel from -45 to 45.'},
   {Command='CropAngle',Type='parameter',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CropAngle=Crop Angle'),Group=crop,Explanation='Use *Straighten Angle* (above) instead. This control remains listed as a legacy item. Rotate crop rectangle. This control is constrained to picture boundaries even when \226\128\156constrain to image\226\128\157 is not selected. It also causes the aspect ratio of the crop to change.'},
@@ -911,7 +956,7 @@ local Ut = require 'Utilities'
 local AppTrans = LrPathUtils.child(Ut.appdatapath() , 'MenuTrans.xml') 
 local function WriteAppTrans(language) 
   local file = assert(io.open(AppTrans,'w'),'Error writing to MenuTrans.txt') 
---new version for xml file  
+  --new version for xml file  
   local CmdStructure={}
   local GroupOrder={}
   for _,v in ipairs(DataBase) do
@@ -924,13 +969,13 @@ local function WriteAppTrans(language)
     end
   end
   file:write([=[
-<?xml version="1.0" encoding="utf-8"?>
-<cereal>
-  <value0>
+    <?xml version="1.0" encoding="utf-8"?>
+    <cereal>
+    <value0>
     <cereal_class_version>1</cereal_class_version>
     <language>]=],language,[=[</language>
     <all_commands size="dynamic">
-]=])
+  ]=])
   for i,v in ipairs(GroupOrder) do
     file:write('      <value'.. i-1 ..'>\n        <first>'..v..'</first>\n'..
       '        <second size="dynamic">\n')
@@ -944,9 +989,9 @@ local function WriteAppTrans(language)
   end
   file:write([=[
     </all_commands>
-  </value0>
-</cereal>
-]=])
+    </value0>
+    </cereal>
+  ]=])
   file:close()
 end
 

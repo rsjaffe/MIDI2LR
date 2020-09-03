@@ -1,6 +1,7 @@
 ﻿"$$$/MIDI2LR/About/about=Mode d'emploi: connecter un contrôleur MIDI, lancer MIDI2LR, et commencer à éditer! Voir https://github.com/rsjaffe/MIDI2LR/wiki pour plus d'aide."
 "$$$/MIDI2LR/Database/Hue=teinte"
 "$$$/MIDI2LR/Database/latestversion=dernière version"
+"$$$/MIDI2LR/Dialog/NeedNewerLR=Une version plus récente de Lightroom est nécessaire"
 "$$$/MIDI2LR/Database/Reset1=Réinitialiser ^1"
 "$$$/MIDI2LR/Database/Show1=Afficher ^1"
 "$$$/MIDI2LR/Help/Donate=&Faire un don pour encourager le développement du projet"

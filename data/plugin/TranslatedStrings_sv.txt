@@ -1,6 +1,7 @@
 ﻿"$$$/MIDI2LR/About/about=Användning: anslut en MIDI-kontroller, starta MIDI2LR och börja redigera! Kolla på https://github.com/rsjaffe/MIDI2LR/wiki för mer informatino."
 "$$$/MIDI2LR/Database/Hue=nyans"
 "$$$/MIDI2LR/Database/latestversion=senaste versionen"
+"$$$/MIDI2LR/Dialog/NeedNewerLR=En nyare version av Lightroom krävs"
 "$$$/MIDI2LR/Database/Reset1=Återställ ^1"
 "$$$/MIDI2LR/Database/Show1=Visa ^1"
 "$$$/MIDI2LR/Help/Donate=&Donera för att stödja projektutveckling"
