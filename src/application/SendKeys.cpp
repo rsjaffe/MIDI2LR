@@ -28,6 +28,8 @@
 
 #include "Misc.h"
 #ifdef _WIN32
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
 #include <utility>
 
 #include <Windows.h>
