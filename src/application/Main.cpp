@@ -58,7 +58,6 @@ namespace fs = std::filesystem;
 #include "Profile.h"
 #include "ProfileManager.h"
 #include "SettingsManager.h"
-#include "Translate.h"
 #include "VersionChecker.h"
 #ifdef _WIN32
 #include <array>
@@ -152,7 +151,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             PWoptions::LinkToControlsModel(&controls_model_);
             juce::LookAndFeel::setDefaultLookAndFeel(&look_feel_);
             /* set language and load appropriate fonts and files */
-            SetAppLanguage();
+            SetAppFont();
             LoadControlsModel();
             /* need to start main window before ipc so it's already registered its callbacks and can
              * receive messages */
@@ -335,7 +334,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
    }
 
-   void SetAppLanguage() const
+   void SetAppFont() const
    {
       /* juce (as of July 2018) uses the following font defaults taken from juce_mac_Fonts.mm and
        * juce_wind32_Fonts.cpp. Sans defaults do not support Asian languages.
@@ -353,7 +352,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        *        Fixed   Menlo            Lucida Console
        */
       try {
-         const auto& lang {command_set_.GetLanguage()};
          auto sf {rsj::SystemFont()};
          if (sf) {
             juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(*sf);
@@ -361,7 +359,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
          else
             rsj::Log("Unable to obtain system font.");
-         rsj::Translate(lang);
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;
