@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['validmessagetype_939',['ValidMessageType',['../namespacersj.html#a1901501dced0f24aa1e4994b4935d89d',1,'rsj']]],
-  ['versionchecker_940',['VersionChecker',['../class_version_checker.html#af0b3efb11529f0bcfeed3b03be2fb310',1,'VersionChecker::VersionChecker(SettingsManager &amp;settings_manager)'],['../class_version_checker.html#ab47e45eba6c700d30d014824a3536bd5',1,'VersionChecker::VersionChecker(const VersionChecker &amp;other)=delete'],['../class_version_checker.html#add5362a02de29b0bf009fa62f0d2ca64',1,'VersionChecker::VersionChecker(VersionChecker &amp;&amp;other)=delete']]]
+  ['unassignedtranslated_830',['UnassignedTranslated',['../class_command_set.html#ab51b4f7ff3ded142a72bf0b4a8e29ef6',1,'CommandSet']]],
+  ['unhandledexception_831',['unhandledException',['../class_m_i_d_i2_l_r_application.html#ad34fde5f16225239b8ae7e0e753cf9cc',1,'MIDI2LRApplication::unhandledException(const std::exception *e, const juce::String &amp;source_filename, int lineNumber) override'],['../class_m_i_d_i2_l_r_application.html#ad34fde5f16225239b8ae7e0e753cf9cc',1,'MIDI2LRApplication::unhandledException(const std::exception *e, const juce::String &amp;source_filename, int lineNumber) override']]],
+  ['unlock_832',['unlock',['../classrsj_1_1_spin_lock.html#a47949429d3bfdc9dd3fbd0e1fc1650d5',1,'rsj::SpinLock']]]
 ];

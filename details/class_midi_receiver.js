@@ -1,6 +1,6 @@
 var class_midi_receiver =
 [
-    [ "MidiReceiver", "class_midi_receiver.html#a470aa0c7115d87791641f698b62ea6a2", null ],
+    [ "MidiReceiver", "class_midi_receiver.html#a7475b2d7fa8177834b1f6a7a70e399c6", null ],
     [ "~MidiReceiver", "class_midi_receiver.html#ae4e9b671a3a2d2252f17662dcc636486", null ],
     [ "MidiReceiver", "class_midi_receiver.html#ad5c1a185dd88a54c552226f8cb52b8aa", null ],
     [ "MidiReceiver", "class_midi_receiver.html#a7ac590940409dcbea4718ddc5b3d7438", null ],
@@ -15,8 +15,9 @@ var class_midi_receiver =
     [ "Stop", "class_midi_receiver.html#a87e67d9486889627dcae6362fc77effa", null ],
     [ "TryToOpen", "class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595", null ],
     [ "callbacks_", "class_midi_receiver.html#ab308920f58f2c1e4df56c2c896854787", null ],
-    [ "devices_", "class_midi_receiver.html#aa96d746ae3aa3f5a423dca53eb605674", null ],
+    [ "devices_", "class_midi_receiver.html#aaa32a91f83ddcc54a970183a103bae36", null ],
     [ "dispatch_messages_future_", "class_midi_receiver.html#a90cf4a5de8a026c91513b38332702d0a", null ],
     [ "filters_", "class_midi_receiver.html#a8f228b0c8e2826c98827f3795488691c", null ],
+    [ "input_devices_", "class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f", null ],
     [ "messages_", "class_midi_receiver.html#a2c55836503717abcf555478f04e34d9a", null ]
 ];

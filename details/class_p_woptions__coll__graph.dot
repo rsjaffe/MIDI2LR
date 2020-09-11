@@ -1,0 +1,36 @@
+digraph "PWoptions"
+{
+ // INTERACTIVE_SVG=YES
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="PWoptions",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Component",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node3 -> Node1 [dir="back",color="firebrick4",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Listener",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" label\nlabel2\nlabel3" ,fontname="Helvetica"];
+  Node4 [label="std::unique_ptr\< juce\l::Label \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" maxval\nminval" ,fontname="Helvetica"];
+  Node5 [label="std::unique_ptr\< juce\l::TextEditor \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node6 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" controls_model_" ,fontname="Helvetica"];
+  Node6 [label="ControlsModel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_controls_model.html",tooltip=" "];
+  Node7 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" all_controls_" ,fontname="Helvetica"];
+  Node7 [label="std::array\< ChannelModel,\l 16 \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" elements" ,fontname="Helvetica"];
+  Node8 [label="ChannelModel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_channel_model.html",tooltip=" "];
+  Node9 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" pitch_wheel_current_" ,fontname="Helvetica"];
+  Node9 [label="std::atomic\< int \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node10 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" settings_to_save_" ,fontname="Helvetica"];
+  Node10 [label="std::vector\< rsj::Settings\lStruct \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node11 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" elements" ,fontname="Helvetica"];
+  Node11 [label="rsj::SettingsStruct",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structrsj_1_1_settings_struct.html",tooltip=" "];
+  Node12 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" current_v_" ,fontname="Helvetica"];
+  Node12 [label="std::array\< std::atomic\l\< int \>, kMaxControls \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node9 -> Node12 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" elements" ,fontname="Helvetica"];
+  Node13 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cc_high_\ncc_low_" ,fontname="Helvetica"];
+  Node13 [label="std::array\< int, kMaxControls \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node14 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cc_method_" ,fontname="Helvetica"];
+  Node14 [label="std::array\< rsj::CCmethod,\l kMaxControls \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

@@ -1,7 +1,6 @@
 var hierarchy =
 [
     [ "rsj::ActiveModifiers", "structrsj_1_1_active_modifiers.html", null ],
-    [ "ResizableLayout::Anchor", "struct_resizable_layout_1_1_anchor.html", null ],
     [ "AsyncUpdater", null, [
       [ "MainContentComponent", "class_main_content_component.html", null ],
       [ "ProfileManager", "class_profile_manager.html", null ],
@@ -15,35 +14,29 @@ var hierarchy =
       [ "PWoptions", "class_p_woptions.html", null ],
       [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
-    [ "ComponentBoundsConstrainer", null, [
-      [ "TopLevelResizableLayout::Constrainer", "class_top_level_resizable_layout_1_1_constrainer.html", null ]
-    ] ],
-    [ "ComponentListener", null, [
-      [ "ResizableLayout", "class_resizable_layout.html", [
-        [ "MainContentComponent", "class_main_content_component.html", null ],
-        [ "SettingsComponent", "class_settings_component.html", null ],
-        [ "TopLevelResizableLayout", "class_top_level_resizable_layout.html", null ]
-      ] ]
-    ] ],
     [ "rsj::ConcurrentQueue< T, Container, Mutex >", "classrsj_1_1_concurrent_queue.html", null ],
     [ "rsj::ConcurrentQueue< rsj::MidiMessage >", "classrsj_1_1_concurrent_queue.html", null ],
     [ "rsj::ConcurrentQueue< std::string >", "classrsj_1_1_concurrent_queue.html", null ],
     [ "ControlsModel", "class_controls_model.html", null ],
     [ "DebugInfo", "class_debug_info.html", null ],
+    [ "Devices", "class_devices.html", null ],
+    [ "Devices::DevInfo", "struct_devices_1_1_dev_info.html", null ],
     [ "DocumentWindow", null, [
       [ "MainWindow", "class_main_window.html", null ]
     ] ],
+    [ "fmt::formatter< rsj::MessageType, Char >", "structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html", null ],
     [ "std::hash< rsj::MidiMessageId >", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", null ],
     [ "CommandSet::Impl", "class_command_set_1_1_impl.html", null ],
     [ "NrpnFilter::InternalStructure", "struct_nrpn_filter_1_1_internal_structure.html", null ],
     [ "JUCEApplication", null, [
       [ "MIDI2LRApplication", "class_m_i_d_i2_l_r_application.html", null ]
     ] ],
-    [ "Listener", "classjuce_1_1_text_editor_1_1_listener.html", [
+    [ "rsj::KeyData", "structrsj_1_1_key_data.html", null ],
+    [ "Listener", null, [
       [ "CCoptions", "class_c_coptions.html", null ],
       [ "PWoptions", "class_p_woptions.html", null ]
     ] ],
-    [ "Listener", "classjuce_1_1_button_1_1_listener.html", [
+    [ "Listener", null, [
       [ "CCoptions", "class_c_coptions.html", null ]
     ] ],
     [ "LrIpcIn", "class_lr_ipc_in.html", null ],
@@ -55,17 +48,17 @@ var hierarchy =
     [ "rsj::MidiMessageId", "structrsj_1_1_midi_message_id.html", null ],
     [ "MidiSender", "class_midi_sender.html", null ],
     [ "NrpnFilter", "class_nrpn_filter.html", null ],
+    [ "rsj::PRNG", "classrsj_1_1_p_r_n_g.html", null ],
     [ "NrpnFilter::ProcessResult", "struct_nrpn_filter_1_1_process_result.html", null ],
     [ "Profile", "class_profile.html", null ],
-    [ "ResizableLayout::Rect", "struct_resizable_layout_1_1_rect.html", null ],
-    [ "ResizableChild", "class_resizable_child.html", [
-      [ "ResizableLayout", "class_resizable_layout.html", null ]
+    [ "ResizableLayout", null, [
+      [ "MainContentComponent", "class_main_content_component.html", null ],
+      [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
     [ "rsj::ReverseWrapper< T >", "structrsj_1_1_reverse_wrapper.html", null ],
     [ "SettingsManager", "class_settings_manager.html", null ],
     [ "rsj::SettingsStruct", "structrsj_1_1_settings_struct.html", null ],
     [ "rsj::SpinLock", "classrsj_1_1_spin_lock.html", null ],
-    [ "ResizableLayout::State", "struct_resizable_layout_1_1_state.html", null ],
     [ "TableListBox", null, [
       [ "CommandTable", "class_command_table.html", null ]
     ] ],
@@ -76,9 +69,6 @@ var hierarchy =
       [ "TextButtonAligned", "class_text_button_aligned.html", [
         [ "CommandMenu", "class_command_menu.html", null ]
       ] ]
-    ] ],
-    [ "Thread", null, [
-      [ "VersionChecker", "class_version_checker.html", null ]
     ] ],
     [ "Timer", null, [
       [ "MainContentComponent", "class_main_content_component.html", null ],

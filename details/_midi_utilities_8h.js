@@ -1,8 +1,12 @@
 var _midi_utilities_8h =
 [
+    [ "formatter< rsj::MessageType, Char >", "structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html", "structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4" ],
     [ "hash< rsj::MidiMessageId >", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4" ],
+    [ "InternalStructure", "struct_nrpn_filter_1_1_internal_structure.html", "struct_nrpn_filter_1_1_internal_structure" ],
     [ "MidiMessage", "structrsj_1_1_midi_message.html", "structrsj_1_1_midi_message" ],
     [ "MidiMessageId", "structrsj_1_1_midi_message_id.html", "structrsj_1_1_midi_message_id" ],
+    [ "NrpnFilter", "class_nrpn_filter.html", "class_nrpn_filter" ],
+    [ "ProcessResult", "struct_nrpn_filter_1_1_process_result.html", "struct_nrpn_filter_1_1_process_result" ],
     [ "MessageType", "_midi_utilities_8h.html#a22e4616185f77550b6d7dff822cef992", [
       [ "NoteOff", "_midi_utilities_8h.html#a22e4616185f77550b6d7dff822cef992a6138748b0dea7e54d0ab77709ab74ba1", null ],
       [ "NoteOn", "_midi_utilities_8h.html#a22e4616185f77550b6d7dff822cef992a392b06517dc40739343a9ef9533cad46", null ],

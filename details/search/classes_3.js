@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hash_3c_20rsj_3a_3amidimessageid_20_3e_608',['hash&lt; rsj::MidiMessageId &gt;',['../structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html',1,'std']]]
+  ['formatter_3c_20rsj_3a_3amessagetype_2c_20char_20_3e_530',['formatter&lt; rsj::MessageType, Char &gt;',['../structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html',1,'fmt']]]
 ];

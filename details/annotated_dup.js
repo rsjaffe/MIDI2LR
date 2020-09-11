@@ -1,5 +1,6 @@
 var annotated_dup =
 [
+    [ "fmt", "namespacefmt.html", "namespacefmt" ],
     [ "rsj", "namespacersj.html", "namespacersj" ],
     [ "std", null, [
       [ "hash< rsj::MidiMessageId >", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4" ]
@@ -12,8 +13,7 @@ var annotated_dup =
     [ "CommandTableModel", "class_command_table_model.html", "class_command_table_model" ],
     [ "ControlsModel", "class_controls_model.html", "class_controls_model" ],
     [ "DebugInfo", "class_debug_info.html", "class_debug_info" ],
-    [ "Listener", "classjuce_1_1_text_editor_1_1_listener.html", null ],
-    [ "Listener", "classjuce_1_1_button_1_1_listener.html", null ],
+    [ "Devices", "class_devices.html", "class_devices" ],
     [ "LrIpcIn", "class_lr_ipc_in.html", "class_lr_ipc_in" ],
     [ "LrIpcOut", "class_lr_ipc_out.html", "class_lr_ipc_out" ],
     [ "MainContentComponent", "class_main_content_component.html", "class_main_content_component" ],
@@ -25,11 +25,8 @@ var annotated_dup =
     [ "Profile", "class_profile.html", "class_profile" ],
     [ "ProfileManager", "class_profile_manager.html", "class_profile_manager" ],
     [ "PWoptions", "class_p_woptions.html", "class_p_woptions" ],
-    [ "ResizableChild", "class_resizable_child.html", "class_resizable_child" ],
-    [ "ResizableLayout", "class_resizable_layout.html", "class_resizable_layout" ],
     [ "SettingsComponent", "class_settings_component.html", "class_settings_component" ],
     [ "SettingsManager", "class_settings_manager.html", "class_settings_manager" ],
     [ "TextButtonAligned", "class_text_button_aligned.html", "class_text_button_aligned" ],
-    [ "TopLevelResizableLayout", "class_top_level_resizable_layout.html", "class_top_level_resizable_layout" ],
     [ "VersionChecker", "class_version_checker.html", "class_version_checker" ]
 ];

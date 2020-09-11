@@ -9,5 +9,6 @@ var classrsj_1_1_spin_lock =
     [ "operator=", "classrsj_1_1_spin_lock.html#a1b8a32934a199ba1a8d12b5eb48b85b8", null ],
     [ "try_lock", "classrsj_1_1_spin_lock.html#a41db79e3e1272cffec7dd82644a92d08", null ],
     [ "unlock", "classrsj_1_1_spin_lock.html#a47949429d3bfdc9dd3fbd0e1fc1650d5", null ],
-    [ "flag_", "classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0", null ]
+    [ "flag_", "classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0", null ],
+    [ "padding_", "classrsj_1_1_spin_lock.html#a49f2d4e60d77c47f27240421a1a9e0c2", null ]
 ];
