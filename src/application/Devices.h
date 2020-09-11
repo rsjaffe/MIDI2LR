@@ -28,7 +28,7 @@ class Devices {
  public:
    Devices();
    ~Devices();
-   void Add(const juce::MidiDeviceInfo& info, juce::String io);
+   bool Add(const juce::MidiDeviceInfo& info, juce::String io);
    [[nodiscard]] bool Enabled(const juce::MidiDeviceInfo& info, juce::String io) const;
    [[nodiscard]] bool EnabledOrNew(const juce::MidiDeviceInfo& info, juce::String io);
 

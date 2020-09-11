@@ -73,7 +73,7 @@ Devices::~Devices()
    device_xml_->writeTo(source);
 }
 
-void Devices::Add(const juce::MidiDeviceInfo& info, juce::String io)
+bool Devices::Add(const juce::MidiDeviceInfo& info, juce::String io)
 {
    const auto [it, success] {device_listing_.try_emplace({info, io}, true)};
    if (success) {
@@ -83,6 +83,7 @@ void Devices::Add(const juce::MidiDeviceInfo& info, juce::String io)
       new_element->setAttribute("inputoutput", io);
       new_element->setAttribute("active", "1");
    }
+   return success;
 }
 
 bool Devices::Enabled(const juce::MidiDeviceInfo& info, juce::String io) const
@@ -95,20 +96,7 @@ bool Devices::Enabled(const juce::MidiDeviceInfo& info, juce::String io) const
 
 bool Devices::EnabledOrNew(const juce::MidiDeviceInfo& info, juce::String io)
 {
-   const auto [it, success] {device_listing_.try_emplace({info, io}, true)};
-   if (success) {
-      auto new_element {data_list_->createNewChildElement("item")};
-      new_element->setAttribute("devicename", info.name);
-      new_element->setAttribute("systemid", info.identifier);
-      new_element->setAttribute("inputoutput", io);
-      new_element->setAttribute("active", "1");
+   if (Add(info, io))
       return true;
-   }
-   const auto found {device_listing_.find({info, io})};
-   if (found == device_listing_.end()) {
-      rsj::Log(fmt::format("EnabledOrNew unable to emplace, but can't find device {} {} {}.",
-          info.name.toStdString(), info.identifier.toStdString(), io.toStdString()));
-      return true;
-   }
-   return found->second;
+   return Enabled(info, io);
 }
