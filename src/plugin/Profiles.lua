@@ -33,6 +33,19 @@ local currentTMP = {Tool = '', Module = '', Panel = '', Profile = ''}
 local loadedprofile = ''-- according to application and us
 local profilepath = '' --according to application
 
+local GradeToSplit = {
+  ColorGradeHighlightHue      = 'SplitToningHighlightHue',
+  ColorGradeHighlightSat      = 'SplitToningHighlightSaturation',
+  ColorGradeShadowHue         = 'SplitToningShadowHue',
+  ColorGradeShadowSat         = 'SplitToningShadowSaturation',
+  ColorGradeBalance           = 'SplitToningBalance',
+  ResetColorGradeHighlightHue = 'ResetSplitToningHighlightHue',
+  ResetColorGradeHighlightSat = 'ResetSplitToningHighlightSaturation',
+  ResetColorGradeShadowHue    = 'ResetSplitToningShadowHue',
+  ResetColorGradeShadowSat    = 'ResetSplitToningShadowSaturation',
+  ResetColorGradeBalance      = 'ResetSplitToningBalance',
+}
+
 local function doprofilechange(newprofile)
   if ProgramPreferences.ProfilesShowBezelOnChange then
     local filename = newprofile:match(".-([^\\^/]-([^%.]+))$")

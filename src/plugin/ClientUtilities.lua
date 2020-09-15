@@ -513,7 +513,6 @@ local function FullRefresh()
         end
       end
     end
-  else
   end
 end
 

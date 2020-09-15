@@ -363,3 +363,4 @@ tools/installer/MIDI2LR.xml.backup
 *.p12
 tools/doxygen/html/
 build/MacOS/build/
+tools/luacheck/luacheck.results
