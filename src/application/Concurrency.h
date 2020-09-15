@@ -44,6 +44,7 @@ namespace rsj {
          z = (z ^ z >> 30) * 0xbf58476d1ce4e5b9;
          z = (z ^ z >> 27) * 0x94d049bb133111eb;
          return z ^ z >> 31;
+         static_assert(std::is_unsigned_v<decltype(z)>, "Avoid sign extension");
       }
       [[nodiscard]] constexpr result_type min() const noexcept
       {
