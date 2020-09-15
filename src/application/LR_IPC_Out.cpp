@@ -115,12 +115,18 @@ void LrIpcOut::Start()
       io_thread0_ = std::async(std::launch::async, [this] {
          rsj::LabelThread(L"LrIpcOut io_thread0_");
          _mm_setcsr(_mm_getcsr() | 0x8040);
-         io_context_.run();
+         if constexpr (kNdebug)
+            io_context_.run();
+         else
+            rsj::Log(fmt::format("LrIpcOut thread0 ran {} handlers.", io_context_.run()));
       });
       io_thread1_ = std::async(std::launch::async, [this] {
          rsj::LabelThread(L"LrIpcOut io_thread1_");
          _mm_setcsr(_mm_getcsr() | 0x8040);
-         io_context_.run();
+         if constexpr (kNdebug)
+            io_context_.run();
+         else
+            rsj::Log(fmt::format("LrIpcOut thread1 ran {} handlers.", io_context_.run()));
       });
    }
    catch (const std::exception& e) {

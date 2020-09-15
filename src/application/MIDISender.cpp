@@ -115,17 +115,24 @@ void MidiSender::InitDevices()
          if (open_device) {
             const auto devname {open_device->getName().toStdString()};
             if constexpr (MSWindows) {
-               if (devname != "Microsoft GS Wavetable Synth") {
+               if (devname != "Microsoft GS Wavetable Synth"
+                   && devices_.EnabledOrNew(open_device->getDeviceInfo(), "output")) {
                   rsj::Log(fmt::format("Opened output device {}.", devname));
                   output_devices_.emplace_back(std::move(open_device));
                }
+               else
+                  rsj::Log(fmt::format("Ignored output device {}.", devname));
             }
             else {
-               rsj::Log(fmt::format("Opened output device {}.", devname));
-               output_devices_.emplace_back(std::move(open_device));
+               if (devices_.EnabledOrNew(open_device->getDeviceInfo(), "output")) {
+                  rsj::Log(fmt::format("Opened output device {}.", devname));
+                  output_devices_.emplace_back(std::move(open_device));
+               }
+               else
+                  rsj::Log(fmt::format("Ignored output device {}.", devname));
             }
          }
-      }
+      } // devices that are skipped have their pointers deleted and are automatically closed
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

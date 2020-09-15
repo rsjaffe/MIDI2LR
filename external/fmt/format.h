@@ -283,6 +283,9 @@ template <typename T> constexpr T max_value() {
 template <typename T> constexpr int num_bits() {
   return std::numeric_limits<T>::digits;
 }
+// std::numeric_limits<T>::digits may return 0 for 128-bit ints.
+template <> constexpr int num_bits<int128_t>() { return 128; }
+template <> constexpr int num_bits<uint128_t>() { return 128; }
 template <> constexpr int num_bits<fallback_uintptr>() {
   return static_cast<int>(sizeof(void*) *
                           std::numeric_limits<unsigned char>::digits);
@@ -721,13 +724,18 @@ class FMT_API format_error : public std::runtime_error {
 
 namespace detail {
 
+template <typename T>
+using is_signed =
+    std::integral_constant<bool, std::numeric_limits<T>::is_signed ||
+                                     std::is_same<T, int128_t>::value>;
+
 // Returns true if value is negative, false otherwise.
 // Same as `value < 0` but doesn't produce warnings if T is an unsigned type.
-template <typename T, FMT_ENABLE_IF(std::numeric_limits<T>::is_signed)>
+template <typename T, FMT_ENABLE_IF(is_signed<T>::value)>
 FMT_CONSTEXPR bool is_negative(T value) {
   return value < 0;
 }
-template <typename T, FMT_ENABLE_IF(!std::numeric_limits<T>::is_signed)>
+template <typename T, FMT_ENABLE_IF(!is_signed<T>::value)>
 FMT_CONSTEXPR bool is_negative(T) {
   return false;
 }
@@ -742,9 +750,9 @@ FMT_CONSTEXPR bool is_supported_floating_point(T) {
 // Smallest of uint32_t, uint64_t, uint128_t that is large enough to
 // represent all values of T.
 template <typename T>
-using uint32_or_64_or_128_t = conditional_t<
-    std::numeric_limits<T>::digits <= 32, uint32_t,
-    conditional_t<std::numeric_limits<T>::digits <= 64, uint64_t, uint128_t>>;
+using uint32_or_64_or_128_t =
+    conditional_t<num_bits<T>() <= 32, uint32_t,
+                  conditional_t<num_bits<T>() <= 64, uint64_t, uint128_t>>;
 
 // Static data is placed in this class template for the header-only config.
 template <typename T = void> struct FMT_EXTERN_TEMPLATE_API basic_data {
@@ -1559,7 +1567,7 @@ template <typename OutputIt, typename Char, typename UInt> struct int_writer {
     int num_digits = count_digits(abs_value);
     int size = num_digits, n = num_digits;
     std::string::const_iterator group = groups.cbegin();
-    while (group != groups.cend() && num_digits > *group && *group > 0 &&
+    while (group != groups.cend() && n > *group && *group > 0 &&
            *group != max_value<char>()) {
       size += sep_size;
       n -= *group;
@@ -1590,7 +1598,11 @@ template <typename OutputIt, typename Char, typename UInt> struct int_writer {
                               make_checked(p, s.size()));
     }
     if (prefix_size != 0) p[-1] = static_cast<Char>('-');
-    write(out, basic_string_view<Char>(buffer.data(), buffer.size()), specs);
+    using iterator = remove_reference_t<decltype(reserve(out, 0))>;
+    auto data = buffer.data();
+    out = write_padded<align::right>(out, specs, size, size, [=](iterator it) {
+      return copy_str<Char>(data, data + size, it);
+    });
   }
 
   void on_chr() { *out++ = static_cast<Char>(abs_value); }
@@ -3482,9 +3494,9 @@ extern template int snprintf_float<long double>(long double value,
 
 template <typename S, typename Char = char_t<S>,
           FMT_ENABLE_IF(detail::is_string<S>::value)>
-inline typename buffer_context<Char>::iterator vformat_to(
+inline typename FMT_BUFFER_CONTEXT(Char)::iterator vformat_to(
     detail::buffer<Char>& buf, const S& format_str,
-    basic_format_args<buffer_context<type_identity_t<Char>>> args) {
+    basic_format_args<FMT_BUFFER_CONTEXT(type_identity_t<Char>)> args) {
   return detail::vformat_to(buf, to_string_view(format_str), args);
 }
 

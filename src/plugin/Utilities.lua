@@ -31,6 +31,14 @@ local LrApplication = import 'LrApplication'
 local LrPathUtils   = import 'LrPathUtils'
 local LrFileUtils   = import 'LrFileUtils'
 
+local function LrVersion100orMore()
+  local vers = LrApplication.versionTable()
+  if vers.major < 10 then return false end
+  return true
+end
+
+LrVersion100orMore = LrVersion100orMore()
+
 local function LrVersion74orMore()
   local vers = LrApplication.versionTable()
   if vers.major < 7 then return false end
@@ -41,7 +49,7 @@ end
 LrVersion74orMore = LrVersion74orMore()
 
 local function LrVersion66orMore()
-    local vers = LrApplication.versionTable()
+  local vers = LrApplication.versionTable()
   if vers.major < 6 then return false end
   if vers.major == 6 and vers.minor < 6 then return false end
   return true
@@ -78,6 +86,7 @@ end
 return { --table of exports, setting table member name and module function it points to
   appdatapath = appdatapath,
   applogpath = applogpath,
+  LrVersion100orMore = LrVersion100orMore,
   LrVersion74orMore = LrVersion74orMore,
   LrVersion66orMore = LrVersion66orMore,
 }

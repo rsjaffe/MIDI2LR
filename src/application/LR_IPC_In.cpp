@@ -21,7 +21,6 @@
 #include <thread>
 
 #include <fmt/format.h>
-#include <gsl/gsl>
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
@@ -59,7 +58,10 @@ void LrIpcIn::Start()
       io_thread_ = std::async(std::launch::async, [this] {
          rsj::LabelThread(L"LrIpcIn io_thread_");
          _mm_setcsr(_mm_getcsr() | 0x8040);
-         io_context_.run();
+         if constexpr (kNdebug)
+            io_context_.run();
+         else
+            rsj::Log(fmt::format("LrIpcIn thread ran {} handlers.", io_context_.run()));
       });
    }
    catch (const std::exception& e) {

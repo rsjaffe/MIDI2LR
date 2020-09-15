@@ -47,6 +47,7 @@ namespace fs = std::filesystem;
 #include "CCoptions.h"
 #include "CommandSet.h"
 #include "ControlsModel.h"
+#include "Devices.h"
 #include "LR_IPC_In.h"
 #include "LR_IPC_Out.h"
 #include "MIDIReceiver.h"
@@ -57,7 +58,6 @@ namespace fs = std::filesystem;
 #include "Profile.h"
 #include "ProfileManager.h"
 #include "SettingsManager.h"
-#include "Translate.h"
 #include "VersionChecker.h"
 #ifdef _WIN32
 #include <array>
@@ -151,7 +151,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             PWoptions::LinkToControlsModel(&controls_model_);
             juce::LookAndFeel::setDefaultLookAndFeel(&look_feel_);
             /* set language and load appropriate fonts and files */
-            SetAppLanguage();
+            SetAppFont();
             LoadControlsModel();
             /* need to start main window before ipc so it's already registered its callbacks and can
              * receive messages */
@@ -334,7 +334,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
    }
 
-   void SetAppLanguage() const
+   void SetAppFont() const
    {
       /* juce (as of July 2018) uses the following font defaults taken from juce_mac_Fonts.mm and
        * juce_wind32_Fonts.cpp. Sans defaults do not support Asian languages.
@@ -352,7 +352,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        *        Fixed   Menlo            Lucida Console
        */
       try {
-         const auto& lang {command_set_.GetLanguage()};
          auto sf {rsj::SystemFont()};
          if (sf) {
             juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(*sf);
@@ -360,7 +359,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
          else
             rsj::Log("Unable to obtain system font.");
-         rsj::Translate(lang);
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;
@@ -375,11 +373,12 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    /* forcing assignment to static early in construction */
    [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_ {logger_.get()};
+   Devices devices_ {};
    const CommandSet command_set_ {};
    ControlsModel controls_model_ {};
    Profile profile_ {command_set_};
-   MidiSender midi_sender_ {};
-   MidiReceiver midi_receiver_ {};
+   MidiSender midi_sender_ {devices_};
+   MidiReceiver midi_receiver_ {devices_};
    LrIpcOut lr_ipc_out_ {controls_model_, profile_, midi_sender_, midi_receiver_};
    ProfileManager profile_manager_ {controls_model_, profile_, lr_ipc_out_, midi_receiver_};
    LrIpcIn lr_ipc_in_ {controls_model_, profile_manager_, profile_, midi_sender_};

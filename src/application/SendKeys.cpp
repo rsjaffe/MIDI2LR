@@ -28,11 +28,10 @@
 
 #include "Misc.h"
 #ifdef _WIN32
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
 #include <utility>
 
-#include "WinDef.h"
-#undef NOUSER
-#undef NOVIRTUALKEYCODES
 #include <Windows.h>
 #include <wil/result.h>
 #else

@@ -22,15 +22,15 @@
 #include <JuceLibraryCode/JuceHeader.h>
 
 #ifdef _WIN32
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
 #include <array>
+#include <exception>
 #include <string>
 #include <unordered_map>
 
-#include <fmt/format.h>
-
-#include "WinDef.h"
-#undef NOUSER
 #include <Windows.h>
+#include <fmt/format.h>
 #include <wil/result.h>
 
 #include "Misc.h"
@@ -142,7 +142,7 @@ namespace {
                return fmt::format("KLID not in keyboard_names: 0x{}.", klid_ascii.data());
             }
             catch (...) {
-               const auto msg {
+               auto msg {
                    fmt::format("Exception when finding KLID name. KLID: 0x{}.", klid_ascii.data())};
                rsj::Log(msg);
                return msg;

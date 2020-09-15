@@ -98,6 +98,55 @@ LrTasks.startAsyncTask(
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
 
+    local GradeFocusTable = {
+      ColorGradeShadowHue = 'shadow',
+      ColorGradeShadowSat = 'shadow',
+      ColorGradeShadowLum = 'shadow',
+      ColorGradeHighlightHue = 'highlight',
+      ColorGradeHighlightSat = 'highlight',
+      ColorGradeHighlightLum = 'highlight',
+      ColorGradeMidtoneHue = 'midtone',
+      ColorGradeMidtoneSat = 'midtone',
+      ColorGradeMidtoneLum = 'midtone',
+      ColorGradeGlobalHue = 'global',
+      ColorGradeGlobalSat = 'global',
+      ColorGradeGlobalLum = 'global',
+      ResetColorGradeShadowHue = 'shadow',
+      ResetColorGradeShadowSat = 'shadow',
+      ResetColorGradeShadowLum = 'shadow',
+      ResetColorGradeHighlightHue = 'highlight',
+      ResetColorGradeHighlightSat = 'highlight',
+      ResetColorGradeHighlightLum = 'highlight',
+      ResetColorGradeMidtoneHue = 'midtone',
+      ResetColorGradeMidtoneSat = 'midtone',
+      ResetColorGradeMidtoneLum = 'midtone',
+      ResetColorGradeGlobalHue = 'global',
+      ResetColorGradeGlobalSat = 'global',
+      ResetColorGradeGlobalLum = 'global',
+    }
+
+
+    local GradeToSplit = {
+      ColorGradeHighlightHue      = 'SplitToningHighlightHue',
+      ColorGradeHighlightSat      = 'SplitToningHighlightSaturation',
+      ColorGradeShadowHue         = 'SplitToningShadowHue',
+      ColorGradeShadowSat         = 'SplitToningShadowSaturation',
+      ColorGradeBalance           = 'SplitToningBalance',
+      ResetColorGradeHighlightHue = 'ResetSplitToningHighlightHue',
+      ResetColorGradeHighlightSat = 'ResetSplitToningHighlightSaturation',
+      ResetColorGradeShadowHue    = 'ResetSplitToningShadowHue',
+      ResetColorGradeShadowSat    = 'ResetSplitToningShadowSaturation',
+      ResetColorGradeBalance      = 'ResetSplitToningBalance',
+    }
+
+    local SplitToGrade = {
+      SplitToningShadowHue           = 'ColorGradeShadowHue',
+      SplitToningShadowSaturation    = 'ColorGradeShadowSat',
+      SplitToningHighlightHue        = 'ColorGradeHighlightHue',
+      SplitToningHighlightSaturation = 'ColorGradeHighlightSat', 
+      SplitToningBalance             = 'ColorGradeBalance',
+    }
+
     local ACTIONS = {
       AdjustmentBrush                        = CU.fToggleTool('localized'),
       AppInfoClear                           = function() Info.AppInfo = {}; end,
@@ -365,6 +414,11 @@ LrTasks.startAsyncTask(
       profile24                       = function() Profiles.changeProfile('profile24', true) end, 
       profile25                       = function() Profiles.changeProfile('profile25', true) end, 
       profile26                       = function() Profiles.changeProfile('profile26', true) end, 
+      PV1                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 1'),
+      PV2                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 2'),
+      PV3                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 3'),
+      PV4                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 4'),
+      PV5                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 5'),      
       PVLatest                        = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version ' .. Database.LatestPVSupported),
       RedEye                          = CU.fToggleTool('redeye'),
       Redo                            = LrUndo.redo,
@@ -468,50 +522,40 @@ LrTasks.startAsyncTask(
     ACTIONS.ActionSeries15 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[15],ACTIONS) end  
     ACTIONS.ActionSeries16 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[16],ACTIONS) end  
 
-    --some functions not available before 7.4
-    if not Ut.LrVersion74orMore then
-      local endmsg = ' only available in Lightroom version 7.4 and later.'
-      local nocar = function() LrDialogs.message('Quick develop crop aspect ratio'..endmsg) end
-      local nowb = function() LrDialogs.message('Quick develop white balance'..endmsg) end
-      ACTIONS.AddOrRemoveFromTargetColl    =  function() LrDialogs.message('Add or remove from target collection'..endmsg)  end     
-      ACTIONS.AutoTone                     = function() CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); LrDevelopController.revealPanel('adjustPanel'); end
-      ACTIONS.CycleLoupeViewInfo           = function() LrDialogs.message('Cycle loupe view style'..endmsg) end
-      ACTIONS.EditPhotoshop                = function() LrDialogs.message('Edit in Photoshop action'..endmsg) end
-      ACTIONS.EnableToneCurve              = function() LrDialogs.message('Enable Tone Curve action'..endmsg) end
-      ACTIONS.GraduatedFilter              = CU.fToggleTool('gradient')
-      ACTIONS.GridViewStyle                = function() LrDialogs.message('Cycle grid view style'..endmsg) end
-      ACTIONS.NextScreenMode               = function() LrDialogs.message('Cycle screen mode'..endmsg) end
-      ACTIONS.openExportDialog             = function() LrDialogs.message('Open export dialog action'..endmsg) end
-      ACTIONS.openExportWithPreviousDialog = function() LrDialogs.message('Open export with previous settings action'..endmsg) end
-      ACTIONS.QuickDevCropAspect1x1        = nocar
-      ACTIONS.QuickDevCropAspect2x3        = nocar
-      ACTIONS.QuickDevCropAspect3x4        = nocar
-      ACTIONS.QuickDevCropAspect4x5        = nocar
-      ACTIONS.QuickDevCropAspect5x7        = nocar
-      ACTIONS.QuickDevCropAspect85x11      = nocar
-      ACTIONS.QuickDevCropAspect9x16       = nocar
-      ACTIONS.QuickDevCropAspectAsShot     = nocar
-      ACTIONS.QuickDevCropAspectOriginal   = nocar
-      ACTIONS.QuickDevWBAuto               = nowb
-      ACTIONS.QuickDevWBCloudy             = nowb
-      ACTIONS.QuickDevWBDaylight           = nowb
-      ACTIONS.QuickDevWBFlash              = nowb
-      ACTIONS.QuickDevWBFluorescent        = nowb
-      ACTIONS.QuickDevWBShade              = nowb
-      ACTIONS.QuickDevWBTungsten           = nowb
-      ACTIONS.RadialFilter                 = CU.fToggleTool('circularGradient')     
-      ACTIONS.RotateLeft                   = function() LrDialogs.message('Rotate left action'..endmsg)  end
-      ACTIONS.RotateRight                  = function() LrDialogs.message('Rotate right action'..endmsg)  end 
-      ACTIONS.SetTreatmentBW               = function() LrDialogs.message('Set treatment B&W'..endmsg) end
-      ACTIONS.SetTreatmentColor            = function() LrDialogs.message('Set treatment Color'..endmsg) end
-      ACTIONS.ShoFullHidePanels            = function() LrDialogs.message('Show full screen and hide panels action'..endmsg) end
-      ACTIONS.ShoFullPreview               = function() LrDialogs.message('Show full screen preview action'..endmsg) end
-      ACTIONS.ShowClipping                 = function() LrDialogs.message('Show clipping'..endmsg) end
-      ACTIONS.SpotRemoval                  = CU.fToggleTool('dust')
-      ACTIONS.ToggleLoupe                  = function() LrDialogs.message('Toggle loupe'..endmsg) end
-      ACTIONS.ToggleOverlay                = function() LrDialogs.message('Toggle local adjustments mask overlay'..endmsg) end
-      ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
+
+    local function notsupported() LrDialogs.showBezel(LOC('$$$/MIDI2LR/Dialog/NeedNewerLR=A newer version of Lightroom is required')) end
+    --functions not available before 10.0
+    if Ut.LrVersion100orMore then
+      ACTIONS.ColorGrade3Way                  = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'3-way')
+      ACTIONS.ColorGradeCopy                  = CU.cg_hsl_copy
+      ACTIONS.ColorGradeGlobal                = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'global')
+      ACTIONS.ColorGradeHighlight             = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'highlight')
+      ACTIONS.ColorGradeMidtone               = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'midtone')
+      ACTIONS.ColorGradePaste                 = CU.cg_hsl_paste
+      ACTIONS.ColorGradeReset3way             = CU.cg_reset_3way
+      ACTIONS.ColorGradeResetAll              = CU.cg_reset_all
+      ACTIONS.ColorGradeResetCurrent          = CU.cg_reset_current
+      ACTIONS.ColorGradeShadow                = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'shadow')
+      ACTIONS.EnableColorGrading              = CU.fToggleTFasync('EnableSplitToning')
+      ACTIONS.RevealPanelColorGrading         = CU.fChangePanel('colorGradingPanel')
+      ACTIONS.ZoomTo100                       = LrApplicationView.zoomToOneToOne
     else
+      ACTIONS.ColorGrade3Way                  = notsupported
+      ACTIONS.ColorGradeCopy                  = notsupported
+      ACTIONS.ColorGradeGlobal                = notsupported
+      ACTIONS.ColorGradeHighlight             = notsupported
+      ACTIONS.ColorGradeMidtone               = notsupported
+      ACTIONS.ColorGradePaste                 = notsupported
+      ACTIONS.ColorGradeReset3way             = notsupported
+      ACTIONS.ColorGradeResetAll              = notsupported
+      ACTIONS.ColorGradeResetCurrent          = notsupported
+      ACTIONS.ColorGradeShadow                = notsupported
+      ACTIONS.EnableColorGrading              = notsupported
+      ACTIONS.RevealPanelColorGrading         = notsupported
+      ACTIONS.ZoomTo100                       = notsupported
+    end
+    --some functions not available before 7.4
+    if Ut.LrVersion74orMore then
       ACTIONS.AddOrRemoveFromTargetColl    = CU.wrapForEachPhoto('addOrRemoveFromTargetCollection')
       ACTIONS.AutoTone                     = function() LrDevelopController.setAutoTone(); LrDevelopController.revealPanel('adjustPanel'); end
       ACTIONS.CycleLoupeViewInfo           = LrApplicationView.cycleLoupeViewInfo
@@ -550,19 +594,58 @@ LrTasks.startAsyncTask(
       ACTIONS.ToggleLoupe                  = LrApplicationView.toggleLoupe
       ACTIONS.ToggleOverlay                = LrDevelopController.toggleOverlay
       ACTIONS.WhiteBalanceAuto             = LrDevelopController.setAutoWhiteBalance
-    end
-
-    if not Ut.LrVersion66orMore then
-      ACTIONS.ResetTransforms              = function() LrDialogs.message('Reset transforms action only available in Lightroom version 6.6 and later.') end
     else
+      ACTIONS.AddOrRemoveFromTargetColl    = notsupported  
+      ACTIONS.AutoTone                     = function() CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); LrDevelopController.revealPanel('adjustPanel'); end
+      ACTIONS.CycleLoupeViewInfo           = notsupported
+      ACTIONS.EditPhotoshop                = notsupported
+      ACTIONS.EnableToneCurve              = notsupported
+      ACTIONS.GraduatedFilter              = CU.fToggleTool('gradient')
+      ACTIONS.GridViewStyle                = notsupported
+      ACTIONS.NextScreenMode               = notsupported
+      ACTIONS.openExportDialog             = notsupported
+      ACTIONS.openExportWithPreviousDialog = notsupported
+      ACTIONS.QuickDevCropAspect1x1        = notsupported
+      ACTIONS.QuickDevCropAspect2x3        = notsupported
+      ACTIONS.QuickDevCropAspect3x4        = notsupported
+      ACTIONS.QuickDevCropAspect4x5        = notsupported
+      ACTIONS.QuickDevCropAspect5x7        = notsupported
+      ACTIONS.QuickDevCropAspect85x11      = notsupported
+      ACTIONS.QuickDevCropAspect9x16       = notsupported
+      ACTIONS.QuickDevCropAspectAsShot     = notsupported
+      ACTIONS.QuickDevCropAspectOriginal   = notsupported
+      ACTIONS.QuickDevWBAuto               = notsupported
+      ACTIONS.QuickDevWBCloudy             = notsupported
+      ACTIONS.QuickDevWBDaylight           = notsupported
+      ACTIONS.QuickDevWBFlash              = notsupported
+      ACTIONS.QuickDevWBFluorescent        = notsupported
+      ACTIONS.QuickDevWBShade              = notsupported
+      ACTIONS.QuickDevWBTungsten           = notsupported
+      ACTIONS.RadialFilter                 = CU.fToggleTool('circularGradient')     
+      ACTIONS.RotateLeft                   = notsupported
+      ACTIONS.RotateRight                  = notsupported
+      ACTIONS.SetTreatmentBW               = notsupported
+      ACTIONS.SetTreatmentColor            = notsupported
+      ACTIONS.ShoFullHidePanels            = notsupported
+      ACTIONS.ShoFullPreview               = notsupported
+      ACTIONS.ShowClipping                 = notsupported
+      ACTIONS.SpotRemoval                  = CU.fToggleTool('dust')
+      ACTIONS.ToggleLoupe                  = notsupported
+      ACTIONS.ToggleOverlay                = notsupported
+      ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
+    end
+    --some functions not available before 6.6
+    if Ut.LrVersion66orMore then
       ACTIONS.ResetTransforms              = CU.wrapFOM(LrDevelopController.resetTransforms)
+    else
+      ACTIONS.ResetTransforms              = notsupported
     end
 
     local SETTINGS = {
       AppInfo            = function(value) Info.AppInfo[#Info.AppInfo+1] = value end,
-      ChangedToDirectory = function(value) Profiles.setDirectory(value) end,
-      ChangedToFile      = function(value) Profiles.setFile(value) end,
-      ChangedToFullPath  = function(value) Profiles.setFullPath(value) end,
+      ChangedToDirectory = Profiles.setDirectory,
+      ChangedToFile      = Profiles.setFile,
+      ChangedToFullPath  = Profiles.setFullPath,
       Pickup             = function(enabled)
         if tonumber(enabled) == 1 then -- state machine
           UpdateParam = UpdateParamPickup
@@ -570,11 +653,12 @@ LrTasks.startAsyncTask(
           UpdateParam = UpdateParamNoPickup
         end
       end,
+      ProfileAmount     = CU.ProfileAmount,
       --[[
       For SetRating, if send back sync value to controller, formula is:
-        (Rating * 2 + 1)/12
+      (Rating * 2 + 1)/12
       or,
-        0 = 0.083333333, 1 = 0.25, 2 = 4.16667, 3 = 0.583333, 4 = 0.75, 5 = 0.916667
+      0 = 0.083333333, 1 = 0.25, 2 = 4.16667, 3 = 0.583333, 4 = 0.75, 5 = 0.916667
       Make sure to send back sync only when controller not in the range of current value, or we will
       be yanking the controller out of people's hands, as "correct value" is 1/6th of fader's travel.
       Will need to add code to AdjustmentChangeObserver and FullRefresh, and remember last fader
@@ -592,7 +676,10 @@ LrTasks.startAsyncTask(
     function UpdateParamPickup() --closure
       local paramlastmoved = {}
       local lastfullrefresh = 0
-      return function(param, midi_value, silent)
+      -- ColorGrading reuses parameters for split toning. This confuses opening the correct panel.
+      -- To fix this, the ColorGrading parameter will be passed as 'true_param', and this will
+      -- Be used for opening the panel. It doesn't affect any other part of UpdateParam
+      return function(param, midi_value, silent, true_param)
         if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
         local value
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
@@ -616,7 +703,7 @@ LrTasks.startAsyncTask(
             end
           end
           if Database.CmdPanel[param] then
-            Profiles.changeProfile(Database.CmdPanel[param])
+            Profiles.changeProfile(Database.CmdPanel[true_param or param])
           end
         else --failed pickup
           if ProgramPreferences.ClientShowBezelOnChange then -- failed pickup. do I display bezel?
@@ -633,7 +720,7 @@ LrTasks.startAsyncTask(
     end
     UpdateParamPickup = UpdateParamPickup() --complete closure
     --called within LrRecursionGuard for setting
-    function UpdateParamNoPickup(param, midi_value, silent)
+    function UpdateParamNoPickup(param, midi_value, silent, true_param)
       if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
       local value
       if LrApplicationView.getCurrentModuleName() ~= 'develop' then
@@ -654,7 +741,7 @@ LrTasks.startAsyncTask(
         end
       end
       if Database.CmdPanel[param] then
-        Profiles.changeProfile(Database.CmdPanel[param])
+        Profiles.changeProfile(Database.CmdPanel[true_param or param])
       end
     end
     UpdateParam = UpdateParamPickup --initial state
@@ -690,9 +777,14 @@ LrTasks.startAsyncTask(
               for param in pairs(Database.Parameters) do
                 local lrvalue = LrDevelopController.getValue(param)
                 if observer[param] ~= lrvalue and type(lrvalue) == 'number' then --testing for MIDI2LR.SERVER.send kills responsiveness
-                  MIDI2LR.SERVER:send(string.format('%s %g\n', param, CU.LRValueToMIDIValue(param)))
+                  local midivalue = CU.LRValueToMIDIValue(param)
+                  MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
                   observer[param] = lrvalue
                   LastParam = param
+                  local gradingversion = SplitToGrade[param] -- reuses parameter for different function
+                  if gradingversion then
+                    MIDI2LR.SERVER:send(string.format('%s %g\n', gradingversion, midivalue))
+                  end
                 end
               end
               lastrefresh = os.clock() + 0.1 --1/10 sec between refreshes
@@ -805,8 +897,19 @@ LrTasks.startAsyncTask(
               local split = message:find(' ',1,true)
               local param = message:sub(1,split-1)
               local value = message:sub(split+1)
+              local true_param = param
+              param = GradeToSplit[param] or param -- translate grade to splitToning
               if Database.Parameters[param] then
-                UpdateParam(param,tonumber(value))
+                UpdateParam(param,tonumber(value),false,true_param)
+                local gradeFocus = GradeFocusTable[true_param] -- scroll to correct view on color grading
+                if gradeFocus then
+                  local currentView = LrDevelopController.getActiveColorGradingView()
+                  if currentView ~= '3-way' or gradeFocus == 'global' then 
+                    if currentView ~= gradeFocus then
+                      LrDevelopController.setActiveColorGradingView(gradeFocus)
+                    end
+                  end
+                end
               elseif(ACTIONS[param]) then -- perform a one time action
                 if(tonumber(value) > BUTTON_ON) then
                   ACTIONS[param]()
@@ -818,15 +921,24 @@ LrTasks.startAsyncTask(
                 if lp then
                   LastParam = lp
                 end
-              elseif(param:find('Crop') == 1) then 
+              elseif(param:sub(1,4) == 'Crop') then 
                 RatioCrop(param,value)
-              elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
+              elseif(param:sub(1,5) == 'Reset') then -- perform a reset other than those explicitly coded in ACTIONS array
                 if(tonumber(value) > BUTTON_ON) then
                   local resetparam = param:sub(6)
                   CU.execFOM(LrDevelopController.resetToDefault,resetparam)
                   if ProgramPreferences.ClientShowBezelOnChange then
                     local lrvalue = LrDevelopController.getValue(resetparam)
-                    CU.showBezel(resetparam,lrvalue)
+                    CU.showBezel(true_param:sub(6),lrvalue)
+                  end
+                  local gradeFocus = GradeFocusTable[true_param] -- scroll to correct view on color grading
+                  if gradeFocus then
+                    local currentView = LrDevelopController.getActiveColorGradingView()
+                    if currentView ~= '3-way' or gradeFocus == 'global' then 
+                      if currentView ~= gradeFocus then
+                        LrDevelopController.setActiveColorGradingView(gradeFocus)
+                      end
+                    end
                   end
                 end
               end

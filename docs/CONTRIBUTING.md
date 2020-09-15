@@ -21,25 +21,26 @@ On Github, we only accept issues that are bug reports or feature requests. Bugs 
 - Submit pull requests against the `develop` branch for easier merging.
 
 ## Coding standards: C++ and Objective-C++
-- Use the formatting rules in `.clang-format`.
+- Project layout follows (generally) [the Pitchfork Layout](https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs).
+- Use the formatting rules in *src/.clang-format*.
 - Comments are C-style: /* comment here */, even for single-line comments. The exceptions are comments placed automatically by programs (e.g., static analyzer skip-error comments).
 - Use braced initialization whenever possible (which means almost always).
 - Naming rules:
-  - UpperCamelCase: Classes, Structs, Enums, Unions, Template parameters, Global functions, Class and struct methods, Typedefs, Properties
-  - all_lower: Parameters, Local variables, Global variables, Class and struct public fields, Union members, Namespaces
-  - all_lower_: Protected and private class and struct fields
-  - kUpperCamelCase: Enum members, Global constants, Other constants
-  - ALL_UPPER: Macros
+  - UpperCamelCase: Classes, structs, enums, unions, template parameters, global functions, class and struct methods, typedefs, properties.
+  - all_lower: Parameters, local variables, global variables, class and struct public fields, union members, namespaces.
+  - all_lower_: Protected and private class and struct fields.
+  - kUpperCamelCase: Enum members, global constants, other constants.
+  - ALL_UPPER: Macros.
 
 ## Coding standards: Lua
-- Emulate the formatting in current files. Avoid adding code to the message loops in Client.lua unless absolutely necessary, as those changes can slow down Lightroom
-- If adding something that is stored in the Preferences, there are four functions needed: StartDialog, EndDialog, Loaded..., UseDefaults.... The Loaded... and UseDefaults... functions must be in *Init.lua*, exported, and used in the LoadedAll and UseDefaultsAll functions in *Init.lua*.
+- Emulate the formatting in current files. Avoid adding code to the message loops in Client.lua unless absolutely necessary, as those changes can slow down Lightroom.
+- If adding something that is stored in the Preferences, there are four functions needed: StartDialog, EndDialog, Loaded..., UseDefaults.... The Loaded... and UseDefaults... functions must be in *src/plugin/Init.lua*, exported, and used in the LoadedAll and UseDefaultsAll functions in *src/plugin/Init.lua*.
 
 ## Typical process for adding new types of actions
 - **If storage in Preferences is needed or if the function requires new extensive code**, write new .lua file with specialized code.
-- **If using Preferences**, add *Loaded* and *Default* methods to *Init.lua* to handle preference file loading. Add menu building code to the .lua file for these actions and integrate into *Options.lua*.
-- Integrate commands into Client.lua and **require** new lua file (if new lua file written).
-- Add actions to *Database.lua* and regenerate the database in Lightroom by deleting the existing MenuTrans.xml and running Lightroom.
+- **If using Preferences**, add *Loaded* and *Default* methods to *src/plugin/Init.lua* to handle preference file loading. Add menu building code to the .lua file for these actions and integrate into *src/plugin/Options.lua*.
+- Integrate commands into *src/plugin/Client.lua* and **require** new lua file (if new lua file written).
+- Add actions to *src/plugin/Database.lua* and regenerate the database in Lightroom by deleting the existing MenuTrans.xml and running Lightroom.
 - Using the *Build files (development use only)* option in the MIDI2LR menu generate .md file for the wiki.
 
 ## Versioning
@@ -47,9 +48,9 @@ On Github, we only accept issues that are bug reports or feature requests. Bugs 
 Version number is in the style *major.minor.maintenance.build* and needs to be updated in four places:
 
 - The Projucer program: project version property 
-- Info.lua: VERSION
-- Midi2lr.Doxyfile: PROJECT_NUMBER
-- Installer/MIDI2LR.xml: \<version\>\</version\>
+- *src/plugin/Info.lua*: VERSION
+- *tools/doxygen/Midi2lr.Doxyfile*: PROJECT_NUMBER
+- *tools/installer/MIDI2LR.xml*: \<version\>\</version\>
 
 ## Notarizing for MacOS
 
@@ -58,6 +59,12 @@ Both the app and the installer need to be notarized for MacOS distribution. Use 
 
 After successful notarization, run (substitute correct MIDI2LR version number)
 `xcrun stapler staple MIDI2LR-W.X.Y.Z-osx-installer.dmg`
+
+## Translations
+
+There are three components to localize: the application, the plugin and the installer. Each unfortunately uses a different format but the program overseeing all localizations (except for the installer's readme file) is POEditor.com. To contribute to the translating effort, either by revising translations or adding new terms, contact mailto:rsjaffe@gmail.com to sign up.
+
+The resulting translation files are located in *data/application*, *data/plugin* and *tools/installer/data/translations*.
 
 ## License
 

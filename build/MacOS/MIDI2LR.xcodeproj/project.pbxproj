@@ -89,6 +89,10 @@
 			isa = PBXBuildFile;
 			fileRef = 0F87A6B21DAA69386E6C0AF9;
 		};
+		F8366A3DBF75B58A5917CE46 = {
+			isa = PBXBuildFile;
+			fileRef = 88C3AB35F33604B9F920F0B4;
+		};
 		A8ABB9C838EF80187E4AF420 = {
 			isa = PBXBuildFile;
 			fileRef = 3623B8285AF22A159F89DE61;
@@ -128,10 +132,6 @@
 		6FC10574044B2681BD318AC4 = {
 			isa = PBXBuildFile;
 			fileRef = 8E60E714C3CCB6A973E6FD1A;
-		};
-		12072FF5B45DC5DEE87F73AB = {
-			isa = PBXBuildFile;
-			fileRef = 37DCDE46011822C5FEFBB926;
 		};
 		5EB062682030763D6568C2FD = {
 			isa = PBXBuildFile;
@@ -292,13 +292,6 @@
 			path = "../../external/JuceLibraryCode/include_juce_audio_basics.mm";
 			sourceTree = "SOURCE_ROOT";
 		};
-		32B82D83449438E552AB8868 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = WinDef.h;
-			path = ../../src/application/WinDef.h;
-			sourceTree = "SOURCE_ROOT";
-		};
 		3520273114C17F954392826D = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
@@ -339,13 +332,6 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = Ocpp.mm;
 			path = ../../src/application/Ocpp.mm;
-			sourceTree = "SOURCE_ROOT";
-		};
-		37DCDE46011822C5FEFBB926 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = NrpnMessage.cpp;
-			path = ../../src/application/NrpnMessage.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		37FEB57B61384D8D0405A5FB = {
@@ -544,6 +530,13 @@
 			path = "../../external/JuceLibraryCode/modules/juce_events";
 			sourceTree = "SOURCE_ROOT";
 		};
+		88C3AB35F33604B9F920F0B4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Devices.cpp;
+			path = ../../src/application/Devices.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		8A1B5F83CBE85334B5E2FC87 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -640,13 +633,6 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = ControlsModel.h;
 			path = ../../src/application/ControlsModel.h;
-			sourceTree = "SOURCE_ROOT";
-		};
-		A91711C9FF7CD1CC1346C122 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = NrpnMessage.h;
-			path = ../../src/application/NrpnMessage.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		AAB944ACE5E8F4F702FDB13D = {
@@ -817,6 +803,13 @@
 			path = ../../src/application/Misc.h;
 			sourceTree = "SOURCE_ROOT";
 		};
+		F6F436C338419398F6F88EDC = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Devices.h;
+			path = ../../src/application/Devices.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		FBBB3FE6616547AC4B5335EF = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -870,6 +863,8 @@
 				A47F71CB146088C81D5B47EB,
 				0F87A6B21DAA69386E6C0AF9,
 				7B2DEB6D17806C7DEAAB2C82,
+				88C3AB35F33604B9F920F0B4,
+				F6F436C338419398F6F88EDC,
 				3623B8285AF22A159F89DE61,
 				4C648AE74835E2D0C711DE2E,
 				0891CE35D1BA4C9E345D7D5D,
@@ -889,8 +884,6 @@
 				C2E5A6879829975AC9563BE9,
 				8E60E714C3CCB6A973E6FD1A,
 				F568EE9983C787D856C111FF,
-				37DCDE46011822C5FEFBB926,
-				A91711C9FF7CD1CC1346C122,
 				CCD3AA56FF49ED87A074EDD9,
 				37170CE85ACF118DF761CEB8,
 				71BA19677BA7D564A2C16275,
@@ -909,7 +902,6 @@
 				3520273114C17F954392826D,
 				6DB41504C16C973B4D6A85FB,
 				127C5D10AA909AEA887CFC5F,
-				32B82D83449438E552AB8868,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -1018,10 +1010,9 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_DEBUG=1",
 					"DEBUG=1",
-					"GSL_THROW_ON_CONTRACT_VIOLATION=1",
 					"JUCER_XCODE_MAC_46BB2872=1",
-					"JUCE_APP_VERSION=3.5.0.3",
-					"JUCE_APP_VERSION_HEX=0x3050003",
+					"JUCE_APP_VERSION=3.6.0.2",
+					"JUCE_APP_VERSION_HEX=0x3060002",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -1098,10 +1089,9 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_NDEBUG=1",
 					"NDEBUG=1",
-					"GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1",
 					"JUCER_XCODE_MAC_46BB2872=1",
-					"JUCE_APP_VERSION=3.5.0.3",
-					"JUCE_APP_VERSION_HEX=0x3050003",
+					"JUCE_APP_VERSION=3.6.0.2",
+					"JUCE_APP_VERSION_HEX=0x3060002",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -1296,6 +1286,7 @@
 				0CF0CE68A3CE9070068C73BA,
 				1E2FED61647457C8A908508B,
 				3F2026E13BECDAE2943AFC1C,
+				F8366A3DBF75B58A5917CE46,
 				A8ABB9C838EF80187E4AF420,
 				1D380AF7EEF8C2F746822108,
 				EC05758F1917299C505729AA,
@@ -1306,7 +1297,6 @@
 				35083D700EFC3AAC1C2FF545,
 				6F337E48685CF073A7A2DC6D,
 				6FC10574044B2681BD318AC4,
-				12072FF5B45DC5DEE87F73AB,
 				5EB062682030763D6568C2FD,
 				FC74B26CD05687C5FFD1A1C8,
 				925E0D4D6DD289DBC2589206,
@@ -1360,7 +1350,7 @@
 		DFD30DF9237597CD5AF365AE = {
 			isa = PBXProject;
 			buildConfigurationList = 1F2C01BA514CBFEA905450CC;
-			attributes = { LastUpgradeCheck = 1100; ORGANIZATIONNAME = ""; TargetAttributes = { FD946FDE29418E71B61DACDC = { DevelopmentTeam = VN44PD5JV9; ProvisioningStyle = Manual; SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 1; }; }; }; }; };
+			attributes = { LastUpgradeCheck = 1100; ORGANIZATIONNAME = "Rory Jaffe"; TargetAttributes = { FD946FDE29418E71B61DACDC = { DevelopmentTeam = VN44PD5JV9; ProvisioningStyle = Manual; SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 1; }; }; }; }; };
 			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 0;
 			mainGroup = 1C312ECBCB4990D995AB81D1;

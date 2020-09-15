@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.5.0.3"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.6.0.2"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               companyWebsite="http://rsjaffe.github.io/MIDI2LR/" companyEmail="rsjaffe@gmail.com"
               displaySplashScreen="0" reportAppUsage="0" splashScreenColour="Dark"
-              cppLanguageStandard="latest" companyCopyright="" compilerFlagSchemes=""
-              headerPath="../../external/&#10;../../external/asio/&#10;" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
+              cppLanguageStandard="latest" companyCopyright="Copyright (C) 2015 by Rory Jaffe."
+              compilerFlagSchemes="" headerPath="../../external/&#10;../../external/asio/&#10;"
+              useAppConfig="0" addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1"
+              companyName="Rory Jaffe">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
       <GROUP id="{0641120F-1C58-9E83-5AD3-3DCDB4C233AB}" name="Generated">
@@ -39,6 +40,8 @@
       <FILE id="RYkZlQ" name="ControlsModel.h" compile="0" resource="0" file="src/application/ControlsModel.h"/>
       <FILE id="XJw3l2" name="DebugInfo.cpp" compile="1" resource="0" file="src/application/DebugInfo.cpp"/>
       <FILE id="ayq2tF" name="DebugInfo.h" compile="0" resource="0" file="src/application/DebugInfo.h"/>
+      <FILE id="nMP2vQ" name="Devices.cpp" compile="1" resource="0" file="src/application/Devices.cpp"/>
+      <FILE id="a6dMvA" name="Devices.h" compile="0" resource="0" file="src/application/Devices.h"/>
       <FILE id="WlKXbD" name="KeyMap.mm" compile="1" resource="0" file="src/application/KeyMap.mm"/>
       <FILE id="rBAqs7" name="LR_IPC_In.cpp" compile="1" resource="0" file="src/application/LR_IPC_In.cpp"/>
       <FILE id="KuUBCX" name="LR_IPC_In.h" compile="0" resource="0" file="src/application/LR_IPC_In.h"/>
@@ -61,8 +64,6 @@
       <FILE id="rID3Fo" name="MidiUtilities.h" compile="0" resource="0" file="src/application/MidiUtilities.h"/>
       <FILE id="gxafEg" name="Misc.cpp" compile="1" resource="0" file="src/application/Misc.cpp"/>
       <FILE id="cl1k7L" name="Misc.h" compile="0" resource="0" file="src/application/Misc.h"/>
-      <FILE id="b8rH7o" name="NrpnMessage.cpp" compile="1" resource="0" file="src/application/NrpnMessage.cpp"/>
-      <FILE id="Vg4s1B" name="NrpnMessage.h" compile="0" resource="0" file="src/application/NrpnMessage.h"/>
       <FILE id="GAROt6" name="Ocpp.h" compile="0" resource="0" file="src/application/Ocpp.h"/>
       <FILE id="NLGqmV" name="Ocpp.mm" compile="1" resource="0" file="src/application/Ocpp.mm"/>
       <FILE id="XmHz5G" name="Profile.cpp" compile="1" resource="0" file="src/application/Profile.cpp"/>
@@ -91,7 +92,6 @@
             file="src/application/VersionChecker.cpp"/>
       <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"
             file="src/application/VersionChecker.h"/>
-      <FILE id="x4x0Pz" name="WinDef.h" compile="0" resource="0" file="src/application/WinDef.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
@@ -101,12 +101,11 @@
                sendAppleEventsPermissionText="MIDI2LR needs to send keystrokes to Lightroom to help automate your tasks.">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxCompatibility="10.12 SDK" osxArchitecture="64BitIntel"
-                       binaryPath="" cppLanguageStandard="c++14" headerPath="" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
-                       codeSigningIdentity="Developer ID Application" recommendedWarnings="LLVM"
-                       isDebug="1" linkTimeOptimisation="0" optimisation="1"/>
+                       binaryPath="" cppLanguageStandard="c++14" headerPath="" codeSigningIdentity="Developer ID Application"
+                       recommendedWarnings="LLVM" isDebug="1" linkTimeOptimisation="0"
+                       optimisation="1"/>
         <CONFIGURATION name="Release" osxCompatibility="10.12 SDK" osxArchitecture="64BitIntel"
-                       binaryPath="" cppLanguageStandard="c++14" headerPath="" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"
-                       codeSigningIdentity="Developer ID Application"/>
+                       binaryPath="" cppLanguageStandard="c++14" headerPath="" codeSigningIdentity="Developer ID Application"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
@@ -121,9 +120,8 @@
     <VS2019 targetFolder="build/Windows" smallIcon="WdgQGt" bigIcon="WdgQGt"
             extraDefs="_WIN32_WINNT=0x0601">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1" isDebug="1"/>
-        <CONFIGURATION name="Release" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"
-                       useRuntimeLibDLL="0"/>
+        <CONFIGURATION name="Debug" isDebug="1"/>
+        <CONFIGURATION name="Release" useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics"/>

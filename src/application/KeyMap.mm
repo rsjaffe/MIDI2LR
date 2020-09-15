@@ -13,6 +13,7 @@
  * see <http://www.gnu.org/licenses/>.
  *
  */
+ #include "Ocpp.h"
 
 #include <cctype>
 #include <chrono>
@@ -20,6 +21,7 @@
 #include <optional>
 #include <shared_mutex>
 #include <thread>
+#include <utility>
 
 #import <Carbon/Carbon.h>
 #import <Cocoa/Cocoa.h>
@@ -29,7 +31,6 @@
 #include <juce_events/juce_events.h>
 
 #include "Misc.h"
-#include "Ocpp.h"
 
 namespace {
    std::optional<std::pair<bool, UniChar>> ConvertKeyCodeToText(

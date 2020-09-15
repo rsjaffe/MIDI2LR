@@ -17,9 +17,7 @@
  */
 #ifndef _WIN32
 #include <string>
-#include <tuple>
 #include <unordered_map>
-#include <utility>
 
 using UniChar = uint16_t;
 using UInt16 = uint16_t;

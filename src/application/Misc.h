@@ -77,7 +77,8 @@ namespace rsj {
    }
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
 #ifdef __cpp_lib_starts_ends_with
-   [[nodiscard]] inline bool EndsWith(std::string_view main_str, std::string_view to_match) noexcept
+   [[nodiscard]] constexpr inline bool EndsWith(
+       std::string_view main_str, std::string_view to_match) noexcept
    {
       return main_str.ends_with(to_match);
    }

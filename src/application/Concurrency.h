@@ -44,12 +44,13 @@ namespace rsj {
          z = (z ^ z >> 30) * 0xbf58476d1ce4e5b9;
          z = (z ^ z >> 27) * 0x94d049bb133111eb;
          return z ^ z >> 31;
+         static_assert(std::is_unsigned_v<decltype(z)>, "Avoid sign extension");
       }
-      constexpr result_type min() const noexcept
+      [[nodiscard]] constexpr result_type min() const noexcept
       {
          return std::numeric_limits<result_type>::min();
       }
-      constexpr result_type max() const noexcept
+      [[nodiscard]] constexpr result_type max() const noexcept
       {
          return std::numeric_limits<result_type>::max();
       }
@@ -65,6 +66,8 @@ namespace rsj {
     * https://developercommunity.visualstudio.com/content/problem/1079261/alignas-not-accepted-when-applied-to-inline-static.html
     */
    alignas(128) inline std::atomic<PRNG::result_type> PRNG::state {[] {
+      static_assert(sizeof(std::random_device::result_type) * 2 == sizeof(result_type)
+                    && sizeof(std::random_device::result_type) == sizeof(uint32_t));
       auto rd {std::random_device {}};
       return static_cast<result_type>(rd()) << 32 | static_cast<result_type>(rd());
    }()};

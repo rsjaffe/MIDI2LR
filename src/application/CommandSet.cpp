@@ -39,10 +39,13 @@ namespace fs = std::filesystem;
 #include <cereal/types/vector.hpp> //ReSharper false alarm
 #include <fmt/format.h>
 
+#include "Translate.h"
+
 CommandSet::CommandSet() : m_impl_(MakeImpl())
 {
    /* manually insert unmapped at first position */
    try {
+      rsj::Translate(m_impl_.language_); // so UnassignedTranslated translated properly
       cmd_by_number_.emplace_back(kUnassigned);
       cmd_label_by_number_.emplace_back(UnassignedTranslated());
       cmd_idx_[kUnassigned] = 0;
