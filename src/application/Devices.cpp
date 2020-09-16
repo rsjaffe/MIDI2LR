@@ -50,11 +50,11 @@ Devices::Devices()
    data_list_ = device_xml_->getChildByName("data");
    if (data_list_) {
       num_rows_ = data_list_->getNumChildElements();
-      forEachXmlChildElement (*data_list_, data_element)
-         device_listing_.emplace(DevInfo {data_element->getStringAttribute("devicename"),
-                                     data_element->getStringAttribute("systemid"),
-                                     data_element->getStringAttribute("inputoutput")},
-             data_element->getIntAttribute("active"));
+      forEachXmlChildElement(*data_list_, data_element)
+          device_listing_.emplace(DevInfo {data_element->getStringAttribute("devicename"),
+                                      data_element->getStringAttribute("systemid"),
+                                      data_element->getStringAttribute("inputoutput")},
+              data_element->getIntAttribute("active"));
    }
    else
       data_list_ = device_xml_->createNewChildElement("data");
@@ -78,10 +78,15 @@ bool Devices::Add(const juce::MidiDeviceInfo& info, juce::String io)
    const auto [it, success] {device_listing_.try_emplace({info, io}, true)};
    if (success) {
       auto new_element {data_list_->createNewChildElement("item")};
-      new_element->setAttribute("devicename", info.name);
-      new_element->setAttribute("systemid", info.identifier);
-      new_element->setAttribute("inputoutput", io);
-      new_element->setAttribute("active", "1");
+      if (new_element) {
+         new_element->setAttribute("devicename", info.name);
+         new_element->setAttribute("systemid", info.identifier);
+         new_element->setAttribute("inputoutput", io);
+         new_element->setAttribute("active", "1");
+      }
+      else {
+         rsj::Log("Failed to create new element in Devices::Add");
+      }
    }
    return success;
 }
