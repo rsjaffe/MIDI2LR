@@ -25,6 +25,6 @@
 "$$$/MIDI2LR/Profiles/Next=Volgend profiel"
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=Waarschuwen wanneer profiel aangepast wordt."
 "$$$/MIDI2LR/Profiles/Previous=Vorig profiel"
+"$$$/MIDI2LR/Shortcuts/SeriesofCommands=Commando volgorde"
 "$$$/MIDI2LR/ShortCuts/ShowHide=weergeven/verbergen"
 "$$$/MIDI2LR/Shortcuts/Key=Toets"
-"$$$/MIDI2LR/Shortcuts/SeriesofCommands=Reeks commando's"

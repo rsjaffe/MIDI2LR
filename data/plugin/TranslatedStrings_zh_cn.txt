@@ -25,6 +25,6 @@
 "$$$/MIDI2LR/Profiles/Next=下一个档案"
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=当设置改变的时候告知"
 "$$$/MIDI2LR/Profiles/Previous=上一个档案"
+"$$$/MIDI2LR/Shortcuts/SeriesofCommands=命令顺序"
 "$$$/MIDI2LR/ShortCuts/ShowHide=显示/隐藏"
 "$$$/MIDI2LR/Shortcuts/Key=密钥"
-"$$$/MIDI2LR/Shortcuts/SeriesofCommands=一系列命令"

@@ -25,5 +25,6 @@
 "$$$/MIDI2LR/Profiles/Next=โปรไฟล์ต่อไป"
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=แจ้งเตือนเมื่อมีการเปลี่ยนแปลงโปรไฟล์"
 "$$$/MIDI2LR/Profiles/Previous=โปรไฟล์ก่อนหน้า"
+"$$$/MIDI2LR/Shortcuts/SeriesofCommands=ลำดับคำสั่ง"
 "$$$/MIDI2LR/ShortCuts/ShowHide=แสดงหรือซ่อน"
 "$$$/MIDI2LR/Shortcuts/Key=แป้น"
