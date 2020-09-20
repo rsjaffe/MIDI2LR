@@ -78,7 +78,6 @@ LrTasks.startAsyncTask(
     local Limits          = require 'Limits'
     local LocalPresets    = require 'LocalPresets'
     local Profiles        = require 'Profiles'
-    local Ut              = require 'Utilities'
     local Virtual         = require 'Virtual'
     local LrApplication       = import 'LrApplication'
     local LrApplicationView   = import 'LrApplicationView'
@@ -99,11 +98,11 @@ LrTasks.startAsyncTask(
     local SEND_PORT        = 58764
 
     local GradeFocusTable = {
-      ColorGradeShadowHue = 'shadow',
-      ColorGradeShadowSat = 'shadow',
+      SplitToningShadowHue = 'shadow',
+      SplitToningShadowSaturation = 'shadow',
       ColorGradeShadowLum = 'shadow',
-      ColorGradeHighlightHue = 'highlight',
-      ColorGradeHighlightSat = 'highlight',
+      SplitToningHighlightHue = 'highlight',
+      SplitToningHighlightSaturation = 'highlight',
       ColorGradeHighlightLum = 'highlight',
       ColorGradeMidtoneHue = 'midtone',
       ColorGradeMidtoneSat = 'midtone',
@@ -111,11 +110,11 @@ LrTasks.startAsyncTask(
       ColorGradeGlobalHue = 'global',
       ColorGradeGlobalSat = 'global',
       ColorGradeGlobalLum = 'global',
-      ResetColorGradeShadowHue = 'shadow',
-      ResetColorGradeShadowSat = 'shadow',
+      ResetSplitToningShadowHue = 'shadow',
+      ResetSplitToningShadowSaturation = 'shadow',
       ResetColorGradeShadowLum = 'shadow',
-      ResetColorGradeHighlightHue = 'highlight',
-      ResetColorGradeHighlightSat = 'highlight',
+      ResetSplitToningHighlightHue = 'highlight',
+      ResetSplitToningHighlightSaturation = 'highlight',
       ResetColorGradeHighlightLum = 'highlight',
       ResetColorGradeMidtoneHue = 'midtone',
       ResetColorGradeMidtoneSat = 'midtone',
@@ -125,83 +124,70 @@ LrTasks.startAsyncTask(
       ResetColorGradeGlobalLum = 'global',
     }
 
-
-    local GradeToSplit = {
-      ColorGradeHighlightHue      = 'SplitToningHighlightHue',
-      ColorGradeHighlightSat      = 'SplitToningHighlightSaturation',
-      ColorGradeShadowHue         = 'SplitToningShadowHue',
-      ColorGradeShadowSat         = 'SplitToningShadowSaturation',
-      ColorGradeBalance           = 'SplitToningBalance',
-      ResetColorGradeHighlightHue = 'ResetSplitToningHighlightHue',
-      ResetColorGradeHighlightSat = 'ResetSplitToningHighlightSaturation',
-      ResetColorGradeShadowHue    = 'ResetSplitToningShadowHue',
-      ResetColorGradeShadowSat    = 'ResetSplitToningShadowSaturation',
-      ResetColorGradeBalance      = 'ResetSplitToningBalance',
-    }
-
-    local SplitToGrade = {
-      SplitToningShadowHue           = 'ColorGradeShadowHue',
-      SplitToningShadowSaturation    = 'ColorGradeShadowSat',
-      SplitToningHighlightHue        = 'ColorGradeHighlightHue',
-      SplitToningHighlightSaturation = 'ColorGradeHighlightSat', 
-      SplitToningBalance             = 'ColorGradeBalance',
-    }
-
     local ACTIONS = {
-      AdjustmentBrush                        = CU.fToggleTool('localized'),
-      AppInfoClear                           = function() Info.AppInfo = {}; end,
-      AppInfoDone                            = DebugInfo.write,
-      AutoLateralCA                          = CU.fToggle01('AutoLateralCA'),
-      BrushFeatherLarger                     = CU.fSimulateKeys(KS.KeyCode.FeatherIncreaseKey,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
-      BrushFeatherSmaller                    = CU.fSimulateKeys(KS.KeyCode.FeatherDecreaseKey,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
-      BrushSizeLarger                        = CU.fSimulateKeys(KS.KeyCode.BrushIncreaseKey,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
-      BrushSizeSmaller                       = CU.fSimulateKeys(KS.KeyCode.BrushDecreaseKey,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
-      ConvertToGrayscale                     = CU.fToggleTFasync('ConvertToGrayscale'),
-      CloseApp                               = function() MIDI2LR.SERVER:send('TerminateApplication 1\n') end,
-      ColorLabelNone                         = function() LrSelection.setColorLabel("none") end,
-      CropConstrainToWarp                    = CU.fToggle01('CropConstrainToWarp'),
-      CropOverlay                            = CU.fToggleTool('crop'),
-      CycleMaskOverlayColor                  = CU.fSimulateKeys(KS.KeyCode.CycleAdjustmentBrushOverlayKey,true),
-      DecreaseRating                         = LrSelection.decreaseRating,
-      DecrementLastDevelopParameter          = function() CU.execFOM(LrDevelopController.decrement,LastParam) end,
-      EnableCalibration                      = CU.fToggleTFasync('EnableCalibration'),
+      AddOrRemoveFromTargetColl       = CU.wrapForEachPhoto('addOrRemoveFromTargetCollection'),
+      AdjustmentBrush                 = CU.fToggleTool('localized'),
+      AppInfoClear                    = function() Info.AppInfo = {}; end,
+      AppInfoDone                     = DebugInfo.write,
+      AutoLateralCA                   = CU.fToggle01('AutoLateralCA'),
+      AutoTone                        = function() LrDevelopController.setAutoTone(); LrDevelopController.revealPanel('adjustPanel'); end,
+      BrushFeatherLarger              = CU.fSimulateKeys(KS.KeyCode.FeatherIncreaseKey,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
+      BrushFeatherSmaller             = CU.fSimulateKeys(KS.KeyCode.FeatherDecreaseKey,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
+      BrushSizeLarger                 = CU.fSimulateKeys(KS.KeyCode.BrushIncreaseKey,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
+      BrushSizeSmaller                = CU.fSimulateKeys(KS.KeyCode.BrushDecreaseKey,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
+      CloseApp                        = function() MIDI2LR.SERVER:send('TerminateApplication 1\n') end,
+      ColorGrade3Way                  = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'3-way'),
+      ColorGradeCopy                  = CU.cg_hsl_copy,
+      ColorGradeGlobal                = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'global'),
+      ColorGradeHighlight             = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'highlight'),
+      ColorGradeMidtone               = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'midtone'),
+      ColorGradePaste                 = CU.cg_hsl_paste,
+      ColorGradeReset3way             = CU.cg_reset_3way,
+      ColorGradeResetAll              = CU.cg_reset_all,
+      ColorGradeResetCurrent          = CU.cg_reset_current,
+      ColorGradeShadow                = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'shadow'),
+      ColorLabelNone                  = function() LrSelection.setColorLabel("none") end,
+      ConvertToGrayscale              = CU.fToggleTFasync('ConvertToGrayscale'),
+      CropConstrainToWarp             = CU.fToggle01('CropConstrainToWarp'),
+      CropOverlay                     = CU.fToggleTool('crop'),
+      CycleLoupeViewInfo              = LrApplicationView.cycleLoupeViewInfo,
+      CycleMaskOverlayColor           = CU.fSimulateKeys(KS.KeyCode.CycleAdjustmentBrushOverlayKey,true),
+      DecreaseRating                  = LrSelection.decreaseRating,
+      DecrementLastDevelopParameter   = function() CU.execFOM(LrDevelopController.decrement,LastParam) end,
+      EditPhotoshop                   = LrDevelopController.editInPhotoshop,
+      EnableCalibration               = CU.fToggleTFasync('EnableCalibration'),
       EnableCircularGradientBasedCorrections = CU.fToggleTFasync('EnableCircularGradientBasedCorrections'),
-      EnableColorAdjustments                 = CU.fToggleTFasync('EnableColorAdjustments'),
-      EnableDetail                           = CU.fToggleTFasync('EnableDetail'),
-      EnableEffects                          = CU.fToggleTFasync('EnableEffects'),
-      EnableGradientBasedCorrections         = CU.fToggleTFasync('EnableGradientBasedCorrections'),
-      EnableGrayscaleMix                     = CU.fToggleTFasync('EnableGrayscaleMix'),
-      EnableLensCorrections                  = CU.fToggleTFasync('EnableLensCorrections'),
-      EnablePaintBasedCorrections            = CU.fToggleTFasync('EnablePaintBasedCorrections'),
-      EnableRedEye                           = CU.fToggleTFasync('EnableRedEye'),
-      EnableRetouch                          = CU.fToggleTFasync('EnableRetouch'),
-      EnableSplitToning                      = CU.fToggleTFasync('EnableSplitToning'),
-      EnableTransform                        = CU.fToggleTFasync('EnableTransform'),
-      Filter_1                               = CU.fApplyFilter(1),
-      Filter_2                               = CU.fApplyFilter(2),
-      Filter_3                               = CU.fApplyFilter(3),
-      Filter_4                               = CU.fApplyFilter(4),
-      Filter_5                               = CU.fApplyFilter(5),
-      Filter_6                               = CU.fApplyFilter(6),
-      Filter_7                               = CU.fApplyFilter(7),
-      Filter_8                               = CU.fApplyFilter(8),
-      Filter_9                               = CU.fApplyFilter(9),
-      Filter_10                              = CU.fApplyFilter(10),
-      Filter_11                              = CU.fApplyFilter(11),
-      Filter_12                              = CU.fApplyFilter(12),
-      FullRefresh                            = CU.FullRefresh,
-      GetPluginInfo                          = DebugInfo.sendLog, -- not in db: internal use only
-      IncreaseRating                         = LrSelection.increaseRating,
-      IncrementLastDevelopParameter          = function() CU.execFOM(LrDevelopController.increment,LastParam) end,
+      EnableColorAdjustments          = CU.fToggleTFasync('EnableColorAdjustments'),
+      EnableColorGrading              = CU.fToggleTFasync('EnableSplitToning'),
+      EnableDetail                    = CU.fToggleTFasync('EnableDetail'),
+      EnableEffects                   = CU.fToggleTFasync('EnableEffects'),
+      EnableGradientBasedCorrections  = CU.fToggleTFasync('EnableGradientBasedCorrections'),
+      EnableGrayscaleMix              = CU.fToggleTFasync('EnableGrayscaleMix'),
+      EnableLensCorrections           = CU.fToggleTFasync('EnableLensCorrections'),
+      EnablePaintBasedCorrections     = CU.fToggleTFasync('EnablePaintBasedCorrections'),
+      EnableRedEye                    = CU.fToggleTFasync('EnableRedEye'),
+      EnableRetouch                   = CU.fToggleTFasync('EnableRetouch'),
+      EnableToneCurve                 = CU.fToggleTFasync('EnableToneCurve'),
+      EnableTransform                 = CU.fToggleTFasync('EnableTransform'),
+      Filter_1                        = CU.fApplyFilter(1),
+      Filter_10                       = CU.fApplyFilter(10),
+      Filter_11                       = CU.fApplyFilter(11),
+      Filter_12                       = CU.fApplyFilter(12),
+      Filter_2                        = CU.fApplyFilter(2),
+      Filter_3                        = CU.fApplyFilter(3),
+      Filter_4                        = CU.fApplyFilter(4),
+      Filter_5                        = CU.fApplyFilter(5),
+      Filter_6                        = CU.fApplyFilter(6),
+      Filter_7                        = CU.fApplyFilter(7),
+      Filter_8                        = CU.fApplyFilter(8),
+      Filter_9                        = CU.fApplyFilter(9),
+      FullRefresh                     = CU.FullRefresh,
+      GetPluginInfo                   = DebugInfo.sendLog, -- not in db: internal use only
+      GraduatedFilter                 = CU.fToggleTool1('gradient'),
+      GridViewStyle                   = LrApplicationView.gridViewStyle,
+      IncreaseRating                  = LrSelection.increaseRating,
+      IncrementLastDevelopParameter   = function() CU.execFOM(LrDevelopController.increment,LastParam) end,
       Key1  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(1) .. '\n') end,
-      Key2  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(2) .. '\n') end,
-      Key3  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(3) .. '\n') end,
-      Key4  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(4) .. '\n') end,
-      Key5  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(5) .. '\n') end,
-      Key6  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(6) .. '\n') end,
-      Key7  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(7) .. '\n') end,
-      Key8  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(8) .. '\n') end,
-      Key9  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(9) .. '\n') end,
       Key10 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(10) .. '\n') end,
       Key11 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(11) .. '\n') end,
       Key12 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(12) .. '\n') end,
@@ -212,6 +198,7 @@ LrTasks.startAsyncTask(
       Key17 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(17) .. '\n') end,
       Key18 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(18) .. '\n') end,
       Key19 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(19) .. '\n') end,
+      Key2  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(2) .. '\n') end,
       Key20 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(20) .. '\n') end,
       Key21 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(21) .. '\n') end,
       Key22 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(22) .. '\n') end,
@@ -222,6 +209,7 @@ LrTasks.startAsyncTask(
       Key27 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(27) .. '\n') end,
       Key28 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(28) .. '\n') end,
       Key29 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(29) .. '\n') end,
+      Key3  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(3) .. '\n') end,
       Key30 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(30) .. '\n') end,
       Key31 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(31) .. '\n') end,
       Key32 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(32) .. '\n') end,
@@ -232,8 +220,21 @@ LrTasks.startAsyncTask(
       Key37 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(37) .. '\n') end,
       Key38 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(38) .. '\n') end,
       Key39 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(39) .. '\n') end,
+      Key4  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(4) .. '\n') end,
       Key40 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(40) .. '\n') end,
+      Key5  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(5) .. '\n') end,
+      Key6  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(6) .. '\n') end,
+      Key7  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(7) .. '\n') end,
+      Key8  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(8) .. '\n') end,
+      Key9  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(9) .. '\n') end,
       Keyword1  = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[1]) end,
+      Keyword10 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[10]) end,
+      Keyword11 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[11]) end,
+      Keyword12 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[12]) end,
+      Keyword13 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[13]) end,
+      Keyword14 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[14]) end,
+      Keyword15 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[15]) end,
+      Keyword16 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[16]) end,
       Keyword2  = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[2]) end,
       Keyword3  = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[3]) end,
       Keyword4  = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[4]) end,
@@ -242,15 +243,17 @@ LrTasks.startAsyncTask(
       Keyword7  = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[7]) end,
       Keyword8  = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[8]) end,
       Keyword9  = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[9]) end,
-      Keyword10 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[10]) end,
-      Keyword11 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[11]) end,
-      Keyword12 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[12]) end,
-      Keyword13 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[13]) end,
-      Keyword14 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[14]) end,
-      Keyword15 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[15]) end,
-      Keyword16 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[16]) end,
+      LRCopy                          = CU.fSimulateKeys(KS.KeyCode.CopyKey,true),
+      LRPaste                         = CU.fSimulateKeys(KS.KeyCode.PasteKey,true),
       LensProfileEnable               = CU.fToggle01Async('LensProfileEnable'),
       LocalPreset1  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[1]) end,
+      LocalPreset10 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[10]) end,
+      LocalPreset11 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[11]) end,
+      LocalPreset12 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[12]) end,
+      LocalPreset13 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[13]) end,
+      LocalPreset14 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[14]) end,
+      LocalPreset15 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[15]) end,
+      LocalPreset16 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[16]) end,
       LocalPreset2  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[2]) end,
       LocalPreset3  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[3]) end,
       LocalPreset4  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[4]) end,
@@ -259,37 +262,25 @@ LrTasks.startAsyncTask(
       LocalPreset7  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[7]) end,
       LocalPreset8  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[8]) end,
       LocalPreset9  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[9]) end,
-      LocalPreset10 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[10]) end,
-      LocalPreset11 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[11]) end,
-      LocalPreset12 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[12]) end,
-      LocalPreset13 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[13]) end,
-      LocalPreset14 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[14]) end,
-      LocalPreset15 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[15]) end,
-      LocalPreset16 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[16]) end,
       Loupe                           = CU.fToggleTool('loupe'),
-      LRCopy                          = CU.fSimulateKeys(KS.KeyCode.CopyKey,true),
-      LRPaste                         = CU.fSimulateKeys(KS.KeyCode.PasteKey,true),
       Next                            = LrSelection.nextPhoto,
+      NextScreenMode                  = LrApplicationView.nextScreenMode,
+      PV1                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 1'),
+      PV2                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 2'),
+      PV3                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 3'),
+      PV4                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 4'),
+      PV5                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 5'),      
+      PVLatest                        = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version ' .. Database.LatestPVSupported),
       Pause                           = function() LrTasks.sleep( 0.02 ) end,
       Pick                            = LrSelection.flagAsPick,
       PointCurveLinear                = CU.UpdatePointCurve({ToneCurveName="Linear",ToneCurveName2012="Linear",ToneCurvePV2012={0,0,255,255,}}),
-      PointCurveMediumContrast        = CU.UpdatePointCurve({ToneCurveName="Medium Contrast",ToneCurveName2012="Medium Contrast",
-          ToneCurvePV2012={0,0,32,22,64,56,128,128,192,196,255,255,}}),
-      PointCurveStrongContrast        = CU.UpdatePointCurve({ToneCurveName="Strong Contrast",ToneCurveName2012="Strong Contrast",
-          ToneCurvePV2012={0,0,32,16,64,50,128,128,192,202,255,255,}}),
+      PointCurveMediumContrast        = CU.UpdatePointCurve({ToneCurveName="Medium Contrast",ToneCurveName2012="Medium Contrast",ToneCurvePV2012={0,0,32,22,64,56,128,128,192,196,255,255,}}),
+      PointCurveStrongContrast        = CU.UpdatePointCurve({ToneCurveName="Strong Contrast",ToneCurveName2012="Strong Contrast",ToneCurvePV2012={0,0,32,16,64,50,128,128,192,202,255,255,}}),
       PostCropVignetteStyle           = CU.fToggle1ModN('PostCropVignetteStyle', 3),
       PostCropVignetteStyleColorPriority     = CU.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',2),
       PostCropVignetteStyleHighlightPriority = CU.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',1),
       PostCropVignetteStylePaintOverlay      = CU.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',3),
       Preset_1                        = CU.fApplyPreset(1),
-      Preset_2                        = CU.fApplyPreset(2),
-      Preset_3                        = CU.fApplyPreset(3),
-      Preset_4                        = CU.fApplyPreset(4),
-      Preset_5                        = CU.fApplyPreset(5),
-      Preset_6                        = CU.fApplyPreset(6),
-      Preset_7                        = CU.fApplyPreset(7),
-      Preset_8                        = CU.fApplyPreset(8),
-      Preset_9                        = CU.fApplyPreset(9),
       Preset_10                       = CU.fApplyPreset(10),
       Preset_11                       = CU.fApplyPreset(11),
       Preset_12                       = CU.fApplyPreset(12),
@@ -300,6 +291,7 @@ LrTasks.startAsyncTask(
       Preset_17                       = CU.fApplyPreset(17),
       Preset_18                       = CU.fApplyPreset(18),
       Preset_19                       = CU.fApplyPreset(19),
+      Preset_2                        = CU.fApplyPreset(2),
       Preset_20                       = CU.fApplyPreset(20),
       Preset_21                       = CU.fApplyPreset(21),
       Preset_22                       = CU.fApplyPreset(22),
@@ -310,6 +302,7 @@ LrTasks.startAsyncTask(
       Preset_27                       = CU.fApplyPreset(27),
       Preset_28                       = CU.fApplyPreset(28),
       Preset_29                       = CU.fApplyPreset(29),
+      Preset_3                        = CU.fApplyPreset(3),
       Preset_30                       = CU.fApplyPreset(30),
       Preset_31                       = CU.fApplyPreset(31),
       Preset_32                       = CU.fApplyPreset(32),
@@ -320,6 +313,7 @@ LrTasks.startAsyncTask(
       Preset_37                       = CU.fApplyPreset(37),
       Preset_38                       = CU.fApplyPreset(38),
       Preset_39                       = CU.fApplyPreset(39),
+      Preset_4                        = CU.fApplyPreset(4),
       Preset_40                       = CU.fApplyPreset(40),
       Preset_41                       = CU.fApplyPreset(41),
       Preset_42                       = CU.fApplyPreset(42),
@@ -330,6 +324,7 @@ LrTasks.startAsyncTask(
       Preset_47                       = CU.fApplyPreset(47),
       Preset_48                       = CU.fApplyPreset(48),
       Preset_49                       = CU.fApplyPreset(49),
+      Preset_5                        = CU.fApplyPreset(5),
       Preset_50                       = CU.fApplyPreset(50),
       Preset_51                       = CU.fApplyPreset(51),
       Preset_52                       = CU.fApplyPreset(52),
@@ -340,6 +335,7 @@ LrTasks.startAsyncTask(
       Preset_57                       = CU.fApplyPreset(57),
       Preset_58                       = CU.fApplyPreset(58),
       Preset_59                       = CU.fApplyPreset(59),
+      Preset_6                        = CU.fApplyPreset(6),
       Preset_60                       = CU.fApplyPreset(60),
       Preset_61                       = CU.fApplyPreset(61),
       Preset_62                       = CU.fApplyPreset(62),
@@ -350,6 +346,7 @@ LrTasks.startAsyncTask(
       Preset_67                       = CU.fApplyPreset(67),
       Preset_68                       = CU.fApplyPreset(68),
       Preset_69                       = CU.fApplyPreset(69),
+      Preset_7                        = CU.fApplyPreset(7),
       Preset_70                       = CU.fApplyPreset(70),
       Preset_71                       = CU.fApplyPreset(71),
       Preset_72                       = CU.fApplyPreset(72),
@@ -360,7 +357,9 @@ LrTasks.startAsyncTask(
       Preset_77                       = CU.fApplyPreset(77),
       Preset_78                       = CU.fApplyPreset(78),
       Preset_79                       = CU.fApplyPreset(79),
+      Preset_8                        = CU.fApplyPreset(8),
       Preset_80                       = CU.fApplyPreset(80),
+      Preset_9                        = CU.fApplyPreset(9),
       Prev                            = LrSelection.previousPhoto,
       Profile_Adobe_Standard          = CU.UpdateCameraProfile('Adobe Standard'),
       Profile_Camera_Bold             = CU.UpdateCameraProfile('Camera Bold'),
@@ -370,10 +369,10 @@ LrTasks.startAsyncTask(
       Profile_Camera_Deep             = CU.UpdateCameraProfile('Camera Deep'),
       Profile_Camera_Faithful         = CU.UpdateCameraProfile('Camera Faithful'),
       Profile_Camera_Flat             = CU.UpdateCameraProfile('Camera Flat'),
+      Profile_Camera_LMonochrome      = CU.UpdateCameraProfile('Camera LMonochrome'),
       Profile_Camera_Landscape        = CU.UpdateCameraProfile('Camera Landscape'),
       Profile_Camera_Light            = CU.UpdateCameraProfile('Camera Light'),
       Profile_Camera_Lighter_Skin_Tone= CU.UpdateCameraProfile('Camera Lighter Skin Tone'),
-      Profile_Camera_LMonochrome      = CU.UpdateCameraProfile('Camera LMonochrome'),
       Profile_Camera_Monochrome       = CU.UpdateCameraProfile('Camera Monochrome'),
       Profile_Camera_Monotone         = CU.UpdateCameraProfile('Camera Monotone'),
       Profile_Camera_Muted            = CU.UpdateCameraProfile('Camera Muted'),
@@ -388,38 +387,23 @@ LrTasks.startAsyncTask(
       Profile_Camera_Vivid_Blue       = CU.UpdateCameraProfile('Camera Vivid Blue'),
       Profile_Camera_Vivid_Green      = CU.UpdateCameraProfile('Camera Vivid Green'),
       Profile_Camera_Vivid_Red        = CU.UpdateCameraProfile('Camera Vivid Red'),
-      profile1                        = function() Profiles.changeProfile('profile1', true) end,
-      profile2                        = function() Profiles.changeProfile('profile2', true) end,
-      profile3                        = function() Profiles.changeProfile('profile3', true) end,
-      profile4                        = function() Profiles.changeProfile('profile4', true) end,
-      profile5                        = function() Profiles.changeProfile('profile5', true) end,
-      profile6                        = function() Profiles.changeProfile('profile6', true) end,
-      profile7                        = function() Profiles.changeProfile('profile7', true) end,
-      profile8                        = function() Profiles.changeProfile('profile8', true) end,
-      profile9                        = function() Profiles.changeProfile('profile9', true) end,
-      profile10                       = function() Profiles.changeProfile('profile10', true) end,
-      profile11                       = function() Profiles.changeProfile('profile11', true) end,
-      profile12                       = function() Profiles.changeProfile('profile12', true) end,
-      profile13                       = function() Profiles.changeProfile('profile13', true) end,
-      profile14                       = function() Profiles.changeProfile('profile14', true) end,
-      profile15                       = function() Profiles.changeProfile('profile15', true) end,
-      profile16                       = function() Profiles.changeProfile('profile16', true) end,
-      profile17                       = function() Profiles.changeProfile('profile17', true) end,
-      profile18                       = function() Profiles.changeProfile('profile18', true) end,
-      profile19                       = function() Profiles.changeProfile('profile19', true) end, 
-      profile20                       = function() Profiles.changeProfile('profile20', true) end, 
-      profile21                       = function() Profiles.changeProfile('profile21', true) end, 
-      profile22                       = function() Profiles.changeProfile('profile22', true) end, 
-      profile23                       = function() Profiles.changeProfile('profile23', true) end, 
-      profile24                       = function() Profiles.changeProfile('profile24', true) end, 
-      profile25                       = function() Profiles.changeProfile('profile25', true) end, 
-      profile26                       = function() Profiles.changeProfile('profile26', true) end, 
-      PV1                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 1'),
-      PV2                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 2'),
-      PV3                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 3'),
-      PV4                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 4'),
-      PV5                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 5'),      
-      PVLatest                        = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version ' .. Database.LatestPVSupported),
+      QuickDevCropAspect1x1           = function() CU.QuickCropAspect({w=1,h=1}) end,
+      QuickDevCropAspect2x3           = function() CU.QuickCropAspect({w=2,h=3}) end,
+      QuickDevCropAspect3x4           = function() CU.QuickCropAspect({w=3,h=4}) end,
+      QuickDevCropAspect4x5           = function() CU.QuickCropAspect({w=4,h=5}) end,
+      QuickDevCropAspect5x7           = function() CU.QuickCropAspect({w=5,h=7}) end,
+      QuickDevCropAspect85x11         = function() CU.QuickCropAspect({w=8.5,h=11}) end,
+      QuickDevCropAspect9x16          = function() CU.QuickCropAspect({w=9,h=16}) end,
+      QuickDevCropAspectAsShot        = function() CU.QuickCropAspect('asshot') end,
+      QuickDevCropAspectOriginal      = function() CU.QuickCropAspect('original') end,
+      QuickDevWBAuto                  = CU.wrapForEachPhoto('QuickDevWBAuto'),
+      QuickDevWBCloudy                = CU.wrapForEachPhoto('QuickDevWBCloudy'),
+      QuickDevWBDaylight              = CU.wrapForEachPhoto('QuickDevWBDaylight'),
+      QuickDevWBFlash                 = CU.wrapForEachPhoto('QuickDevWBFlash'),
+      QuickDevWBFluorescent           = CU.wrapForEachPhoto('QuickDevWBFluorescent'),
+      QuickDevWBShade                 = CU.wrapForEachPhoto('QuickDevWBShade'),
+      QuickDevWBTungsten              = CU.wrapForEachPhoto('QuickDevWBTungsten'),
+      RadialFilter                    = CU.fToggleTool1('circularGradient'),
       RedEye                          = CU.fToggleTool('redeye'),
       Redo                            = LrUndo.redo,
       Reject                          = LrSelection.flagAsReject,
@@ -432,8 +416,10 @@ LrTasks.startAsyncTask(
       ResetLast                       = function() CU.execFOM(LrDevelopController.resetToDefault,LastParam) end,
       ResetRedeye                     = CU.wrapFOM(LrDevelopController.resetRedeye),
       ResetSpotRem                    = CU.wrapFOM(LrDevelopController.resetSpotRemoval),
+      ResetTransforms                 = CU.wrapFOM(LrDevelopController.resetTransforms),
       RevealPanelAdjust               = CU.fChangePanel('adjustPanel'),
       RevealPanelCalibrate            = CU.fChangePanel('calibratePanel'),
+      RevealPanelColorGrading         = CU.fChangePanel('colorGradingPanel'),
       RevealPanelDetail               = CU.fChangePanel('detailPanel'),
       RevealPanelEffects              = CU.fChangePanel('effectsPanel'),
       RevealPanelLens                 = CU.fChangePanel('lensCorrectionsPanel'),
@@ -441,6 +427,8 @@ LrTasks.startAsyncTask(
       RevealPanelSplit                = CU.fChangePanel('splitToningPanel'),
       RevealPanelTone                 = CU.fChangePanel('tonePanel'),
       RevealPanelTransform            = CU.fChangePanel('transformPanel'),
+      RotateLeft                      = CU.wrapForEachPhoto('rotateLeft'),
+      RotateRight                     = CU.wrapForEachPhoto('rotateRight'),
       Select1Left                     = function() LrSelection.extendSelection('left',1) end,
       Select1Right                    = function() LrSelection.extendSelection('right',1) end,
       SetRating0                      = function() LrSelection.setRating(0) end,
@@ -449,6 +437,10 @@ LrTasks.startAsyncTask(
       SetRating3                      = function() LrSelection.setRating(3) end,
       SetRating4                      = function() LrSelection.setRating(4) end,
       SetRating5                      = function() LrSelection.setRating(5) end,
+      SetTreatmentBW                  = CU.wrapForEachPhoto('SetTreatmentBW'),
+      SetTreatmentColor               = CU.wrapForEachPhoto('SetTreatmentColor'),
+      ShoFullHidePanels               = LrApplicationView.fullscreenHidePanels,
+      ShoFullPreview                  = LrApplicationView.fullscreenPreview,
       ShoScndVwcompare                = function() LrApplicationView.showSecondaryView('compare') end,
       ShoScndVwgrid                   = function() LrApplicationView.showSecondaryView('grid') end,
       ShoScndVwlive_loupe             = function() LrApplicationView.showSecondaryView('live_loupe') end,
@@ -467,9 +459,11 @@ LrTasks.startAsyncTask(
       ShoVwloupe                      = function() LrApplicationView.showView('loupe') end,
       ShoVwpeople                     = function() LrApplicationView.showView('people') end,
       ShoVwsurvey                     = function() LrApplicationView.showView('survey') end,
+      ShowClipping                    = CU.wrapFOM(LrDevelopController.showClipping),
       ShowMaskOverlay                 = CU.fSimulateKeys(KS.KeyCode.ShowAdjustmentBrushOverlayKey,true),
       SliderDecrease                  = CU.fSimulateKeys(KS.KeyCode.SliderDecreaseKey,true),
       SliderIncrease                  = CU.fSimulateKeys(KS.KeyCode.SliderIncreaseKey,true),
+      SpotRemoval                     = CU.fToggleTool1('dust'),
       SwToMbook                       = CU.fChangeModule('book'),
       SwToMdevelop                    = CU.fChangeModule('develop'),
       SwToMlibrary                    = CU.fChangeModule('library'),
@@ -479,6 +473,8 @@ LrTasks.startAsyncTask(
       SwToMweb                        = CU.fChangeModule('web'),
       ToggleBlue                      = LrSelection.toggleBlueLabel,
       ToggleGreen                     = LrSelection.toggleGreenLabel,
+      ToggleLoupe                     = LrApplicationView.toggleLoupe,
+      ToggleOverlay                   = LrDevelopController.toggleOverlay,
       TogglePurple                    = LrSelection.togglePurpleLabel,
       ToggleRed                       = LrSelection.toggleRedLabel,
       ToggleScreenTwo                 = LrApplicationView.toggleSecondaryDisplay,
@@ -493,6 +489,7 @@ LrTasks.startAsyncTask(
       UprightVertical                 = CU.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
       VirtualCopy                     = function() LrApplication.activeCatalog():createVirtualCopies() end,
       WhiteBalanceAs_Shot             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','As Shot'),
+      WhiteBalanceAuto                = LrDevelopController.setAutoWhiteBalance,
       WhiteBalanceCloudy              = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Cloudy'),
       WhiteBalanceDaylight            = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Daylight'),
       WhiteBalanceFlash               = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Flash'),
@@ -503,6 +500,35 @@ LrTasks.startAsyncTask(
       ZoomInSmallStep                 = LrApplicationView.zoomInSome,
       ZoomOutLargeStep                = LrApplicationView.zoomOut,
       ZoomOutSmallStep                = LrApplicationView.zoomOutSome,
+      ZoomTo100                       = LrApplicationView.zoomToOneToOne,
+      openExportDialog                = CU.wrapForEachPhoto('openExportDialog'),
+      openExportWithPreviousDialog    = CU.wrapForEachPhoto('openExportWithPreviousDialog')  ,
+      profile1                        = function() Profiles.changeProfile('profile1', true) end,
+      profile10                       = function() Profiles.changeProfile('profile10', true) end,
+      profile11                       = function() Profiles.changeProfile('profile11', true) end,
+      profile12                       = function() Profiles.changeProfile('profile12', true) end,
+      profile13                       = function() Profiles.changeProfile('profile13', true) end,
+      profile14                       = function() Profiles.changeProfile('profile14', true) end,
+      profile15                       = function() Profiles.changeProfile('profile15', true) end,
+      profile16                       = function() Profiles.changeProfile('profile16', true) end,
+      profile17                       = function() Profiles.changeProfile('profile17', true) end,
+      profile18                       = function() Profiles.changeProfile('profile18', true) end,
+      profile19                       = function() Profiles.changeProfile('profile19', true) end, 
+      profile2                        = function() Profiles.changeProfile('profile2', true) end,
+      profile20                       = function() Profiles.changeProfile('profile20', true) end, 
+      profile21                       = function() Profiles.changeProfile('profile21', true) end, 
+      profile22                       = function() Profiles.changeProfile('profile22', true) end, 
+      profile23                       = function() Profiles.changeProfile('profile23', true) end, 
+      profile24                       = function() Profiles.changeProfile('profile24', true) end, 
+      profile25                       = function() Profiles.changeProfile('profile25', true) end, 
+      profile26                       = function() Profiles.changeProfile('profile26', true) end, 
+      profile3                        = function() Profiles.changeProfile('profile3', true) end,
+      profile4                        = function() Profiles.changeProfile('profile4', true) end,
+      profile5                        = function() Profiles.changeProfile('profile5', true) end,
+      profile6                        = function() Profiles.changeProfile('profile6', true) end,
+      profile7                        = function() Profiles.changeProfile('profile7', true) end,
+      profile8                        = function() Profiles.changeProfile('profile8', true) end,
+      profile9                        = function() Profiles.changeProfile('profile9', true) end,
     }
 --need to refer to table after it is initially constructed, so can't put in initial construction statement
     ACTIONS.ActionSeries1 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[1],ACTIONS) end
@@ -522,124 +548,7 @@ LrTasks.startAsyncTask(
     ACTIONS.ActionSeries15 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[15],ACTIONS) end  
     ACTIONS.ActionSeries16 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[16],ACTIONS) end  
 
-
     local function notsupported() LrDialogs.showBezel(LOC('$$$/MIDI2LR/Dialog/NeedNewerLR=A newer version of Lightroom is required')) end
-    --functions not available before 10.0
-    if Ut.LrVersion100orMore then
-      ACTIONS.ColorGrade3Way                  = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'3-way')
-      ACTIONS.ColorGradeCopy                  = CU.cg_hsl_copy
-      ACTIONS.ColorGradeGlobal                = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'global')
-      ACTIONS.ColorGradeHighlight             = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'highlight')
-      ACTIONS.ColorGradeMidtone               = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'midtone')
-      ACTIONS.ColorGradePaste                 = CU.cg_hsl_paste
-      ACTIONS.ColorGradeReset3way             = CU.cg_reset_3way
-      ACTIONS.ColorGradeResetAll              = CU.cg_reset_all
-      ACTIONS.ColorGradeResetCurrent          = CU.cg_reset_current
-      ACTIONS.ColorGradeShadow                = CU.wrapFOM(LrDevelopController.setActiveColorGradingView,'shadow')
-      ACTIONS.EnableColorGrading              = CU.fToggleTFasync('EnableSplitToning')
-      ACTIONS.RevealPanelColorGrading         = CU.fChangePanel('colorGradingPanel')
-      ACTIONS.ZoomTo100                       = LrApplicationView.zoomToOneToOne
-    else
-      ACTIONS.ColorGrade3Way                  = notsupported
-      ACTIONS.ColorGradeCopy                  = notsupported
-      ACTIONS.ColorGradeGlobal                = notsupported
-      ACTIONS.ColorGradeHighlight             = notsupported
-      ACTIONS.ColorGradeMidtone               = notsupported
-      ACTIONS.ColorGradePaste                 = notsupported
-      ACTIONS.ColorGradeReset3way             = notsupported
-      ACTIONS.ColorGradeResetAll              = notsupported
-      ACTIONS.ColorGradeResetCurrent          = notsupported
-      ACTIONS.ColorGradeShadow                = notsupported
-      ACTIONS.EnableColorGrading              = notsupported
-      ACTIONS.RevealPanelColorGrading         = notsupported
-      ACTIONS.ZoomTo100                       = notsupported
-    end
-    --some functions not available before 7.4
-    if Ut.LrVersion74orMore then
-      ACTIONS.AddOrRemoveFromTargetColl    = CU.wrapForEachPhoto('addOrRemoveFromTargetCollection')
-      ACTIONS.AutoTone                     = function() LrDevelopController.setAutoTone(); LrDevelopController.revealPanel('adjustPanel'); end
-      ACTIONS.CycleLoupeViewInfo           = LrApplicationView.cycleLoupeViewInfo
-      ACTIONS.EditPhotoshop                = LrDevelopController.editInPhotoshop
-      ACTIONS.EnableToneCurve              = CU.fToggleTFasync('EnableToneCurve')
-      ACTIONS.GraduatedFilter              = CU.fToggleTool1('gradient')
-      ACTIONS.GridViewStyle                = LrApplicationView.gridViewStyle
-      ACTIONS.NextScreenMode               = LrApplicationView.nextScreenMode
-      ACTIONS.openExportDialog             = CU.wrapForEachPhoto('openExportDialog')
-      ACTIONS.openExportWithPreviousDialog = CU.wrapForEachPhoto('openExportWithPreviousDialog')  
-      ACTIONS.QuickDevCropAspect1x1        = function() CU.QuickCropAspect({w=1,h=1}) end
-      ACTIONS.QuickDevCropAspect2x3        = function() CU.QuickCropAspect({w=2,h=3}) end
-      ACTIONS.QuickDevCropAspect3x4        = function() CU.QuickCropAspect({w=3,h=4}) end
-      ACTIONS.QuickDevCropAspect4x5        = function() CU.QuickCropAspect({w=4,h=5}) end
-      ACTIONS.QuickDevCropAspect5x7        = function() CU.QuickCropAspect({w=5,h=7}) end
-      ACTIONS.QuickDevCropAspect85x11      = function() CU.QuickCropAspect({w=8.5,h=11}) end
-      ACTIONS.QuickDevCropAspect9x16       = function() CU.QuickCropAspect({w=9,h=16}) end
-      ACTIONS.QuickDevCropAspectAsShot     = function() CU.QuickCropAspect('asshot') end
-      ACTIONS.QuickDevCropAspectOriginal   = function() CU.QuickCropAspect('original') end
-      ACTIONS.QuickDevWBAuto               = CU.wrapForEachPhoto('QuickDevWBAuto')
-      ACTIONS.QuickDevWBCloudy             = CU.wrapForEachPhoto('QuickDevWBCloudy')
-      ACTIONS.QuickDevWBDaylight           = CU.wrapForEachPhoto('QuickDevWBDaylight')
-      ACTIONS.QuickDevWBFlash              = CU.wrapForEachPhoto('QuickDevWBFlash')
-      ACTIONS.QuickDevWBFluorescent        = CU.wrapForEachPhoto('QuickDevWBFluorescent')
-      ACTIONS.QuickDevWBShade              = CU.wrapForEachPhoto('QuickDevWBShade')
-      ACTIONS.QuickDevWBTungsten           = CU.wrapForEachPhoto('QuickDevWBTungsten')
-      ACTIONS.RadialFilter                 = CU.fToggleTool1('circularGradient')
-      ACTIONS.RotateLeft                   = CU.wrapForEachPhoto('rotateLeft')
-      ACTIONS.RotateRight                  = CU.wrapForEachPhoto('rotateRight')
-      ACTIONS.SetTreatmentBW               = CU.wrapForEachPhoto('SetTreatmentBW')
-      ACTIONS.SetTreatmentColor            = CU.wrapForEachPhoto('SetTreatmentColor')
-      ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels
-      ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview
-      ACTIONS.ShowClipping                 = CU.wrapFOM(LrDevelopController.showClipping)
-      ACTIONS.SpotRemoval                  = CU.fToggleTool1('dust')
-      ACTIONS.ToggleLoupe                  = LrApplicationView.toggleLoupe
-      ACTIONS.ToggleOverlay                = LrDevelopController.toggleOverlay
-      ACTIONS.WhiteBalanceAuto             = LrDevelopController.setAutoWhiteBalance
-    else
-      ACTIONS.AddOrRemoveFromTargetColl    = notsupported  
-      ACTIONS.AutoTone                     = function() CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); LrDevelopController.revealPanel('adjustPanel'); end
-      ACTIONS.CycleLoupeViewInfo           = notsupported
-      ACTIONS.EditPhotoshop                = notsupported
-      ACTIONS.EnableToneCurve              = notsupported
-      ACTIONS.GraduatedFilter              = CU.fToggleTool('gradient')
-      ACTIONS.GridViewStyle                = notsupported
-      ACTIONS.NextScreenMode               = notsupported
-      ACTIONS.openExportDialog             = notsupported
-      ACTIONS.openExportWithPreviousDialog = notsupported
-      ACTIONS.QuickDevCropAspect1x1        = notsupported
-      ACTIONS.QuickDevCropAspect2x3        = notsupported
-      ACTIONS.QuickDevCropAspect3x4        = notsupported
-      ACTIONS.QuickDevCropAspect4x5        = notsupported
-      ACTIONS.QuickDevCropAspect5x7        = notsupported
-      ACTIONS.QuickDevCropAspect85x11      = notsupported
-      ACTIONS.QuickDevCropAspect9x16       = notsupported
-      ACTIONS.QuickDevCropAspectAsShot     = notsupported
-      ACTIONS.QuickDevCropAspectOriginal   = notsupported
-      ACTIONS.QuickDevWBAuto               = notsupported
-      ACTIONS.QuickDevWBCloudy             = notsupported
-      ACTIONS.QuickDevWBDaylight           = notsupported
-      ACTIONS.QuickDevWBFlash              = notsupported
-      ACTIONS.QuickDevWBFluorescent        = notsupported
-      ACTIONS.QuickDevWBShade              = notsupported
-      ACTIONS.QuickDevWBTungsten           = notsupported
-      ACTIONS.RadialFilter                 = CU.fToggleTool('circularGradient')     
-      ACTIONS.RotateLeft                   = notsupported
-      ACTIONS.RotateRight                  = notsupported
-      ACTIONS.SetTreatmentBW               = notsupported
-      ACTIONS.SetTreatmentColor            = notsupported
-      ACTIONS.ShoFullHidePanels            = notsupported
-      ACTIONS.ShoFullPreview               = notsupported
-      ACTIONS.ShowClipping                 = notsupported
-      ACTIONS.SpotRemoval                  = CU.fToggleTool('dust')
-      ACTIONS.ToggleLoupe                  = notsupported
-      ACTIONS.ToggleOverlay                = notsupported
-      ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
-    end
-    --some functions not available before 6.6
-    if Ut.LrVersion66orMore then
-      ACTIONS.ResetTransforms              = CU.wrapFOM(LrDevelopController.resetTransforms)
-    else
-      ACTIONS.ResetTransforms              = notsupported
-    end
 
     local SETTINGS = {
       AppInfo            = function(value) Info.AppInfo[#Info.AppInfo+1] = value end,
@@ -676,10 +585,7 @@ LrTasks.startAsyncTask(
     function UpdateParamPickup() --closure
       local paramlastmoved = {}
       local lastfullrefresh = 0
-      -- ColorGrading reuses parameters for split toning. This confuses opening the correct panel.
-      -- To fix this, the ColorGrading parameter will be passed as 'true_param', and this will
-      -- Be used for opening the panel. It doesn't affect any other part of UpdateParam
-      return function(param, midi_value, silent, true_param)
+      return function(param, midi_value, silent)
         if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
         local value
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
@@ -703,7 +609,7 @@ LrTasks.startAsyncTask(
             end
           end
           if Database.CmdPanel[param] then
-            Profiles.changeProfile(Database.CmdPanel[true_param or param])
+            Profiles.changeProfile(Database.CmdPanel[param])
           end
         else --failed pickup
           if ProgramPreferences.ClientShowBezelOnChange then -- failed pickup. do I display bezel?
@@ -720,7 +626,7 @@ LrTasks.startAsyncTask(
     end
     UpdateParamPickup = UpdateParamPickup() --complete closure
     --called within LrRecursionGuard for setting
-    function UpdateParamNoPickup(param, midi_value, silent, true_param)
+    function UpdateParamNoPickup(param, midi_value, silent)
       if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
       local value
       if LrApplicationView.getCurrentModuleName() ~= 'develop' then
@@ -741,7 +647,7 @@ LrTasks.startAsyncTask(
         end
       end
       if Database.CmdPanel[param] then
-        Profiles.changeProfile(Database.CmdPanel[true_param or param])
+        Profiles.changeProfile(Database.CmdPanel[param])
       end
     end
     UpdateParam = UpdateParamPickup --initial state
@@ -777,14 +683,9 @@ LrTasks.startAsyncTask(
               for param in pairs(Database.Parameters) do
                 local lrvalue = LrDevelopController.getValue(param)
                 if observer[param] ~= lrvalue and type(lrvalue) == 'number' then --testing for MIDI2LR.SERVER.send kills responsiveness
-                  local midivalue = CU.LRValueToMIDIValue(param)
-                  MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+                  MIDI2LR.SERVER:send(string.format('%s %g\n', param, CU.LRValueToMIDIValue(param)))
                   observer[param] = lrvalue
                   LastParam = param
-                  local gradingversion = SplitToGrade[param] -- reuses parameter for different function
-                  if gradingversion then
-                    MIDI2LR.SERVER:send(string.format('%s %g\n', gradingversion, midivalue))
-                  end
                 end
               end
               lastrefresh = os.clock() + 0.1 --1/10 sec between refreshes
@@ -897,11 +798,9 @@ LrTasks.startAsyncTask(
               local split = message:find(' ',1,true)
               local param = message:sub(1,split-1)
               local value = message:sub(split+1)
-              local true_param = param
-              param = GradeToSplit[param] or param -- translate grade to splitToning
               if Database.Parameters[param] then
-                UpdateParam(param,tonumber(value),false,true_param)
-                local gradeFocus = GradeFocusTable[true_param] -- scroll to correct view on color grading
+                UpdateParam(param,tonumber(value),false)
+                local gradeFocus = GradeFocusTable[param]
                 if gradeFocus then
                   local currentView = LrDevelopController.getActiveColorGradingView()
                   if currentView ~= '3-way' or gradeFocus == 'global' then 
@@ -929,9 +828,9 @@ LrTasks.startAsyncTask(
                   CU.execFOM(LrDevelopController.resetToDefault,resetparam)
                   if ProgramPreferences.ClientShowBezelOnChange then
                     local lrvalue = LrDevelopController.getValue(resetparam)
-                    CU.showBezel(true_param:sub(6),lrvalue)
+                    CU.showBezel(resetparam,lrvalue)
                   end
-                  local gradeFocus = GradeFocusTable[true_param] -- scroll to correct view on color grading
+                  local gradeFocus = GradeFocusTable[resetparam] -- scroll to correct view on color grading
                   if gradeFocus then
                     local currentView = LrDevelopController.getActiveColorGradingView()
                     if currentView ~= '3-way' or gradeFocus == 'global' then 

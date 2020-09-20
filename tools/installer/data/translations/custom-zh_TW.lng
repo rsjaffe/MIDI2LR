@@ -2,5 +2,5 @@ midi.instructions.exp=打開顯示該手冊的網絡瀏覽器。 請在手冊中
 midi.instructions=線上說明
 midi.donate.exp=打開一個帶有PayPal表單的Web瀏覽器，您可以在其中捐款以支持${project.fullName}的進一步開發。
 midi.donate=捐款支持專案開發
-midi.install.win=${project.fullName} 只能安裝在 64 位元版本的 Microsoft Windows 7 或更新的版本上。
-midi.install.mac=需要 MacOS Sierra 10.12 或更新版本。
+midi.install.win=${project.fullName} 只能安裝在 64 位元版本的 Microsoft Windows 10 或更新的版本上。
+midi.install.mac=需要 MacOS Mojave 10.14 或更新版本。

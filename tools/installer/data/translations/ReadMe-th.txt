@@ -2,8 +2,8 @@
 ข้อกำหนดเบื้องต้น
 =============
 
-- Lightroom 6+ หรือ CC classic
-- Windows 7+ หรือ MacOS 10.12+
+- Lightroom classic 10+
+- Windows 10 หรือ MacOS 10.14+
 - คอนโทรลเลอร์ USB MIDI (เช่น Korg nanoKONTROL และอื่น ๆ )
 
 =====

@@ -2,8 +2,8 @@
 전제 조건
 =============
 
--Lightroom 6 이상 또는 CC 클래식
--Windows 7 이상 또는 MacOS 10.12 이상
+-Lightroom 10 이상 또는 CC 클래식
+-Windows 10 이상 또는 MacOS 10.14 이상
 -USB MIDI 컨트롤러 (예 : Korg nanoKONTROL 등)
 
 =====

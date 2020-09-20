@@ -2,5 +2,5 @@ midi.instructions.exp=Открывает веб-браузер с руковод
 midi.instructions=Справка в Интернете
 midi.donate.exp=Открывает веб-браузер с формой PayPal, где вы можете сделать пожертвование для поддержки дальнейшей разработки ${project.fullName}.
 midi.donate=Перевести деньги, чтобы поддержать разработку проекта
-midi.install.win=${project.fullName} можно установить только в 64-разрядной версии Microsoft Windows 7 или более поздней версии.
-midi.install.mac=Требуется MacOS Sierra 10.12 или более новая версия.
+midi.install.win=${project.fullName} можно установить только в 64-разрядной версии Microsoft Windows 10 или более поздней версии.
+midi.install.mac=Требуется MacOS Mojave 10.14 или более новая версия.
