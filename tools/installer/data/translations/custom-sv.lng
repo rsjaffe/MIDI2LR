@@ -2,5 +2,5 @@ midi.instructions.exp=Öppnar en webbläsare som visar manualen. Bokmärke i man
 midi.instructions=Direkthjälp
 midi.donate.exp=Öppnar en webbläsare med ett PayPal-formulär där du kan göra en donation för att stödja ytterligare ${project.fullName}-utveckling.
 midi.donate=Donera för att stödja projektutveckling
-midi.install.win=${project.fullName} kan bara installeras på en 64-bitarsversion av Microsoft Windows 7 eller senare.
-midi.install.mac=Kräver MacOS Sierra 10.12 eller senare.
+midi.install.win=${project.fullName} kan bara installeras på en 64-bitarsversion av Microsoft Windows 10 eller senare.
+midi.install.mac=Kräver MacOS Mojave 10.14 eller senare.

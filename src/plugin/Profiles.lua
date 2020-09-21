@@ -33,18 +33,6 @@ local currentTMP = {Tool = '', Module = '', Panel = '', Profile = ''}
 local loadedprofile = ''-- according to application and us
 local profilepath = '' --according to application
 
-local GradeToSplit = {
-  ColorGradeHighlightHue      = 'SplitToningHighlightHue',
-  ColorGradeHighlightSat      = 'SplitToningHighlightSaturation',
-  ColorGradeShadowHue         = 'SplitToningShadowHue',
-  ColorGradeShadowSat         = 'SplitToningShadowSaturation',
-  ColorGradeBalance           = 'SplitToningBalance',
-  ResetColorGradeHighlightHue = 'ResetSplitToningHighlightHue',
-  ResetColorGradeHighlightSat = 'ResetSplitToningHighlightSaturation',
-  ResetColorGradeShadowHue    = 'ResetSplitToningShadowHue',
-  ResetColorGradeShadowSat    = 'ResetSplitToningShadowSaturation',
-  ResetColorGradeBalance      = 'ResetSplitToningBalance',
-}
 
 local function doprofilechange(newprofile)
   if ProgramPreferences.ProfilesShowBezelOnChange then
@@ -78,20 +66,6 @@ local function doprofilechange(newprofile)
           MIDI2LR.SERVER:send(string.format('%s 0.0\n', param))
         else
           MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
-        end
-      end
-    end
-    for trueparam,param in pairs(GradeToSplit) do
-      local min,max = Limits.GetMinMax(param)
-      local lrvalue = LrDevelopController.getValue(param)
-      if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
-        local midivalue = (lrvalue-min)/(max-min)
-        if midivalue >= 1.0 then 
-          MIDI2LR.SERVER:send(string.format('%s 1.0\n', trueparam))
-        elseif midivalue <= 0.0 then -- = catches -0.0 and sends it as 0.0
-          MIDI2LR.SERVER:send(string.format('%s 0.0\n', trueparam))
-        else
-          MIDI2LR.SERVER:send(string.format('%s %g\n', trueparam, midivalue))
         end
       end
     end
@@ -304,12 +278,6 @@ local function StartDialog(obstable,f)
             f:edit_field{ value = LrView.bind ('ProfilemixerPanel'), width = LrView.share('profile_value'), 
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           }, 
-          f:row {
-            font='<system>',
-            f:static_text{title = ProfileTypes.splitToningPanel.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('ProfilesplitToningPanel'), width = LrView.share('profile_value'), 
-              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },  
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.colorGradingPanel.friendlyName, width = LrView.share('profile_label'),},

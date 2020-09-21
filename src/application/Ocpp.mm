@@ -42,59 +42,49 @@ std::string rsj::SystemFontMac()
    return std::string((font.displayName).UTF8String);
 }
 
-#if __MAC_OS_X_VERSION_MIN_REQUIRED <= __MAC_10_14
-enum {
-   errAEEventWouldRequireUserConsent = -1744,
-};
-#endif
-
 void rsj::CheckPermission(pid_t pid)
 {
-   if (@available(macOS 10.14, *)) {
-      AEAddressDesc addressDesc;
-      NSString* bundleIdentifier {
-          [NSRunningApplication runningApplicationWithProcessIdentifier:pid].bundleIdentifier};
-      const char* bundleIdentifierCString {
-          [bundleIdentifier cStringUsingEncoding:NSUTF8StringEncoding]};
-      auto aeresult {AECreateDesc(typeApplicationBundleID, bundleIdentifierCString,
-          strlen(bundleIdentifierCString), &addressDesc)};
-      if (aeresult == noErr) {
-         auto status {
-             AEDeterminePermissionToAutomateTarget(&addressDesc, typeWildCard, typeWildCard, true)};
-         AEDisposeDesc(&addressDesc);
-         switch (status) {
-         case errAEEventWouldRequireUserConsent:
-            rsj::Log(
-                fmt::format("Automation permission pending for {}.", bundleIdentifier.UTF8String));
-            break;
-         case noErr:
-            rsj::Log(
-                fmt::format("Automation permission granted for {}.", bundleIdentifier.UTF8String));
-            break;
-         case errAEEventNotPermitted: {
-            rsj::Log(
-                fmt::format("Automation permission denied for {}.", bundleIdentifier.UTF8String));
-            auto title {juce::translate(
-                "MIDI2LR needs your authorization to send keystrokes to Lightroom")};
-            auto message {juce::translate(
-                "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these "
-                "steps:\r\n1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) "
-                "Select \"Accessibility Apps\"\r\n4) Add this application to the approval list")};
-            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, title, message);
-            break;
-         }
-         case procNotFound:
-            rsj::Log(fmt::format("Application not found. Automation permission unknown for {}.",
-                bundleIdentifier.UTF8String));
-            break;
-         default:
-            rsj::Log(
-                fmt::format("Unexpected return value when checking automation permission for {}.",
-                    bundleIdentifier.UTF8String));
-            break;
-         }
+   AEAddressDesc addressDesc;
+   NSString* bundleIdentifier {
+       [NSRunningApplication runningApplicationWithProcessIdentifier:pid].bundleIdentifier};
+   const char* bundleIdentifierCString {
+       [bundleIdentifier cStringUsingEncoding:NSUTF8StringEncoding]};
+   auto aeresult {AECreateDesc(typeApplicationBundleID, bundleIdentifierCString,
+       strlen(bundleIdentifierCString), &addressDesc)};
+   if (aeresult == noErr) {
+      auto status {
+          AEDeterminePermissionToAutomateTarget(&addressDesc, typeWildCard, typeWildCard, true)};
+      AEDisposeDesc(&addressDesc);
+      switch (status) {
+      case errAEEventWouldRequireUserConsent:
+         rsj::Log(
+             fmt::format("Automation permission pending for {}.", bundleIdentifier.UTF8String));
+         break;
+      case noErr:
+         rsj::Log(
+             fmt::format("Automation permission granted for {}.", bundleIdentifier.UTF8String));
+         break;
+      case errAEEventNotPermitted: {
+         rsj::Log(fmt::format("Automation permission denied for {}.", bundleIdentifier.UTF8String));
+         auto title {
+             juce::translate("MIDI2LR needs your authorization to send keystrokes to Lightroom")};
+         auto message {juce::translate(
+             "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these "
+             "steps:\r\n1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) "
+             "Select \"Accessibility Apps\"\r\n4) Add this application to the approval list")};
+         juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, title, message);
+         break;
       }
-      else
-         rsj::Log(fmt::format("AECreateDesc returned error {}.", aeresult));
+      case procNotFound:
+         rsj::Log(fmt::format("Application not found. Automation permission unknown for {}.",
+             bundleIdentifier.UTF8String));
+         break;
+      default:
+         rsj::Log(fmt::format("Unexpected return value when checking automation permission for {}.",
+             bundleIdentifier.UTF8String));
+         break;
+      }
    }
+   else
+      rsj::Log(fmt::format("AECreateDesc returned error {}.", aeresult));
 }

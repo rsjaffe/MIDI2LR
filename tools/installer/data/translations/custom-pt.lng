@@ -2,5 +2,5 @@ midi.instructions.exp=Abre um navegador web mostrando o manual. Por favor marque
 midi.instructions=Ajuda Online
 midi.donate.exp=Abre um navegador web com um formulário PayPal onde pode fazer uma doação para suportar mais desenvolvimento de ${project.fullName}.
 midi.donate=Doe para apoiar o desenvolvimento do projeto
-midi.install.win=${project.fullName} só pode ser instalado numa versão de 64 bits do Microsoft Windows 7 ou posterior.
-midi.install.mac=Necessita do MacOS Sierra 10.12 ou posterior.
+midi.install.win=${project.fullName} só pode ser instalado numa versão de 64 bits do Microsoft Windows 10 ou posterior.
+midi.install.mac=Necessita do MacOS Mojave 10.14 ou posterior.

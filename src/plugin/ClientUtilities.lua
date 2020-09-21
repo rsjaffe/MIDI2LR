@@ -21,7 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local Limits     = require 'Limits'
 local Database   = require 'Database'
 local Profiles   = require 'Profiles'
-local Ut         = require 'Utilities'
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
@@ -46,32 +45,19 @@ local needsModule = {
   [LrDevelopController.resetRedeye]                    = {module = 'develop', photoSelected = true },
   [LrDevelopController.resetSpotRemoval]               = {module = 'develop', photoSelected = true },
   [LrDevelopController.resetToDefault]                 = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetTransforms]                = {module = 'develop', photoSelected = true },
   [LrDevelopController.revealAdjustedControls]         = {module = 'develop', photoSelected = false },
   [LrDevelopController.revealPanel]                    = {module = 'develop', photoSelected = false },
   [LrDevelopController.selectTool]                     = {module = 'develop', photoSelected = false },
+  [LrDevelopController.setActiveColorGradingView]      = {module = 'develop', photoSelected = false },
   [LrDevelopController.setMultipleAdjustmentThreshold] = {module = 'develop', photoSelected = false },
   [LrDevelopController.setProcessVersion]              = {module = 'develop', photoSelected = true },
   [LrDevelopController.setTrackingDelay]               = {module = 'develop', photoSelected = false },
   [LrDevelopController.setValue]                       = {module = 'develop', photoSelected = true },
+  [LrDevelopController.showClipping]                   = {module = 'develop', photoSelected = false},
   [LrDevelopController.startTracking]                  = {module = 'develop', photoSelected = false },
   [LrDevelopController.stopTracking]                   = {module = 'develop', photoSelected = false },
 }
-
-if Ut.LrVersion100orMore
-then
-  needsModule[LrDevelopController.setActiveColorGradingView]      = {module = 'develop', photoSelected = false }
-end
-
-if Ut.LrVersion74orMore
-then
-  needsModule[LrDevelopController.showClipping]        = {module = 'develop', photoSelected = false}
-end
-
-if Ut.LrVersion66orMore
-then
-  needsModule[LrDevelopController.resetTransforms]     = {module = 'develop', photoSelected = true }
-end
-
 
 local _needsModule = {
   __index = function (t,k)
@@ -151,7 +137,6 @@ local wfep_action = {
 }
 -- equivalent to "LrApplication.activeCatalog():getTargetPhoto():rotateLeft()", e.g., with target checking
 local function wrapForEachPhoto(F) --note lightroom applies this to all selected photos. no need to get all selected
-  if not Ut.LrVersion74orMore then return function() end end -- not supported
   local SelectedAction = wfep_action
   [F]
   return function()    
@@ -177,19 +162,14 @@ local sb_precisionList = {
   Brightness=0,
   Clarity=0,
   ColorGradeBlending=0,
-  ColorGradeBalance=0,
   ColorGradeGlobalHue=0,
   ColorGradeGlobalLum=0,
   ColorGradeGlobalSat=0,
-  ColorGradeHighlightHue=0,
   ColorGradeHighlightLum=0,
-  ColorGradeHighlightSat=0,
   ColorGradeMidtoneHue=0,
   ColorGradeMidtoneLum=0,
   ColorGradeMidtoneSat=0,
-  ColorGradeShadowHue=0,
   ColorGradeShadowLum=0,
-  ColorGradeShadowSat=0,
   ColorNoiseReduction=0,
   ColorNoiseReductionDetail=0,
   ColorNoiseReductionSmoothness=0,
@@ -463,13 +443,6 @@ local function ApplySettings(settings)
   )
 end
 
-local GradeToSplit = {
-  ColorGradeHighlightHue      = 'SplitToningHighlightHue',
-  ColorGradeHighlightSat      = 'SplitToningHighlightSaturation',
-  ColorGradeShadowHue         = 'SplitToningShadowHue',
-  ColorGradeShadowSat         = 'SplitToningShadowSaturation',
-  ColorGradeBalance           = 'SplitToningBalance',
-}
 local function FullRefresh()
   -- if this code is changed, change similar code in Profiles.lua
   if Limits.LimitsCanBeSet() then
@@ -496,20 +469,6 @@ local function FullRefresh()
           MIDI2LR.SERVER:send(string.format('%s 0.0\n', param))
         else
           MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
-        end
-      end
-    end
-    for trueparam,param in pairs(GradeToSplit) do
-      local min,max = Limits.GetMinMax(param)
-      local lrvalue = LrDevelopController.getValue(param)
-      if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
-        local midivalue = (lrvalue-min)/(max-min)
-        if midivalue >= 1.0 then 
-          MIDI2LR.SERVER:send(string.format('%s 1.0\n', trueparam))
-        elseif midivalue <= 0.0 then -- = catches -0.0 and sends it as 0.0
-          MIDI2LR.SERVER:send(string.format('%s 0.0\n', trueparam))
-        else
-          MIDI2LR.SERVER:send(string.format('%s %g\n', trueparam, midivalue))
         end
       end
     end

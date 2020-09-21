@@ -33,7 +33,7 @@ namespace rsj {
 /* juce MIDI send functions have 1-based channel, so does rsj::MidiMessageId */
 class MidiSender {
  public:
-   explicit MidiSender(Devices& devices) : devices_(devices) {};
+   explicit MidiSender(Devices& devices) noexcept : devices_(devices) {};
    void RescanDevices();
    void Send(rsj::MidiMessageId id, int value) const;
    void Start();

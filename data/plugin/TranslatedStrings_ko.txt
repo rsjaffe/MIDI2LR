@@ -25,6 +25,6 @@
 "$$$/MIDI2LR/Profiles/Next=다음 프로필"
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=프로파일 변경시 알림"
 "$$$/MIDI2LR/Profiles/Previous=이전 프로필"
+"$$$/MIDI2LR/Shortcuts/SeriesofCommands=명령 순서"
 "$$$/MIDI2LR/ShortCuts/ShowHide=표시/숨기기"
 "$$$/MIDI2LR/Shortcuts/Key=키"
-"$$$/MIDI2LR/Shortcuts/SeriesofCommands=일련의 명령들"

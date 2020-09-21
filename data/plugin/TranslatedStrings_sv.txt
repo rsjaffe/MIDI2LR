@@ -25,6 +25,6 @@
 "$$$/MIDI2LR/Profiles/Next=Nästa profil"
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=Visa notis vid byte av profil"
 "$$$/MIDI2LR/Profiles/Previous=Föregående profil"
+"$$$/MIDI2LR/Shortcuts/SeriesofCommands=Kommandosekvens"
 "$$$/MIDI2LR/ShortCuts/ShowHide=visa/dölj"
 "$$$/MIDI2LR/Shortcuts/Key=Nyckel"
-"$$$/MIDI2LR/Shortcuts/SeriesofCommands=Serie kommandon"

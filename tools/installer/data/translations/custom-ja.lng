@@ -2,5 +2,5 @@ midi.instructions.exp=マニュアルを表示するWebブラウザーを開き�
 midi.instructions=オンライン ヘルプ
 midi.donate.exp=PayPalフォームでWebブラウザーを開き、${project.fullName}のさらなる開発を支援するための寄付を行うことができます。
 midi.donate=プロジェクト開発をサポートするための寄付をお願いします
-midi.install.win=${project.fullName} をインストールできるのは、64 ビット版の Microsoft Windows 7 以降です
-midi.install.mac=MacOS Sierra 10.12 以降が必要です。
+midi.install.win=${project.fullName} をインストールできるのは、64 ビット版の Microsoft Windows 10 以降です
+midi.install.mac=MacOS Mojave 10.14 以降が必要です。

@@ -2,8 +2,8 @@
 先决条件
 =============
 
--Lightroom 6+或CC Classic
--Windows 7以上版本或MacOS 10.12以上版本
+-Lightroom Classic 10+
+-Windows 10以上版本或MacOS 10.14以上版本
 -USB MIDI控制器（例如：Korg nanoKONTROL等）
 
 =====

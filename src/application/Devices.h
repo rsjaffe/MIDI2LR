@@ -28,6 +28,10 @@ class Devices {
  public:
    Devices();
    ~Devices();
+   Devices(const Devices& other) = delete;
+   Devices(Devices&& other) noexcept = default;
+   Devices& operator=(const Devices& other) = delete;
+   Devices& operator=(Devices&& other) noexcept = default;
    bool Add(const juce::MidiDeviceInfo& info, juce::String io);
    [[nodiscard]] bool Enabled(const juce::MidiDeviceInfo& info, juce::String io) const;
    [[nodiscard]] bool EnabledOrNew(const juce::MidiDeviceInfo& info, juce::String io);
@@ -35,17 +39,17 @@ class Devices {
  private:
    struct DevInfo {
 #ifdef __cpp_lib_three_way_comparison
-      std::strong_ordering operator<=>(const DevInfo&) const = default;
+      std::strong_ordering operator<=>(const DevInfo&) noexcept const = default;
 #else
-      friend bool operator==(const DevInfo& lhs, const DevInfo& rhs)
+      friend bool operator==(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return lhs.name == rhs.name && lhs.identifier == rhs.identifier && lhs.i_o == rhs.i_o;
       }
-      friend bool operator!=(const DevInfo& lhs, const DevInfo& rhs)
+      friend bool operator!=(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return !(lhs == rhs);
       }
-      friend bool operator<(const DevInfo& lhs, const DevInfo& rhs)
+      friend bool operator<(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          if (lhs.name < rhs.name)
             return true;
@@ -57,26 +61,26 @@ class Devices {
             return false;
          return lhs.i_o < rhs.i_o;
       }
-      friend bool operator<=(const DevInfo& lhs, const DevInfo& rhs)
+      friend bool operator<=(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return !(rhs < lhs);
       }
-      friend bool operator>(const DevInfo& lhs, const DevInfo& rhs)
+      friend bool operator>(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return rhs < lhs;
       }
-      friend bool operator>=(const DevInfo& lhs, const DevInfo& rhs)
+      friend bool operator>=(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return !(lhs < rhs);
       }
 #endif
 
-      DevInfo(const juce::MidiDeviceInfo& info, juce::String io)
+      DevInfo(const juce::MidiDeviceInfo& info, juce::String io) noexcept
           : name {info.name}, identifier {info.identifier}, i_o {std::move(io)}
       {
       }
-      DevInfo(juce::String n, juce::String i, juce::String io)
-          : name {std::move (n)}, identifier {std::move (i)}, i_o {std::move(io)}
+      DevInfo(juce::String n, juce::String i, juce::String io) noexcept
+          : name {std::move(n)}, identifier {std::move(i)}, i_o {std::move(io)}
       {
       }
       juce::String name;

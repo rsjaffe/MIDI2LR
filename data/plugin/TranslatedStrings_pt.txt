@@ -25,6 +25,6 @@
 "$$$/MIDI2LR/Profiles/Next=Perfil seguinte"
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=Notificar quando o perfil for alterado"
 "$$$/MIDI2LR/Profiles/Previous=Perfil anterior"
+"$$$/MIDI2LR/Shortcuts/SeriesofCommands=Seqüência de comando"
 "$$$/MIDI2LR/ShortCuts/ShowHide=mostrar/ocultar"
 "$$$/MIDI2LR/Shortcuts/Key=Tecla"
-"$$$/MIDI2LR/Shortcuts/SeriesofCommands=Série de comandos"

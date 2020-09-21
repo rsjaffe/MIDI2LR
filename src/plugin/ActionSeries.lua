@@ -78,18 +78,6 @@ local function EndDialog(obstable, status)
   end
 end
 
-local GradeToSplit = {
-  ColorGradeHighlightHue      = 'SplitToningHighlightHue',
-  ColorGradeHighlightSat      = 'SplitToningHighlightSaturation',
-  ColorGradeShadowHue         = 'SplitToningShadowHue',
-  ColorGradeShadowSat         = 'SplitToningShadowSaturation',
-  ColorGradeBalance           = 'SplitToningBalance',
-  ResetColorGradeHighlightHue = 'ResetSplitToningHighlightHue',
-  ResetColorGradeHighlightSat = 'ResetSplitToningHighlightSaturation',
-  ResetColorGradeShadowHue    = 'ResetSplitToningShadowHue',
-  ResetColorGradeShadowSat    = 'ResetSplitToningShadowSaturation',
-  ResetColorGradeBalance      = 'ResetSplitToningBalance',
-}
 local function RunActionSeries(strarg1,actarray)
   local strarg = strarg1 -- make argument available to async task
   LrTasks.startAsyncTask(
@@ -102,9 +90,8 @@ local function RunActionSeries(strarg1,actarray)
       for i in strarg:gmatch("[%w_]+") do
         if(actarray[i]) then -- perform a one time action
           actarray[i]()
-        elseif(i:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
+        elseif(i:sub(1,5) == 'Reset') then -- perform a reset other than those explicitly coded in ACTIONS array
           local resetparam = i:sub(6)
-          resetparam = GradeToSplit[resetparam] or resetparam -- in case using color grading aliased to split toning
           CU.execFOM(LrDevelopController.resetToDefault,resetparam)
           if ProgramPreferences.ClientShowBezelOnChange then
             local lrvalue = LrDevelopController.getValue(resetparam)
