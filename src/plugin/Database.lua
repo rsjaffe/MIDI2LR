@@ -92,7 +92,7 @@ local whiteBalance = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/W
 --Listing the groups here makes it easier to understand layout, but doesn't change how the program works
 --If the group was listed above this comment, it'd still work ok, but it would be more confusing to the reader
 local keyshortcuts = LOC('$$$/AgLayoutShortcuts/Header/UISortcuts=Keyboard Shortcuts for User')
-local commandseries = LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands')
+local commandseries = LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Command sequence')
 local filter= LOC('$$$/Library/Filter/FilterLabel=Library filter')
 local view = LOC('$$$/AgLibrary/Help/Shortcuts/Header/ViewShortcuts=View')
 local rating = LOC('$$$/AgLibrary/Help/Shortcuts/Header/RatingsShortcuts=Rating')

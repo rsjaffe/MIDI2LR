@@ -34,8 +34,9 @@
 
 namespace {
    constexpr int kMainWidth {560}; /* equals CommandTable columns total width plus 60 */
-   constexpr int kMainHeight {650};
+   constexpr int kMainHeight {700};
    constexpr int kMainLeft {20};
+   constexpr int kBottomSectionHeight {185};
    constexpr int kSpaceBetweenButton {10};
    constexpr int kStandardHeight {20};
    constexpr int kFullWidth {kMainWidth - kMainLeft * 2};
@@ -47,12 +48,13 @@ namespace {
    constexpr int kFirstButtonX {kMainLeft};
    constexpr int kSecondButtonX {kMainLeft + kButtonXIncrement};
    constexpr int kThirdButtonX {kMainLeft + kButtonXIncrement * 2};
-   constexpr int kCommandTableHeight {kMainHeight - 160};
+   constexpr int kCommandTableHeight {kMainHeight - kBottomSectionHeight};
    constexpr int kLabelWidth {kFullWidth / 2};
-   constexpr int kProfileNameY {kMainHeight - 50};
+   constexpr int kProfileNameY {kMainHeight - kBottomSectionHeight + 110};
    constexpr int kCommandLabelX {kMainLeft + kLabelWidth};
    constexpr int kCommandLabelY {kProfileNameY};
-   constexpr int kBottomButtonY {kMainHeight - 25};
+   constexpr int kBottomButtonY {kMainHeight - kBottomSectionHeight + 135};
+   constexpr int kBottomButtonY2 {kMainHeight - kBottomSectionHeight + 160};
    constexpr auto kDefaultsFile {"default.xml"};
 } // namespace
 
@@ -224,6 +226,16 @@ void MainContentComponent::Init()
             lr_ipc_out_.SendingRestart();
             rsj::Log("Sending restarted.");
          }
+      };
+
+      /* Delete unassigned rows */
+      remove_unassigned_button_.setBounds(
+          kFirstButtonX, kBottomButtonY2, kButtonWidth, kStandardHeight);
+      addToLayout(&remove_unassigned_button_, anchorMidLeft, anchorMidRight);
+      addAndMakeVisible(remove_unassigned_button_);
+      remove_unassigned_button_.onClick = [this] {
+         profile_.RemoveUnassignedMessages();
+         command_table_.updateContent();
       };
 
       /* Try to load a default.xml if the user has not set a profile directory */

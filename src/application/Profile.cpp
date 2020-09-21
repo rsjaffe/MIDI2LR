@@ -152,6 +152,7 @@ void Profile::RemoveMessage(rsj::MidiMessageId message)
    try {
       auto guard {std::unique_lock {mutex_}};
       command_string_map_.erase(message_map_.at(message));
+      command_table_.erase(std::find(command_table_.begin(), command_table_.end(), message));
       message_map_.erase(message);
       profile_unsaved_ = true;
    }
@@ -170,6 +171,28 @@ void Profile::RemoveRow(size_t row)
       command_table_.erase(command_table_.cbegin() + row);
       message_map_.erase(msg);
       profile_unsaved_ = true;
+   }
+   catch (const std::exception& e) {
+      MIDI2LR_E_RESPONSE;
+      throw;
+   }
+}
+
+void Profile::RemoveUnassignedMessages()
+{
+   try {
+      auto guard {std::unique_lock {mutex_}};
+      auto it {command_string_map_.find("Unassigned")};
+      if (it != command_string_map_.end()) {
+         profile_unsaved_ = true;
+         do {
+            message_map_.erase(it->second);
+            command_table_.erase(
+                std::find(command_table_.begin(), command_table_.end(), it->second));
+            command_string_map_.erase(it);
+            it = command_string_map_.find("Unassigned");
+         } while (it != command_string_map_.end());
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
