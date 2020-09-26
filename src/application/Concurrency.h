@@ -145,7 +145,7 @@ namespace rsj {
       }
       /*3*/ explicit ConcurrentQueue(Container&& cont) noexcept(
           std::is_nothrow_move_constructible_v<Container>)
-          : queue_ {std::move(cont)}
+          : queue_ {std::exchange(cont, {})}
       {
       }
       /*4*/ ConcurrentQueue(const ConcurrentQueue& other)
@@ -158,7 +158,7 @@ namespace rsj {
               std::scoped_lock(std::declval<Mutex>())))
       {
          auto lock {std::scoped_lock(other.mutex_)};
-         queue_ = std::move(other.queue_);
+         queue_ = std::exchange(other.queue_, {});
       }
       /*6*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       explicit ConcurrentQueue(const Alloc& alloc) noexcept(
@@ -173,7 +173,7 @@ namespace rsj {
       /*8*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       ConcurrentQueue(Container&& cont, const Alloc& alloc) noexcept(
           std::is_nothrow_constructible_v<Container, Container, const Alloc&>)
-          : queue_(std::move(cont), alloc)
+          : queue_(std::exchange(cont, {}), alloc)
       {
       }
       /*9*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
@@ -190,7 +190,7 @@ namespace rsj {
           : queue_(alloc)
       {
          auto lock {std::scoped_lock(other.mutex_)};
-         queue_ = Container(std::move(other.queue_), alloc);
+         queue_ = Container(std::exchange(other.queue_, {}), alloc);
       }
       /* operator= */
       ConcurrentQueue& operator=(const ConcurrentQueue& other)
@@ -208,7 +208,7 @@ namespace rsj {
       {
          {
             auto lock {std::scoped_lock(mutex_, other.mutex_)};
-            queue_ = std::move(other.queue_);
+            queue_ = std::exchange(other.queue_, {});
          }
          condition_.notify_all();
          return *this;
