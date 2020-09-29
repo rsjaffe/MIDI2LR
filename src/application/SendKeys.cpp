@@ -28,8 +28,6 @@
 
 #include "Misc.h"
 #ifdef _WIN32
-#define NOMINMAX
-#define WIN32_LEAN_AND_MEAN
 #include <utility>
 
 #include <Windows.h>
@@ -50,7 +48,7 @@
 #endif
 
 namespace rsj {
-   ActiveModifiers ActiveModifiers::FromWindows(int from) noexcept
+   ActiveModifiers ActiveModifiers::FromWindows(const int from) noexcept
    {
       /* shift coded as follows: 1: shift, 2: ctrl, 4: alt, 8: hankaku */
       ActiveModifiers am {};
@@ -61,7 +59,7 @@ namespace rsj {
       return am;
    }
 
-   ActiveModifiers ActiveModifiers::FromMidi2LR(int from) noexcept
+   ActiveModifiers ActiveModifiers::FromMidi2LR(const int from) noexcept
    {
       ActiveModifiers am {};
       am.alt_opt = from & 1;
@@ -77,7 +75,7 @@ namespace {
 
    HWND h_lr_wnd {nullptr};
 
-   BOOL CALLBACK EnumWindowsProc(_In_ HWND hwnd, [[maybe_unused]] _In_ LPARAM lParam)
+   BOOL CALLBACK EnumWindowsProc(_In_ const HWND hwnd, [[maybe_unused]] _In_ const LPARAM lParam)
    {
       if (!IsWindowVisible(hwnd))
          return true;
@@ -208,7 +206,7 @@ namespace {
    }
 
    /* Returns key code for given character. Bool represents shift, option (AltGr) keys */
-   std::optional<rsj::KeyData> KeyCodeForChar(UniChar c)
+   std::optional<rsj::KeyData> KeyCodeForChar(const UniChar c)
    {
       try {
          static const std::unordered_map<UniChar, rsj::KeyData> char_code_map {rsj::GetKeyMap()};
@@ -224,7 +222,7 @@ namespace {
       }
    }
 
-   void MacKeyDownUp(pid_t lr_pid, CGKeyCode vk, CGEventFlags flags)
+   void MacKeyDownUp(const pid_t lr_pid, const CGKeyCode vk, const CGEventFlags flags)
    {
       try {
          CGEventRef d {CGEventCreateKeyboardEvent(nullptr, vk, true)};
@@ -291,7 +289,7 @@ namespace {
 
 #pragma warning(push)
 #pragma warning(disable : 26447) /* all exceptions caught and suppressed */
-void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexcept
+void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods) noexcept
 {
    try {
       Expects(!key.empty());

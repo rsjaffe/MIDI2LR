@@ -17,7 +17,6 @@
 #include "Devices.h"
 
 #include <algorithm>
-#include <vector>
 
 #include "Misc.h"
 
@@ -70,10 +69,11 @@ Devices::~Devices()
    const juce::File source {
        juce::CharPointer_UTF8(rsj::AppDataFilePath("DisabledControllers.xml").data())};
 #endif
+   // ReSharper disable once CppExpressionWithoutSideEffects
    device_xml_->writeTo(source);
 }
 
-bool Devices::Add(const juce::MidiDeviceInfo& info, juce::String io)
+bool Devices::Add(const juce::MidiDeviceInfo& info, const juce::String& io)
 {
    const auto [it, success] {device_listing_.try_emplace({info, io}, true)};
    if (success) {

@@ -123,7 +123,7 @@ void ProfileManager::SwitchToPreviousProfile()
    }
 }
 
-void ProfileManager::MapCommand(rsj::MidiMessageId msg)
+void ProfileManager::MapCommand(const rsj::MidiMessageId msg)
 {
    try {
       const auto cmd {current_profile_.GetCommandForMessage(msg)};
@@ -159,7 +159,7 @@ void ProfileManager::MidiCmdCallback(const rsj::MidiMessage& mm)
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void ProfileManager::ConnectionCallback(bool connected, bool blocked)
+void ProfileManager::ConnectionCallback(const bool connected, const bool blocked)
 {
    try {
       if (connected && !blocked) {

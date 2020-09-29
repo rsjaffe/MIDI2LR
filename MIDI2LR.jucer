@@ -118,7 +118,7 @@
       </MODULEPATHS>
     </XCODE_MAC>
     <VS2019 targetFolder="build/Windows" smallIcon="WdgQGt" bigIcon="WdgQGt"
-            extraDefs="_WIN32_WINNT=0x0A00&#10;WINVER=0x0A00">
+            extraDefs="_WIN32_WINNT=0x0A00&#10;WINVER=0x0A00&#10;NOMINMAX&#10;WIN32_LEAN_AND_MEAN">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1"/>
         <CONFIGURATION name="Release" useRuntimeLibDLL="0"/>

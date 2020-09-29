@@ -21,7 +21,7 @@
 #include "MidiUtilities.h"
 #include "Misc.h"
 
-double ChannelModel::OffsetResult(int diff, int controlnumber)
+double ChannelModel::OffsetResult(const int diff, const int controlnumber)
 {
    try {
       Expects(cc_high_.at(controlnumber) > 0); /* CCLow will always be 0 for offset controls */
@@ -44,7 +44,8 @@ double ChannelModel::OffsetResult(int diff, int controlnumber)
    }
 }
 
-double ChannelModel::ControllerToPlugin(rsj::MessageType controltype, int controlnumber, int value)
+double ChannelModel::ControllerToPlugin(
+    const rsj::MessageType controltype, const int controlnumber, const int value)
 {
    try {
       Expects(controltype == rsj::MessageType::Cc
@@ -109,7 +110,7 @@ double ChannelModel::ControllerToPlugin(rsj::MessageType controltype, int contro
 
 /* Note: rounding up on set to center (adding remainder of %2) to center the control's LED when
  * centered */
-int ChannelModel::SetToCenter(rsj::MessageType controltype, int controlnumber)
+int ChannelModel::SetToCenter(const rsj::MessageType controltype, const int controlnumber)
 {
    try {
       auto retval {0};
@@ -135,7 +136,8 @@ int ChannelModel::SetToCenter(rsj::MessageType controltype, int controlnumber)
    }
 }
 
-int ChannelModel::MeasureChange(rsj::MessageType controltype, int controlnumber, int value)
+int ChannelModel::MeasureChange(
+    const rsj::MessageType controltype, const int controlnumber, const int value)
 {
    try {
       Expects(controltype == rsj::MessageType::Cc
@@ -192,7 +194,8 @@ int ChannelModel::MeasureChange(rsj::MessageType controltype, int controlnumber,
 
 #pragma warning(push)
 #pragma warning(disable : 26451) /* see TODO below */
-int ChannelModel::PluginToController(rsj::MessageType controltype, int controlnumber, double value)
+int ChannelModel::PluginToController(
+    const rsj::MessageType controltype, const int controlnumber, const double value)
 {
    try {
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
@@ -229,7 +232,8 @@ int ChannelModel::PluginToController(rsj::MessageType controltype, int controlnu
 }
 #pragma warning(pop)
 
-void ChannelModel::SetCc(int controlnumber, int min, int max, rsj::CCmethod controltype)
+void ChannelModel::SetCc(
+    const int controlnumber, const int min, const int max, const rsj::CCmethod controltype)
 {
    try {
       /* CcMethod has to be set before others or ranges won't be correct */
@@ -243,7 +247,8 @@ void ChannelModel::SetCc(int controlnumber, int min, int max, rsj::CCmethod cont
    }
 }
 
-void ChannelModel::SetCcAll(int controlnumber, int min, int max, rsj::CCmethod controltype)
+void ChannelModel::SetCcAll(
+    const int controlnumber, const int min, const int max, const rsj::CCmethod controltype)
 {
    try {
       if (IsNRPN_(controlnumber))
@@ -259,7 +264,7 @@ void ChannelModel::SetCcAll(int controlnumber, int min, int max, rsj::CCmethod c
    }
 }
 
-void ChannelModel::SetCcMax(int controlnumber, int value)
+void ChannelModel::SetCcMax(const int controlnumber, const int value)
 {
    try {
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
@@ -279,7 +284,7 @@ void ChannelModel::SetCcMax(int controlnumber, int value)
    }
 }
 
-void ChannelModel::SetCcMin(int controlnumber, int value)
+void ChannelModel::SetCcMin(const int controlnumber, const int value)
 {
    try {
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
@@ -295,13 +300,13 @@ void ChannelModel::SetCcMin(int controlnumber, int value)
    }
 }
 
-void ChannelModel::SetPwMax(int value) noexcept
+void ChannelModel::SetPwMax(const int value) noexcept
 {
    pitch_wheel_max_ = value > kMaxNrpn || value <= pitch_wheel_min_ ? kMaxNrpn : value;
    pitch_wheel_current_.store(CenterPw(), std::memory_order_release);
 }
 
-void ChannelModel::SetPwMin(int value) noexcept
+void ChannelModel::SetPwMin(const int value) noexcept
 {
    pitch_wheel_min_ = value < 0 || value >= pitch_wheel_max_ ? 0 : value;
    pitch_wheel_current_.store(CenterPw(), std::memory_order_release);

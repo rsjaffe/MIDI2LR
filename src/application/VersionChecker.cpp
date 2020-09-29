@@ -66,7 +66,7 @@ void VersionChecker::handleAsyncUpdate()
           juce::translate(fmt::format("A new version of {} is available."), "MIDI2LR"),
           juce::translate("Do you want to download the latest version?") + ' '
               + IntToVersion(new_version_),
-          nullptr, juce::ModalCallbackFunction::create([this](int result) {
+          nullptr, juce::ModalCallbackFunction::create([this](const int result) {
              if (result) {
                 const auto git {juce::URL("https://github.com/rsjaffe/MIDI2LR/releases")};
                 if (git.launchInDefaultBrowser())
