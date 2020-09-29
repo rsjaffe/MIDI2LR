@@ -319,17 +319,16 @@
                             <type>windows-x86</type>
                         </platformTest>
                         <ruleGroup>
+                            <negate>1</negate>
+                            <ruleEvaluationLogic>or</ruleEvaluationLogic>
                             <ruleList>
                                 <platformTest>
-                                    <negate>1</negate>
                                     <type>windows-10</type>
                                 </platformTest>
                                 <platformTest>
-                                    <negate>1</negate>
                                     <type>windows-2016</type>
                                 </platformTest>
                                 <platformTest>
-                                    <negate>1</negate>
                                     <type>windows-2019</type>
                                 </platformTest>
                             </ruleList>
@@ -375,6 +374,20 @@
                 </registryTest>
             </ruleList>
         </registryGet>
+        <showWarning>
+            <ruleEvaluationLogic>or</ruleEvaluationLogic>
+            <text>${msg(midi.ports)}</text>
+            <ruleList>
+                <portTest>
+                    <condition>cannot_bind</condition>
+                    <port>58763</port>
+                </portTest>
+                <portTest>
+                    <condition>cannot_bind</condition>
+                    <port>58764</port>
+                </portTest>
+            </ruleList>
+        </showWarning>
     </preInstallationActionList>
     <postInstallationActionList>
         <if>
