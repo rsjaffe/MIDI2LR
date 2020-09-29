@@ -316,12 +316,24 @@
                     <ruleEvaluationLogic>or</ruleEvaluationLogic>
                     <ruleList>
                         <platformTest>
-                            <negate>1</negate>
-                            <type>windows-10</type>
-                        </platformTest>
-                        <platformTest>
                             <type>windows-x86</type>
                         </platformTest>
+                        <ruleGroup>
+                            <ruleList>
+                                <platformTest>
+                                    <negate>1</negate>
+                                    <type>windows-10</type>
+                                </platformTest>
+                                <platformTest>
+                                    <negate>1</negate>
+                                    <type>windows-2016</type>
+                                </platformTest>
+                                <platformTest>
+                                    <negate>1</negate>
+                                    <type>windows-2019</type>
+                                </platformTest>
+                            </ruleList>
+                        </ruleGroup>
                     </ruleList>
                 </ruleGroup>
             </ruleList>
