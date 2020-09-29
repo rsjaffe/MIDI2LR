@@ -10,6 +10,9 @@
               companyName="Rory Jaffe">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <GROUP id="{00832162-0BDD-383A-E04E-4DEA9A30B434}" name="Icon">
+        <FILE id="WdgQGt" name="MIDI2LR.png" compile="0" resource="1" file="data/application/MIDI2LR.png"/>
+      </GROUP>
       <GROUP id="{0641120F-1C58-9E83-5AD3-3DCDB4C233AB}" name="Generated">
         <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="src/application/CCoptions.cpp"/>
         <FILE id="gmEPgP" name="CCoptions.h" compile="0" resource="0" file="src/application/CCoptions.h"/>
@@ -53,7 +56,6 @@
       <FILE id="teVB2z" name="MainComponent.h" compile="0" resource="0" file="src/application/MainComponent.h"/>
       <FILE id="hbC1l2" name="MainWindow.cpp" compile="1" resource="0" file="src/application/MainWindow.cpp"/>
       <FILE id="hctg9F" name="MainWindow.h" compile="0" resource="0" file="src/application/MainWindow.h"/>
-      <FILE id="WdgQGt" name="MIDI2LR.png" compile="0" resource="1" file="data/application/MIDI2LR.png"/>
       <FILE id="fZR0db" name="MIDIReceiver.cpp" compile="1" resource="0"
             file="src/application/MIDIReceiver.cpp"/>
       <FILE id="Kudv1C" name="MIDIReceiver.h" compile="0" resource="0" file="src/application/MIDIReceiver.h"/>

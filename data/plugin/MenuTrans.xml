@@ -1333,7 +1333,7 @@
               <second>Color Blending</second>
             </value2>
             <value3>
-              <first>ColorGradeBalance</first>
+              <first>SplitToningBalance</first>
               <second>Color Grading Balance</second>
             </value3>
             <value4>
@@ -1349,7 +1349,7 @@
               <second>Global Saturation</second>
             </value6>
             <value7>
-              <first>ColorGradeHighlightHue</first>
+              <first>SplitToningHighlightHue</first>
               <second>Highlight Hue</second>
             </value7>
             <value8>
@@ -1357,7 +1357,7 @@
               <second>Highlight Luminance</second>
             </value8>
             <value9>
-              <first>ColorGradeHighlightSat</first>
+              <first>SplitToningHighlightSaturation</first>
               <second>Highlight Saturation</second>
             </value9>
             <value10>
@@ -1373,7 +1373,7 @@
               <second>Midtone Saturation</second>
             </value12>
             <value13>
-              <first>ColorGradeShadowHue</first>
+              <first>SplitToningShadowHue</first>
               <second>Shadow Hue</second>
             </value13>
             <value14>
@@ -1381,7 +1381,7 @@
               <second>Shadow Luminance</second>
             </value14>
             <value15>
-              <first>ColorGradeShadowSat</first>
+              <first>SplitToningShadowSaturation</first>
               <second>Shadow Saturation</second>
             </value15>
             <value16>
@@ -1429,7 +1429,7 @@
               <second>Reset Color Blending</second>
             </value26>
             <value27>
-              <first>ResetColorGradeBalance</first>
+              <first>ResetSplitToningBalance</first>
               <second>Reset Color Grading Balance</second>
             </value27>
             <value28>
@@ -1445,7 +1445,7 @@
               <second>Reset Global Saturation</second>
             </value30>
             <value31>
-              <first>ResetColorGradeHighlightHue</first>
+              <first>ResetSplitToningHighlightHue</first>
               <second>Reset Highlight Hue</second>
             </value31>
             <value32>
@@ -1453,7 +1453,7 @@
               <second>Reset Highlight Luminance</second>
             </value32>
             <value33>
-              <first>ResetColorGradeHighlightSat</first>
+              <first>ResetSplitToningHighlightSaturation</first>
               <second>Reset Highlight Saturation</second>
             </value33>
             <value34>
@@ -1469,7 +1469,7 @@
               <second>Reset Midtone Saturation</second>
             </value36>
             <value37>
-              <first>ResetColorGradeShadowHue</first>
+              <first>ResetSplitToningShadowHue</first>
               <second>Reset Shadow Hue</second>
             </value37>
             <value38>
@@ -1477,65 +1477,12 @@
               <second>Reset Shadow Luminance</second>
             </value38>
             <value39>
-              <first>ResetColorGradeShadowSat</first>
+              <first>ResetSplitToningShadowSaturation</first>
               <second>Reset Shadow Saturation</second>
             </value39>
         </second>
       </value13>
       <value14>
-        <first>Split Toning</first>
-        <second size="dynamic">
-            <value0>
-              <first>RevealPanelSplit</first>
-              <second>Show Split Toning</second>
-            </value0>
-            <value1>
-              <first>EnableSplitToning</first>
-              <second>Split toning enable/disable</second>
-            </value1>
-            <value2>
-              <first>SplitToningShadowHue</first>
-              <second>Shadow Hue</second>
-            </value2>
-            <value3>
-              <first>SplitToningShadowSaturation</first>
-              <second>Shadow Saturation</second>
-            </value3>
-            <value4>
-              <first>SplitToningHighlightHue</first>
-              <second>Highlight Hue</second>
-            </value4>
-            <value5>
-              <first>SplitToningHighlightSaturation</first>
-              <second>Highlight Saturation</second>
-            </value5>
-            <value6>
-              <first>SplitToningBalance</first>
-              <second>Split Toning Balance</second>
-            </value6>
-            <value7>
-              <first>ResetSplitToningShadowHue</first>
-              <second>Reset Shadow Hue</second>
-            </value7>
-            <value8>
-              <first>ResetSplitToningShadowSaturation</first>
-              <second>Reset Shadow Saturation</second>
-            </value8>
-            <value9>
-              <first>ResetSplitToningHighlightHue</first>
-              <second>Reset Highlight Hue</second>
-            </value9>
-            <value10>
-              <first>ResetSplitToningHighlightSaturation</first>
-              <second>Reset Highlight Saturation</second>
-            </value10>
-            <value11>
-              <first>ResetSplitToningBalance</first>
-              <second>Reset Split Toning Balance</second>
-            </value11>
-        </second>
-      </value14>
-      <value15>
         <first>Detail</first>
         <second size="dynamic">
             <value0>
@@ -1627,8 +1574,8 @@
               <second>Reset Color Noise Reduction Smoothness</second>
             </value21>
         </second>
-      </value15>
-      <value16>
+      </value14>
+      <value15>
         <first>Lens Corrections</first>
         <second size="dynamic">
             <value0>
@@ -1748,8 +1695,8 @@
               <second>Reset Vignette Midpoint</second>
             </value28>
         </second>
-      </value16>
-      <value17>
+      </value15>
+      <value16>
         <first>Transform</first>
         <second size="dynamic">
             <value0>
@@ -1849,8 +1796,8 @@
               <second>Reset Perspective Y</second>
             </value23>
         </second>
-      </value17>
-      <value18>
+      </value16>
+      <value17>
         <first>Effects</first>
         <second size="dynamic">
             <value0>
@@ -1946,8 +1893,8 @@
               <second>Reset Grain Roughness</second>
             </value22>
         </second>
-      </value18>
-      <value19>
+      </value17>
+      <value18>
         <first>Calibration</first>
         <second size="dynamic">
             <value0>
@@ -2063,64 +2010,68 @@
               <second>Camera Vivid Red</second>
             </value27>
             <value28>
-              <first>ShadowTint</first>
-              <second>Shadow Tint Calibration</second>
+              <first>ProfileAmount</first>
+              <second>Profile amount</second>
             </value28>
             <value29>
-              <first>RedHue</first>
-              <second>Red Hue Calibration</second>
+              <first>ShadowTint</first>
+              <second>Shadow Tint Calibration</second>
             </value29>
             <value30>
-              <first>RedSaturation</first>
-              <second>Red Saturation Calibration</second>
+              <first>RedHue</first>
+              <second>Red Hue Calibration</second>
             </value30>
             <value31>
-              <first>GreenHue</first>
-              <second>Green Hue Calibration</second>
+              <first>RedSaturation</first>
+              <second>Red Saturation Calibration</second>
             </value31>
             <value32>
-              <first>GreenSaturation</first>
-              <second>Green Saturation Calibration</second>
+              <first>GreenHue</first>
+              <second>Green Hue Calibration</second>
             </value32>
             <value33>
-              <first>BlueHue</first>
-              <second>Blue Hue Calibration</second>
+              <first>GreenSaturation</first>
+              <second>Green Saturation Calibration</second>
             </value33>
             <value34>
-              <first>BlueSaturation</first>
-              <second>Blue Saturation Calibration</second>
+              <first>BlueHue</first>
+              <second>Blue Hue Calibration</second>
             </value34>
             <value35>
-              <first>ResetShadowTint</first>
-              <second>Reset Shadow Tint Calibration</second>
+              <first>BlueSaturation</first>
+              <second>Blue Saturation Calibration</second>
             </value35>
             <value36>
-              <first>ResetRedHue</first>
-              <second>Reset Red Hue Calibration</second>
+              <first>ResetShadowTint</first>
+              <second>Reset Shadow Tint Calibration</second>
             </value36>
             <value37>
-              <first>ResetRedSaturation</first>
-              <second>Reset Red Saturation Calibration</second>
+              <first>ResetRedHue</first>
+              <second>Reset Red Hue Calibration</second>
             </value37>
             <value38>
-              <first>ResetGreenHue</first>
-              <second>Reset Green Hue Calibration</second>
+              <first>ResetRedSaturation</first>
+              <second>Reset Red Saturation Calibration</second>
             </value38>
             <value39>
-              <first>ResetGreenSaturation</first>
-              <second>Reset Green Saturation Calibration</second>
+              <first>ResetGreenHue</first>
+              <second>Reset Green Hue Calibration</second>
             </value39>
             <value40>
-              <first>ResetBlueHue</first>
-              <second>Reset Blue Hue Calibration</second>
+              <first>ResetGreenSaturation</first>
+              <second>Reset Green Saturation Calibration</second>
             </value40>
             <value41>
+              <first>ResetBlueHue</first>
+              <second>Reset Blue Hue Calibration</second>
+            </value41>
+            <value42>
               <first>ResetBlueSaturation</first>
               <second>Reset Blue Saturation Calibration</second>
-            </value41>
+            </value42>
         </second>
-      </value19>
-      <value20>
+      </value18>
+      <value19>
         <first>Develop Presets</first>
         <second size="dynamic">
             <value0>
@@ -2444,8 +2395,8 @@
               <second>Develop Preset 80</second>
             </value79>
         </second>
-      </value20>
-      <value21>
+      </value19>
+      <value20>
         <first>Keywords</first>
         <second size="dynamic">
             <value0>
@@ -2513,8 +2464,8 @@
               <second>Keyword 16</second>
             </value15>
         </second>
-      </value21>
-      <value22>
+      </value20>
+      <value21>
         <first>Local Adjustments</first>
         <second size="dynamic">
             <value0>
@@ -2666,8 +2617,8 @@
               <second>Local Adjustments Luminance (PV 2)</second>
             </value36>
         </second>
-      </value22>
-      <value23>
+      </value21>
+      <value22>
         <first>Reset Local Adjustments</first>
         <second size="dynamic">
             <value0>
@@ -2763,8 +2714,8 @@
               <second>Reset Local Adjustments Luminance (PV 2)</second>
             </value22>
         </second>
-      </value23>
-      <value24>
+      </value22>
+      <value23>
         <first>Local adjustments presets</first>
         <second size="dynamic">
             <value0>
@@ -2832,8 +2783,8 @@
               <second>Local adjustments presets 16</second>
             </value15>
         </second>
-      </value24>
-      <value25>
+      </value23>
+      <value24>
         <first>Crop</first>
         <second size="dynamic">
             <value0>
@@ -2893,8 +2844,8 @@
               <second>Show Crop</second>
             </value13>
         </second>
-      </value25>
-      <value26>
+      </value24>
+      <value25>
         <first>Select Tools, Modules and Panels</first>
         <second size="dynamic">
             <value0>
@@ -2922,8 +2873,8 @@
               <second>Show Web</second>
             </value5>
         </second>
-      </value26>
-      <value27>
+      </value25>
+      <value26>
         <first>Secondary Display</first>
         <second size="dynamic">
             <value0>
@@ -2959,8 +2910,8 @@
               <second>Secondary Display Show</second>
             </value7>
         </second>
-      </value27>
-      <value28>
+      </value26>
+      <value27>
         <first>Profiles</first>
         <second size="dynamic">
             <value0>
@@ -3076,7 +3027,7 @@
               <second>Next Profile</second>
             </value27>
         </second>
-      </value28>
+      </value27>
     </all_commands>
     </value0>
     </cereal>
