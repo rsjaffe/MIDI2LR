@@ -28,3 +28,4 @@
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Seqüência de comando"
 "$$$/MIDI2LR/ShortCuts/ShowHide=mostrar/ocultar"
 "$$$/MIDI2LR/Shortcuts/Key=Tecla"
+"$$$/MIDI2LR/Database/Customcameraprofile=Perfil de câmera personalizado"

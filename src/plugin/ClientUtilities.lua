@@ -494,11 +494,22 @@ local function LRValueToMIDIValue(param)
 end
 
 local function UpdateCameraProfile(name)
+  if type(name) == 'string' then
+    return function()
+      fChangePanel('calibratePanel')
+      ApplySettings({
+          CameraProfile = name
+        })
+    end
+  end
   return function()
-    fChangePanel('calibratePanel')
-    ApplySettings({
-        CameraProfile = name
-      })
+    local newprofile = ProgramPreferences.CustomProfile[name]
+    if newprofile then
+      fChangePanel('calibratePanel')
+      ApplySettings({
+          CameraProfile = newprofile
+        })
+    end
   end
 end
 

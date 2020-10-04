@@ -28,3 +28,4 @@
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Последовательность команд"
 "$$$/MIDI2LR/ShortCuts/ShowHide=показать или скрыть"
 "$$$/MIDI2LR/Shortcuts/Key=клавиша"
+"$$$/MIDI2LR/Database/Customcameraprofile=Пользовательский профиль камеры"

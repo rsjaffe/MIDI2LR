@@ -43,6 +43,9 @@
                             <origin>../../src/plugin/ClientUtilities.lua</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>../../src/plugin/CustomProfiles.lua</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>../../src/plugin/Database.lua</origin>
                         </distributionFile>
                         <distributionFile>
