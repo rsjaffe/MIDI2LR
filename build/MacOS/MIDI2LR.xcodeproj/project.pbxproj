@@ -1031,7 +1031,7 @@
 					"JucePlugin_Build_Unity=0",
 					"JUCE_DISPLAY_SPLASH_SCREEN=0",
 					"JUCE_USE_DARK_SPLASH_SCREEN=1",
-					"JUCE_PROJUCER_VERSION=0x60001",
+					"JUCE_PROJUCER_VERSION=0x60003",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
@@ -1043,7 +1043,6 @@
 					"JUCE_USE_WINRT_MIDI=0",
 					"JUCE_ASIO=0",
 					"JUCE_WASAPI=0",
-					"JUCE_WASAPI_EXCLUSIVE=0",
 					"JUCE_DIRECTSOUND=0",
 					"JUCE_ALSA=0",
 					"JUCE_JACK=0",
@@ -1070,11 +1069,18 @@
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_HEADER_SEARCH_PATHS = (
+					"../../external/JuceLibraryCode",
+					"../../external/JuceLibraryCode/modules",
+					"../../external/",
+					"../../external/asio/",
+				);
 				OTHER_CPLUSPLUSFLAGS = "-Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Woverloaded-virtual -Wreorder -Wconstant-conversion -Wsign-conversion -Wunused-private-field -Wbool-conversion -Wextra-semi -Wunreachable-code -Wzero-as-null-pointer-constant -Wcast-align -Winconsistent-missing-destructor-override -Wshift-sign-overflow -Wnullable-to-nonnull-conversion -Wno-missing-field-initializers -Wno-ignored-qualifiers -Wswitch-enum";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
 				PRODUCT_NAME = "MIDI2LR";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				USE_HEADERMAP = NO;
+				VALID_ARCHS = "x86_64";
 			};
 			name = Debug;
 		};
@@ -1110,7 +1116,7 @@
 					"JucePlugin_Build_Unity=0",
 					"JUCE_DISPLAY_SPLASH_SCREEN=0",
 					"JUCE_USE_DARK_SPLASH_SCREEN=1",
-					"JUCE_PROJUCER_VERSION=0x60001",
+					"JUCE_PROJUCER_VERSION=0x60003",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
@@ -1122,7 +1128,6 @@
 					"JUCE_USE_WINRT_MIDI=0",
 					"JUCE_ASIO=0",
 					"JUCE_WASAPI=0",
-					"JUCE_WASAPI_EXCLUSIVE=0",
 					"JUCE_DIRECTSOUND=0",
 					"JUCE_ALSA=0",
 					"JUCE_JACK=0",
@@ -1150,10 +1155,17 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_HEADER_SEARCH_PATHS = (
+					"../../external/JuceLibraryCode",
+					"../../external/JuceLibraryCode/modules",
+					"../../external/",
+					"../../external/asio/",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
 				PRODUCT_NAME = "MIDI2LR";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				USE_HEADERMAP = NO;
+				VALID_ARCHS = "x86_64";
 			};
 			name = Release;
 		};
@@ -1358,7 +1370,7 @@
 		DFD30DF9237597CD5AF365AE = {
 			isa = PBXProject;
 			buildConfigurationList = 1F2C01BA514CBFEA905450CC;
-			attributes = { LastUpgradeCheck = 1100; ORGANIZATIONNAME = "Rory Jaffe"; TargetAttributes = { FD946FDE29418E71B61DACDC = { DevelopmentTeam = VN44PD5JV9; ProvisioningStyle = Manual; SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 1; }; }; }; }; };
+			attributes = { LastUpgradeCheck = 1200; ORGANIZATIONNAME = "Rory Jaffe"; TargetAttributes = { FD946FDE29418E71B61DACDC = { DevelopmentTeam = VN44PD5JV9; ProvisioningStyle = Manual; SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 1; }; }; }; }; };
 			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 0;
 			mainGroup = 1C312ECBCB4990D995AB81D1;

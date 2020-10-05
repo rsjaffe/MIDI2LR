@@ -63,7 +63,7 @@ template <class T>
 class not_null
 {
 public:
-    static_assert(std::is_assignable<T&, std::nullptr_t>::value, "T cannot be assigned nullptr.");
+    static_assert(std::is_convertible<decltype(std::declval<T>() != nullptr), bool>::value, "T cannot be compared to nullptr.");
 
     template <typename U, typename = std::enable_if_t<std::is_convertible<U, T>::value>>
     constexpr not_null(U&& u) : ptr_(std::forward<U>(u))
@@ -72,7 +72,7 @@ public:
     }
 
     template <typename = std::enable_if_t<!std::is_same<std::nullptr_t, T>::value>>
-    constexpr not_null(T u) : ptr_(u)
+    constexpr not_null(T u) : ptr_(std::move(u))
     {
         Expects(ptr_ != nullptr);
     }
@@ -84,15 +84,14 @@ public:
 
     not_null(const not_null& other) = default;
     not_null& operator=(const not_null& other) = default;
-
-    constexpr T get() const
+    constexpr std::conditional_t<std::is_copy_constructible<T>::value, T, const T&> get() const
     {
         Ensures(ptr_ != nullptr);
         return ptr_;
     }
 
     constexpr operator T() const { return get(); }
-    constexpr T operator->() const { return get(); }
+    constexpr decltype(auto) operator->() const { return get(); }
     constexpr decltype(auto) operator*() const { return *get(); }
 
     // prevents compilation when someone attempts to assign a null pointer constant
@@ -177,7 +176,7 @@ namespace std
 template <class T>
 struct hash<gsl::not_null<T>>
 {
-    std::size_t operator()(const gsl::not_null<T>& value) const { return hash<T>{}(value); }
+    std::size_t operator()(const gsl::not_null<T>& value) const { return hash<T>{}(value.get()); }
 };
 
 } // namespace std
@@ -280,7 +279,7 @@ namespace std
 template <class T>
 struct hash<gsl::strict_not_null<T>>
 {
-    std::size_t operator()(const gsl::strict_not_null<T>& value) const { return hash<T>{}(value); }
+    std::size_t operator()(const gsl::strict_not_null<T>& value) const { return hash<T>{}(value.get()); }
 };
 
 } // namespace std
