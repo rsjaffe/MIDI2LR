@@ -106,7 +106,7 @@ namespace {
       std::call_once(of, [] {
          SetLastError(ERROR_SUCCESS);
          EnumWindows(&EnumWindowsProc, 0);
-         LOG_LAST_ERROR_IF(GetLastError() != ERROR_SUCCESS);
+         LOG_IF_WIN32_ERROR(GetLastError());
          if (!h_lr_wnd)
             rsj::Log("Unable to find Lightroom in EnumWindows.");
       });

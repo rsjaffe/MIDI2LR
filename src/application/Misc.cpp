@@ -239,7 +239,7 @@ void rsj::LogAndAlertError(const juce::String& error_text) noexcept
 {
    try {
       {
-         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
+         const juce::MessageManagerLock mm_lock; /* this may be unnecessary */
          juce::NativeMessageBox::showMessageBox(
              juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
       }
@@ -253,7 +253,7 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
 {
    try {
       {
-         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
+         const juce::MessageManagerLock mm_lock; /* this may be unnecessary */
          juce::NativeMessageBox::showMessageBox(
              juce::AlertWindow::WarningIcon, juce::translate("Error"), alert_text);
       }
@@ -267,7 +267,7 @@ void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
 {
    try {
       {
-         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
+         const juce::MessageManagerLock mm_lock; /* this may be unnecessary */
          juce::NativeMessageBox::showMessageBox(
              juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
       }

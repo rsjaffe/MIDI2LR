@@ -99,7 +99,7 @@ bool Devices::Enabled(const juce::MidiDeviceInfo& info, juce::String io) const
    return it->second;
 }
 
-bool Devices::EnabledOrNew(const juce::MidiDeviceInfo& info, juce::String io)
+bool Devices::EnabledOrNew(const juce::MidiDeviceInfo& info, const juce::String io)
 {
    if (Add(info, io))
       return true;
