@@ -180,6 +180,7 @@ namespace {
       try {
          static const std::string kLr {".app/Contents/MacOS/Adobe Lightroom"};
          static const std::string kLrc {".app/Contents/MacOS/Adobe Lightroom Classic"};
+         static const std::string kLrcp {".app/Contents/MacOS/Adobe Lightroom Classic (Prerelease)"};
          /* add 20 in case more processes show up */
          const int number_processes {proc_listpids(PROC_ALL_PIDS, 0, nullptr, 0) + 20};
          std::vector<pid_t> pids(number_processes, 0);
@@ -193,7 +194,7 @@ namespace {
             proc_pidpath(pid, path_buffer.data(), path_buffer.size());
             if (strlen(path_buffer.data()) > 0
                 && (rsj::EndsWith(path_buffer.data(), kLr)
-                    || rsj::EndsWith(path_buffer.data(), kLrc)))
+                    || rsj::EndsWith(path_buffer.data(), kLrc) || rsj::EndsWith(path_buffer.data(), kLrcp)))
                return pid;
          }
          rsj::LogAndAlertError("Lightroom PID not found.");
