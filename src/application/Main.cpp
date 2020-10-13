@@ -193,6 +193,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       version_checker_.Stop();
       DefaultProfileSave();
       SaveControlsModel();
+      settings_manager_.SetDefaultProfile(main_window_->GetProfileName());
       /* (delete our window) */
       main_window_.reset();
       juce::Logger::setCurrentLogger(nullptr);

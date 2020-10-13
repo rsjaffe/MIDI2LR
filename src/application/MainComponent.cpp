@@ -247,9 +247,14 @@ void MainContentComponent::Init()
             command_table_.updateContent();
          }
       }
-      else
-         /* otherwise use the last profile from the profile directory */
-         profile_manager_.SwitchToProfile(0);
+      else {
+         const auto last_prof {settings_manager_.GetDefaultProfile()};
+         if (last_prof != juce::String())
+            profile_manager_.SwitchToProfile(last_prof);
+         else
+            /* otherwise use the last profile from the profile directory */
+            profile_manager_.SwitchToProfile(0);
+      }
 
       /* turn it on */
       activateLayout();
