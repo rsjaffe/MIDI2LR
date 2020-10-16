@@ -1,0 +1,12 @@
+[selene]
+base = "lua51"
+
+[rules]
+#currently unable to specifically defeat warning on ProgramPreferences, MIDI2LR globals
+undefined_variable = "allow"
+#allow if stmts on single line
+multiple_statements = "allow"
+
+[ProgramPreferences]
+property = true
+writable = "full"
