@@ -44,7 +44,7 @@ local function gatherInformation()
   .. '\nMIDI2LR log path ' .. Ut.applogpath()
   .. '\nMIDI2LR data path ' .. Ut.appdatapath()
   local lines = 11 -- update if change above message
-  if (type(Info.AppInfo) == 'table') then
+  if type(Info.AppInfo) == 'table' then
     mess = mess .. '\n----------- APP -----------'
     lines = lines + 1
     for _,v in ipairs(Info.AppInfo) do

@@ -595,7 +595,7 @@ LrTasks.startAsyncTask(
       --]]
       SetRating          = function(value) 
         local newrating = math.min(5,math.floor(tonumber(value)*6))
-        if (newrating ~= LrSelection.getRating()) then
+        if newrating ~= LrSelection.getRating() then
           LrSelection.setRating(newrating)
         end
       end,
@@ -615,7 +615,7 @@ LrTasks.startAsyncTask(
         if Limits.Parameters[param] then
           Limits.ClampValue(param)
         end
-        if((math.abs(midi_value - CU.LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > os.clock())) then -- pickup succeeded
+        if (math.abs(midi_value - CU.LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > os.clock()) then -- pickup succeeded
           paramlastmoved[param] = os.clock()
           value = CU.MIDIValueToLRValue(param, midi_value)
           if value ~= LrDevelopController.getValue(param) then
@@ -829,21 +829,21 @@ LrTasks.startAsyncTask(
                     end
                   end
                 end
-              elseif(ACTIONS[param]) then -- perform a one time action
-                if(tonumber(value) > BUTTON_ON) then
+              elseif ACTIONS[param] then -- perform a one time action
+                if tonumber(value) > BUTTON_ON then
                   ACTIONS[param]()
                 end
-              elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
+              elseif SETTINGS[param] then -- do something requiring the transmitted value to be known
                 SETTINGS[param](value)
-              elseif(Virtual[param]) then -- handle a virtual command
+              elseif Virtual[param] then -- handle a virtual command
                 local lp = Virtual[param](value, UpdateParam)
                 if lp then
                   LastParam = lp
                 end
-              elseif(param:sub(1,4) == 'Crop') then 
+              elseif param:sub(1,4) == 'Crop'  then 
                 RatioCrop(param,value)
-              elseif(param:sub(1,5) == 'Reset') then -- perform a reset other than those explicitly coded in ACTIONS array
-                if(tonumber(value) > BUTTON_ON) then
+              elseif param:sub(1,5) == 'Reset' then -- perform a reset other than those explicitly coded in ACTIONS array
+                if tonumber(value) > BUTTON_ON then
                   local resetparam = param:sub(6)
                   CU.execFOM(LrDevelopController.resetToDefault,resetparam)
                   if ProgramPreferences.ClientShowBezelOnChange then
@@ -881,7 +881,7 @@ LrTasks.startAsyncTask(
 
         startServer(context)
 
-        if(WIN_ENV) then
+        if WIN_ENV then
           LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
         else
           LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))

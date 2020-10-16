@@ -27,19 +27,19 @@
 std::string rsj::AppDataMac()
 {
    NSString* result {(@"~/Library/Application Support").stringByExpandingTildeInPath};
-   return std::string(result.UTF8String);
+   return result.UTF8String;
 }
 
 std::string rsj::AppLogMac()
 {
    NSString* result {(@"~/Library/Logs").stringByExpandingTildeInPath};
-   return std::string(result.UTF8String);
+   return result.UTF8String;
 }
 
 std::string rsj::SystemFontMac()
 {
    NSFont* font {[NSFont controlContentFontOfSize:0.0]};
-   return std::string((font.displayName).UTF8String);
+   return font.displayName.UTF8String;
 }
 
 void rsj::CheckPermission(pid_t pid)
@@ -58,14 +58,14 @@ void rsj::CheckPermission(pid_t pid)
       switch (status) {
       case errAEEventWouldRequireUserConsent:
          rsj::Log(
-             fmt::format("Automation permission pending for {}.", bundleIdentifier.UTF8String));
+             fmt::format("Automation permission pending for {}.", bundleIdentifierCString));
          break;
       case noErr:
          rsj::Log(
-             fmt::format("Automation permission granted for {}.", bundleIdentifier.UTF8String));
+             fmt::format("Automation permission granted for {}.", bundleIdentifierCString));
          break;
       case errAEEventNotPermitted: {
-         rsj::Log(fmt::format("Automation permission denied for {}.", bundleIdentifier.UTF8String));
+         rsj::Log(fmt::format("Automation permission denied for {}.", bundleIdentifierCString));
          auto title {
              juce::translate("MIDI2LR needs your authorization to send keystrokes to Lightroom")};
          auto message {juce::translate(
@@ -77,11 +77,11 @@ void rsj::CheckPermission(pid_t pid)
       }
       case procNotFound:
          rsj::Log(fmt::format("Application not found. Automation permission unknown for {}.",
-             bundleIdentifier.UTF8String));
+             bundleIdentifierCString));
          break;
       default:
          rsj::Log(fmt::format("Unexpected return value when checking automation permission for {}.",
-             bundleIdentifier.UTF8String));
+             bundleIdentifierCString));
          break;
       }
    }

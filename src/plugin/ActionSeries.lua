@@ -88,9 +88,9 @@ local function RunActionSeries(strarg1,actarray)
       --currently only accepts items in Database assigned 'button' and saved in Database.ValidActions
       --will have to parse into command and value if want to go to parameterized commands (e.g., slider change)
       for i in strarg:gmatch("[%w_]+") do
-        if(actarray[i]) then -- perform a one time action
+        if actarray[i] then -- perform a one time action
           actarray[i]()
-        elseif(i:sub(1,5) == 'Reset') then -- perform a reset other than those explicitly coded in ACTIONS array
+        elseif i:sub(1,5) == 'Reset' then -- perform a reset other than those explicitly coded in ACTIONS array
           local resetparam = i:sub(6)
           CU.execFOM(LrDevelopController.resetToDefault,resetparam)
           if ProgramPreferences.ClientShowBezelOnChange then

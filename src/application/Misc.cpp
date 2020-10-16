@@ -121,20 +121,6 @@ void rsj::TrimL(::std::string_view& value) noexcept
    if (first_not != ::std::string_view::npos)
       value.remove_prefix(first_not);
 }
-
-#ifndef __cpp_lib_starts_ends_with
-bool rsj::EndsWith(::std::string_view main_str, ::std::string_view to_match)
-{
-   try {
-      return main_str.size() >= to_match.size()
-             && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
-   }
-   catch (const ::std::exception& e) {
-      MIDI2LR_E_RESPONSE_F;
-      throw;
-   }
-}
-#endif
 /*****************************************************************************/
 /**************Error Logging**************************************************/
 /*****************************************************************************/

@@ -37,7 +37,7 @@ local KeyCode = {
   ShowAdjustmentBrushOverlayKey = "0 o",
 }
 
-if(WIN_ENV) then -- shortcuts that differ between Mac and PC
+if WIN_ENV then -- shortcuts that differ between Mac and PC
   KeyCode.CopyKey  = "6 c"
   KeyCode.PasteKey = "6 v"
   KeyCode.RedoKey  = "2 y"
