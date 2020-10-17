@@ -29,3 +29,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide=mostrare/nascondere"
 "$$$/MIDI2LR/Shortcuts/Key=Tasto"
 "$$$/MIDI2LR/Database/Customcameraprofile=Profilo fotocamera personalizzato"
+"$$$/MIDI2LR/Dialog/InvalidKey=Il valore deve essere un singolo carattere o indicare un tasto F (F1-F16) o: apostrophe, backslash, backspace (in MacOS rappresenta l'eliminazione a sinistra), cursor down, cursor left, cursor right, cursor up, delete (in MacOS rappresenta l'eliminazione verso destra), end, escape , home, page down, page up, return, space, tab o numpad 0 (fino ad numpad 9), numpad add (o decimal, divide, multiply, subtract)."

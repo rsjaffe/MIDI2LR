@@ -29,3 +29,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide=показать или скрыть"
 "$$$/MIDI2LR/Shortcuts/Key=клавиша"
 "$$$/MIDI2LR/Database/Customcameraprofile=Пользовательский профиль камеры"
+"$$$/MIDI2LR/Dialog/InvalidKey=Значение должно состоять из одного символа или представлять собой клавишу F (F1-F16) или: apostrophe, backslash, backspace (в MacOS представляет собой удаление влево), cursor down, cursor left, cursor right, cursor up, delete (в MacOS представляет собой удаление вправо), end, escape , home, page down, page up, return, space, tab или numpad 0 (через numpad 9), numpad add (или decimal, divide, multiply, subtract)."

@@ -29,3 +29,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide=표시/숨기기"
 "$$$/MIDI2LR/Shortcuts/Key=키"
 "$$$/MIDI2LR/Database/Customcameraprofile=커스텀 카메라 프로필"
+"$$$/MIDI2LR/Dialog/InvalidKey=값은 단일 문자이거나 F 키 (F1-F16) 또는 apostrophe, backslash, backspace (MacOS에서는 왼쪽 삭제를 나타냅니다), cursor down, cursor left, cursor right, cursor up, delete (MacOS에서는 오른쪽 삭제를 나타냅니다), end, escape, home, page down, page up, return, space, tab 또는 numpad 0 (numpad 9까지), numpad add (또는 decimal, divide, multiply, subtract)."

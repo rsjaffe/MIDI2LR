@@ -18,14 +18,14 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-local CU              = require 'ClientUtilities'
-local Database        = require 'Database'
+local CU                  = require 'ClientUtilities'
+local Database            = require 'Database'
 local LrDevelopController = import 'LrDevelopController'
 local LrTasks             = import 'LrTasks'
 local LrView              = import 'LrView'
 
 
-Database.ValidActions.Pause = true --this is additional to the menu list
+Database.ValidActions.Pause = true --this is in addition to the menu list
 
 local function ValidateActions(_,value)
   local stack = nil 
@@ -34,12 +34,12 @@ local function ValidateActions(_,value)
       if not stack then
         stack = a
       else
-        stack = stack .. ', ' .. a
+        stack = stack..LOC("$$$/Application/listSeparator=, ")..a
       end
     end
   end
   if stack then
-    return false,value,LOC("$$$/MIDI2LR/Options/ActionSeriesInvalid=Invalid commands") .. ': '  .. stack
+    return false,value,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SettingsString/ConstructionWithColon=^1: ^2",LOC("$$$/MIDI2LR/Options/ActionSeriesInvalid=Invalid commands"),stack)
   else
     return true,value
   end

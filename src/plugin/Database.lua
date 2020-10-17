@@ -118,7 +118,7 @@ local localizedAdjustments = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/L
 local localadjresets = LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',locadj)
 --local localpresets = locadjpre
 local crop = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')
-local gotoToolModulePanel = LOC('$$$/AgDialogs/Select=Select').. ' '..LOC('$$$/AgDevelop/Menu/Tools=Tools'):gsub('%(%&%a%)',''):gsub('%&','')..LOC('$$$/AgStringUtils/localizedList/separatorString=, ')..LOC('$$$/Application/Menu/Window/Modules=Modules:'):gsub(':','')..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..LOC('$$$/AgPreferences/Interface/GroupTitle/Panels=Panels')
+local gotoToolModulePanel = LOC('$$$/AgDialogs/Select=Select')..' '..LOC('$$$/AgDevelop/Menu/Tools=Tools'):gsub('%(%&%a%)',''):gsub('%&','')..LOC('$$$/AgStringUtils/localizedList/separatorString=, ')..LOC('$$$/Application/Menu/Window/Modules=Modules:'):gsub(':','')..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..LOC('$$$/AgPreferences/Interface/GroupTitle/Panels=Panels')
 local secondaryDisplay = LOC('$$$/AgApplication/Menu/Window/SecondaryDisplay=Secondary Display')
 local profiles = LOC("$$$/CRaw/Style/ProfileGroup/Profiles=Profiles")
 
@@ -188,22 +188,22 @@ local DataBase = {
   {Command='Key38Key37',Type='repeat',Translation=key..' 38 – '..key..' 37',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key38 signals to Lightroom, counterclockwise Key37.'..repeatexp},
   {Command='Key40Key39',Type='repeat',Translation=key..' 40 – '..key..' 39',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key40 signals to Lightroom, counterclockwise Key39.'..repeatexp},
   --command series
-  {Command='ActionSeries1',Type='button',Translation=commandseries .. ' 1',Group=commandseries,Explanation=serexp},
-  {Command='ActionSeries2',Type='button',Translation=commandseries .. ' 2',Group=commandseries,Explanation=serexp},
-  {Command='ActionSeries3',Type='button',Translation=commandseries .. ' 3',Group=commandseries,Explanation=serexp},
-  {Command='ActionSeries4',Type='button',Translation=commandseries .. ' 4',Group=commandseries,Explanation=serexp},
-  {Command='ActionSeries5',Type='button',Translation=commandseries .. ' 5',Group=commandseries,Explanation=serexp},
-  {Command='ActionSeries6',Type='button',Translation=commandseries .. ' 6',Group=commandseries,Explanation=serexp},
-  {Command='ActionSeries7',Type='button',Translation=commandseries .. ' 7',Group=commandseries,Explanation=serexp},
-  {Command='ActionSeries8',Type='button',Translation=commandseries .. ' 8',Group=commandseries,Explanation=serexp},
-  {Command='ActionSeries9',Type='button',Translation=commandseries .. ' 9',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries10',Type='button',Translation=commandseries .. ' 10',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries11',Type='button',Translation=commandseries .. ' 11',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries12',Type='button',Translation=commandseries .. ' 12',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries13',Type='button',Translation=commandseries .. ' 13',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries14',Type='button',Translation=commandseries .. ' 14',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries15',Type='button',Translation=commandseries .. ' 15',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries16',Type='button',Translation=commandseries .. ' 16',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries1',Type='button',Translation=commandseries..' 1',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries2',Type='button',Translation=commandseries..' 2',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries3',Type='button',Translation=commandseries..' 3',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries4',Type='button',Translation=commandseries..' 4',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries5',Type='button',Translation=commandseries..' 5',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries6',Type='button',Translation=commandseries..' 6',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries7',Type='button',Translation=commandseries..' 7',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries8',Type='button',Translation=commandseries..' 8',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries9',Type='button',Translation=commandseries..' 9',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries10',Type='button',Translation=commandseries..' 10',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries11',Type='button',Translation=commandseries..' 11',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries12',Type='button',Translation=commandseries..' 12',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries13',Type='button',Translation=commandseries..' 13',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries14',Type='button',Translation=commandseries..' 14',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries15',Type='button',Translation=commandseries..' 15',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries16',Type='button',Translation=commandseries..' 16',Group=commandseries,Explanation=serexp}, 
   --library filters
   {Command='Filter_1',Type='button',Translation=filter..' 1',Group=filter,Explanation='Library filter 1'..filtexp},
   {Command='Filter_2',Type='button',Translation=filter..' 2',Group=filter,Explanation='Library filter 2'..filtexp},
@@ -316,7 +316,7 @@ local DataBase = {
   {Command='PV3',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',3),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 3.'},
   {Command='PV4',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',4),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 4.'},
   --{Command='PV5',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',5),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 5.'},
-  {Command='PVLatest',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',LatestPVSupported),Group=develop,Explanation='Sets the Process Version of all selected photos to the latest (currently PV '.. LatestPVSupported ..'). This Process Version command is recommended if you want the latest version instead of one specific version.'},
+  {Command='PVLatest',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',LatestPVSupported),Group=develop,Explanation='Sets the Process Version of all selected photos to the latest (currently PV '..LatestPVSupported..'). This Process Version command is recommended if you want the latest version instead of one specific version.'},
   {Command='ShowClipping',Type='button',Translation=LOC('$$$/AgDevelop/Histogram/Menu/ShowClippingIndicators=Show clipping'),Group=develop,Explanation='Toggles clipping indicators on/off. Must be called while the Develop module is active.'},
   --develop: before/after previews
   {Command='ShoVwdevelop_before_after_horiz',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterLR=Before/After Left/Right'),Group=develop,Explanation=''},
@@ -644,26 +644,26 @@ local DataBase = {
   {Command='Profile_Camera_Vivid_Blue',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/VividBlue=Camera Vivid Blue'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
   {Command='Profile_Camera_Vivid_Green',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/VividGreen=Camera Vivid Green'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},
   {Command='Profile_Camera_Vivid_Red',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/VividRed=Camera Vivid Red'),Group=calibration,Explanation=profexp, Panel='calibratePanel'},  
-  {Command='Profile_Custom_1',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 1',Group=calibration,Explanation='User-defined custom calibration profile 1', Panel='calibratePanel'},
-  {Command='Profile_Custom_2',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 2',Group=calibration,Explanation='User-defined custom calibration profile 2', Panel='calibratePanel'},
-  {Command='Profile_Custom_3',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 3',Group=calibration,Explanation='User-defined custom calibration profile 3', Panel='calibratePanel'},
-  {Command='Profile_Custom_4',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 4',Group=calibration,Explanation='User-defined custom calibration profile 4', Panel='calibratePanel'},
-  {Command='Profile_Custom_5',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 5',Group=calibration,Explanation='User-defined custom calibration profile 5', Panel='calibratePanel'},
-  {Command='Profile_Custom_6',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 6',Group=calibration,Explanation='User-defined custom calibration profile 6', Panel='calibratePanel'},
-  {Command='Profile_Custom_7',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 7',Group=calibration,Explanation='User-defined custom calibration profile 7', Panel='calibratePanel'},
-  {Command='Profile_Custom_8',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 8',Group=calibration,Explanation='User-defined custom calibration profile 8', Panel='calibratePanel'},
-  {Command='Profile_Custom_9',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 9',Group=calibration,Explanation='User-defined custom calibration profile 9', Panel='calibratePanel'},
-  {Command='Profile_Custom_10',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 10',Group=calibration,Explanation='User-defined custom calibration profile 10', Panel='calibratePanel'},
-  {Command='Profile_Custom_11',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 11',Group=calibration,Explanation='User-defined custom calibration profile 11', Panel='calibratePanel'},
-  {Command='Profile_Custom_12',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 12',Group=calibration,Explanation='User-defined custom calibration profile 12', Panel='calibratePanel'},
-  {Command='Profile_Custom_13',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 13',Group=calibration,Explanation='User-defined custom calibration profile 13', Panel='calibratePanel'},
-  {Command='Profile_Custom_14',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 14',Group=calibration,Explanation='User-defined custom calibration profile 14', Panel='calibratePanel'},
-  {Command='Profile_Custom_15',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 15',Group=calibration,Explanation='User-defined custom calibration profile 15', Panel='calibratePanel'},
-  {Command='Profile_Custom_16',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 16',Group=calibration,Explanation='User-defined custom calibration profile 16', Panel='calibratePanel'},
-  {Command='Profile_Custom_17',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 17',Group=calibration,Explanation='User-defined custom calibration profile 17', Panel='calibratePanel'},
-  {Command='Profile_Custom_18',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 18',Group=calibration,Explanation='User-defined custom calibration profile 18', Panel='calibratePanel'},
-  {Command='Profile_Custom_19',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 19',Group=calibration,Explanation='User-defined custom calibration profile 19', Panel='calibratePanel'},
-  {Command='Profile_Custom_20',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile') .. ' 20',Group=calibration,Explanation='User-defined custom calibration profile 20', Panel='calibratePanel'},
+  {Command='Profile_Custom_1',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 1',Group=calibration,Explanation='User-defined custom calibration profile 1', Panel='calibratePanel'},
+  {Command='Profile_Custom_2',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 2',Group=calibration,Explanation='User-defined custom calibration profile 2', Panel='calibratePanel'},
+  {Command='Profile_Custom_3',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 3',Group=calibration,Explanation='User-defined custom calibration profile 3', Panel='calibratePanel'},
+  {Command='Profile_Custom_4',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 4',Group=calibration,Explanation='User-defined custom calibration profile 4', Panel='calibratePanel'},
+  {Command='Profile_Custom_5',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 5',Group=calibration,Explanation='User-defined custom calibration profile 5', Panel='calibratePanel'},
+  {Command='Profile_Custom_6',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 6',Group=calibration,Explanation='User-defined custom calibration profile 6', Panel='calibratePanel'},
+  {Command='Profile_Custom_7',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 7',Group=calibration,Explanation='User-defined custom calibration profile 7', Panel='calibratePanel'},
+  {Command='Profile_Custom_8',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 8',Group=calibration,Explanation='User-defined custom calibration profile 8', Panel='calibratePanel'},
+  {Command='Profile_Custom_9',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 9',Group=calibration,Explanation='User-defined custom calibration profile 9', Panel='calibratePanel'},
+  {Command='Profile_Custom_10',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 10',Group=calibration,Explanation='User-defined custom calibration profile 10', Panel='calibratePanel'},
+  {Command='Profile_Custom_11',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 11',Group=calibration,Explanation='User-defined custom calibration profile 11', Panel='calibratePanel'},
+  {Command='Profile_Custom_12',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 12',Group=calibration,Explanation='User-defined custom calibration profile 12', Panel='calibratePanel'},
+  {Command='Profile_Custom_13',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 13',Group=calibration,Explanation='User-defined custom calibration profile 13', Panel='calibratePanel'},
+  {Command='Profile_Custom_14',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 14',Group=calibration,Explanation='User-defined custom calibration profile 14', Panel='calibratePanel'},
+  {Command='Profile_Custom_15',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 15',Group=calibration,Explanation='User-defined custom calibration profile 15', Panel='calibratePanel'},
+  {Command='Profile_Custom_16',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 16',Group=calibration,Explanation='User-defined custom calibration profile 16', Panel='calibratePanel'},
+  {Command='Profile_Custom_17',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 17',Group=calibration,Explanation='User-defined custom calibration profile 17', Panel='calibratePanel'},
+  {Command='Profile_Custom_18',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 18',Group=calibration,Explanation='User-defined custom calibration profile 18', Panel='calibratePanel'},
+  {Command='Profile_Custom_19',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 19',Group=calibration,Explanation='User-defined custom calibration profile 19', Panel='calibratePanel'},
+  {Command='Profile_Custom_20',type='button',Translation=LOC('$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile')..' 20',Group=calibration,Explanation='User-defined custom calibration profile 20', Panel='calibratePanel'},
   {Command='ProfileAmount',Type='variable',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ProfileAmount=Profile amount'),Group=calibration,Explanation='Varies amount of custom calibration applied. **Note**: The MIDI controller does not get updated when the value is changed directly in Lightroom, either by using a mouse or when changing images. Pickup mode does not affect behavior of this adjustment. Also, Lightroom may complain of being unable to update the value if too many changes occur in a short period of time. Just dismiss those warnings and continue.', Panel='calibratePanel'}, 
   {Command='ShadowTint',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ShadowTintCalibration=Shadow Tint Calibration'),Group=calibration,Explanation='Corrects for any green or magenta tint in the shadow areas of the photo.',Panel='calibratePanel'},
   {Command='RedHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RedHueCalibration=Red Hue Calibration'),Group=calibration,Explanation='For the red primary. Moving the Hue slider to the left (negative value) is similar to a counterclockwise move on the color wheel; moving it to the right (positive value) is similar to a clockwise move.',Panel='calibratePanel'},
@@ -872,14 +872,14 @@ local DataBase = {
 
   {Command='straightenAngle',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle'),Group=crop,Explanation='Rotate crop angle. Moves angle in crop tool panel from -45 to 45.'},
   {Command='CropAngle',Type='parameter',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CropAngle=Crop Angle'),Group=crop,Explanation='Use *Straighten Angle* (above) instead. This control remains listed as a legacy item. Rotate crop rectangle. This control is constrained to picture boundaries even when \226\128\156constrain to image\226\128\157 is not selected. It also causes the aspect ratio of the crop to change.'},
-  {Command='CropBottom',Type='parameter',Experimental=true,Translation=crop..' - '.. LOC('$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Bottom=Bottom'),Group=crop,Explanation='Adjust bottom of crop rectangle.'},
+  {Command='CropBottom',Type='parameter',Experimental=true,Translation=crop..' - '..LOC('$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Bottom=Bottom'),Group=crop,Explanation='Adjust bottom of crop rectangle.'},
   {Command='CropLeft',Type='parameter',Experimental=true,Translation=crop..' - '..LOC('$$$/AgWatermarking/Alignment/Left=Left'),Group=crop,Explanation='Adjust left side of crop rectangle.'},
   {Command='CropRight',Type='parameter',Experimental=true,Translation=crop..' - '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=crop,Explanation='Adjust right side of crop rectangle.'},
   {Command='CropTop',Type='parameter',Experimental=true,Translation=crop..' - '..LOC('$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Top=Top'),Group=crop,Explanation='Adjust top of crop rectangle.'},
   {Command='CropTopLeft', Type = 'variable',Experimental=true,Translation=crop..' - '..LOC('$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Top=Top')..' - '..LOC('$$$/AgWatermarking/Alignment/Left=Left'),Group=crop,Explanation='Adjust crop from top left corner, preserving the current crop ratio.'},
   {Command='CropTopRight', Type = 'variable',Experimental=true,Translation=crop..' - '..LOC('$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Top=Top')..' - '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=crop,Explanation='Adjust crop from top right corner, preserving the current crop ratio.'},
-  {Command='CropBottomLeft', Type = 'variable',Experimental=true,Translation=crop..' - '.. LOC('$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Bottom=Bottom')..' - '..LOC('$$$/AgWatermarking/Alignment/Left=Left'),Group=crop,Explanation='Adjust crop from bottom left corner, preserving the current crop ratio.'},
-  {Command='CropBottomRight', Type = 'variable',Experimental=true,Translation=crop..' - '.. LOC('$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Bottom=Bottom')..' - '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=crop,Explanation='Adjust crop from bottom right corner, preserving the current crop ratio.'},
+  {Command='CropBottomLeft', Type = 'variable',Experimental=true,Translation=crop..' - '..LOC('$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Bottom=Bottom')..' - '..LOC('$$$/AgWatermarking/Alignment/Left=Left'),Group=crop,Explanation='Adjust crop from bottom left corner, preserving the current crop ratio.'},
+  {Command='CropBottomRight', Type = 'variable',Experimental=true,Translation=crop..' - '..LOC('$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Bottom=Bottom')..' - '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=crop,Explanation='Adjust crop from bottom right corner, preserving the current crop ratio.'},
   {Command='CropAll', Type = 'variable',Experimental=true,Translation=crop..' - '..LOC('$$$/AgDevelop/LookBrowser/ProfileFilter/All=All'),Group=crop,Explanation='Adjust crop at all corners proportionately, preserving the current crop ratio.'},
   {Command='ResetCrop',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetCrop=Reset Crop'),Group=crop,Explanation='Reset the crop angle and frame for the current photo.'},
   {Command='ResetstraightenAngle',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Reset1=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle')),Group=crop,Explanation='Reset crop angle.'},
@@ -955,7 +955,7 @@ local Ut = require 'Utilities'
 
 local AppTrans = LrPathUtils.child(Ut.appdatapath() , 'MenuTrans.xml') 
 local function WriteAppTrans(language) 
-  local file = assert(io.open(AppTrans,'w'),'Error writing to MenuTrans.txt') 
+  local file = assert(io.open(AppTrans,'w'),LOC("$$$/AgImageIO/Errors/WriteFile=The file could not be written.")..' '..'MenuTrans.txt') 
   --new version for xml file  
   local CmdStructure={}
   local GroupOrder={}

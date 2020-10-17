@@ -76,7 +76,7 @@ setmetatable ( needsModule, _needsModule)
 -- already know that Lightroom is set to the correct module. Stays in module that was 
 -- opened after function ends.
 -- @tparam function F The function to use.
--- @param ... Any arguments to the function.
+-- @param...Any arguments to the function.
 -- @treturn function Function closure.
 --------------------------------------------------------------------------------
 local function wrapFOM(F,...)
@@ -103,7 +103,7 @@ end
 -- already know that Lightroom is set to the correct module. Stays in module that was 
 -- opened after function ends.
 -- @tparam function F The function to use.
--- @param ... Any arguments to the function.
+-- @param...Any arguments to the function.
 -- @return Results of passed function.
 --------------------------------------------------------------------------------
 local function execFOM(F,...)
@@ -120,13 +120,13 @@ local function execFOM(F,...)
 end
 
 local wfep_action = {
-  QuickDevWBAuto                  = function(T) T:quickDevelopSetWhiteBalacne("Auto") end,--balance misspelled in api
-  QuickDevWBCloudy                = function(T) T:quickDevelopSetWhiteBalacne("Cloudy") end,
-  QuickDevWBDaylight              = function(T) T:quickDevelopSetWhiteBalacne("Daylight") end,
-  QuickDevWBFlash                 = function(T) T:quickDevelopSetWhiteBalacne("Flash") end,
-  QuickDevWBFluorescent           = function(T) T:quickDevelopSetWhiteBalacne("Fluorescent") end,
-  QuickDevWBShade                 = function(T) T:quickDevelopSetWhiteBalacne("Shade") end,
-  QuickDevWBTungsten              = function(T) T:quickDevelopSetWhiteBalacne("Tungsten") end,
+  QuickDevWBAuto                  = function(T) T:quickDevelopSetWhiteBalance("Auto") end,
+  QuickDevWBCloudy                = function(T) T:quickDevelopSetWhiteBalance("Cloudy") end,
+  QuickDevWBDaylight              = function(T) T:quickDevelopSetWhiteBalance("Daylight") end,
+  QuickDevWBFlash                 = function(T) T:quickDevelopSetWhiteBalance("Flash") end,
+  QuickDevWBFluorescent           = function(T) T:quickDevelopSetWhiteBalance("Fluorescent") end,
+  QuickDevWBShade                 = function(T) T:quickDevelopSetWhiteBalance("Shade") end,
+  QuickDevWBTungsten              = function(T) T:quickDevelopSetWhiteBalance("Tungsten") end,
   SetTreatmentBW                  = function(T) T:quickDevelopSetTreatment("grayscale") end,
   SetTreatmentColor               = function(T) T:quickDevelopSetTreatment("color") end,
   addOrRemoveFromTargetCollection = function(T) T:addOrRemoveFromTargetCollection() end,
@@ -289,7 +289,7 @@ local function showBezel(param, value1, value2)
   -- this is in case someone doesn't update MIDI2LR but Adobe goes to a higher process version not supported by MIDI2LR CmdTrans table
   local bezelname = Database.CmdTrans[param] and (Database.CmdTrans[param][processVersion] or Database.CmdTrans[param][Database.LatestPVSupported]) or param
   if value2 then
-    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value1,precision) .. '  ' ..LrStringUtils.numberToStringWithSeparators(value2,precision) )
+    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value1,precision)..'  '..LrStringUtils.numberToStringWithSeparators(value2,precision) )
   else
     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value1,precision))
   end
@@ -319,7 +319,7 @@ local function fApplyPreset(presetnumber)
             LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) 
           end,
           { timeout = 4, 
-            callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.").. 'PastePreset.') end, 
+            callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..'PastePreset.') end, 
             asynchronous = true }
         ) 
       end )
@@ -518,11 +518,11 @@ local function fSimulateKeys(keys, developonly, tool)
     if developonly then
       if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
         if tool == nil or tool[LrDevelopController.getSelectedTool()] then
-          MIDI2LR.SERVER:send('SendKey '.. keys ..'\n')
+          MIDI2LR.SERVER:send('SendKey '..keys..'\n')
         end
       end
     else
-      MIDI2LR.SERVER:send('SendKey '.. keys ..'\n')
+      MIDI2LR.SERVER:send('SendKey '..keys..'\n')
     end
   end
 end
@@ -629,6 +629,7 @@ local function cg_reset_current()
   end
 end
 
+local patrans = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ProfileAmount=Profile amount')
 local function ProfileAmount(value)
   local val = value -- make available to async task
   LrTasks.startAsyncTask ( function ()
@@ -641,14 +642,14 @@ local function ProfileAmount(value)
             params.Look.Amount = val * 2
             LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(params) 
             if ProgramPreferences.ClientShowBezelOnChange then
-              local bezelname = (Database.CmdTrans.ProfileAmount and Database.CmdTrans.ProfileAmount[Database.LatestPVSupported]) or "Profile Amount"
-              LrDialogs.showBezel(bezelname .. '  ' .. LrStringUtils.numberToStringWithSeparators(val*200, 0))
+              local bezelname = (Database.CmdTrans.ProfileAmount and Database.CmdTrans.ProfileAmount[Database.LatestPVSupported]) or patrans
+              LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(val*200, 0))
             end
           end
         end,
         { timeout = 4,
           callback = function()
-            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' ProfileAmount')
+            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' '..patrans)
           end,
           asynchronous = true
         }

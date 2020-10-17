@@ -29,3 +29,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide=visa/dölj"
 "$$$/MIDI2LR/Shortcuts/Key=Nyckel"
 "$$$/MIDI2LR/Database/Customcameraprofile=Anpassad kameraprofil"
+"$$$/MIDI2LR/Dialog/InvalidKey=Värdet måste bestå av ett tecken eller stava ut en F-tangent (F1-F16) eller: apostrophe, backslash, backspace (i MacOS representerar radera till vänster), cursor down, cursor left, cursor right, cursor up, delete (i MacOS representerar radera till höger), end, escape , home, page down, page up, return, space, tab eller numpad 0 (till och med numpad 9), numpad add (eller decimal, divide, multiply, subtract)."

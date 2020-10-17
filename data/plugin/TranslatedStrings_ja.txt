@@ -29,3 +29,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide=表示/非表示"
 "$$$/MIDI2LR/Shortcuts/Key=キー"
 "$$$/MIDI2LR/Database/Customcameraprofile=カスタムカメラプロファイル"
+"$$$/MIDI2LR/Dialog/InvalidKey=値は単一文字であるか、Fキー（F1-F16）を綴る必要があります。または：apostrophe、backslash、backspace（MacOSでは左方向への削除を表します）、cursor down、cursor left、cursor right、cursor up、delete（MacOSでは右方向への削除を表します）、end、escape 、home、page down、page up、return、space、tab、またはnumpad 0（numpad 9を介して）、numpad add（またはdecimal、divide、multiply、subtract）。"

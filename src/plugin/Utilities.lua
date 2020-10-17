@@ -50,7 +50,7 @@ local function appdatapath()
     ret='~/Library/Application Support/MIDI2LR'
   end
   ret = LrPathUtils.standardizePath(ret)
-  LrFileUtils.createAllDirectories( ret )
+  LrFileUtils.createAllDirectories(ret)
   return ret
 end
 

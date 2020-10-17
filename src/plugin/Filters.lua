@@ -47,7 +47,7 @@ local function StartDialog(obstable,f)
       truncation = 'head',
       action = function() obstable['filter'..i] = nil end,        
       title = LrView.bind { key = 'filter'..i,
-        transform = function(value) return i .. ' ' .. filtersbyuuid[value[1]] end
+        transform = function(value) return i..' '..filtersbyuuid[value[1]] end
       },  -- title
     } -- push_button
 

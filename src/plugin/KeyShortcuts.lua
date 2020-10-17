@@ -19,6 +19,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 local LrLocalization = import 'LrLocalization'
+--[[----------------------------------------------------------------------------
 --constants for translation work
 local Modifiers = {
   Alt     = 0x1,
@@ -28,8 +29,11 @@ local Modifiers = {
   Shift   = 0x4,
 }
 --keycodes using Cmd in LR use 0x8 in OSX and 0x2 in Windows for modifier
+------------------------------------------------------------------------------]]
 
---note that functions using KeyCode must get it right--errors in spelling can cause crashes (e.g., BrushIncrease instead of BrushIncreaseKey)
+
+--functions using KeyCode must get it right
+--errors in spelling can cause crashes (e.g., BrushIncrease instead of BrushIncreaseKey)
 local KeyCode = { 
   CycleAdjustmentBrushOverlayKey = "4 o",
   SliderDecreaseKey       = "0 cursor left",

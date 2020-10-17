@@ -71,7 +71,7 @@ local function StartDialog(obstable,f)
   local tabs = {}
   for i = 1,group_cols do
     local j = math.floor((i*group_rows-1)/button_rows)+1 --to determine which list of selected presets to include
-    local label = (i-1)*group_rows+1 .. '-' ..i*group_rows
+    local label = (i-1)*group_rows+1 ..'-'..i*group_rows --must have space after 1 before ..
     tabs[i] = f:tab_view_item {title = label, 
       identifier = 'tabview-'..label,
       f:row{
@@ -87,7 +87,7 @@ local function EndDialog(obstable, status)
   if status == 'ok' then
     ProgramPreferences.Presets = {} -- empty out prior settings
     for i = 1,number_of_presets do
-      if type(obstable['preset'..i])=='table' then -- simple_list should return a table
+      if type(obstable['preset'..i])=='table' then -- simple_list returns a table
         ProgramPreferences.Presets[i] = obstable['preset'..i][1]
       end
     end

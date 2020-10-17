@@ -25,20 +25,20 @@ local function slider(f,obstable,title,widthshare,binding,low,high,default)
   f:row { 
     f:static_text {
       title = title,
-      width = LrView.share(widthshare .. '_label'),
+      width = LrView.share(widthshare..'_label'),
     }, -- static_text
     f:slider {
       value = LrView.bind(binding),
       min = low, 
       max = high,
-      width = LrView.share(widthshare .. '_slider'),
+      width = LrView.share(widthshare..'_slider'),
       integral = high - 10 > low
     }, -- slider
     f:static_text {
       title = LrView.bind(binding),
       alignment = 'right',
       width_in_digits = 4,
-      width = LrView.share(widthshare .. '_reading'),  
+      width = LrView.share(widthshare..'_reading'),  
     }, -- static_text
     f:push_button {
       title = LOC("$$$/AgLibrary/CameraRawView/PresetMenu/DefaultSettings=Default settings"),
