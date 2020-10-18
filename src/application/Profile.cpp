@@ -148,12 +148,11 @@ void Profile::RemoveAllRows()
 }
 
 void Profile::RemoveMessage(const rsj::MidiMessageId message)
-{
+{ /* do not erase command table as that will cause disappearing messages when go from Unassigned to
+     assigned */
    try {
       auto guard {std::unique_lock {mutex_}};
       command_string_map_.erase(message_map_.at(message));
-      command_table_.erase(
-          std::remove(command_table_.begin(), command_table_.end(), message), command_table_.end());
       message_map_.erase(message);
       profile_unsaved_ = true;
    }

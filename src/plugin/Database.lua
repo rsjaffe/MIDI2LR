@@ -982,7 +982,7 @@ local function WriteAppTrans(language)
     for j,u in ipairs(CmdStructure[v]) do
       file:write('            <value'.. j-1 ..'>\n'..
         '              <first>'.. u[1] ..'</first>\n'..
-        '              <second>'.. u[2] ..'</second>\n'..
+        '              <second>'.. u[2]:gsub("&","&amp;") ..'</second>\n'..
         '            </value'.. j-1 ..'>\n')
     end
     file:write('        </second>\n      </value'.. i-1 ..'>\n')
