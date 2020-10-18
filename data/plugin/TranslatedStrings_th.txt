@@ -28,3 +28,5 @@
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=ลำดับคำสั่ง"
 "$$$/MIDI2LR/ShortCuts/ShowHide=แสดงหรือซ่อน"
 "$$$/MIDI2LR/Shortcuts/Key=แป้น"
+"$$$/MIDI2LR/Database/Customcameraprofile=โปรไฟล์กล้องที่กำหนดเอง"
+"$$$/MIDI2LR/Dialog/InvalidKey=ค่าต้องเป็นอักขระเดี่ยวหรือสะกดคีย์ F (F1-F16) หรือ: apostrophe, backslash, backspace (ใน MacOS แสดงถึงการลบไปทางซ้าย), cursor down, cursor left, cursor right, cursor up, delete (ใน MacOS แสดงถึงการลบไปทางขวา), end, escape , home, page down, page up, return, space, tab หรือ numpad 0 (ถึง numpad 9), numpad add (หรือ decimal, divide, multiply, subtract)"

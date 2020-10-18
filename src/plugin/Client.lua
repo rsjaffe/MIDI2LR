@@ -187,46 +187,46 @@ LrTasks.startAsyncTask(
       GridViewStyle                   = LrApplicationView.gridViewStyle,
       IncreaseRating                  = LrSelection.increaseRating,
       IncrementLastDevelopParameter   = function() CU.execFOM(LrDevelopController.increment,LastParam) end,
-      Key1  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(1) .. '\n') end,
-      Key10 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(10) .. '\n') end,
-      Key11 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(11) .. '\n') end,
-      Key12 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(12) .. '\n') end,
-      Key13 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(13) .. '\n') end,
-      Key14 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(14) .. '\n') end,
-      Key15 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(15) .. '\n') end,
-      Key16 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(16) .. '\n') end,
-      Key17 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(17) .. '\n') end,
-      Key18 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(18) .. '\n') end,
-      Key19 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(19) .. '\n') end,
-      Key2  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(2) .. '\n') end,
-      Key20 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(20) .. '\n') end,
-      Key21 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(21) .. '\n') end,
-      Key22 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(22) .. '\n') end,
-      Key23 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(23) .. '\n') end,
-      Key24 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(24) .. '\n') end,
-      Key25 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(25) .. '\n') end,
-      Key26 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(26) .. '\n') end,
-      Key27 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(27) .. '\n') end,
-      Key28 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(28) .. '\n') end,
-      Key29 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(29) .. '\n') end,
-      Key3  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(3) .. '\n') end,
-      Key30 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(30) .. '\n') end,
-      Key31 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(31) .. '\n') end,
-      Key32 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(32) .. '\n') end,
-      Key33 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(33) .. '\n') end,
-      Key34 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(34) .. '\n') end,
-      Key35 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(35) .. '\n') end,
-      Key36 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(36) .. '\n') end,
-      Key37 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(37) .. '\n') end,
-      Key38 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(38) .. '\n') end,
-      Key39 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(39) .. '\n') end,
-      Key4  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(4) .. '\n') end,
-      Key40 = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(40) .. '\n') end,
-      Key5  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(5) .. '\n') end,
-      Key6  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(6) .. '\n') end,
-      Key7  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(7) .. '\n') end,
-      Key8  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(8) .. '\n') end,
-      Key9  = function() MIDI2LR.SERVER:send('SendKey ' .. Keys.GetKey(9) .. '\n') end,
+      Key1  = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(1)..'\n') end,
+      Key10 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(10)..'\n') end,
+      Key11 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(11)..'\n') end,
+      Key12 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(12)..'\n') end,
+      Key13 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(13)..'\n') end,
+      Key14 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(14)..'\n') end,
+      Key15 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(15)..'\n') end,
+      Key16 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(16)..'\n') end,
+      Key17 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(17)..'\n') end,
+      Key18 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(18)..'\n') end,
+      Key19 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(19)..'\n') end,
+      Key2  = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(2)..'\n') end,
+      Key20 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(20)..'\n') end,
+      Key21 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(21)..'\n') end,
+      Key22 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(22)..'\n') end,
+      Key23 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(23)..'\n') end,
+      Key24 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(24)..'\n') end,
+      Key25 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(25)..'\n') end,
+      Key26 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(26)..'\n') end,
+      Key27 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(27)..'\n') end,
+      Key28 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(28)..'\n') end,
+      Key29 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(29)..'\n') end,
+      Key3  = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(3)..'\n') end,
+      Key30 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(30)..'\n') end,
+      Key31 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(31)..'\n') end,
+      Key32 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(32)..'\n') end,
+      Key33 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(33)..'\n') end,
+      Key34 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(34)..'\n') end,
+      Key35 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(35)..'\n') end,
+      Key36 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(36)..'\n') end,
+      Key37 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(37)..'\n') end,
+      Key38 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(38)..'\n') end,
+      Key39 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(39)..'\n') end,
+      Key4  = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(4)..'\n') end,
+      Key40 = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(40)..'\n') end,
+      Key5  = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(5)..'\n') end,
+      Key6  = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(6)..'\n') end,
+      Key7  = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(7)..'\n') end,
+      Key8  = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(8)..'\n') end,
+      Key9  = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(9)..'\n') end,
       Keyword1  = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[1]) end,
       Keyword10 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[10]) end,
       Keyword11 = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[11]) end,
@@ -270,7 +270,7 @@ LrTasks.startAsyncTask(
       PV3                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 3'),
       PV4                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 4'),
       PV5                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 5'),      
-      PVLatest                        = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version ' .. Database.LatestPVSupported),
+      PVLatest                        = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version '..Database.LatestPVSupported),
       Pause                           = function() LrTasks.sleep( 0.02 ) end,
       Pick                            = LrSelection.flagAsPick,
       PointCurveLinear                = CU.UpdatePointCurve({ToneCurveName="Linear",ToneCurveName2012="Linear",ToneCurvePV2012={0,0,255,255,}}),
@@ -387,6 +387,26 @@ LrTasks.startAsyncTask(
       Profile_Camera_Vivid_Blue       = CU.UpdateCameraProfile('Camera Vivid Blue'),
       Profile_Camera_Vivid_Green      = CU.UpdateCameraProfile('Camera Vivid Green'),
       Profile_Camera_Vivid_Red        = CU.UpdateCameraProfile('Camera Vivid Red'),
+      Profile_Custom_1                = CU.UpdateCameraProfile(1),
+      Profile_Custom_2                = CU.UpdateCameraProfile(2),
+      Profile_Custom_3                = CU.UpdateCameraProfile(3),
+      Profile_Custom_4                = CU.UpdateCameraProfile(4),
+      Profile_Custom_5                = CU.UpdateCameraProfile(5),
+      Profile_Custom_6                = CU.UpdateCameraProfile(6),
+      Profile_Custom_7                = CU.UpdateCameraProfile(7),
+      Profile_Custom_8                = CU.UpdateCameraProfile(8),
+      Profile_Custom_9                = CU.UpdateCameraProfile(9),
+      Profile_Custom_10               = CU.UpdateCameraProfile(10),
+      Profile_Custom_11               = CU.UpdateCameraProfile(11),
+      Profile_Custom_12               = CU.UpdateCameraProfile(12),
+      Profile_Custom_13               = CU.UpdateCameraProfile(13),
+      Profile_Custom_14               = CU.UpdateCameraProfile(14),
+      Profile_Custom_15               = CU.UpdateCameraProfile(15),
+      Profile_Custom_16               = CU.UpdateCameraProfile(16),
+      Profile_Custom_17               = CU.UpdateCameraProfile(17),
+      Profile_Custom_18               = CU.UpdateCameraProfile(18),
+      Profile_Custom_19               = CU.UpdateCameraProfile(19),
+      Profile_Custom_20               = CU.UpdateCameraProfile(20),      
       QuickDevCropAspect1x1           = function() CU.QuickCropAspect({w=1,h=1}) end,
       QuickDevCropAspect2x3           = function() CU.QuickCropAspect({w=2,h=3}) end,
       QuickDevCropAspect3x4           = function() CU.QuickCropAspect({w=3,h=4}) end,
@@ -575,7 +595,7 @@ LrTasks.startAsyncTask(
       --]]
       SetRating          = function(value) 
         local newrating = math.min(5,math.floor(tonumber(value)*6))
-        if (newrating ~= LrSelection.getRating()) then
+        if newrating ~= LrSelection.getRating() then
           LrSelection.setRating(newrating)
         end
       end,
@@ -595,7 +615,7 @@ LrTasks.startAsyncTask(
         if Limits.Parameters[param] then
           Limits.ClampValue(param)
         end
-        if((math.abs(midi_value - CU.LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > os.clock())) then -- pickup succeeded
+        if (math.abs(midi_value - CU.LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > os.clock()) then -- pickup succeeded
           paramlastmoved[param] = os.clock()
           value = CU.MIDIValueToLRValue(param, midi_value)
           if value ~= LrDevelopController.getValue(param) then
@@ -714,7 +734,7 @@ LrTasks.startAsyncTask(
           }
         end
 
-        local cropbezel = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop') .. ' ' -- no need to recompute each time we crop
+        local cropbezel = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')..' ' -- no need to recompute each time we crop
         local LrStringUtils       = import 'LrStringUtils'
 
         local function RatioCrop(param, value)
@@ -809,21 +829,21 @@ LrTasks.startAsyncTask(
                     end
                   end
                 end
-              elseif(ACTIONS[param]) then -- perform a one time action
-                if(tonumber(value) > BUTTON_ON) then
+              elseif ACTIONS[param] then -- perform a one time action
+                if tonumber(value) > BUTTON_ON then
                   ACTIONS[param]()
                 end
-              elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
+              elseif SETTINGS[param] then -- do something requiring the transmitted value to be known
                 SETTINGS[param](value)
-              elseif(Virtual[param]) then -- handle a virtual command
+              elseif Virtual[param] then -- handle a virtual command
                 local lp = Virtual[param](value, UpdateParam)
                 if lp then
                   LastParam = lp
                 end
-              elseif(param:sub(1,4) == 'Crop') then 
+              elseif param:sub(1,4) == 'Crop'  then 
                 RatioCrop(param,value)
-              elseif(param:sub(1,5) == 'Reset') then -- perform a reset other than those explicitly coded in ACTIONS array
-                if(tonumber(value) > BUTTON_ON) then
+              elseif param:sub(1,5) == 'Reset' then -- perform a reset other than those explicitly coded in ACTIONS array
+                if tonumber(value) > BUTTON_ON then
                   local resetparam = param:sub(6)
                   CU.execFOM(LrDevelopController.resetToDefault,resetparam)
                   if ProgramPreferences.ClientShowBezelOnChange then
@@ -861,7 +881,7 @@ LrTasks.startAsyncTask(
 
         startServer(context)
 
-        if(WIN_ENV) then
+        if WIN_ENV then
           LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
         else
           LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))

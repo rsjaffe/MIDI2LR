@@ -49,7 +49,7 @@ namespace rsj {
       System = 0xF
    };
 
-   constexpr bool ValidMessageType(uint8_t value)
+   constexpr bool ValidMessageType(uint8_t value) noexcept
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
       const auto from {value >> 4 & 0xF};
@@ -67,8 +67,8 @@ namespace rsj {
 
    inline const char* MessageTypeToName(MessageType from) noexcept
    {
-      static std::array translation_table {"Note Off", "Note On", "Key Pressure", "Control Change",
-          "Program Change", "Channel Pressure", "Pitch Bend", "System"};
+      static const std::array translation_table {"Note Off", "Note On", "Key Pressure",
+          "Control Change", "Program Change", "Channel Pressure", "Pitch Bend", "System"};
 #pragma warning(suppress : 26446 26482)
       // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
       return translation_table[static_cast<size_t>(from)
@@ -77,7 +77,7 @@ namespace rsj {
 
    inline const char* MessageTypeToLabel(MessageType from) noexcept
    {
-      static std::array translation_table {"NOTE OFF", "NOTE ON", "KEY PRESSURE", "CC",
+      static const std::array translation_table {"NOTE OFF", "NOTE ON", "KEY PRESSURE", "CC",
           "PROGRAM CHANGE", "CHANNEL PRESSURE", "PITCHBEND", "SYSTEM"};
 #pragma warning(suppress : 26446 26482)
       // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
@@ -91,11 +91,11 @@ namespace fmt {
       template<typename ParseContext> constexpr auto parse(ParseContext& ctx)
       { /* parsing copied from fmt's chrono.h */
          auto it {ctx.begin()};
-         if (it != ctx.end() && *it == static_cast<Char>(':'))
-            ++it;
-         auto end {it};
-         while (end != ctx.end() && *end != static_cast<Char>('}'))
-            ++end;
+         if (!it)
+            return ctx.end();
+         if (it != ctx.end() && *it == ':')
+            std::advance(it, 1);
+         auto end {std::find(it, ctx.end(), '}')};
          tm_format.reserve(detail::to_unsigned(end - it + 1));
          tm_format.append(it, end);
          tm_format.push_back('\0');
@@ -104,7 +104,7 @@ namespace fmt {
 
       template<typename FormatContext> auto format(const rsj::MessageType& p, FormatContext& ctx)
       {
-         if (tm_format[0] == static_cast<Char>('n'))
+         if (tm_format[0] == 'n')
             return format_to(ctx.out(), "{}", rsj::MessageTypeToName(p));
          return format_to(ctx.out(), "{}", rsj::MessageTypeToLabel(p));
       }
@@ -227,7 +227,7 @@ class NrpnFilter {
       int value_lsb_ {0};
       int value_msb_ {0};
    };
-   mutable rsj::SpinLock filter_mutex_;
+   mutable rsj::SpinLock filter_mutex_ {};
    static constexpr int kChannels {16};
    std::array<InternalStructure, kChannels> intermediate_results_ {};
 };

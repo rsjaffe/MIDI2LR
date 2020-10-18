@@ -34,8 +34,9 @@
 
 namespace {
    constexpr int kMainWidth {560}; /* equals CommandTable columns total width plus 60 */
-   constexpr int kMainHeight {650};
+   constexpr int kMainHeight {700};
    constexpr int kMainLeft {20};
+   constexpr int kBottomSectionHeight {185};
    constexpr int kSpaceBetweenButton {10};
    constexpr int kStandardHeight {20};
    constexpr int kFullWidth {kMainWidth - kMainLeft * 2};
@@ -47,12 +48,13 @@ namespace {
    constexpr int kFirstButtonX {kMainLeft};
    constexpr int kSecondButtonX {kMainLeft + kButtonXIncrement};
    constexpr int kThirdButtonX {kMainLeft + kButtonXIncrement * 2};
-   constexpr int kCommandTableHeight {kMainHeight - 160};
+   constexpr int kCommandTableHeight {kMainHeight - kBottomSectionHeight};
    constexpr int kLabelWidth {kFullWidth / 2};
-   constexpr int kProfileNameY {kMainHeight - 50};
+   constexpr int kProfileNameY {kMainHeight - kBottomSectionHeight + 110};
    constexpr int kCommandLabelX {kMainLeft + kLabelWidth};
    constexpr int kCommandLabelY {kProfileNameY};
-   constexpr int kBottomButtonY {kMainHeight - 25};
+   constexpr int kBottomButtonY {kMainHeight - kBottomSectionHeight + 135};
+   constexpr int kBottomButtonY2 {kMainHeight - kBottomSectionHeight + 160};
    constexpr auto kDefaultsFile {"default.xml"};
 } // namespace
 
@@ -226,6 +228,16 @@ void MainContentComponent::Init()
          }
       };
 
+      /* Delete unassigned rows */
+      remove_unassigned_button_.setBounds(
+          kFirstButtonX, kBottomButtonY2, kButtonWidth, kStandardHeight);
+      addToLayout(&remove_unassigned_button_, anchorMidLeft, anchorMidRight);
+      addAndMakeVisible(remove_unassigned_button_);
+      remove_unassigned_button_.onClick = [this] {
+         profile_.RemoveUnassignedMessages();
+         command_table_.updateContent();
+      };
+
       /* Try to load a default.xml if the user has not set a profile directory */
       if (settings_manager_.GetProfileDirectory().isEmpty()) {
          const auto filename {rsj::AppDataFilePath(kDefaultsFile)};
@@ -235,9 +247,14 @@ void MainContentComponent::Init()
             command_table_.updateContent();
          }
       }
-      else
-         /* otherwise use the last profile from the profile directory */
-         profile_manager_.SwitchToProfile(0);
+      else {
+         const auto last_prof {settings_manager_.GetDefaultProfile()};
+         if (last_prof != juce::String())
+            profile_manager_.SwitchToProfile(last_prof);
+         else
+            /* otherwise use the last profile from the profile directory */
+            profile_manager_.SwitchToProfile(0);
+      }
 
       /* turn it on */
       activateLayout();
@@ -289,10 +306,10 @@ void MainContentComponent::MidiCmdCallback(const rsj::MidiMessage& mm)
    }
 }
 
-void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked)
+void MainContentComponent::LrIpcOutCallback(const bool connected, const bool sending_blocked)
 {
    try {
-      const juce::MessageManagerLock mmLock; /* as not called in message loop */
+      const juce::MessageManagerLock mm_lock; /* as not called in message loop */
       if (connected) {
          if (sending_blocked) {
             connection_label_.setText(
@@ -342,7 +359,7 @@ void MainContentComponent::ProfileChanged(
 void MainContentComponent::StandardLabelSettings(juce::Label& label_to_set)
 {
    try {
-      label_to_set.setFont(juce::Font {12.f, juce::Font::bold});
+      label_to_set.setFont(juce::Font {16.f, juce::Font::bold});
       label_to_set.setEditable(false);
       label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
    }

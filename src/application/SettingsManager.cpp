@@ -47,7 +47,7 @@ SettingsManager::SettingsManager(ProfileManager& profile_manager, LrIpcOut& lr_i
 /*Const means method won't change object's client-visible state. These methods do, by changing the
  * underlying file. ConnectionCallback is not const as it needs to be compatible with the callback
  * type. */
-void SettingsManager::ConnectionCallback(bool connected, bool blocked)
+void SettingsManager::ConnectionCallback(const bool connected, const bool blocked)
 {
    try {
       if (connected && !blocked) {

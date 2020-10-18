@@ -51,7 +51,7 @@ local function Save(filename)
   if argtype == 'string' then
     local savestring = {}
     savestring[version] = ProgramPreferences
-    local f = assert(io.open(filename,"w"),LOC("$$$/AgImageIO/Errors/WriteFile=The file could not be written."))
+    local f = assert(io.open(filename,"w"),LOC("$$$/AgImageIO/Errors/WriteFile=The file could not be written.")..' '..filename)
     f:write(serpent.dump(savestring))
     f:close()
   elseif argtype ~= 'nil' then

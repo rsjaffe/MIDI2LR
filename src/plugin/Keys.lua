@@ -81,7 +81,7 @@ end
 local alt, command
 local shift = LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Shift=Shift")
 local control = LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Ctrl=Ctrl")
-if(WIN_ENV) then
+if WIN_ENV then
   alt = LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Alt=Alt")
 else
   command = LOC("$$$/AgBezels/KeyRemapping/MacCommand=Command")
@@ -95,7 +95,7 @@ local function validate(_,value)
   if count < 2 then return true,value end --one key or empty string
   value = LrStringUtils.lower(value)
   if legalanswers[value] then return true,value end
-  return false, '', 'Value must be single character or spell out an F key (F1-F16) or: apostrophe, backslash, backspace (means delete in OS X), cursor down, cursor left, cursor right, cursor up, delete (means delete right in OS X), end, escape, home, page down, page up, return, space, tab, or numpad 0 (through numpad 9), numpad add (or decimal, divide, multiply, subtract).'
+  return false, '', LOC("$$$/MIDI2LR/Dialog/InvalidKey=Value must be single character or spell out an F key (F1-F16) or: apostrophe, backslash, backspace (in MacOS represents delete leftwards), cursor down, cursor left, cursor right, cursor up, delete (in MacOS represents delete rightwards, end, escape, home, page down, page up, return, space, tab, or numpad 0 (through numpad 9), numpad add (or decimal, divide, multiply, subtract).")
 end
 
 
@@ -112,7 +112,7 @@ local function StartDialog(obstable,f)
       obstable['Keyscontrol'..i] = false --was saved under older version MIDI2LR where control meant command
       obstable['Keyscommand'..i] = true
     end
-    if(WIN_ENV) then    
+    if WIN_ENV then    
       internalview1[#internalview1+1] = f:row{
         f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
         f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
@@ -140,7 +140,7 @@ local function StartDialog(obstable,f)
       obstable['Keyscontrol'..i] = false --was saved under older version MIDI2LR where control meant command
       obstable['Keyscommand'..i] = true
     end    
-    if(WIN_ENV) then     
+    if WIN_ENV then     
       internalview2[#internalview2+1] = f:row{
         f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
         f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
@@ -206,7 +206,7 @@ local function GetKey(i)
   if WIN_ENV == nil and ProgramPreferences.Keys[i]['command'] == nil and ProgramPreferences.Keys[i]['control'] then
     modifiers = modifiers + 6 --was saved under older version MIDI2LR where control meant command
   end
-  return string.format('%u',modifiers) .. ' ' .. ProgramPreferences.Keys[i]['key']
+  return string.format('%u',modifiers)..' '..ProgramPreferences.Keys[i]['key']
 end
 
 

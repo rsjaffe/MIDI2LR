@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <cctype>
 
+#include <gsl/gsl>
 #include <ww898/utf_converters.hpp>
 
 #include <juce_events/juce_events.h>
@@ -47,7 +48,7 @@
 /**************Thread Labels**************************************************/
 /*****************************************************************************/
 #if !defined(NDEBUG) && defined(_WIN32)
-void rsj::LabelThread(gsl::cwzstring<> threadname) noexcept
+void rsj::LabelThread(const wchar_t* threadname) noexcept
 {
    LOG_IF_FAILED(SetThreadDescription(GetCurrentThread(), threadname));
 }
@@ -93,7 +94,7 @@ namespace {
    try {
       ::std::string result;
       result.resize(in.size());
-      ::std::transform(in.begin(), in.end(), result.begin(), [](unsigned char c) noexcept {
+      ::std::transform(in.begin(), in.end(), result.begin(), [](const unsigned char c) noexcept {
          return gsl::narrow_cast<unsigned char>(::std::tolower(c));
       });
       return result;
@@ -120,20 +121,6 @@ void rsj::TrimL(::std::string_view& value) noexcept
    if (first_not != ::std::string_view::npos)
       value.remove_prefix(first_not);
 }
-
-#ifndef __cpp_lib_starts_ends_with
-bool rsj::EndsWith(::std::string_view main_str, ::std::string_view to_match)
-{
-   try {
-      return main_str.size() >= to_match.size()
-             && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
-   }
-   catch (const ::std::exception& e) {
-      MIDI2LR_E_RESPONSE_F;
-      throw;
-   }
-}
-#endif
 /*****************************************************************************/
 /**************Error Logging**************************************************/
 /*****************************************************************************/
@@ -149,7 +136,7 @@ void rsj::Log(const juce::String& info, const std::source_location& location) no
    }
 }
 
-void rsj::Log(gsl::czstring<> info, const std::source_location& location) noexcept
+void rsj::Log(const char* info, const std::source_location& location) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger())
@@ -190,8 +177,7 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
    }
 }
 
-void rsj::LogAndAlertError(
-    gsl::czstring<> error_text, const std::source_location& location) noexcept
+void rsj::LogAndAlertError(const char* error_text, const std::source_location& location) noexcept
 {
    try {
       {
@@ -225,7 +211,7 @@ void rsj::Log(const juce::String& info) noexcept
    }
 }
 
-void rsj::Log(gsl::czstring<> info) noexcept
+void rsj::Log(const char* info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger())
@@ -239,7 +225,7 @@ void rsj::LogAndAlertError(const juce::String& error_text) noexcept
 {
    try {
       {
-         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
+         const juce::MessageManagerLock mm_lock; /* this may be unnecessary */
          juce::NativeMessageBox::showMessageBox(
              juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
       }
@@ -253,7 +239,7 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
 {
    try {
       {
-         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
+         const juce::MessageManagerLock mm_lock; /* this may be unnecessary */
          juce::NativeMessageBox::showMessageBox(
              juce::AlertWindow::WarningIcon, juce::translate("Error"), alert_text);
       }
@@ -263,11 +249,11 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
    }
 }
 
-void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
+void rsj::LogAndAlertError(const char* error_text) noexcept
 {
    try {
       {
-         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
+         const juce::MessageManagerLock mm_lock; /* this may be unnecessary */
          juce::NativeMessageBox::showMessageBox(
              juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
       }
@@ -281,7 +267,7 @@ void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
 #pragma warning(disable : 26447)
 #if defined(__GNUC__) || defined(__clang__)
 void rsj::ExceptionResponse(
-    [[maybe_unused]] gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
+    [[maybe_unused]] const char* id, const char* fu, const ::std::exception& e) noexcept
 {
    try {
       const auto alert_text {
@@ -295,8 +281,7 @@ void rsj::ExceptionResponse(
 #else
 /* Use typeid(this).name() for first argument to add class information. Typical call:
  * rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e); */
-void rsj::ExceptionResponse(
-    gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
+void rsj::ExceptionResponse(const char* id, const char* fu, const ::std::exception& e) noexcept
 {
    try {
       const auto alert_text {fmt::format(

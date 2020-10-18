@@ -54,7 +54,7 @@ local LocalAdjustmentPresetsPath = LrPathUtils.child(LrPathUtils.getStandardFile
 local LocalPresets = {}  --Store presets in table when reqested by user : key = filename, value = preset values table
 
 local localPresetMap = {
-  blacks2012 = "local_Blacks2012",
+  blacks2012 = "local_Blacks",
   clarity = "",
   clarity2012 = "local_Clarity",
   contrast = "",
@@ -64,6 +64,7 @@ local localPresetMap = {
   exposure = "",
   exposure2012 = "local_Exposure",
   highlights2012 = "local_Highlights",
+  hue = "local_Hue",
   luminanceNoise = "local_LuminanceNoise",
   moire = "local_Moire",
   saturation = "local_Saturation",
@@ -73,9 +74,9 @@ local localPresetMap = {
   texture = "local_Texture",
   tint = "local_Tint",
   toningHue = "", --"local_ToningHue" doesn't exsist
-  toningSaturation = "", --"local_ToningSaturation" doesn't exsist
   toningLuminance = "local_ToningLuminance",
-  whites2012 = "local_Whites2012"
+  toningSaturation = "", --"local_ToningSaturation" doesn't exsist
+  whites2012 = "local_Whites"
 }
 
 local function GetPresetFilenames()
@@ -98,10 +99,10 @@ local function ApplyLocalPreset(LocalPresetFilename)  --LocalPresetName eg: 'Bur
       return
     end
     if not LrFileUtils.exists(LocalPresetFilename) then
-      LrDialogs:message(LOC("$$$/AgImageIO/Errors/FileNotFound=File not found") .. ': ' .. LocalPresetName,'warning')
+      LrDialogs:message(LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SettingsString/ConstructionWithColon=^1: ^2",LOC("$$$/AgImageIO/Errors/FileNotFound=File not found"),LocalPresetName),'warning')
       return
     end
-    --Check to see if preset is already loaded by checking table... if so do not reload file.
+    --Check to see if preset is already loaded by checking table...if so do not reload file.
     --Reloading template file on each request would however allow the user to update and save local preset settings in lightroom.
     if LocalPresets[tostring(LocalPresetName)] == nil then
       local f = io.open(LocalPresetFilename)

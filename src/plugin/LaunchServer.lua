@@ -22,7 +22,7 @@ local LrTasks     = import 'LrTasks'
 
 LrTasks.startAsyncTask( 
   function()
-    if(WIN_ENV) then
+    if WIN_ENV then
       LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
     else
       LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app')) 

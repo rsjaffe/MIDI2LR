@@ -69,7 +69,7 @@ local function ApplyKeyword(Keyword)
       local TargetPhoto  = LrCat:getTargetPhoto()
       if TargetPhoto and LrKeyword then
         local TargetPhotos = LrCat:getTargetPhotos()
-        LrDialogs.showBezel(LOC("$$$/AgLibrary/AddKeyword=Add Keyword")..': '..LrKeyword:getName())
+        LrDialogs.showBezel(LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SettingsString/ConstructionWithColon=^1: ^2",LOC("$$$/AgLibrary/AddKeyword=Add Keyword"),LrKeyword:getName()))
         for _,v in ipairs(TargetPhotos) do
           LrCat:withWriteAccessDo( 'addKeyword',function( context ) v:addKeyword(LrKeyword) end, { timeout = 2 } )
         end
@@ -106,7 +106,7 @@ local function StartDialog(obstable,f)
     -- set up tabs
     local tabs = {}
     for i = 1,group_cols do
-      local label = (i-1)*group_rows+1 .. '-' ..i*group_rows
+      local label = (i-1)*group_rows+1 ..'-'..i*group_rows --must have space after 1 before ..
       tabs[i] = f:tab_view_item {
         title = label, 
         identifier = 'keywords-'..label,

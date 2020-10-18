@@ -66,7 +66,7 @@ namespace {
 
    void FillInMessageLoop()
    {
-      std::unique_lock lock(mtx);
+      std::unique_lock lock {mtx};
       TISInputSourceRef source {TISCopyCurrentKeyboardInputSource()};
       if (!source)
          source = TISCopyCurrentKeyboardLayoutInputSource();
@@ -133,13 +133,13 @@ namespace {
 
    bool FillInSucceeded()
    {
-      std::shared_lock lock(mtx);
+      std::shared_lock lock {mtx};
       return !KeyMapA.empty();
    }
 
    std::string GetKeyboardLayout()
    {
-      std::shared_lock lock(mtx);
+      std::shared_lock lock {mtx};
       std::string result;
       if (!sourceIdString.empty())
          result = "Id " + sourceIdString;
@@ -152,7 +152,7 @@ namespace {
 
    std::unordered_map<UniChar, rsj::KeyData> InternalKeyMap()
    {
-      std::shared_lock lock(mtx);
+      std::shared_lock lock {mtx};
       return KeyMapA;
    }
 } // namespace

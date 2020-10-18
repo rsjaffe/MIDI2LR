@@ -44,7 +44,7 @@ return {
     if ProgramPreferences.ClientShowBezelOnChange then
       local display_value = CU.MIDIValueToLRValue("SaturationAdjustmentRed", midi_value)
       local bezelname = (Database.CmdTrans.AllSaturationAdjustment and Database.CmdTrans.AllSaturationAdjustment[Database.LatestPVSupported]) or "AllSaturationAdjustment"
-      LrDialogs.showBezel(bezelname .. '  ' .. LrStringUtils.numberToStringWithSeparators(display_value, 0))
+      LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(display_value, 0))
     end
     return "AllSaturationAdjustment"
   end,
@@ -54,7 +54,7 @@ return {
     end
     if ProgramPreferences.ClientShowBezelOnChange then
       local bezelname = (Database.CmdTrans.AllSaturationAdjustment and Database.CmdTrans.AllSaturationAdjustment[Database.LatestPVSupported]) or "AllSaturationAdjustment"
-      LrDialogs.showBezel(bezelname .. '  ' .. LrStringUtils.numberToStringWithSeparators(0, 0))
+      LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
     end
     MIDI2LR.SERVER:send(string.format('%s %g\n', "AllSaturationAdjustment", CU.LRValueToMIDIValue("SaturationAdjustmentRed")))
   end

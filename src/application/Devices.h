@@ -32,7 +32,7 @@ class Devices {
    Devices(Devices&& other) noexcept = default;
    Devices& operator=(const Devices& other) = delete;
    Devices& operator=(Devices&& other) noexcept = default;
-   bool Add(const juce::MidiDeviceInfo& info, juce::String io);
+   bool Add(const juce::MidiDeviceInfo& info, const juce::String& io);
    [[nodiscard]] bool Enabled(const juce::MidiDeviceInfo& info, juce::String io) const;
    [[nodiscard]] bool EnabledOrNew(const juce::MidiDeviceInfo& info, juce::String io);
 

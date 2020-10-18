@@ -31,7 +31,6 @@ extern void _mm_pause();
 }
 
 namespace rsj {
-
    /* from http://prng.di.unimi.it/splitmix64.c, made state atomically updated and added methods to
     * satisfy concept std::uniform_random_bit_generator */
 
@@ -40,7 +39,7 @@ namespace rsj {
       using result_type = uint64_t;
       static result_type NextRandom() noexcept
       {
-         result_type z {state += 0x9e3779b97f4a7c15};
+         result_type z {state_ += 0x9e3779b97f4a7c15};
          z = (z ^ z >> 30) * 0xbf58476d1ce4e5b9;
          z = (z ^ z >> 27) * 0x94d049bb133111eb;
          return z ^ z >> 31;
@@ -60,12 +59,12 @@ namespace rsj {
       }
 
     private:
-      alignas(128) static std::atomic<result_type> state;
+      alignas(128) static std::atomic<result_type> state_;
    };
    /* have to separate declaration from definition due to MSVC bug when std:c++latest
     * https://developercommunity.visualstudio.com/content/problem/1079261/alignas-not-accepted-when-applied-to-inline-static.html
     */
-   alignas(128) inline std::atomic<PRNG::result_type> PRNG::state {[] {
+   alignas(128) inline std::atomic<PRNG::result_type> PRNG::state_ {[] {
       static_assert(sizeof(std::random_device::result_type) * 2 == sizeof(result_type)
                     && sizeof(std::random_device::result_type) == sizeof(uint32_t));
       auto rd {std::random_device {}};
@@ -146,7 +145,7 @@ namespace rsj {
       }
       /*3*/ explicit ConcurrentQueue(Container&& cont) noexcept(
           std::is_nothrow_move_constructible_v<Container>)
-          : queue_ {std::move(cont)}
+          : queue_ {std::exchange(cont, {})}
       {
       }
       /*4*/ ConcurrentQueue(const ConcurrentQueue& other)
@@ -159,7 +158,7 @@ namespace rsj {
               std::scoped_lock(std::declval<Mutex>())))
       {
          auto lock {std::scoped_lock(other.mutex_)};
-         queue_ = std::move(other.queue_);
+         queue_ = std::exchange(other.queue_, {});
       }
       /*6*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       explicit ConcurrentQueue(const Alloc& alloc) noexcept(
@@ -174,7 +173,7 @@ namespace rsj {
       /*8*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       ConcurrentQueue(Container&& cont, const Alloc& alloc) noexcept(
           std::is_nothrow_constructible_v<Container, Container, const Alloc&>)
-          : queue_(std::move(cont), alloc)
+          : queue_(std::exchange(cont, {}), alloc)
       {
       }
       /*9*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
@@ -191,7 +190,7 @@ namespace rsj {
           : queue_(alloc)
       {
          auto lock {std::scoped_lock(other.mutex_)};
-         queue_ = Container(std::move(other.queue_), alloc);
+         queue_ = Container(std::exchange(other.queue_, {}), alloc);
       }
       /* operator= */
       ConcurrentQueue& operator=(const ConcurrentQueue& other)
@@ -209,7 +208,7 @@ namespace rsj {
       {
          {
             auto lock {std::scoped_lock(mutex_, other.mutex_)};
-            queue_ = std::move(other.queue_);
+            queue_ = std::exchange(other.queue_, {});
          }
          condition_.notify_all();
          return *this;

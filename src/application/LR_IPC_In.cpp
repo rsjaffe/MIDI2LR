@@ -199,7 +199,7 @@ void LrIpcIn::Read()
    try {
       if (!thread_should_exit_.load(std::memory_order_acquire)) {
          asio::async_read_until(socket_, streambuf_, '\n',
-             [this](const asio::error_code& error, std::size_t bytes_transferred) {
+             [this](const asio::error_code& error, const std::size_t bytes_transferred) {
                 if (!error)
                    [[likely]]
                    {

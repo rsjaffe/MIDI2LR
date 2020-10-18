@@ -20,7 +20,7 @@
 
 #include "Misc.h"
 
-void Profile::AddCommandForMessageI(size_t command, rsj::MidiMessageId message)
+void Profile::AddCommandForMessageI(const size_t command, const rsj::MidiMessageId message)
 {
    try {
       if (command < command_set_.CommandAbbrevSize()) {
@@ -37,7 +37,7 @@ void Profile::AddCommandForMessageI(size_t command, rsj::MidiMessageId message)
    }
 }
 
-void Profile::AddRowMapped(const std::string& command, rsj::MidiMessageId message)
+void Profile::AddRowMapped(const std::string& command, const rsj::MidiMessageId message)
 {
    try {
       auto guard {std::unique_lock {mutex_}};
@@ -61,7 +61,7 @@ void Profile::AddRowMapped(const std::string& command, rsj::MidiMessageId messag
    }
 }
 
-void Profile::AddRowUnmapped(rsj::MidiMessageId message)
+void Profile::AddRowUnmapped(const rsj::MidiMessageId message)
 {
    try {
       auto guard {std::unique_lock {mutex_}};
@@ -121,8 +121,8 @@ std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string
    try {
       auto guard {std::shared_lock {mutex_}};
       std::vector<rsj::MidiMessageId> mm;
-      const auto range {command_string_map_.equal_range(command)};
-      std::for_each(range.first, range.second, [&mm](auto&& x) { mm.push_back(x.second); });
+      const auto [begin, end] {command_string_map_.equal_range(command)};
+      std::for_each(begin, end, [&mm](auto&& x) { mm.push_back(x.second); });
       return mm;
    }
    catch (const std::exception& e) {
@@ -147,8 +147,9 @@ void Profile::RemoveAllRows()
    }
 }
 
-void Profile::RemoveMessage(rsj::MidiMessageId message)
-{
+void Profile::RemoveMessage(const rsj::MidiMessageId message)
+{ /* do not erase command table as that will cause disappearing messages when go from Unassigned to
+     assigned */
    try {
       auto guard {std::unique_lock {mutex_}};
       command_string_map_.erase(message_map_.at(message));
@@ -161,7 +162,7 @@ void Profile::RemoveMessage(rsj::MidiMessageId message)
    }
 }
 
-void Profile::RemoveRow(size_t row)
+void Profile::RemoveRow(const size_t row)
 {
    try {
       auto guard {std::unique_lock {mutex_}};
@@ -177,7 +178,30 @@ void Profile::RemoveRow(size_t row)
    }
 }
 
-void Profile::Resort(std::pair<int, bool> new_order)
+void Profile::RemoveUnassignedMessages()
+{
+   try {
+      auto guard {std::unique_lock {mutex_}};
+      auto it {command_string_map_.find("Unassigned")};
+      if (it != command_string_map_.end()) {
+         profile_unsaved_ = true;
+         do {
+            message_map_.erase(it->second);
+            command_table_.erase(
+                std::remove(command_table_.begin(), command_table_.end(), it->second),
+                command_table_.end());
+            command_string_map_.erase(it);
+            it = command_string_map_.find("Unassigned");
+         } while (it != command_string_map_.end());
+      }
+   }
+   catch (const std::exception& e) {
+      MIDI2LR_E_RESPONSE;
+      throw;
+   }
+}
+
+void Profile::Resort(const std::pair<int, bool> new_order)
 {
    try {
       auto guard {std::unique_lock {mutex_}};
@@ -193,10 +217,10 @@ void Profile::Resort(std::pair<int, bool> new_order)
 void Profile::SortI()
 {
    try {
-      const auto msg_idx {[this](rsj::MidiMessageId a) {
+      const auto msg_idx {[this](const rsj::MidiMessageId a) {
          return command_set_.CommandTextIndex(GetCommandForMessageI(a));
       }};
-      const auto msg_sort {[&msg_idx](rsj::MidiMessageId a, rsj::MidiMessageId b) {
+      const auto msg_sort {[&msg_idx](const rsj::MidiMessageId a, const rsj::MidiMessageId b) {
          return msg_idx(a) < msg_idx(b);
       }};
       if (current_sort_.first == 1)
@@ -223,15 +247,15 @@ void Profile::ToXmlFile(const juce::File& file)
       if (!message_map_.empty()) {
          /* save the contents of the command map to an xml file */
          juce::XmlElement root {"settings"};
-         for (const auto& map_entry : message_map_) {
+         for (const auto& [msg_id, cmd_str] : message_map_) {
             auto setting {std::make_unique<juce::XmlElement>("setting")};
-            setting->setAttribute("channel", map_entry.first.channel);
-            switch (map_entry.first.msg_id_type) {
+            setting->setAttribute("channel", msg_id.channel);
+            switch (msg_id.msg_id_type) {
             case rsj::MessageType::NoteOn:
-               setting->setAttribute("note", map_entry.first.control_number);
+               setting->setAttribute("note", msg_id.control_number);
                break;
             case rsj::MessageType::Cc:
-               setting->setAttribute("controller", map_entry.first.control_number);
+               setting->setAttribute("controller", msg_id.control_number);
                break;
             case rsj::MessageType::Pw:
                setting->setAttribute("pitchbend", 0);
@@ -240,7 +264,7 @@ void Profile::ToXmlFile(const juce::File& file)
                /* can't handle other types */
                continue;
             }
-            setting->setAttribute("command_string", map_entry.second);
+            setting->setAttribute("command_string", cmd_str);
             root.addChildElement(setting.release());
          }
          if (!root.writeTo(file)) {

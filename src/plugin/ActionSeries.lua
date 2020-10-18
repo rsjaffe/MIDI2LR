@@ -18,14 +18,14 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-local CU              = require 'ClientUtilities'
-local Database        = require 'Database'
+local CU                  = require 'ClientUtilities'
+local Database            = require 'Database'
 local LrDevelopController = import 'LrDevelopController'
 local LrTasks             = import 'LrTasks'
 local LrView              = import 'LrView'
 
 
-Database.ValidActions.Pause = true --this is additional to the menu list
+Database.ValidActions.Pause = true --this is in addition to the menu list
 
 local function ValidateActions(_,value)
   local stack = nil 
@@ -34,12 +34,12 @@ local function ValidateActions(_,value)
       if not stack then
         stack = a
       else
-        stack = stack .. ', ' .. a
+        stack = stack..LOC("$$$/Application/listSeparator=, ")..a
       end
     end
   end
   if stack then
-    return false,value,LOC("$$$/MIDI2LR/Options/ActionSeriesInvalid=Invalid commands") .. ': '  .. stack
+    return false,value,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SettingsString/ConstructionWithColon=^1: ^2",LOC("$$$/MIDI2LR/Options/ActionSeriesInvalid=Invalid commands"),stack)
   else
     return true,value
   end
@@ -88,9 +88,9 @@ local function RunActionSeries(strarg1,actarray)
       --currently only accepts items in Database assigned 'button' and saved in Database.ValidActions
       --will have to parse into command and value if want to go to parameterized commands (e.g., slider change)
       for i in strarg:gmatch("[%w_]+") do
-        if(actarray[i]) then -- perform a one time action
+        if actarray[i] then -- perform a one time action
           actarray[i]()
-        elseif(i:sub(1,5) == 'Reset') then -- perform a reset other than those explicitly coded in ACTIONS array
+        elseif i:sub(1,5) == 'Reset' then -- perform a reset other than those explicitly coded in ACTIONS array
           local resetparam = i:sub(6)
           CU.execFOM(LrDevelopController.resetToDefault,resetparam)
           if ProgramPreferences.ClientShowBezelOnChange then

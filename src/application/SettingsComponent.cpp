@@ -41,7 +41,7 @@ void SettingsComponent::Init()
       pickup_group_.setBounds(0, 0, kSettingsWidth, 100);
       addToLayout(&pickup_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(pickup_group_);
-      pickup_label_.setFont(juce::Font {12.f, juce::Font::bold});
+      pickup_label_.setFont(juce::Font {16.f, juce::Font::bold});
       pickup_label_.setText(juce::translate("Disabling the pickup mode may be better for "
                                             "touchscreen interfaces and may solve issues with "
                                             "Lightroom not picking up fast fader/knob movements"),
@@ -100,14 +100,14 @@ void SettingsComponent::Init()
       addToLayout(&autohide_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(autohide_group_);
 
-      autohide_explain_label_.setFont(juce::Font {12.f, juce::Font::bold});
+      autohide_explain_label_.setFont(juce::Font {16.f, juce::Font::bold});
       autohide_explain_label_.setText(juce::translate("Autohide the plugin window in x seconds, "
                                                       "select 0 for disabling autohide"),
           juce::NotificationType::dontSendNotification);
       autohide_explain_label_.setBounds(kSettingsLeft, 215, kSettingsWidth - 2 * kSettingsLeft, 50);
       addToLayout(&autohide_explain_label_, anchorMidLeft, anchorMidRight);
       autohide_explain_label_.setEditable(false);
-      autohide_explain_label_.setFont(juce::Font {12.f, juce::Font::bold});
+      autohide_explain_label_.setFont(juce::Font {16.f, juce::Font::bold});
       autohide_explain_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
       addAndMakeVisible(autohide_explain_label_);
 

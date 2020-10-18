@@ -51,6 +51,7 @@ class Profile {
    void RemoveAllRows();
    void RemoveMessage(rsj::MidiMessageId message);
    void RemoveRow(size_t row);
+   void RemoveUnassignedMessages();
    void Resort(std::pair<int, bool> new_order);
    [[nodiscard]] size_t Size() const;
    void ToXmlFile(const juce::File& file);

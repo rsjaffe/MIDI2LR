@@ -15,6 +15,7 @@
  */
 #include "CommandTableModel.h"
 
+#include <algorithm>
 #include <exception>
 #include <utility>
 
@@ -38,7 +39,7 @@ void CommandTableModel::paintCell(
     * less than getNumRows(). */
    try {
       g.setColour(juce::Colours::black);
-      g.setFont(12.0f);
+      g.setFont(std::min(16.0f, static_cast<float>(height) * 0.7f));
       if (column_id == 1) {
          /* write the MIDI message in the MIDI command column */
          if (profile_.Size() <= gsl::narrow_cast<size_t>(row_number)) {

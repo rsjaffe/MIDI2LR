@@ -28,3 +28,5 @@
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Secuencia de comandos"
 "$$$/MIDI2LR/ShortCuts/ShowHide=mostrar u ocultar"
 "$$$/MIDI2LR/Shortcuts/Key=Clave"
+"$$$/MIDI2LR/Database/Customcameraprofile=Perfil de cámara personalizado"
+"$$$/MIDI2LR/Dialog/InvalidKey=El valor debe ser de un solo carácter o deletrear una tecla F (F1-F16) o: apostrophe, backslash, backspace (en MacOS representa eliminar hacia la izquierda), cursor down, cursor left, cursor right, cursor up, delete (en MacOS representa eliminar hacia la derecha), end, escape , home, page down, page up, return, space, tab o numpad 0 (a través de numpad 9), numpad add (o decimal, divide, multiply, subtract)."

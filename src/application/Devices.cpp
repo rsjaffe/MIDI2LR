@@ -17,13 +17,12 @@
 #include "Devices.h"
 
 #include <algorithm>
-#include <vector>
 
 #include "Misc.h"
 
 Devices::Devices()
 {
-   // open file with xml list of devices
+   /* open file with xml list of devices */
 #ifdef _WIN32
    const juce::File source {
        juce::CharPointer_UTF16(rsj::AppDataFilePath("DisabledControllers.xml").data())};
@@ -62,18 +61,27 @@ Devices::Devices()
 
 Devices::~Devices()
 {
-   // open file with xml list of devices
+   try {
+      /* open file with xml list of devices */
 #ifdef _WIN32
-   const juce::File source {
-       juce::CharPointer_UTF16(rsj::AppDataFilePath("DisabledControllers.xml").data())};
+      const juce::File source {
+          juce::CharPointer_UTF16(rsj::AppDataFilePath("DisabledControllers.xml").data())};
 #else
-   const juce::File source {
-       juce::CharPointer_UTF8(rsj::AppDataFilePath("DisabledControllers.xml").data())};
+      const juce::File source {
+          juce::CharPointer_UTF8(rsj::AppDataFilePath("DisabledControllers.xml").data())};
 #endif
-   device_xml_->writeTo(source);
+      // ReSharper disable once CppExpressionWithoutSideEffects
+      device_xml_->writeTo(source);
+   }
+   catch (const std::exception& e) {
+      rsj::LogAndAlertError(juce::String("Exception in ~Devices: ") + e.what());
+   }
+   catch (...) {
+      rsj::LogAndAlertError("Non-standard exception in ~Devices.");
+   }
 }
 
-bool Devices::Add(const juce::MidiDeviceInfo& info, juce::String io)
+bool Devices::Add(const juce::MidiDeviceInfo& info, const juce::String& io)
 {
    const auto [it, success] {device_listing_.try_emplace({info, io}, true)};
    if (success) {
@@ -99,7 +107,7 @@ bool Devices::Enabled(const juce::MidiDeviceInfo& info, juce::String io) const
    return it->second;
 }
 
-bool Devices::EnabledOrNew(const juce::MidiDeviceInfo& info, juce::String io)
+bool Devices::EnabledOrNew(const juce::MidiDeviceInfo& info, const juce::String io)
 {
    if (Add(info, io))
       return true;

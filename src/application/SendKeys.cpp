@@ -28,14 +28,15 @@
 
 #include "Misc.h"
 #ifdef _WIN32
-#define NOMINMAX
-#define WIN32_LEAN_AND_MEAN
 #include <utility>
 
 #include <Windows.h>
 #include <wil/result.h>
 #else
+#include <cstring>
+#include <memory>
 #include <optional>
+#include <type_traits>
 
 #import <Carbon/Carbon.h>
 #import <CoreFoundation/CoreFoundation.h>
@@ -50,7 +51,7 @@
 #endif
 
 namespace rsj {
-   ActiveModifiers ActiveModifiers::FromWindows(int from) noexcept
+   ActiveModifiers ActiveModifiers::FromWindows(const int from) noexcept
    {
       /* shift coded as follows: 1: shift, 2: ctrl, 4: alt, 8: hankaku */
       ActiveModifiers am {};
@@ -61,7 +62,7 @@ namespace rsj {
       return am;
    }
 
-   ActiveModifiers ActiveModifiers::FromMidi2LR(int from) noexcept
+   ActiveModifiers ActiveModifiers::FromMidi2LR(const int from) noexcept
    {
       ActiveModifiers am {};
       am.alt_opt = from & 1;
@@ -77,7 +78,7 @@ namespace {
 
    HWND h_lr_wnd {nullptr};
 
-   BOOL CALLBACK EnumWindowsProc(_In_ HWND hwnd, [[maybe_unused]] _In_ LPARAM lParam)
+   BOOL CALLBACK EnumWindowsProc(_In_ const HWND hwnd, [[maybe_unused]] _In_ const LPARAM lParam)
    {
       if (!IsWindowVisible(hwnd))
          return true;
@@ -108,7 +109,7 @@ namespace {
       std::call_once(of, [] {
          SetLastError(ERROR_SUCCESS);
          EnumWindows(&EnumWindowsProc, 0);
-         LOG_LAST_ERROR_IF(GetLastError() != ERROR_SUCCESS);
+         LOG_IF_WIN32_ERROR(GetLastError());
          if (!h_lr_wnd)
             rsj::Log("Unable to find Lightroom in EnumWindows.");
       });
@@ -150,18 +151,16 @@ namespace {
       try {
          /* construct input event. */
          INPUT ip {.type = INPUT_KEYBOARD, .ki = {0, 0, 0, 0, 0}};
-         /* key down strokes */
          std::vector<INPUT> stroke_vector {};
-         for (const auto it : rsj::Reverse(strokes)) {
-            ip.ki.wVk = it;
+         auto push_stroke {[&](const auto stroke) {
+            ip.ki.wVk = stroke;
             stroke_vector.push_back(ip);
-         }
-         /* key up strokes, KEYEVENTF_KEYUP for key release */
+         }};
+         /* down strokes in reverse order from up strokes */
+         std::for_each(strokes.rbegin(), strokes.rend(), push_stroke);
          ip.ki.dwFlags = KEYEVENTF_KEYUP;
-         for (const auto it : strokes) {
-            ip.ki.wVk = it;
-            stroke_vector.push_back(ip);
-         }
+         std::for_each(strokes.begin(), strokes.end(), push_stroke);
+         /* send strokes */
          static std::mutex mutex_sending {};
          auto lock {std::scoped_lock(mutex_sending)};
          THROW_LAST_ERROR_IF(!SendInput(
@@ -177,11 +176,22 @@ namespace {
       }
    }
 #else
+   template<typename T> struct CFDeleter {
+      void operator()(T* p)
+      {
+         if (p)
+            ::CFRelease(p);
+      }
+   };
+
+   template<typename T>
+   using CFAutoRelease = std::unique_ptr<typename std::remove_pointer<T>::type,
+       CFDeleter<typename std::remove_pointer<T>::type>>;
+
    pid_t GetPid()
    {
       try {
-         static const std::string kLr {".app/Contents/MacOS/Adobe Lightroom"};
-         static const std::string kLrc {".app/Contents/MacOS/Adobe Lightroom Classic"};
+         static const auto kLrc {".app/Contents/MacOS/Adobe Lightroom Classic"};
          /* add 20 in case more processes show up */
          const int number_processes {proc_listpids(PROC_ALL_PIDS, 0, nullptr, 0) + 20};
          std::vector<pid_t> pids(number_processes, 0);
@@ -193,9 +203,7 @@ namespace {
                continue;
             std::memset(path_buffer.data(), 0, path_buffer.size());
             proc_pidpath(pid, path_buffer.data(), path_buffer.size());
-            if (strlen(path_buffer.data()) > 0
-                && (rsj::EndsWith(path_buffer.data(), kLr)
-                    || rsj::EndsWith(path_buffer.data(), kLrc)))
+            if (path_buffer[0] && std::strstr(path_buffer.data(), kLrc))
                return pid;
          }
          rsj::LogAndAlertError("Lightroom PID not found.");
@@ -208,7 +216,7 @@ namespace {
    }
 
    /* Returns key code for given character. Bool represents shift, option (AltGr) keys */
-   std::optional<rsj::KeyData> KeyCodeForChar(UniChar c)
+   std::optional<rsj::KeyData> KeyCodeForChar(const UniChar c)
    {
       try {
          static const std::unordered_map<UniChar, rsj::KeyData> char_code_map {rsj::GetKeyMap()};
@@ -224,23 +232,15 @@ namespace {
       }
    }
 
-   void MacKeyDownUp(pid_t lr_pid, CGKeyCode vk, CGEventFlags flags)
+   void MacKeyDownUp(const pid_t lr_pid, const CGKeyCode vk, const CGEventFlags flags)
    {
       try {
-         CGEventRef d {CGEventCreateKeyboardEvent(nullptr, vk, true)};
-         auto dd {gsl::finally([&d] {
-            if (d)
-               CFRelease(d);
-         })};
-         CGEventRef u {CGEventCreateKeyboardEvent(nullptr, vk, false)};
-         auto du {gsl::finally([&u] {
-            if (u)
-               CFRelease(u);
-         })};
-         CGEventSetFlags(d, flags);
-         CGEventSetFlags(u, flags);
-         CGEventPostToPid(lr_pid, d);
-         CGEventPostToPid(lr_pid, u);
+         CFAutoRelease<CGEventRef> d {CGEventCreateKeyboardEvent(nullptr, vk, true)};
+         CFAutoRelease<CGEventRef> u {CGEventCreateKeyboardEvent(nullptr, vk, false)};
+         CGEventSetFlags(d.get(), flags);
+         CGEventSetFlags(u.get(), flags);
+         CGEventPostToPid(lr_pid, d.get());
+         CGEventPostToPid(lr_pid, u.get());
          static std::once_flag of;
          std::call_once(of, [lr_pid]() { rsj::CheckPermission(lr_pid); });
       }
@@ -291,7 +291,7 @@ namespace {
 
 #pragma warning(push)
 #pragma warning(disable : 26447) /* all exceptions caught and suppressed */
-void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexcept
+void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods) noexcept
 {
    try {
       Expects(!key.empty());

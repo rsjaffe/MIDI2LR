@@ -35,8 +35,8 @@ namespace fs = std::filesystem;
 #include <memory>
 
 #include <cereal/archives/xml.hpp>
-#include <cereal/types/string.hpp> //ReSharper false alarm
-#include <cereal/types/vector.hpp> //ReSharper false alarm
+#include <cereal/types/string.hpp> /*ReSharper false alarm*/
+#include <cereal/types/vector.hpp> /*ReSharper false alarm*/
 #include <fmt/format.h>
 
 #include "Translate.h"
@@ -45,20 +45,21 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
 {
    /* manually insert unmapped at first position */
    try {
-      rsj::Translate(m_impl_.language_); // so UnassignedTranslated translated properly
+      rsj::Translate(m_impl_.language_); /* so UnassignedTranslated translated properly */
       cmd_by_number_.emplace_back(kUnassigned);
       cmd_label_by_number_.emplace_back(UnassignedTranslated());
       cmd_idx_[kUnassigned] = 0;
       size_t idx = 1;
-      for (const auto& by_category : m_impl_.allcommands_) {
+      for (const auto& [cmd_group, cmd_abbrev_label] : m_impl_.allcommands_) {
          std::vector<MenuStringT> menu_items_temp {};
-         for (const auto& cmd_pair : by_category.second) {
-            cmd_by_number_.push_back(cmd_pair.first);
-            cmd_label_by_number_.push_back(by_category.first + " : " + cmd_pair.second);
-            cmd_idx_[cmd_pair.first] = idx++;
-            menu_items_temp.emplace_back(cmd_pair.second);
+         const std::string group_colon {cmd_group + " : "}; /* minor optimization of concatenation */
+         for (const auto& [cmd_abbrev, cmd_label] : cmd_abbrev_label) {
+            cmd_by_number_.push_back(cmd_abbrev);
+            cmd_label_by_number_.push_back(group_colon + cmd_label);
+            cmd_idx_[cmd_abbrev] = idx++;
+            menu_items_temp.emplace_back(cmd_label);
          }
-         menus_.emplace_back(by_category.first);
+         menus_.emplace_back(cmd_group);
          menu_entries_.emplace_back(std::move(menu_items_temp));
       }
    }

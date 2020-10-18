@@ -4,3 +4,4 @@ midi.donate.exp=Apre un browser Web con un modulo PayPal in cui è possibile eff
 midi.donate=Dona per supportare lo sviluppo del progetto
 midi.install.win=È possibile installare ${project.fullName} solo in una versione a 64 bit di Microsoft Windows 10 o versioni successive.
 midi.install.mac=Richiede MacOS Mojave 10.14 o una versione successiva.
+midi.ports=${project.fullName} richiede le porte 58763 e 58764 per comunicare con Lightroom. Almeno una di queste porte non è attualmente disponibile. Se stai eseguendo ${project.fullName} in questo momento, ignora questo messaggio. Altrimenti, dovrai identificare cosa sta bloccando quelle porte per consentire a ${project.fullName} di funzionare correttamente.

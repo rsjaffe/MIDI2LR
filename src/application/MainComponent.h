@@ -52,6 +52,10 @@ class MainContentComponent final :
    MainContentComponent& operator=(MainContentComponent&& other) = delete;
    void Init();
    void SaveProfile() const;
+   [[nodiscard]] juce::String GetProfileName() const
+   {
+      return profile_name_label_.getText();
+   }
 
  private:
    void handleAsyncUpdate() override;
@@ -75,6 +79,7 @@ class MainContentComponent final :
    juce::TextButton disconnect_button_ {juce::translate("Halt sending to Lightroom")};
    juce::TextButton load_button_ {juce::translate("Load")};
    juce::TextButton remove_row_button_ {juce::translate("Clear ALL rows")};
+   juce::TextButton remove_unassigned_button_ {juce::translate("Remove unassigned rows")};
    juce::TextButton rescan_button_ {juce::translate("Rescan MIDI devices")};
    juce::TextButton save_button_ {juce::translate("Save")};
    juce::TextButton settings_button_ {juce::translate("Settings")};

@@ -29,7 +29,6 @@
 
 #include <fmt/chrono.h>
 #include <fmt/format.h>
-#include <gsl/gsl>
 #include <xmmintrin.h> /* for rounding intrinsics */
 
 #include <juce_core/juce_core.h>
@@ -61,12 +60,12 @@ namespace rsj {
    /*****************************************************************************/
 #ifndef NDEBUG
 #ifdef _WIN32
-   void LabelThread(gsl::cwzstring<> threadname) noexcept;
+   void LabelThread(const wchar_t* threadname) noexcept;
 #else
-   constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
+   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept {}
 #endif
 #else
-   constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
+   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept {}
 #endif
    /*****************************************************************************/
    /**************String Routines************************************************/
@@ -76,15 +75,6 @@ namespace rsj {
       return juce::String(juce::CharPointer_UTF8(in.data()), in.size());
    }
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
-#ifdef __cpp_lib_starts_ends_with
-   [[nodiscard]] constexpr inline bool EndsWith(
-       std::string_view main_str, std::string_view to_match) noexcept
-   {
-      return main_str.ends_with(to_match);
-   }
-#else
-   [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
-#endif
    [[nodiscard]] std::string ToLower(std::string_view in);
    void Trim(std::string_view& value) noexcept;
    void Trim(std::string_view&& value) = delete;
@@ -94,7 +84,7 @@ namespace rsj {
    /**************Error Logging**************************************************/
    /*****************************************************************************/
    /* typical call: rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e); */
-   void ExceptionResponse(gsl::czstring<> id, gsl::czstring<> fu, const std::exception& e) noexcept;
+   void ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept;
    /* char* overloads here are to allow catch clauses to avoid a juce::String conversion at the
     * caller location, thus avoiding a potential exception in the catch clause. string_view
     * overloads not used because those are ambiguous with the String versions. */
@@ -105,20 +95,20 @@ namespace rsj {
        const std::source_location& location = std::source_location::current()) noexcept;
    void LogAndAlertError(const juce::String& alert_text, const juce::String& error_text,
        const std::source_location& location = std::source_location::current()) noexcept;
-   void LogAndAlertError(gsl::czstring<> error_text,
+   void LogAndAlertError(const char* error_text,
        const std::source_location& location = std::source_location::current()) noexcept;
    void Log(const juce::String& info,
        const std::source_location& location = std::source_location::current()) noexcept;
-   void Log(gsl::czstring<> info,
+   void Log(const char* info,
        const std::source_location& location = std::source_location::current()) noexcept;
 #define MIDI2LR_E_RESPONSE   rsj::ExceptionResponse(e)
 #define MIDI2LR_E_RESPONSE_F rsj::ExceptionResponse(e)
 #else
    void LogAndAlertError(const juce::String& error_text) noexcept;
    void LogAndAlertError(const juce::String& alert_text, const juce::String& error_text) noexcept;
-   void LogAndAlertError(gsl::czstring<> error_text) noexcept;
+   void LogAndAlertError(const char* error_text) noexcept;
    void Log(const juce::String& info) noexcept;
-   void Log(gsl::czstring<> info) noexcept;
+   void Log(const char* info) noexcept;
 #define MIDI2LR_E_RESPONSE   rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e)
 #define MIDI2LR_E_RESPONSE_F rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e)
 #endif
@@ -140,43 +130,6 @@ namespace rsj {
    [[nodiscard]] std::string AppDataFilePath(const std::string& file_name);
    [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);
 #endif
-   /*****************************************************************************/
-   /**************Reversed Iterator**********************************************/
-   /*****************************************************************************/
-   /* Reversed iterable SEE:https://stackoverflow.com/a/42221253/5699329 */
-   template<class T> struct ReverseWrapper {
-      T o;
-      explicit ReverseWrapper(T&& i) noexcept : o(std::forward<T>(i)) {}
-   };
-
-   template<class T> auto begin(ReverseWrapper<T>& r) noexcept
-   {
-      using std::end;
-      return std::make_reverse_iterator(end(r.o));
-   }
-
-   template<class T> auto end(ReverseWrapper<T>& r) noexcept
-   {
-      using std::begin;
-      return std::make_reverse_iterator(begin(r.o));
-   }
-
-   template<class T> auto begin(ReverseWrapper<T> const& r) noexcept
-   {
-      using std::end;
-      return std::make_reverse_iterator(end(r.o));
-   }
-
-   template<class T> auto end(ReverseWrapper<T> const& r) noexcept
-   {
-      using std::begin;
-      return std::make_reverse_iterator(begin(r.o));
-   }
-
-   template<class T> auto Reverse(T&& ob) noexcept
-   {
-      return ReverseWrapper<T> {std::forward<T>(ob)};
-   }
    /*****************************************************************************/
    /*******************Sleep Timed and Logged************************************/
    /*****************************************************************************/

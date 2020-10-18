@@ -35,6 +35,10 @@ class SettingsManager final {
    {
       return properties_file_->getIntValue("autohide", 0);
    }
+   [[nodiscard]] juce::String GetDefaultProfile() const noexcept
+   {
+      return properties_file_->getValue("default_profile");
+   }
    [[nodiscard]] int GetLastVersionFound() const noexcept
    {
       return properties_file_->getIntValue("LastVersionFound", 0);
@@ -51,6 +55,10 @@ class SettingsManager final {
    void SetAutoHideTime(int new_time)
    {
       properties_file_->setValue("autohide", new_time);
+   }
+   void SetDefaultProfile(const juce::String& default_profile)
+   {
+      properties_file_->setValue("default_profile", default_profile);
    }
    void SetLastVersionFound(int version_number)
    {
