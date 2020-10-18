@@ -359,7 +359,7 @@ void MainContentComponent::ProfileChanged(
 void MainContentComponent::StandardLabelSettings(juce::Label& label_to_set)
 {
    try {
-      label_to_set.setFont(juce::Font {12.f, juce::Font::bold});
+      label_to_set.setFont(juce::Font {16.f, juce::Font::bold});
       label_to_set.setEditable(false);
       label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
    }

@@ -67,8 +67,8 @@ namespace rsj {
 
    inline const char* MessageTypeToName(MessageType from) noexcept
    {
-      static const std::array translation_table {"Note Off", "Note On", "Key Pressure", "Control Change",
-          "Program Change", "Channel Pressure", "Pitch Bend", "System"};
+      static const std::array translation_table {"Note Off", "Note On", "Key Pressure",
+          "Control Change", "Program Change", "Channel Pressure", "Pitch Bend", "System"};
 #pragma warning(suppress : 26446 26482)
       // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
       return translation_table[static_cast<size_t>(from)

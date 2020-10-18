@@ -14,6 +14,7 @@
  *
  */
 
+#include <algorithm>
 #include <exception>
 #include <fstream>
 #include <memory>
@@ -66,6 +67,14 @@ namespace fs = std::filesystem;
 #endif
 
 namespace {
+   class LookAndFeelMIDI2LR final : public juce::LookAndFeel_V3 {
+    public:
+      juce::Font getTextButtonFont(juce::TextButton&, int buttonHeight) override
+      {
+         return juce::Font(std::min(16.0f, static_cast<float>(buttonHeight) * 0.7f));
+      }
+   };
+
    constexpr auto kShutDownString {"--LRSHUTDOWN"};
    constexpr auto kSettingsFileX {"settings.xml"};
    constexpr auto kDefaultsFile {"default.xml"};
@@ -386,7 +395,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    SettingsManager settings_manager_ {profile_manager_, lr_ipc_out_};
    std::unique_ptr<MainWindow> main_window_ {nullptr};
    /* destroy after window that uses it */
-   juce::LookAndFeel_V3 look_feel_;
+   LookAndFeelMIDI2LR look_feel_;
    /* initialize this last as it needs window to exist */
    VersionChecker version_checker_ {settings_manager_};
 };
