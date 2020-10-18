@@ -151,18 +151,16 @@ namespace {
       try {
          /* construct input event. */
          INPUT ip {.type = INPUT_KEYBOARD, .ki = {0, 0, 0, 0, 0}};
-         /* key down strokes */
          std::vector<INPUT> stroke_vector {};
-         for (const auto it : rsj::Reverse(strokes)) {
-            ip.ki.wVk = it;
+         auto push_stroke {[&](const auto stroke) {
+            ip.ki.wVk = stroke;
             stroke_vector.push_back(ip);
-         }
-         /* key up strokes, KEYEVENTF_KEYUP for key release */
+         }};
+         /* down strokes in reverse order from up strokes */
+         std::for_each(strokes.rbegin(), strokes.rend(), push_stroke);
          ip.ki.dwFlags = KEYEVENTF_KEYUP;
-         for (const auto it : strokes) {
-            ip.ki.wVk = it;
-            stroke_vector.push_back(ip);
-         }
+         std::for_each(strokes.begin(), strokes.end(), push_stroke);
+         /* send strokes */
          static std::mutex mutex_sending {};
          auto lock {std::scoped_lock(mutex_sending)};
          THROW_LAST_ERROR_IF(!SendInput(

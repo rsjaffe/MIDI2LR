@@ -22,7 +22,7 @@
 
 Devices::Devices()
 {
-   // open file with xml list of devices
+   /* open file with xml list of devices */
 #ifdef _WIN32
    const juce::File source {
        juce::CharPointer_UTF16(rsj::AppDataFilePath("DisabledControllers.xml").data())};
@@ -62,7 +62,7 @@ Devices::Devices()
 Devices::~Devices()
 {
    try {
-      // open file with xml list of devices
+      /* open file with xml list of devices */
 #ifdef _WIN32
       const juce::File source {
           juce::CharPointer_UTF16(rsj::AppDataFilePath("DisabledControllers.xml").data())};

@@ -131,43 +131,6 @@ namespace rsj {
    [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);
 #endif
    /*****************************************************************************/
-   /**************Reversed Iterator**********************************************/
-   /*****************************************************************************/
-   /* Reversed iterable SEE:https://stackoverflow.com/a/42221253/5699329 */
-   template<class T> struct ReverseWrapper {
-      T o;
-      explicit ReverseWrapper(T&& i) noexcept : o(std::forward<T>(i)) {}
-   };
-
-   template<class T> auto begin(ReverseWrapper<T>& r) noexcept
-   {
-      using std::end;
-      return std::make_reverse_iterator(end(r.o));
-   }
-
-   template<class T> auto end(ReverseWrapper<T>& r) noexcept
-   {
-      using std::begin;
-      return std::make_reverse_iterator(begin(r.o));
-   }
-
-   template<class T> auto begin(ReverseWrapper<T> const& r) noexcept
-   {
-      using std::end;
-      return std::make_reverse_iterator(end(r.o));
-   }
-
-   template<class T> auto end(ReverseWrapper<T> const& r) noexcept
-   {
-      using std::begin;
-      return std::make_reverse_iterator(begin(r.o));
-   }
-
-   template<class T> auto Reverse(T&& ob) noexcept
-   {
-      return ReverseWrapper<T> {std::forward<T>(ob)};
-   }
-   /*****************************************************************************/
    /*******************Sleep Timed and Logged************************************/
    /*****************************************************************************/
    template<class Rep, class Period>

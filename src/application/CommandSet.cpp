@@ -35,8 +35,8 @@ namespace fs = std::filesystem;
 #include <memory>
 
 #include <cereal/archives/xml.hpp>
-#include <cereal/types/string.hpp> //ReSharper false alarm
-#include <cereal/types/vector.hpp> //ReSharper false alarm
+#include <cereal/types/string.hpp> /*ReSharper false alarm*/
+#include <cereal/types/vector.hpp> /*ReSharper false alarm*/
 #include <fmt/format.h>
 
 #include "Translate.h"
@@ -45,14 +45,14 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
 {
    /* manually insert unmapped at first position */
    try {
-      rsj::Translate(m_impl_.language_); // so UnassignedTranslated translated properly
+      rsj::Translate(m_impl_.language_); /* so UnassignedTranslated translated properly */
       cmd_by_number_.emplace_back(kUnassigned);
       cmd_label_by_number_.emplace_back(UnassignedTranslated());
       cmd_idx_[kUnassigned] = 0;
       size_t idx = 1;
       for (const auto& [cmd_group, cmd_abbrev_label] : m_impl_.allcommands_) {
          std::vector<MenuStringT> menu_items_temp {};
-         std::string group_colon {cmd_group + " : "}; // minor optimization of concatenation
+         const std::string group_colon {cmd_group + " : "}; /* minor optimization of concatenation */
          for (const auto& [cmd_abbrev, cmd_label] : cmd_abbrev_label) {
             cmd_by_number_.push_back(cmd_abbrev);
             cmd_label_by_number_.push_back(group_colon + cmd_label);

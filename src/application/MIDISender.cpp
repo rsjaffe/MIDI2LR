@@ -132,7 +132,7 @@ void MidiSender::InitDevices()
                   rsj::Log(fmt::format("Ignored output device {}.", devname));
             }
          }
-      } // devices that are skipped have their pointers deleted and are automatically closed
+      } /* devices that are skipped have their pointers deleted and are automatically closed*/
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
