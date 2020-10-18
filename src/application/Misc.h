@@ -19,7 +19,6 @@
 
 #include <chrono>
 #include <exception>
-#include <optional>
 #ifdef __cpp_lib_source_location
 #include <source_location>
 #endif
@@ -54,7 +53,6 @@ constexpr auto MacOS {true};
 #endif
 
 namespace rsj {
-   std::optional<juce::String> SystemFont();
    /*****************************************************************************/
    /**************Thread Labels**************************************************/
    /*****************************************************************************/

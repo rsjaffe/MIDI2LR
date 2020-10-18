@@ -10,6 +10,18 @@
               companyName="Rory Jaffe">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <GROUP id="{071131A1-AE05-CFCE-66F8-6D0C8053C7DF}" name="Fonts">
+        <FILE id="oWxQ0i" name="NotoSans-Medium-plus-Thai.ttf" compile="0"
+              resource="1" file="data/application/fonts/NotoSans-Medium-plus-Thai.ttf"/>
+        <FILE id="FiLDHL" name="NotoSansJP-Medium.otf" compile="0" resource="1"
+              file="data/application/fonts/NotoSansJP-Medium.otf"/>
+        <FILE id="F2Nu89" name="NotoSansKR-Medium.otf" compile="0" resource="1"
+              file="data/application/fonts/NotoSansKR-Medium.otf"/>
+        <FILE id="ynRwrV" name="NotoSansSC-Medium.otf" compile="0" resource="1"
+              file="data/application/fonts/NotoSansSC-Medium.otf"/>
+        <FILE id="ikvZki" name="NotoSansTC-Medium.otf" compile="0" resource="1"
+              file="data/application/fonts/NotoSansTC-Medium.otf"/>
+      </GROUP>
       <GROUP id="{00832162-0BDD-383A-E04E-4DEA9A30B434}" name="Icon">
         <FILE id="WdgQGt" name="MIDI2LR.png" compile="0" resource="1" file="data/application/MIDI2LR.png"/>
       </GROUP>

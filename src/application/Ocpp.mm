@@ -36,12 +36,6 @@ std::string rsj::AppLogMac()
    return result.UTF8String;
 }
 
-std::string rsj::SystemFontMac()
-{
-   NSFont* font {[NSFont controlContentFontOfSize:0.0]};
-   return font.displayName.UTF8String;
-}
-
 void rsj::CheckPermission(pid_t pid)
 {
    AEAddressDesc addressDesc;

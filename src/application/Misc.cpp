@@ -32,18 +32,6 @@
 #endif
 
 /* XCode has issues with std:: in this file, using ::std:: to fix when necessary */
-::std::optional<juce::String> rsj::SystemFont()
-{
-#ifdef _WIN32
-   NONCLIENTMETRICSW metrics {.cbSize = sizeof(NONCLIENTMETRICSW)};
-   if (LOG_IF_WIN32_BOOL_FALSE(
-           SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICSW), &metrics, 0)))
-      return metrics.lfMessageFont.lfFaceName;
-   return {};
-#else
-   return rsj::SystemFontMac();
-#endif
-}
 /*****************************************************************************/
 /**************Thread Labels**************************************************/
 /*****************************************************************************/

@@ -1584,6 +1584,10 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData.cpp"/>
+    <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData2.cpp"/>
+    <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData3.cpp"/>
+    <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData4.cpp"/>
+    <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData5.cpp"/>
     <ClCompile Include="..\..\external\JuceLibraryCode\include_juce_audio_basics.cpp"/>
     <ClCompile Include="..\..\external\JuceLibraryCode\include_juce_audio_devices.cpp"/>
     <ClCompile Include="..\..\external\JuceLibraryCode\include_juce_core.cpp"/>
@@ -2111,6 +2115,11 @@
     <ClInclude Include="..\..\external\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\data\application\fonts\NotoSans-Medium-plus-Thai.ttf"/>
+    <None Include="..\..\data\application\fonts\NotoSansJP-Medium.otf"/>
+    <None Include="..\..\data\application\fonts\NotoSansKR-Medium.otf"/>
+    <None Include="..\..\data\application\fonts\NotoSansSC-Medium.otf"/>
+    <None Include="..\..\data\application\fonts\NotoSansTC-Medium.otf"/>
     <None Include="..\..\data\application\MIDI2LR.png"/>
     <None Include="..\..\external\JuceLibraryCode\modules\juce_audio_devices\native\oboe\CMakeLists.txt"/>
     <None Include="..\..\external\JuceLibraryCode\modules\juce_audio_devices\native\oboe\readme.md"/>

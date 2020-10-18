@@ -48,6 +48,11 @@ class CommandSet {
       return cmd_label_by_number_.at(index);
    }
 
+   [[nodiscard]] const auto& GetLanguage() const noexcept
+   {
+      return m_impl_.language_;
+   }
+
    [[nodiscard]] const auto& GetMenus() const noexcept
    {
       return menus_;
