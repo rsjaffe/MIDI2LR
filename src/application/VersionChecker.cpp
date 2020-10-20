@@ -103,8 +103,8 @@ void VersionChecker::Run()
          rsj::Log(fmt::format("Version available {}, version last checked {}, current version {}.",
              IntToVersion(new_version_), IntToVersion(last_checked),
              IntToVersion(ProjectInfo::versionNumber)));
-         /*if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked
-             && !thread_should_exit_.load(std::memory_order_acquire)) */
+         if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked
+             && !thread_should_exit_.load(std::memory_order_acquire)) 
          {
             triggerAsyncUpdate();
          }
