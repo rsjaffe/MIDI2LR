@@ -39,7 +39,8 @@ namespace rsj {
       using result_type = uint64_t;
       static result_type NextRandom() noexcept
       {
-         result_type z {state_ += 0x9e3779b97f4a7c15};
+         result_type z {
+             state_.fetch_add(0x9e3779b97f4a7c15, std::memory_order_relaxed) + 0x9e3779b97f4a7c15};
          z = (z ^ z >> 30) * 0xbf58476d1ce4e5b9;
          z = (z ^ z >> 27) * 0x94d049bb133111eb;
          return z ^ z >> 31;
