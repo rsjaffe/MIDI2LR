@@ -157,9 +157,9 @@ namespace {
             stroke_vector.push_back(ip);
          }};
          /* down strokes in reverse order from up strokes */
-         std::for_each(strokes.rbegin(), strokes.rend(), push_stroke);
+         std::for_each(strokes.crbegin(), strokes.crend(), push_stroke);
          ip.ki.dwFlags = KEYEVENTF_KEYUP;
-         std::for_each(strokes.begin(), strokes.end(), push_stroke);
+         std::for_each(strokes.cbegin(), strokes.cend(), push_stroke);
          /* send strokes */
          static std::mutex mutex_sending {};
          auto lock {std::scoped_lock(mutex_sending)};

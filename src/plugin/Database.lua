@@ -969,9 +969,9 @@ local function WriteAppTrans(language)
     end
   end
   file:write([=[
-    <?xml version="1.0" encoding="utf-8"?>
-    <cereal>
-    <value0>
+<?xml version="1.0" encoding="utf-8"?>
+<cereal>
+  <value0>
     <cereal_class_version>1</cereal_class_version>
     <language>]=],language,[=[</language>
     <all_commands size="dynamic">
@@ -989,8 +989,8 @@ local function WriteAppTrans(language)
   end
   file:write([=[
     </all_commands>
-    </value0>
-    </cereal>
+  </value0>
+</cereal>
   ]=])
   file:close()
 end
