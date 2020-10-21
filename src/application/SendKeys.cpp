@@ -87,7 +87,8 @@ namespace {
       if (length) {
          /* check for issues with extra-long window titles and log them */
          if (length + 1 >= gsl::narrow_cast<int>(buffer.size()))
-            rsj::Log(fmt::format(L"EnumWindowsProc window text length > {}, truncated text is {}.",
+            rsj::Log(fmt::format(
+                FMT_STRING(L"EnumWindowsProc window text length > {}, truncated text is {}."),
                 buffer.size(), buffer.data())
                          .data());
          /* try to find Lightroom Classic. Use Lightroom as fallback */
@@ -343,7 +344,8 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
          const UniChar uc {ww898::utf::conv<char16_t>(key).front()};
          const auto key_code_result {KeyCodeForChar(uc)};
          if (!key_code_result) {
-            rsj::LogAndAlertError(fmt::format("Unsupported character was used: \"{}\".", key));
+            rsj::LogAndAlertError(
+                fmt::format(FMT_STRING("Unsupported character was used: \"{}\"."), key));
             return;
          }
          const auto k_data {*key_code_result};
@@ -367,11 +369,12 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
    }
    catch (const std::exception& e) {
       rsj::LogAndAlertError(fmt::format(
-          "Exception in key sending function for key: \"{}\". Exception: {}.", key, e.what()));
+          FMT_STRING("Exception in key sending function for key: \"{}\". Exception: {}."), key,
+          e.what()));
    }
    catch (...) {
-      rsj::LogAndAlertError(
-          fmt::format("Non-standard exception in key sending function for key: \"{}\".", key));
+      rsj::LogAndAlertError(fmt::format(
+          FMT_STRING("Non-standard exception in key sending function for key: \"{}\"."), key));
    }
 }
 #pragma warning(pop)

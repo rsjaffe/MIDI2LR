@@ -52,7 +52,8 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
       size_t idx = 1;
       for (const auto& [cmd_group, cmd_abbrev_label] : m_impl_.allcommands_) {
          std::vector<MenuStringT> menu_items_temp {};
-         const std::string group_colon {cmd_group + " : "}; /* minor optimization of concatenation */
+         const std::string group_colon {cmd_group + " : "}; /* minor optimization of concatenation
+                                                             */
          for (const auto& [cmd_abbrev, cmd_label] : cmd_abbrev_label) {
             cmd_by_number_.push_back(cmd_abbrev);
             cmd_label_by_number_.push_back(group_colon + cmd_label);
@@ -83,9 +84,9 @@ CommandSet::Impl::Impl()
          const auto iarchive {std::make_unique<cereal::XMLInputArchive>(infile)};
          (*iarchive)(*this);
 #ifdef FILESYSTEM_AVAILABLE_MIDI2LR
-         rsj::Log(fmt::format("MenuTrans.xml archive loaded from {}.", p.string()));
+         rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p.string()));
 #else
-         rsj::Log(fmt::format("MenuTrans.xml archive loaded from {}.", p));
+         rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p));
 #endif
       }
       else
@@ -115,7 +116,7 @@ size_t CommandSet::CommandTextIndex(const std::string& command) const
    try {
       const auto found {cmd_idx_.find(command)};
       if (found == cmd_idx_.end()) {
-         rsj::Log(fmt::format("Command not found in CommandTextIndex: {}.", command));
+         rsj::Log(fmt::format(FMT_STRING("Command not found in CommandTextIndex: {}."), command));
          return 0;
       }
       return found->second;

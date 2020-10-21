@@ -272,7 +272,7 @@ void rsj::ExceptionResponse(
    try {
       const auto alert_text {
           fmt::format(juce::translate("Exception ").toStdString() + "{} {}.", e.what(), fu)};
-      const auto error_text {fmt::format("Exception {} {}.", e.what(), fu)};
+      const auto error_text {fmt::format(FMT_STRING("Exception {} {}."), e.what(), fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
    catch (...) { //-V565
@@ -286,7 +286,7 @@ void rsj::ExceptionResponse(const char* id, const char* fu, const ::std::excepti
    try {
       const auto alert_text {fmt::format(
           juce::translate("Exception ").toStdString() + "{} {}::{}.", e.what(), id, fu)};
-      const auto error_text {fmt::format("Exception {} {}::{}.", e.what(), id, fu)};
+      const auto error_text {fmt::format(FMT_STRING("Exception {} {}::{}."), e.what(), id, fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
    catch (...) { //-V565

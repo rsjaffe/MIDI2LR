@@ -118,7 +118,8 @@ void LrIpcOut::Start()
          if constexpr (kNdebug)
             io_context_.run();
          else
-            rsj::Log(fmt::format("LrIpcOut thread0 ran {} handlers.", io_context_.run()));
+            rsj::Log(
+                fmt::format(FMT_STRING("LrIpcOut thread0 ran {} handlers."), io_context_.run()));
       });
       io_thread1_ = std::async(std::launch::async, [this] {
          rsj::LabelThread(L"LrIpcOut io_thread1_");
@@ -126,7 +127,8 @@ void LrIpcOut::Start()
          if constexpr (kNdebug)
             io_context_.run();
          else
-            rsj::Log(fmt::format("LrIpcOut thread1 ran {} handlers.", io_context_.run()));
+            rsj::Log(
+                fmt::format(FMT_STRING("LrIpcOut thread1 ran {} handlers."), io_context_.run()));
       });
    }
    catch (const std::exception& e) {
@@ -140,7 +142,7 @@ void LrIpcOut::Stop()
    thread_should_exit_.store(true, std::memory_order_release);
    /* pump output queue before port closed */
    if (const auto m {command_.clear_count_emplace(kTerminate)})
-      rsj::Log(fmt::format("{} left in queue in LrIpcOut destructor.", m));
+      rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcOut destructor."), m));
    /* no more connect/disconnect notifications */
    callbacks_.clear();
    asio::post([this] {
@@ -150,12 +152,12 @@ void LrIpcOut::Stop()
           * shutdown() before closing the socket. */
          socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
          if (ec) {
-            rsj::Log(fmt::format("LR_IPC_Out socket shutdown error {}.", ec.message()));
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket shutdown error {}."), ec.message()));
             ec.clear();
          }
          socket_.close(ec);
          if (ec)
-            rsj::Log(fmt::format("LR_IPC_Out socket close error {}.", ec.message()));
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec.message()));
       }
       recenter_timer_.cancel();
    });
@@ -171,11 +173,13 @@ void LrIpcOut::Connect()
                 SendOut();
              }
              else {
-                rsj::Log(fmt::format("LR_IPC_Out did not connect. {}.", error.message()));
+                rsj::Log(
+                    fmt::format(FMT_STRING("LR_IPC_Out did not connect. {}."), error.message()));
                 asio::error_code ec2;
                 socket_.close(ec2);
                 if (ec2)
-                   rsj::Log(fmt::format("LR_IPC_Out socket close error {}.", ec2.message()));
+                   rsj::Log(
+                       fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec2.message()));
              }
           });
    }
@@ -298,7 +302,7 @@ void LrIpcOut::SendOut()
              if (!error)
                 [[likely]] SendOut();
              else {
-                rsj::Log(fmt::format("LR_IPC_Out Write: {}.", error.message()));
+                rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out Write: {}."), error.message()));
              }
           });
    }
