@@ -364,3 +364,5 @@ tools/installer/MIDI2LR.xml.backup
 tools/doxygen/html/
 build/MacOS/build/
 tools/luacheck/luacheck.results
+
+tools/selene/selene.txt
