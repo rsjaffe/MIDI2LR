@@ -8,11 +8,26 @@
 
 namespace BinaryData
 {
+    extern const char*   NotoSansMediumplusThai_ttf;
+    const int            NotoSansMediumplusThai_ttfSize = 562900;
+
+    extern const char*   NotoSansJPMedium_otf;
+    const int            NotoSansJPMedium_otfSize = 4495840;
+
+    extern const char*   NotoSansKRMedium_otf;
+    const int            NotoSansKRMedium_otfSize = 4847684;
+
+    extern const char*   NotoSansSCMedium_otf;
+    const int            NotoSansSCMedium_otfSize = 8363604;
+
+    extern const char*   NotoSansTCMedium_otf;
+    const int            NotoSansTCMedium_otfSize = 5925492;
+
     extern const char*   MIDI2LR_png;
     const int            MIDI2LR_pngSize = 6750;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 1;
+    const int namedResourceListSize = 6;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

@@ -106,7 +106,7 @@ namespace {
                std::rethrow_exception(exc);
             }
             catch (const std::exception& e) {
-               rsj::Log(fmt::format("Terminate called, exception {}.", e.what()));
+               rsj::Log(fmt::format(FMT_STRING("Terminate called, exception {}."), e.what()));
             }
             catch (...) {
                rsj::Log("Terminate called, unknown exception type.");
@@ -282,8 +282,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          const auto file_name {rsj::AppDataFilePath(kDefaultsFile)};
          const auto profile_file {juce::File(file_name.data())};
          profile_.ToXmlFile(profile_file);
-         rsj::Log(fmt::format(
-             "Default profile saved to {}.", profile_file.getFullPathName().toStdString()));
+         rsj::Log(fmt::format(FMT_STRING("Default profile saved to {}."),
+             profile_file.getFullPathName().toStdString()));
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;
@@ -305,9 +305,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             const auto oarchive {std::make_unique<cereal::XMLOutputArchive>(outfile)};
             (*oarchive)(controls_model_);
 #ifdef FILESYSTEM_AVAILABLE_MIDI2LR
-            rsj::Log(fmt::format("ControlsModel archive in Main saved to {}.", p.string()));
+            rsj::Log(
+                fmt::format(FMT_STRING("ControlsModel archive in Main saved to {}."), p.string()));
 #else
-            rsj::Log(fmt::format("ControlsModel archive in Main saved to {}.", p));
+            rsj::Log(fmt::format(FMT_STRING("ControlsModel archive in Main saved to {}."), p));
 #endif
          }
          else
@@ -333,9 +334,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             const auto iarchive {std::make_unique<cereal::XMLInputArchive>(in_file)};
             (*iarchive)(controls_model_);
 #ifdef FILESYSTEM_AVAILABLE_MIDI2LR
-            rsj::Log(fmt::format("ControlsModel archive in Main loaded from {}.", px.string()));
+            rsj::Log(fmt::format(
+                FMT_STRING("ControlsModel archive in Main loaded from {}."), px.string()));
 #else
-            rsj::Log(fmt::format("ControlsModel archive in Main loaded from {}.", px));
+            rsj::Log(fmt::format(FMT_STRING("ControlsModel archive in Main loaded from {}."), px));
 #endif
          }
       }
@@ -362,13 +364,27 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        *        Fixed   Menlo            Lucida Console
        */
       try {
-         auto sf {rsj::SystemFont()};
-         if (sf) {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(*sf);
-            rsj::Log("System font is " + *sf);
-         }
+         const auto& lang {command_set_.GetLanguage()};
+         if (lang == "ko")
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
+                juce::Typeface::createSystemTypefaceFor(
+                    BinaryData::NotoSansKRMedium_otf, BinaryData::NotoSansKRMedium_otfSize));
+         else if (lang == "zh_tw")
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
+                juce::Typeface::createSystemTypefaceFor(
+                    BinaryData::NotoSansTCMedium_otf, BinaryData::NotoSansTCMedium_otfSize));
+         else if (lang == "zh_cn")
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
+                juce::Typeface::createSystemTypefaceFor(
+                    BinaryData::NotoSansSCMedium_otf, BinaryData::NotoSansSCMedium_otfSize));
+         else if (lang == "ja")
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
+                juce::Typeface::createSystemTypefaceFor(
+                    BinaryData::NotoSansJPMedium_otf, BinaryData::NotoSansJPMedium_otfSize));
          else
-            rsj::Log("Unable to obtain system font.");
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
+                juce::Typeface::createSystemTypefaceFor(BinaryData::NotoSansMediumplusThai_ttf,
+                    BinaryData::NotoSansMediumplusThai_ttfSize));
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;

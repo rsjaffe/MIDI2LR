@@ -62,7 +62,7 @@ After successful notarization, run (substitute correct MIDI2LR version number)
 
 ## Translations
 
-There are three components to localize: the application, the plugin and the installer. Each unfortunately uses a different format but the program overseeing all localizations (except for the installer's readme file) is POEditor.com. To contribute to the translating effort, either by revising translations or adding new terms, contact mailto:rsjaffe@gmail.com to sign up.
+There are three components to localize: the application, the plugin and the installer. Each unfortunately uses a different format but the program overseeing all localizations (except for the installer's readme file) is POEditor.com. Translation assistance welcome. Sign up at https://poeditor.com/join/project?hash=v6U0MvufAn.
 
 The resulting translation files are located in *data/application*, *data/plugin* and *tools/installer/data/translations*.
 

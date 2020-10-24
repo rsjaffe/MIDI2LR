@@ -2,6 +2,9 @@
 
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="MIDI2LR\Source\Fonts">
+      <UniqueIdentifier>{9C433139-461A-2030-1FD2-20B0ED6708B2}</UniqueIdentifier>
+    </Filter>
     <Filter Include="MIDI2LR\Source\Icon">
       <UniqueIdentifier>{2AFD23E6-68D5-9245-9CAD-FBED51B35B63}</UniqueIdentifier>
     </Filter>
@@ -1864,6 +1867,18 @@
     <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData2.cpp">
+      <Filter>JUCE Library Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData3.cpp">
+      <Filter>JUCE Library Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData4.cpp">
+      <Filter>JUCE Library Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData5.cpp">
+      <Filter>JUCE Library Code</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\external\JuceLibraryCode\include_juce_audio_basics.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
@@ -3437,6 +3452,21 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\data\application\fonts\NotoSans-Medium-plus-Thai.ttf">
+      <Filter>MIDI2LR\Source\Fonts</Filter>
+    </None>
+    <None Include="..\..\data\application\fonts\NotoSansJP-Medium.otf">
+      <Filter>MIDI2LR\Source\Fonts</Filter>
+    </None>
+    <None Include="..\..\data\application\fonts\NotoSansKR-Medium.otf">
+      <Filter>MIDI2LR\Source\Fonts</Filter>
+    </None>
+    <None Include="..\..\data\application\fonts\NotoSansSC-Medium.otf">
+      <Filter>MIDI2LR\Source\Fonts</Filter>
+    </None>
+    <None Include="..\..\data\application\fonts\NotoSansTC-Medium.otf">
+      <Filter>MIDI2LR\Source\Fonts</Filter>
+    </None>
     <None Include="..\..\data\application\MIDI2LR.png">
       <Filter>MIDI2LR\Source\Icon</Filter>
     </None>

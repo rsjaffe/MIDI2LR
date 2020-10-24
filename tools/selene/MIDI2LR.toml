@@ -1,0 +1,24 @@
+[selene]
+base = "lua51"
+
+[ProgramPreferences]
+property = true
+writable = "full" 
+
+[MIDI2LR]
+property = true
+writable = "full" 
+
+[_PLUGIN.path]
+property = true
+
+[WIN_ENV]
+property = true
+
+[[LOC.args]]
+type = "..."
+required = true
+
+[[import.args]]
+type = "string"
+required = true

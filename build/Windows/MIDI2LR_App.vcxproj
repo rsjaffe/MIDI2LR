@@ -64,7 +64,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\external\JuceLibraryCode;..\..\external\JuceLibraryCode\modules;../../external/;../../external/asio/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;_WIN32_WINNT=0x0A00;WINVER=0x0A00;NOMINMAX;WIN32_LEAN_AND_MEAN;JUCER_VS2019_A3DCEFC2=1;JUCE_APP_VERSION=4.0.2.1;JUCE_APP_VERSION_HEX=0x4000201;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JUCE_DISPLAY_SPLASH_SCREEN=0;JUCE_USE_DARK_SPLASH_SCREEN=1;JUCE_PROJUCER_VERSION=0x60004;JUCE_MODULE_AVAILABLE_juce_audio_basics=1;JUCE_MODULE_AVAILABLE_juce_audio_devices=1;JUCE_MODULE_AVAILABLE_juce_core=1;JUCE_MODULE_AVAILABLE_juce_data_structures=1;JUCE_MODULE_AVAILABLE_juce_events=1;JUCE_MODULE_AVAILABLE_juce_graphics=1;JUCE_MODULE_AVAILABLE_juce_gui_basics=1;JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1;JUCE_USE_WINRT_MIDI=0;JUCE_ASIO=0;JUCE_WASAPI=0;JUCE_DIRECTSOUND=0;JUCE_ALSA=0;JUCE_JACK=0;JUCE_BELA=0;JUCE_USE_ANDROID_OBOE=0;JUCE_USE_ANDROID_OPENSLES=0;JUCE_DISABLE_AUDIO_MIXING_WITH_OTHER_APPS=0;JUCE_FORCE_DEBUG=0;JUCE_LOG_ASSERTIONS=0;JUCE_CATCH_UNHANDLED_EXCEPTIONS=1;JUCE_ALLOW_STATIC_NULL_VARIABLES=0;JUCE_STRICT_REFCOUNTEDPOINTER=1;JUCE_STANDALONE_APPLICATION=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;_WIN32_WINNT=0x0A00;WINVER=0x0A00;NOMINMAX;WIN32_LEAN_AND_MEAN;JUCER_VS2019_A3DCEFC2=1;JUCE_APP_VERSION=4.0.3.0;JUCE_APP_VERSION_HEX=0x4000300;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JUCE_DISPLAY_SPLASH_SCREEN=0;JUCE_USE_DARK_SPLASH_SCREEN=1;JUCE_PROJUCER_VERSION=0x60004;JUCE_MODULE_AVAILABLE_juce_audio_basics=1;JUCE_MODULE_AVAILABLE_juce_audio_devices=1;JUCE_MODULE_AVAILABLE_juce_core=1;JUCE_MODULE_AVAILABLE_juce_data_structures=1;JUCE_MODULE_AVAILABLE_juce_events=1;JUCE_MODULE_AVAILABLE_juce_graphics=1;JUCE_MODULE_AVAILABLE_juce_gui_basics=1;JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1;JUCE_USE_WINRT_MIDI=0;JUCE_ASIO=0;JUCE_WASAPI=0;JUCE_DIRECTSOUND=0;JUCE_ALSA=0;JUCE_JACK=0;JUCE_BELA=0;JUCE_USE_ANDROID_OBOE=0;JUCE_USE_ANDROID_OPENSLES=0;JUCE_DISABLE_AUDIO_MIXING_WITH_OTHER_APPS=0;JUCE_FORCE_DEBUG=0;JUCE_LOG_ASSERTIONS=0;JUCE_CATCH_UNHANDLED_EXCEPTIONS=1;JUCE_ALLOW_STATIC_NULL_VARIABLES=0;JUCE_STRICT_REFCOUNTEDPOINTER=1;JUCE_STANDALONE_APPLICATION=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -105,7 +105,7 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>..\..\external\JuceLibraryCode;..\..\external\JuceLibraryCode\modules;../../external/;../../external/asio/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;_WIN32_WINNT=0x0A00;WINVER=0x0A00;NOMINMAX;WIN32_LEAN_AND_MEAN;JUCER_VS2019_A3DCEFC2=1;JUCE_APP_VERSION=4.0.2.1;JUCE_APP_VERSION_HEX=0x4000201;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JUCE_DISPLAY_SPLASH_SCREEN=0;JUCE_USE_DARK_SPLASH_SCREEN=1;JUCE_PROJUCER_VERSION=0x60004;JUCE_MODULE_AVAILABLE_juce_audio_basics=1;JUCE_MODULE_AVAILABLE_juce_audio_devices=1;JUCE_MODULE_AVAILABLE_juce_core=1;JUCE_MODULE_AVAILABLE_juce_data_structures=1;JUCE_MODULE_AVAILABLE_juce_events=1;JUCE_MODULE_AVAILABLE_juce_graphics=1;JUCE_MODULE_AVAILABLE_juce_gui_basics=1;JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1;JUCE_USE_WINRT_MIDI=0;JUCE_ASIO=0;JUCE_WASAPI=0;JUCE_DIRECTSOUND=0;JUCE_ALSA=0;JUCE_JACK=0;JUCE_BELA=0;JUCE_USE_ANDROID_OBOE=0;JUCE_USE_ANDROID_OPENSLES=0;JUCE_DISABLE_AUDIO_MIXING_WITH_OTHER_APPS=0;JUCE_FORCE_DEBUG=0;JUCE_LOG_ASSERTIONS=0;JUCE_CATCH_UNHANDLED_EXCEPTIONS=1;JUCE_ALLOW_STATIC_NULL_VARIABLES=0;JUCE_STRICT_REFCOUNTEDPOINTER=1;JUCE_STANDALONE_APPLICATION=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;_WIN32_WINNT=0x0A00;WINVER=0x0A00;NOMINMAX;WIN32_LEAN_AND_MEAN;JUCER_VS2019_A3DCEFC2=1;JUCE_APP_VERSION=4.0.3.0;JUCE_APP_VERSION_HEX=0x4000300;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JUCE_DISPLAY_SPLASH_SCREEN=0;JUCE_USE_DARK_SPLASH_SCREEN=1;JUCE_PROJUCER_VERSION=0x60004;JUCE_MODULE_AVAILABLE_juce_audio_basics=1;JUCE_MODULE_AVAILABLE_juce_audio_devices=1;JUCE_MODULE_AVAILABLE_juce_core=1;JUCE_MODULE_AVAILABLE_juce_data_structures=1;JUCE_MODULE_AVAILABLE_juce_events=1;JUCE_MODULE_AVAILABLE_juce_graphics=1;JUCE_MODULE_AVAILABLE_juce_gui_basics=1;JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1;JUCE_USE_WINRT_MIDI=0;JUCE_ASIO=0;JUCE_WASAPI=0;JUCE_DIRECTSOUND=0;JUCE_ALSA=0;JUCE_JACK=0;JUCE_BELA=0;JUCE_USE_ANDROID_OBOE=0;JUCE_USE_ANDROID_OPENSLES=0;JUCE_DISABLE_AUDIO_MIXING_WITH_OTHER_APPS=0;JUCE_FORCE_DEBUG=0;JUCE_LOG_ASSERTIONS=0;JUCE_CATCH_UNHANDLED_EXCEPTIONS=1;JUCE_ALLOW_STATIC_NULL_VARIABLES=0;JUCE_STRICT_REFCOUNTEDPOINTER=1;JUCE_STANDALONE_APPLICATION=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -1584,6 +1584,10 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData.cpp"/>
+    <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData2.cpp"/>
+    <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData3.cpp"/>
+    <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData4.cpp"/>
+    <ClCompile Include="..\..\external\JuceLibraryCode\BinaryData5.cpp"/>
     <ClCompile Include="..\..\external\JuceLibraryCode\include_juce_audio_basics.cpp"/>
     <ClCompile Include="..\..\external\JuceLibraryCode\include_juce_audio_devices.cpp"/>
     <ClCompile Include="..\..\external\JuceLibraryCode\include_juce_core.cpp"/>
@@ -2111,6 +2115,11 @@
     <ClInclude Include="..\..\external\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\data\application\fonts\NotoSans-Medium-plus-Thai.ttf"/>
+    <None Include="..\..\data\application\fonts\NotoSansJP-Medium.otf"/>
+    <None Include="..\..\data\application\fonts\NotoSansKR-Medium.otf"/>
+    <None Include="..\..\data\application\fonts\NotoSansSC-Medium.otf"/>
+    <None Include="..\..\data\application\fonts\NotoSansTC-Medium.otf"/>
     <None Include="..\..\data\application\MIDI2LR.png"/>
     <None Include="..\..\external\JuceLibraryCode\modules\juce_audio_devices\native\oboe\CMakeLists.txt"/>
     <None Include="..\..\external\JuceLibraryCode\modules\juce_audio_devices\native\oboe\readme.md"/>

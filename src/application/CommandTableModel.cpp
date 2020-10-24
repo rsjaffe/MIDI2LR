@@ -45,8 +45,8 @@ void CommandTableModel::paintCell(
          if (profile_.Size() <= gsl::narrow_cast<size_t>(row_number)) {
             /* error condition */
             g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
-            rsj::Log(fmt::format("Unknown control CommandTableModel::paintCell. {} rows in "
-                                 "profile, row number to be painted is {}.",
+            rsj::Log(fmt::format(FMT_STRING("Unknown control CommandTableModel::paintCell. {} rows "
+                                            "in profile, row number to be painted is {}."),
                 profile_.Size(), row_number));
          }
          else {
@@ -55,22 +55,25 @@ void CommandTableModel::paintCell(
                 const auto cmd {profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))};
                 cmd.msg_id_type) {
             case rsj::MessageType::NoteOn:
-               format_str = fmt::format("{} | Note : {}", cmd.channel, cmd.control_number);
+               format_str =
+                   fmt::format(FMT_STRING("{} | Note : {}"), cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::NoteOff:
-               format_str = fmt::format("{} | Note Off: {}", cmd.channel, cmd.control_number);
+               format_str =
+                   fmt::format(FMT_STRING("{} | Note Off: {}"), cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::Cc:
-               format_str = fmt::format("{} | CC: {}", cmd.channel, cmd.control_number);
+               format_str = fmt::format(FMT_STRING("{} | CC: {}"), cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::Pw:
-               format_str = fmt::format("{} | Pitch Bend", cmd.channel);
+               format_str = fmt::format(FMT_STRING("{} | Pitch Bend"), cmd.channel);
                break;
             case rsj::MessageType::KeyPressure:
-               format_str = fmt::format("{} | Key Pressure: {}", cmd.channel, cmd.control_number);
+               format_str = fmt::format(
+                   FMT_STRING("{} | Key Pressure: {}"), cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::ChanPressure:
-               format_str = fmt::format("{} | Channel Pressure", cmd.channel);
+               format_str = fmt::format(FMT_STRING("{} | Channel Pressure"), cmd.channel);
                break;
             case rsj::MessageType::PgmChange: /* TODO: not handled currently */
             case rsj::MessageType::System:

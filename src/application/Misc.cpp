@@ -32,18 +32,6 @@
 #endif
 
 /* XCode has issues with std:: in this file, using ::std:: to fix when necessary */
-::std::optional<juce::String> rsj::SystemFont()
-{
-#ifdef _WIN32
-   NONCLIENTMETRICSW metrics {.cbSize = sizeof(NONCLIENTMETRICSW)};
-   if (LOG_IF_WIN32_BOOL_FALSE(
-           SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICSW), &metrics, 0)))
-      return metrics.lfMessageFont.lfFaceName;
-   return {};
-#else
-   return rsj::SystemFontMac();
-#endif
-}
 /*****************************************************************************/
 /**************Thread Labels**************************************************/
 /*****************************************************************************/
@@ -272,7 +260,7 @@ void rsj::ExceptionResponse(
    try {
       const auto alert_text {
           fmt::format(juce::translate("Exception ").toStdString() + "{} {}.", e.what(), fu)};
-      const auto error_text {fmt::format("Exception {} {}.", e.what(), fu)};
+      const auto error_text {fmt::format(FMT_STRING("Exception {} {}."), e.what(), fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
    catch (...) { //-V565
@@ -286,7 +274,7 @@ void rsj::ExceptionResponse(const char* id, const char* fu, const ::std::excepti
    try {
       const auto alert_text {fmt::format(
           juce::translate("Exception ").toStdString() + "{} {}::{}.", e.what(), id, fu)};
-      const auto error_text {fmt::format("Exception {} {}::{}.", e.what(), id, fu)};
+      const auto error_text {fmt::format(FMT_STRING("Exception {} {}::{}."), e.what(), id, fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
    catch (...) { //-V565

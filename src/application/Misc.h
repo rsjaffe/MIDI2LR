@@ -19,7 +19,6 @@
 
 #include <chrono>
 #include <exception>
-#include <optional>
 #ifdef __cpp_lib_source_location
 #include <source_location>
 #endif
@@ -54,7 +53,6 @@ constexpr auto MacOS {true};
 #endif
 
 namespace rsj {
-   std::optional<juce::String> SystemFont();
    /*****************************************************************************/
    /**************Thread Labels**************************************************/
    /*****************************************************************************/
@@ -147,7 +145,8 @@ namespace rsj {
    void SleepTimedLogged(
        std::string_view msg_prefix, const std::chrono::duration<Rep, Period> sleep_duration) //-V801
    {
-      rsj::Log(fmt::format("{} thread slept for {}.", msg_prefix, SleepTimed(sleep_duration)));
+      rsj::Log(fmt::format(
+          FMT_STRING("{} thread slept for {}."), msg_prefix, SleepTimed(sleep_duration)));
    }
    /*****************************************************************************/
    /*******************Fast Floats***********************************************/
