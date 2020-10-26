@@ -1,3 +1,3 @@
-Last updated August 12 2020 with version 7.0.3
+Last updated October 26 2020 with version 7.1.0
 
 Repository at https://github.com/fmtlib/fmt
