@@ -153,7 +153,7 @@ namespace {
          /* construct input event. */
          INPUT ip {.type = INPUT_KEYBOARD, .ki = {0, 0, 0, 0, 0}};
          std::vector<INPUT> stroke_vector {};
-         auto push_stroke {[&](const auto stroke) {
+         const auto push_stroke {[&](const auto stroke) {
             ip.ki.wVk = stroke;
             stroke_vector.push_back(ip);
          }};

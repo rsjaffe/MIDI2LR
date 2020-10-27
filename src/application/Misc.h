@@ -58,7 +58,7 @@ namespace rsj {
    /*****************************************************************************/
 #ifndef NDEBUG
 #ifdef _WIN32
-   void LabelThread(const wchar_t* threadname) noexcept;
+   void LabelThread(const wchar_t* threadname);
 #else
    constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept {}
 #endif

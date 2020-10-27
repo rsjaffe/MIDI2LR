@@ -36,7 +36,7 @@
 /**************Thread Labels**************************************************/
 /*****************************************************************************/
 #if !defined(NDEBUG) && defined(_WIN32)
-void rsj::LabelThread(const wchar_t* threadname) noexcept
+void rsj::LabelThread(const wchar_t* threadname)
 {
    LOG_IF_FAILED(SetThreadDescription(GetCurrentThread(), threadname));
 }

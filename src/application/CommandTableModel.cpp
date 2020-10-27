@@ -30,8 +30,8 @@ CommandTableModel::CommandTableModel(const CommandSet& command_set, Profile& pro
 {
 }
 
-void CommandTableModel::paintCell(
-    juce::Graphics& g, int row_number, int column_id, int width, int height, bool /*rowIsSelected*/)
+void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int column_id,
+    const int width, const int height, bool /*rowIsSelected*/)
 {
    /* This must draw one of the cells. The graphics context's origin will already be set to the
     * top-left of the cell, whose size is specified by(width, height). Note that the rowNumber value
@@ -90,7 +90,7 @@ void CommandTableModel::paintCell(
 }
 
 void CommandTableModel::paintRowBackground(
-    juce::Graphics& g, int /*rowNumber*/, int /*width*/, int /*height*/, bool row_is_selected)
+    juce::Graphics& g, int /*rowNumber*/, int /*width*/, int /*height*/, const bool row_is_selected)
 {
    /* This must draw the background behind one of the rows in the table. The graphics context has
     * its origin at the row's top-left, and your method should fill the area specified by the width
@@ -106,8 +106,8 @@ void CommandTableModel::paintRowBackground(
    }
 }
 
-juce::Component* CommandTableModel::refreshComponentForCell(
-    int row_number, int column_id, bool /*isRowSelected*/, juce::Component* existing_component)
+juce::Component* CommandTableModel::refreshComponentForCell(int row_number, const int column_id,
+    bool /*isRowSelected*/, juce::Component* existing_component)
 {
    /* This is used to create or update a custom component to go in a cell. Any cell may contain a
     * custom component, or can just be drawn with the paintCell() method and handle mouse clicks

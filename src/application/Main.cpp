@@ -65,9 +65,9 @@ namespace fs = std::filesystem;
 namespace {
    class LookAndFeelMIDI2LR final : public juce::LookAndFeel_V3 {
     public:
-      juce::Font getTextButtonFont(juce::TextButton&, int buttonHeight) override
+      juce::Font getTextButtonFont(juce::TextButton&, const int button_height) override
       {
-         return juce::Font(std::min(16.0f, static_cast<float>(buttonHeight) * 0.7f));
+         return juce::Font(std::min(16.0f, static_cast<float>(button_height) * 0.7f));
       }
    };
 
@@ -382,7 +382,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
                 juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize()));
          else
-            rsj::Log(fmt::format(FMT_STRING("Unable to load font file {}."), font1_name.toStdString()));
+            rsj::Log(
+                fmt::format(FMT_STRING("Unable to load font file {}."), font1_name.toStdString()));
          font_data.reset();
          if (font2_name.isNotEmpty()) {
             font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
