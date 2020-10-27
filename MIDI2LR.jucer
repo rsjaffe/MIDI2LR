@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="4.0.3.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="4.0.4.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               companyWebsite="http://rsjaffe.github.io/MIDI2LR/" companyEmail="rsjaffe@gmail.com"
               displaySplashScreen="0" reportAppUsage="0" splashScreenColour="Dark"
@@ -10,18 +10,6 @@
               companyName="Rory Jaffe">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
-      <GROUP id="{071131A1-AE05-CFCE-66F8-6D0C8053C7DF}" name="Fonts">
-        <FILE id="oWxQ0i" name="NotoSans-Medium-plus-Thai.ttf" compile="0"
-              resource="1" file="data/application/fonts/NotoSans-Medium-plus-Thai.ttf"/>
-        <FILE id="FiLDHL" name="NotoSansJP-Medium.otf" compile="0" resource="1"
-              file="data/application/fonts/NotoSansJP-Medium.otf"/>
-        <FILE id="F2Nu89" name="NotoSansKR-Medium.otf" compile="0" resource="1"
-              file="data/application/fonts/NotoSansKR-Medium.otf"/>
-        <FILE id="ynRwrV" name="NotoSansSC-Medium.otf" compile="0" resource="1"
-              file="data/application/fonts/NotoSansSC-Medium.otf"/>
-        <FILE id="ikvZki" name="NotoSansTC-Medium.otf" compile="0" resource="1"
-              file="data/application/fonts/NotoSansTC-Medium.otf"/>
-      </GROUP>
       <GROUP id="{00832162-0BDD-383A-E04E-4DEA9A30B434}" name="Icon">
         <FILE id="WdgQGt" name="MIDI2LR.png" compile="0" resource="1" file="data/application/MIDI2LR.png"/>
       </GROUP>
@@ -123,13 +111,13 @@
                        binaryPath="" cppLanguageStandard="c++14" headerPath="" codeSigningIdentity="Developer ID Application"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_events" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_data_structures" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_core" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_graphics" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_audio_devices" path="JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="external/JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_events" path="external/JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_data_structures" path="external/JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_core" path="external/JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="external/JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_graphics" path="external/JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="external/JuceLibraryCode/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
     <VS2019 targetFolder="build/Windows" smallIcon="WdgQGt" bigIcon="WdgQGt"
@@ -139,24 +127,24 @@
         <CONFIGURATION name="Release" useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_gui_basics"/>
-        <MODULEPATH id="juce_graphics"/>
-        <MODULEPATH id="juce_events"/>
-        <MODULEPATH id="juce_data_structures"/>
-        <MODULEPATH id="juce_core"/>
-        <MODULEPATH id="juce_audio_devices"/>
-        <MODULEPATH id="juce_audio_basics"/>
+        <MODULEPATH id="juce_gui_basics" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_graphics" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_events" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_data_structures" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_core" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_audio_devices" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_audio_basics" path="external\JuceLibraryCode\modules"/>
       </MODULEPATHS>
     </VS2019>
   </EXPORTFORMATS>
   <MODULES>
-    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_basics" showAllCode="0" useLocalCopy="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="0" useLocalCopy="1"/>
+    <MODULES id="juce_core" showAllCode="0" useLocalCopy="1"/>
+    <MODULES id="juce_data_structures" showAllCode="0" useLocalCopy="1"/>
+    <MODULES id="juce_events" showAllCode="0" useLocalCopy="1"/>
+    <MODULE id="juce_graphics" showAllCode="0" useLocalCopy="1"/>
+    <MODULES id="juce_gui_basics" showAllCode="0" useLocalCopy="1"/>
   </MODULES>
   <JUCEOPTIONS JUCE_USE_OGGVORBIS="disabled" JUCE_USE_ANDROID_OPENSLES="0" JUCE_USE_CDREADER="disabled"
                JUCE_USE_CDBURNER="disabled" JUCE_WASAPI="0" JUCE_WASAPI_EXCLUSIVE="0"

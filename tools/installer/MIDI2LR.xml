@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>4.0.3.0</version>
+    <version>4.0.4.0</version>
     <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>data/translations/ReadMe.txt</readmeFile>
     <licenseFile>../../LICENSE.txt</licenseFile>
@@ -130,6 +130,9 @@
                             <origin>../../src/plugin/Support.lua</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>../../data/application/fonts/OFL.txt</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>../../data/plugin/TranslatedStrings_de.txt</origin>
                         </distributionFile>
                         <distributionFile>
@@ -177,13 +180,31 @@
                         <distributionFile>
                             <origin>../../src/plugin/Virtual.lua</origin>
                         </distributionFile>
+                        <distributionFile>
+                            <origin>../../data/application/fonts/NotoSans-Regular-Plus-Thai.ttf</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../../data/application/fonts/NotoSans-Bold-plus-Thai.ttf</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../../data/application/fonts/NotoSansJP-Regular.otf</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../../data/application/fonts/NotoSansKR-Regular.otf</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../../data/application/fonts/NotoSansSC-Regular.otf</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../../data/application/fonts/NotoSansTC-Regular.otf</origin>
+                        </distributionFile>
                     </distributionFileList>
                 </folder>
                 <folder>
                     <description>Program Files Windows</description>
                     <destination>${installdir}/MIDI2LR.lrplugin</destination>
                     <name>programfileswindows</name>
-                    <platforms>windows</platforms>
+                    <platforms>windows-x64</platforms>
                     <distributionFileList>
                         <distributionFile>
                             <origin>${exe}/MIDI2LR.exe</origin>
@@ -194,7 +215,7 @@
                     <description>Windows Debug Accessories</description>
                     <destination>${installdir}/MIDI2LR.lrplugin</destination>
                     <name>windebug</name>
-                    <platforms>windows</platforms>
+                    <platforms>windows-x64</platforms>
                     <distributionFileList>
                         <distributionFile>
                             <origin>../windows_dump/EnableUserDumps.reg</origin>
@@ -224,7 +245,7 @@
                     <description>Program Settings Windows</description>
                     <destination>${env(APPDATA)}/MIDI2LR/</destination>
                     <name>Settings</name>
-                    <platforms>windows</platforms>
+                    <platforms>windows-x64</platforms>
                     <distributionFileList>
                         <distributionFile>
                             <origin>../../data/plugin/MenuTrans.xml</origin>
