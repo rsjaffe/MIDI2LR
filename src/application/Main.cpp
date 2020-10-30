@@ -382,14 +382,17 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
                 juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize()));
          else
-            rsj::Log(
-                fmt::format(FMT_STRING("Unable to load font file {}."), font1_name.toStdString()));
-         font_data.reset();
+            rsj::Log(fmt::format(
+                FMT_STRING("Unable to load primary font file {}."), font1_name.toStdString()));
          if (font2_name.isNotEmpty()) {
+            font_data.reset();
             font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
                             .getSiblingFile(font2_name);
             if (font_file.loadFileAsData(font_data))
                juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize());
+            else
+               rsj::Log(fmt::format(
+                   FMT_STRING("Unable to load bold font file {}."), font2_name.toStdString()));
          }
       }
       catch (const std::exception& e) {
