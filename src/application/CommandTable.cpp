@@ -19,7 +19,7 @@
 #include <exception>
 #include <memory>
 
-#include <gsl/gsl_util>
+#include <gsl/util>
 
 #include "CommandTableModel.h"
 #include "Misc.h"

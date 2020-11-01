@@ -24,7 +24,7 @@
 #if defined(__clang__)
 #define GSL_SUPPRESS(x) [[gsl::suppress("x")]]
 #else
-#if defined(_MSC_VER) && ! defined(__INTEL_COMPILER)
+#if defined(_MSC_VER) && !defined(__INTEL_COMPILER)
 #define GSL_SUPPRESS(x) [[gsl::suppress(x)]]
 #else
 #define GSL_SUPPRESS(x)
@@ -40,19 +40,23 @@
 #pragma warning(push)
 
 // Turn MSVC /analyze rules that generate too much noise. TODO: fix in the tool.
-#pragma warning(disable : 26493) // don't use c-style casts // TODO: MSVC suppression in templates does not always work
+#pragma warning(disable : 26493) // don't use c-style casts // TODO: MSVC suppression in templates
+                                 // does not always work
 
 #ifndef GSL_USE_STD_BYTE
 // this tests if we are under MSVC and the standard lib has std::byte and it is enabled
-#if (defined(_HAS_STD_BYTE) && _HAS_STD_BYTE) || (defined(__cpp_lib_byte) && __cpp_lib_byte >= 201603)
+#if (defined(_HAS_STD_BYTE) && _HAS_STD_BYTE) ||                                                   \
+    (defined(__cpp_lib_byte) && __cpp_lib_byte >= 201603)
 
 #define GSL_USE_STD_BYTE 1
 
-#else // (defined(_HAS_STD_BYTE) && _HAS_STD_BYTE) || (defined(__cpp_lib_byte) && __cpp_lib_byte >= 201603)
+#else // (defined(_HAS_STD_BYTE) && _HAS_STD_BYTE) || (defined(__cpp_lib_byte) && __cpp_lib_byte >=
+      // 201603)
 
 #define GSL_USE_STD_BYTE 0
 
-#endif // (defined(_HAS_STD_BYTE) && _HAS_STD_BYTE) || (defined(__cpp_lib_byte) && __cpp_lib_byte >= 201603)
+#endif // (defined(_HAS_STD_BYTE) && _HAS_STD_BYTE) || (defined(__cpp_lib_byte) && __cpp_lib_byte >=
+       // 201603)
 #endif // GSL_USE_STD_BYTE
 
 #else // _MSC_VER
@@ -61,9 +65,9 @@
 #include <cstddef> /* __cpp_lib_byte */
 // this tests if we are under GCC or Clang with enough -std=c++1z power to get us std::byte
 // also check if libc++ version is sufficient (> 5.0) or libstdc++ actually contains std::byte
-#if defined(__cplusplus) && (__cplusplus >= 201703L) && \
-  (defined(__cpp_lib_byte) && (__cpp_lib_byte >= 201603)  || \
-   defined(_LIBCPP_VERSION) && (_LIBCPP_VERSION >= 5000))
+#if defined(__cplusplus) && (__cplusplus >= 201703L) &&                                            \
+    (defined(__cpp_lib_byte) && (__cpp_lib_byte >= 201603) ||                                      \
+     defined(_LIBCPP_VERSION) && (_LIBCPP_VERSION >= 5000))
 
 #define GSL_USE_STD_BYTE 1
 
@@ -73,7 +77,7 @@
 
 #define GSL_USE_STD_BYTE 0
 
-#endif //defined(__cplusplus) && (__cplusplus >= 201703L) &&
+#endif // defined(__cplusplus) && (__cplusplus >= 201703L) &&
        //   (defined(__cpp_lib_byte) && (__cpp_lib_byte >= 201603)  ||
        //    defined(_LIBCPP_VERSION) && (_LIBCPP_VERSION >= 5000))
 #endif // GSL_USE_STD_BYTE
