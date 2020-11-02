@@ -79,7 +79,7 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
    try {
       const auto profile_file {profile_location_.getChildFile(profile)};
       if (profile_file.exists()) {
-         if (const auto parsed {juce::XmlDocument::parse(profile_file)}) {
+         if (const auto parsed {juce::parseXML(profile_file)}) {
             for (const auto& cb : callbacks_)
                cb(parsed.get(), profile);
             lr_ipc_out_.SendCommand(

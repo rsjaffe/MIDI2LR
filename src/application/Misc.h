@@ -69,10 +69,6 @@ namespace rsj {
    /*****************************************************************************/
    /**************String Routines************************************************/
    /*****************************************************************************/
-   [[nodiscard]] inline juce::String toString(std::string_view in)
-   {
-      return juce::String(juce::CharPointer_UTF8(in.data()), in.size());
-   }
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
    [[nodiscard]] std::string ToLower(std::string_view in);
    void Trim(std::string_view& value) noexcept;

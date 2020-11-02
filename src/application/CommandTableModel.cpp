@@ -75,7 +75,9 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
             case rsj::MessageType::ChanPressure:
                format_str = fmt::format(FMT_STRING("{} | Channel Pressure"), cmd.channel);
                break;
-            case rsj::MessageType::PgmChange: /* TODO: not handled currently */
+            case rsj::MessageType::PgmChange:
+               format_str = fmt::format(FMT_STRING("{} | Program Change"), cmd.channel);
+               break;
             case rsj::MessageType::System:
                break;
             }

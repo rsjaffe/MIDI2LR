@@ -127,7 +127,7 @@ void MainContentComponent::Init()
          juce::FileChooser chooser {
              juce::translate("Open profile"), profile_directory, "*.xml", true};
          if (chooser.browseForFileToOpen()) {
-            if (const auto parsed {juce::XmlDocument::parse(chooser.getResult())}) {
+            if (const auto parsed {juce::parseXML(chooser.getResult())}) {
                const auto new_profile {chooser.getResult()};
                lr_ipc_out_.SendCommand(
                    "ChangedToFullPath " + new_profile.getFullPathName().toStdString() + '\n');
@@ -242,7 +242,7 @@ void MainContentComponent::Init()
       if (settings_manager_.GetProfileDirectory().isEmpty()) {
          const auto filename {rsj::AppDataFilePath(kDefaultsFile)};
          const auto default_profile {juce::File(filename.data())};
-         if (const auto parsed {juce::XmlDocument::parse(default_profile)}) {
+         if (const auto parsed {juce::parseXML(default_profile)}) {
             profile_.FromXml(parsed.get());
             command_table_.updateContent();
          }

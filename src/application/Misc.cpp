@@ -54,8 +54,8 @@ namespace {
 {
    try {
       ::std::string result {};
-      result.reserve(in.size()); /* minimum final size */
-      for (const auto& a : in) {
+      result.reserve(in.size() * 3 / 2); /* midway between max and min final size */
+      for (const auto a : in) {
          if (gsl::narrow_cast<size_t>(a) < ascii_map.size())
 #pragma warning(suppress : 26446 26482) /* false alarm, range checked by if statement */
             // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
