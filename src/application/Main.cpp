@@ -39,11 +39,7 @@ namespace fs = std::filesystem;
 #include <cereal/archives/xml.hpp>
 #include <fmt/format.h>
 
-#include <juce_audio_basics/juce_audio_basics.h>
-#include <juce_audio_devices/juce_audio_devices.h>
-#include <juce_core/juce_core.h>
-#include <juce_events/juce_events.h>
-#include <juce_gui_basics/juce_gui_basics.h>
+#include <JuceHeader.h>
 
 #include "CCoptions.h"
 #include "CommandSet.h"
@@ -69,9 +65,9 @@ namespace fs = std::filesystem;
 namespace {
    class LookAndFeelMIDI2LR final : public juce::LookAndFeel_V3 {
     public:
-      juce::Font getTextButtonFont(juce::TextButton&, int buttonHeight) override
+      juce::Font getTextButtonFont(juce::TextButton&, const int button_height) override
       {
-         return juce::Font(std::min(16.0f, static_cast<float>(buttonHeight) * 0.7f));
+         return juce::Font(std::min(16.0f, static_cast<float>(button_height) * 0.7f));
       }
    };
 
@@ -365,26 +361,39 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        */
       try {
          const auto& lang {command_set_.GetLanguage()};
+         juce::String font1_name;
+         juce::String font2_name;
          if (lang == "ko")
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
-                juce::Typeface::createSystemTypefaceFor(
-                    BinaryData::NotoSansKRMedium_otf, BinaryData::NotoSansKRMedium_otfSize));
+            font1_name = "NotoSansKR-Regular.otf";
          else if (lang == "zh_tw")
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
-                juce::Typeface::createSystemTypefaceFor(
-                    BinaryData::NotoSansTCMedium_otf, BinaryData::NotoSansTCMedium_otfSize));
+            font1_name = "NotoSansTC-Regular.otf";
          else if (lang == "zh_cn")
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
-                juce::Typeface::createSystemTypefaceFor(
-                    BinaryData::NotoSansSCMedium_otf, BinaryData::NotoSansSCMedium_otfSize));
+            font1_name = "NotoSansSC-Regular.otf";
          else if (lang == "ja")
+            font1_name = "NotoSansJP-Regular.otf";
+         else {
+            font1_name = "NotoSans-Regular-Plus-Thai.ttf";
+            font2_name = "NotoSans-Bold-plus-Thai.ttf";
+         }
+         juce::MemoryBlock font_data {};
+         auto font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
+                              .getSiblingFile(font1_name);
+         if (font_file.loadFileAsData(font_data))
             juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
-                juce::Typeface::createSystemTypefaceFor(
-                    BinaryData::NotoSansJPMedium_otf, BinaryData::NotoSansJPMedium_otfSize));
+                juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize()));
          else
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
-                juce::Typeface::createSystemTypefaceFor(BinaryData::NotoSansMediumplusThai_ttf,
-                    BinaryData::NotoSansMediumplusThai_ttfSize));
+            rsj::Log(fmt::format(
+                FMT_STRING("Unable to load primary font file {}."), font1_name.toStdString()));
+         if (font2_name.isNotEmpty()) {
+            font_data.reset();
+            font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
+                            .getSiblingFile(font2_name);
+            if (font_file.loadFileAsData(font_data))
+               juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize());
+            else
+               rsj::Log(fmt::format(
+                   FMT_STRING("Unable to load bold font file {}."), font2_name.toStdString()));
+         }
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;

@@ -28,6 +28,7 @@
 
 #include <fmt/chrono.h>
 #include <fmt/format.h>
+#include <gsl/gsl>
 #include <xmmintrin.h> /* for rounding intrinsics */
 
 #include <juce_core/juce_core.h>
@@ -58,20 +59,16 @@ namespace rsj {
    /*****************************************************************************/
 #ifndef NDEBUG
 #ifdef _WIN32
-   void LabelThread(const wchar_t* threadname) noexcept;
+   void LabelThread(gsl::cwzstring<> threadname);
 #else
-   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept {}
+   constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
 #endif
 #else
-   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept {}
+   constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
 #endif
    /*****************************************************************************/
    /**************String Routines************************************************/
    /*****************************************************************************/
-   [[nodiscard]] inline juce::String toString(std::string_view in)
-   {
-      return juce::String(juce::CharPointer_UTF8(in.data()), in.size());
-   }
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
    [[nodiscard]] std::string ToLower(std::string_view in);
    void Trim(std::string_view& value) noexcept;
@@ -82,7 +79,7 @@ namespace rsj {
    /**************Error Logging**************************************************/
    /*****************************************************************************/
    /* typical call: rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e); */
-   void ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept;
+   void ExceptionResponse(gsl::czstring<> id, gsl::czstring<> fu, const std::exception& e) noexcept;
    /* char* overloads here are to allow catch clauses to avoid a juce::String conversion at the
     * caller location, thus avoiding a potential exception in the catch clause. string_view
     * overloads not used because those are ambiguous with the String versions. */
@@ -93,20 +90,20 @@ namespace rsj {
        const std::source_location& location = std::source_location::current()) noexcept;
    void LogAndAlertError(const juce::String& alert_text, const juce::String& error_text,
        const std::source_location& location = std::source_location::current()) noexcept;
-   void LogAndAlertError(const char* error_text,
+   void LogAndAlertError(gsl::czstring<> error_text,
        const std::source_location& location = std::source_location::current()) noexcept;
    void Log(const juce::String& info,
        const std::source_location& location = std::source_location::current()) noexcept;
-   void Log(const char* info,
+   void Log(gsl::czstring<> info,
        const std::source_location& location = std::source_location::current()) noexcept;
 #define MIDI2LR_E_RESPONSE   rsj::ExceptionResponse(e)
 #define MIDI2LR_E_RESPONSE_F rsj::ExceptionResponse(e)
 #else
    void LogAndAlertError(const juce::String& error_text) noexcept;
    void LogAndAlertError(const juce::String& alert_text, const juce::String& error_text) noexcept;
-   void LogAndAlertError(const char* error_text) noexcept;
+   void LogAndAlertError(gsl::czstring<> error_text) noexcept;
    void Log(const juce::String& info) noexcept;
-   void Log(const char* info) noexcept;
+   void Log(gsl::czstring<> info) noexcept;
 #define MIDI2LR_E_RESPONSE   rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e)
 #define MIDI2LR_E_RESPONSE_F rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e)
 #endif

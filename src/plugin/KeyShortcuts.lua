@@ -35,10 +35,14 @@ local Modifiers = {
 --functions using KeyCode must get it right
 --errors in spelling can cause crashes (e.g., BrushIncrease instead of BrushIncreaseKey)
 local KeyCode = { 
+  BrushDecreaseKey               = '0 '..LOC("$$$/AgDevelop/Localized/BrushDecreaseKey=["),
+  BrushIncreaseKey               = '0 '..LOC("$$$/AgDevelop/Localized/BrushIncreaseKey=]"),
   CycleAdjustmentBrushOverlayKey = "4 o",
-  SliderDecreaseKey       = "0 cursor left",
-  SliderIncreaseKey       = "0 cursor right",
-  ShowAdjustmentBrushOverlayKey = "0 o",
+  FeatherDecreaseKey             = '0 '..LOC("$$$/AgDevelop/Localized/BrushDecreaseKeyShifted={"),
+  FeatherIncreaseKey             = '0 '..LOC("$$$/AgDevelop/Localized/BrushIncreaseKeyShifted=}"),
+  ShowAdjustmentBrushOverlayKey  = "0 o",
+  SliderDecreaseKey              = '0 '..LOC("$$$/AgDevelop/KBSC/decrementTargetAdjustmentValue=-"),
+  SliderIncreaseKey              = '0 '..LOC("$$$/AgDevelop/KBSC/incrementTargetAdjustmentValue=="),
 }
 
 if WIN_ENV then -- shortcuts that differ between Mac and PC
@@ -51,34 +55,6 @@ else
   KeyCode.PasteKey = "12 v"
   KeyCode.RedoKey  = "12 z"
   KeyCode.UndoKey  = "8 z"
-end
-
-local langcode = LrLocalization.currentLanguage() 
-if langcode == 'de' then
-  KeyCode.BrushDecreaseKey   = '0 ,'
-  KeyCode.FeatherDecreaseKey = '0 ;'
-  KeyCode.BrushIncreaseKey   = '0 .'
-  KeyCode.FeatherIncreaseKey = '0 :'
-elseif langcode == 'es' or langcode == 'it' then
-  KeyCode.BrushDecreaseKey   = '0 <'
-  KeyCode.FeatherDecreaseKey = '0 >'
-  KeyCode.BrushIncreaseKey   = '0 +'
-  KeyCode.FeatherIncreaseKey = '0 *'
-elseif langcode == 'fr' then
-  KeyCode.BrushDecreaseKey   = '0 ,'
-  KeyCode.FeatherDecreaseKey = '0 ?'
-  KeyCode.BrushIncreaseKey   = '0 ;'
-  KeyCode.FeatherIncreaseKey = '0 .'
-elseif langcode == 'sv' then 
-  KeyCode.BrushDecreaseKey   = '0 <'
-  KeyCode.FeatherDecreaseKey = '0 >'
-  KeyCode.BrushIncreaseKey   = '0 -'
-  KeyCode.FeatherIncreaseKey = '0 _'
-else
-  KeyCode.BrushDecreaseKey   = '0 ['
-  KeyCode.FeatherDecreaseKey = '0 {'
-  KeyCode.BrushIncreaseKey   = '0 ]'
-  KeyCode.FeatherIncreaseKey = '0 }'
 end
 
 return {
