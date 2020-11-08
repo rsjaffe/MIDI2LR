@@ -204,7 +204,7 @@
                     <description>Program Files Windows</description>
                     <destination>${installdir}/MIDI2LR.lrplugin</destination>
                     <name>programfileswindows</name>
-                    <platforms>windows-x64</platforms>
+                    <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
                             <origin>${exe}/MIDI2LR.exe</origin>
@@ -215,7 +215,7 @@
                     <description>Windows Debug Accessories</description>
                     <destination>${installdir}/MIDI2LR.lrplugin</destination>
                     <name>windebug</name>
-                    <platforms>windows-x64</platforms>
+                    <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
                             <origin>../windows_dump/EnableUserDumps.reg</origin>
@@ -245,7 +245,7 @@
                     <description>Program Settings Windows</description>
                     <destination>${env(APPDATA)}/MIDI2LR/</destination>
                     <name>Settings</name>
-                    <platforms>windows-x64</platforms>
+                    <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
                             <origin>../../data/plugin/MenuTrans.xml</origin>
