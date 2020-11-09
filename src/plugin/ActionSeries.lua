@@ -79,6 +79,10 @@ local function EndDialog(obstable, status)
 end
 
 local function RunActionSeries(strarg1,actarray)
+  if strarg1 == nil or strarg1 == '' then 
+    MIDI2LR.SERVER:send('Log Empty string in RunActionSeries\n')
+    return 
+  end
   local strarg = strarg1 -- make argument available to async task
   LrTasks.startAsyncTask(
     function()
