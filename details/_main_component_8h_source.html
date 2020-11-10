@@ -88,7 +88,7 @@ $(document).ready(function(){initNavTree('_main_component_8h_source.html',''); i
 <div class="title">MainComponent.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="_main_component_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">ifndef</span> <span class="preprocessor">MIDI2LR_MAINCOMPONENT_H_INCLUDED</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">ifndef</span> <span class="preprocessor">MIDI2LR_MAINCOMPONENT_H_INCLUDED</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">define</span> <span class="preprocessor">MIDI2LR_MAINCOMPONENT_H_INCLUDED</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.</span></div>
@@ -116,7 +116,7 @@ $(document).ready(function(){initNavTree('_main_component_8h_source.html',''); i
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">include</span> <a class="code" href="_command_table_model_8h.html">&quot;CommandTableModel.h&quot;</a></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="preprocessor">&quot;falco/ResizableLayout.h&quot;</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">class</span> CommandSet;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">class</span> LrIpcOut;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">class</span> <a class="code" href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">LrIpcOut</a>;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">class</span> MidiReceiver;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">class</span> MidiSender;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">class</span> Profile;</div>
@@ -133,7 +133,7 @@ $(document).ready(function(){initNavTree('_main_component_8h_source.html',''); i
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">public</span> ResizableLayout {</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;   MainContentComponent(<span class="keyword">const</span> CommandSet&amp; command_set, Profile&amp; profile,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;       ProfileManager&amp; profile_manager, SettingsManager&amp; settings_manager, LrIpcOut&amp; lr_ipc_out,</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;       ProfileManager&amp; profile_manager, SettingsManager&amp; settings_manager, <a class="code" href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">LrIpcOut</a>&amp; lr_ipc_out,</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;       MidiReceiver&amp; midi_receiver, MidiSender&amp; midi_sender);</div>
 <div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="class_main_content_component.html#a0ad6ee663c2e5f135946a23bed278320">   48</a></span>&#160;   ~MainContentComponent() = <span class="keywordflow">default</span>; <span class="comment">// NOLINT(modernize-use-override)</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="class_main_content_component.html#a51f9db3497adb66ea0c1c4878ceff9b7">   49</a></span>&#160;   MainContentComponent(<span class="keyword">const</span> MainContentComponent&amp; other) = <span class="keyword">delete</span>;</div>
@@ -173,7 +173,7 @@ $(document).ready(function(){initNavTree('_main_component_8h_source.html',''); i
 <div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="class_main_content_component.html#a0d8c30dbe8e6a3f6fa5d56d9541543ac">   83</a></span>&#160;   juce::TextButton rescan_button_ {juce::translate(<span class="stringliteral">&quot;Rescan MIDI devices&quot;</span>)};</div>
 <div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884">   84</a></span>&#160;   juce::TextButton save_button_ {juce::translate(<span class="stringliteral">&quot;Save&quot;</span>)};</div>
 <div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="class_main_content_component.html#a4b8201db4fce61cfe7022aebf692ac20">   85</a></span>&#160;   juce::TextButton settings_button_ {juce::translate(<span class="stringliteral">&quot;Settings&quot;</span>)};</div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">   86</a></span>&#160;   LrIpcOut&amp; lr_ipc_out_;</div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">   86</a></span>&#160;   <a class="code" href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">LrIpcOut</a>&amp; lr_ipc_out_;</div>
 <div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="class_main_content_component.html#a38a2b7ee37726efb84798e8b8bc397af">   87</a></span>&#160;   MidiReceiver&amp; midi_receiver_;</div>
 <div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="class_main_content_component.html#a90c484f364548ee493e23004a3f0126f">   88</a></span>&#160;   MidiSender&amp; midi_sender_;</div>
 <div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">   89</a></span>&#160;   Profile&amp; profile_;</div>
@@ -186,10 +186,11 @@ $(document).ready(function(){initNavTree('_main_component_8h_source.html',''); i
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aclass_lr_ipc_out_html_abb27f1d461176785f1efb3456fed7517"><div class="ttname"><a href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">LrIpcOut::callbacks_</a></div><div class="ttdeci">std::vector&lt; std::function&lt; void(bool, bool)&gt; &gt; callbacks_</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.h:80</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_844f6ab5c2ae79211596f3dcdd81adb7.html">application</a></li><li class="navelem"><a class="el" href="_main_component_8h.html">MainComponent.h</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_844f6ab5c2ae79211596f3dcdd81adb7.html">application</a></li><li class="navelem"><b>MainComponent.h</b></li>
     <li class="footer">Generated by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>

@@ -144,11 +144,11 @@ Functions</h2></td></tr>
 <tr class="separator:a2f66b6c4ce47634151f3e40675ae62d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe9f9fa4bbe5da1e8b9a047a6666ddc6"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#abe9f9fa4bbe5da1e8b9a047a6666ddc6">AppLogMac</a> ()</td></tr>
 <tr class="separator:abe9f9fa4bbe5da1e8b9a047a6666ddc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3d2a01c3b8513a4937128c2236ad032"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#af3d2a01c3b8513a4937128c2236ad032">CheckPermission</a> (<a class="el" href="_ocpp_8h.html#ab4d35ffb715040fef7a32ac084f6ae68">pid_t</a> pid)</td></tr>
+<tr class="memitem:af3d2a01c3b8513a4937128c2236ad032"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#af3d2a01c3b8513a4937128c2236ad032">CheckPermission</a> (pid_t pid)</td></tr>
 <tr class="separator:af3d2a01c3b8513a4937128c2236ad032"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83074b3054f168680ca36a8647fb6401"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a83074b3054f168680ca36a8647fb6401">ExceptionResponse</a> (gsl::czstring&lt;&gt; id, gsl::czstring&lt;&gt; fu, const std::exception &amp;e) noexcept</td></tr>
 <tr class="separator:a83074b3054f168680ca36a8647fb6401"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1227314a241038180047dbef07522685"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="_ocpp_8h.html#a5573d39ffaa6fccb9beb6874449d750b">UniChar</a>, <a class="el" href="structrsj_1_1_key_data.html">KeyData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a1227314a241038180047dbef07522685">GetKeyMap</a> ()</td></tr>
+<tr class="memitem:a1227314a241038180047dbef07522685"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; UniChar, <a class="el" href="structrsj_1_1_key_data.html">KeyData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a1227314a241038180047dbef07522685">GetKeyMap</a> ()</td></tr>
 <tr class="separator:a1227314a241038180047dbef07522685"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2268137c4ac06267fc184bf2658dc39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#ae2268137c4ac06267fc184bf2658dc39">IgnoreDenormals</a> ()</td></tr>
 <tr class="separator:ae2268137c4ac06267fc184bf2658dc39"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -365,7 +365,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void rsj::CheckPermission </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="_ocpp_8h.html#ab4d35ffb715040fef7a32ac084f6ae68">pid_t</a>&#160;</td>
+          <td class="paramtype">pid_t&#160;</td>
           <td class="paramname"><em>pid</em></td><td>)</td>
           <td></td>
         </tr>
@@ -471,7 +471,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::unordered_map&lt; <a class="el" href="_ocpp_8h.html#a5573d39ffaa6fccb9beb6874449d750b">UniChar</a>, <a class="el" href="structrsj_1_1_key_data.html">rsj::KeyData</a> &gt; rsj::GetKeyMap </td>
+          <td class="memname">std::unordered_map&lt; UniChar, <a class="el" href="structrsj_1_1_key_data.html">rsj::KeyData</a> &gt; rsj::GetKeyMap </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1024,7 +1024,7 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment">         strokes.push_back(VK_OEM_AUTO); */</span></div>
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;      WinSendKeyStrokes(strokes);</div>
 <div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;      <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="_ocpp_8h.html#ab4d35ffb715040fef7a32ac084f6ae68">pid_t</a> lr_pid {GetPid()};</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;      <span class="keyword">static</span> <span class="keyword">const</span> pid_t lr_pid {GetPid()};</div>
 <div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;      <span class="keywordflow">if</span> (!lr_pid) {</div>
 <div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;         <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(<span class="stringliteral">&quot;Unable to obtain PID for Lightroom in SendKeys.cpp.&quot;</span>);</div>
 <div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;         <span class="keywordflow">return</span>;</div>
@@ -1035,7 +1035,7 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;         vk = mapped_key-&gt;second;</div>
 <div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;      }</div>
 <div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;      <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;         <span class="keyword">const</span> <a class="code" href="_ocpp_8h.html#a5573d39ffaa6fccb9beb6874449d750b">UniChar</a> uc {ww898::utf::conv&lt;char16_t&gt;(key).front()};</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;         <span class="keyword">const</span> UniChar uc {ww898::utf::conv&lt;char16_t&gt;(key).front()};</div>
 <div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> key_code_result {KeyCodeForChar(uc)};</div>
 <div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;         <span class="keywordflow">if</span> (!key_code_result) {</div>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(</div>
@@ -1224,7 +1224,7 @@ template&lt;class Rep , class Period &gt; </div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;         juce::LocalisedStrings::setCurrentMappings(<span class="keyword">nullptr</span>);</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;   }</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <a class="code" href="_misc_8h.html#a214f13bf36accff2bcfcba31f4042c32">MIDI2LR_E_RESPONSE_F</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      MIDI2LR_E_RESPONSE_F;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;   }</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
@@ -1375,14 +1375,11 @@ template&lt;class Rep , class Period &gt; </div>
 <div class="ttc" id="anamespacersj_html_a01ba4e95db815027d2e6ef78ee4353f5"><div class="ttname"><a href="namespacersj.html#a01ba4e95db815027d2e6ef78ee4353f5">rsj::SleepTimed</a></div><div class="ttdeci">auto SleepTimed(const std::chrono::duration&lt; Rep, Period &gt; sleep_duration)</div><div class="ttdef"><b>Definition:</b> Misc.h:132</div></div>
 <div class="ttc" id="astructrsj_1_1_midi_message_html_ad1b6e1d738eafd7f0ef54b56914e1448"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">rsj::MidiMessage::message_type_byte</a></div><div class="ttdeci">MessageType message_type_byte</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:123</div></div>
 <div class="ttc" id="astructrsj_1_1_active_modifiers_html_a672648dd23bcb5b479057549137ccc13"><div class="ttname"><a href="structrsj_1_1_active_modifiers.html#a672648dd23bcb5b479057549137ccc13">rsj::ActiveModifiers::shift</a></div><div class="ttdeci">bool shift</div><div class="ttdef"><b>Definition:</b> SendKeys.h:25</div></div>
-<div class="ttc" id="a_ocpp_8h_html_ab4d35ffb715040fef7a32ac084f6ae68"><div class="ttname"><a href="_ocpp_8h.html#ab4d35ffb715040fef7a32ac084f6ae68">pid_t</a></div><div class="ttdeci">int pid_t</div><div class="ttdef"><b>Definition:</b> Ocpp.h:24</div></div>
 <div class="ttc" id="astructrsj_1_1_active_modifiers_html"><div class="ttname"><a href="structrsj_1_1_active_modifiers.html">rsj::ActiveModifiers</a></div><div class="ttdef"><b>Definition:</b> SendKeys.h:21</div></div>
-<div class="ttc" id="a_ocpp_8h_html_a5573d39ffaa6fccb9beb6874449d750b"><div class="ttname"><a href="_ocpp_8h.html#a5573d39ffaa6fccb9beb6874449d750b">UniChar</a></div><div class="ttdeci">uint16_t UniChar</div><div class="ttdef"><b>Definition:</b> Ocpp.h:22</div></div>
 <div class="ttc" id="astructrsj_1_1_active_modifiers_html_a371d0ef47c6bcf9ac874335dd4a8928f"><div class="ttname"><a href="structrsj_1_1_active_modifiers.html#a371d0ef47c6bcf9ac874335dd4a8928f">rsj::ActiveModifiers::alt_opt</a></div><div class="ttdeci">bool alt_opt</div><div class="ttdef"><b>Definition:</b> SendKeys.h:22</div></div>
 <div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:212</div></div>
 <div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:192</div></div>
 <div class="ttc" id="astructrsj_1_1_midi_message_html_a40cce06213f004a2b07928898e112491"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">rsj::MidiMessage::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:125</div></div>
-<div class="ttc" id="a_misc_8h_html_a214f13bf36accff2bcfcba31f4042c32"><div class="ttname"><a href="_misc_8h.html#a214f13bf36accff2bcfcba31f4042c32">MIDI2LR_E_RESPONSE_F</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE_F</div><div class="ttdef"><b>Definition:</b> Misc.h:108</div></div>
 <div class="ttc" id="astructrsj_1_1_active_modifiers_html_ad46a01f2fe20405d3ac4bca6a9934b8e"><div class="ttname"><a href="structrsj_1_1_active_modifiers.html#ad46a01f2fe20405d3ac4bca6a9934b8e">rsj::ActiveModifiers::command</a></div><div class="ttdeci">bool command</div><div class="ttdef"><b>Definition:</b> SendKeys.h:23</div></div>
 <div class="ttc" id="astructrsj_1_1_midi_message_html_ad86e8d27f598c8def0279d3a3777cd7e"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">rsj::MidiMessage::value</a></div><div class="ttdeci">int value</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:126</div></div>
 <div class="ttc" id="astructrsj_1_1_midi_message_html_a9fe338912f9e54437351926dcc6df9e1"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">rsj::MidiMessage::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:124</div></div>

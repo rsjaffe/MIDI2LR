@@ -267,7 +267,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;               <span class="keywordflow">if</span> (k &lt; bo1)</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                  <span class="keywordflow">continue</span>;</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;               <span class="keywordflow">if</span> (k &lt; bo2)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                  <a class="code" href="_concurrency_8h.html#a033f5d703cec4426de55f99dc7ee6acc">_mm_pause</a>();</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                  _mm_pause();</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;               <span class="keywordflow">else</span> <span class="keywordflow">if</span> (k &lt; bo3)</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                  std::this_thread::yield();</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;               <span class="keywordflow">else</span></div>
@@ -440,7 +440,6 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassrsj_1_1_p_r_n_g_html_a7e78213f68ef5b86ff2ae0aa4388e16b"><div class="ttname"><a href="classrsj_1_1_p_r_n_g.html#a7e78213f68ef5b86ff2ae0aa4388e16b">rsj::PRNG::NextRandom</a></div><div class="ttdeci">static result_type NextRandom() noexcept</div><div class="ttdef"><b>Definition:</b> Concurrency.h:40</div></div>
-<div class="ttc" id="a_concurrency_8h_html_a033f5d703cec4426de55f99dc7ee6acc"><div class="ttname"><a href="_concurrency_8h.html#a033f5d703cec4426de55f99dc7ee6acc">_mm_pause</a></div><div class="ttdeci">void _mm_pause()</div></div>
 <div class="ttc" id="aclassrsj_1_1_p_r_n_g_html_a2a4e10282dfb5fe28addc4367b6358ce"><div class="ttname"><a href="classrsj_1_1_p_r_n_g.html#a2a4e10282dfb5fe28addc4367b6358ce">rsj::PRNG::result_type</a></div><div class="ttdeci">uint64_t result_type</div><div class="ttdef"><b>Definition:</b> Concurrency.h:39</div></div>
 <div class="ttc" id="aclassrsj_1_1_spin_lock_html_a084f11d73d761fbc327d16c82abbbfb0"><div class="ttname"><a href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">rsj::SpinLock::flag_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; flag_</div><div class="ttdef"><b>Definition:</b> Concurrency.h:123</div></div>
 <!-- start footer part -->

@@ -115,7 +115,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae4e9b671a3a2d2252f17662dcc636486"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#ae4e9b671a3a2d2252f17662dcc636486">~MidiReceiver</a> ()=default</td></tr>
 <tr class="separator:ae4e9b671a3a2d2252f17662dcc636486"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab39aa3c6b5da4a6ee0e74dc63a27e87d"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:ab39aa3c6b5da4a6ee0e74dc63a27e87d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#ab39aa3c6b5da4a6ee0e74dc63a27e87d">AddCallback</a> (<a class="el" href="_p_woptions_8h.html#aa74f89aa7d942f4a79ea12d7c9b763ef">_In_</a> T *const object, <a class="el" href="_p_woptions_8h.html#aa74f89aa7d942f4a79ea12d7c9b763ef">_In_</a> void(T::*const mf)(const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;))</td></tr>
+<tr class="memitem:ab39aa3c6b5da4a6ee0e74dc63a27e87d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#ab39aa3c6b5da4a6ee0e74dc63a27e87d">AddCallback</a> (_In_ T *const object, _In_ void(T::*const mf)(const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;))</td></tr>
 <tr class="separator:ab39aa3c6b5da4a6ee0e74dc63a27e87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f22aaf308531ff37ded81a4aab5d807"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_midi_receiver.html">MidiReceiver</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#a6f22aaf308531ff37ded81a4aab5d807">operator=</a> (const <a class="el" href="class_midi_receiver.html">MidiReceiver</a> &amp;other)=delete</td></tr>
 <tr class="separator:a6f22aaf308531ff37ded81a4aab5d807"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -276,13 +276,13 @@ template&lt;class T &gt; </div>
         <tr>
           <td class="memname">void MidiReceiver::AddCallback </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="_p_woptions_8h.html#aa74f89aa7d942f4a79ea12d7c9b763ef">_In_</a> T *const&#160;</td>
+          <td class="paramtype">_In_ T *const&#160;</td>
           <td class="paramname"><em>object</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_p_woptions_8h.html#aa74f89aa7d942f4a79ea12d7c9b763ef">_In_</a> void(T::*)(const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;)&#160;</td>
+          <td class="paramtype">_In_ void(T::*)(const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;)&#160;</td>
           <td class="paramname"><em>mf</em>&#160;</td>
         </tr>
         <tr>
@@ -343,7 +343,7 @@ template&lt;class T &gt; </div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;      } <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;   }</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;   }</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;}</div>
@@ -411,7 +411,7 @@ template&lt;class T &gt; </div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      }</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;   }</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;   }</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div>
@@ -461,7 +461,7 @@ template&lt;class T &gt; </div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      }</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;   }</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;   }</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;}</div>
@@ -549,7 +549,7 @@ template&lt;class T &gt; </div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Cleared input devices.&quot;</span>);</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;   }</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;   }</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;   <a class="code" href="class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69">InitDevices</a>(); <span class="comment">/* initdevices has own try catch block */</span></div>
@@ -583,7 +583,7 @@ template&lt;class T &gt; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      });</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;   }</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;   }</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
@@ -659,7 +659,7 @@ template&lt;class T &gt; </div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;      }</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;   }</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;   }</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
@@ -807,7 +807,7 @@ template&lt;class T &gt; </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/<a class="el" href="_m_i_d_i_receiver_8h_source.html">MIDIReceiver.h</a></li>
-<li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/<a class="el" href="_m_i_d_i_receiver_8cpp.html">MIDIReceiver.cpp</a></li>
+<li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/MIDIReceiver.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -824,7 +824,6 @@ template&lt;class T &gt; </div>
 <div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_a12981d51d4ee65c91a9088890558ee4f"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#a12981d51d4ee65c91a9088890558ee4f">rsj::ConcurrentQueue::clear_count_push</a></div><div class="ttdeci">size_type clear_count_push(const T &amp;value)</div><div class="ttdef"><b>Definition:</b> Concurrency.h:319</div></div>
 <div class="ttc" id="aclass_midi_receiver_html_a90cf4a5de8a026c91513b38332702d0a"><div class="ttname"><a href="class_midi_receiver.html#a90cf4a5de8a026c91513b38332702d0a">MidiReceiver::dispatch_messages_future_</a></div><div class="ttdeci">std::future&lt; void &gt; dispatch_messages_future_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:64</div></div>
 <div class="ttc" id="aclass_midi_receiver_html_a703b6a6d9e9c43e5dd5eef20692ae595"><div class="ttname"><a href="class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595">MidiReceiver::TryToOpen</a></div><div class="ttdeci">void TryToOpen()</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.cpp:109</div></div>
-<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:107</div></div>
 <div class="ttc" id="aclass_midi_receiver_html_aaa32a91f83ddcc54a970183a103bae36"><div class="ttname"><a href="class_midi_receiver.html#aaa32a91f83ddcc54a970183a103bae36">MidiReceiver::devices_</a></div><div class="ttdeci">Devices &amp; devices_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:62</div></div>
 <div class="ttc" id="astructrsj_1_1_midi_message_html"><div class="ttname"><a href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a></div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:122</div></div>
 <div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_a60b3f4145c5d9848062f60caee4a4e7e"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#a60b3f4145c5d9848062f60caee4a4e7e">rsj::ConcurrentQueue::pop</a></div><div class="ttdeci">T pop()</div><div class="ttdef"><b>Definition:</b> Concurrency.h:263</div></div>

@@ -295,7 +295,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;          }));</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;   }</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;   }</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
@@ -383,7 +383,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <span class="keywordflow">if</span> (version_xml_element &amp;&amp; !<a class="code" href="class_version_checker.html#aee6f012d05983fac23a8462a1abfba4d">thread_should_exit_</a>.load(std::memory_order_acquire)) {</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;         <span class="keyword">auto</span> last_checked {<a class="code" href="class_version_checker.html#a41cc38bc7a7e34f6842e591b9862f5c3">settings_manager_</a>.<a class="code" href="class_settings_manager.html#a3cbbe97003f6e6acc01e1f09bbd7c47c">GetLastVersionFound</a>()};</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;         <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> os_specific_version =</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                 version_xml_element-&gt;getIntAttribute(<a class="code" href="_misc_8h.html#a104214aa8e5e947e0af9f48ced380378">MSWindows</a> ? <span class="stringliteral">&quot;vMSWindows&quot;</span> : <span class="stringliteral">&quot;vMacOS&quot;</span>))</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                 version_xml_element-&gt;getIntAttribute(MSWindows ? <span class="stringliteral">&quot;vMSWindows&quot;</span> : <span class="stringliteral">&quot;vMacOS&quot;</span>))</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <a class="code" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a> = os_specific_version;</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;         <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <a class="code" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a> = version_xml_element-&gt;getIntAttribute(<span class="stringliteral">&quot;vlatest&quot;</span>);</div>
@@ -404,7 +404,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Unable to download MIDI2LR/version.xml and parse into valid XML document.&quot;</span>);</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;   }</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;   }</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
@@ -558,7 +558,7 @@ Private Attributes</h2></td></tr>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/<a class="el" href="_version_checker_8h_source.html">VersionChecker.h</a></li>
-<li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/<a class="el" href="_version_checker_8cpp.html">VersionChecker.cpp</a></li>
+<li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/VersionChecker.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -570,9 +570,7 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="aclass_version_checker_html_a7373fdc96ead41b3f5c79acd77f0c6b3"><div class="ttname"><a href="class_version_checker.html#a7373fdc96ead41b3f5c79acd77f0c6b3">VersionChecker::Run</a></div><div class="ttdeci">void Run()</div><div class="ttdef"><b>Definition:</b> VersionChecker.cpp:88</div></div>
 <div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:192</div></div>
 <div class="ttc" id="aclass_version_checker_html_a80d3bbbfdf9f18784db3336e391384de"><div class="ttname"><a href="class_version_checker.html#a80d3bbbfdf9f18784db3336e391384de">VersionChecker::run_future_</a></div><div class="ttdeci">std::future&lt; void &gt; run_future_</div><div class="ttdef"><b>Definition:</b> VersionChecker.h:43</div></div>
-<div class="ttc" id="a_misc_8h_html_a104214aa8e5e947e0af9f48ced380378"><div class="ttname"><a href="_misc_8h.html#a104214aa8e5e947e0af9f48ced380378">MSWindows</a></div><div class="ttdeci">constexpr auto MSWindows</div><div class="ttdef"><b>Definition:</b> Misc.h:52</div></div>
 <div class="ttc" id="aclass_settings_manager_html_a3cbbe97003f6e6acc01e1f09bbd7c47c"><div class="ttname"><a href="class_settings_manager.html#a3cbbe97003f6e6acc01e1f09bbd7c47c">SettingsManager::GetLastVersionFound</a></div><div class="ttdeci">int GetLastVersionFound() const noexcept</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:42</div></div>
-<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:107</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

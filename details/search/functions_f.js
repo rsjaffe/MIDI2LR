@@ -1,17 +1,16 @@
 var searchData=
 [
-  ['paint_737',['paint',['../class_c_coptions.html#a8d68ddf926aeb364ecdd204a25e01d81',1,'CCoptions::paint()'],['../class_p_woptions.html#a6680ed6877e8f26a3954f98c2d134783',1,'PWoptions::paint()'],['../class_main_content_component.html#ad29d20b699ea1c995c17170083ad3aa7',1,'MainContentComponent::paint()'],['../class_settings_component.html#aa8e6b6d8622109acfecf070ffc56f62e',1,'SettingsComponent::paint()']]],
-  ['paintbutton_738',['paintButton',['../class_text_button_aligned.html#ace146fddba097bbfd15abe2b09ecdd85',1,'TextButtonAligned']]],
-  ['paintcell_739',['paintCell',['../class_command_table_model.html#ab9d3adb581848e33679d31dd2f8df60b',1,'CommandTableModel']]],
-  ['paintrowbackground_740',['paintRowBackground',['../class_command_table_model.html#ac8a674bdc1c19da4d97c1276db02ac63',1,'CommandTableModel']]],
-  ['parse_741',['parse',['../structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html#a1b93b2cb1226d7f6894456884d2e9d94',1,'fmt::formatter&lt; rsj::MessageType, Char &gt;']]],
-  ['plugintocontroller_742',['PluginToController',['../class_channel_model.html#a3a505d8e6a81c7dfda4552674d36dffd',1,'ChannelModel::PluginToController()'],['../class_controls_model.html#aa01164847f0f99a719a5ce629ffc98b3',1,'ControlsModel::PluginToController()']]],
-  ['pop_743',['pop',['../classrsj_1_1_concurrent_queue.html#a60b3f4145c5d9848062f60caee4a4e7e',1,'rsj::ConcurrentQueue']]],
-  ['processline_744',['ProcessLine',['../class_lr_ipc_in.html#a833e0157f89d7f78447d7d6fccac69e4',1,'LrIpcIn']]],
-  ['profile_745',['Profile',['../class_profile.html#a6012a9f1b5b3d0b43fbbb312b153117d',1,'Profile']]],
-  ['profilechanged_746',['ProfileChanged',['../class_main_content_component.html#a337ef400359712b24a924d6a8056be93',1,'MainContentComponent']]],
-  ['profilemanager_747',['ProfileManager',['../class_profile_manager.html#adbb2cc4b53283ba28886c7b104385d1f',1,'ProfileManager::ProfileManager(ControlsModel &amp;c_model, const Profile &amp;profile, LrIpcOut &amp;out, MidiReceiver &amp;midi_receiver)'],['../class_profile_manager.html#aaffb92ccc235cddab69d58828ae416ad',1,'ProfileManager::ProfileManager(const ProfileManager &amp;other)=delete'],['../class_profile_manager.html#a86deeeecd4bbead0afd50bdc636d1983',1,'ProfileManager::ProfileManager(ProfileManager &amp;&amp;other)=delete']]],
-  ['profileunsaved_748',['ProfileUnsaved',['../class_profile.html#a088d7d62d487c12a798f0d36145c2c84',1,'Profile']]],
-  ['push_749',['push',['../classrsj_1_1_concurrent_queue.html#ae236a42aa960ae9e8f04d8b1b3d5af9e',1,'rsj::ConcurrentQueue::push(const T &amp;value)'],['../classrsj_1_1_concurrent_queue.html#a007fa823f4f42dd3cc0206f29cb293ac',1,'rsj::ConcurrentQueue::push(T &amp;&amp;value)']]],
-  ['pwoptions_750',['PWoptions',['../class_p_woptions.html#a726d802d17638e889809dfd801d50a12',1,'PWoptions::PWoptions()'],['../class_p_woptions.html#ac6af265375239ae777ac899125c43b35',1,'PWoptions::PWoptions(PWoptions &amp;&amp;other) noexcept=delete']]]
+  ['read_626',['Read',['../class_lr_ipc_in.html#a16f9f4916e343a703668b97fba5199be',1,'LrIpcIn']]],
+  ['refreshcomponentforcell_627',['refreshComponentForCell',['../class_command_table_model.html#a2a60ed2b79006e1b91c6638a3f679725',1,'CommandTableModel']]],
+  ['removeallrows_628',['RemoveAllRows',['../class_profile.html#aa204f0fac70850e1f2fd7e62fea0e485',1,'Profile']]],
+  ['removemessage_629',['RemoveMessage',['../class_profile.html#abb1bca37a48aea146bb3088fc91dc4d1',1,'Profile']]],
+  ['removerow_630',['RemoveRow',['../class_profile.html#a414a11b557891329f59fb3ef7485428e',1,'Profile::RemoveRow()'],['../class_command_table_model.html#a56bd37021d8ff9e11f642223b1afa8e6',1,'CommandTableModel::RemoveRow()']]],
+  ['removeunassignedmessages_631',['RemoveUnassignedMessages',['../class_profile.html#a52a1e65a7ec8df1864309e0c6d127fab',1,'Profile']]],
+  ['replaceinvisiblechars_632',['ReplaceInvisibleChars',['../namespacersj.html#a0b27f17c614b3112ca309fb89e6158ab',1,'rsj']]],
+  ['rescandevices_633',['RescanDevices',['../class_midi_receiver.html#a9a477458f298106f55c97ae9c7043fbc',1,'MidiReceiver::RescanDevices()'],['../class_midi_sender.html#ac40f8961fcc5ab57f6c59c6220c9c2c9',1,'MidiSender::RescanDevices()']]],
+  ['resize_634',['resize',['../classrsj_1_1_concurrent_queue.html#ac51d666930301de97cd235df9ee3e230',1,'rsj::ConcurrentQueue::resize(size_type count)'],['../classrsj_1_1_concurrent_queue.html#aecefb7d5790326f29a4de91ca11a47c4',1,'rsj::ConcurrentQueue::resize(size_type count, const value_type &amp;value)']]],
+  ['resized_635',['resized',['../class_c_coptions.html#a5d08843370dbba861d25fec42f47862f',1,'CCoptions::resized()'],['../class_p_woptions.html#a47baed2454c13570aa7f567a53beafb2',1,'PWoptions::resized()']]],
+  ['resort_636',['Resort',['../class_profile.html#a9913ba52ed28333789f8223f5248540f',1,'Profile']]],
+  ['roundtoint_637',['RoundToInt',['../namespacersj.html#ab379048e807318f10deda9a1ddf0a345',1,'rsj::RoundToInt(float source)'],['../namespacersj.html#a53fb4bfee985a81dd9506d93cfe1b288',1,'rsj::RoundToInt(double source)'],['../namespacersj.html#a58bbb279b40493fbd72fa4f9d65550ec',1,'rsj::RoundToInt(long double source)=delete']]],
+  ['run_638',['Run',['../class_version_checker.html#a7373fdc96ead41b3f5c79acd77f0c6b3',1,'VersionChecker']]]
 ];

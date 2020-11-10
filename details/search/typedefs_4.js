@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['size_5ftype_1019',['size_type',['../classrsj_1_1_concurrent_queue.html#aaefad4d3d39082e32d100bc76bbe86f9',1,'rsj::ConcurrentQueue']]]
+  ['value_5ftype_890',['value_type',['../classrsj_1_1_concurrent_queue.html#a551d3bbc3de8c657ff090f835a33e296',1,'rsj::ConcurrentQueue']]]
 ];

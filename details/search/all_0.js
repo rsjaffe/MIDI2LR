@@ -1,5 +1,25 @@
 var searchData=
 [
-  ['_5fin_5f_0',['_In_',['../_c_coptions_8h.html#aa74f89aa7d942f4a79ea12d7c9b763ef',1,'_In_():&#160;CCoptions.h'],['../_l_r___i_p_c___out_8h.html#aa74f89aa7d942f4a79ea12d7c9b763ef',1,'_In_():&#160;LR_IPC_Out.h'],['../_m_i_d_i_receiver_8h.html#aa74f89aa7d942f4a79ea12d7c9b763ef',1,'_In_():&#160;MIDIReceiver.h'],['../_profile_manager_8h.html#aa74f89aa7d942f4a79ea12d7c9b763ef',1,'_In_():&#160;ProfileManager.h'],['../_p_woptions_8h.html#aa74f89aa7d942f4a79ea12d7c9b763ef',1,'_In_():&#160;PWoptions.h']]],
-  ['_5fmm_5fpause_1',['_mm_pause',['../_concurrency_8h.html#a033f5d703cec4426de55f99dc7ee6acc',1,'Concurrency.h']]]
+  ['absbutton_0',['absbutton',['../class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d',1,'CCoptions']]],
+  ['activemodifiers_1',['ActiveModifiers',['../structrsj_1_1_active_modifiers.html',1,'rsj']]],
+  ['activetosaved_2',['ActiveToSaved',['../class_channel_model.html#a02c98af20857bc809f51840908a9b5b8',1,'ChannelModel']]],
+  ['add_3',['Add',['../class_devices.html#a87414122573f3209ae89eec07579ff89',1,'Devices']]],
+  ['addcallback_4',['AddCallback',['../class_midi_receiver.html#ab39aa3c6b5da4a6ee0e74dc63a27e87d',1,'MidiReceiver::AddCallback()'],['../class_profile_manager.html#a991fb70897af11237ddc35b725ecc09c',1,'ProfileManager::AddCallback()'],['../class_lr_ipc_out.html#a868d8f460f4f2140e177d74d1210f254',1,'LrIpcOut::AddCallback()']]],
+  ['addcommandformessage_5',['AddCommandForMessage',['../class_profile.html#a959631959c1c89d9ec36ea42d781b5cb',1,'Profile']]],
+  ['addcommandformessagei_6',['AddCommandForMessageI',['../class_profile.html#a2d705fbf852f061b35da0005a0a3e5ae',1,'Profile']]],
+  ['addrowmapped_7',['AddRowMapped',['../class_profile.html#a729f7e64e1456b3c2cfb80e0dd346585',1,'Profile']]],
+  ['addrowunmapped_8',['AddRowUnmapped',['../class_profile.html#a32d0d87e64744b5c429bc67fb576163b',1,'Profile']]],
+  ['alignment_5f_9',['alignment_',['../class_text_button_aligned.html#ab59f5225953d8e5b8ef252413972e035',1,'TextButtonAligned']]],
+  ['all_5fcontrols_5f_10',['all_controls_',['../class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2',1,'ControlsModel']]],
+  ['allcommands_5f_11',['allcommands_',['../class_command_set_1_1_impl.html#a5c16feb21c0e0afd6452dae19763fe4e',1,'CommandSet::Impl']]],
+  ['alt_5fopt_12',['alt_opt',['../structrsj_1_1_active_modifiers.html#a371d0ef47c6bcf9ac874335dd4a8928f',1,'rsj::ActiveModifiers']]],
+  ['anotherinstancestarted_13',['anotherInstanceStarted',['../class_m_i_d_i2_l_r_application.html#a9b5a76b74f45e3be820fbf62d9616e2f',1,'MIDI2LRApplication::anotherInstanceStarted(const juce::String &amp;command_line) override'],['../class_m_i_d_i2_l_r_application.html#a9b5a76b74f45e3be820fbf62d9616e2f',1,'MIDI2LRApplication::anotherInstanceStarted(const juce::String &amp;command_line) override']]],
+  ['appdatafilepath_14',['AppDataFilePath',['../namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3',1,'rsj']]],
+  ['appdatamac_15',['AppDataMac',['../namespacersj.html#a6cce374a94894ec5d336820475682904',1,'rsj']]],
+  ['applogfilepath_16',['AppLogFilePath',['../namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8',1,'rsj']]],
+  ['applogmac_17',['AppLogMac',['../namespacersj.html#abe9f9fa4bbe5da1e8b9a047a6666ddc6',1,'rsj']]],
+  ['applyall_18',['applyAll',['../class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541',1,'CCoptions']]],
+  ['autohide_5fexplain_5flabel_5f_19',['autohide_explain_label_',['../class_settings_component.html#a55053eacfda31da77c3b47df31d08a90',1,'SettingsComponent']]],
+  ['autohide_5fgroup_5f_20',['autohide_group_',['../class_settings_component.html#ad72c07e03e96de1113929c7c558044c9',1,'SettingsComponent']]],
+  ['autohide_5fsetting_5f_21',['autohide_setting_',['../class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00',1,'SettingsComponent']]]
 ];

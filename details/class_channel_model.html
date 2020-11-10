@@ -145,7 +145,7 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a95d3edeffa5cc6dea1f57b85bf7723db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdac2f6617acb0451f3ea9c3e10adfda"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_channel_model.html#acdac2f6617acb0451f3ea9c3e10adfda">CenterPw</a> () const noexcept</td></tr>
 <tr class="separator:acdac2f6617acb0451f3ea9c3e10adfda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a54064d614d7c0f1ad0c464cbd5b00e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a> (int controlnumber) const noexcept(<a class="el" href="_misc_8h.html#a9232373c39758da7673237c81fd0edc7">kNdebug</a>)</td></tr>
+<tr class="memitem:a2a54064d614d7c0f1ad0c464cbd5b00e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a> (int controlnumber) const noexcept(kNdebug)</td></tr>
 <tr class="separator:a2a54064d614d7c0f1ad0c464cbd5b00e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9286a06325714cfb1fea1d33d76fb3c7"><td class="memTemplParams" colspan="2">template&lt;class Archive &gt; </td></tr>
 <tr class="memitem:a9286a06325714cfb1fea1d33d76fb3c7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_channel_model.html#a9286a06325714cfb1fea1d33d76fb3c7">load</a> (Archive &amp;archive, uint32_t const version)</td></tr>
@@ -223,7 +223,7 @@ Friends</h2></td></tr>
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;      <a class="code" href="class_channel_model.html#a9bd2331bfeac64d647cb3ebb575e6540">CcDefaults</a>();</div>
 <div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;   }</div>
 <div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;   }</div>
 <div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;}</div>
@@ -268,7 +268,7 @@ Friends</h2></td></tr>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;            <a class="code" href="class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a">settings_to_save_</a>.emplace_back(i, <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(i), <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(i), <a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(i));</div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;   }</div>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;   }</div>
 <div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;}</div>
@@ -312,7 +312,7 @@ Friends</h2></td></tr>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;      }</div>
 <div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;   }</div>
 <div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;   }</div>
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;}</div>
@@ -477,7 +477,7 @@ Friends</h2></td></tr>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      }</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;   }</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;   }</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
@@ -727,7 +727,7 @@ template&lt;class Archive &gt; </div>
 <div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;      }</div>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;   }</div>
 <div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;   }</div>
 <div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;}</div>
@@ -814,7 +814,7 @@ template&lt;class Archive &gt; </div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;      }</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;   }</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;   }</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;}</div>
@@ -873,7 +873,7 @@ template&lt;class Archive &gt; </div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(cached_v) / <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(high_limit);</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;   }</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;   }</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
@@ -943,7 +943,7 @@ template&lt;class Archive &gt; </div>
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;      <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;   }</div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;   }</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;}</div>
@@ -1012,7 +1012,7 @@ template&lt;class Archive &gt; </div>
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;      }</div>
 <div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;   }</div>
 <div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;   }</div>
 <div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;}</div>
@@ -1048,7 +1048,7 @@ template&lt;class Archive &gt; </div>
 <div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;         <a class="code" href="class_channel_model.html#ad3d5091729e8a4c711be64f63274dc17">SetCc</a>(set.control_number, set.low, set.high, set.method);</div>
 <div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;   }</div>
 <div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;   }</div>
 <div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;}</div>
@@ -1102,7 +1102,7 @@ template&lt;class Archive &gt; </div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;      <a class="code" href="class_channel_model.html#a459a91ef3bc89d8354865861cb697389">SetCcMax</a>(controlnumber, max);</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;   }</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;   }</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;}</div>
@@ -1158,7 +1158,7 @@ template&lt;class Archive &gt; </div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            <a class="code" href="class_channel_model.html#ad3d5091729e8a4c711be64f63274dc17">SetCc</a>(a, min, max, controltype);</div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;   }</div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;   }</div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;}</div>
@@ -1206,7 +1206,7 @@ template&lt;class Archive &gt; </div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;      <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).store(<a class="code" href="class_channel_model.html#a95d3edeffa5cc6dea1f57b85bf7723db">CenterCc</a>(controlnumber), std::memory_order_release);</div>
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;   }</div>
 <div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;   }</div>
 <div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;}</div>
@@ -1293,7 +1293,7 @@ template&lt;class Archive &gt; </div>
 <div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;      <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).store(<a class="code" href="class_channel_model.html#a95d3edeffa5cc6dea1f57b85bf7723db">CenterCc</a>(controlnumber), std::memory_order_release);</div>
 <div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;   }</div>
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;   }</div>
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;}</div>
@@ -1413,7 +1413,7 @@ template&lt;class Archive &gt; </div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;      <span class="keywordflow">return</span> retval;</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;   }</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;   }</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div>
@@ -1830,7 +1830,7 @@ template&lt;class Archive &gt; </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/<a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a></li>
-<li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/<a class="el" href="_controls_model_8cpp.html">ControlsModel.cpp</a></li>
+<li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/ControlsModel.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -1860,7 +1860,6 @@ template&lt;class Archive &gt; </div>
 <div class="ttc" id="aclass_channel_model_html_a87cef0c9099e926c15af9b638391f601"><div class="ttname"><a href="class_channel_model.html#a87cef0c9099e926c15af9b638391f601">ChannelModel::kLow13Bits</a></div><div class="ttdeci">static constexpr int kLow13Bits</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:131</div></div>
 <div class="ttc" id="aclass_channel_model_html_acdac2f6617acb0451f3ea9c3e10adfda"><div class="ttname"><a href="class_channel_model.html#acdac2f6617acb0451f3ea9c3e10adfda">ChannelModel::CenterPw</a></div><div class="ttdeci">int CenterPw() const noexcept</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:184</div></div>
 <div class="ttc" id="aclass_channel_model_html_a258d1f08b91496e2def2c89742f140c8"><div class="ttname"><a href="class_channel_model.html#a258d1f08b91496e2def2c89742f140c8">ChannelModel::SetCcMethod</a></div><div class="ttdeci">void SetCcMethod(int controlnumber, rsj::CCmethod value)</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:168</div></div>
-<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:107</div></div>
 <div class="ttc" id="aclass_channel_model_html_a64508d67d259bc9e095274bc53e4d7cb"><div class="ttname"><a href="class_channel_model.html#a64508d67d259bc9e095274bc53e4d7cb">ChannelModel::kMaxNrpnHalf</a></div><div class="ttdeci">static constexpr int kMaxNrpnHalf</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:136</div></div>
 <div class="ttc" id="aclass_channel_model_html_ad3d5091729e8a4c711be64f63274dc17"><div class="ttname"><a href="class_channel_model.html#ad3d5091729e8a4c711be64f63274dc17">ChannelModel::SetCc</a></div><div class="ttdeci">void SetCc(int controlnumber, int min, int max, rsj::CCmethod controltype)</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:235</div></div>
 <div class="ttc" id="aclass_channel_model_html_a02c98af20857bc809f51840908a9b5b8"><div class="ttname"><a href="class_channel_model.html#a02c98af20857bc809f51840908a9b5b8">ChannelModel::ActiveToSaved</a></div><div class="ttdeci">void ActiveToSaved() const</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:315</div></div>

@@ -88,7 +88,7 @@ $(document).ready(function(){initNavTree('_concurrency_8h_source.html',''); init
 <div class="title">Concurrency.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="_concurrency_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">ifndef</span> <span class="preprocessor">MIDI2LR_CONCURRENCY_H_INCLUDED</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">ifndef</span> <span class="preprocessor">MIDI2LR_CONCURRENCY_H_INCLUDED</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">define</span> <span class="preprocessor">MIDI2LR_CONCURRENCY_H_INCLUDED</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.</span></div>
@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('_concurrency_8h_source.html',''); init
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="preprocessor">&lt;</span><span class="preprocessor">type_traits</span><span class="preprocessor">&gt;</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="_concurrency_8h.html#a033f5d703cec4426de55f99dc7ee6acc">   30</a></span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="_concurrency_8h.html#a033f5d703cec4426de55f99dc7ee6acc">_mm_pause</a>();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> _mm_pause();</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace</span> <a class="code" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj</a> {</div>
@@ -488,7 +488,6 @@ $(document).ready(function(){initNavTree('_concurrency_8h_source.html',''); init
 <div class="ttc" id="aclassrsj_1_1_spin_lock_html_a41db79e3e1272cffec7dd82644a92d08"><div class="ttname"><a href="classrsj_1_1_spin_lock.html#a41db79e3e1272cffec7dd82644a92d08">rsj::SpinLock::try_lock</a></div><div class="ttdeci">bool try_lock() noexcept</div><div class="ttdef"><b>Definition:</b> Concurrency.h:110</div></div>
 <div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_ad6ea8914f54562e772b37d208db6d65f"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#ad6ea8914f54562e772b37d208db6d65f">rsj::ConcurrentQueue::clear_count</a></div><div class="ttdeci">size_type clear_count() noexcept(noexcept(std::declval&lt; Container &gt;().clear()) &amp;&amp;noexcept(std::declval&lt; Container &gt;().size()) &amp;&amp;noexcept(std::scoped_lock(std::declval&lt; Mutex &gt;())))</div><div class="ttdef"><b>Definition:</b> Concurrency.h:311</div></div>
 <div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_af2e7ead1e42e764e6ccdf565c5cb3951"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#af2e7ead1e42e764e6ccdf565c5cb3951">rsj::ConcurrentQueue::ConcurrentQueue</a></div><div class="ttdeci">ConcurrentQueue(const Container &amp;cont) noexcept(std::is_nothrow_copy_constructible_v&lt; Container &gt;)</div><div class="ttdef"><b>Definition:</b> Concurrency.h:142</div></div>
-<div class="ttc" id="a_concurrency_8h_html_a033f5d703cec4426de55f99dc7ee6acc"><div class="ttname"><a href="_concurrency_8h.html#a033f5d703cec4426de55f99dc7ee6acc">_mm_pause</a></div><div class="ttdeci">void _mm_pause()</div></div>
 <div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_a010755f3831cd8cf54399fd94931512e"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#a010755f3831cd8cf54399fd94931512e">rsj::ConcurrentQueue::ConcurrentQueue</a></div><div class="ttdeci">ConcurrentQueue(ConcurrentQueue &amp;&amp;other) noexcept(std::is_nothrow_move_constructible_v&lt; Container &gt; &amp;&amp;noexcept(std::scoped_lock(std::declval&lt; Mutex &gt;())))</div><div class="ttdef"><b>Definition:</b> Concurrency.h:157</div></div>
 <div class="ttc" id="anamespacersj_html_a2f66b6c4ce47634151f3e40675ae62d8"><div class="ttname"><a href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath</a></div><div class="ttdeci">std::string AppLogFilePath(const std::string &amp;file_name)</div></div>
 <div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_a52bf6f150e1aa679b3be3918ecb25ce0"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#a52bf6f150e1aa679b3be3918ecb25ce0">rsj::ConcurrentQueue::clear_count_emplace</a></div><div class="ttdeci">auto clear_count_emplace(Args &amp;&amp;... args)</div><div class="ttdef"><b>Definition:</b> Concurrency.h:343</div></div>
@@ -509,7 +508,7 @@ $(document).ready(function(){initNavTree('_concurrency_8h_source.html',''); init
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_844f6ab5c2ae79211596f3dcdd81adb7.html">application</a></li><li class="navelem"><a class="el" href="_concurrency_8h.html">Concurrency.h</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_844f6ab5c2ae79211596f3dcdd81adb7.html">application</a></li><li class="navelem"><b>Concurrency.h</b></li>
     <li class="footer">Generated by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>

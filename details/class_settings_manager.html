@@ -186,7 +186,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      <a class="code" href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">profile_manager_</a>.<a class="code" href="class_profile_manager.html#acb0cff45331b1e60e58b247efcfb5bf8">SetProfileDirectory</a>(<a class="code" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>());</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;   }</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;   }</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
@@ -328,7 +328,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      }</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;   }</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;   }</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
@@ -743,7 +743,7 @@ Private Attributes</h2></td></tr>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/<a class="el" href="_settings_manager_8h_source.html">SettingsManager.h</a></li>
-<li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/<a class="el" href="_settings_manager_8cpp.html">SettingsManager.cpp</a></li>
+<li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/SettingsManager.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -757,7 +757,6 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="aclass_lr_ipc_out_html_a868d8f460f4f2140e177d74d1210f254"><div class="ttname"><a href="class_lr_ipc_out.html#a868d8f460f4f2140e177d74d1210f254">LrIpcOut::AddCallback</a></div><div class="ttdeci">void AddCallback(_In_ T *const object, _In_ void(T::*const mf)(bool, bool))</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.h:46</div></div>
 <div class="ttc" id="aclass_lr_ipc_out_html_ae1e40469ef8e53e58ef1c833774f8dac"><div class="ttname"><a href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">LrIpcOut::SendCommand</a></div><div class="ttdeci">void SendCommand(std::string &amp;&amp;command)</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.cpp:55</div></div>
 <div class="ttc" id="aclass_settings_manager_html_a0f59381a05adefe4ed87846127092ba8"><div class="ttname"><a href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8">SettingsManager::ConnectionCallback</a></div><div class="ttdeci">void ConnectionCallback(bool, bool)</div><div class="ttdef"><b>Definition:</b> SettingsManager.cpp:50</div></div>
-<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:107</div></div>
 <div class="ttc" id="aclass_settings_manager_html_ad065363b99b0db676f60ebfc249f2e22"><div class="ttname"><a href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">SettingsManager::lr_ipc_out_</a></div><div class="ttdeci">LrIpcOut &amp; lr_ipc_out_</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:81</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

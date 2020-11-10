@@ -322,7 +322,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;          });</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;   }</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;   }</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;}</div>
@@ -457,7 +457,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;      } <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;   }</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;   }</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;}</div>
@@ -516,7 +516,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      }</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;   }</div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;   }</div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;}</div>
@@ -548,14 +548,14 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <a class="code" href="class_lr_ipc_in.html#ad0c79d7921fcc2432b1654ec5fbb33f2">io_thread_</a> = std::async(std::launch::async, [<span class="keyword">this</span>] {</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;         <a class="code" href="namespacersj.html#a4e6ad6a72f12b37590cc839387c0b978">rsj::LabelThread</a>(L<span class="stringliteral">&quot;LrIpcIn io_thread_&quot;</span>);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;         _mm_setcsr(_mm_getcsr() | 0x8040);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;         <span class="keywordflow">if</span> constexpr (<a class="code" href="_misc_8h.html#a9232373c39758da7673237c81fd0edc7">kNdebug</a>)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;         <span class="keywordflow">if</span> constexpr (kNdebug)</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <a class="code" href="class_lr_ipc_in.html#a72529a78debfeb17532b865c9c5765f3">io_context_</a>.run();</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;         <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LrIpcIn thread ran {} handlers.&quot;</span>), <a class="code" href="class_lr_ipc_in.html#a72529a78debfeb17532b865c9c5765f3">io_context_</a>.run()));</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      });</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;   }</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;   }</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
@@ -600,7 +600,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      });</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;   }</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      MIDI2LR_E_RESPONSE;</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;   }</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
@@ -852,13 +852,12 @@ Private Attributes</h2></td></tr>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/<a class="el" href="_l_r___i_p_c___in_8h_source.html">LR_IPC_In.h</a></li>
-<li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/<a class="el" href="_l_r___i_p_c___in_8cpp.html">LR_IPC_In.cpp</a></li>
+<li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/LR_IPC_In.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructrsj_1_1_active_modifiers_html_af8c78c7149026efddd0b39ceee4ca170"><div class="ttname"><a href="structrsj_1_1_active_modifiers.html#af8c78c7149026efddd0b39ceee4ca170">rsj::ActiveModifiers::FromMidi2LR</a></div><div class="ttdeci">static ActiveModifiers FromMidi2LR(int from) noexcept</div><div class="ttdef"><b>Definition:</b> SendKeys.cpp:65</div></div>
 <div class="ttc" id="aclass_lr_ipc_in_html_a9ad374498feeb2a1ccd5ddc56734d3be"><div class="ttname"><a href="class_lr_ipc_in.html#a9ad374498feeb2a1ccd5ddc56734d3be">LrIpcIn::profile_</a></div><div class="ttdeci">const Profile &amp; profile_</div><div class="ttdef"><b>Definition:</b> LR_IPC_In.h:50</div></div>
-<div class="ttc" id="a_misc_8h_html_a9232373c39758da7673237c81fd0edc7"><div class="ttname"><a href="_misc_8h.html#a9232373c39758da7673237c81fd0edc7">kNdebug</a></div><div class="ttdeci">static constexpr bool kNdebug</div><div class="ttdef"><b>Definition:</b> Misc.h:39</div></div>
 <div class="ttc" id="aclass_lr_ipc_in_html_abe357338e4c1624eae973992869a7aca"><div class="ttname"><a href="class_lr_ipc_in.html#abe357338e4c1624eae973992869a7aca">LrIpcIn::profile_manager_</a></div><div class="ttdeci">ProfileManager &amp; profile_manager_</div><div class="ttdef"><b>Definition:</b> LR_IPC_In.h:52</div></div>
 <div class="ttc" id="aclass_profile_html_a78dd139b8b9bc6c85befe9b697a2c0e5"><div class="ttname"><a href="class_profile.html#a78dd139b8b9bc6c85befe9b697a2c0e5">Profile::GetMessagesForCommand</a></div><div class="ttdeci">std::vector&lt; rsj::MidiMessageId &gt; GetMessagesForCommand(const std::string &amp;command) const</div><div class="ttdef"><b>Definition:</b> Profile.cpp:119</div></div>
 <div class="ttc" id="anamespacersj_html_a0b27f17c614b3112ca309fb89e6158ab"><div class="ttname"><a href="namespacersj.html#a0b27f17c614b3112ca309fb89e6158ab">rsj::ReplaceInvisibleChars</a></div><div class="ttdeci">std::string ReplaceInvisibleChars(std::string_view in)</div></div>
@@ -883,7 +882,6 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="aclass_lr_ipc_in_html_a3d1fb776bd48289c513f8738f2f2fa8b"><div class="ttname"><a href="class_lr_ipc_in.html#a3d1fb776bd48289c513f8738f2f2fa8b">LrIpcIn::streambuf_</a></div><div class="ttdeci">asio::streambuf streambuf_</div><div class="ttdef"><b>Definition:</b> LR_IPC_In.h:48</div></div>
 <div class="ttc" id="aclass_lr_ipc_in_html_aba0ef620ca9109cac0af1937c60db218"><div class="ttname"><a href="class_lr_ipc_in.html#aba0ef620ca9109cac0af1937c60db218">LrIpcIn::socket_</a></div><div class="ttdeci">asio::ip::tcp::socket socket_</div><div class="ttdef"><b>Definition:</b> LR_IPC_In.h:47</div></div>
 <div class="ttc" id="aclass_lr_ipc_in_html_af0b8a04af5fb42527bfb0945524b75b6"><div class="ttname"><a href="class_lr_ipc_in.html#af0b8a04af5fb42527bfb0945524b75b6">LrIpcIn::midi_sender_</a></div><div class="ttdeci">const MidiSender &amp; midi_sender_</div><div class="ttdef"><b>Definition:</b> LR_IPC_In.h:49</div></div>
-<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:107</div></div>
 <div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_a60b3f4145c5d9848062f60caee4a4e7e"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#a60b3f4145c5d9848062f60caee4a4e7e">rsj::ConcurrentQueue::pop</a></div><div class="ttdeci">T pop()</div><div class="ttdef"><b>Definition:</b> Concurrency.h:263</div></div>
 <div class="ttc" id="aclass_lr_ipc_in_html_a31844f93eb6e2ba93a30caa1e4f4f0e3"><div class="ttname"><a href="class_lr_ipc_in.html#a31844f93eb6e2ba93a30caa1e4f4f0e3">LrIpcIn::process_line_future_</a></div><div class="ttdeci">std::future&lt; void &gt; process_line_future_</div><div class="ttdef"><b>Definition:</b> LR_IPC_In.h:56</div></div>
 <!-- start footer part -->

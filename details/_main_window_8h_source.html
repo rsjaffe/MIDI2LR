@@ -88,7 +88,7 @@ $(document).ready(function(){initNavTree('_main_window_8h_source.html',''); init
 <div class="title">MainWindow.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="_main_window_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">ifndef</span> <span class="preprocessor">MIDI2LR_MAINWINDOW_H_INCLUDED</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">ifndef</span> <span class="preprocessor">MIDI2LR_MAINWINDOW_H_INCLUDED</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">define</span> <span class="preprocessor">MIDI2LR_MAINWINDOW_H_INCLUDED</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.</span></div>
@@ -114,7 +114,7 @@ $(document).ready(function(){initNavTree('_main_window_8h_source.html',''); init
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">include</span> <a class="code" href="_main_component_8h.html">&quot;MainComponent.h&quot;</a></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">class</span> CommandSet;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">class</span> LrIpcOut;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">class</span> <a class="code" href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">LrIpcOut</a>;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">class</span> MidiReceiver;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">class</span> MidiSender;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">class</span> Profile;</div>
@@ -124,7 +124,7 @@ $(document).ready(function(){initNavTree('_main_window_8h_source.html',''); init
 <div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="class_main_window.html">   34</a></span>&#160;<span class="keyword">class</span> MainWindow <span class="keyword">final</span> : juce::DocumentWindow, juce::Timer {</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;   MainWindow(<span class="keyword">const</span> juce::String&amp; name, <span class="keyword">const</span> CommandSet&amp; command_set, Profile&amp; profile,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;       ProfileManager&amp; profile_manager, SettingsManager&amp; settings_manager, LrIpcOut&amp; lr_ipc_out,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;       ProfileManager&amp; profile_manager, SettingsManager&amp; settings_manager, <a class="code" href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">LrIpcOut</a>&amp; lr_ipc_out,</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;       MidiReceiver&amp; midi_receiver, MidiSender&amp; midi_sender);</div>
 <div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="class_main_window.html#a767824566011a82d1d75339774258614">   39</a></span>&#160;   ~MainWindow() = <span class="keywordflow">default</span>; <span class="comment">// NOLINT(modernize-use-override)</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="class_main_window.html#a5131f33b942ec84ac58cc8c6fd659b69">   40</a></span>&#160;   MainWindow(<span class="keyword">const</span> MainWindow&amp; other) = <span class="keyword">delete</span>;</div>
@@ -165,6 +165,7 @@ $(document).ready(function(){initNavTree('_main_window_8h_source.html',''); init
 <div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_ad34fde5f16225239b8ae7e0e753cf9cc"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#ad34fde5f16225239b8ae7e0e753cf9cc">MIDI2LRApplication::unhandledException</a></div><div class="ttdeci">void unhandledException(const std::exception *e, const juce::String &amp;source_filename, int lineNumber) override</div><div class="ttdef"><b>Definition:</b> Main.cpp:239</div></div>
 <div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_aa7b54bb994b9b49e2013acae7b024ae9"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#aa7b54bb994b9b49e2013acae7b024ae9">MIDI2LRApplication::profile_manager_</a></div><div class="ttdeci">ProfileManager profile_manager_</div><div class="ttdef"><b>Definition:</b> Main.cpp:418</div></div>
 <div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a6e3422a18346a2daee93e39b6776dfa1"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a6e3422a18346a2daee93e39b6776dfa1">MIDI2LRApplication::settings_manager_</a></div><div class="ttdeci">SettingsManager settings_manager_</div><div class="ttdef"><b>Definition:</b> Main.cpp:420</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_abb27f1d461176785f1efb3456fed7517"><div class="ttname"><a href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">LrIpcOut::callbacks_</a></div><div class="ttdeci">std::vector&lt; std::function&lt; void(bool, bool)&gt; &gt; callbacks_</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.h:80</div></div>
 <div class="ttc" id="aclass_lr_ipc_in_html"><div class="ttname"><a href="class_lr_ipc_in.html">LrIpcIn</a></div><div class="ttdef"><b>Definition:</b> LR_IPC_In.h:29</div></div>
 <div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a9cdd475a9c0cad7f863c5ea017577d40"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a9cdd475a9c0cad7f863c5ea017577d40">MIDI2LRApplication::getApplicationName</a></div><div class="ttdeci">const juce::String getApplicationName() override</div><div class="ttdef"><b>Definition:</b> Main.cpp:127</div></div>
 <div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_ae75b25dd5dec75487354fcc7d50c4d9a"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#ae75b25dd5dec75487354fcc7d50c4d9a">MIDI2LRApplication::look_feel_</a></div><div class="ttdeci">LookAndFeelMIDI2LR look_feel_</div><div class="ttdef"><b>Definition:</b> Main.cpp:423</div></div>
@@ -190,7 +191,7 @@ $(document).ready(function(){initNavTree('_main_window_8h_source.html',''); init
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_844f6ab5c2ae79211596f3dcdd81adb7.html">application</a></li><li class="navelem"><a class="el" href="_main_window_8h.html">MainWindow.h</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_844f6ab5c2ae79211596f3dcdd81adb7.html">application</a></li><li class="navelem"><b>MainWindow.h</b></li>
     <li class="footer">Generated by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>

@@ -142,7 +142,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;      <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Application: System language {}.&quot;</span>),</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;          juce::SystemStats::getDisplayLanguage().toStdString()));</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;      <span class="comment">// ReSharper disable CppUnreachableCode</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;      <span class="keywordflow">if</span> constexpr (<a class="code" href="_misc_8h.html#a9232373c39758da7673237c81fd0edc7">kNdebug</a>) {</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;      <span class="keywordflow">if</span> constexpr (kNdebug) {</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;         <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;             FMT_STRING(<span class="stringliteral">&quot;Application: Application version {}.&quot;</span>), ProjectInfo::versionString));</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      }</div>
@@ -177,8 +177,6 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;   }</div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_misc_8h.html#a9232373c39758da7673237c81fd0edc7">kNdebug</a>.</p>
-
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -265,11 +263,10 @@ Private Attributes</h2></td></tr>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/<a class="el" href="_debug_info_8h_source.html">DebugInfo.h</a></li>
-<li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/<a class="el" href="_debug_info_8cpp.html">DebugInfo.cpp</a></li>
+<li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/DebugInfo.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="a_misc_8h_html_a9232373c39758da7673237c81fd0edc7"><div class="ttname"><a href="_misc_8h.html#a9232373c39758da7673237c81fd0edc7">kNdebug</a></div><div class="ttdeci">static constexpr bool kNdebug</div><div class="ttdef"><b>Definition:</b> Misc.h:39</div></div>
 <div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:192</div></div>
 <div class="ttc" id="anamespacersj_html_ad9fd7ddfd6792dd72b9f217e9d7967c3"><div class="ttname"><a href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a></div><div class="ttdeci">std::string AppDataFilePath(const std::string &amp;file_name)</div></div>
 <div class="ttc" id="anamespacersj_html_a2f66b6c4ce47634151f3e40675ae62d8"><div class="ttname"><a href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath</a></div><div class="ttdeci">std::string AppLogFilePath(const std::string &amp;file_name)</div></div>
