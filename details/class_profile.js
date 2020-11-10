@@ -19,6 +19,7 @@ var class_profile =
     [ "RemoveAllRows", "class_profile.html#aa204f0fac70850e1f2fd7e62fea0e485", null ],
     [ "RemoveMessage", "class_profile.html#abb1bca37a48aea146bb3088fc91dc4d1", null ],
     [ "RemoveRow", "class_profile.html#a414a11b557891329f59fb3ef7485428e", null ],
+    [ "RemoveUnassignedMessages", "class_profile.html#a52a1e65a7ec8df1864309e0c6d127fab", null ],
     [ "Resort", "class_profile.html#a9913ba52ed28333789f8223f5248540f", null ],
     [ "Size", "class_profile.html#a6f55aadcd33c6023b1e544b436d57de2", null ],
     [ "SortI", "class_profile.html#aeba39bf32fc079f948b4669c64887867", null ],

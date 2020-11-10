@@ -5,5 +5,5 @@ var classrsj_1_1_p_r_n_g =
     [ "min", "classrsj_1_1_p_r_n_g.html#a952d95f4cd41471823ad227e77ab0f9c", null ],
     [ "NextRandom", "classrsj_1_1_p_r_n_g.html#a7e78213f68ef5b86ff2ae0aa4388e16b", null ],
     [ "operator()", "classrsj_1_1_p_r_n_g.html#a076187dbe204b863a744fd1414018041", null ],
-    [ "state", "classrsj_1_1_p_r_n_g.html#a80b2a3ff47cf93b8fd5fe0ff1092c8a6", null ]
+    [ "state_", "classrsj_1_1_p_r_n_g.html#a2a870b99d3ebb1b87beade59f73304d2", null ]
 ];

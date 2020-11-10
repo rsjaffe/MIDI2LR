@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.6.0.2</span>
+   &#160;<span id="projectnumber">4.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -110,34 +110,46 @@ $(document).ready(function(){initNavTree('_m_i_d_i_sender_8h_source.html',''); i
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">include</span> <a class="code" href="_devices_8h.html">&quot;Devices.h&quot;</a></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespacejuce.html">   23</a></span>&#160;<span class="keyword">namespace</span> juce {</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespacejuce.html">   23</a></span>&#160;<span class="keyword">namespace</span> <a class="code" href="namespacejuce.html">juce</a> {</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;   <span class="keyword">class</span> MidiOutput;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace</span> rsj {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;   <span class="keyword">struct</span> MidiMessageId;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace</span> <a class="code" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj</a> {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;   <span class="keyword">struct</span> <a class="code" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a>;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">//-V813_MINSIZE=13 /* warn if passing structure by value &gt; 12 bytes (3*sizeof(int)) */</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">/* juce MIDI send functions have 1-based channel, so does rsj::MidiMessageId */</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="class_midi_sender.html">   34</a></span>&#160;<span class="keyword">class</span> MidiSender {</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="class_midi_sender.html">   34</a></span>&#160;<span class="keyword">class</span> <a class="code" href="class_midi_sender.html">MidiSender</a> {</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_midi_sender.html#a5df9827f346c806c777e6dc1295f6556">   36</a></span>&#160;   <span class="keyword">explicit</span> MidiSender(Devices&amp; devices) : devices_(devices) {};</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;   <span class="keywordtype">void</span> RescanDevices();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;   <span class="keywordtype">void</span> Send(rsj::MidiMessageId id, <span class="keywordtype">int</span> value) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;   <span class="keywordtype">void</span> Start();</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_midi_sender.html#a25df0dcdc52cca07cb584f0d02441a28">   36</a></span>&#160;   <span class="keyword">explicit</span> <a class="code" href="class_midi_sender.html#a25df0dcdc52cca07cb584f0d02441a28">MidiSender</a>(<a class="code" href="class_devices.html">Devices</a>&amp; devices) <span class="keyword">noexcept</span> : <a class="code" href="class_midi_sender.html#a9d91dc34a4a0ce3c9c08ab9b46047711">devices_</a>(devices) {}</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;   <span class="keywordtype">void</span> <a class="code" href="class_midi_sender.html#ac40f8961fcc5ab57f6c59c6220c9c2c9">RescanDevices</a>();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;   <span class="keywordtype">void</span> <a class="code" href="class_midi_sender.html#a5c5560cc6e3d337b64d8dd52be2ae4df">Send</a>(<a class="code" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj</a>::<a class="code" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a> id, <span class="keywordtype">int</span> value) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;   <span class="keywordtype">void</span> <a class="code" href="class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f">Start</a>();</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;   <span class="keywordtype">void</span> InitDevices();</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="class_midi_sender.html#a9d91dc34a4a0ce3c9c08ab9b46047711">   43</a></span>&#160;   Devices&amp; devices_;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;   <span class="keywordtype">void</span> <a class="code" href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">InitDevices</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="class_midi_sender.html#a9d91dc34a4a0ce3c9c08ab9b46047711">   43</a></span>&#160;   <a class="code" href="class_devices.html">Devices</a>&amp; <a class="code" href="class_midi_sender.html#a9d91dc34a4a0ce3c9c08ab9b46047711">devices_</a>;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">   45</a></span>&#160;   std::vector&lt;std::unique_ptr&lt;juce::MidiOutput&gt;&gt; output_devices_;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">   45</a></span>&#160;   <a class="code" href="class_midi_sender.html">std</a>::<a class="code" href="class_midi_sender.html">vector</a>&lt;<a class="code" href="class_midi_sender.html">std</a>::<a class="code" href="class_midi_sender.html">unique_ptr</a>&lt;<a class="code" href="class_midi_sender.html">juce</a>::<a class="code" href="class_midi_sender.html">MidiOutput</a>&gt;&gt; <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;};</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aclass_midi_sender_html_a9d91dc34a4a0ce3c9c08ab9b46047711"><div class="ttname"><a href="class_midi_sender.html#a9d91dc34a4a0ce3c9c08ab9b46047711">MidiSender::devices_</a></div><div class="ttdeci">Devices &amp; devices_</div><div class="ttdef"><b>Definition:</b> MIDISender.h:43</div></div>
+<div class="ttc" id="aclass_midi_sender_html_a518fbc9c25993a77b0e81397da07e598"><div class="ttname"><a href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">MidiSender::output_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiOutput &gt; &gt; output_devices_</div><div class="ttdef"><b>Definition:</b> MIDISender.h:45</div></div>
+<div class="ttc" id="aclass_midi_sender_html_a25df0dcdc52cca07cb584f0d02441a28"><div class="ttname"><a href="class_midi_sender.html#a25df0dcdc52cca07cb584f0d02441a28">MidiSender::MidiSender</a></div><div class="ttdeci">MidiSender(Devices &amp;devices) noexcept</div><div class="ttdef"><b>Definition:</b> MIDISender.h:36</div></div>
+<div class="ttc" id="anamespacejuce_html"><div class="ttname"><a href="namespacejuce.html">juce</a></div><div class="ttdef"><b>Definition:</b> MIDISender.h:23</div></div>
+<div class="ttc" id="aclass_midi_sender_html_a5c5560cc6e3d337b64d8dd52be2ae4df"><div class="ttname"><a href="class_midi_sender.html#a5c5560cc6e3d337b64d8dd52be2ae4df">MidiSender::Send</a></div><div class="ttdeci">void Send(rsj::MidiMessageId id, int value) const</div><div class="ttdef"><b>Definition:</b> MIDISender.cpp:41</div></div>
+<div class="ttc" id="aclass_midi_sender_html_ac40f8961fcc5ab57f6c59c6220c9c2c9"><div class="ttname"><a href="class_midi_sender.html#ac40f8961fcc5ab57f6c59c6220c9c2c9">MidiSender::RescanDevices</a></div><div class="ttdeci">void RescanDevices()</div><div class="ttdef"><b>Definition:</b> MIDISender.cpp:95</div></div>
+<div class="ttc" id="aclass_devices_html"><div class="ttname"><a href="class_devices.html">Devices</a></div><div class="ttdef"><b>Definition:</b> Devices.h:27</div></div>
+<div class="ttc" id="anamespacersj_html_a2f66b6c4ce47634151f3e40675ae62d8"><div class="ttname"><a href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath</a></div><div class="ttdeci">std::string AppLogFilePath(const std::string &amp;file_name)</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a></div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:144</div></div>
+<div class="ttc" id="aclass_midi_sender_html_a24b39644b419baab87b1d3337ab15fe8"><div class="ttname"><a href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">MidiSender::InitDevices</a></div><div class="ttdeci">void InitDevices()</div><div class="ttdef"><b>Definition:</b> MIDISender.cpp:108</div></div>
+<div class="ttc" id="aclass_midi_sender_html"><div class="ttname"><a href="class_midi_sender.html">MidiSender</a></div><div class="ttdef"><b>Definition:</b> MIDISender.h:34</div></div>
+<div class="ttc" id="aclass_midi_sender_html_a7f6b5c209963c8ba2e59a40e556d688f"><div class="ttname"><a href="class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f">MidiSender::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdef"><b>Definition:</b> MIDISender.cpp:30</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

@@ -29,7 +29,7 @@ var class_m_i_d_i2_l_r_application =
     [ "devices_", "class_m_i_d_i2_l_r_application.html#ab8f495d7a4fe0caa59e6c426936c1a6c", null ],
     [ "dummy_", "class_m_i_d_i2_l_r_application.html#a7a2dfab3572e76f9d3c7cd39f81ef5bf", null ],
     [ "logger_", "class_m_i_d_i2_l_r_application.html#ad5376bbf75dff5686011d923e4f2ecec", null ],
-    [ "look_feel_", "class_m_i_d_i2_l_r_application.html#a8b5e5c4a43e30a7422764f81650e53b2", null ],
+    [ "look_feel_", "class_m_i_d_i2_l_r_application.html#ae75b25dd5dec75487354fcc7d50c4d9a", null ],
     [ "lr_ipc_in_", "class_m_i_d_i2_l_r_application.html#a51fbfea1e27c7bb86f6a25a6934659c7", null ],
     [ "lr_ipc_out_", "class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773", null ],
     [ "main_window_", "class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf", null ],

@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.6.0.2</span>
+   &#160;<span id="projectnumber">4.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -97,13 +97,6 @@ $(document).ready(function(){initNavTree('class_channel_model.html',''); initRes
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>&gt;</code></p>
-<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Collaboration diagram for ChannelModel:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_channel_model__coll__graph.png" border="0" usemap="#a_channel_model_coll__map" alt="Collaboration graph"/></div>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -225,15 +218,15 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;{</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;      <a class="code" href="class_channel_model.html#a9bd2331bfeac64d647cb3ebb575e6540">CcDefaults</a>();</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;   }</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;   }</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;{</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;      <a class="code" href="class_channel_model.html#a9bd2331bfeac64d647cb3ebb575e6540">CcDefaults</a>();</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;   }</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;   }</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_channel_model.html#a9bd2331bfeac64d647cb3ebb575e6540">CcDefaults()</a>.</p>
 
@@ -262,23 +255,23 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;{</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;      <a class="code" href="class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a">settings_to_save_</a>.clear();</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> i {0}; i &lt;= <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>; ++i)</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(i) != rsj::CCmethod::kAbsolute || <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(i) != <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;             || <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(i) != 0)</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;            <a class="code" href="class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a">settings_to_save_</a>.emplace_back(i, <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(i), <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(i), <a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(i));</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> i {<a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a> + 1}; i &lt;= <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>; ++i)</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(i) != rsj::CCmethod::kAbsolute || <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(i) != <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;             || <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(i) != 0)</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;            <a class="code" href="class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a">settings_to_save_</a>.emplace_back(i, <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(i), <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(i), <a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(i));</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;   }</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;   }</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;{</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;      <a class="code" href="class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a">settings_to_save_</a>.clear();</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> i {0}; i &lt;= <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>; ++i)</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(i) != rsj::CCmethod::kAbsolute || <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(i) != <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;             || <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(i) != 0)</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;            <a class="code" href="class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a">settings_to_save_</a>.emplace_back(i, <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(i), <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(i), <a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(i));</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> i {<a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a> + 1}; i &lt;= <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>; ++i)</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(i) != rsj::CCmethod::kAbsolute || <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(i) != <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;             || <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(i) != 0)</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;            <a class="code" href="class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a">settings_to_save_</a>.emplace_back(i, <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(i), <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(i), <a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(i));</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;   }</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;   }</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -304,25 +297,25 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;{</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;      <span class="comment">/* atomics relaxed as this does not occur concurrently with other actions */</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;      <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.fill(0);</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;      <span class="comment">/* XCode throws linker error when use ChannelModel::kMaxNRPN here */</span></div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;      <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.fill(0x3FFF);</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;      <a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.fill(rsj::CCmethod::kAbsolute);</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp;&amp; a : <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>)</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;         a.store(<a class="code" href="class_channel_model.html#a64508d67d259bc9e095274bc53e4d7cb">kMaxNrpnHalf</a>, std::memory_order_relaxed);</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;      <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> a {0}; a &lt;= <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>; ++a) {</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;         <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(a) = <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>;</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;         <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(a).store(<a class="code" href="class_channel_model.html#abed431b2116d23c010b20b1149782939">kMaxMidiHalf</a>, std::memory_order_relaxed);</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;      }</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;   }</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;   }</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;{</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;      <span class="comment">/* atomics relaxed as this does not occur concurrently with other actions */</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;      <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.fill(0);</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;      <span class="comment">/* XCode throws linker error when use ChannelModel::kMaxNRPN here */</span></div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;      <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.fill(0x3FFF);</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;      <a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.fill(rsj::CCmethod::kAbsolute);</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp;&amp; a : <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>)</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;         a.store(<a class="code" href="class_channel_model.html#a64508d67d259bc9e095274bc53e4d7cb">kMaxNrpnHalf</a>, std::memory_order_relaxed);</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;      <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> a {0}; a &lt;= <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>; ++a) {</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;         <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(a) = <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>;</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;         <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(a).store(<a class="code" href="class_channel_model.html#abed431b2116d23c010b20b1149782939">kMaxMidiHalf</a>, std::memory_order_relaxed);</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;      }</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;   }</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;   }</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>.</p>
 
@@ -427,69 +420,69 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      Expects(controltype == rsj::MessageType::Cc</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                      &amp;&amp; <a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber) == rsj::CCmethod::kAbsolute</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                  ? <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber) &lt; <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                  : 1);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      Expects(controltype == rsj::MessageType::Pw ? <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a> &gt; <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a> : 1);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      Expects(controltype == rsj::MessageType::Pw</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                  ? value &gt;= <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a> &amp;&amp; value &lt;= <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                  : 1);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <span class="comment">/* note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">       * bits, high bits are shifted one right when placed into int. */</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <span class="keywordflow">switch</span> (controltype) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Pw:</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;         <a class="code" href="class_channel_model.html#a943b6360a51ccf23d970a0f389455576">pitch_wheel_current_</a>.store(value, std::memory_order_release);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26451) </span><span class="comment">/* int subtraction won&#39;t overflow 4 bytes here */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;         <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(value - <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                / <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(<a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a> - <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Cc:</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;         <span class="keywordflow">switch</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber)) {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;         <span class="keywordflow">case</span> rsj::CCmethod::kAbsolute:</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).store(value, std::memory_order_release);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26451) </span><span class="comment">/* int subtraction won&#39;t overflow 4 bytes here */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(value - <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber))</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                   / <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(<a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber) - <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber));</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;         <span class="keywordflow">case</span> rsj::CCmethod::kBinaryOffset:</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;               <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817">OffsetResult</a>(value - <a class="code" href="class_channel_model.html#a47b88f3853522414e32954e9536b4d37">kBit14</a>, controlnumber);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817">OffsetResult</a>(value - <a class="code" href="class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c">kBit7</a>, controlnumber);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;         <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kSignMagnitude</a>:</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;               <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817">OffsetResult</a>(value &amp; <a class="code" href="class_channel_model.html#a47b88f3853522414e32954e9536b4d37">kBit14</a> ? -(value &amp; <a class="code" href="class_channel_model.html#a87cef0c9099e926c15af9b638391f601">kLow13Bits</a>) : value, controlnumber);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817">OffsetResult</a>(value &amp; <a class="code" href="class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c">kBit7</a> ? -(value &amp; <a class="code" href="class_channel_model.html#a47a5eb7a2a2d13ab4c5ca421e1b2ffe8">kLow6Bits</a>) : value, controlnumber);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;         <span class="keywordflow">case</span> rsj::CCmethod::kTwosComplement:</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="comment">/* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">             * flip twos comp and subtract--independent of processor architecture */</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;               <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817">OffsetResult</a>(</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                   value &amp; <a class="code" href="class_channel_model.html#a47b88f3853522414e32954e9536b4d37">kBit14</a> ? -((value ^ <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>) + 1) : value, controlnumber);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817">OffsetResult</a>(value &amp; <a class="code" href="class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c">kBit7</a> ? -((value ^ <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>) + 1) : value, controlnumber);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;         <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            Ensures(!<span class="stringliteral">&quot;Should be unreachable code in ControllerToPlugin--unknown CCmethod&quot;</span>);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="comment">// ReSharper disable once CppUnreachableCode</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">return</span> 0.0;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;         }</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::NoteOn:</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;         <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(value)</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                / <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>((<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber) ? <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a> : <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>));</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::NoteOff:</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;         <span class="keywordflow">return</span> 0.0;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;         Ensures(!<span class="stringliteral">&quot;Should be unreachable code in ControllerToPlugin--unknown control type&quot;</span>);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;         <span class="comment">// ReSharper disable once CppUnreachableCode</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;         <span class="keywordflow">return</span> 0.0;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;   }</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;   }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      Expects(controltype == rsj::MessageType::Cc</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                      &amp;&amp; <a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber) == rsj::CCmethod::kAbsolute</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                  ? <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber) &lt; <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                  : 1);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      Expects(controltype == rsj::MessageType::Pw ? <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a> &gt; <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a> : 1);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      Expects(controltype == rsj::MessageType::Pw</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                  ? value &gt;= <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a> &amp;&amp; value &lt;= <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                  : 1);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <span class="comment">/* note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">       * bits, high bits are shifted one right when placed into int. */</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="keywordflow">switch</span> (controltype) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Pw:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;         <a class="code" href="class_channel_model.html#a943b6360a51ccf23d970a0f389455576">pitch_wheel_current_</a>.store(value, std::memory_order_release);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26451) </span><span class="comment">/* int subtraction won&#39;t overflow 4 bytes here */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;         <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(value - <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                / <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(<a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a> - <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Cc:</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;         <span class="keywordflow">switch</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber)) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;         <span class="keywordflow">case</span> rsj::CCmethod::kAbsolute:</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).store(value, std::memory_order_release);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26451) </span><span class="comment">/* int subtraction won&#39;t overflow 4 bytes here */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(value - <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber))</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                   / <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(<a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber) - <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber));</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;         <span class="keywordflow">case</span> rsj::CCmethod::kBinaryOffset:</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;               <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817">OffsetResult</a>(value - <a class="code" href="class_channel_model.html#a47b88f3853522414e32954e9536b4d37">kBit14</a>, controlnumber);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817">OffsetResult</a>(value - <a class="code" href="class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c">kBit7</a>, controlnumber);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;         <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kSignMagnitude</a>:</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;               <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817">OffsetResult</a>(value &amp; <a class="code" href="class_channel_model.html#a47b88f3853522414e32954e9536b4d37">kBit14</a> ? -(value &amp; <a class="code" href="class_channel_model.html#a87cef0c9099e926c15af9b638391f601">kLow13Bits</a>) : value, controlnumber);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817">OffsetResult</a>(value &amp; <a class="code" href="class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c">kBit7</a> ? -(value &amp; <a class="code" href="class_channel_model.html#a47a5eb7a2a2d13ab4c5ca421e1b2ffe8">kLow6Bits</a>) : value, controlnumber);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;         <span class="keywordflow">case</span> rsj::CCmethod::kTwosComplement:</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="comment">/* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">             * flip twos comp and subtract--independent of processor architecture */</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;               <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817">OffsetResult</a>(</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                   value &amp; <a class="code" href="class_channel_model.html#a47b88f3853522414e32954e9536b4d37">kBit14</a> ? -((value ^ <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>) + 1) : value, controlnumber);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817">OffsetResult</a>(value &amp; <a class="code" href="class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c">kBit7</a> ? -((value ^ <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>) + 1) : value, controlnumber);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;         <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            Ensures(!<span class="stringliteral">&quot;Should be unreachable code in ControllerToPlugin--unknown CCmethod&quot;</span>);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="comment">// ReSharper disable once CppUnreachableCode</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keywordflow">return</span> 0.0;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;         }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::NoteOn:</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;         <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(value)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                / <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>((<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber) ? <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a> : <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>));</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::NoteOff:</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;         <span class="keywordflow">return</span> 0.0;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;         Ensures(!<span class="stringliteral">&quot;Should be unreachable code in ControllerToPlugin--unknown control type&quot;</span>);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;         <span class="comment">// ReSharper disable once CppUnreachableCode</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;         <span class="keywordflow">return</span> 0.0;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      }</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;   }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;   }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_()</a>, <a class="el" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>, <a class="el" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>, <a class="el" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a>, and <a class="el" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>.</p>
+<p class="reference">References <a class="el" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath()</a>, <a class="el" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_()</a>, <a class="el" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>, <a class="el" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a6138748b0dea7e54d0ab77709ab74ba1">rsj::NoteOff</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a392b06517dc40739343a9ef9533cad46">rsj::NoteOn</a>, <a class="el" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a>, <a class="el" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>, and <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a4c03b8e9c7e2ea3a6c39d5fae26e1f0f">rsj::Pw</a>.</p>
 
 </div>
 </div>
@@ -772,61 +765,61 @@ template&lt;class Archive &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;{</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;      Expects(controltype == rsj::MessageType::Cc</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                      &amp;&amp; <a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber) == rsj::CCmethod::kAbsolute</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                  ? <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber) &lt; <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber)</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                  : 1);</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;      Expects(controltype == rsj::MessageType::Pw ? <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a> &gt; <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a> : 1);</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;      Expects(controltype == rsj::MessageType::Pw</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                  ? value &gt;= <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a> &amp;&amp; value &lt;= <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                  : 1);</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;      <span class="comment">/* note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="comment">       * bits, high bits are shifted one right when placed into int. */</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      <span class="keywordflow">switch</span> (controltype) {</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Pw: {</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;         <span class="keywordflow">return</span> value - <a class="code" href="class_channel_model.html#a943b6360a51ccf23d970a0f389455576">pitch_wheel_current_</a>.exchange(value, std::memory_order_acq_rel);</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      }</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Cc:</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;         <span class="keywordflow">switch</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber)) {</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;         <span class="keywordflow">case</span> rsj::CCmethod::kAbsolute:</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <span class="keywordflow">return</span> value - <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).exchange(value, std::memory_order_acq_rel);</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;         <span class="keywordflow">case</span> rsj::CCmethod::kBinaryOffset:</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;               <span class="keywordflow">return</span> value - <a class="code" href="class_channel_model.html#a47b88f3853522414e32954e9536b4d37">kBit14</a>;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            <span class="keywordflow">return</span> value - <a class="code" href="class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c">kBit7</a>;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;         <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kSignMagnitude</a>:</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;               <span class="keywordflow">return</span> value &amp; <a class="code" href="class_channel_model.html#a47b88f3853522414e32954e9536b4d37">kBit14</a> ? -(value &amp; <a class="code" href="class_channel_model.html#a87cef0c9099e926c15af9b638391f601">kLow13Bits</a>) : value;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <span class="keywordflow">return</span> value &amp; <a class="code" href="class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c">kBit7</a> ? -(value &amp; <a class="code" href="class_channel_model.html#a47a5eb7a2a2d13ab4c5ca421e1b2ffe8">kLow6Bits</a>) : value;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;         <span class="keywordflow">case</span> rsj::CCmethod::kTwosComplement:</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            <span class="comment">/* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="comment">             * flip twos comp and subtract--independent of processor architecture */</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;               <span class="keywordflow">return</span> value &amp; <a class="code" href="class_channel_model.html#a47b88f3853522414e32954e9536b4d37">kBit14</a> ? -((value ^ <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>) + 1) : value;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keywordflow">return</span> value &amp; <a class="code" href="class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c">kBit7</a> ? -((value ^ <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>) + 1) : value;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;         <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            Ensures(!<span class="stringliteral">&quot;Should be unreachable code in ControllerToPlugin--unknown CCmethod&quot;</span>);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            <span class="comment">// ReSharper disable once CppUnreachableCode</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            <span class="keywordflow">return</span> <span class="keywordtype">int</span> {0};</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;         }</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::NoteOn:</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::NoteOff:</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;         <span class="keywordflow">return</span> <span class="keywordtype">int</span> {0};</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;      <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;         Ensures(!<span class="stringliteral">&quot;Should be unreachable code in ControllerToPlugin--unknown control type&quot;</span>);</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;         <span class="comment">// ReSharper disable once CppUnreachableCode</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;         <span class="keywordflow">return</span> <span class="keywordtype">int</span> {0};</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;      }</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;   }</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;   }</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;{</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;      Expects(controltype == rsj::MessageType::Cc</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                      &amp;&amp; <a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber) == rsj::CCmethod::kAbsolute</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                  ? <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber) &lt; <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber)</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                  : 1);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;      Expects(controltype == rsj::MessageType::Pw ? <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a> &gt; <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a> : 1);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;      Expects(controltype == rsj::MessageType::Pw</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                  ? value &gt;= <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a> &amp;&amp; value &lt;= <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                  : 1);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      <span class="comment">/* note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment">       * bits, high bits are shifted one right when placed into int. */</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;      <span class="keywordflow">switch</span> (controltype) {</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Pw: {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;         <span class="keywordflow">return</span> value - <a class="code" href="class_channel_model.html#a943b6360a51ccf23d970a0f389455576">pitch_wheel_current_</a>.exchange(value, std::memory_order_acq_rel);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;      }</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Cc:</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;         <span class="keywordflow">switch</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber)) {</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;         <span class="keywordflow">case</span> rsj::CCmethod::kAbsolute:</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            <span class="keywordflow">return</span> value - <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).exchange(value, std::memory_order_acq_rel);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;         <span class="keywordflow">case</span> rsj::CCmethod::kBinaryOffset:</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;               <span class="keywordflow">return</span> value - <a class="code" href="class_channel_model.html#a47b88f3853522414e32954e9536b4d37">kBit14</a>;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <span class="keywordflow">return</span> value - <a class="code" href="class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c">kBit7</a>;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;         <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kSignMagnitude</a>:</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;               <span class="keywordflow">return</span> value &amp; <a class="code" href="class_channel_model.html#a47b88f3853522414e32954e9536b4d37">kBit14</a> ? -(value &amp; <a class="code" href="class_channel_model.html#a87cef0c9099e926c15af9b638391f601">kLow13Bits</a>) : value;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            <span class="keywordflow">return</span> value &amp; <a class="code" href="class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c">kBit7</a> ? -(value &amp; <a class="code" href="class_channel_model.html#a47a5eb7a2a2d13ab4c5ca421e1b2ffe8">kLow6Bits</a>) : value;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;         <span class="keywordflow">case</span> rsj::CCmethod::kTwosComplement:</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="comment">/* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="comment">             * flip twos comp and subtract--independent of processor architecture */</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;               <span class="keywordflow">return</span> value &amp; <a class="code" href="class_channel_model.html#a47b88f3853522414e32954e9536b4d37">kBit14</a> ? -((value ^ <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>) + 1) : value;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            <span class="keywordflow">return</span> value &amp; <a class="code" href="class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c">kBit7</a> ? -((value ^ <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>) + 1) : value;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;         <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            Ensures(!<span class="stringliteral">&quot;Should be unreachable code in ControllerToPlugin--unknown CCmethod&quot;</span>);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            <span class="comment">// ReSharper disable once CppUnreachableCode</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            <span class="keywordflow">return</span> <span class="keywordtype">int</span> {0};</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;         }</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::NoteOn:</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::NoteOff:</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;         <span class="keywordflow">return</span> <span class="keywordtype">int</span> {0};</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;      <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;         Ensures(!<span class="stringliteral">&quot;Should be unreachable code in ControllerToPlugin--unknown control type&quot;</span>);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;         <span class="comment">// ReSharper disable once CppUnreachableCode</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;         <span class="keywordflow">return</span> <span class="keywordtype">int</span> {0};</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;      }</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;   }</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;   }</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a>, and <a class="el" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>.</p>
+<p class="reference">References <a class="el" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath()</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a6138748b0dea7e54d0ab77709ab74ba1">rsj::NoteOff</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a392b06517dc40739343a9ef9533cad46">rsj::NoteOn</a>, <a class="el" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a>, <a class="el" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>, and <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a4c03b8e9c7e2ea3a6c39d5fae26e1f0f">rsj::Pw</a>.</p>
 
 </div>
 </div>
@@ -920,42 +913,42 @@ template&lt;class Archive &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;{</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      Expects(controlnumber &lt;= kMaxNrpn &amp;&amp; controlnumber &gt;= 0);</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      <span class="comment">/* value effectively clamped to 0-1 by clamp calls below */</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;      <span class="keywordflow">switch</span> (controltype) {</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Pw: {</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;         <span class="comment">/* TODO(C26451): int subtraction: can it overflow? */</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> newv {std::clamp(</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;             <a class="code" href="namespacersj.html#ab379048e807318f10deda9a1ddf0a345">rsj::RoundToInt</a>(value * (<a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a> - <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>)) + <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>,</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;             <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>, <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a>)};</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;         <a class="code" href="class_channel_model.html#a943b6360a51ccf23d970a0f389455576">pitch_wheel_current_</a>.store(newv, std::memory_order_release);</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;         <span class="keywordflow">return</span> newv;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;      }</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Cc: {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;         <span class="comment">/* TODO(C26451): int subtraction: can it overflow? */</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> clow {<a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber)};</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> chigh {<a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber)};</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> newv {std::clamp(<a class="code" href="namespacersj.html#ab379048e807318f10deda9a1ddf0a345">rsj::RoundToInt</a>(value * (chigh - clow)) + clow, clow, chigh)};</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;         <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).store(newv, std::memory_order_release);</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;         <span class="keywordflow">return</span> newv;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;      }</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::NoteOn:</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;         <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>;</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;      <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;         Ensures(!<span class="stringliteral">&quot;Unexpected control type&quot;</span>);</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;      }</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;      <span class="comment">// ReSharper disable once CppUnreachableCode</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;      <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;   }</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;   }</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;{</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;      Expects(controlnumber &lt;= kMaxNrpn &amp;&amp; controlnumber &gt;= 0);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;      <span class="comment">/* value effectively clamped to 0-1 by clamp calls below */</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;      <span class="keywordflow">switch</span> (controltype) {</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Pw: {</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;         <span class="comment">/* TODO(C26451): int subtraction: can it overflow? */</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> newv {std::clamp(</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;             <a class="code" href="namespacersj.html#ab379048e807318f10deda9a1ddf0a345">rsj::RoundToInt</a>(value * (<a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a> - <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>)) + <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>,</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;             <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>, <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a>)};</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;         <a class="code" href="class_channel_model.html#a943b6360a51ccf23d970a0f389455576">pitch_wheel_current_</a>.store(newv, std::memory_order_release);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;         <span class="keywordflow">return</span> newv;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;      }</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Cc: {</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;         <span class="comment">/* TODO(C26451): int subtraction: can it overflow? */</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> clow {<a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber)};</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> chigh {<a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber)};</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> newv {std::clamp(<a class="code" href="namespacersj.html#ab379048e807318f10deda9a1ddf0a345">rsj::RoundToInt</a>(value * (chigh - clow)) + clow, clow, chigh)};</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;         <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).store(newv, std::memory_order_release);</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;         <span class="keywordflow">return</span> newv;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;      }</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::NoteOn:</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;         <span class="keywordflow">return</span> <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;      <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;         Ensures(!<span class="stringliteral">&quot;Unexpected control type&quot;</span>);</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;      }</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;      <span class="comment">// ReSharper disable once CppUnreachableCode</span></div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;      <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;   }</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;   }</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>, and <a class="el" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>.</p>
+<p class="reference">References <a class="el" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath()</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ae4c8f1de1c0855c7c2be33196d3c3537">rsj::Cc</a>, <a class="el" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>, <a class="el" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a392b06517dc40739343a9ef9533cad46">rsj::NoteOn</a>, and <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a4c03b8e9c7e2ea3a6c39d5fae26e1f0f">rsj::Pw</a>.</p>
 
 </div>
 </div>
@@ -1048,17 +1041,17 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;{</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;      <a class="code" href="class_channel_model.html#a9bd2331bfeac64d647cb3ebb575e6540">CcDefaults</a>();</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; set : <a class="code" href="class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a">settings_to_save_</a>)</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;         <a class="code" href="class_channel_model.html#ad3d5091729e8a4c711be64f63274dc17">SetCc</a>(set.control_number, set.low, set.high, set.method);</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;   }</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;   }</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;{</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;      <a class="code" href="class_channel_model.html#a9bd2331bfeac64d647cb3ebb575e6540">CcDefaults</a>();</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; set : <a class="code" href="class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a">settings_to_save_</a>)</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;         <a class="code" href="class_channel_model.html#ad3d5091729e8a4c711be64f63274dc17">SetCc</a>(set.control_number, set.low, set.high, set.method);</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;   }</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;   }</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_channel_model.html#a9bd2331bfeac64d647cb3ebb575e6540">CcDefaults()</a>.</p>
 
@@ -1101,22 +1094,20 @@ template&lt;class Archive &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;{</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;      <span class="comment">/* CcMethod has to be set before others or ranges won&#39;t be correct */</span></div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;      <a class="code" href="class_channel_model.html#a258d1f08b91496e2def2c89742f140c8">SetCcMethod</a>(controlnumber, controltype);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;      <a class="code" href="class_channel_model.html#ae7d2dbea3561bf23accfae90b73b776a">SetCcMin</a>(controlnumber, min);</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;      <a class="code" href="class_channel_model.html#a459a91ef3bc89d8354865861cb697389">SetCcMax</a>(controlnumber, max);</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;   }</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="fragment"><div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;{</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;      <span class="comment">/* CcMethod has to be set before others or ranges won&#39;t be correct */</span></div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;      <a class="code" href="class_channel_model.html#a258d1f08b91496e2def2c89742f140c8">SetCcMethod</a>(controlnumber, controltype);</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;      <a class="code" href="class_channel_model.html#ae7d2dbea3561bf23accfae90b73b776a">SetCcMin</a>(controlnumber, min);</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;      <a class="code" href="class_channel_model.html#a459a91ef3bc89d8354865861cb697389">SetCcMax</a>(controlnumber, max);</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;   }</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;}</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;   }</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_channel_model.html#a459a91ef3bc89d8354865861cb697389">SetCcMax()</a>, <a class="el" href="class_channel_model.html#a258d1f08b91496e2def2c89742f140c8">SetCcMethod()</a>, and <a class="el" href="class_channel_model.html#ae7d2dbea3561bf23accfae90b73b776a">SetCcMin()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="class_channel_model.html#aea324e250c2164af1bab6be35c62dce8">SetCcAll()</a>.</p>
 
 </div>
 </div>
@@ -1157,22 +1148,22 @@ template&lt;class Archive &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;{</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;         <span class="keywordflow">for</span> (<span class="keyword">auto</span> a {<a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a> + 1}; a &lt;= <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>; ++a)</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            <a class="code" href="class_channel_model.html#ad3d5091729e8a4c711be64f63274dc17">SetCc</a>(a, min, max, controltype);</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;         <span class="keywordflow">for</span> (<span class="keyword">auto</span> a {0}; a &lt;= <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>; ++a)</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            <a class="code" href="class_channel_model.html#ad3d5091729e8a4c711be64f63274dc17">SetCc</a>(a, min, max, controltype);</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;   }</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;   }</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;{</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber))</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;         <span class="keywordflow">for</span> (<span class="keyword">auto</span> a {<a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a> + 1}; a &lt;= <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>; ++a)</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            <a class="code" href="class_channel_model.html#ad3d5091729e8a4c711be64f63274dc17">SetCc</a>(a, min, max, controltype);</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;         <span class="keywordflow">for</span> (<span class="keyword">auto</span> a {0}; a &lt;= <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>; ++a)</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            <a class="code" href="class_channel_model.html#ad3d5091729e8a4c711be64f63274dc17">SetCc</a>(a, min, max, controltype);</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;   }</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;   }</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_()</a>, <a class="el" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>, <a class="el" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>, and <a class="el" href="class_channel_model.html#ad3d5091729e8a4c711be64f63274dc17">SetCc()</a>.</p>
+<p class="reference">References <a class="el" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_()</a>, <a class="el" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>, and <a class="el" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>.</p>
 
 </div>
 </div>
@@ -1201,24 +1192,24 @@ template&lt;class Archive &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;{</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;      Expects(controlnumber &lt;= kMaxNrpn &amp;&amp; controlnumber &gt;= 0);</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;      Expects(value &lt;= kMaxNrpn &amp;&amp; value &gt;= 0);</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber) != rsj::CCmethod::kAbsolute)</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;         <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber) = value &lt; 0 ? 1000 : value;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;      <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> max {<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber) ? <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a> : <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>};</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;         <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber) =</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;             value &lt;= <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber) || value &gt; max ? max : value;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;      }</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;      <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).store(<a class="code" href="class_channel_model.html#a95d3edeffa5cc6dea1f57b85bf7723db">CenterCc</a>(controlnumber), std::memory_order_release);</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;   }</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;   }</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;{</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;      Expects(controlnumber &lt;= kMaxNrpn &amp;&amp; controlnumber &gt;= 0);</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;      Expects(value &lt;= kMaxNrpn &amp;&amp; value &gt;= 0);</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber) != rsj::CCmethod::kAbsolute)</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;         <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber) = value &lt; 0 ? 1000 : value;</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;      <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> max {<a class="code" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_</a>(controlnumber) ? <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a> : <a class="code" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>};</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;         <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber) =</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;             value &lt;= <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber) || value &gt; max ? max : value;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;      }</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;      <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).store(<a class="code" href="class_channel_model.html#a95d3edeffa5cc6dea1f57b85bf7723db">CenterCc</a>(controlnumber), std::memory_order_release);</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;   }</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;   }</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">IsNRPN_()</a>, <a class="el" href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">kMaxMidi</a>, and <a class="el" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>.</p>
 
@@ -1292,20 +1283,20 @@ template&lt;class Archive &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;{</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;      Expects(controlnumber &lt;= kMaxNrpn &amp;&amp; controlnumber &gt;= 0);</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber) != rsj::CCmethod::kAbsolute)</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;         <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber) = 0;</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;         <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber) = value &lt; 0 || value &gt;= <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber) ? 0 : value;</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;      <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).store(<a class="code" href="class_channel_model.html#a95d3edeffa5cc6dea1f57b85bf7723db">CenterCc</a>(controlnumber), std::memory_order_release);</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;   }</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;   }</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;{</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;      Expects(controlnumber &lt;= kMaxNrpn &amp;&amp; controlnumber &gt;= 0);</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber) != rsj::CCmethod::kAbsolute)</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;         <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber) = 0;</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;         <a class="code" href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">cc_low_</a>.at(controlnumber) = value &lt; 0 || value &gt;= <a class="code" href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">cc_high_</a>.at(controlnumber) ? 0 : value;</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;      <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).store(<a class="code" href="class_channel_model.html#a95d3edeffa5cc6dea1f57b85bf7723db">CenterCc</a>(controlnumber), std::memory_order_release);</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;   }</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;   }</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>.</p>
 
@@ -1336,10 +1327,10 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;{</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;   <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a> = value &gt; <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a> || value &lt;= <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a> ? <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a> : value;</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;   <a class="code" href="class_channel_model.html#a943b6360a51ccf23d970a0f389455576">pitch_wheel_current_</a>.store(<a class="code" href="class_channel_model.html#acdac2f6617acb0451f3ea9c3e10adfda">CenterPw</a>(), std::memory_order_release);</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;{</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;   <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a> = value &gt; <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a> || value &lt;= <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a> ? <a class="code" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a> : value;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;   <a class="code" href="class_channel_model.html#a943b6360a51ccf23d970a0f389455576">pitch_wheel_current_</a>.store(<a class="code" href="class_channel_model.html#acdac2f6617acb0451f3ea9c3e10adfda">CenterPw</a>(), std::memory_order_release);</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">kMaxNrpn</a>, <a class="el" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a>, and <a class="el" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>.</p>
 
@@ -1368,10 +1359,10 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;{</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;   <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a> = value &lt; 0 || value &gt;= <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a> ? 0 : value;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;   <a class="code" href="class_channel_model.html#a943b6360a51ccf23d970a0f389455576">pitch_wheel_current_</a>.store(<a class="code" href="class_channel_model.html#acdac2f6617acb0451f3ea9c3e10adfda">CenterPw</a>(), std::memory_order_release);</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;{</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;   <a class="code" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a> = value &lt; 0 || value &gt;= <a class="code" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a> ? 0 : value;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;   <a class="code" href="class_channel_model.html#a943b6360a51ccf23d970a0f389455576">pitch_wheel_current_</a>.store(<a class="code" href="class_channel_model.html#acdac2f6617acb0451f3ea9c3e10adfda">CenterPw</a>(), std::memory_order_release);</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">pitch_wheel_max_</a>, and <a class="el" href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">pitch_wheel_min_</a>.</p>
 
@@ -1402,32 +1393,32 @@ template&lt;class Archive &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;{</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;      <span class="keyword">auto</span> retval {0};</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      <span class="keywordflow">switch</span> (controltype) {</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Pw:</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;         retval = <a class="code" href="class_channel_model.html#acdac2f6617acb0451f3ea9c3e10adfda">CenterPw</a>();</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;         <a class="code" href="class_channel_model.html#a943b6360a51ccf23d970a0f389455576">pitch_wheel_current_</a>.store(retval, std::memory_order_release);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;         <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Cc:</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber) == rsj::CCmethod::kAbsolute) {</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            retval = <a class="code" href="class_channel_model.html#a95d3edeffa5cc6dea1f57b85bf7723db">CenterCc</a>(controlnumber);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).store(retval, std::memory_order_release);</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;         }</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;         <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;         <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      }</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      <span class="keywordflow">return</span> retval;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;   }</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;   }</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;{</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      <span class="keyword">auto</span> retval {0};</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      <span class="keywordflow">switch</span> (controltype) {</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Pw:</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;         retval = <a class="code" href="class_channel_model.html#acdac2f6617acb0451f3ea9c3e10adfda">CenterPw</a>();</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;         <a class="code" href="class_channel_model.html#a943b6360a51ccf23d970a0f389455576">pitch_wheel_current_</a>.store(retval, std::memory_order_release);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;         <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::Cc:</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">cc_method_</a>.at(controlnumber) == rsj::CCmethod::kAbsolute) {</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            retval = <a class="code" href="class_channel_model.html#a95d3edeffa5cc6dea1f57b85bf7723db">CenterCc</a>(controlnumber);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <a class="code" href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">current_v_</a>.at(controlnumber).store(retval, std::memory_order_release);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;         }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;         <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;         <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;      <span class="keywordflow">return</span> retval;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;   }</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;   }</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_channel_model.html#a95d3edeffa5cc6dea1f57b85bf7723db">CenterCc()</a>, and <a class="el" href="class_channel_model.html#acdac2f6617acb0451f3ea9c3e10adfda">CenterPw()</a>.</p>
+<p class="reference">References <a class="el" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath()</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ae4c8f1de1c0855c7c2be33196d3c3537">rsj::Cc</a>, <a class="el" href="class_channel_model.html#a95d3edeffa5cc6dea1f57b85bf7723db">CenterCc()</a>, <a class="el" href="class_channel_model.html#acdac2f6617acb0451f3ea9c3e10adfda">CenterPw()</a>, and <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a4c03b8e9c7e2ea3a6c39d5fae26e1f0f">rsj::Pw</a>.</p>
 
 </div>
 </div>
@@ -1843,36 +1834,36 @@ template&lt;class Archive &gt; </div>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclass_channel_model_html_a9bd2331bfeac64d647cb3ebb575e6540"><div class="ttname"><a href="class_channel_model.html#a9bd2331bfeac64d647cb3ebb575e6540">ChannelModel::CcDefaults</a></div><div class="ttdeci">void CcDefaults()</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:329</div></div>
+<div class="ttc" id="aclass_channel_model_html_a9bd2331bfeac64d647cb3ebb575e6540"><div class="ttname"><a href="class_channel_model.html#a9bd2331bfeac64d647cb3ebb575e6540">ChannelModel::CcDefaults</a></div><div class="ttdeci">void CcDefaults()</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:334</div></div>
 <div class="ttc" id="aclass_channel_model_html_afe42f30a40d70fa96fc0328155d73ee5"><div class="ttname"><a href="class_channel_model.html#afe42f30a40d70fa96fc0328155d73ee5">ChannelModel::current_v_</a></div><div class="ttdeci">std::array&lt; std::atomic&lt; int &gt;, kMaxControls &gt; current_v_</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:211</div></div>
 <div class="ttc" id="aclass_channel_model_html_a54cc9ac5e62ad589010c7a64e22aa53a"><div class="ttname"><a href="class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a">ChannelModel::settings_to_save_</a></div><div class="ttdeci">std::vector&lt; rsj::SettingsStruct &gt; settings_to_save_</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:204</div></div>
 <div class="ttc" id="aclass_channel_model_html_a62867f845bb7cc9ee2dd3087fc95ca2c"><div class="ttname"><a href="class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c">ChannelModel::kBit7</a></div><div class="ttdeci">static constexpr int kBit7</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:130</div></div>
-<div class="ttc" id="anamespacersj_html_ab379048e807318f10deda9a1ddf0a345"><div class="ttname"><a href="namespacersj.html#ab379048e807318f10deda9a1ddf0a345">rsj::RoundToInt</a></div><div class="ttdeci">int RoundToInt(float source)</div><div class="ttdef"><b>Definition:</b> Misc.h:202</div></div>
+<div class="ttc" id="anamespacersj_html_ab379048e807318f10deda9a1ddf0a345"><div class="ttname"><a href="namespacersj.html#ab379048e807318f10deda9a1ddf0a345">rsj::RoundToInt</a></div><div class="ttdeci">int RoundToInt(float source)</div><div class="ttdef"><b>Definition:</b> Misc.h:151</div></div>
 <div class="ttc" id="aclass_channel_model_html_a23b42891cef8c4e6032cc7b9ead5e49f"><div class="ttname"><a href="class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f">ChannelModel::cc_low_</a></div><div class="ttdeci">std::array&lt; int, kMaxControls &gt; cc_low_</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:210</div></div>
 <div class="ttc" id="aclass_channel_model_html_a95d3edeffa5cc6dea1f57b85bf7723db"><div class="ttname"><a href="class_channel_model.html#a95d3edeffa5cc6dea1f57b85bf7723db">ChannelModel::CenterCc</a></div><div class="ttdeci">int CenterCc(int controlnumber) const noexcept</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:178</div></div>
 <div class="ttc" id="aclass_channel_model_html_a2a54064d614d7c0f1ad0c464cbd5b00e"><div class="ttname"><a href="class_channel_model.html#a2a54064d614d7c0f1ad0c464cbd5b00e">ChannelModel::IsNRPN_</a></div><div class="ttdeci">bool IsNRPN_(int controlnumber) const noexcept(kNdebug)</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:190</div></div>
 <div class="ttc" id="aclass_channel_model_html_abed431b2116d23c010b20b1149782939"><div class="ttname"><a href="class_channel_model.html#abed431b2116d23c010b20b1149782939">ChannelModel::kMaxMidiHalf</a></div><div class="ttdeci">static constexpr int kMaxMidiHalf</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:134</div></div>
 <div class="ttc" id="aclass_channel_model_html_a47b88f3853522414e32954e9536b4d37"><div class="ttname"><a href="class_channel_model.html#a47b88f3853522414e32954e9536b4d37">ChannelModel::kBit14</a></div><div class="ttdeci">static constexpr int kBit14</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:129</div></div>
-<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:238</div></div>
+<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:212</div></div>
 <div class="ttc" id="aclass_channel_model_html_ae9e9c5990c07604efbe13f09f7462663"><div class="ttname"><a href="class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663">ChannelModel::kMaxNrpn</a></div><div class="ttdeci">static constexpr int kMaxNrpn</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:135</div></div>
 <div class="ttc" id="aclass_channel_model_html_a943b6360a51ccf23d970a0f389455576"><div class="ttname"><a href="class_channel_model.html#a943b6360a51ccf23d970a0f389455576">ChannelModel::pitch_wheel_current_</a></div><div class="ttdeci">std::atomic&lt; int &gt; pitch_wheel_current_</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:207</div></div>
 <div class="ttc" id="aclass_channel_model_html_a5ca83654def8bb222bbd0f9f22c54817"><div class="ttname"><a href="class_channel_model.html#a5ca83654def8bb222bbd0f9f22c54817">ChannelModel::OffsetResult</a></div><div class="ttdeci">double OffsetResult(int diff, int controlnumber)</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:24</div></div>
 <div class="ttc" id="aclass_channel_model_html_a47a5eb7a2a2d13ab4c5ca421e1b2ffe8"><div class="ttname"><a href="class_channel_model.html#a47a5eb7a2a2d13ab4c5ca421e1b2ffe8">ChannelModel::kLow6Bits</a></div><div class="ttdeci">static constexpr int kLow6Bits</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:132</div></div>
-<div class="ttc" id="aclass_channel_model_html_ae7d2dbea3561bf23accfae90b73b776a"><div class="ttname"><a href="class_channel_model.html#ae7d2dbea3561bf23accfae90b73b776a">ChannelModel::SetCcMin</a></div><div class="ttdeci">void SetCcMin(int controlnumber, int value)</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:282</div></div>
+<div class="ttc" id="aclass_channel_model_html_ae7d2dbea3561bf23accfae90b73b776a"><div class="ttname"><a href="class_channel_model.html#ae7d2dbea3561bf23accfae90b73b776a">ChannelModel::SetCcMin</a></div><div class="ttdeci">void SetCcMin(int controlnumber, int value)</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:287</div></div>
 <div class="ttc" id="aclass_channel_model_html_ac8da39452d32e429d72962519cf6f14b"><div class="ttname"><a href="class_channel_model.html#ac8da39452d32e429d72962519cf6f14b">ChannelModel::pitch_wheel_max_</a></div><div class="ttdeci">int pitch_wheel_max_</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:205</div></div>
 <div class="ttc" id="aclass_channel_model_html_aa6bc3885b0feb15e0f59ac4016f5f660"><div class="ttname"><a href="class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660">ChannelModel::kMaxMidi</a></div><div class="ttdeci">static constexpr int kMaxMidi</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:133</div></div>
 <div class="ttc" id="aclass_channel_model_html_a9ee3dc031ef0d2bf1390dabc82ac60fb"><div class="ttname"><a href="class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb">ChannelModel::cc_high_</a></div><div class="ttdeci">std::array&lt; int, kMaxControls &gt; cc_high_</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:209</div></div>
-<div class="ttc" id="aclass_channel_model_html_a459a91ef3bc89d8354865861cb697389"><div class="ttname"><a href="class_channel_model.html#a459a91ef3bc89d8354865861cb697389">ChannelModel::SetCcMax</a></div><div class="ttdeci">void SetCcMax(int controlnumber, int value)</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:262</div></div>
+<div class="ttc" id="aclass_channel_model_html_a459a91ef3bc89d8354865861cb697389"><div class="ttname"><a href="class_channel_model.html#a459a91ef3bc89d8354865861cb697389">ChannelModel::SetCcMax</a></div><div class="ttdeci">void SetCcMax(int controlnumber, int value)</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:267</div></div>
 <div class="ttc" id="aclass_channel_model_html_a23cb22ed1b9c874f58496d032f68f938"><div class="ttname"><a href="class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938">ChannelModel::cc_method_</a></div><div class="ttdeci">std::array&lt; rsj::CCmethod, kMaxControls &gt; cc_method_</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:208</div></div>
-<div class="ttc" id="aclass_channel_model_html_a71495c165527c071c1793b8634b23bb5"><div class="ttname"><a href="class_channel_model.html#a71495c165527c071c1793b8634b23bb5">ChannelModel::SavedToActive</a></div><div class="ttdeci">void SavedToActive()</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:350</div></div>
+<div class="ttc" id="aclass_channel_model_html_a71495c165527c071c1793b8634b23bb5"><div class="ttname"><a href="class_channel_model.html#a71495c165527c071c1793b8634b23bb5">ChannelModel::SavedToActive</a></div><div class="ttdeci">void SavedToActive()</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:355</div></div>
 <div class="ttc" id="aclass_channel_model_html_aa4401e128209fb2877171b7972179cc0"><div class="ttname"><a href="class_channel_model.html#aa4401e128209fb2877171b7972179cc0">ChannelModel::pitch_wheel_min_</a></div><div class="ttdeci">int pitch_wheel_min_</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:206</div></div>
 <div class="ttc" id="aclass_channel_model_html_a87cef0c9099e926c15af9b638391f601"><div class="ttname"><a href="class_channel_model.html#a87cef0c9099e926c15af9b638391f601">ChannelModel::kLow13Bits</a></div><div class="ttdeci">static constexpr int kLow13Bits</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:131</div></div>
 <div class="ttc" id="aclass_channel_model_html_acdac2f6617acb0451f3ea9c3e10adfda"><div class="ttname"><a href="class_channel_model.html#acdac2f6617acb0451f3ea9c3e10adfda">ChannelModel::CenterPw</a></div><div class="ttdeci">int CenterPw() const noexcept</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:184</div></div>
 <div class="ttc" id="aclass_channel_model_html_a258d1f08b91496e2def2c89742f140c8"><div class="ttname"><a href="class_channel_model.html#a258d1f08b91496e2def2c89742f140c8">ChannelModel::SetCcMethod</a></div><div class="ttdeci">void SetCcMethod(int controlnumber, rsj::CCmethod value)</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:168</div></div>
-<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:122</div></div>
+<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:107</div></div>
 <div class="ttc" id="aclass_channel_model_html_a64508d67d259bc9e095274bc53e4d7cb"><div class="ttname"><a href="class_channel_model.html#a64508d67d259bc9e095274bc53e4d7cb">ChannelModel::kMaxNrpnHalf</a></div><div class="ttdeci">static constexpr int kMaxNrpnHalf</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:136</div></div>
-<div class="ttc" id="aclass_channel_model_html_ad3d5091729e8a4c711be64f63274dc17"><div class="ttname"><a href="class_channel_model.html#ad3d5091729e8a4c711be64f63274dc17">ChannelModel::SetCc</a></div><div class="ttdeci">void SetCc(int controlnumber, int min, int max, rsj::CCmethod controltype)</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:232</div></div>
-<div class="ttc" id="aclass_channel_model_html_a02c98af20857bc809f51840908a9b5b8"><div class="ttname"><a href="class_channel_model.html#a02c98af20857bc809f51840908a9b5b8">ChannelModel::ActiveToSaved</a></div><div class="ttdeci">void ActiveToSaved() const</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:310</div></div>
+<div class="ttc" id="aclass_channel_model_html_ad3d5091729e8a4c711be64f63274dc17"><div class="ttname"><a href="class_channel_model.html#ad3d5091729e8a4c711be64f63274dc17">ChannelModel::SetCc</a></div><div class="ttdeci">void SetCc(int controlnumber, int min, int max, rsj::CCmethod controltype)</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:235</div></div>
+<div class="ttc" id="aclass_channel_model_html_a02c98af20857bc809f51840908a9b5b8"><div class="ttname"><a href="class_channel_model.html#a02c98af20857bc809f51840908a9b5b8">ChannelModel::ActiveToSaved</a></div><div class="ttdeci">void ActiveToSaved() const</div><div class="ttdef"><b>Definition:</b> ControlsModel.cpp:315</div></div>
 <div class="ttc" id="anamespacersj_html_a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a"><div class="ttname"><a href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a></div><div class="ttdeci">@ kAbsolute</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

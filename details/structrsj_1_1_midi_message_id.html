@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.6.0.2</span>
+   &#160;<span id="projectnumber">4.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -186,6 +186,8 @@ Public Attributes</h2></td></tr>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;      {</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      }</div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>, and <a class="el" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>.</p>
+
 </div>
 </div>
 <a id="a324834b9a01e109fde8705b1f77d0c97"></a>
@@ -216,6 +218,10 @@ Public Attributes</h2></td></tr>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;      {</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;      }</div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">rsj::MidiMessage::channel</a>, and <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_lr_ipc_out.html#a3781eb19d9999a241a4c05917d1f73aa">LrIpcOut::MidiCmdCallback()</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -254,6 +260,8 @@ Public Attributes</h2></td></tr>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;         <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;      }</div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>, and <a class="el" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>.</p>
+
 </div>
 </div>
 <a id="ad03ab33db5bd4809d807670fbcf5ecb6"></a>
@@ -284,6 +292,8 @@ Public Attributes</h2></td></tr>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                &amp;&amp; <a class="code" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a> == other.control_number;</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;      }</div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>, and <a class="el" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -299,6 +309,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p class="reference">Referenced by <a class="el" href="structrsj_1_1_midi_message_id.html#a5dd757ca6a566139bea73e4b77049a20">MidiMessageId()</a>, <a class="el" href="class_command_menu.html#a9504e6ef61f5791518bcdf016baea099">CommandMenu::clicked()</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#a873ea5b1d6cd037802599b6fa15d9193">operator&lt;()</a>, and <a class="el" href="structrsj_1_1_midi_message_id.html#ad03ab33db5bd4809d807670fbcf5ecb6">operator==()</a>.</p>
+
 </div>
 </div>
 <a id="acc40acde2069206b38805eb871c64df8"></a>
@@ -313,6 +325,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p class="reference">Referenced by <a class="el" href="structrsj_1_1_midi_message_id.html#a5dd757ca6a566139bea73e4b77049a20">MidiMessageId()</a>, <a class="el" href="class_command_menu.html#a9504e6ef61f5791518bcdf016baea099">CommandMenu::clicked()</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#a873ea5b1d6cd037802599b6fa15d9193">operator&lt;()</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#ad03ab33db5bd4809d807670fbcf5ecb6">operator==()</a>, and <a class="el" href="class_midi_sender.html#a5c5560cc6e3d337b64d8dd52be2ae4df">MidiSender::Send()</a>.</p>
+
 </div>
 </div>
 <a id="a3c2f18d9ed374e36974af0349749f728"></a>
@@ -326,6 +340,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="structrsj_1_1_midi_message_id.html#a5dd757ca6a566139bea73e4b77049a20">MidiMessageId()</a>, <a class="el" href="class_command_menu.html#a9504e6ef61f5791518bcdf016baea099">CommandMenu::clicked()</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#a873ea5b1d6cd037802599b6fa15d9193">operator&lt;()</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#ad03ab33db5bd4809d807670fbcf5ecb6">operator==()</a>, and <a class="el" href="class_midi_sender.html#a5c5560cc6e3d337b64d8dd52be2ae4df">MidiSender::Send()</a>.</p>
 
 </div>
 </div>

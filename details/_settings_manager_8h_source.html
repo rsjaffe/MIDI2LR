@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.6.0.2</span>
+   &#160;<span id="projectnumber">4.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -125,47 +125,55 @@ $(document).ready(function(){initNavTree('_settings_manager_8h_source.html','');
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;   {</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      <span class="keywordflow">return</span> properties_file_-&gt;getIntValue(<span class="stringliteral">&quot;autohide&quot;</span>, 0);</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;   }</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="class_settings_manager.html#a3cbbe97003f6e6acc01e1f09bbd7c47c">   38</a></span>&#160;   [[nodiscard]] <span class="keywordtype">int</span> GetLastVersionFound() <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="class_settings_manager.html#a52ca27225c2c0423c8235da4c6503443">   38</a></span>&#160;   [[nodiscard]] juce::String GetDefaultProfile() <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;   {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <span class="keywordflow">return</span> properties_file_-&gt;getIntValue(<span class="stringliteral">&quot;LastVersionFound&quot;</span>, 0);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <span class="keywordflow">return</span> properties_file_-&gt;getValue(<span class="stringliteral">&quot;default_profile&quot;</span>);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;   }</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">   42</a></span>&#160;   [[nodiscard]] <span class="keywordtype">bool</span> GetPickupEnabled() <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="class_settings_manager.html#a3cbbe97003f6e6acc01e1f09bbd7c47c">   42</a></span>&#160;   [[nodiscard]] <span class="keywordtype">int</span> GetLastVersionFound() <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;   {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordflow">return</span> properties_file_-&gt;getBoolValue(<span class="stringliteral">&quot;pickup_enabled&quot;</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordflow">return</span> properties_file_-&gt;getIntValue(<span class="stringliteral">&quot;LastVersionFound&quot;</span>, 0);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;   }</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">   46</a></span>&#160;   [[nodiscard]] juce::String GetProfileDirectory() <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">   46</a></span>&#160;   [[nodiscard]] <span class="keywordtype">bool</span> GetPickupEnabled() <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;   {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="keywordflow">return</span> properties_file_-&gt;getValue(<span class="stringliteral">&quot;profile_directory&quot;</span>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="keywordflow">return</span> properties_file_-&gt;getBoolValue(<span class="stringliteral">&quot;pickup_enabled&quot;</span>, <span class="keyword">true</span>);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;   }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;   <span class="comment">// ReSharper disable CppMemberFunctionMayBeConst</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="class_settings_manager.html#ae7ffc72fc568559369271dd1497da53b">   51</a></span>&#160;   <span class="keywordtype">void</span> SetAutoHideTime(<span class="keywordtype">int</span> new_time)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;   {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      properties_file_-&gt;setValue(<span class="stringliteral">&quot;autohide&quot;</span>, new_time);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;   }</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="class_settings_manager.html#af7e05f1e26aac16f6f0b402a85bc5088">   55</a></span>&#160;   <span class="keywordtype">void</span> SetLastVersionFound(<span class="keywordtype">int</span> version_number)</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">   50</a></span>&#160;   [[nodiscard]] juce::String GetProfileDirectory() <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;   {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <span class="keywordflow">return</span> properties_file_-&gt;getValue(<span class="stringliteral">&quot;profile_directory&quot;</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;   }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;   <span class="comment">// ReSharper disable CppMemberFunctionMayBeConst</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="class_settings_manager.html#ae7ffc72fc568559369271dd1497da53b">   55</a></span>&#160;   <span class="keywordtype">void</span> SetAutoHideTime(<span class="keywordtype">int</span> new_time)</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;   {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      properties_file_-&gt;setValue(<span class="stringliteral">&quot;LastVersionFound&quot;</span>, version_number);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      properties_file_-&gt;setValue(<span class="stringliteral">&quot;autohide&quot;</span>, new_time);</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;   }</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="class_settings_manager.html#a838cdaffb2fccb100bd18985d6ea1337">   59</a></span>&#160;   <span class="keywordtype">void</span> SetPickupEnabled(<span class="keywordtype">bool</span> enabled)</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="class_settings_manager.html#a635cc81e112c50df30470b9fe85e5449">   59</a></span>&#160;   <span class="keywordtype">void</span> SetDefaultProfile(<span class="keyword">const</span> juce::String&amp; default_profile)</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;   {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      properties_file_-&gt;setValue(<span class="stringliteral">&quot;pickup_enabled&quot;</span>, enabled);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      lr_ipc_out_.SendCommand(std::string(<span class="stringliteral">&quot;Pickup &quot;</span>) + (enabled ? <span class="stringliteral">&#39;1&#39;</span> : <span class="stringliteral">&#39;0&#39;</span>) + <span class="stringliteral">&#39;\n&#39;</span>);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;   }</div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b">   64</a></span>&#160;   <span class="keywordtype">void</span> SetProfileDirectory(<span class="keyword">const</span> juce::String&amp; profile_directory)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;   {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      properties_file_-&gt;setValue(<span class="stringliteral">&quot;profile_directory&quot;</span>, profile_directory);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      profile_manager_.SetProfileDirectory(profile_directory);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;   }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;   <span class="comment">// ReSharper restore CppMemberFunctionMayBeConst</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;   <span class="keywordtype">void</span> ConnectionCallback(<span class="keywordtype">bool</span>, <span class="keywordtype">bool</span>);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">   73</a></span>&#160;   LrIpcOut&amp; lr_ipc_out_;</div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">   74</a></span>&#160;   ProfileManager&amp; profile_manager_;</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">   75</a></span>&#160;   std::unique_ptr&lt;juce::PropertiesFile&gt; properties_file_;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      properties_file_-&gt;setValue(<span class="stringliteral">&quot;default_profile&quot;</span>, default_profile);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;   }</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="class_settings_manager.html#af7e05f1e26aac16f6f0b402a85bc5088">   63</a></span>&#160;   <span class="keywordtype">void</span> SetLastVersionFound(<span class="keywordtype">int</span> version_number)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;   {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      properties_file_-&gt;setValue(<span class="stringliteral">&quot;LastVersionFound&quot;</span>, version_number);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;   }</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="class_settings_manager.html#a838cdaffb2fccb100bd18985d6ea1337">   67</a></span>&#160;   <span class="keywordtype">void</span> SetPickupEnabled(<span class="keywordtype">bool</span> enabled)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;   {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      properties_file_-&gt;setValue(<span class="stringliteral">&quot;pickup_enabled&quot;</span>, enabled);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      lr_ipc_out_.SendCommand(std::string(<span class="stringliteral">&quot;Pickup &quot;</span>) + (enabled ? <span class="stringliteral">&#39;1&#39;</span> : <span class="stringliteral">&#39;0&#39;</span>) + <span class="stringliteral">&#39;\n&#39;</span>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;   }</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b">   72</a></span>&#160;   <span class="keywordtype">void</span> SetProfileDirectory(<span class="keyword">const</span> juce::String&amp; profile_directory)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;   {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      properties_file_-&gt;setValue(<span class="stringliteral">&quot;profile_directory&quot;</span>, profile_directory);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      profile_manager_.SetProfileDirectory(profile_directory);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;   }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;   <span class="comment">// ReSharper restore CppMemberFunctionMayBeConst</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;   <span class="keywordtype">void</span> ConnectionCallback(<span class="keywordtype">bool</span>, <span class="keywordtype">bool</span>);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">   81</a></span>&#160;   LrIpcOut&amp; lr_ipc_out_;</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">   82</a></span>&#160;   ProfileManager&amp; profile_manager_;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">   83</a></span>&#160;   std::unique_ptr&lt;juce::PropertiesFile&gt; properties_file_;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;};</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -21,5 +21,5 @@ var _midi_utilities_8h =
     [ "MessageTypeToName", "_midi_utilities_8h.html#a4c906c35e8e0d93d7a85f5960f9722b7", null ],
     [ "operator==", "_midi_utilities_8h.html#aca45a5e35c860d513fb0b69a75a84aed", null ],
     [ "ToMessageType", "_midi_utilities_8h.html#a01820cbe9055abfea79fc9114f365fb0", null ],
-    [ "ValidMessageType", "_midi_utilities_8h.html#a1901501dced0f24aa1e4994b4935d89d", null ]
+    [ "ValidMessageType", "_midi_utilities_8h.html#aa264d1498e1ef830ebf52d99beceaf26", null ]
 ];

@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.6.0.2</span>
+   &#160;<span id="projectnumber">4.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -97,13 +97,6 @@ $(document).ready(function(){initNavTree('class_nrpn_filter.html',''); initResiz
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>&gt;</code></p>
-<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Collaboration diagram for NrpnFilter:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_nrpn_filter__coll__graph.png" border="0" usemap="#a_nrpn_filter_coll__map" alt="Collaboration graph"/></div>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -124,7 +117,7 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a211745ef0d962c7d38af13603b4f00fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrsj_1_1_spin_lock.html">rsj::SpinLock</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#a211745ef0d962c7d38af13603b4f00fb">filter_mutex_</a></td></tr>
+<tr class="memitem:a211745ef0d962c7d38af13603b4f00fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrsj_1_1_spin_lock.html">rsj::SpinLock</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#a211745ef0d962c7d38af13603b4f00fb">filter_mutex_</a> {}</td></tr>
 <tr class="separator:a211745ef0d962c7d38af13603b4f00fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04d0668cdbd231a8cc5d1079b3f43d42"><td class="memItemLeft" align="right" valign="top">std::array&lt; <a class="el" href="struct_nrpn_filter_1_1_internal_structure.html">InternalStructure</a>, <a class="el" href="class_nrpn_filter.html#a07d8151761d56b12b701c0273418e1ea">kChannels</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">intermediate_results_</a> {}</td></tr>
 <tr class="separator:a04d0668cdbd231a8cc5d1079b3f43d42"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,6 +157,8 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;      <a class="code" href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">intermediate_results_</a>[channel] = {0, 0, 0, 0, 0};</div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;   }</div>
 </div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="class_nrpn_filter.html#a300dc0b08805123465fe78ef5bae6d72">operator()()</a>.</p>
+
 </div>
 </div>
 <a id="a300dc0b08805123465fe78ef5bae6d72"></a>
@@ -181,73 +176,75 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      Expects(message.<a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &lt;= 0x7F &amp;&amp; message.<a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &gt;= 0);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      Expects(message.<a class="code" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a> &lt;= 0x7F &amp;&amp; message.<a class="code" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a> &gt;= 0);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      ProcessResult ret_val {<span class="keyword">false</span>, <span class="keyword">false</span>, 0, 0};</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <span class="keywordflow">switch</span> (message.<a class="code" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a>) {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordflow">case</span> 6: {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;         <span class="keyword">auto</span>&amp; i_ref {<a class="code" href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">intermediate_results_</a>.at(message.<a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>)};</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;         <span class="keyword">auto</span> lock {std::scoped_lock(<a class="code" href="class_nrpn_filter.html#a211745ef0d962c7d38af13603b4f00fb">filter_mutex_</a>)};</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;         <span class="keywordflow">if</span> (i_ref.ready_flags_ &gt;= 0b11) {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            ret_val.is_nrpn = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            i_ref.value_msb_ = message.<a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &amp; 0x7F;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            i_ref.ready_flags_ |= 0b100; <span class="comment">//-V112</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keywordflow">if</span> (i_ref.ready_flags_ == 0b1111) {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;               ret_val.is_ready = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;               ret_val.control = (i_ref.control_msb_ &lt;&lt; 7) + i_ref.control_lsb_;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;               ret_val.value = (i_ref.value_msb_ &lt;&lt; 7) + i_ref.value_lsb_;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;               <a class="code" href="class_nrpn_filter.html#a0f3404ec0e2f533eba4be185475f06cf">Clear</a>(message.<a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;         }</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;         <span class="keywordflow">return</span> ret_val;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <span class="keywordflow">case</span> 38: {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;         <span class="keyword">auto</span>&amp; i_ref {<a class="code" href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">intermediate_results_</a>.at(message.<a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>)};</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;         <span class="keyword">auto</span> lock {std::scoped_lock(<a class="code" href="class_nrpn_filter.html#a211745ef0d962c7d38af13603b4f00fb">filter_mutex_</a>)};</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;         <span class="keywordflow">if</span> (i_ref.ready_flags_ &gt;= 0b11) {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            ret_val.is_nrpn = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            i_ref.value_lsb_ = message.<a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &amp; 0x7F;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            i_ref.ready_flags_ |= 0b1000;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordflow">if</span> (i_ref.ready_flags_ == 0b1111) {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;               ret_val.is_ready = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;               ret_val.control = (i_ref.control_msb_ &lt;&lt; 7) + i_ref.control_lsb_;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;               ret_val.value = (i_ref.value_msb_ &lt;&lt; 7) + i_ref.value_lsb_;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;               <a class="code" href="class_nrpn_filter.html#a0f3404ec0e2f533eba4be185475f06cf">Clear</a>(message.<a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;         }</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      }</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;         <span class="keywordflow">return</span> ret_val;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      <span class="keywordflow">case</span> 98:</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;         ret_val.is_nrpn = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;         {</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="keyword">auto</span>&amp; i_ref {<a class="code" href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">intermediate_results_</a>.at(message.<a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>)};</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keyword">auto</span> lock {std::scoped_lock(<a class="code" href="class_nrpn_filter.html#a211745ef0d962c7d38af13603b4f00fb">filter_mutex_</a>)};</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            i_ref.control_lsb_ = message.<a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &amp; 0x7F;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            i_ref.ready_flags_ |= 0b10;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;         }</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;         <span class="keywordflow">return</span> ret_val;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      <span class="keywordflow">case</span> 99:</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;         ret_val.is_nrpn = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;         {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <span class="keyword">auto</span>&amp; i_ref {<a class="code" href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">intermediate_results_</a>.at(message.<a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>)};</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="keyword">auto</span> lock {std::scoped_lock(<a class="code" href="class_nrpn_filter.html#a211745ef0d962c7d38af13603b4f00fb">filter_mutex_</a>)};</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            i_ref.control_msb_ = message.<a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &amp; 0x7F;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            i_ref.ready_flags_ |= 0b1;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;         }</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;         <span class="keywordflow">return</span> ret_val;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;      <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;         <span class="comment">/* not an expected nrpn control #, handle as typical midi message */</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;         <span class="keywordflow">return</span> ret_val;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      }</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;   }</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;   }</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      Expects(message.<a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &lt;= 0x7F &amp;&amp; message.<a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &gt;= 0);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      Expects(message.<a class="code" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a> &lt;= 0x7F &amp;&amp; message.<a class="code" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a> &gt;= 0);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      ProcessResult ret_val {<span class="keyword">false</span>, <span class="keyword">false</span>, 0, 0};</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordflow">switch</span> (message.<a class="code" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a>) {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      <span class="keywordflow">case</span> 6: {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;         <span class="keyword">auto</span>&amp; i_ref {<a class="code" href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">intermediate_results_</a>.at(message.<a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>)};</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;         <span class="keyword">auto</span> lock {std::scoped_lock(<a class="code" href="class_nrpn_filter.html#a211745ef0d962c7d38af13603b4f00fb">filter_mutex_</a>)};</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;         <span class="keywordflow">if</span> (i_ref.ready_flags_ &gt;= 0b11) {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            ret_val.is_nrpn = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            i_ref.value_msb_ = message.<a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &amp; 0x7F;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            i_ref.ready_flags_ |= 0b100; <span class="comment">//-V112</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">if</span> (i_ref.ready_flags_ == 0b1111) {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;               ret_val.is_ready = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;               ret_val.control = (i_ref.control_msb_ &lt;&lt; 7) + i_ref.control_lsb_;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;               ret_val.value = (i_ref.value_msb_ &lt;&lt; 7) + i_ref.value_lsb_;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;               <a class="code" href="class_nrpn_filter.html#a0f3404ec0e2f533eba4be185475f06cf">Clear</a>(message.<a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            }</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;         }</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      }</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;         <span class="keywordflow">return</span> ret_val;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <span class="keywordflow">case</span> 38: {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;         <span class="keyword">auto</span>&amp; i_ref {<a class="code" href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">intermediate_results_</a>.at(message.<a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>)};</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;         <span class="keyword">auto</span> lock {std::scoped_lock(<a class="code" href="class_nrpn_filter.html#a211745ef0d962c7d38af13603b4f00fb">filter_mutex_</a>)};</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;         <span class="keywordflow">if</span> (i_ref.ready_flags_ &gt;= 0b11) {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            ret_val.is_nrpn = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            i_ref.value_lsb_ = message.<a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &amp; 0x7F;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            i_ref.ready_flags_ |= 0b1000;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordflow">if</span> (i_ref.ready_flags_ == 0b1111) {</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;               ret_val.is_ready = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;               ret_val.control = (i_ref.control_msb_ &lt;&lt; 7) + i_ref.control_lsb_;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;               ret_val.value = (i_ref.value_msb_ &lt;&lt; 7) + i_ref.value_lsb_;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;               <a class="code" href="class_nrpn_filter.html#a0f3404ec0e2f533eba4be185475f06cf">Clear</a>(message.<a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;         }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;         <span class="keywordflow">return</span> ret_val;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      <span class="keywordflow">case</span> 98:</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;         ret_val.is_nrpn = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;         {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keyword">auto</span>&amp; i_ref {<a class="code" href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">intermediate_results_</a>.at(message.<a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>)};</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="keyword">auto</span> lock {std::scoped_lock(<a class="code" href="class_nrpn_filter.html#a211745ef0d962c7d38af13603b4f00fb">filter_mutex_</a>)};</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            i_ref.control_lsb_ = message.<a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &amp; 0x7F;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            i_ref.ready_flags_ |= 0b10;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;         }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;         <span class="keywordflow">return</span> ret_val;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      <span class="keywordflow">case</span> 99:</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;         ret_val.is_nrpn = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;         {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="keyword">auto</span>&amp; i_ref {<a class="code" href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">intermediate_results_</a>.at(message.<a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>)};</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            <span class="keyword">auto</span> lock {std::scoped_lock(<a class="code" href="class_nrpn_filter.html#a211745ef0d962c7d38af13603b4f00fb">filter_mutex_</a>)};</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            i_ref.control_msb_ = message.<a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &amp; 0x7F;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            i_ref.ready_flags_ |= 0b1;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;         }</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;         <span class="keywordflow">return</span> ret_val;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;         <span class="comment">/* not an expected nrpn control #, handle as typical midi message */</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;         <span class="keywordflow">return</span> ret_val;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;   }</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;   }</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;}</div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">rsj::MidiMessage::channel</a>, <a class="el" href="class_nrpn_filter.html#a0f3404ec0e2f533eba4be185475f06cf">Clear()</a>, <a class="el" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">rsj::MidiMessage::control_number</a>, <a class="el" href="struct_nrpn_filter_1_1_process_result.html#aa866ba15c3be4361d5723769aaa3d33b">NrpnFilter::ProcessResult::is_nrpn</a>, <a class="el" href="struct_nrpn_filter_1_1_process_result.html#a0589f81a857834e83ed0bce22fbbfafd">NrpnFilter::ProcessResult::is_ready</a>, and <a class="el" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">rsj::MidiMessage::value</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -261,7 +258,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classrsj_1_1_spin_lock.html">rsj::SpinLock</a> NrpnFilter::filter_mutex_</td>
+          <td class="memname"><a class="el" href="classrsj_1_1_spin_lock.html">rsj::SpinLock</a> NrpnFilter::filter_mutex_ {}</td>
         </tr>
       </table>
   </td>
@@ -329,7 +326,7 @@ Static Private Attributes</h2></td></tr>
 <div class="ttc" id="astructrsj_1_1_midi_message_html_ad86e8d27f598c8def0279d3a3777cd7e"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">rsj::MidiMessage::value</a></div><div class="ttdeci">int value</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:126</div></div>
 <div class="ttc" id="astructrsj_1_1_midi_message_html_a9fe338912f9e54437351926dcc6df9e1"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">rsj::MidiMessage::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:124</div></div>
 <div class="ttc" id="aclass_nrpn_filter_html_a04d0668cdbd231a8cc5d1079b3f43d42"><div class="ttname"><a href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">NrpnFilter::intermediate_results_</a></div><div class="ttdeci">std::array&lt; InternalStructure, kChannels &gt; intermediate_results_</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:232</div></div>
-<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:122</div></div>
+<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:107</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

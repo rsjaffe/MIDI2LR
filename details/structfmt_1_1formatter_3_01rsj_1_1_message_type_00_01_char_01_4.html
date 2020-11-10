@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.6.0.2</span>
+   &#160;<span id="projectnumber">4.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -148,7 +148,7 @@ template&lt;typename FormatContext &gt; </div>
 </table>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html#a1bc9f3a91f5e142a5fdf3c9175e8edfd">tm_format</a>[0] == <span class="keyword">static_cast&lt;</span>Char<span class="keyword">&gt;</span>(<span class="charliteral">&#39;n&#39;</span>))</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html#a1bc9f3a91f5e142a5fdf3c9175e8edfd">tm_format</a>[0] == <span class="charliteral">&#39;n&#39;</span>)</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keywordflow">return</span> format_to(ctx.out(), <span class="stringliteral">&quot;{}&quot;</span>, <a class="code" href="namespacersj.html#a4c906c35e8e0d93d7a85f5960f9722b7">rsj::MessageTypeToName</a>(p));</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;         <span class="keywordflow">return</span> format_to(ctx.out(), <span class="stringliteral">&quot;{}&quot;</span>, <a class="code" href="namespacersj.html#a9b545d0406c9f47f633fcc4966eb3919">rsj::MessageTypeToLabel</a>(p));</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;      }</div>
@@ -184,15 +184,15 @@ template&lt;typename ParseContext &gt; </div>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      { <span class="comment">/* parsing copied from fmt&#39;s chrono.h */</span></div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;         <span class="keyword">auto</span> it {ctx.begin()};</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;         <span class="keywordflow">if</span> (it != ctx.end() &amp;&amp; *it == <span class="keyword">static_cast&lt;</span>Char<span class="keyword">&gt;</span>(<span class="charliteral">&#39;:&#39;</span>))</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            ++it;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;         <span class="keyword">auto</span> <a class="code" href="namespacersj.html#a2d2f336cdb6b0e91a6d574070df10311">end</a> {it};</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;         <span class="keywordflow">while</span> (<a class="code" href="namespacersj.html#a2d2f336cdb6b0e91a6d574070df10311">end</a> != ctx.end() &amp;&amp; *<a class="code" href="namespacersj.html#a2d2f336cdb6b0e91a6d574070df10311">end</a> != <span class="keyword">static_cast&lt;</span>Char<span class="keyword">&gt;</span>(<span class="charliteral">&#39;}&#39;</span>))</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            ++<a class="code" href="namespacersj.html#a2d2f336cdb6b0e91a6d574070df10311">end</a>;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;         <a class="code" href="structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html#a1bc9f3a91f5e142a5fdf3c9175e8edfd">tm_format</a>.reserve(detail::to_unsigned(<a class="code" href="namespacersj.html#a2d2f336cdb6b0e91a6d574070df10311">end</a> - it + 1));</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;         <a class="code" href="structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html#a1bc9f3a91f5e142a5fdf3c9175e8edfd">tm_format</a>.append(it, <a class="code" href="namespacersj.html#a2d2f336cdb6b0e91a6d574070df10311">end</a>);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;         <span class="keywordflow">if</span> (!it)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordflow">return</span> ctx.end();</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;         <span class="keywordflow">if</span> (it != ctx.end() &amp;&amp; *it == <span class="charliteral">&#39;:&#39;</span>)</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            std::advance(it, 1);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;         <span class="keyword">auto</span> end {std::find(it, ctx.end(), <span class="charliteral">&#39;}&#39;</span>)};</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;         <a class="code" href="structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html#a1bc9f3a91f5e142a5fdf3c9175e8edfd">tm_format</a>.reserve(detail::to_unsigned(end - it + 1));</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;         <a class="code" href="structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html#a1bc9f3a91f5e142a5fdf3c9175e8edfd">tm_format</a>.append(it, end);</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;         <a class="code" href="structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html#a1bc9f3a91f5e142a5fdf3c9175e8edfd">tm_format</a>.push_back(<span class="charliteral">&#39;\0&#39;</span>);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;         <span class="keywordflow">return</span> <a class="code" href="namespacersj.html#a2d2f336cdb6b0e91a6d574070df10311">end</a>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;         <span class="keywordflow">return</span> end;</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      }</div>
 </div><!-- fragment -->
 </div>
@@ -230,7 +230,6 @@ template&lt;typename Char &gt; </div>
 <div class="ttc" id="astructfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4_html_a1bc9f3a91f5e142a5fdf3c9175e8edfd"><div class="ttname"><a href="structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html#a1bc9f3a91f5e142a5fdf3c9175e8edfd">fmt::formatter&lt; rsj::MessageType, Char &gt;::tm_format</a></div><div class="ttdeci">basic_memory_buffer&lt; Char &gt; tm_format</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:113</div></div>
 <div class="ttc" id="anamespacersj_html_a9b545d0406c9f47f633fcc4966eb3919"><div class="ttname"><a href="namespacersj.html#a9b545d0406c9f47f633fcc4966eb3919">rsj::MessageTypeToLabel</a></div><div class="ttdeci">const char * MessageTypeToLabel(MessageType from) noexcept</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:78</div></div>
 <div class="ttc" id="anamespacersj_html_a4c906c35e8e0d93d7a85f5960f9722b7"><div class="ttname"><a href="namespacersj.html#a4c906c35e8e0d93d7a85f5960f9722b7">rsj::MessageTypeToName</a></div><div class="ttdeci">const char * MessageTypeToName(MessageType from) noexcept</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:68</div></div>
-<div class="ttc" id="anamespacersj_html_a2d2f336cdb6b0e91a6d574070df10311"><div class="ttname"><a href="namespacersj.html#a2d2f336cdb6b0e91a6d574070df10311">rsj::end</a></div><div class="ttdeci">auto end(ReverseWrapper&lt; T &gt; &amp;r) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.h:158</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

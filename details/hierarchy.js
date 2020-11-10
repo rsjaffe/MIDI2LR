@@ -55,7 +55,6 @@ var hierarchy =
       [ "MainContentComponent", "class_main_content_component.html", null ],
       [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
-    [ "rsj::ReverseWrapper< T >", "structrsj_1_1_reverse_wrapper.html", null ],
     [ "SettingsManager", "class_settings_manager.html", null ],
     [ "rsj::SettingsStruct", "structrsj_1_1_settings_struct.html", null ],
     [ "rsj::SpinLock", "classrsj_1_1_spin_lock.html", null ],

@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.6.0.2</span>
+   &#160;<span id="projectnumber">4.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -98,15 +98,9 @@ $(document).ready(function(){initNavTree('class_m_i_d_i2_l_r_application.html','
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_m_i_d_i2_l_r_application__inherit__graph.png" border="0" usemap="#a_m_i_d_i2_l_r_application_inherit__map" alt="Inheritance graph"/></div>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for MIDI2LRApplication:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_m_i_d_i2_l_r_application__coll__graph.png" border="0" usemap="#a_m_i_d_i2_l_r_application_coll__map" alt="Collaboration graph"/></div>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+ <div class="center">
+  <img src="class_m_i_d_i2_l_r_application.png" alt=""/>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -174,8 +168,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a7a2dfab3572e76f9d3c7cd39f81ef5bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5376bbf75dff5686011d923e4f2ecec"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; juce::FileLogger &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_i_d_i2_l_r_application.html#ad5376bbf75dff5686011d923e4f2ecec">logger_</a></td></tr>
 <tr class="separator:ad5376bbf75dff5686011d923e4f2ecec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b5e5c4a43e30a7422764f81650e53b2"><td class="memItemLeft" align="right" valign="top">juce::LookAndFeel_V3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_i_d_i2_l_r_application.html#a8b5e5c4a43e30a7422764f81650e53b2">look_feel_</a></td></tr>
-<tr class="separator:a8b5e5c4a43e30a7422764f81650e53b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae75b25dd5dec75487354fcc7d50c4d9a"><td class="memItemLeft" align="right" valign="top">LookAndFeelMIDI2LR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_i_d_i2_l_r_application.html#ae75b25dd5dec75487354fcc7d50c4d9a">look_feel_</a></td></tr>
+<tr class="separator:ae75b25dd5dec75487354fcc7d50c4d9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51fbfea1e27c7bb86f6a25a6934659c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_i_d_i2_l_r_application.html#a51fbfea1e27c7bb86f6a25a6934659c7">lr_ipc_in_</a> {<a class="el" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>, <a class="el" href="class_m_i_d_i2_l_r_application.html#aa7b54bb994b9b49e2013acae7b024ae9">profile_manager_</a>, <a class="el" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>, <a class="el" href="class_m_i_d_i2_l_r_application.html#aa1622a76f9491b5958905e0156563c1c">midi_sender_</a>}</td></tr>
 <tr class="separator:a51fbfea1e27c7bb86f6a25a6934659c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ad720c757a457b67277a286047ac773"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_lr_ipc_out.html">LrIpcOut</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">lr_ipc_out_</a> {<a class="el" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>, <a class="el" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>, <a class="el" href="class_m_i_d_i2_l_r_application.html#aa1622a76f9491b5958905e0156563c1c">midi_sender_</a>, <a class="el" href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">midi_receiver_</a>}</td></tr>
@@ -219,10 +213,10 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;   {</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      <span class="keywordflow">if</span> (command_line == kShutDownString)</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;         <a class="code" href="class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f">systemRequestedQuit</a>();</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;   {</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;      <span class="keywordflow">if</span> (command_line == kShutDownString)</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;         <a class="code" href="class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f">systemRequestedQuit</a>();</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -249,10 +243,10 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;   {</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      <span class="keywordflow">if</span> (command_line == kShutDownString)</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;         <a class="code" href="class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f">systemRequestedQuit</a>();</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;   {</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;      <span class="keywordflow">if</span> (command_line == kShutDownString)</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;         <a class="code" href="class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f">systemRequestedQuit</a>();</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;   }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f">systemRequestedQuit()</a>.</p>
 
@@ -280,19 +274,19 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;   {</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> file_name {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kDefaultsFile)};</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> profile_file {juce::File(file_name.data())};</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;         <a class="code" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>.<a class="code" href="class_profile.html#a6ae35735b1edc78dd1b32535c093aca8">ToXmlFile</a>(profile_file);</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;             <span class="stringliteral">&quot;Default profile saved to {}.&quot;</span>, profile_file.getFullPathName().toStdString()));</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;      }</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;         <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;      }</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;   {</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> file_name {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kDefaultsFile)};</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> profile_file {juce::File(file_name.data())};</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;         <a class="code" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>.<a class="code" href="class_profile.html#a6ae35735b1edc78dd1b32535c093aca8">ToXmlFile</a>(profile_file);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Default profile saved to {}.&quot;</span>),</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;             profile_file.getFullPathName().toStdString()));</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;      }</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;         <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;      }</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -318,19 +312,19 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;   {</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> file_name {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kDefaultsFile)};</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> profile_file {juce::File(file_name.data())};</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;         <a class="code" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>.<a class="code" href="class_profile.html#a6ae35735b1edc78dd1b32535c093aca8">ToXmlFile</a>(profile_file);</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;             <span class="stringliteral">&quot;Default profile saved to {}.&quot;</span>, profile_file.getFullPathName().toStdString()));</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;      }</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;         <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;      }</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;   {</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> file_name {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kDefaultsFile)};</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> profile_file {juce::File(file_name.data())};</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;         <a class="code" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>.<a class="code" href="class_profile.html#a6ae35735b1edc78dd1b32535c093aca8">ToXmlFile</a>(profile_file);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Default profile saved to {}.&quot;</span>),</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;             profile_file.getFullPathName().toStdString()));</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;      }</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;         <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;      }</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;   }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="class_m_i_d_i2_l_r_application.html#ab5c41060c26b2d07197651ad3f74f62f">shutdown()</a>.</p>
 
@@ -358,9 +352,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;   {</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      <span class="keywordflow">return</span> ProjectInfo::projectName;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;   {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      <span class="keywordflow">return</span> ProjectInfo::projectName;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -386,9 +380,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;   {</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      <span class="keywordflow">return</span> ProjectInfo::projectName;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;   {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      <span class="keywordflow">return</span> ProjectInfo::projectName;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -414,9 +408,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;   {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      <span class="keywordflow">return</span> ProjectInfo::versionString;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;   {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      <span class="keywordflow">return</span> ProjectInfo::versionString;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -442,9 +436,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;   {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      <span class="keywordflow">return</span> ProjectInfo::versionString;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;   {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      <span class="keywordflow">return</span> ProjectInfo::versionString;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -471,44 +465,44 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;   {</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;         <span class="comment">/*Called when the application starts. This will be called once to let the application do</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment">          * whatever initialization it needs, create its windows, etc. After the method returns, the</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="comment">          * normal event - dispatch loop will be run, until the quit() method is called, at which</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment">          * point the shutdown() method will be called to let the application clear up anything it</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment">          * needs to delete. If during the initialise() method, the application decides not to</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment">          * start-up after all, it can just call the quit() method and the event loop won&#39;t be</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment">          * run. */</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;         <span class="keywordflow">if</span> (command_line != kShutDownString) {</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            _mm_setcsr(_mm_getcsr() | 0x8040);</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <a class="code" href="class_c_coptions.html#a619006592f172a81a8c3f73c05440a0e">CCoptions::LinkToControlsModel</a>(&amp;<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            <a class="code" href="class_p_woptions.html#a1f9eb4b7cbf763600e1e332408ed4c47">PWoptions::LinkToControlsModel</a>(&amp;<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            juce::LookAndFeel::setDefaultLookAndFeel(&amp;<a class="code" href="class_m_i_d_i2_l_r_application.html#a8b5e5c4a43e30a7422764f81650e53b2">look_feel_</a>);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <span class="comment">/* set language and load appropriate fonts and files */</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#af54bf5e7841d4d144fd5856ad4cff77e">SetAppFont</a>();</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#af180cabaabbf2dc4750e7a17b3a5e475">LoadControlsModel</a>();</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            <span class="comment">/* need to start main window before ipc so it&#39;s already registered its callbacks and can</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment">             * receive messages */</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a> =</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                std::make_unique&lt;MainWindow&gt;(<a class="code" href="class_m_i_d_i2_l_r_application.html#a9cdd475a9c0cad7f863c5ea017577d40">getApplicationName</a>(), <a class="code" href="class_m_i_d_i2_l_r_application.html#ab7665efd9d1cfa839c38b3693b17e027">command_set_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>,</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                    <a class="code" href="class_m_i_d_i2_l_r_application.html#aa7b54bb994b9b49e2013acae7b024ae9">profile_manager_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a6e3422a18346a2daee93e39b6776dfa1">settings_manager_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">lr_ipc_out_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">midi_receiver_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#aa1622a76f9491b5958905e0156563c1c">midi_sender_</a>);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">midi_receiver_</a>.<a class="code" href="class_midi_receiver.html#ab5aff92f9c0bfbca3f3f4862b6f0091d">Start</a>();</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#aa1622a76f9491b5958905e0156563c1c">midi_sender_</a>.<a class="code" href="class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f">Start</a>();</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#aa5336d91bcd716000f5c2e55a5c4d641">Start</a>();</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a51fbfea1e27c7bb86f6a25a6934659c7">lr_ipc_in_</a>.<a class="code" href="class_lr_ipc_in.html#a5210ba8aacb2a42f2cae043f99315b0e">Start</a>();</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <span class="comment">/* Check for latest version */</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14">version_checker_</a>.<a class="code" href="class_version_checker.html#a74e37d7e17c6fb7d7489244ed2a62b80">Start</a>();</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;         }</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;         <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            quit();</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;         }</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      }</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;         <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;      }</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;   {</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;         <span class="comment">/*Called when the application starts. This will be called once to let the application do</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment">          * whatever initialization it needs, create its windows, etc. After the method returns, the</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="comment">          * normal event - dispatch loop will be run, until the quit() method is called, at which</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="comment">          * point the shutdown() method will be called to let the application clear up anything it</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="comment">          * needs to delete. If during the initialise() method, the application decides not to</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="comment">          * start-up after all, it can just call the quit() method and the event loop won&#39;t be</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment">          * run. */</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;         <span class="keywordflow">if</span> (command_line != kShutDownString) {</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            _mm_setcsr(_mm_getcsr() | 0x8040);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            <a class="code" href="class_c_coptions.html#a619006592f172a81a8c3f73c05440a0e">CCoptions::LinkToControlsModel</a>(&amp;<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            <a class="code" href="class_p_woptions.html#a1f9eb4b7cbf763600e1e332408ed4c47">PWoptions::LinkToControlsModel</a>(&amp;<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            juce::LookAndFeel::setDefaultLookAndFeel(&amp;<a class="code" href="class_m_i_d_i2_l_r_application.html#ae75b25dd5dec75487354fcc7d50c4d9a">look_feel_</a>);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <span class="comment">/* set language and load appropriate fonts and files */</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#af54bf5e7841d4d144fd5856ad4cff77e">SetAppFont</a>();</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#af180cabaabbf2dc4750e7a17b3a5e475">LoadControlsModel</a>();</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            <span class="comment">/* need to start main window before ipc so it&#39;s already registered its callbacks and can</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment">             * receive messages */</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a> =</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                std::make_unique&lt;MainWindow&gt;(<a class="code" href="class_m_i_d_i2_l_r_application.html#a9cdd475a9c0cad7f863c5ea017577d40">getApplicationName</a>(), <a class="code" href="class_m_i_d_i2_l_r_application.html#ab7665efd9d1cfa839c38b3693b17e027">command_set_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>,</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                    <a class="code" href="class_m_i_d_i2_l_r_application.html#aa7b54bb994b9b49e2013acae7b024ae9">profile_manager_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a6e3422a18346a2daee93e39b6776dfa1">settings_manager_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">lr_ipc_out_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">midi_receiver_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#aa1622a76f9491b5958905e0156563c1c">midi_sender_</a>);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">midi_receiver_</a>.<a class="code" href="class_midi_receiver.html#ab5aff92f9c0bfbca3f3f4862b6f0091d">Start</a>();</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#aa1622a76f9491b5958905e0156563c1c">midi_sender_</a>.<a class="code" href="class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f">Start</a>();</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#aa5336d91bcd716000f5c2e55a5c4d641">Start</a>();</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a51fbfea1e27c7bb86f6a25a6934659c7">lr_ipc_in_</a>.<a class="code" href="class_lr_ipc_in.html#a5210ba8aacb2a42f2cae043f99315b0e">Start</a>();</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="comment">/* Check for latest version */</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14">version_checker_</a>.<a class="code" href="class_version_checker.html#a74e37d7e17c6fb7d7489244ed2a62b80">Start</a>();</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;         }</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;         <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            quit();</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;         }</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;      }</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;         <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      }</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;   }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_m_i_d_i2_l_r_application.html#af180cabaabbf2dc4750e7a17b3a5e475">LoadControlsModel()</a>, and <a class="el" href="class_m_i_d_i2_l_r_application.html#af54bf5e7841d4d144fd5856ad4cff77e">SetAppFont()</a>.</p>
 
@@ -537,44 +531,44 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;   {</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;         <span class="comment">/*Called when the application starts. This will be called once to let the application do</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment">          * whatever initialization it needs, create its windows, etc. After the method returns, the</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="comment">          * normal event - dispatch loop will be run, until the quit() method is called, at which</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment">          * point the shutdown() method will be called to let the application clear up anything it</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment">          * needs to delete. If during the initialise() method, the application decides not to</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment">          * start-up after all, it can just call the quit() method and the event loop won&#39;t be</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment">          * run. */</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;         <span class="keywordflow">if</span> (command_line != kShutDownString) {</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            _mm_setcsr(_mm_getcsr() | 0x8040);</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <a class="code" href="class_c_coptions.html#a619006592f172a81a8c3f73c05440a0e">CCoptions::LinkToControlsModel</a>(&amp;<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            <a class="code" href="class_p_woptions.html#a1f9eb4b7cbf763600e1e332408ed4c47">PWoptions::LinkToControlsModel</a>(&amp;<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            juce::LookAndFeel::setDefaultLookAndFeel(&amp;<a class="code" href="class_m_i_d_i2_l_r_application.html#a8b5e5c4a43e30a7422764f81650e53b2">look_feel_</a>);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <span class="comment">/* set language and load appropriate fonts and files */</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#af54bf5e7841d4d144fd5856ad4cff77e">SetAppFont</a>();</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#af180cabaabbf2dc4750e7a17b3a5e475">LoadControlsModel</a>();</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            <span class="comment">/* need to start main window before ipc so it&#39;s already registered its callbacks and can</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment">             * receive messages */</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a> =</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                std::make_unique&lt;MainWindow&gt;(<a class="code" href="class_m_i_d_i2_l_r_application.html#a9cdd475a9c0cad7f863c5ea017577d40">getApplicationName</a>(), <a class="code" href="class_m_i_d_i2_l_r_application.html#ab7665efd9d1cfa839c38b3693b17e027">command_set_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>,</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                    <a class="code" href="class_m_i_d_i2_l_r_application.html#aa7b54bb994b9b49e2013acae7b024ae9">profile_manager_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a6e3422a18346a2daee93e39b6776dfa1">settings_manager_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">lr_ipc_out_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">midi_receiver_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#aa1622a76f9491b5958905e0156563c1c">midi_sender_</a>);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">midi_receiver_</a>.<a class="code" href="class_midi_receiver.html#ab5aff92f9c0bfbca3f3f4862b6f0091d">Start</a>();</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#aa1622a76f9491b5958905e0156563c1c">midi_sender_</a>.<a class="code" href="class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f">Start</a>();</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#aa5336d91bcd716000f5c2e55a5c4d641">Start</a>();</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a51fbfea1e27c7bb86f6a25a6934659c7">lr_ipc_in_</a>.<a class="code" href="class_lr_ipc_in.html#a5210ba8aacb2a42f2cae043f99315b0e">Start</a>();</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <span class="comment">/* Check for latest version */</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14">version_checker_</a>.<a class="code" href="class_version_checker.html#a74e37d7e17c6fb7d7489244ed2a62b80">Start</a>();</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;         }</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;         <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            quit();</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;         }</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      }</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;         <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;      }</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;   {</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;         <span class="comment">/*Called when the application starts. This will be called once to let the application do</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment">          * whatever initialization it needs, create its windows, etc. After the method returns, the</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="comment">          * normal event - dispatch loop will be run, until the quit() method is called, at which</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="comment">          * point the shutdown() method will be called to let the application clear up anything it</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="comment">          * needs to delete. If during the initialise() method, the application decides not to</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="comment">          * start-up after all, it can just call the quit() method and the event loop won&#39;t be</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment">          * run. */</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;         <span class="keywordflow">if</span> (command_line != kShutDownString) {</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            _mm_setcsr(_mm_getcsr() | 0x8040);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            <a class="code" href="class_c_coptions.html#a619006592f172a81a8c3f73c05440a0e">CCoptions::LinkToControlsModel</a>(&amp;<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            <a class="code" href="class_p_woptions.html#a1f9eb4b7cbf763600e1e332408ed4c47">PWoptions::LinkToControlsModel</a>(&amp;<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            juce::LookAndFeel::setDefaultLookAndFeel(&amp;<a class="code" href="class_m_i_d_i2_l_r_application.html#ae75b25dd5dec75487354fcc7d50c4d9a">look_feel_</a>);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <span class="comment">/* set language and load appropriate fonts and files */</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#af54bf5e7841d4d144fd5856ad4cff77e">SetAppFont</a>();</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#af180cabaabbf2dc4750e7a17b3a5e475">LoadControlsModel</a>();</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            <span class="comment">/* need to start main window before ipc so it&#39;s already registered its callbacks and can</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment">             * receive messages */</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a> =</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                std::make_unique&lt;MainWindow&gt;(<a class="code" href="class_m_i_d_i2_l_r_application.html#a9cdd475a9c0cad7f863c5ea017577d40">getApplicationName</a>(), <a class="code" href="class_m_i_d_i2_l_r_application.html#ab7665efd9d1cfa839c38b3693b17e027">command_set_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>,</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                    <a class="code" href="class_m_i_d_i2_l_r_application.html#aa7b54bb994b9b49e2013acae7b024ae9">profile_manager_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a6e3422a18346a2daee93e39b6776dfa1">settings_manager_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">lr_ipc_out_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">midi_receiver_</a>, <a class="code" href="class_m_i_d_i2_l_r_application.html#aa1622a76f9491b5958905e0156563c1c">midi_sender_</a>);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">midi_receiver_</a>.<a class="code" href="class_midi_receiver.html#ab5aff92f9c0bfbca3f3f4862b6f0091d">Start</a>();</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#aa1622a76f9491b5958905e0156563c1c">midi_sender_</a>.<a class="code" href="class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f">Start</a>();</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#aa5336d91bcd716000f5c2e55a5c4d641">Start</a>();</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a51fbfea1e27c7bb86f6a25a6934659c7">lr_ipc_in_</a>.<a class="code" href="class_lr_ipc_in.html#a5210ba8aacb2a42f2cae043f99315b0e">Start</a>();</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="comment">/* Check for latest version */</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <a class="code" href="class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14">version_checker_</a>.<a class="code" href="class_version_checker.html#a74e37d7e17c6fb7d7489244ed2a62b80">Start</a>();</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;         }</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;         <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            quit();</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;         }</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;      }</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;         <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      }</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -600,29 +594,30 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;   {</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;         <span class="keyword">const</span> fs::path px {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> px {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;         std::ifstream in_file {px};</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;         <span class="keywordflow">if</span> (in_file.is_open() &amp;&amp; !in_file.eof()) {</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26414) </span><span class="comment">/* too large to construct on stack */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> iarchive {std::make_unique&lt;cereal::XMLInputArchive&gt;(in_file)};</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;            (*iarchive)(<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(<span class="stringliteral">&quot;ControlsModel archive in Main loaded from {}.&quot;</span>, px.string()));</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(<span class="stringliteral">&quot;ControlsModel archive in Main loaded from {}.&quot;</span>, px));</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;         }</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;      }</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;      }</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;   {</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;         <span class="keyword">const</span> fs::path px {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> px {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;         std::ifstream in_file {px};</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;         <span class="keywordflow">if</span> (in_file.is_open() &amp;&amp; !in_file.eof()) {</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26414) </span><span class="comment">/* too large to construct on stack */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> iarchive {std::make_unique&lt;cereal::XMLInputArchive&gt;(in_file)};</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            (*iarchive)(<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                FMT_STRING(<span class="stringliteral">&quot;ControlsModel archive in Main loaded from {}.&quot;</span>), px.string()));</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;ControlsModel archive in Main loaded from {}.&quot;</span>), px));</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;         }</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;      }</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;      }</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -648,29 +643,30 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;   {</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;         <span class="keyword">const</span> fs::path px {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> px {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;         std::ifstream in_file {px};</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;         <span class="keywordflow">if</span> (in_file.is_open() &amp;&amp; !in_file.eof()) {</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26414) </span><span class="comment">/* too large to construct on stack */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> iarchive {std::make_unique&lt;cereal::XMLInputArchive&gt;(in_file)};</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;            (*iarchive)(<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(<span class="stringliteral">&quot;ControlsModel archive in Main loaded from {}.&quot;</span>, px.string()));</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(<span class="stringliteral">&quot;ControlsModel archive in Main loaded from {}.&quot;</span>, px));</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;         }</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;      }</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;      }</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;   {</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;         <span class="keyword">const</span> fs::path px {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> px {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;         std::ifstream in_file {px};</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;         <span class="keywordflow">if</span> (in_file.is_open() &amp;&amp; !in_file.eof()) {</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26414) </span><span class="comment">/* too large to construct on stack */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> iarchive {std::make_unique&lt;cereal::XMLInputArchive&gt;(in_file)};</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            (*iarchive)(<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                FMT_STRING(<span class="stringliteral">&quot;ControlsModel archive in Main loaded from {}.&quot;</span>), px.string()));</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;ControlsModel archive in Main loaded from {}.&quot;</span>), px));</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;         }</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;      }</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;      }</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;   }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="class_m_i_d_i2_l_r_application.html#a6c958c20964bb737b5c9c51cf13bf0e4">initialise()</a>.</p>
 
@@ -698,9 +694,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;   {</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;   {</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -726,9 +722,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;   {</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;   {</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -754,32 +750,33 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;   {</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;         <span class="keyword">const</span> fs::path p {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> p {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;         std::ofstream outfile {p, std::ios::trunc};</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;         <span class="keywordflow">if</span> (outfile.is_open()) {</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26414) </span><span class="comment">/* too large to construct on stack */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> oarchive {std::make_unique&lt;cereal::XMLOutputArchive&gt;(outfile)};</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            (*oarchive)(<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(<span class="stringliteral">&quot;ControlsModel archive in Main saved to {}.&quot;</span>, p.string()));</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(<span class="stringliteral">&quot;ControlsModel archive in Main saved to {}.&quot;</span>, p));</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;         }</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;         <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                juce::translate(<span class="stringliteral">&quot;Unable to save settings.xml&quot;</span>), <span class="stringliteral">&quot;Unable to save settings.xml&quot;</span>);</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;      }</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;      }</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;   {</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;         <span class="keyword">const</span> fs::path p {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> p {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;         std::ofstream outfile {p, std::ios::trunc};</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;         <span class="keywordflow">if</span> (outfile.is_open()) {</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26414) </span><span class="comment">/* too large to construct on stack */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> oarchive {std::make_unique&lt;cereal::XMLOutputArchive&gt;(outfile)};</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            (*oarchive)(<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                fmt::format(FMT_STRING(<span class="stringliteral">&quot;ControlsModel archive in Main saved to {}.&quot;</span>), p.string()));</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;ControlsModel archive in Main saved to {}.&quot;</span>), p));</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;         }</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;         <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                juce::translate(<span class="stringliteral">&quot;Unable to save settings.xml&quot;</span>), <span class="stringliteral">&quot;Unable to save settings.xml&quot;</span>);</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;      }</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;      }</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;   }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="class_m_i_d_i2_l_r_application.html#ab5c41060c26b2d07197651ad3f74f62f">shutdown()</a>.</p>
 
@@ -807,32 +804,33 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;   {</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;         <span class="keyword">const</span> fs::path p {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> p {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;         std::ofstream outfile {p, std::ios::trunc};</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;         <span class="keywordflow">if</span> (outfile.is_open()) {</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26414) </span><span class="comment">/* too large to construct on stack */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> oarchive {std::make_unique&lt;cereal::XMLOutputArchive&gt;(outfile)};</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            (*oarchive)(<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(<span class="stringliteral">&quot;ControlsModel archive in Main saved to {}.&quot;</span>, p.string()));</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(<span class="stringliteral">&quot;ControlsModel archive in Main saved to {}.&quot;</span>, p));</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;         }</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;         <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                juce::translate(<span class="stringliteral">&quot;Unable to save settings.xml&quot;</span>), <span class="stringliteral">&quot;Unable to save settings.xml&quot;</span>);</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;      }</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;      }</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;   {</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;         <span class="keyword">const</span> fs::path p {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> p {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kSettingsFileX)};</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;         std::ofstream outfile {p, std::ios::trunc};</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;         <span class="keywordflow">if</span> (outfile.is_open()) {</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26414) </span><span class="comment">/* too large to construct on stack */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> oarchive {std::make_unique&lt;cereal::XMLOutputArchive&gt;(outfile)};</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            (*oarchive)(<a class="code" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">controls_model_</a>);</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                fmt::format(FMT_STRING(<span class="stringliteral">&quot;ControlsModel archive in Main saved to {}.&quot;</span>), p.string()));</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;ControlsModel archive in Main saved to {}.&quot;</span>), p));</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;         }</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;         <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                juce::translate(<span class="stringliteral">&quot;Unable to save settings.xml&quot;</span>), <span class="stringliteral">&quot;Unable to save settings.xml&quot;</span>);</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;      }</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;      }</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -858,36 +856,63 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;   {</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;      <span class="comment">/* juce (as of July 2018) uses the following font defaults taken from juce_mac_Fonts.mm and</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="comment">       * juce_wind32_Fonts.cpp. Sans defaults do not support Asian languages.</span></div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment">       * SEE:https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list avoiding fonts</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment">       * added in windows 10 to support people using earlier Windows versions</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment">       * SEE:https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts</span></div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment">       * SEE:https://docs.microsoft.com/en-us/windows/uwp/design/globalizing/loc-international-fonts</span></div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="comment">       * but Meiryo UI doesn&#39;t work well on my computer, so using MS UI Gothic instead for ja.</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="comment">       * PingFang added in 10.11 El Capitan as new Chinese UI fonts</span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment">       *</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="comment">       * Juce defaults:</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="comment">       *                MacOS            Windows</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="comment">       *        Sans    Lucida Grande    Verdana</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment">       *        Serif   Times New Roman  Times New Roman</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="comment">       *        Fixed   Menlo            Lucida Console</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment">       */</span></div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;         <span class="keyword">auto</span> sf {<a class="code" href="namespacersj.html#a0c743718dca731c680bd2c63cf892747">rsj::SystemFont</a>()};</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;         <span class="keywordflow">if</span> (sf) {</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(*sf);</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;System font is &quot;</span> + *sf);</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;         }</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;         <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Unable to obtain system font.&quot;</span>);</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;      }</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;         <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;      }</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;   {</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;      <span class="comment">/* juce (as of July 2018) uses the following font defaults taken from juce_mac_Fonts.mm and</span></div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="comment">       * juce_wind32_Fonts.cpp. Sans defaults do not support Asian languages.</span></div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="comment">       * SEE:https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list avoiding fonts</span></div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="comment">       * added in windows 10 to support people using earlier Windows versions</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment">       * SEE:https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts</span></div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="comment">       * SEE:https://docs.microsoft.com/en-us/windows/uwp/design/globalizing/loc-international-fonts</span></div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment">       * but Meiryo UI doesn&#39;t work well on my computer, so using MS UI Gothic instead for ja.</span></div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="comment">       * PingFang added in 10.11 El Capitan as new Chinese UI fonts</span></div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="comment">       *</span></div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="comment">       * Juce defaults:</span></div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment">       *                MacOS            Windows</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment">       *        Sans    Lucida Grande    Verdana</span></div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment">       *        Serif   Times New Roman  Times New Roman</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment">       *        Fixed   Menlo            Lucida Console</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment">       */</span></div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span>&amp; lang {<a class="code" href="class_m_i_d_i2_l_r_application.html#ab7665efd9d1cfa839c38b3693b17e027">command_set_</a>.<a class="code" href="class_command_set.html#ad049db1f1226f2a434aa332ed281ccf5">GetLanguage</a>()};</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;         juce::String font1_name;</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;         juce::String font2_name;</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;         <span class="keywordflow">if</span> (lang == <span class="stringliteral">&quot;ko&quot;</span>)</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;            font1_name = <span class="stringliteral">&quot;NotoSansKR-Regular.otf&quot;</span>;</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (lang == <span class="stringliteral">&quot;zh_tw&quot;</span>)</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;            font1_name = <span class="stringliteral">&quot;NotoSansTC-Regular.otf&quot;</span>;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (lang == <span class="stringliteral">&quot;zh_cn&quot;</span>)</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            font1_name = <span class="stringliteral">&quot;NotoSansSC-Regular.otf&quot;</span>;</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (lang == <span class="stringliteral">&quot;ja&quot;</span>)</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;            font1_name = <span class="stringliteral">&quot;NotoSansJP-Regular.otf&quot;</span>;</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;         <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;            font1_name = <span class="stringliteral">&quot;NotoSans-Regular-Plus-Thai.ttf&quot;</span>;</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;            font2_name = <span class="stringliteral">&quot;NotoSans-Bold-plus-Thai.ttf&quot;</span>;</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;         }</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;         juce::MemoryBlock font_data {};</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;         <span class="keyword">auto</span> font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                              .getSiblingFile(font1_name);</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;         <span class="keywordflow">if</span> (font_file.loadFileAsData(font_data))</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize()));</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;         <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                FMT_STRING(<span class="stringliteral">&quot;Unable to load primary font file {}.&quot;</span>), font1_name.toStdString()));</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;         <span class="keywordflow">if</span> (font2_name.isNotEmpty()) {</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            font_data.reset();</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;            font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;                            .getSiblingFile(font2_name);</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;            <span class="keywordflow">if</span> (font_file.loadFileAsData(font_data))</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;               juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize());</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;               <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;                   FMT_STRING(<span class="stringliteral">&quot;Unable to load bold font file {}.&quot;</span>), font2_name.toStdString()));</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;         }</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;      }</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;         <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;      }</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;   }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="class_m_i_d_i2_l_r_application.html#a6c958c20964bb737b5c9c51cf13bf0e4">initialise()</a>.</p>
 
@@ -915,36 +940,63 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;   {</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;      <span class="comment">/* juce (as of July 2018) uses the following font defaults taken from juce_mac_Fonts.mm and</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="comment">       * juce_wind32_Fonts.cpp. Sans defaults do not support Asian languages.</span></div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment">       * SEE:https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list avoiding fonts</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment">       * added in windows 10 to support people using earlier Windows versions</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment">       * SEE:https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts</span></div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment">       * SEE:https://docs.microsoft.com/en-us/windows/uwp/design/globalizing/loc-international-fonts</span></div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="comment">       * but Meiryo UI doesn&#39;t work well on my computer, so using MS UI Gothic instead for ja.</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="comment">       * PingFang added in 10.11 El Capitan as new Chinese UI fonts</span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment">       *</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="comment">       * Juce defaults:</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="comment">       *                MacOS            Windows</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="comment">       *        Sans    Lucida Grande    Verdana</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment">       *        Serif   Times New Roman  Times New Roman</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="comment">       *        Fixed   Menlo            Lucida Console</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment">       */</span></div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;         <span class="keyword">auto</span> sf {<a class="code" href="namespacersj.html#a0c743718dca731c680bd2c63cf892747">rsj::SystemFont</a>()};</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;         <span class="keywordflow">if</span> (sf) {</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(*sf);</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;System font is &quot;</span> + *sf);</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;         }</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;         <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Unable to obtain system font.&quot;</span>);</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;      }</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;         <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;      }</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;   {</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;      <span class="comment">/* juce (as of July 2018) uses the following font defaults taken from juce_mac_Fonts.mm and</span></div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="comment">       * juce_wind32_Fonts.cpp. Sans defaults do not support Asian languages.</span></div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="comment">       * SEE:https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list avoiding fonts</span></div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="comment">       * added in windows 10 to support people using earlier Windows versions</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment">       * SEE:https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts</span></div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="comment">       * SEE:https://docs.microsoft.com/en-us/windows/uwp/design/globalizing/loc-international-fonts</span></div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment">       * but Meiryo UI doesn&#39;t work well on my computer, so using MS UI Gothic instead for ja.</span></div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="comment">       * PingFang added in 10.11 El Capitan as new Chinese UI fonts</span></div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="comment">       *</span></div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="comment">       * Juce defaults:</span></div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment">       *                MacOS            Windows</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment">       *        Sans    Lucida Grande    Verdana</span></div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment">       *        Serif   Times New Roman  Times New Roman</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment">       *        Fixed   Menlo            Lucida Console</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment">       */</span></div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span>&amp; lang {<a class="code" href="class_m_i_d_i2_l_r_application.html#ab7665efd9d1cfa839c38b3693b17e027">command_set_</a>.<a class="code" href="class_command_set.html#ad049db1f1226f2a434aa332ed281ccf5">GetLanguage</a>()};</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;         juce::String font1_name;</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;         juce::String font2_name;</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;         <span class="keywordflow">if</span> (lang == <span class="stringliteral">&quot;ko&quot;</span>)</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;            font1_name = <span class="stringliteral">&quot;NotoSansKR-Regular.otf&quot;</span>;</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (lang == <span class="stringliteral">&quot;zh_tw&quot;</span>)</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;            font1_name = <span class="stringliteral">&quot;NotoSansTC-Regular.otf&quot;</span>;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (lang == <span class="stringliteral">&quot;zh_cn&quot;</span>)</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            font1_name = <span class="stringliteral">&quot;NotoSansSC-Regular.otf&quot;</span>;</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (lang == <span class="stringliteral">&quot;ja&quot;</span>)</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;            font1_name = <span class="stringliteral">&quot;NotoSansJP-Regular.otf&quot;</span>;</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;         <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;            font1_name = <span class="stringliteral">&quot;NotoSans-Regular-Plus-Thai.ttf&quot;</span>;</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;            font2_name = <span class="stringliteral">&quot;NotoSans-Bold-plus-Thai.ttf&quot;</span>;</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;         }</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;         juce::MemoryBlock font_data {};</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;         <span class="keyword">auto</span> font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                              .getSiblingFile(font1_name);</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;         <span class="keywordflow">if</span> (font_file.loadFileAsData(font_data))</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize()));</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;         <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                FMT_STRING(<span class="stringliteral">&quot;Unable to load primary font file {}.&quot;</span>), font1_name.toStdString()));</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;         <span class="keywordflow">if</span> (font2_name.isNotEmpty()) {</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            font_data.reset();</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;            font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;                            .getSiblingFile(font2_name);</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;            <span class="keywordflow">if</span> (font_file.loadFileAsData(font_data))</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;               juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize());</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;               <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;                   FMT_STRING(<span class="stringliteral">&quot;Unable to load bold font file {}.&quot;</span>), font2_name.toStdString()));</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;         }</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;      }</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;         <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;      }</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -970,27 +1022,28 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;   {</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      <span class="comment">/*Called to allow the application to clear up before exiting. After JUCEApplication::quit()</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="comment">       * has been called, the event-dispatch loop will terminate, and this method will get called</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="comment">       * to allow the application to sort itself out. Be careful that nothing happens in this method</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="comment">       * that might rely on messages being sent, or any kind of window activity, because the message</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="comment">       * loop is no longer running at this point. */</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;      <span class="comment">/*Primary goals: 1) remove callbacks in LR_IPC_Out and MIDIReceiver before the callee is</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="comment">       * destroyed, 2) stop additional threads in VersionChecker, LR_IPC_In, LR_IPC_Out and</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="comment">       * MIDIReceiver. Add to this list if new threads or callback lists are developed in this</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment">       * app. */</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">midi_receiver_</a>.<a class="code" href="class_midi_receiver.html#a87e67d9486889627dcae6362fc77effa">Stop</a>();</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a51fbfea1e27c7bb86f6a25a6934659c7">lr_ipc_in_</a>.<a class="code" href="class_lr_ipc_in.html#a5f701822ea96e3ae3f192b19dc0054b5">Stop</a>();</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#adf0bc1da59e8d2d619c5fbf99b4a5d21">Stop</a>();</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14">version_checker_</a>.<a class="code" href="class_version_checker.html#ab1b7878540fe2fead5f916d82b0431ff">Stop</a>();</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a8138fd30c26fe9b14cc69c3eb3def3c5">DefaultProfileSave</a>();</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a20967d40a0d0b8656e7dd48b875721b8">SaveControlsModel</a>();</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      <span class="comment">/* (delete our window) */</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>.reset();</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      juce::Logger::setCurrentLogger(<span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;   {</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;      <span class="comment">/*Called to allow the application to clear up before exiting. After JUCEApplication::quit()</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="comment">       * has been called, the event-dispatch loop will terminate, and this method will get called</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="comment">       * to allow the application to sort itself out. Be careful that nothing happens in this method</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="comment">       * that might rely on messages being sent, or any kind of window activity, because the message</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment">       * loop is no longer running at this point. */</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      <span class="comment">/*Primary goals: 1) remove callbacks in LR_IPC_Out and MIDIReceiver before the callee is</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="comment">       * destroyed, 2) stop additional threads in VersionChecker, LR_IPC_In, LR_IPC_Out and</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="comment">       * MIDIReceiver. Add to this list if new threads or callback lists are developed in this</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="comment">       * app. */</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">midi_receiver_</a>.<a class="code" href="class_midi_receiver.html#a87e67d9486889627dcae6362fc77effa">Stop</a>();</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a51fbfea1e27c7bb86f6a25a6934659c7">lr_ipc_in_</a>.<a class="code" href="class_lr_ipc_in.html#a5f701822ea96e3ae3f192b19dc0054b5">Stop</a>();</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#adf0bc1da59e8d2d619c5fbf99b4a5d21">Stop</a>();</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14">version_checker_</a>.<a class="code" href="class_version_checker.html#ab1b7878540fe2fead5f916d82b0431ff">Stop</a>();</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a8138fd30c26fe9b14cc69c3eb3def3c5">DefaultProfileSave</a>();</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a20967d40a0d0b8656e7dd48b875721b8">SaveControlsModel</a>();</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a6e3422a18346a2daee93e39b6776dfa1">settings_manager_</a>.<a class="code" href="class_settings_manager.html#a635cc81e112c50df30470b9fe85e5449">SetDefaultProfile</a>(<a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>-&gt;GetProfileName());</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;      <span class="comment">/* (delete our window) */</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>.reset();</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;      juce::Logger::setCurrentLogger(<span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;   }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_m_i_d_i2_l_r_application.html#a8138fd30c26fe9b14cc69c3eb3def3c5">DefaultProfileSave()</a>, and <a class="el" href="class_m_i_d_i2_l_r_application.html#a20967d40a0d0b8656e7dd48b875721b8">SaveControlsModel()</a>.</p>
 
@@ -1018,27 +1071,28 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;   {</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      <span class="comment">/*Called to allow the application to clear up before exiting. After JUCEApplication::quit()</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="comment">       * has been called, the event-dispatch loop will terminate, and this method will get called</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="comment">       * to allow the application to sort itself out. Be careful that nothing happens in this method</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="comment">       * that might rely on messages being sent, or any kind of window activity, because the message</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="comment">       * loop is no longer running at this point. */</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;      <span class="comment">/*Primary goals: 1) remove callbacks in LR_IPC_Out and MIDIReceiver before the callee is</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="comment">       * destroyed, 2) stop additional threads in VersionChecker, LR_IPC_In, LR_IPC_Out and</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="comment">       * MIDIReceiver. Add to this list if new threads or callback lists are developed in this</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment">       * app. */</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">midi_receiver_</a>.<a class="code" href="class_midi_receiver.html#a87e67d9486889627dcae6362fc77effa">Stop</a>();</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a51fbfea1e27c7bb86f6a25a6934659c7">lr_ipc_in_</a>.<a class="code" href="class_lr_ipc_in.html#a5f701822ea96e3ae3f192b19dc0054b5">Stop</a>();</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#adf0bc1da59e8d2d619c5fbf99b4a5d21">Stop</a>();</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14">version_checker_</a>.<a class="code" href="class_version_checker.html#ab1b7878540fe2fead5f916d82b0431ff">Stop</a>();</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a8138fd30c26fe9b14cc69c3eb3def3c5">DefaultProfileSave</a>();</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a20967d40a0d0b8656e7dd48b875721b8">SaveControlsModel</a>();</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      <span class="comment">/* (delete our window) */</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>.reset();</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      juce::Logger::setCurrentLogger(<span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;   {</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;      <span class="comment">/*Called to allow the application to clear up before exiting. After JUCEApplication::quit()</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="comment">       * has been called, the event-dispatch loop will terminate, and this method will get called</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="comment">       * to allow the application to sort itself out. Be careful that nothing happens in this method</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="comment">       * that might rely on messages being sent, or any kind of window activity, because the message</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment">       * loop is no longer running at this point. */</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      <span class="comment">/*Primary goals: 1) remove callbacks in LR_IPC_Out and MIDIReceiver before the callee is</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="comment">       * destroyed, 2) stop additional threads in VersionChecker, LR_IPC_In, LR_IPC_Out and</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="comment">       * MIDIReceiver. Add to this list if new threads or callback lists are developed in this</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="comment">       * app. */</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">midi_receiver_</a>.<a class="code" href="class_midi_receiver.html#a87e67d9486889627dcae6362fc77effa">Stop</a>();</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a51fbfea1e27c7bb86f6a25a6934659c7">lr_ipc_in_</a>.<a class="code" href="class_lr_ipc_in.html#a5f701822ea96e3ae3f192b19dc0054b5">Stop</a>();</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#adf0bc1da59e8d2d619c5fbf99b4a5d21">Stop</a>();</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14">version_checker_</a>.<a class="code" href="class_version_checker.html#ab1b7878540fe2fead5f916d82b0431ff">Stop</a>();</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a8138fd30c26fe9b14cc69c3eb3def3c5">DefaultProfileSave</a>();</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a20967d40a0d0b8656e7dd48b875721b8">SaveControlsModel</a>();</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a6e3422a18346a2daee93e39b6776dfa1">settings_manager_</a>.<a class="code" href="class_settings_manager.html#a635cc81e112c50df30470b9fe85e5449">SetDefaultProfile</a>(<a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>-&gt;GetProfileName());</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;      <span class="comment">/* (delete our window) */</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;      <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>.reset();</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;      juce::Logger::setCurrentLogger(<span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1064,30 +1118,30 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;   {</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;      <span class="comment">/*This is called when the application is being asked to quit: you can ignore this request</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="comment">       * and let the application carry on running, or call quit() to allow the application to</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="comment">       * close. */</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;         <span class="keyword">static</span> std::once_flag of; <span class="comment">/* function might be called twice during LR shutdown */</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;         std::call_once(of, [<span class="keyword">this</span>] {</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>.<a class="code" href="class_profile.html#a088d7d62d487c12a798f0d36145c2c84">ProfileUnsaved</a>() &amp;&amp; <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>) {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;               const juce::MessageManagerLock mmLock; <span class="comment">/* this may be unnecessary */</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;               const auto result {juce::NativeMessageBox::showYesNoBox(</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                   juce::AlertWindow::WarningIcon, juce::translate(<span class="stringliteral">&quot;MIDI2LR profiles&quot;</span>),</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                   juce::translate(<span class="stringliteral">&quot;Profile changed. Do you want to save your changes? If you &quot;</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                                   <span class="stringliteral">&quot;continue without saving, your changes will be lost.&quot;</span>))};</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;               if (result)</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                  <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>-&gt;SaveProfile();</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            }</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            quit();</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;         });</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;      }</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;         <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;      }</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;   {</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;      <span class="comment">/*This is called when the application is being asked to quit: you can ignore this request</span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="comment">       * and let the application carry on running, or call quit() to allow the application to</span></div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">       * close. */</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;         <span class="keyword">static</span> std::once_flag of; <span class="comment">/* function might be called twice during LR shutdown */</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;         std::call_once(of, [<span class="keyword">this</span>] {</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>.<a class="code" href="class_profile.html#a088d7d62d487c12a798f0d36145c2c84">ProfileUnsaved</a>() &amp;&amp; <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>) {</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;               const juce::MessageManagerLock mmLock; <span class="comment">/* this may be unnecessary */</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;               const auto result {juce::NativeMessageBox::showYesNoBox(</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                   juce::AlertWindow::WarningIcon, juce::translate(<span class="stringliteral">&quot;MIDI2LR profiles&quot;</span>),</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                   juce::translate(<span class="stringliteral">&quot;Profile changed. Do you want to save your changes? If you &quot;</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                                   <span class="stringliteral">&quot;continue without saving, your changes will be lost.&quot;</span>))};</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;               if (result)</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                  <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>-&gt;SaveProfile();</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            }</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            quit();</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;         });</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;      }</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;         <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;      }</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;   }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="class_m_i_d_i2_l_r_application.html#a9b5a76b74f45e3be820fbf62d9616e2f">anotherInstanceStarted()</a>.</p>
 
@@ -1115,30 +1169,30 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;   {</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;      <span class="comment">/*This is called when the application is being asked to quit: you can ignore this request</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="comment">       * and let the application carry on running, or call quit() to allow the application to</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="comment">       * close. */</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;         <span class="keyword">static</span> std::once_flag of; <span class="comment">/* function might be called twice during LR shutdown */</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;         std::call_once(of, [<span class="keyword">this</span>] {</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>.<a class="code" href="class_profile.html#a088d7d62d487c12a798f0d36145c2c84">ProfileUnsaved</a>() &amp;&amp; <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>) {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;               const juce::MessageManagerLock mmLock; <span class="comment">/* this may be unnecessary */</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;               const auto result {juce::NativeMessageBox::showYesNoBox(</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                   juce::AlertWindow::WarningIcon, juce::translate(<span class="stringliteral">&quot;MIDI2LR profiles&quot;</span>),</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                   juce::translate(<span class="stringliteral">&quot;Profile changed. Do you want to save your changes? If you &quot;</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                                   <span class="stringliteral">&quot;continue without saving, your changes will be lost.&quot;</span>))};</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;               if (result)</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                  <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>-&gt;SaveProfile();</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            }</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            quit();</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;         });</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;      }</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;         <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;      }</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;   {</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;      <span class="comment">/*This is called when the application is being asked to quit: you can ignore this request</span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="comment">       * and let the application carry on running, or call quit() to allow the application to</span></div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">       * close. */</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;         <span class="keyword">static</span> std::once_flag of; <span class="comment">/* function might be called twice during LR shutdown */</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;         std::call_once(of, [<span class="keyword">this</span>] {</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">profile_</a>.<a class="code" href="class_profile.html#a088d7d62d487c12a798f0d36145c2c84">ProfileUnsaved</a>() &amp;&amp; <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>) {</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;               const juce::MessageManagerLock mmLock; <span class="comment">/* this may be unnecessary */</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;               const auto result {juce::NativeMessageBox::showYesNoBox(</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                   juce::AlertWindow::WarningIcon, juce::translate(<span class="stringliteral">&quot;MIDI2LR profiles&quot;</span>),</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                   juce::translate(<span class="stringliteral">&quot;Profile changed. Do you want to save your changes? If you &quot;</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                                   <span class="stringliteral">&quot;continue without saving, your changes will be lost.&quot;</span>))};</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;               if (result)</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                  <a class="code" href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">main_window_</a>-&gt;SaveProfile();</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            }</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            quit();</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;         });</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;      }</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;         <a class="code" href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a>;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;         <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;      }</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1181,38 +1235,38 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;   {</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;      <span class="comment">/* If any unhandled exceptions make it through to the message dispatch loop, this callback</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="comment">       * will be triggered, in case you want to log them or do some other type of error-handling. If</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment">       * the type of exception is derived from the std::exception class, the pointer passed-in will</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="comment">       * be valid. If the exception is of unknown type, this pointer will be null. */</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;         <span class="keywordflow">if</span> (e) {</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            constexpr <span class="keyword">auto</span> msge {<span class="stringliteral">&quot;Unhandled exception {}, {} line {}. Total uncaught {}.&quot;</span>};</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> msgt {juce::translate(<span class="stringliteral">&quot;unhandled exception&quot;</span>).toStdString()</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                             + <span class="stringliteral">&quot; {}, {} line {}. Total uncaught {}.&quot;</span>};</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(fmt::format(msgt, e-&gt;what(), source_filename.toStdString(),</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                                      lineNumber, std::uncaught_exceptions()),</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                fmt::format(msge, e-&gt;what(), source_filename.toStdString(), lineNumber,</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                    std::uncaught_exceptions()));</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;         }</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;         <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            constexpr <span class="keyword">auto</span> msge {<span class="stringliteral">&quot;Unhandled exception {} line {}. Total uncaught {}.&quot;</span>};</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> msgt {juce::translate(<span class="stringliteral">&quot;unhandled exception&quot;</span>).toStdString()</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                             + <span class="stringliteral">&quot; {} line {}. Total uncaught {}.&quot;</span>};</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(fmt::format(msgt, source_filename.toStdString(), lineNumber,</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                                      std::uncaught_exceptions()),</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                fmt::format(</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                    msge, source_filename.toStdString(), lineNumber, std::uncaught_exceptions()));</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;         }</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;      }</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;      <span class="keywordflow">catch</span> (...) {</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;         <span class="comment">/* we&#39;ll terminate anyway */</span></div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;         std::terminate();</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;      }</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;      <span class="comment">/* can&#39;t go on with the program */</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;      std::terminate();</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;   {</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;      <span class="comment">/* If any unhandled exceptions make it through to the message dispatch loop, this callback</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="comment">       * will be triggered, in case you want to log them or do some other type of error-handling. If</span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="comment">       * the type of exception is derived from the std::exception class, the pointer passed-in will</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="comment">       * be valid. If the exception is of unknown type, this pointer will be null. */</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;         <span class="keywordflow">if</span> (e) {</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            constexpr <span class="keyword">auto</span> msge {<span class="stringliteral">&quot;Unhandled exception {}, {} line {}. Total uncaught {}.&quot;</span>};</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> msgt {juce::translate(<span class="stringliteral">&quot;unhandled exception&quot;</span>).toStdString()</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                             + <span class="stringliteral">&quot; {}, {} line {}. Total uncaught {}.&quot;</span>};</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(fmt::format(msgt, e-&gt;what(), source_filename.toStdString(),</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                                      lineNumber, std::uncaught_exceptions()),</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                fmt::format(msge, e-&gt;what(), source_filename.toStdString(), lineNumber,</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                    std::uncaught_exceptions()));</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;         }</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;         <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            constexpr <span class="keyword">auto</span> msge {<span class="stringliteral">&quot;Unhandled exception {} line {}. Total uncaught {}.&quot;</span>};</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> msgt {juce::translate(<span class="stringliteral">&quot;unhandled exception&quot;</span>).toStdString()</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                             + <span class="stringliteral">&quot; {} line {}. Total uncaught {}.&quot;</span>};</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(fmt::format(msgt, source_filename.toStdString(), lineNumber,</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                                      std::uncaught_exceptions()),</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                fmt::format(</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                    msge, source_filename.toStdString(), lineNumber, std::uncaught_exceptions()));</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;         }</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;      }</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;      <span class="keywordflow">catch</span> (...) {</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;         <span class="comment">/* we&#39;ll terminate anyway */</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;         std::terminate();</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;      }</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;      <span class="comment">/* can&#39;t go on with the program */</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;      std::terminate();</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1255,38 +1309,38 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;   {</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;      <span class="comment">/* If any unhandled exceptions make it through to the message dispatch loop, this callback</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="comment">       * will be triggered, in case you want to log them or do some other type of error-handling. If</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment">       * the type of exception is derived from the std::exception class, the pointer passed-in will</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="comment">       * be valid. If the exception is of unknown type, this pointer will be null. */</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;         <span class="keywordflow">if</span> (e) {</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            constexpr <span class="keyword">auto</span> msge {<span class="stringliteral">&quot;Unhandled exception {}, {} line {}. Total uncaught {}.&quot;</span>};</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> msgt {juce::translate(<span class="stringliteral">&quot;unhandled exception&quot;</span>).toStdString()</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                             + <span class="stringliteral">&quot; {}, {} line {}. Total uncaught {}.&quot;</span>};</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(fmt::format(msgt, e-&gt;what(), source_filename.toStdString(),</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                                      lineNumber, std::uncaught_exceptions()),</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                fmt::format(msge, e-&gt;what(), source_filename.toStdString(), lineNumber,</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                    std::uncaught_exceptions()));</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;         }</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;         <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            constexpr <span class="keyword">auto</span> msge {<span class="stringliteral">&quot;Unhandled exception {} line {}. Total uncaught {}.&quot;</span>};</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> msgt {juce::translate(<span class="stringliteral">&quot;unhandled exception&quot;</span>).toStdString()</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                             + <span class="stringliteral">&quot; {} line {}. Total uncaught {}.&quot;</span>};</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(fmt::format(msgt, source_filename.toStdString(), lineNumber,</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                                      std::uncaught_exceptions()),</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                fmt::format(</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                    msge, source_filename.toStdString(), lineNumber, std::uncaught_exceptions()));</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;         }</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;      }</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;      <span class="keywordflow">catch</span> (...) {</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;         <span class="comment">/* we&#39;ll terminate anyway */</span></div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;         std::terminate();</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;      }</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;      <span class="comment">/* can&#39;t go on with the program */</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;      std::terminate();</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;   {</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;      <span class="comment">/* If any unhandled exceptions make it through to the message dispatch loop, this callback</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="comment">       * will be triggered, in case you want to log them or do some other type of error-handling. If</span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="comment">       * the type of exception is derived from the std::exception class, the pointer passed-in will</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="comment">       * be valid. If the exception is of unknown type, this pointer will be null. */</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;         <span class="keywordflow">if</span> (e) {</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            constexpr <span class="keyword">auto</span> msge {<span class="stringliteral">&quot;Unhandled exception {}, {} line {}. Total uncaught {}.&quot;</span>};</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> msgt {juce::translate(<span class="stringliteral">&quot;unhandled exception&quot;</span>).toStdString()</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                             + <span class="stringliteral">&quot; {}, {} line {}. Total uncaught {}.&quot;</span>};</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(fmt::format(msgt, e-&gt;what(), source_filename.toStdString(),</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                                      lineNumber, std::uncaught_exceptions()),</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                fmt::format(msge, e-&gt;what(), source_filename.toStdString(), lineNumber,</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                    std::uncaught_exceptions()));</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;         }</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;         <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            constexpr <span class="keyword">auto</span> msge {<span class="stringliteral">&quot;Unhandled exception {} line {}. Total uncaught {}.&quot;</span>};</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> msgt {juce::translate(<span class="stringliteral">&quot;unhandled exception&quot;</span>).toStdString()</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                             + <span class="stringliteral">&quot; {} line {}. Total uncaught {}.&quot;</span>};</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(fmt::format(msgt, source_filename.toStdString(), lineNumber,</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                                      std::uncaught_exceptions()),</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                fmt::format(</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                    msge, source_filename.toStdString(), lineNumber, std::uncaught_exceptions()));</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;         }</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;      }</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;      <span class="keywordflow">catch</span> (...) {</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;         <span class="comment">/* we&#39;ll terminate anyway */</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;         std::terminate();</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;      }</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;      <span class="comment">/* can&#39;t go on with the program */</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;      std::terminate();</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1403,8 +1457,8 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a8b5e5c4a43e30a7422764f81650e53b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b5e5c4a43e30a7422764f81650e53b2">&#9670;&nbsp;</a></span>look_feel_</h2>
+<a id="ae75b25dd5dec75487354fcc7d50c4d9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae75b25dd5dec75487354fcc7d50c4d9a">&#9670;&nbsp;</a></span>look_feel_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1413,7 +1467,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">juce::LookAndFeel_V3 MIDI2LRApplication::look_feel_</td>
+          <td class="memname">LookAndFeelMIDI2LR MIDI2LRApplication::look_feel_</td>
         </tr>
       </table>
   </td>
@@ -1628,41 +1682,42 @@ Private Attributes</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a8138fd30c26fe9b14cc69c3eb3def3c5"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a8138fd30c26fe9b14cc69c3eb3def3c5">MIDI2LRApplication::DefaultProfileSave</a></div><div class="ttdeci">void DefaultProfileSave()</div><div class="ttdef"><b>Definition:</b> Main.cpp:269</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_aa1622a76f9491b5958905e0156563c1c"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#aa1622a76f9491b5958905e0156563c1c">MIDI2LRApplication::midi_sender_</a></div><div class="ttdeci">MidiSender midi_sender_</div><div class="ttdef"><b>Definition:</b> Main.cpp:380</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a8b5e5c4a43e30a7422764f81650e53b2"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a8b5e5c4a43e30a7422764f81650e53b2">MIDI2LRApplication::look_feel_</a></div><div class="ttdeci">juce::LookAndFeel_V3 look_feel_</div><div class="ttdef"><b>Definition:</b> Main.cpp:388</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_af180cabaabbf2dc4750e7a17b3a5e475"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#af180cabaabbf2dc4750e7a17b3a5e475">MIDI2LRApplication::LoadControlsModel</a></div><div class="ttdeci">void LoadControlsModel()</div><div class="ttdef"><b>Definition:</b> Main.cpp:312</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a8138fd30c26fe9b14cc69c3eb3def3c5"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a8138fd30c26fe9b14cc69c3eb3def3c5">MIDI2LRApplication::DefaultProfileSave</a></div><div class="ttdeci">void DefaultProfileSave()</div><div class="ttdef"><b>Definition:</b> Main.cpp:275</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_aa1622a76f9491b5958905e0156563c1c"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#aa1622a76f9491b5958905e0156563c1c">MIDI2LRApplication::midi_sender_</a></div><div class="ttdeci">MidiSender midi_sender_</div><div class="ttdef"><b>Definition:</b> Main.cpp:415</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_af180cabaabbf2dc4750e7a17b3a5e475"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#af180cabaabbf2dc4750e7a17b3a5e475">MIDI2LRApplication::LoadControlsModel</a></div><div class="ttdeci">void LoadControlsModel()</div><div class="ttdef"><b>Definition:</b> Main.cpp:319</div></div>
 <div class="ttc" id="aclass_version_checker_html_ab1b7878540fe2fead5f916d82b0431ff"><div class="ttname"><a href="class_version_checker.html#ab1b7878540fe2fead5f916d82b0431ff">VersionChecker::Stop</a></div><div class="ttdeci">void Stop() noexcept</div><div class="ttdef"><b>Definition:</b> VersionChecker.cpp:55</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a09e3d213ac5693825d76199c20260f3f"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f">MIDI2LRApplication::systemRequestedQuit</a></div><div class="ttdeci">void systemRequestedQuit() override</div><div class="ttdef"><b>Definition:</b> Main.cpp:201</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_ab7665efd9d1cfa839c38b3693b17e027"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#ab7665efd9d1cfa839c38b3693b17e027">MIDI2LRApplication::command_set_</a></div><div class="ttdeci">const CommandSet command_set_</div><div class="ttdef"><b>Definition:</b> Main.cpp:377</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a09e3d213ac5693825d76199c20260f3f"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f">MIDI2LRApplication::systemRequestedQuit</a></div><div class="ttdeci">void systemRequestedQuit() override</div><div class="ttdef"><b>Definition:</b> Main.cpp:207</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_ab7665efd9d1cfa839c38b3693b17e027"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#ab7665efd9d1cfa839c38b3693b17e027">MIDI2LRApplication::command_set_</a></div><div class="ttdeci">const CommandSet command_set_</div><div class="ttdef"><b>Definition:</b> Main.cpp:412</div></div>
 <div class="ttc" id="aclass_version_checker_html_a74e37d7e17c6fb7d7489244ed2a62b80"><div class="ttname"><a href="class_version_checker.html#a74e37d7e17c6fb7d7489244ed2a62b80">VersionChecker::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdef"><b>Definition:</b> VersionChecker.cpp:46</div></div>
 <div class="ttc" id="aclass_lr_ipc_out_html_aa5336d91bcd716000f5c2e55a5c4d641"><div class="ttname"><a href="class_lr_ipc_out.html#aa5336d91bcd716000f5c2e55a5c4d641">LrIpcOut::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.cpp:111</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_aa7b54bb994b9b49e2013acae7b024ae9"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#aa7b54bb994b9b49e2013acae7b024ae9">MIDI2LRApplication::profile_manager_</a></div><div class="ttdeci">ProfileManager profile_manager_</div><div class="ttdef"><b>Definition:</b> Main.cpp:383</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a6e3422a18346a2daee93e39b6776dfa1"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a6e3422a18346a2daee93e39b6776dfa1">MIDI2LRApplication::settings_manager_</a></div><div class="ttdeci">SettingsManager settings_manager_</div><div class="ttdef"><b>Definition:</b> Main.cpp:385</div></div>
-<div class="ttc" id="aclass_profile_html_a6ae35735b1edc78dd1b32535c093aca8"><div class="ttname"><a href="class_profile.html#a6ae35735b1edc78dd1b32535c093aca8">Profile::ToXmlFile</a></div><div class="ttdeci">void ToXmlFile(const juce::File &amp;file)</div><div class="ttdef"><b>Definition:</b> Profile.cpp:218</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a9cdd475a9c0cad7f863c5ea017577d40"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a9cdd475a9c0cad7f863c5ea017577d40">MIDI2LRApplication::getApplicationName</a></div><div class="ttdeci">const juce::String getApplicationName() override</div><div class="ttdef"><b>Definition:</b> Main.cpp:122</div></div>
-<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:238</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_aa7b54bb994b9b49e2013acae7b024ae9"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#aa7b54bb994b9b49e2013acae7b024ae9">MIDI2LRApplication::profile_manager_</a></div><div class="ttdeci">ProfileManager profile_manager_</div><div class="ttdef"><b>Definition:</b> Main.cpp:418</div></div>
+<div class="ttc" id="aclass_settings_manager_html_a635cc81e112c50df30470b9fe85e5449"><div class="ttname"><a href="class_settings_manager.html#a635cc81e112c50df30470b9fe85e5449">SettingsManager::SetDefaultProfile</a></div><div class="ttdeci">void SetDefaultProfile(const juce::String &amp;default_profile)</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:59</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a6e3422a18346a2daee93e39b6776dfa1"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a6e3422a18346a2daee93e39b6776dfa1">MIDI2LRApplication::settings_manager_</a></div><div class="ttdeci">SettingsManager settings_manager_</div><div class="ttdef"><b>Definition:</b> Main.cpp:420</div></div>
+<div class="ttc" id="aclass_profile_html_a6ae35735b1edc78dd1b32535c093aca8"><div class="ttname"><a href="class_profile.html#a6ae35735b1edc78dd1b32535c093aca8">Profile::ToXmlFile</a></div><div class="ttdeci">void ToXmlFile(const juce::File &amp;file)</div><div class="ttdef"><b>Definition:</b> Profile.cpp:242</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a9cdd475a9c0cad7f863c5ea017577d40"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a9cdd475a9c0cad7f863c5ea017577d40">MIDI2LRApplication::getApplicationName</a></div><div class="ttdeci">const juce::String getApplicationName() override</div><div class="ttdef"><b>Definition:</b> Main.cpp:127</div></div>
+<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:212</div></div>
 <div class="ttc" id="aclass_p_woptions_html_a1f9eb4b7cbf763600e1e332408ed4c47"><div class="ttname"><a href="class_p_woptions.html#a1f9eb4b7cbf763600e1e332408ed4c47">PWoptions::LinkToControlsModel</a></div><div class="ttdeci">static void LinkToControlsModel(_In_ ControlsModel *model) noexcept</div><div class="ttdef"><b>Definition:</b> PWoptions.h:67</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a20967d40a0d0b8656e7dd48b875721b8"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a20967d40a0d0b8656e7dd48b875721b8">MIDI2LRApplication::SaveControlsModel</a></div><div class="ttdeci">void SaveControlsModel() const</div><div class="ttdef"><b>Definition:</b> Main.cpp:284</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_adf0bc1da59e8d2d619c5fbf99b4a5d21"><div class="ttname"><a href="class_lr_ipc_out.html#adf0bc1da59e8d2d619c5fbf99b4a5d21">LrIpcOut::Stop</a></div><div class="ttdeci">void Stop()</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.cpp:138</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:218</div></div>
-<div class="ttc" id="aclass_profile_html_a088d7d62d487c12a798f0d36145c2c84"><div class="ttname"><a href="class_profile.html#a088d7d62d487c12a798f0d36145c2c84">Profile::ProfileUnsaved</a></div><div class="ttdeci">bool ProfileUnsaved() const</div><div class="ttdef"><b>Definition:</b> Profile.h:127</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a4ad720c757a457b67277a286047ac773"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">MIDI2LRApplication::lr_ipc_out_</a></div><div class="ttdeci">LrIpcOut lr_ipc_out_</div><div class="ttdef"><b>Definition:</b> Main.cpp:382</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a83f188df08e1cf92ff0953c7af04d41c"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">MIDI2LRApplication::profile_</a></div><div class="ttdeci">Profile profile_</div><div class="ttdef"><b>Definition:</b> Main.cpp:379</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a2031ab2a6f29064e847a238f7034ca14"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14">MIDI2LRApplication::version_checker_</a></div><div class="ttdeci">VersionChecker version_checker_</div><div class="ttdef"><b>Definition:</b> Main.cpp:390</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a51fbfea1e27c7bb86f6a25a6934659c7"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a51fbfea1e27c7bb86f6a25a6934659c7">MIDI2LRApplication::lr_ipc_in_</a></div><div class="ttdeci">LrIpcIn lr_ipc_in_</div><div class="ttdef"><b>Definition:</b> Main.cpp:384</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_ae75b25dd5dec75487354fcc7d50c4d9a"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#ae75b25dd5dec75487354fcc7d50c4d9a">MIDI2LRApplication::look_feel_</a></div><div class="ttdeci">LookAndFeelMIDI2LR look_feel_</div><div class="ttdef"><b>Definition:</b> Main.cpp:423</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a20967d40a0d0b8656e7dd48b875721b8"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a20967d40a0d0b8656e7dd48b875721b8">MIDI2LRApplication::SaveControlsModel</a></div><div class="ttdeci">void SaveControlsModel() const</div><div class="ttdef"><b>Definition:</b> Main.cpp:290</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_adf0bc1da59e8d2d619c5fbf99b4a5d21"><div class="ttname"><a href="class_lr_ipc_out.html#adf0bc1da59e8d2d619c5fbf99b4a5d21">LrIpcOut::Stop</a></div><div class="ttdeci">void Stop()</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.cpp:140</div></div>
+<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:192</div></div>
+<div class="ttc" id="aclass_command_set_html_ad049db1f1226f2a434aa332ed281ccf5"><div class="ttname"><a href="class_command_set.html#ad049db1f1226f2a434aa332ed281ccf5">CommandSet::GetLanguage</a></div><div class="ttdeci">const auto &amp; GetLanguage() const noexcept</div><div class="ttdef"><b>Definition:</b> CommandSet.h:51</div></div>
+<div class="ttc" id="aclass_profile_html_a088d7d62d487c12a798f0d36145c2c84"><div class="ttname"><a href="class_profile.html#a088d7d62d487c12a798f0d36145c2c84">Profile::ProfileUnsaved</a></div><div class="ttdeci">bool ProfileUnsaved() const</div><div class="ttdef"><b>Definition:</b> Profile.h:128</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a4ad720c757a457b67277a286047ac773"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773">MIDI2LRApplication::lr_ipc_out_</a></div><div class="ttdeci">LrIpcOut lr_ipc_out_</div><div class="ttdef"><b>Definition:</b> Main.cpp:417</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a83f188df08e1cf92ff0953c7af04d41c"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c">MIDI2LRApplication::profile_</a></div><div class="ttdeci">Profile profile_</div><div class="ttdef"><b>Definition:</b> Main.cpp:414</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a2031ab2a6f29064e847a238f7034ca14"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14">MIDI2LRApplication::version_checker_</a></div><div class="ttdeci">VersionChecker version_checker_</div><div class="ttdef"><b>Definition:</b> Main.cpp:425</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a51fbfea1e27c7bb86f6a25a6934659c7"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a51fbfea1e27c7bb86f6a25a6934659c7">MIDI2LRApplication::lr_ipc_in_</a></div><div class="ttdeci">LrIpcIn lr_ipc_in_</div><div class="ttdef"><b>Definition:</b> Main.cpp:419</div></div>
 <div class="ttc" id="aclass_midi_receiver_html_ab5aff92f9c0bfbca3f3f4862b6f0091d"><div class="ttname"><a href="class_midi_receiver.html#ab5aff92f9c0bfbca3f3f4862b6f0091d">MidiReceiver::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.cpp:29</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_af54bf5e7841d4d144fd5856ad4cff77e"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#af54bf5e7841d4d144fd5856ad4cff77e">MIDI2LRApplication::SetAppFont</a></div><div class="ttdeci">void SetAppFont() const</div><div class="ttdef"><b>Definition:</b> Main.cpp:337</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a29231ef73054e3d9cec2b00992c4b9f9"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">MIDI2LRApplication::midi_receiver_</a></div><div class="ttdeci">MidiReceiver midi_receiver_</div><div class="ttdef"><b>Definition:</b> Main.cpp:381</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_af54bf5e7841d4d144fd5856ad4cff77e"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#af54bf5e7841d4d144fd5856ad4cff77e">MIDI2LRApplication::SetAppFont</a></div><div class="ttdeci">void SetAppFont() const</div><div class="ttdef"><b>Definition:</b> Main.cpp:345</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a29231ef73054e3d9cec2b00992c4b9f9"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9">MIDI2LRApplication::midi_receiver_</a></div><div class="ttdeci">MidiReceiver midi_receiver_</div><div class="ttdef"><b>Definition:</b> Main.cpp:416</div></div>
 <div class="ttc" id="aclass_c_coptions_html_a619006592f172a81a8c3f73c05440a0e"><div class="ttname"><a href="class_c_coptions.html#a619006592f172a81a8c3f73c05440a0e">CCoptions::LinkToControlsModel</a></div><div class="ttdeci">static void LinkToControlsModel(_In_ ControlsModel *model) noexcept</div><div class="ttdef"><b>Definition:</b> CCoptions.h:68</div></div>
 <div class="ttc" id="aclass_midi_receiver_html_a87e67d9486889627dcae6362fc77effa"><div class="ttname"><a href="class_midi_receiver.html#a87e67d9486889627dcae6362fc77effa">MidiReceiver::Stop</a></div><div class="ttdeci">void Stop()</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.cpp:45</div></div>
 <div class="ttc" id="anamespacersj_html_ad9fd7ddfd6792dd72b9f217e9d7967c3"><div class="ttname"><a href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a></div><div class="ttdeci">std::string AppDataFilePath(const std::string &amp;file_name)</div></div>
-<div class="ttc" id="anamespacersj_html_a0c743718dca731c680bd2c63cf892747"><div class="ttname"><a href="namespacersj.html#a0c743718dca731c680bd2c63cf892747">rsj::SystemFont</a></div><div class="ttdeci">std::optional&lt; juce::String &gt; SystemFont()</div><div class="ttdef"><b>Definition:</b> Misc.cpp:34</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_ab4eb5907c5db5f9708a41c168143b9f3"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">MIDI2LRApplication::controls_model_</a></div><div class="ttdeci">ControlsModel controls_model_</div><div class="ttdef"><b>Definition:</b> Main.cpp:378</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_ab4eb5907c5db5f9708a41c168143b9f3"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">MIDI2LRApplication::controls_model_</a></div><div class="ttdeci">ControlsModel controls_model_</div><div class="ttdef"><b>Definition:</b> Main.cpp:413</div></div>
 <div class="ttc" id="aclass_lr_ipc_in_html_a5210ba8aacb2a42f2cae043f99315b0e"><div class="ttname"><a href="class_lr_ipc_in.html#a5210ba8aacb2a42f2cae043f99315b0e">LrIpcIn::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdef"><b>Definition:</b> LR_IPC_In.cpp:49</div></div>
-<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:122</div></div>
+<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:107</div></div>
 <div class="ttc" id="aclass_lr_ipc_in_html_a5f701822ea96e3ae3f192b19dc0054b5"><div class="ttname"><a href="class_lr_ipc_in.html#a5f701822ea96e3ae3f192b19dc0054b5">LrIpcIn::Stop</a></div><div class="ttdeci">void Stop()</div><div class="ttdef"><b>Definition:</b> LR_IPC_In.cpp:73</div></div>
-<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a64915de6b29a8bccf67941c11a49dfcf"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">MIDI2LRApplication::main_window_</a></div><div class="ttdeci">std::unique_ptr&lt; MainWindow &gt; main_window_</div><div class="ttdef"><b>Definition:</b> Main.cpp:386</div></div>
+<div class="ttc" id="aclass_m_i_d_i2_l_r_application_html_a64915de6b29a8bccf67941c11a49dfcf"><div class="ttname"><a href="class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf">MIDI2LRApplication::main_window_</a></div><div class="ttdeci">std::unique_ptr&lt; MainWindow &gt; main_window_</div><div class="ttdef"><b>Definition:</b> Main.cpp:421</div></div>
 <div class="ttc" id="aclass_midi_sender_html_a7f6b5c209963c8ba2e59a40e556d688f"><div class="ttname"><a href="class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f">MidiSender::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdef"><b>Definition:</b> MIDISender.cpp:30</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

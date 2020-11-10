@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.6.0.2</span>
+   &#160;<span id="projectnumber">4.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -100,15 +100,12 @@ $(document).ready(function(){initNavTree('class_command_menu.html',''); initResi
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_command_menu__inherit__graph.png" border="0" usemap="#a_command_menu_inherit__map" alt="Inheritance graph"/></div>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for CommandMenu:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_command_menu__coll__graph.png" border="0" usemap="#a_command_menu_coll__map" alt="Collaboration graph"/></div>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+ <div class="center">
+  <img src="class_command_menu.png" usemap="#CommandMenu_map" alt=""/>
+  <map id="CommandMenu_map" name="CommandMenu_map">
+<area href="class_text_button_aligned.html" alt="TextButtonAligned" shape="rect" coords="0,56,113,80"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -287,7 +284,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;   }</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_p_woptions.html#ae77ed5c5552d726e2f9d34603c67a065">PWoptions::BindToControl()</a>, <a class="el" href="class_c_coptions.html#a22932f3d2ae242a2c0de934801c2816c">CCoptions::BindToControl()</a>, <a class="el" href="class_command_menu.html#a4ecfce93e2902c3a0c9419c12ab4f92e">message_</a>, <a class="el" href="class_command_menu.html#acda0dcd3f1c658404699e45cc1ed78eb">profile_</a>, <a class="el" href="class_profile.html#abb1bca37a48aea146bb3088fc91dc4d1">Profile::RemoveMessage()</a>, and <a class="el" href="class_command_menu.html#a2f031de592778295c9c404b7f421530d">selected_item_</a>.</p>
+<p class="reference">References <a class="el" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath()</a>, <a class="el" href="class_p_woptions.html#ae77ed5c5552d726e2f9d34603c67a065">PWoptions::BindToControl()</a>, <a class="el" href="class_c_coptions.html#a22932f3d2ae242a2c0de934801c2816c">CCoptions::BindToControl()</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ae4c8f1de1c0855c7c2be33196d3c3537">rsj::Cc</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId::control_number</a>, <a class="el" href="class_command_menu.html#a4ecfce93e2902c3a0c9419c12ab4f92e">message_</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a>, <a class="el" href="class_command_menu.html#acda0dcd3f1c658404699e45cc1ed78eb">profile_</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a4c03b8e9c7e2ea3a6c39d5fae26e1f0f">rsj::Pw</a>, <a class="el" href="class_profile.html#abb1bca37a48aea146bb3088fc91dc4d1">Profile::RemoveMessage()</a>, and <a class="el" href="class_command_menu.html#a2f031de592778295c9c404b7f421530d">selected_item_</a>.</p>
 
 </div>
 </div>
@@ -458,25 +455,25 @@ Private Attributes</h2></td></tr>
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_command_menu_html_acda0dcd3f1c658404699e45cc1ed78eb"><div class="ttname"><a href="class_command_menu.html#acda0dcd3f1c658404699e45cc1ed78eb">CommandMenu::profile_</a></div><div class="ttdeci">Profile &amp; profile_</div><div class="ttdef"><b>Definition:</b> CommandMenu.h:49</div></div>
 <div class="ttc" id="aclass_command_set_html_adda97e05728388c477c3768d52887b5b"><div class="ttname"><a href="class_command_set.html#adda97e05728388c477c3768d52887b5b">CommandSet::CommandLabelAt</a></div><div class="ttdeci">auto CommandLabelAt(size_t index) const</div><div class="ttdef"><b>Definition:</b> CommandSet.h:46</div></div>
-<div class="ttc" id="aclass_profile_html_a959631959c1c89d9ec36ea42d781b5cb"><div class="ttname"><a href="class_profile.html#a959631959c1c89d9ec36ea42d781b5cb">Profile::AddCommandForMessage</a></div><div class="ttdeci">void AddCommandForMessage(size_t command, rsj::MidiMessageId message)</div><div class="ttdef"><b>Definition:</b> Profile.h:75</div></div>
-<div class="ttc" id="aclass_command_set_html_a396f351db20309ef15d49e64ab8960ad"><div class="ttname"><a href="class_command_set.html#a396f351db20309ef15d49e64ab8960ad">CommandSet::GetMenuEntries</a></div><div class="ttdeci">const auto &amp; GetMenuEntries() const noexcept</div><div class="ttdef"><b>Definition:</b> CommandSet.h:56</div></div>
+<div class="ttc" id="aclass_profile_html_a959631959c1c89d9ec36ea42d781b5cb"><div class="ttname"><a href="class_profile.html#a959631959c1c89d9ec36ea42d781b5cb">Profile::AddCommandForMessage</a></div><div class="ttdeci">void AddCommandForMessage(size_t command, rsj::MidiMessageId message)</div><div class="ttdef"><b>Definition:</b> Profile.h:76</div></div>
+<div class="ttc" id="aclass_command_set_html_a396f351db20309ef15d49e64ab8960ad"><div class="ttname"><a href="class_command_set.html#a396f351db20309ef15d49e64ab8960ad">CommandSet::GetMenuEntries</a></div><div class="ttdeci">const auto &amp; GetMenuEntries() const noexcept</div><div class="ttdef"><b>Definition:</b> CommandSet.h:61</div></div>
 <div class="ttc" id="aclass_command_set_html_a166df13ac3d95e6e96d3e5a6efcee685"><div class="ttname"><a href="class_command_set.html#a166df13ac3d95e6e96d3e5a6efcee685">CommandSet::CommandAbbrevSize</a></div><div class="ttdeci">auto CommandAbbrevSize() const noexcept</div><div class="ttdef"><b>Definition:</b> CommandSet.h:41</div></div>
 <div class="ttc" id="astructrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:147</div></div>
-<div class="ttc" id="aclass_c_coptions_html_a22932f3d2ae242a2c0de934801c2816c"><div class="ttname"><a href="class_c_coptions.html#a22932f3d2ae242a2c0de934801c2816c">CCoptions::BindToControl</a></div><div class="ttdeci">void BindToControl(int channel, int control_number)</div><div class="ttdef"><b>Definition:</b> CCoptions.cpp:310</div></div>
+<div class="ttc" id="aclass_c_coptions_html_a22932f3d2ae242a2c0de934801c2816c"><div class="ttname"><a href="class_c_coptions.html#a22932f3d2ae242a2c0de934801c2816c">CCoptions::BindToControl</a></div><div class="ttdeci">void BindToControl(int channel, int control_number)</div><div class="ttdef"><b>Definition:</b> CCoptions.cpp:299</div></div>
 <div class="ttc" id="aclass_profile_html_abb1bca37a48aea146bb3088fc91dc4d1"><div class="ttname"><a href="class_profile.html#abb1bca37a48aea146bb3088fc91dc4d1">Profile::RemoveMessage</a></div><div class="ttdeci">void RemoveMessage(rsj::MidiMessageId message)</div><div class="ttdef"><b>Definition:</b> Profile.cpp:150</div></div>
 <div class="ttc" id="astructrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:145</div></div>
 <div class="ttc" id="aclass_p_woptions_html"><div class="ttname"><a href="class_p_woptions.html">PWoptions</a></div><div class="ttdef"><b>Definition:</b> PWoptions.h:59</div></div>
 <div class="ttc" id="aclass_command_menu_html_a27f522c5efa8aa99f9327c68fb3cc804"><div class="ttname"><a href="class_command_menu.html#a27f522c5efa8aa99f9327c68fb3cc804">CommandMenu::command_set_</a></div><div class="ttdeci">const CommandSet &amp; command_set_</div><div class="ttdef"><b>Definition:</b> CommandMenu.h:48</div></div>
 <div class="ttc" id="aclass_command_set_html_a1f12a89e0303d75fc0e9492bbb1f1458"><div class="ttname"><a href="class_command_set.html#a1f12a89e0303d75fc0e9492bbb1f1458">CommandSet::CommandAbbrevAt</a></div><div class="ttdeci">const auto &amp; CommandAbbrevAt(size_t index) const</div><div class="ttdef"><b>Definition:</b> CommandSet.h:36</div></div>
 <div class="ttc" id="aclass_command_menu_html_a4ecfce93e2902c3a0c9419c12ab4f92e"><div class="ttname"><a href="class_command_menu.html#a4ecfce93e2902c3a0c9419c12ab4f92e">CommandMenu::message_</a></div><div class="ttdeci">rsj::MidiMessageId message_</div><div class="ttdef"><b>Definition:</b> CommandMenu.h:50</div></div>
-<div class="ttc" id="aclass_command_set_html_ae2e91f3799f9820892ab5cb42c58c866"><div class="ttname"><a href="class_command_set.html#ae2e91f3799f9820892ab5cb42c58c866">CommandSet::GetMenus</a></div><div class="ttdeci">const auto &amp; GetMenus() const noexcept</div><div class="ttdef"><b>Definition:</b> CommandSet.h:51</div></div>
+<div class="ttc" id="aclass_command_set_html_ae2e91f3799f9820892ab5cb42c58c866"><div class="ttname"><a href="class_command_set.html#ae2e91f3799f9820892ab5cb42c58c866">CommandSet::GetMenus</a></div><div class="ttdeci">const auto &amp; GetMenus() const noexcept</div><div class="ttdef"><b>Definition:</b> CommandSet.h:56</div></div>
 <div class="ttc" id="astructrsj_1_1_midi_message_id_html_acc40acde2069206b38805eb871c64df8"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:146</div></div>
 <div class="ttc" id="aclass_command_menu_html_a2f031de592778295c9c404b7f421530d"><div class="ttname"><a href="class_command_menu.html#a2f031de592778295c9c404b7f421530d">CommandMenu::selected_item_</a></div><div class="ttdeci">size_t selected_item_</div><div class="ttdef"><b>Definition:</b> CommandMenu.h:51</div></div>
 <div class="ttc" id="aclass_text_button_aligned_html"><div class="ttname"><a href="class_text_button_aligned.html">TextButtonAligned</a></div><div class="ttdef"><b>Definition:</b> TextButtonAligned.h:23</div></div>
-<div class="ttc" id="aclass_profile_html_a77ba709ce554f849159a08950a9a93d3"><div class="ttname"><a href="class_profile.html#a77ba709ce554f849159a08950a9a93d3">Profile::CommandHasAssociatedMessage</a></div><div class="ttdeci">bool CommandHasAssociatedMessage(const std::string &amp;command) const</div><div class="ttdef"><b>Definition:</b> Profile.h:81</div></div>
-<div class="ttc" id="aclass_p_woptions_html_ae77ed5c5552d726e2f9d34603c67a065"><div class="ttname"><a href="class_p_woptions.html#ae77ed5c5552d726e2f9d34603c67a065">PWoptions::BindToControl</a></div><div class="ttdeci">void BindToControl(int channel)</div><div class="ttdef"><b>Definition:</b> PWoptions.cpp:178</div></div>
-<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:122</div></div>
-<div class="ttc" id="aclass_command_set_html_ab51b4f7ff3ded142a72bf0b4a8e29ef6"><div class="ttname"><a href="class_command_set.html#ab51b4f7ff3ded142a72bf0b4a8e29ef6">CommandSet::UnassignedTranslated</a></div><div class="ttdeci">static const auto &amp; UnassignedTranslated()</div><div class="ttdef"><b>Definition:</b> CommandSet.h:61</div></div>
+<div class="ttc" id="aclass_profile_html_a77ba709ce554f849159a08950a9a93d3"><div class="ttname"><a href="class_profile.html#a77ba709ce554f849159a08950a9a93d3">Profile::CommandHasAssociatedMessage</a></div><div class="ttdeci">bool CommandHasAssociatedMessage(const std::string &amp;command) const</div><div class="ttdef"><b>Definition:</b> Profile.h:82</div></div>
+<div class="ttc" id="aclass_p_woptions_html_ae77ed5c5552d726e2f9d34603c67a065"><div class="ttname"><a href="class_p_woptions.html#ae77ed5c5552d726e2f9d34603c67a065">PWoptions::BindToControl</a></div><div class="ttdeci">void BindToControl(int channel)</div><div class="ttdef"><b>Definition:</b> PWoptions.cpp:170</div></div>
+<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:107</div></div>
+<div class="ttc" id="aclass_command_set_html_ab51b4f7ff3ded142a72bf0b4a8e29ef6"><div class="ttname"><a href="class_command_set.html#ab51b4f7ff3ded142a72bf0b4a8e29ef6">CommandSet::UnassignedTranslated</a></div><div class="ttdeci">static const auto &amp; UnassignedTranslated()</div><div class="ttdef"><b>Definition:</b> CommandSet.h:66</div></div>
 <div class="ttc" id="aclass_c_coptions_html"><div class="ttname"><a href="class_c_coptions.html">CCoptions</a></div><div class="ttdef"><b>Definition:</b> CCoptions.h:60</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

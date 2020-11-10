@@ -7,6 +7,7 @@ var class_command_set =
     [ "CommandAbbrevSize", "class_command_set.html#a166df13ac3d95e6e96d3e5a6efcee685", null ],
     [ "CommandLabelAt", "class_command_set.html#adda97e05728388c477c3768d52887b5b", null ],
     [ "CommandTextIndex", "class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52", null ],
+    [ "GetLanguage", "class_command_set.html#ad049db1f1226f2a434aa332ed281ccf5", null ],
     [ "GetMenuEntries", "class_command_set.html#a396f351db20309ef15d49e64ab8960ad", null ],
     [ "GetMenus", "class_command_set.html#ae2e91f3799f9820892ab5cb42c58c866", null ],
     [ "MakeImpl", "class_command_set.html#aec94deb6175081074094fd15e3640928", null ],

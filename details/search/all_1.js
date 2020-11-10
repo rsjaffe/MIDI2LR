@@ -3,7 +3,7 @@ var searchData=
   ['absbutton_2',['absbutton',['../class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d',1,'CCoptions']]],
   ['activemodifiers_3',['ActiveModifiers',['../structrsj_1_1_active_modifiers.html',1,'rsj']]],
   ['activetosaved_4',['ActiveToSaved',['../class_channel_model.html#a02c98af20857bc809f51840908a9b5b8',1,'ChannelModel']]],
-  ['add_5',['Add',['../class_devices.html#a6fbd77bc71ea9c5a41410a40376ac376',1,'Devices']]],
+  ['add_5',['Add',['../class_devices.html#a87414122573f3209ae89eec07579ff89',1,'Devices']]],
   ['addcallback_6',['AddCallback',['../class_lr_ipc_out.html#a868d8f460f4f2140e177d74d1210f254',1,'LrIpcOut::AddCallback()'],['../class_profile_manager.html#a991fb70897af11237ddc35b725ecc09c',1,'ProfileManager::AddCallback()'],['../class_midi_receiver.html#ab39aa3c6b5da4a6ee0e74dc63a27e87d',1,'MidiReceiver::AddCallback()']]],
   ['addcommandformessage_7',['AddCommandForMessage',['../class_profile.html#a959631959c1c89d9ec36ea42d781b5cb',1,'Profile']]],
   ['addcommandformessagei_8',['AddCommandForMessageI',['../class_profile.html#a2d705fbf852f061b35da0005a0a3e5ae',1,'Profile']]],
