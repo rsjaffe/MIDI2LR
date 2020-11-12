@@ -123,7 +123,7 @@ void ProfileManager::SwitchToPreviousProfile()
    }
 }
 
-void ProfileManager::MapCommand(const rsj::MidiMessageId msg)
+void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 {
    try {
       const auto cmd {current_profile_.GetCommandForMessage(msg)};

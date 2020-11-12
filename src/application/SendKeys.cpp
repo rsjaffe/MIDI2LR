@@ -292,7 +292,7 @@ namespace {
 
 #pragma warning(push)
 #pragma warning(disable : 26447) /* all exceptions caught and suppressed */
-void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods) noexcept
+void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods) noexcept
 {
    try {
       Expects(!key.empty());

@@ -20,7 +20,7 @@
 
 #include "Misc.h"
 
-void Profile::AddCommandForMessageI(const size_t command, const rsj::MidiMessageId message)
+void Profile::AddCommandForMessageI(const size_t command, const rsj::MidiMessageId& message)
 {
    try {
       if (command < command_set_.CommandAbbrevSize()) {
@@ -37,7 +37,7 @@ void Profile::AddCommandForMessageI(const size_t command, const rsj::MidiMessage
    }
 }
 
-void Profile::AddRowMapped(const std::string& command, const rsj::MidiMessageId message)
+void Profile::AddRowMapped(const std::string& command, const rsj::MidiMessageId& message)
 {
    try {
       auto guard {std::unique_lock {mutex_}};
@@ -61,7 +61,7 @@ void Profile::AddRowMapped(const std::string& command, const rsj::MidiMessageId 
    }
 }
 
-void Profile::AddRowUnmapped(const rsj::MidiMessageId message)
+void Profile::AddRowUnmapped(const rsj::MidiMessageId& message)
 {
    try {
       auto guard {std::unique_lock {mutex_}};
@@ -147,7 +147,7 @@ void Profile::RemoveAllRows()
    }
 }
 
-void Profile::RemoveMessage(const rsj::MidiMessageId message)
+void Profile::RemoveMessage(const rsj::MidiMessageId& message)
 { /* do not erase command table as that will cause disappearing messages when go from Unassigned to
      assigned */
    try {

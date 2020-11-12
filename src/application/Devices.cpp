@@ -126,7 +126,7 @@ bool Devices::Enabled(const juce::MidiDeviceInfo& info, juce::String io) const
    }
 }
 
-bool Devices::EnabledOrNew(const juce::MidiDeviceInfo& info, const juce::String io)
+bool Devices::EnabledOrNew(const juce::MidiDeviceInfo& info, const juce::String& io)
 {
    try {
       if (Add(info, io))
