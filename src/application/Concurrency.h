@@ -255,8 +255,9 @@ namespace rsj {
       template<class... Args> void emplace(Args&&... args)
       {
          {
+            T new_item {std::forward<Args>(args)...};
             auto lock {std::scoped_lock(mutex_)};
-            queue_.emplace_back(std::forward<Args>(args)...);
+            queue_.push_back(std::move(new_item));
          }
          condition_.notify_one();
       }
@@ -303,53 +304,65 @@ namespace rsj {
       }
       void clear() noexcept(noexcept(std::declval<Container>().clear()) && noexcept(
           std::scoped_lock(std::declval<Mutex>())))
-      {
-         auto lock {std::scoped_lock(mutex_)};
-         queue_.clear();
+      { /*https://devblogs.microsoft.com/oldnewthing/20201112-00/?p=104444 */
+         Container trash {};
+         {
+            auto lock {std::scoped_lock(mutex_)};
+            std::swap(trash, queue_);
+         }
+         trash.clear();
       }
       [[nodiscard]] size_type
       clear_count() noexcept(noexcept(std::declval<Container>().clear()) && noexcept(
           std::declval<Container>().size()) && noexcept(std::scoped_lock(std::declval<Mutex>())))
       {
-         auto lock {std::scoped_lock(mutex_)};
-         const auto ret {queue_.size()};
-         queue_.clear();
+         Container trash {};
+         {
+            auto lock {std::scoped_lock(mutex_)};
+            std::swap(trash, queue_);
+         }
+         const size_type ret {trash.size()};
+         trash.clear();
          return ret;
       }
       size_type clear_count_push(const T& value)
       {
-         size_type ret;
+         Container trash {};
          {
             auto lock {std::scoped_lock(mutex_)};
-            ret = queue_.size();
-            queue_.clear();
+            std::swap(trash, queue_);
             queue_.push_back(value);
          }
          condition_.notify_one();
+         const size_type ret {trash.size()};
+         trash.clear();
          return ret;
       }
       size_type clear_count_push(T&& value)
       {
-         size_type ret;
+         Container trash {};
          {
             auto lock {std::scoped_lock(mutex_)};
-            ret = queue_.size();
-            queue_.clear();
+            std::swap(trash, queue_);
             queue_.push_back(std::move(value));
          }
          condition_.notify_one();
+         const size_type ret {trash.size()};
+         trash.clear();
          return ret;
       }
       template<class... Args> auto clear_count_emplace(Args&&... args)
       {
-         size_type ret;
+         Container trash {};
          {
+            T new_item {std::forward<Args>(args)...};
             auto lock {std::scoped_lock(mutex_)};
-            ret = queue_.size();
-            queue_.clear();
-            queue_.emplace_back(std::forward<Args>(args)...);
+            std::swap(trash, queue_);
+            queue_.push_back(std::move(new_item));
          }
          condition_.notify_one();
+         const size_type ret {trash.size()};
+         trash.clear();
          return ret;
       }
 
