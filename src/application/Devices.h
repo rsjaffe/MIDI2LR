@@ -34,7 +34,7 @@ class Devices {
    Devices& operator=(Devices&& other) noexcept = default;
    bool Add(const juce::MidiDeviceInfo& info, const juce::String& io);
    [[nodiscard]] bool Enabled(const juce::MidiDeviceInfo& info, juce::String io) const;
-   [[nodiscard]] bool EnabledOrNew(const juce::MidiDeviceInfo& info, juce::String io);
+   [[nodiscard]] bool EnabledOrNew(const juce::MidiDeviceInfo& info, const juce::String& io);
 
  private:
    struct DevInfo {

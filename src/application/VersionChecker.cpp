@@ -47,7 +47,7 @@ void VersionChecker::Start()
 {
    run_future_ = std::async(std::launch::async, [this] {
       rsj::LabelThread(L"VersionChecker run thread");
-      _mm_setcsr(_mm_getcsr() | 0x8040);
+      MIDI2LR_FAST_FLOATS;
       Run();
    });
 }

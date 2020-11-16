@@ -20,8 +20,8 @@
 
 #include "Misc.h"
 
-void TextButtonAligned::paintButton(
-    juce::Graphics& g, bool should_draw_button_as_highlighted, bool should_draw_button_as_down)
+void TextButtonAligned::paintButton(juce::Graphics& g, const bool should_draw_button_as_highlighted,
+    const bool should_draw_button_as_down)
 {
    /* from TextButton.cpp: only change is second call from lf:: to TextButtonAligned:: */
 #pragma warning(suppress : 26812)

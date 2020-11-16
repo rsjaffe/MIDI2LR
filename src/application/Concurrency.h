@@ -25,10 +25,14 @@
 #include <random>
 #include <thread>
 #include <type_traits>
-
+#ifndef __ARM_ARCH
 extern "C" {
 extern void _mm_pause();
 }
+#define MIDI2LR_spin_pause _mm_pause()
+#else
+#define MIDI2LR_spin_pause __asm__ __volatile__("yield")
+#endif
 
 namespace rsj {
    /* from http://prng.di.unimi.it/splitmix64.c, made state atomically updated and added methods to
@@ -99,7 +103,7 @@ namespace rsj {
                if (k < bo1)
                   continue;
                if (k < bo2)
-                  _mm_pause();
+                  MIDI2LR_spin_pause;
                else if (k < bo3)
                   std::this_thread::yield();
                else
@@ -149,7 +153,8 @@ namespace rsj {
           : queue_ {std::exchange(cont, {})}
       {
       }
-      /*4*/ ConcurrentQueue(const ConcurrentQueue& other)
+      /*4*/ ConcurrentQueue(const ConcurrentQueue& other) noexcept(
+          std::is_nothrow_copy_constructible_v<Container>)
       {
          auto lock {std::scoped_lock(other.mutex_)};
          queue_ = other.queue_;
@@ -194,7 +199,9 @@ namespace rsj {
          queue_ = Container(std::exchange(other.queue_, {}), alloc);
       }
       /* operator= */
-      ConcurrentQueue& operator=(const ConcurrentQueue& other)
+      ConcurrentQueue& operator=(const ConcurrentQueue& other) noexcept(
+          std::is_nothrow_copy_assignable_v<Container>&& noexcept(
+              std::scoped_lock(std::declval<Mutex>())))
       {
          {
             auto lock {std::scoped_lock(mutex_, other.mutex_)};
@@ -255,8 +262,9 @@ namespace rsj {
       template<class... Args> void emplace(Args&&... args)
       {
          {
+            T new_item {std::forward<Args>(args)...};
             auto lock {std::scoped_lock(mutex_)};
-            queue_.emplace_back(std::forward<Args>(args)...);
+            queue_.push_back(std::move(new_item));
          }
          condition_.notify_one();
       }
@@ -303,53 +311,65 @@ namespace rsj {
       }
       void clear() noexcept(noexcept(std::declval<Container>().clear()) && noexcept(
           std::scoped_lock(std::declval<Mutex>())))
-      {
-         auto lock {std::scoped_lock(mutex_)};
-         queue_.clear();
+      { /*https://devblogs.microsoft.com/oldnewthing/20201112-00/?p=104444 */
+         Container trash {};
+         {
+            auto lock {std::scoped_lock(mutex_)};
+            std::swap(trash, queue_);
+         }
+         trash.clear();
       }
       [[nodiscard]] size_type
       clear_count() noexcept(noexcept(std::declval<Container>().clear()) && noexcept(
           std::declval<Container>().size()) && noexcept(std::scoped_lock(std::declval<Mutex>())))
       {
-         auto lock {std::scoped_lock(mutex_)};
-         const auto ret {queue_.size()};
-         queue_.clear();
+         Container trash {};
+         {
+            auto lock {std::scoped_lock(mutex_)};
+            std::swap(trash, queue_);
+         }
+         const size_type ret {trash.size()};
+         trash.clear();
          return ret;
       }
       size_type clear_count_push(const T& value)
       {
-         size_type ret;
+         Container trash {};
          {
             auto lock {std::scoped_lock(mutex_)};
-            ret = queue_.size();
-            queue_.clear();
+            std::swap(trash, queue_);
             queue_.push_back(value);
          }
          condition_.notify_one();
+         const size_type ret {trash.size()};
+         trash.clear();
          return ret;
       }
       size_type clear_count_push(T&& value)
       {
-         size_type ret;
+         Container trash {};
          {
             auto lock {std::scoped_lock(mutex_)};
-            ret = queue_.size();
-            queue_.clear();
+            std::swap(trash, queue_);
             queue_.push_back(std::move(value));
          }
          condition_.notify_one();
+         const size_type ret {trash.size()};
+         trash.clear();
          return ret;
       }
       template<class... Args> auto clear_count_emplace(Args&&... args)
       {
-         size_type ret;
+         Container trash {};
          {
+            T new_item {std::forward<Args>(args)...};
             auto lock {std::scoped_lock(mutex_)};
-            ret = queue_.size();
-            queue_.clear();
-            queue_.emplace_back(std::forward<Args>(args)...);
+            std::swap(trash, queue_);
+            queue_.push_back(std::move(new_item));
          }
          condition_.notify_one();
+         const size_type ret {trash.size()};
+         trash.clear();
          return ret;
       }
 

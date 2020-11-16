@@ -35,7 +35,8 @@ void rsj::Translate(const std::string& lg)
       static const std::map<std::string, TransType> kTranslationTable {{"de", de}, {"es", es},
           {"fr", fr}, {"it", it}, {"ja", ja}, {"ko", ko}, {"nl", nl}, {"pt", pt}, {"ru", ru},
           {"sv", sv}, {"th", th}, {"zh_cn", zh_cn}, {"zh_tw", zh_tw}};
-      if (const auto found {kTranslationTable.find(lg)}; found != kTranslationTable.end()) {
+      const auto language {rsj::ToLower(lg)};
+      if (const auto found {kTranslationTable.find(language)}; found != kTranslationTable.end()) {
 #pragma warning(suppress : 26490)
          /* SEE: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1423r0.html for rationale
           * for reinterpret_cast */

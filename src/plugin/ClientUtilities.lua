@@ -630,7 +630,12 @@ local function cg_reset_current()
 end
 
 local patrans = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ProfileAmount=Profile amount')
+local lastprofileadj = 0
 local function ProfileAmount(value)
+  if lastprofileadj + .1 > os.clock() then --throttle to 10x/second
+    return
+  end
+  lastprofileadj = os.clock()
   local val = value -- make available to async task
   LrTasks.startAsyncTask ( function ()
       if LrApplication.activeCatalog():getTargetPhoto() == nil then return end

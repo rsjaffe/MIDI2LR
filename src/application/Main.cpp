@@ -151,7 +151,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
           * start-up after all, it can just call the quit() method and the event loop won't be
           * run. */
          if (command_line != kShutDownString) {
-            _mm_setcsr(_mm_getcsr() | 0x8040);
+            MIDI2LR_FAST_FLOATS;
             CCoptions::LinkToControlsModel(&controls_model_);
             PWoptions::LinkToControlsModel(&controls_model_);
             juce::LookAndFeel::setDefaultLookAndFeel(&look_feel_);
@@ -365,9 +365,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          juce::String font2_name;
          if (lang == "ko")
             font1_name = "NotoSansKR-Regular.otf";
-         else if (lang == "zh_tw")
+         else if (lang == "zh_TW" || lang == "zh_tw")
             font1_name = "NotoSansTC-Regular.otf";
-         else if (lang == "zh_cn")
+         else if (lang == "zh_CN" || lang == "zh_cn")
             font1_name = "NotoSansSC-Regular.otf";
          else if (lang == "ja")
             font1_name = "NotoSansJP-Regular.otf";

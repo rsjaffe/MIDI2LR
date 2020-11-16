@@ -29,7 +29,7 @@ namespace rsj {
       static ActiveModifiers FromMidi2LR(int from) noexcept;
    };
 
-   void SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexcept;
+   void SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods) noexcept;
 } // namespace rsj
 
 #endif

@@ -37,8 +37,8 @@ class Profile {
  public:
    explicit Profile(const CommandSet& command_set) noexcept : command_set_ {command_set} {}
    void AddCommandForMessage(size_t command, rsj::MidiMessageId message);
-   void AddRowMapped(const std::string& command, rsj::MidiMessageId message);
-   void AddRowUnmapped(rsj::MidiMessageId message);
+   void AddRowMapped(const std::string& command, const rsj::MidiMessageId& message);
+   void AddRowUnmapped(const rsj::MidiMessageId& message);
    [[nodiscard]] bool CommandHasAssociatedMessage(const std::string& command) const;
    void FromXml(const juce::XmlElement* root);
    [[nodiscard]] const std::string& GetCommandForMessage(rsj::MidiMessageId message) const;
@@ -49,7 +49,7 @@ class Profile {
    [[nodiscard]] bool MessageExistsInMap(rsj::MidiMessageId message) const;
    [[nodiscard]] bool ProfileUnsaved() const;
    void RemoveAllRows();
-   void RemoveMessage(rsj::MidiMessageId message);
+   void RemoveMessage(const rsj::MidiMessageId& message);
    void RemoveRow(size_t row);
    void RemoveUnassignedMessages();
    void Resort(std::pair<int, bool> new_order);
@@ -57,7 +57,7 @@ class Profile {
    void ToXmlFile(const juce::File& file);
 
  private:
-   void AddCommandForMessageI(size_t command, rsj::MidiMessageId message);
+   void AddCommandForMessageI(size_t command, const rsj::MidiMessageId& message);
    const std::string& GetCommandForMessageI(rsj::MidiMessageId message) const;
    rsj::MidiMessageId GetMessageForNumberI(size_t num) const;
    bool MessageExistsInMapI(rsj::MidiMessageId message) const;

@@ -955,8 +955,8 @@
 					"_DEBUG=1",
 					"DEBUG=1",
 					"JUCER_XCODE_MAC_46BB2872=1",
-					"JUCE_APP_VERSION=4.0.4.0",
-					"JUCE_APP_VERSION_HEX=0x4000400",
+					"JUCE_APP_VERSION=4.1.0.0",
+					"JUCE_APP_VERSION_HEX=0x4010000",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -1016,7 +1016,7 @@
 				PRODUCT_NAME = "MIDI2LR";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				USE_HEADERMAP = NO;
-				VALID_ARCHS = "x86_64";
+				VALID_ARCHS = "arm64 x86_64";
 			};
 			name = Debug;
 		};
@@ -1040,8 +1040,8 @@
 					"_NDEBUG=1",
 					"NDEBUG=1",
 					"JUCER_XCODE_MAC_46BB2872=1",
-					"JUCE_APP_VERSION=4.0.4.0",
-					"JUCE_APP_VERSION_HEX=0x4000400",
+					"JUCE_APP_VERSION=4.1.0.0",
+					"JUCE_APP_VERSION_HEX=0x4010000",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -1101,7 +1101,7 @@
 				PRODUCT_NAME = "MIDI2LR";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				USE_HEADERMAP = NO;
-				VALID_ARCHS = "x86_64";
+				VALID_ARCHS = "arm64 x86_64";
 			};
 			name = Release;
 		};

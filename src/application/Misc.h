@@ -29,7 +29,11 @@
 #include <fmt/chrono.h>
 #include <fmt/format.h>
 #include <gsl/gsl>
+#ifndef __ARM_ARCH
 #include <xmmintrin.h> /* for rounding intrinsics */
+#else
+#include <cmath>
+#endif
 
 #include <juce_core/juce_core.h>
 
@@ -51,6 +55,12 @@ constexpr auto MacOS {false};
 #else
 constexpr auto MSWindows {false};
 constexpr auto MacOS {true};
+#endif
+
+#ifndef __ARM_ARCH
+#define MIDI2LR_FAST_FLOATS _mm_setcsr(_mm_getcsr() | 0x8040)
+#else
+#define MIDI2LR_FAST_FLOATS /* no fast floats in ARM */
 #endif
 
 namespace rsj {
@@ -148,6 +158,7 @@ namespace rsj {
    /*****************************************************************************/
    /*******************Fast Floats***********************************************/
    /*****************************************************************************/
+#ifndef __ARM_ARCH
    inline int RoundToInt(float source)
    {
       return _mm_cvtss_si32(_mm_set_ss(source));
@@ -161,6 +172,16 @@ namespace rsj {
    { /* speed up floating point ops; we're not worried about precision of very small values */
       _mm_setcsr(_mm_getcsr() | 0x8040);
    }
+#else
+   inline int RoundToInt(float source)
+   {
+      return gsl::narrow<int>(std::lround(source));
+   }
+   inline int RoundToInt(double source)
+   {
+      return gsl::narrow<int>(std::lround(source));
+   }
+#endif
 } // namespace rsj
 
 #endif
