@@ -25,10 +25,14 @@
 #include <random>
 #include <thread>
 #include <type_traits>
-
+#ifndef __ARM_ARCH
 extern "C" {
 extern void _mm_pause();
 }
+#define MIDI2LR_spin_pause _mm_pause()
+#else
+#define MIDI2LR_spin_pause __asm__ __volatile__("yield")
+#endif
 
 namespace rsj {
    /* from http://prng.di.unimi.it/splitmix64.c, made state atomically updated and added methods to
@@ -99,7 +103,7 @@ namespace rsj {
                if (k < bo1)
                   continue;
                if (k < bo2)
-                  _mm_pause();
+                  MIDI2LR_spin_pause;
                else if (k < bo3)
                   std::this_thread::yield();
                else
@@ -149,7 +153,8 @@ namespace rsj {
           : queue_ {std::exchange(cont, {})}
       {
       }
-      /*4*/ ConcurrentQueue(const ConcurrentQueue& other)
+      /*4*/ ConcurrentQueue(const ConcurrentQueue& other) noexcept(
+          std::is_nothrow_copy_constructible_v<Container>)
       {
          auto lock {std::scoped_lock(other.mutex_)};
          queue_ = other.queue_;
@@ -194,7 +199,9 @@ namespace rsj {
          queue_ = Container(std::exchange(other.queue_, {}), alloc);
       }
       /* operator= */
-      ConcurrentQueue& operator=(const ConcurrentQueue& other)
+      ConcurrentQueue& operator=(const ConcurrentQueue& other) noexcept(
+          std::is_nothrow_copy_assignable_v<Container>&& noexcept(
+              std::scoped_lock(std::declval<Mutex>())))
       {
          {
             auto lock {std::scoped_lock(mutex_, other.mutex_)};
