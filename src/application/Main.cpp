@@ -365,9 +365,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          juce::String font2_name;
          if (lang == "ko")
             font1_name = "NotoSansKR-Regular.otf";
-         else if (lang == "zh_tw")
+         else if (lang == "zh_TW" || lang == "zh_tw")
             font1_name = "NotoSansTC-Regular.otf";
-         else if (lang == "zh_cn")
+         else if (lang == "zh_CN" || lang == "zh_cn")
             font1_name = "NotoSansSC-Regular.otf";
          else if (lang == "ja")
             font1_name = "NotoSansJP-Regular.otf";
