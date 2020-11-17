@@ -24,7 +24,6 @@
 #include <utility>
 
 #import <Carbon/Carbon.h>
-#import <Cocoa/Cocoa.h>
 #include <fmt/format.h>
 
 #include <juce_core/juce_core.h>
