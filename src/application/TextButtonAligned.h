@@ -24,13 +24,15 @@ class TextButtonAligned : public juce::TextButton {
  public:
    using TextButton::TextButton;
 #pragma warning(suppress : 26812)
-   explicit TextButtonAligned(juce::Justification::Flags alignment) : alignment_ {alignment} {}
-   TextButtonAligned(const juce::String& button_name, juce::Justification::Flags alignment)
+   explicit TextButtonAligned(const juce::Justification::Flags alignment) : alignment_ {alignment}
+   {
+   }
+   TextButtonAligned(const juce::String& button_name, const juce::Justification::Flags alignment)
        : juce::TextButton(button_name), alignment_ {alignment}
    {
    }
    TextButtonAligned(const juce::String& button_name, const juce::String& tool_tip,
-       juce::Justification::Flags alignment)
+       const juce::Justification::Flags alignment)
        : juce::TextButton(button_name, tool_tip), alignment_ {alignment}
    {
    }
@@ -39,7 +41,7 @@ class TextButtonAligned : public juce::TextButton {
  private:
    void DrawButtonText(juce::Graphics& g, TextButton& button,
        [[maybe_unused]] bool should_draw_button_as_highlighted,
-       [[maybe_unused]] bool should_draw_button_as_down);
+       [[maybe_unused]] bool should_draw_button_as_down) const;
 
    juce::Justification::Flags alignment_ {juce::Justification::centredLeft};
 };
