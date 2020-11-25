@@ -742,13 +742,9 @@ void basic_memory_buffer<T, SIZE, Allocator>::grow(size_t size) {
 #ifdef FMT_FUZZ
   if (size > 5000) throw std::runtime_error("fuzz mode - won't grow that much");
 #endif
-  const size_t max_size = std::allocator_traits<Allocator>::max_size(alloc_);
   size_t old_capacity = this->capacity();
   size_t new_capacity = old_capacity + old_capacity / 2;
-  if (size > new_capacity)
-    new_capacity = size;
-  else if (new_capacity > max_size)
-    new_capacity = (std::max)(size, max_size);
+  if (size > new_capacity) new_capacity = size;
   T* old_data = this->data();
   T* new_data =
       std::allocator_traits<Allocator>::allocate(alloc_, new_capacity);
@@ -981,6 +977,13 @@ template <> int count_digits<4>(detail::fallback_uintptr n);
 #  define FMT_ALWAYS_INLINE inline
 #endif
 
+// To suppress unnecessary security cookie checks
+#if FMT_MSC_VER && !FMT_CLANG_VERSION
+#  define FMT_SAFEBUFFERS __declspec(safebuffers)
+#else
+#  define FMT_SAFEBUFFERS
+#endif
+
 #ifdef FMT_BUILTIN_CLZ
 // Optional version of count_digits for better performance on 32-bit platforms.
 inline int count_digits(uint32_t n) {
@@ -1142,8 +1145,8 @@ template <typename T = void> struct null {};
 template <typename Char> struct fill_t {
  private:
   enum { max_size = 4 };
-  Char data_[max_size];
-  unsigned char size_;
+  Char data_[max_size] = {Char(' '), Char(0), Char(0), Char(0)};
+  unsigned char size_ = 1;
 
  public:
   FMT_CONSTEXPR void operator=(basic_string_view<Char> s) {
@@ -1162,13 +1165,6 @@ template <typename Char> struct fill_t {
   FMT_CONSTEXPR Char& operator[](size_t index) { return data_[index]; }
   FMT_CONSTEXPR const Char& operator[](size_t index) const {
     return data_[index];
-  }
-
-  static FMT_CONSTEXPR fill_t<Char> make() {
-    auto fill = fill_t<Char>();
-    fill[0] = Char(' ');
-    fill.size_ = 1;
-    return fill;
   }
 };
 }  // namespace detail
@@ -1201,8 +1197,7 @@ template <typename Char> struct basic_format_specs {
         type(0),
         align(align::none),
         sign(sign::none),
-        alt(false),
-        fill(detail::fill_t<Char>::make()) {}
+        alt(false) {}
 };
 
 using format_specs = basic_format_specs<char>;
@@ -1271,7 +1266,7 @@ template <typename T> struct decimal_fp {
   int exponent;
 };
 
-template <typename T> decimal_fp<T> to_decimal(T x) FMT_NOEXCEPT;
+template <typename T> FMT_API decimal_fp<T> to_decimal(T x) FMT_NOEXCEPT;
 }  // namespace dragonbox
 
 template <typename T>
