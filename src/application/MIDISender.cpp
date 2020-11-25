@@ -24,6 +24,7 @@
 #include <juce_audio_devices/juce_audio_devices.h>
 #include <juce_core/juce_core.h>
 
+#include "Devices.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
 

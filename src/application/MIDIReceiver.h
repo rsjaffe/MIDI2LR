@@ -25,8 +25,9 @@
 #include <juce_audio_devices/juce_audio_devices.h>
 
 #include "Concurrency.h"
-#include "Devices.h"
 #include "MidiUtilities.h"
+
+class Devices;
 
 #ifndef _MSC_VER
 #define _In_

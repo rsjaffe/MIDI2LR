@@ -18,7 +18,7 @@
 #include <memory>
 #include <vector>
 
-#include "Devices.h"
+class Devices;
 
 namespace juce {
    class MidiOutput;
