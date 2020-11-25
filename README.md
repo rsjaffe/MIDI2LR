@@ -27,4 +27,4 @@ Translation assistance welcome. Sign up at https://poeditor.com/join/project?has
 
 | Screenshot | Further information |
 | -----------| -------------------- |
-| <img src="http://rsjaffe.github.io/MIDI2LR/images/app.png" /> | **Discussion Forum**: https://groups.google.com/d/forum/midi2lr <br />**Supported platforms**: MacOS 10.12+, Windows 7+. <br />**Building**: [See the BUILD.txt file](https://github.com/rsjaffe/MIDI2LR/blob/master/BUILD.txt). <br />**Project Page**: [Project Page](http://rsjaffe.github.io/MIDI2LR). <br />**Wiki and Instruction Manual**: [Wiki 📖](https://github.com/rsjaffe/MIDI2LR/wiki). |
+| <img src="http://rsjaffe.github.io/MIDI2LR/images/app.png" /> | **Discussion Forum**: https://groups.google.com/d/forum/midi2lr <br />**Supported platforms**: MacOS 10.12+, Windows 7+. <br />**Building**: [See the BUILD.txt file](https://github.com/rsjaffe/MIDI2LR/blob/master/docs/BUILD.txt). <br />**Project Page**: [Project Page](http://rsjaffe.github.io/MIDI2LR). <br />**Wiki and Instruction Manual**: [Wiki 📖](https://github.com/rsjaffe/MIDI2LR/wiki). |
