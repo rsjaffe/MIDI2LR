@@ -19,7 +19,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local ActionSeries      = require 'ActionSeries'
-local CustomProfiles    = require 'CustomProfiles'
 local Filters           = require 'Filters'
 local Keys              = require 'Keys'
 local Limits            = require 'Limits'
@@ -86,11 +85,6 @@ local function setOptions()
             identifier = 'localpresets',
             LocalPresets.StartDialog(properties,f),
           }, --tab_view_item
-         f:tab_view_item {
-            title = LOC("$$$/MIDI2LR/Database/Customcameraprofile=Custom camera profile"),
-            identifier = 'customprofiles',
-            CustomProfiles.StartDialog(properties,f),
-          }, --tab_view_item
         }, -- tab_view
       } -- view
 
@@ -100,7 +94,6 @@ local function setOptions()
         contents = contents,
       }
       ActionSeries.EndDialog(properties,result)
-      CustomProfiles.EndDialog(properties,result)
       Filters.EndDialog(properties,result)
       Keys.EndDialog(properties,result)
       Limits.EndDialog(properties,result)
