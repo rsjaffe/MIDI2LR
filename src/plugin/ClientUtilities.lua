@@ -493,26 +493,6 @@ local function LRValueToMIDIValue(param)
   return retval
 end
 
-local function UpdateCameraProfile(name)
-  if type(name) == 'string' then
-    return function()
-      fChangePanel('calibratePanel')
-      ApplySettings({
-          CameraProfile = name
-        })
-    end
-  end
-  return function()
-    local newprofile = ProgramPreferences.CustomProfile[name]
-    if newprofile then
-      fChangePanel('calibratePanel')
-      ApplySettings({
-          CameraProfile = newprofile
-        })
-    end
-  end
-end
-
 local function fSimulateKeys(keys, developonly, tool)
   return function()
     if developonly then
@@ -669,7 +649,6 @@ return {
   LRValueToMIDIValue = LRValueToMIDIValue,
   MIDIValueToLRValue = MIDIValueToLRValue,
   QuickCropAspect = QuickCropAspect,
-  UpdateCameraProfile = UpdateCameraProfile,
   UpdatePointCurve = UpdatePointCurve,
   cg_hsl_copy = cg_hsl_copy,
   cg_hsl_paste = cg_hsl_paste,

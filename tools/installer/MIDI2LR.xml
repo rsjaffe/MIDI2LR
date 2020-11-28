@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>4.1.0.0</version>
+    <version>4.1.1.0</version>
     <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>data/translations/ReadMe.txt</readmeFile>
     <licenseFile>../../LICENSE.txt</licenseFile>
@@ -41,9 +41,6 @@
                         </distributionFile>
                         <distributionFile>
                             <origin>../../src/plugin/ClientUtilities.lua</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../../src/plugin/CustomProfiles.lua</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../../src/plugin/Database.lua</origin>
@@ -436,6 +433,9 @@
         </if>
         <deleteFile>
             <path>${project.rollbackBackupDirectory}</path>
+        </deleteFile>
+        <deleteFile>
+            <path>${installdir}/MIDI2LR.lrplugin/CustomProfiles.lua</path>
         </deleteFile>
     </postInstallationActionList>
     <allowedLanguages>en es_AR pt_BR nl fr de it ja ko pt ru zh_CN es sv th zh_TW</allowedLanguages>

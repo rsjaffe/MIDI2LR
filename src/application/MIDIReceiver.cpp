@@ -20,6 +20,7 @@
 
 #include <fmt/format.h>
 
+#include "Devices.h"
 #include "Misc.h"
 
 namespace {

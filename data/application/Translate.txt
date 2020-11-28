@@ -1,40 +1,11 @@
-﻿// Saved in UTF-8 encoding codepage 65001
-/* Using Microsoft language portal to review the translations: https://www.microsoft.com/en-us/language/
-A new version of Skype is available. Office
-Apply to all (Dynamics NAV)
-Auto hide (A feature that minimizes tool windows along the edges of the IDE when these windows are not in use.--except for DE)
-Clear all rows [not available for ko, zh-tw]
-Connected to %s
-Do you want to download the latest version?
-Error (A value or condition that is not consistent with the true, specified, or expected value or condition.)
-Exception (An abnormal condition or error that occurs during the execution of a program. An exception requires the execution of software outside the normal flow of control.)
-Invalid keyboard layout handle.
-Load (To place information from storage into memory for processing, if it is data, or for execution, if it is program code.)
-LR Command (from UIDL command)
-maximum value (from Excel)
-MIDI Command (from UIDL command)
-MIDI2LR Profiles (from CDN profiles)
-minimum value (from Excel)
-Not connected to %s [did not use it translation; not available for zh_tw]
-Open profile [currently unused]
-Profile (A computer-based record that contains software settings and identification information.)
-Profile Changed
-  Do you want to save your changes? If you continue without saving, your changes will be lost.
-Resolution (A measure of the fineness of detail in an image or text, usually as produced by a monitor or printer.)
-Save
-Save profile
-Select Folder
-Settings (The feature in an app that allows users to change its properties or behavior.)
-The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
-Unable to load %1
-Unable to save %1
-Unable to save file. Choose a different location and try again.
-Unassigned from Dynamics AX7
-Unexpected Data Type:
-unhandled exception (An exception that was identified with a "try catch or finally block" structure or that occurred outside this structure but was not caught by any structured error handler. "Dr. Watson" errors are examples.)
-Version (A designation appended to a product name to identify a particular release.)
---for authorization for events instructions, used Apple Translation Resources, UniversalAccessPref.lg, Position: instructions.content.events
-*/
+﻿/* Saved in UTF-8 encoding codepage 65001
+ *
+ * See https://poeditor.com/projects/view?id=359585 for translation sources and notes
+ * To help in translations, sign up at https://poeditor.com/join/project?hash=v6U0MvufAn
+ * Using Microsoft language portal to review the translations: https://www.microsoft.com/en-us/language/
+ * For authorization for events instructions, used Apple Translation Resources, UniversalAccessPref.lg, Position: instructions.content.events
+ *
+ */
 namespace rsj
 {
    const auto de = u8R"===(language: German

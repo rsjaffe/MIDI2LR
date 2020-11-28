@@ -1646,7 +1646,8 @@ struct fixed_handler {
 // Implementation of Dragonbox algorithm: https://github.com/jk-jeon/dragonbox.
 namespace dragonbox {
 // Computes 128-bit result of multiplication of two 64-bit unsigned integers.
-inline uint128_wrapper umul128(uint64_t x, uint64_t y) FMT_NOEXCEPT {
+FMT_SAFEBUFFERS inline uint128_wrapper umul128(uint64_t x,
+                                               uint64_t y) FMT_NOEXCEPT {
 #if FMT_USE_INT128
   return static_cast<uint128_t>(x) * static_cast<uint128_t>(y);
 #elif defined(_MSC_VER) && defined(_M_X64)
@@ -1674,7 +1675,8 @@ inline uint128_wrapper umul128(uint64_t x, uint64_t y) FMT_NOEXCEPT {
 }
 
 // Computes upper 64 bits of multiplication of two 64-bit unsigned integers.
-inline uint64_t umul128_upper64(uint64_t x, uint64_t y) FMT_NOEXCEPT {
+FMT_SAFEBUFFERS inline uint64_t umul128_upper64(uint64_t x,
+                                                uint64_t y) FMT_NOEXCEPT {
 #if FMT_USE_INT128
   auto p = static_cast<uint128_t>(x) * static_cast<uint128_t>(y);
   return static_cast<uint64_t>(p >> 64);
@@ -1687,7 +1689,8 @@ inline uint64_t umul128_upper64(uint64_t x, uint64_t y) FMT_NOEXCEPT {
 
 // Computes upper 64 bits of multiplication of a 64-bit unsigned integer and a
 // 128-bit unsigned integer.
-inline uint64_t umul192_upper64(uint64_t x, uint128_wrapper y) FMT_NOEXCEPT {
+FMT_SAFEBUFFERS inline uint64_t umul192_upper64(uint64_t x, uint128_wrapper y)
+    FMT_NOEXCEPT {
   uint128_wrapper g0 = umul128(x, y.high());
   g0 += umul128_upper64(x, y.low());
   return g0.high();
@@ -1701,7 +1704,8 @@ inline uint32_t umul96_upper32(uint32_t x, uint64_t y) FMT_NOEXCEPT {
 
 // Computes middle 64 bits of multiplication of a 64-bit unsigned integer and a
 // 128-bit unsigned integer.
-inline uint64_t umul192_middle64(uint64_t x, uint128_wrapper y) FMT_NOEXCEPT {
+FMT_SAFEBUFFERS inline uint64_t umul192_middle64(uint64_t x, uint128_wrapper y)
+    FMT_NOEXCEPT {
   uint64_t g01 = x * y.high();
   uint64_t g10 = umul128_upper64(x, y.low());
   return g01 + g10;
@@ -2120,8 +2124,8 @@ FMT_ALWAYS_INLINE int remove_trailing_zeros(uint64_t& n) FMT_NOEXCEPT {
 
 // The main algorithm for shorter interval case
 template <class T>
-FMT_ALWAYS_INLINE decimal_fp<T> shorter_interval_case(int exponent)
-    FMT_NOEXCEPT {
+FMT_ALWAYS_INLINE FMT_SAFEBUFFERS decimal_fp<T> shorter_interval_case(
+    int exponent) FMT_NOEXCEPT {
   decimal_fp<T> ret_value;
   // Compute k and beta
   const int minus_k = floor_log10_pow2_minus_log10_4_over_3(exponent);
@@ -2167,7 +2171,8 @@ FMT_ALWAYS_INLINE decimal_fp<T> shorter_interval_case(int exponent)
   return ret_value;
 }
 
-template <typename T> decimal_fp<T> to_decimal(T x) FMT_NOEXCEPT {
+template <typename T>
+FMT_SAFEBUFFERS decimal_fp<T> to_decimal(T x) FMT_NOEXCEPT {
   // Step 1: integer promotion & Schubfach multiplier calculation.
 
   using carrier_uint = typename float_info<T>::carrier_uint;
@@ -2332,7 +2337,7 @@ void fallback_format(Double d, int num_digits, bool binary32, buffer<char>& buf,
       upper = &upper_store;
     }
     denominator.assign_pow10(exp10);
-    denominator <<= 1;
+    denominator <<= shift;
   } else if (exp10 < 0) {
     numerator.assign_pow10(-exp10);
     lower.assign(numerator);

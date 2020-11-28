@@ -36,7 +36,7 @@ void TextButtonAligned::paintButton(juce::Graphics& g, const bool should_draw_bu
 
 void TextButtonAligned::DrawButtonText(juce::Graphics& g, juce::TextButton& button,
     [[maybe_unused]] bool should_draw_button_as_highlighted,
-    [[maybe_unused]] bool should_draw_button_as_down)
+    [[maybe_unused]] bool should_draw_button_as_down) const
 {
    /* Based on drawButtonText in LookAndFeel_V2 (V3 doesn't override V2 for this call). Only change
     * in my version is alignment on last line. */

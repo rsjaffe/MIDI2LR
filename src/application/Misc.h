@@ -60,19 +60,24 @@ constexpr auto MacOS {true};
 #ifndef __ARM_ARCH
 #define MIDI2LR_FAST_FLOATS _mm_setcsr(_mm_getcsr() | 0x8040)
 #else
-#define MIDI2LR_FAST_FLOATS /* no fast floats in ARM */
+#define MIDI2LR_FPU_GETCW(fpcr) __asm__ __volatile__("mrs %0, fpcr" : "=r"(fpcr))
+#define MIDI2LR_FPU_SETCW(fpcr) __asm__ __volatile__("msr fpcr, %0" : : "r"(fpcr))
+#define MIDI2LR_FAST_FLOATS                                                                        \
+   {                                                                                               \
+      uint64_t status {};                                                                          \
+      MIDI2LR_FPU_GETCW(status);                                                                   \
+      status |= (1 << 24) | (1 << 19); /* FZ flag, FZ16 flag; flush denormals to zero  */          \
+      MIDI2LR_FPU_SETCW(status);                                                                   \
+   }                                                                                               \
+   static_assert(true, "require semi-colon after macro with this assert")
 #endif
 
 namespace rsj {
    /*****************************************************************************/
    /**************Thread Labels**************************************************/
    /*****************************************************************************/
-#ifndef NDEBUG
-#ifdef _WIN32
+#if !defined(NDEBUG) && defined(_WIN32)
    void LabelThread(gsl::cwzstring<> threadname);
-#else
-   constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
-#endif
 #else
    constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
 #endif

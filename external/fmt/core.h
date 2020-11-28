@@ -18,7 +18,7 @@
 #include <vector>
 
 // The fmt library version in the form major * 10000 + minor * 100 + patch.
-#define FMT_VERSION 70101
+#define FMT_VERSION 70103
 
 #ifdef __clang__
 #  define FMT_CLANG_VERSION (__clang_major__ * 100 + __clang_minor__)
@@ -761,7 +761,7 @@ class fixed_buffer_traits {
   explicit fixed_buffer_traits(size_t limit) : limit_(limit) {}
   size_t count() const { return count_; }
   size_t limit(size_t size) {
-    size_t n = limit_ - count_;
+    size_t n = limit_ > count_ ? limit_ - count_ : 0;
     count_ += size;
     return size < n ? size : n;
   }
@@ -784,7 +784,7 @@ class iterator_buffer final : public Traits, public buffer<T> {
  public:
   explicit iterator_buffer(OutputIt out, size_t n = buffer_size)
       : Traits(n),
-        buffer<T>(data_, 0, n < size_t(buffer_size) ? n : size_t(buffer_size)),
+        buffer<T>(data_, 0, buffer_size),
         out_(out) {}
   ~iterator_buffer() { flush(); }
 
@@ -1198,22 +1198,13 @@ template <typename Context> struct arg_mapper {
   FMT_CONSTEXPR const void* map(void* val) { return val; }
   FMT_CONSTEXPR const void* map(const void* val) { return val; }
   FMT_CONSTEXPR const void* map(std::nullptr_t val) { return val; }
-
-  // We use SFINAE instead of a const T* parameter to avoid conflicting with
-  // the C array overload.
-  template <typename T>
-  FMT_CONSTEXPR auto map(T) -> enable_if_t<std::is_pointer<T>::value, int> {
+  template <typename T> FMT_CONSTEXPR int map(const T*) {
     // Formatting of arbitrary pointers is disallowed. If you want to output
     // a pointer cast it to "void *" or "const void *". In particular, this
     // forbids formatting of "[const] volatile char *" which is printed as bool
     // by iostreams.
     static_assert(!sizeof(T), "formatting of non-void pointers is disallowed");
     return 0;
-  }
-
-  template <typename T, std::size_t N>
-  FMT_CONSTEXPR auto map(const T (&values)[N]) -> const T (&)[N] {
-    return values;
   }
 
   template <typename T,
