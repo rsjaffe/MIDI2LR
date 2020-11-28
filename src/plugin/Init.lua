@@ -39,16 +39,6 @@ local function LoadedActionSeries()
   end
 end
 
---CustomProfiles.lua
-local function UseDefaultsCustomProfiles()
-  ProgramPreferences.CustomProfile = {}
-end
-local function LoadedCustomProfiles()
-  if type(ProgramPreferences.CustomProfile) ~= 'table' then
-    ProgramPreferences.CustomProfile = {}
-  end
-end
-
 --Filters.lua
 local function UseDefaultsFilters()
   ProgramPreferences.Filters = {}
@@ -175,7 +165,6 @@ end
 
 local function LoadedAll()
   LoadedActionSeries()
-  LoadedCustomProfiles()
   LoadedFilters()
   LoadedKeys()
   LoadedKeywords()
@@ -189,7 +178,6 @@ end
 
 local function UseDefaultsAll()
   UseDefaultsActionSeries()
-  UseDefaultsCustomProfiles()
   UseDefaultsFilters()
   UseDefaultsKeys()
   UseDefaultsKeywords()
@@ -203,7 +191,6 @@ end
 
 return {
   LoadedActionSeries  = LoadedActionSeries,
-  LoadedCustomProfiles= LoadedCustomProfiles,
   LoadedFilters       = LoadedFilters,
   LoadedKeys          = LoadedKeys,
   LoadedKeywords      = LoadedKeywords,
@@ -214,7 +201,6 @@ return {
   LoadedProfiles      = LoadedProfiles,
   LoadedShowActions   = LoadedShowActions,
   UseDefaultsActionSeries = UseDefaultsActionSeries,
-  UseDefaultsCustomProfiles=UseDefaultsCustomProfiles,
   UseDefaultsFilters  = UseDefaultsFilters,
   UseDefaultsKeys     = UseDefaultsKeys,
   UseDefaultsKeywords = UseDefaultsKeywords,
