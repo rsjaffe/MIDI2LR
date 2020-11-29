@@ -187,6 +187,90 @@ namespace rsj {
       return gsl::narrow<int>(std::lround(source));
    }
 #endif
+/*****************************************************************************/
+/**************Safe Integer Comparisons***************************************/
+/*****************************************************************************/
+#ifdef __cpp_lib_integer_comparison_functions
+#include <utility>
+   using std::cmp_equal;
+   using std::cmp_greater;
+   using std::cmp_greater_equal;
+   using std::cmp_less;
+   using std::cmp_less_equal;
+   using std::cmp_not_equal;
+#else
+   /* adapted from Microsoft <utility> Apache 2 license */
+   template<class T, class... Ts>
+   inline constexpr bool IsAnyOfV = std::disjunction_v<std::is_same<T, Ts>...>;
+
+   template<class T>
+   inline constexpr bool IsStandardInteger =
+       std::is_integral_v<
+           T> && !IsAnyOfV<std::remove_cv_t<T>, bool, char, wchar_t, char8_t, char16_t, char32_t>;
+
+   template<class S, class T>
+   [[nodiscard]] constexpr bool cmp_equal(const S left, const T right) noexcept
+   {
+      static_assert(IsStandardInteger<S> && IsStandardInteger<T>,
+          "The integer comparison functions only accept standard and extended integer types.");
+      if constexpr (std::is_signed_v<S> == std::is_signed_v<T>) {
+         return left == right;
+      }
+      else if constexpr (std::is_signed_v<T>) {
+         return left == static_cast<std::make_unsigned_t<T>>(right) && right >= 0;
+      }
+      else {
+         return static_cast<std::make_unsigned_t<S>>(left) == right && left >= 0;
+      }
+   }
+
+   template<class S, class T>
+   [[nodiscard]] constexpr bool cmp_not_equal(const S left, const T right) noexcept
+   {
+      return !cmp_equal(left, right);
+   }
+
+   template<class S, class T>
+   [[nodiscard]] constexpr bool cmp_less(const S left, const T right) noexcept
+   {
+      static_assert(IsStandardInteger<S> && IsStandardInteger<T>,
+          "The integer comparison functions only accept standard and extended integer types.");
+      if constexpr (std::is_signed_v<S> == std::is_signed_v<T>) {
+         return left < right;
+      }
+      else if constexpr (std::is_signed_v<T>) {
+         return right > 0 && left < static_cast<std::make_unsigned_t<T>>(right);
+      }
+      else {
+         return left < 0 || static_cast<std::make_unsigned_t<S>>(left) < right;
+      }
+   }
+
+   template<class S, class T>
+   [[nodiscard]] constexpr bool cmp_greater(const S left, const T right) noexcept
+   {
+      return cmp_less(right, left);
+   }
+
+   template<class S, class T>
+   [[nodiscard]] constexpr bool cmp_less_equal(const S left, const T right) noexcept
+   {
+      return !cmp_less(right, left);
+   }
+
+   template<class S, class T>
+   [[nodiscard]] constexpr bool cmp_greater_equal(const S left, const T right) noexcept
+   {
+      return !cmp_less(left, right);
+   }
+#endif
+   constexpr auto CharToInt(char in)
+   {
+      if constexpr (std::numeric_limits<char>::is_signed)
+         return static_cast<int>(in);
+      else
+         return static_cast<unsigned int>(in);
+   }
 } // namespace rsj
 
 #endif

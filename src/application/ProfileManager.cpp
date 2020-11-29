@@ -17,9 +17,6 @@
 
 #include <exception>
 #include <string>
-#ifdef __cpp_lib_integer_comparison_functions
-#include <utility>
-#endif
 
 #include <gsl/gsl>
 
@@ -66,11 +63,7 @@ const std::vector<juce::String>& ProfileManager::GetMenuItems() const noexcept
 void ProfileManager::SwitchToProfile(int profile_index)
 {
    try {
-#ifdef __cpp_lib_integer_comparison_functions
-      if (profile_index >= 0 && std::cmp_less(profile_index, profiles_.size())) {
-#else
-      if (profile_index >= 0 && profile_index < gsl::narrow_cast<int>(profiles_.size())) {
-#endif
+      if (profile_index >= 0 && rsj::cmp_less(profile_index, profiles_.size())) {
          SwitchToProfile(profiles_.at(gsl::narrow_cast<size_t>(profile_index)));
          current_profile_index_ = profile_index;
       }
@@ -107,11 +100,7 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
 void ProfileManager::SwitchToNextProfile()
 {
    try {
-#ifdef __cpp_lib_integer_comparison_functions
-      if (std::cmp_equal(++current_profile_index_, profiles_.size()))
-#else
-      if (++current_profile_index_ == gsl::narrow_cast<int>(profiles_.size()))
-#endif
+      if (rsj::cmp_equal(++current_profile_index_, profiles_.size()))
          current_profile_index_ = 0;
       SwitchToProfile(current_profile_index_);
    }
