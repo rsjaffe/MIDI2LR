@@ -25,6 +25,9 @@
 #include <string>
 #include <string_view>
 #include <thread> /* sleep_for */
+#ifdef __cpp_lib_integer_comparison_functions
+#include <utility>
+#endif
 
 #include <fmt/chrono.h>
 #include <fmt/format.h>
@@ -191,7 +194,6 @@ namespace rsj {
 /**************Safe Integer Comparisons***************************************/
 /*****************************************************************************/
 #ifdef __cpp_lib_integer_comparison_functions
-#include <utility>
    using std::cmp_equal;
    using std::cmp_greater;
    using std::cmp_greater_equal;
@@ -203,10 +205,13 @@ namespace rsj {
    template<class T, class... Ts>
    inline constexpr bool IsAnyOfV = std::disjunction_v<std::is_same<T, Ts>...>;
 
-   template<class T>
-   inline constexpr bool IsStandardInteger =
-       std::is_integral_v<
-           T> && !IsAnyOfV<std::remove_cv_t<T>, bool, char, wchar_t, char8_t, char16_t, char32_t>;
+   template <class T>
+   inline constexpr bool IsStandardInteger = std::is_integral_v<T> 
+       && !IsAnyOfV<std::remove_cv_t<T>, bool, char, wchar_t,
+#ifdef __cpp_char8_t
+        char8_t,
+#endif
+        char16_t, char32_t>;
 
    template<class S, class T>
    [[nodiscard]] constexpr bool cmp_equal(const S left, const T right) noexcept
