@@ -42,7 +42,11 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
       g.setFont(std::min(16.0f, static_cast<float>(height) * 0.7f));
       if (column_id == 1) {
          /* write the MIDI message in the MIDI command column */
+#ifdef __cpp_lib_integer_comparison_functions
+         if (std::cmp_less_equal(profile_.Size(), row_number)) {
+#else
          if (profile_.Size() <= gsl::narrow_cast<size_t>(row_number)) {
+#endif
             /* error condition */
             g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
             rsj::Log(fmt::format(FMT_STRING("Unknown control CommandTableModel::paintCell. {} rows "

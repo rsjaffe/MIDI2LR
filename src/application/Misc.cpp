@@ -17,6 +17,9 @@
 
 #include <algorithm>
 #include <cctype>
+#ifdef __cpp_lib_integer_comparison_functions
+#include <utility>
+#endif
 
 #include <ww898/utf_converters.hpp>
 
@@ -48,6 +51,15 @@ namespace {
        "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12",
        "\\x13", "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C",
        "\\x1D", "\\x1E", "\\x1F", " ", "!", "\\\""};
+#ifdef __cpp_lib_integer_comparison_functions
+   constexpr auto CharToInt(char in)
+   {
+      if constexpr (std::numeric_limits<char>::is_signed)
+         return static_cast<int>(in);
+      else
+         return static_cast<unsigned int>(in);
+   }
+#endif
 } // namespace
 
 ::std::string rsj::ReplaceInvisibleChars(::std::string_view in)
@@ -56,11 +68,20 @@ namespace {
       ::std::string result {};
       result.reserve(in.size() * 3 / 2); /* midway between max and min final size */
       for (const auto a : in) {
-         if (gsl::narrow_cast<size_t>(a) < ascii_map.size())
+#ifdef __cpp_lib_integer_comparison_functions
+         if (std::cmp_less(CharToInt(a), ascii_map.size())
+             && std::cmp_greater_equal(CharToInt(a), 0))
+#else
+         if (gsl::narrow_cast<size_t>(a) < ascii_map.size() && a >= 0)
+#endif
 #pragma warning(suppress : 26446 26482) /* false alarm, range checked by if statement */
             // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
             result.append(ascii_map[gsl::narrow_cast<size_t>(a)]);
+#ifdef __cpp_lib_integer_comparison_functions
+         else if (std::cmp_equal(CharToInt(a), 127))
+#else
          else if (a == 127)
+#endif
             result.append("\\x7F");
          else if (a == '\\')
             result.append("\\\\");
