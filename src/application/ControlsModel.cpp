@@ -16,6 +16,7 @@
 #include "ControlsModel.h"
 
 #include <algorithm>
+#include <cmath>
 #include <exception>
 
 #include "MidiUtilities.h"
@@ -203,9 +204,10 @@ int ChannelModel::PluginToController(
       switch (controltype) {
       case rsj::MessageType::Pw: {
          /* TODO(C26451): int subtraction: can it overflow? */
-         const auto newv {std::clamp(
-             rsj::RoundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_)) + pitch_wheel_min_,
-             pitch_wheel_min_, pitch_wheel_max_)};
+         const auto newv {
+             std::clamp(gsl::narrow<int>(std::lrint(value * (pitch_wheel_max_ - pitch_wheel_min_)))
+                            + pitch_wheel_min_,
+                 pitch_wheel_min_, pitch_wheel_max_)};
          pitch_wheel_current_.store(newv, std::memory_order_release);
          return newv;
       }
@@ -213,7 +215,8 @@ int ChannelModel::PluginToController(
          /* TODO(C26451): int subtraction: can it overflow? */
          const auto clow {cc_low_.at(controlnumber)};
          const auto chigh {cc_high_.at(controlnumber)};
-         const auto newv {std::clamp(rsj::RoundToInt(value * (chigh - clow)) + clow, clow, chigh)};
+         const auto newv {
+             std::clamp(gsl::narrow<int>(std::lrint(value * (chigh - clow))) + clow, clow, chigh)};
          current_v_.at(controlnumber).store(newv, std::memory_order_release);
          return newv;
       }

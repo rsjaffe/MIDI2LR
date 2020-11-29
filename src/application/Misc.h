@@ -163,33 +163,6 @@ namespace rsj {
       rsj::Log(fmt::format(
           FMT_STRING("{} thread slept for {}."), msg_prefix, SleepTimed(sleep_duration)));
    }
-   /*****************************************************************************/
-   /*******************Fast Floats***********************************************/
-   /*****************************************************************************/
-#ifndef __ARM_ARCH
-   inline int RoundToInt(float source)
-   {
-      return _mm_cvtss_si32(_mm_set_ss(source));
-   }
-   inline int RoundToInt(double source)
-   {
-      return _mm_cvtsd_si32(_mm_set_sd(source));
-   }
-   int RoundToInt(long double source) = delete;
-   inline void IgnoreDenormals()
-   { /* speed up floating point ops; we're not worried about precision of very small values */
-      _mm_setcsr(_mm_getcsr() | 0x8040);
-   }
-#else
-   inline int RoundToInt(float source)
-   {
-      return gsl::narrow<int>(std::lround(source));
-   }
-   inline int RoundToInt(double source)
-   {
-      return gsl::narrow<int>(std::lround(source));
-   }
-#endif
 /*****************************************************************************/
 /**************Safe Integer Comparisons***************************************/
 /*****************************************************************************/
@@ -203,10 +176,10 @@ namespace rsj {
 #else
    /* adapted from Microsoft <utility> Apache 2 license */
    template<class T, class... Ts>
-   inline constexpr bool IsAnyOfV = std::disjunction_v<std::is_same<T, Ts>...>;
+   [nodiscard]] constexpr bool IsAnyOfV = std::disjunction_v<std::is_same<T, Ts>...>;
 
    template <class T>
-   inline constexpr bool IsStandardInteger = std::is_integral_v<T> 
+   [nodiscard]] constexpr bool IsStandardInteger = std::is_integral_v<T> 
        && !IsAnyOfV<std::remove_cv_t<T>, bool, char, wchar_t,
 #ifdef __cpp_char8_t
         char8_t,
