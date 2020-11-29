@@ -176,10 +176,10 @@ namespace rsj {
 #else
    /* adapted from Microsoft <utility> Apache 2 license */
    template<class T, class... Ts>
-   [nodiscard]] constexpr bool IsAnyOfV = std::disjunction_v<std::is_same<T, Ts>...>;
+   [[nodiscard]] constexpr bool IsAnyOfV = std::disjunction_v<std::is_same<T, Ts>...>;
 
    template <class T>
-   [nodiscard]] constexpr bool IsStandardInteger = std::is_integral_v<T> 
+   [[nodiscard]] constexpr bool IsStandardInteger = std::is_integral_v<T> 
        && !IsAnyOfV<std::remove_cv_t<T>, bool, char, wchar_t,
 #ifdef __cpp_char8_t
         char8_t,
