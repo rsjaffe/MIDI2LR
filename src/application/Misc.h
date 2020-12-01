@@ -27,16 +27,13 @@
 #include <thread> /* sleep_for */
 #ifdef __cpp_lib_integer_comparison_functions
 #include <utility>
+#else
+#include <type_traits>
 #endif
 
 #include <fmt/chrono.h>
 #include <fmt/format.h>
 #include <gsl/gsl>
-#ifndef __ARM_ARCH
-#include <xmmintrin.h> /* for rounding intrinsics */
-#else
-#include <cmath>
-#endif
 
 #include <juce_core/juce_core.h>
 
@@ -179,7 +176,7 @@ namespace rsj {
    [[nodiscard]] constexpr bool IsAnyOfV = std::disjunction_v<std::is_same<T, Ts>...>;
 
    template <class T>
-   [[nodiscard]] constexpr bool IsStandardInteger = std::is_integral_v<T> 
+   [[nodiscard]] constexpr bool IsStandardInteger = std::is_integral_v<T>
        && !IsAnyOfV<std::remove_cv_t<T>, bool, char, wchar_t,
 #ifdef __cpp_char8_t
         char8_t,
@@ -242,7 +239,7 @@ namespace rsj {
       return !cmp_less(left, right);
    }
 #endif
-   constexpr auto CharToInt(char in)
+   [[nodiscard]] constexpr auto CharToInt(const char in) noexcept
    {
       if constexpr (std::numeric_limits<char>::is_signed)
          return static_cast<int>(in);

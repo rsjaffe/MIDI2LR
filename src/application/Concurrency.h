@@ -107,7 +107,8 @@ namespace rsj {
                else if (k < bo3)
                   std::this_thread::yield();
                else
-                  std::this_thread::sleep_for(1ms);
+#pragma warning(suppress : 26447)
+                  std::this_thread::sleep_for(1ms); /* never throws, analyzer false pos */
             }
          } while (flag_.exchange(true, std::memory_order_acquire));
       }

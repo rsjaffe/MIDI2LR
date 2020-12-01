@@ -18,7 +18,6 @@
 #include <algorithm>
 #include <chrono>
 #include <exception>
-#include <string>
 #include <unordered_map>
 #include <utility>
 
@@ -277,7 +276,7 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
       else {
          /* not repeated command */
          const auto computed_value {controls_model_.ControllerToPlugin(mm)};
-         SendCommand(command_to_send + ' ' + std::to_string(computed_value) + '\n');
+         SendCommand(fmt::format(FMT_STRING("{} {}\n"), command_to_send, computed_value));
       }
    }
    catch (const std::exception& e) {

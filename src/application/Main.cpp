@@ -81,11 +81,19 @@ namespace {
       {
          juce::Logger::setCurrentLogger(new_logger);
 #ifdef _WIN32
-         wil::SetResultLoggingCallback([](wil::FailureInfo const& failure) noexcept {
-            std::array<wchar_t, 2048> debug_string {};
-            wil::GetFailureLogString(debug_string.data(), debug_string.size(), failure);
-            rsj::Log(debug_string.data());
-         });
+         try {
+            wil::SetResultLoggingCallback([](wil::FailureInfo const& failure) noexcept {
+               std::array<wchar_t, 2048> debug_string {};
+               wil::GetFailureLogString(debug_string.data(), debug_string.size(), failure);
+               rsj::Log(debug_string.data());
+            });
+         }
+         catch (const std::exception& e) {
+            MIDI2LR_E_RESPONSE;
+         }
+         catch (...) {
+            rsj::Log("Unable to set up wil logger.");
+         }
 #endif
       }
    };

@@ -17,6 +17,8 @@
  */
 #include <memory>
 
+#include <fmt/format.h>
+
 #include <juce_core/juce_core.h>
 #include <juce_data_structures/juce_data_structures.h>
 
@@ -67,7 +69,7 @@ class SettingsManager final {
    void SetPickupEnabled(bool enabled)
    {
       properties_file_->setValue("pickup_enabled", enabled);
-      lr_ipc_out_.SendCommand(std::string("Pickup ") + (enabled ? '1' : '0') + '\n');
+      lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("Pickup {}\n"), enabled ? '1' : '0'));
    }
    void SetProfileDirectory(const juce::String& profile_directory)
    {

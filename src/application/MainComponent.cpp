@@ -129,8 +129,8 @@ void MainContentComponent::Init()
          if (chooser.browseForFileToOpen()) {
             if (const auto parsed {juce::parseXML(chooser.getResult())}) {
                const auto new_profile {chooser.getResult()};
-               lr_ipc_out_.SendCommand(
-                   "ChangedToFullPath " + new_profile.getFullPathName().toStdString() + '\n');
+               lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToFullPath {}\n"),
+                   new_profile.getFullPathName().toStdString()));
                profile_name_label_.setText(
                    new_profile.getFileName(), juce::NotificationType::dontSendNotification);
                profile_.FromXml(parsed.get());

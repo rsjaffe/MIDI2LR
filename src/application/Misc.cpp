@@ -17,9 +17,6 @@
 
 #include <algorithm>
 #include <cctype>
-#ifdef __cpp_lib_integer_comparison_functions
-#include <utility>
-#endif
 
 #include <ww898/utf_converters.hpp>
 

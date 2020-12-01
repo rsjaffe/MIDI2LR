@@ -64,7 +64,7 @@ void SettingsManager::ConnectionCallback(const bool connected, const bool blocke
             const DebugInfo db {GetProfileDirectory()};
             lr_ipc_out_.SendCommand("AppInfoClear 1\n");
             for (const auto& info : db.GetInfo()) {
-               lr_ipc_out_.SendCommand("AppInfo " + info + '\n');
+               lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("AppInfo {}\n"), info));
             }
             lr_ipc_out_.SendCommand("AppInfoDone 1\n");
             lr_ipc_out_.SendCommand("GetPluginInfo 1\n");
