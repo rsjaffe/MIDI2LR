@@ -82,7 +82,7 @@ class CommandSet {
       Impl& operator=(Impl&& other) = delete;
       template<class Archive> void serialize(Archive& archive, std::uint32_t const version)
       {
-         if (version == 1)
+         if (rsj::cmp_equal(version, 1))
             archive(cereal::make_nvp("language", language_),
                 cereal::make_nvp("all_commands", allcommands_));
          else {
