@@ -38,30 +38,15 @@ class CommandSet {
       return cmd_by_number_.at(index);
    }
 
-   [[nodiscard]] auto CommandAbbrevSize() const noexcept
-   {
-      return cmd_by_number_.size();
-   }
+   [[nodiscard]] auto CommandAbbrevSize() const noexcept { return cmd_by_number_.size(); }
 
-   [[nodiscard]] auto CommandLabelAt(size_t index) const
-   {
-      return cmd_label_by_number_.at(index);
-   }
+   [[nodiscard]] auto CommandLabelAt(size_t index) const { return cmd_label_by_number_.at(index); }
 
-   [[nodiscard]] const auto& GetLanguage() const noexcept
-   {
-      return m_impl_.language_;
-   }
+   [[nodiscard]] const auto& GetLanguage() const noexcept { return m_impl_.language_; }
 
-   [[nodiscard]] const auto& GetMenus() const noexcept
-   {
-      return menus_;
-   }
+   [[nodiscard]] const auto& GetMenus() const noexcept { return menus_; }
 
-   [[nodiscard]] const auto& GetMenuEntries() const noexcept
-   {
-      return menu_entries_;
-   }
+   [[nodiscard]] const auto& GetMenuEntries() const noexcept { return menu_entries_; }
 
    [[nodiscard]] static const auto& UnassignedTranslated()
    {

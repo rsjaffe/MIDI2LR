@@ -5,6 +5,7 @@
 AccessModifierOffset: -2
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: false
+#AlignConsecutiveBitFields: true
 AlignConsecutiveDeclarations: false
 AlignConsecutiveMacros: true
 AlignEscapedNewlines: Right
@@ -13,20 +14,24 @@ AlignTrailingComments: true
 AllowAllArgumentsOnNextLine: true
 AllowAllConstructorInitializersOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortBlocksOnASingleLine: false
+AllowShortBlocksOnASingleLine: true
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: Empty
-AllowShortIfStatementsOnASingleLine: false
+#AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: All
-AllowShortLoopsOnASingleLine: false
+AllowShortLoopsOnASingleLine: true
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
-AlwaysBreakTemplateDeclarations: false
+AlwaysBreakTemplateDeclarations: MultiLine
+#AttributeMacros: ['_In_']
 BinPackArguments: true
 BinPackParameters: true
+#BitFieldColonSpacing: Both
 BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Stroustrup
+#BreakBeforeConceptDeclarations: false
 BreakBeforeInheritanceComma: false
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: false
@@ -45,6 +50,7 @@ DerivePointerAlignment: false
 DisableFormat: false
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
+#ForEachMacros
 IncludeBlocks: Regroup
 IncludeCategories:
 #creates ambiguous reference to Point if included before Mac headers
@@ -63,12 +69,12 @@ IncludeCategories:
     Priority:        4
 #IndentCaseBlocks: false
 IndentCaseLabels: false
+#IndentExternBlock: Indent
 IndentGotoLabels: false
 IndentPPDirectives: None
+#IndentRequires: true
 IndentWidth: 3
 IndentWrappedFunctionNames: false
-JavaScriptQuotes: Single
-JavaScriptWrapImports: false
 KeepEmptyLinesAtTheStartOfBlocks: false
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
@@ -79,6 +85,7 @@ PenaltyBreakFirstLessLess: 1
 PenaltyBreakString: 80
 PenaltyBreakTemplateDeclaration: 50
 PenaltyExcessCharacter: 1000
+#PenaltyIndentedWhitespace:
 PenaltyReturnTypeOnItsOwnLine: 200
 PointerAlignment: Left
 ReflowComments: true
@@ -87,6 +94,7 @@ SortUsingDeclarations: false
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: false
+#SpaceAroundPointerQualifiers: Default
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeCpp11BracedList: true
 SpaceBeforeCtorInitializerColon: true
@@ -103,7 +111,7 @@ SpacesInContainerLiterals: false
 SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard: Cpp11 #Cpp20
+Standard: Latest
 TabWidth: 2
 UseTab: Never
 ---

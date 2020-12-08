@@ -145,22 +145,10 @@ class ChannelModel {
    {
       return cc_method_.at(controlnumber);
    }
-   [[nodiscard]] int GetCcMax(int controlnumber) const
-   {
-      return cc_high_.at(controlnumber);
-   }
-   [[nodiscard]] int GetCcMin(int controlnumber) const
-   {
-      return cc_low_.at(controlnumber);
-   }
-   [[nodiscard]] int GetPwMax() const noexcept
-   {
-      return pitch_wheel_max_;
-   }
-   [[nodiscard]] int GetPwMin() const noexcept
-   {
-      return pitch_wheel_min_;
-   }
+   [[nodiscard]] int GetCcMax(int controlnumber) const { return cc_high_.at(controlnumber); }
+   [[nodiscard]] int GetCcMin(int controlnumber) const { return cc_low_.at(controlnumber); }
+   [[nodiscard]] int GetPwMax() const noexcept { return pitch_wheel_max_; }
+   [[nodiscard]] int GetPwMin() const noexcept { return pitch_wheel_min_; }
    int PluginToController(rsj::MessageType controltype, int controlnumber, double value);
    void SetCc(int controlnumber, int min, int max, rsj::CCmethod controltype);
    void SetCcAll(int controlnumber, int min, int max, rsj::CCmethod controltype);
@@ -254,15 +242,9 @@ class ControlsModel {
       return all_controls_.at(channel).GetCcMin(controlnumber);
    }
 
-   [[nodiscard]] int GetPwMax(int channel) const
-   {
-      return all_controls_.at(channel).GetPwMax();
-   }
+   [[nodiscard]] int GetPwMax(int channel) const { return all_controls_.at(channel).GetPwMax(); }
 
-   [[nodiscard]] int GetPwMin(int channel) const
-   {
-      return all_controls_.at(channel).GetPwMin();
-   }
+   [[nodiscard]] int GetPwMin(int channel) const { return all_controls_.at(channel).GetPwMin(); }
 
    int PluginToController(rsj::MidiMessageId msg_id, double value)
    {
@@ -300,15 +282,9 @@ class ControlsModel {
       all_controls_.at(channel).SetCcMin(controlnumber, value);
    }
 
-   void SetPwMax(int channel, int value)
-   {
-      all_controls_.at(channel).SetPwMax(value);
-   }
+   void SetPwMax(int channel, int value) { all_controls_.at(channel).SetPwMax(value); }
 
-   void SetPwMin(int channel, int value)
-   {
-      all_controls_.at(channel).SetPwMin(value);
-   }
+   void SetPwMin(int channel, int value) { all_controls_.at(channel).SetPwMin(value); }
 
  private:
    friend class cereal::access;

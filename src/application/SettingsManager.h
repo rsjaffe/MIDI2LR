@@ -54,10 +54,7 @@ class SettingsManager final {
       return properties_file_->getValue("profile_directory");
    }
    // ReSharper disable CppMemberFunctionMayBeConst
-   void SetAutoHideTime(int new_time)
-   {
-      properties_file_->setValue("autohide", new_time);
-   }
+   void SetAutoHideTime(int new_time) { properties_file_->setValue("autohide", new_time); }
    void SetDefaultProfile(const juce::String& default_profile)
    {
       properties_file_->setValue("default_profile", default_profile);

@@ -52,10 +52,7 @@ class MainContentComponent final :
    MainContentComponent& operator=(MainContentComponent&& other) = delete;
    void Init();
    void SaveProfile() const;
-   [[nodiscard]] juce::String GetProfileName() const
-   {
-      return profile_name_label_.getText();
-   }
+   [[nodiscard]] juce::String GetProfileName() const { return profile_name_label_.getText(); }
 
  private:
    void handleAsyncUpdate() override;

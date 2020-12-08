@@ -44,8 +44,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       auto file_array {directory.findChildFiles(juce::File::findFiles, false, "*.xml")};
       file_array.sort();
       profiles_.clear();
-      for (const auto& file : file_array)
-         profiles_.emplace_back(file.getFileName());
+      for (const auto& file : file_array) profiles_.emplace_back(file.getFileName());
       if (!profiles_.empty())
          SwitchToProfile(profiles_.at(0));
       current_profile_index_ = 0;
@@ -56,10 +55,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
    }
 }
 
-const std::vector<juce::String>& ProfileManager::GetMenuItems() const noexcept
-{
-   return profiles_;
-}
+const std::vector<juce::String>& ProfileManager::GetMenuItems() const noexcept { return profiles_; }
 
 void ProfileManager::SwitchToProfile(int profile_index)
 {
@@ -81,8 +77,7 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
       const auto profile_file {profile_location_.getChildFile(profile)};
       if (profile_file.exists()) {
          if (const auto parsed {juce::parseXML(profile_file)}) {
-            for (const auto& cb : callbacks_)
-               cb(parsed.get(), profile);
+            for (const auto& cb : callbacks_) cb(parsed.get(), profile);
             lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToDirectory {}\n"),
                 juce::File::addTrailingSeparator(profile_location_.getFullPathName())
                     .toStdString()));

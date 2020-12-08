@@ -65,10 +65,7 @@ class Devices {
       {
          return !(rhs < lhs);
       }
-      friend bool operator>(const DevInfo& lhs, const DevInfo& rhs) noexcept
-      {
-         return rhs < lhs;
-      }
+      friend bool operator>(const DevInfo& lhs, const DevInfo& rhs) noexcept { return rhs < lhs; }
       friend bool operator>=(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return !(lhs < rhs);

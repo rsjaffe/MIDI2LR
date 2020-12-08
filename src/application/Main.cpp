@@ -143,10 +143,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       return ProjectInfo::versionString;
    }
 
-   bool moreThanOneInstanceAllowed() noexcept override
-   {
-      return false;
-   }
+   bool moreThanOneInstanceAllowed() noexcept override { return false; }
 
    void initialise(const juce::String& command_line) override
    {

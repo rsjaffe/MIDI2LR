@@ -255,11 +255,9 @@ void ChannelModel::SetCcAll(
 {
    try {
       if (IsNRPN_(controlnumber))
-         for (auto a {kMaxMidi + 1}; a <= kMaxNrpn; ++a)
-            SetCc(a, min, max, controltype);
+         for (auto a {kMaxMidi + 1}; a <= kMaxNrpn; ++a) SetCc(a, min, max, controltype);
       else
-         for (auto a {0}; a <= kMaxMidi; ++a)
-            SetCc(a, min, max, controltype);
+         for (auto a {0}; a <= kMaxMidi; ++a) SetCc(a, min, max, controltype);
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -342,8 +340,7 @@ void ChannelModel::CcDefaults()
       /* XCode throws linker error when use ChannelModel::kMaxNRPN here */
       cc_high_.fill(0x3FFF);
       cc_method_.fill(rsj::CCmethod::kAbsolute);
-      for (auto&& a : current_v_)
-         a.store(kMaxNrpnHalf, std::memory_order_relaxed);
+      for (auto&& a : current_v_) a.store(kMaxNrpnHalf, std::memory_order_relaxed);
       for (size_t a {0}; a <= kMaxMidi; ++a) {
          cc_high_.at(a) = kMaxMidi;
          current_v_.at(a).store(kMaxMidiHalf, std::memory_order_relaxed);

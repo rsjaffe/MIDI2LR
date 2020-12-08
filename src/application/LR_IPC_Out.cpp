@@ -82,8 +82,7 @@ void LrIpcOut::SendingRestart()
    try {
       sending_stopped_ = false;
       const auto con {connected_.load(std::memory_order_acquire)};
-      for (const auto& cb : callbacks_)
-         cb(con, false);
+      for (const auto& cb : callbacks_) cb(con, false);
       /* resync controls */
       SendCommand("FullRefresh 1\n");
    }
@@ -98,8 +97,7 @@ void LrIpcOut::SendingStop()
    try {
       sending_stopped_ = true;
       const auto con {connected_.load(std::memory_order_acquire)};
-      for (const auto& cb : callbacks_)
-         cb(con, true);
+      for (const auto& cb : callbacks_) cb(con, true);
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -193,8 +191,7 @@ void LrIpcOut::ConnectionMade()
    connected_.store(true, std::memory_order_release);
    try {
       rsj::Log("Socket connected in LR_IPC_Out.");
-      for (const auto& cb : callbacks_)
-         cb(true, sending_stopped_);
+      for (const auto& cb : callbacks_) cb(true, sending_stopped_);
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

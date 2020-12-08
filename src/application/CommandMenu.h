@@ -30,10 +30,7 @@ class CommandMenu final : public TextButtonAligned {
  public:
    CommandMenu(rsj::MidiMessageId message, const CommandSet& command_set, Profile& profile);
 
-   void SetMsg(rsj::MidiMessageId message) noexcept
-   {
-      message_ = message;
-   }
+   void SetMsg(rsj::MidiMessageId message) noexcept { message_ = message; }
 
    void SetSelectedItem(size_t index)
    {
