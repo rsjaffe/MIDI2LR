@@ -58,6 +58,7 @@ constexpr auto MacOS {true};
 #endif
 
 #ifndef __ARM_ARCH
+#include <xmmintrin.h>
 #define MIDI2LR_FAST_FLOATS _mm_setcsr(_mm_getcsr() | 0x8040)
 #else
 #define MIDI2LR_FPU_GETCW(fpcr) __asm__ __volatile__("mrs %0, fpcr" : "=r"(fpcr))
