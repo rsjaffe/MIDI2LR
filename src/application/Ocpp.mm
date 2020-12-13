@@ -13,7 +13,9 @@
  * see <http://www.gnu.org/licenses/>.
  *
  */
-#include "Ocpp.h"
+ #include "Ocpp.h"
+
+#include <cstring>
 
 #import <Cocoa/Cocoa.h>
 #include <fmt/format.h>
@@ -25,27 +27,27 @@
 
 std::string rsj::AppDataMac()
 {
-   NSString* result {(@"~/Library/Application Support").stringByExpandingTildeInPath};
+   const auto result {(@"~/Library/Application Support").stringByExpandingTildeInPath};
    return result.UTF8String;
 }
 
 std::string rsj::AppLogMac()
 {
-   NSString* result {(@"~/Library/Logs").stringByExpandingTildeInPath};
+   const auto result {(@"~/Library/Logs").stringByExpandingTildeInPath};
    return result.UTF8String;
 }
 
 void rsj::CheckPermission(pid_t pid)
 {
    AEAddressDesc addressDesc;
-   NSString* bundleIdentifier {
+   const auto bundleIdentifier {
        [NSRunningApplication runningApplicationWithProcessIdentifier:pid].bundleIdentifier};
-   const char* bundleIdentifierCString {
+   const auto bundleIdentifierCString {
        [bundleIdentifier cStringUsingEncoding:NSUTF8StringEncoding]};
-   auto aeresult {AECreateDesc(typeApplicationBundleID, bundleIdentifierCString,
-       strlen(bundleIdentifierCString), &addressDesc)};
+   const auto aeresult {AECreateDesc(typeApplicationBundleID, bundleIdentifierCString,
+       std::strlen(bundleIdentifierCString), &addressDesc)};
    if (aeresult == noErr) {
-      auto status {
+      const auto status {
           AEDeterminePermissionToAutomateTarget(&addressDesc, typeWildCard, typeWildCard, true)};
       AEDisposeDesc(&addressDesc);
       switch (status) {
@@ -60,9 +62,9 @@ void rsj::CheckPermission(pid_t pid)
       case errAEEventNotPermitted: {
          rsj::Log(fmt::format(
              FMT_STRING("Automation permission denied for {}."), bundleIdentifierCString));
-         auto title {
+         const auto title {
              juce::translate("MIDI2LR needs your authorization to send keystrokes to Lightroom")};
-         auto message {juce::translate(
+         const auto message {juce::translate(
              "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these "
              "steps:\r\n1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) "
              "Select \"Accessibility Apps\"\r\n4) Add this application to the approval list")};

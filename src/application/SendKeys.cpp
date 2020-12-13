@@ -36,7 +36,6 @@
 #include <cstring>
 #include <memory>
 #include <optional>
-#include <type_traits>
 
 #import <CoreGraphics/CoreGraphics.h>
 #include <libproc.h> /* proc_ functions in GetPid */
@@ -322,24 +321,12 @@ namespace {
       kVK_JIS_Kana = 0x68
    };
 
-   template<typename T> struct CFDeleter {
-      void operator()(T* p)
-      {
-         if (p)
-            ::CFRelease(p);
-      }
-   };
-
-   template<typename T>
-   using CFAutoRelease = std::unique_ptr<typename std::remove_pointer<T>::type,
-       CFDeleter<typename std::remove_pointer<T>::type>>;
-
    pid_t GetPid()
    {
       try {
          static const auto kLrc {".app/Contents/MacOS/Adobe Lightroom Classic"};
          /* add 20 in case more processes show up */
-         const int number_processes {proc_listpids(PROC_ALL_PIDS, 0, nullptr, 0) + 20};
+         const auto number_processes {proc_listpids(PROC_ALL_PIDS, 0, nullptr, 0) + 20};
          std::vector<pid_t> pids(number_processes, 0);
          proc_listpids(
              PROC_ALL_PIDS, 0, pids.data(), gsl::narrow_cast<int>(sizeof(pids[0]) * pids.size()));
@@ -347,7 +334,7 @@ namespace {
          for (const auto pid : pids) {
             if (pid == 0)
                continue;
-            std::memset(path_buffer.data(), 0, path_buffer.size());
+            path_buffer.fill(0);
             proc_pidpath(pid, path_buffer.data(), path_buffer.size());
             if (path_buffer[0] && std::strstr(path_buffer.data(), kLrc))
                return pid;
@@ -381,8 +368,8 @@ namespace {
    void MacKeyDownUp(const pid_t lr_pid, const CGKeyCode vk, const CGEventFlags flags)
    {
       try {
-         CFAutoRelease<CGEventRef> d {CGEventCreateKeyboardEvent(nullptr, vk, true)};
-         CFAutoRelease<CGEventRef> u {CGEventCreateKeyboardEvent(nullptr, vk, false)};
+         rsj::CFAutoRelease<CGEventRef> d {CGEventCreateKeyboardEvent(nullptr, vk, true)};
+         rsj::CFAutoRelease<CGEventRef> u {CGEventCreateKeyboardEvent(nullptr, vk, false)};
          CGEventSetFlags(d.get(), flags);
          CGEventSetFlags(u.get(), flags);
          CGEventPostToPid(lr_pid, d.get());
