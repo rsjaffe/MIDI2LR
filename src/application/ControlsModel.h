@@ -138,7 +138,7 @@ class ChannelModel {
 
  public:
    ChannelModel();
-   double ControllerToPlugin(rsj::MessageType controltype, int controlnumber, int value);
+   double ControllerToPlugin(rsj::MessageType controltype, int controlnumber, int value, bool wrap);
    int MeasureChange(rsj::MessageType controltype, int controlnumber, int value);
    int SetToCenter(rsj::MessageType controltype, int controlnumber);
    [[nodiscard]] rsj::CCmethod GetCcMethod(int controlnumber) const
@@ -180,7 +180,7 @@ class ChannelModel {
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       return controlnumber > kMaxMidi;
    }
-   double OffsetResult(int diff, int controlnumber);
+   double OffsetResult(int diff, int controlnumber, bool wrap);
    void ActiveToSaved() const;
    void CcDefaults();
    void SavedToActive();
@@ -201,10 +201,10 @@ class ChannelModel {
 
 class ControlsModel {
  public:
-   double ControllerToPlugin(const rsj::MidiMessage& mm)
+   double ControllerToPlugin(const rsj::MidiMessage& mm, bool wrap)
    {
       return all_controls_.at(mm.channel)
-          .ControllerToPlugin(mm.message_type_byte, mm.control_number, mm.value);
+          .ControllerToPlugin(mm.message_type_byte, mm.control_number, mm.value, wrap);
    }
 
    int MeasureChange(const rsj::MidiMessage& mm)

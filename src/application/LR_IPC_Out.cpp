@@ -16,6 +16,7 @@
 #include "LR_IPC_Out.h"
 
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <exception>
 #include <unordered_map>
@@ -272,7 +273,11 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
          }
       else {
          /* not repeated command */
-         const auto computed_value {controls_model_.ControllerToPlugin(mm)};
+         static const std::array<std::string, 4> wrap_around {"ColorGradeGlobalHue",
+             "SplitToningHighlightHue", "ColorGradeMidtoneHue", "SplitToningShadowHue"};
+         const auto wrap {std::find(wrap_around.begin(), wrap_around.end(), command_to_send)
+                          != wrap_around.end()};
+         const auto computed_value {controls_model_.ControllerToPlugin(mm, wrap)};
          SendCommand(fmt::format(FMT_STRING("{} {}\n"), command_to_send, computed_value));
       }
    }

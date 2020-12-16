@@ -22,7 +22,7 @@
 #include "MidiUtilities.h"
 #include "Misc.h"
 
-double ChannelModel::OffsetResult(const int diff, const int controlnumber)
+double ChannelModel::OffsetResult(const int diff, const int controlnumber, bool wrap)
 {
    try {
       Expects(cc_high_.at(controlnumber) > 0); /* CCLow will always be 0 for offset controls */
@@ -30,7 +30,16 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber)
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       const auto high_limit {cc_high_.at(controlnumber)};
       auto cached_v {current_v_.at(controlnumber).load(std::memory_order_acquire)};
-      const auto new_v {std::clamp(cached_v + diff, 0, high_limit)};
+      int new_v {};
+      if (wrap) {
+         new_v = cached_v + diff;
+         if (new_v > high_limit)
+            new_v -= high_limit;
+         else if (new_v < 0)
+            new_v += high_limit;
+      }
+      else
+         [[likely]] new_v = std::clamp(cached_v + diff, 0, high_limit);
       if (current_v_.at(controlnumber)
               .compare_exchange_strong(
                   cached_v, new_v, std::memory_order_release, std::memory_order_acquire))
@@ -46,7 +55,7 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber)
 }
 
 double ChannelModel::ControllerToPlugin(
-    const rsj::MessageType controltype, const int controlnumber, const int value)
+    const rsj::MessageType controltype, const int controlnumber, const int value, const bool wrap)
 {
    try {
       Expects(controltype == rsj::MessageType::Cc
@@ -74,19 +83,21 @@ double ChannelModel::ControllerToPlugin(
                    / static_cast<double>(cc_high_.at(controlnumber) - cc_low_.at(controlnumber));
          case rsj::CCmethod::kBinaryOffset:
             if (IsNRPN_(controlnumber))
-               return OffsetResult(value - kBit14, controlnumber);
-            return OffsetResult(value - kBit7, controlnumber);
+               return OffsetResult(value - kBit14, controlnumber, wrap);
+            return OffsetResult(value - kBit7, controlnumber, wrap);
          case rsj::CCmethod::kSignMagnitude:
             if (IsNRPN_(controlnumber))
-               return OffsetResult(value & kBit14 ? -(value & kLow13Bits) : value, controlnumber);
-            return OffsetResult(value & kBit7 ? -(value & kLow6Bits) : value, controlnumber);
+               return OffsetResult(
+                   value & kBit14 ? -(value & kLow13Bits) : value, controlnumber, wrap);
+            return OffsetResult(value & kBit7 ? -(value & kLow6Bits) : value, controlnumber, wrap);
          case rsj::CCmethod::kTwosComplement:
             /* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
              * flip twos comp and subtract--independent of processor architecture */
             if (IsNRPN_(controlnumber))
                return OffsetResult(
-                   value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value, controlnumber);
-            return OffsetResult(value & kBit7 ? -((value ^ kMaxMidi) + 1) : value, controlnumber);
+                   value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value, controlnumber, wrap);
+            return OffsetResult(
+                value & kBit7 ? -((value ^ kMaxMidi) + 1) : value, controlnumber, wrap);
          default:
             Ensures(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
             // ReSharper disable once CppUnreachableCode
