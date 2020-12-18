@@ -39,6 +39,8 @@
 #include "CCoptions.h"
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+#include <stdexcept>
+
 #include "ControlsModel.h"
 using namespace juce;
 //[/MiscUserDefs]
@@ -273,8 +275,7 @@ void CCoptions::buttonClicked(Button* buttonThatWasClicked)
       else if (signbutton->getToggleState())
          ccm = rsj::CCmethod::kSignMagnitude;
       else {
-         ccm = rsj::CCmethod::kAbsolute;
-         Ensures(!"Should be unreachable apply all button");
+         throw std::logic_error("CCoptions::buttonClicked reached unreachable code");
       }
       controls_model_->SetCcAll(bound_channel_, bound_number_, minvaltext->getText().getIntValue(),
           maxvaltext->getText().getIntValue(), ccm);

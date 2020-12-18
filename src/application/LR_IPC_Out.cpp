@@ -36,13 +36,51 @@ using TimePoint = Clock::time_point;
 using namespace std::literals::chrono_literals;
 
 namespace {
-   /* in between recurrent actions */
-   constexpr auto kDelay {8ms};
+   constexpr auto kDelay {8ms}; /* in between recurrent actions */
    constexpr auto kLrOutPort {58763};
-   /* give controller a minimum refractory period before resetting */
-   constexpr auto kMinRecenterTime {250ms};
+   constexpr auto kMinRecenterTime {250ms}; /* minimum period before recentering */
    constexpr auto kRecenterTimer {std::max(kMinRecenterTime, kDelay + kDelay / 2)};
    constexpr auto kTerminate {"!!!@#$%^"};
+   /* for MidiCmdCallback */
+   struct RepeatMessage {
+      std::string cw;
+      std::string ccw;
+   };
+   const std::unordered_map<std::string, RepeatMessage> kCmdUpDown {
+       {"ChangeBrushSize", {"BrushSizeLarger 1\n", "BrushSizeSmaller 1\n"}},
+       {"ChangeCurrentSlider", {"SliderIncrease 1\n", "SliderDecrease 1\n"}},
+       {"ChangeFeatherSize", {"BrushFeatherLarger 1\n", "BrushFeatherSmaller 1\n"}},
+       {"ChangeLastDevelopParameter",
+           {"IncrementLastDevelopParameter 1\n", "DecrementLastDevelopParameter 1\n"}},
+       {"IncreaseDecreaseRating", {"IncreaseRating 1\n", "DecreaseRating 1\n"}},
+       {"Key2Key1", {"Key2 1\n", "Key1 1\n"}},
+       {"Key4Key3", {"Key4 1\n", "Key3 1\n"}},
+       {"Key6Key5", {"Key6 1\n", "Key5 1\n"}},
+       {"Key8Key7", {"Key8 1\n", "Key7 1\n"}},
+       {"Key10Key9", {"Key10 1\n", "Key9 1\n"}},
+       {"Key12Key11", {"Key12 1\n", "Key11 1\n"}},
+       {"Key14Key13", {"Key14 1\n", "Key13 1\n"}},
+       {"Key16Key15", {"Key16 1\n", "Key15 1\n"}},
+       {"Key18Key17", {"Key18 1\n", "Key17 1\n"}},
+       {"Key20Key19", {"Key20 1\n", "Key19 1\n"}},
+       {"Key22Key21", {"Key22 1\n", "Key21 1\n"}},
+       {"Key24Key23", {"Key24 1\n", "Key23 1\n"}},
+       {"Key26Key25", {"Key26 1\n", "Key25 1\n"}},
+       {"Key28Key27", {"Key28 1\n", "Key27 1\n"}},
+       {"Key30Key29", {"Key30 1\n", "Key29 1\n"}},
+       {"Key32Key31", {"Key32 1\n", "Key31 1\n"}},
+       {"Key34Key33", {"Key34 1\n", "Key33 1\n"}},
+       {"Key36Key35", {"Key36 1\n", "Key35 1\n"}},
+       {"Key38Key37", {"Key38 1\n", "Key37 1\n"}},
+       {"Key40Key39", {"Key40 1\n", "Key39 1\n"}},
+       {"NextPrev", {"Next 1\n", "Prev 1\n"}},
+       {"RedoUndo", {"Redo 1\n", "Undo 1\n"}},
+       {"SelectRightLeft", {"Select1Right 1\n", "Select1Left 1\n"}},
+       {"ZoomInOut", {"ZoomInSmallStep 1\n", "ZoomOutSmallStep 1\n"}},
+       {"ZoomOutIn", {"ZoomOutSmallStep 1\n", "ZoomInSmallStep 1\n"}},
+   };
+   const std::array<std::string, 4> kWrapAround {"ColorGradeGlobalHue", "SplitToningHighlightHue",
+       "ColorGradeMidtoneHue", "SplitToningShadowHue"};
 } // namespace
 
 LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile, const MidiSender& midi_sender,
@@ -84,8 +122,7 @@ void LrIpcOut::SendingRestart()
       sending_stopped_ = false;
       const auto con {connected_.load(std::memory_order_acquire)};
       for (const auto& cb : callbacks_) cb(con, false);
-      /* resync controls */
-      SendCommand("FullRefresh 1\n");
+      SendCommand("FullRefresh 1\n"); /* synchronize controls */
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -141,8 +178,7 @@ void LrIpcOut::Stop()
    /* pump output queue before port closed */
    if (const auto m {command_.clear_count_emplace(kTerminate)})
       rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcOut destructor."), m));
-   /* no more connect/disconnect notifications */
-   callbacks_.clear();
+   callbacks_.clear(); /* no more connect/disconnect notifications */
    asio::post([this] {
       if (socket_.is_open()) {
          asio::error_code ec;
@@ -202,83 +238,37 @@ void LrIpcOut::ConnectionMade()
 
 void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
 {
-   struct RepeatMessage {
-      std::string cw;
-      std::string ccw;
-   };
    try {
       const rsj::MidiMessageId message {mm};
-      static const std::unordered_map<std::string, RepeatMessage> kCmdUpDown {
-          {"ChangeBrushSize", {"BrushSizeLarger 1\n", "BrushSizeSmaller 1\n"}},
-          {"ChangeCurrentSlider", {"SliderIncrease 1\n", "SliderDecrease 1\n"}},
-          {"ChangeFeatherSize", {"BrushFeatherLarger 1\n", "BrushFeatherSmaller 1\n"}},
-          {"ChangeLastDevelopParameter",
-              {"IncrementLastDevelopParameter 1\n", "DecrementLastDevelopParameter 1\n"}},
-          {"IncreaseDecreaseRating", {"IncreaseRating 1\n", "DecreaseRating 1\n"}},
-          {"Key2Key1", {"Key2 1\n", "Key1 1\n"}},
-          {"Key4Key3", {"Key4 1\n", "Key3 1\n"}},
-          {"Key6Key5", {"Key6 1\n", "Key5 1\n"}},
-          {"Key8Key7", {"Key8 1\n", "Key7 1\n"}},
-          {"Key10Key9", {"Key10 1\n", "Key9 1\n"}},
-          {"Key12Key11", {"Key12 1\n", "Key11 1\n"}},
-          {"Key14Key13", {"Key14 1\n", "Key13 1\n"}},
-          {"Key16Key15", {"Key16 1\n", "Key15 1\n"}},
-          {"Key18Key17", {"Key18 1\n", "Key17 1\n"}},
-          {"Key20Key19", {"Key20 1\n", "Key19 1\n"}},
-          {"Key22Key21", {"Key22 1\n", "Key21 1\n"}},
-          {"Key24Key23", {"Key24 1\n", "Key23 1\n"}},
-          {"Key26Key25", {"Key26 1\n", "Key25 1\n"}},
-          {"Key28Key27", {"Key28 1\n", "Key27 1\n"}},
-          {"Key30Key29", {"Key30 1\n", "Key29 1\n"}},
-          {"Key32Key31", {"Key32 1\n", "Key31 1\n"}},
-          {"Key34Key33", {"Key34 1\n", "Key33 1\n"}},
-          {"Key36Key35", {"Key36 1\n", "Key35 1\n"}},
-          {"Key38Key37", {"Key38 1\n", "Key37 1\n"}},
-          {"Key40Key39", {"Key40 1\n", "Key39 1\n"}},
-          {"NextPrev", {"Next 1\n", "Prev 1\n"}},
-          {"RedoUndo", {"Redo 1\n", "Undo 1\n"}},
-          {"SelectRightLeft", {"Select1Right 1\n", "Select1Left 1\n"}},
-          {"ZoomInOut", {"ZoomInSmallStep 1\n", "ZoomOutSmallStep 1\n"}},
-          {"ZoomOutIn", {"ZoomOutSmallStep 1\n", "ZoomInSmallStep 1\n"}},
-      };
-      if (!profile_.MessageExistsInMap(message))
-         return;
-      const auto command_to_send {profile_.GetCommandForMessage(message)};
-      if (command_to_send == "PrevPro" || command_to_send == "NextPro"
-          || command_to_send == CommandSet::kUnassigned)
-         /* handled by ProfileManager or unassigned */
-         [[unlikely]] return;
-      /* if it is a repeated command, change command_to_send appropriately */
-      if (const auto a {kCmdUpDown.find(command_to_send)}; a != kCmdUpDown.end())
-         [[unlikely]]
-         {
-            static TimePoint next_response {};
-            if (const auto now {Clock::now()}; next_response < now) {
-               next_response = now + kDelay;
-               if (mm.message_type_byte == rsj::MessageType::Pw
-                   || (mm.message_type_byte == rsj::MessageType::Cc
-                       && controls_model_.GetCcMethod(message) == rsj::CCmethod::kAbsolute))
-                  SetRecenter(message);
-               const auto change {controls_model_.MeasureChange(mm)};
-               if (change == 0)
-                  /* don't send any signal */
-                  return;
-               if (change > 0)
-                  /* turned clockwise */
-                  SendCommand(a->second.cw);
-               else
-                  /* turned counterclockwise */
-                  SendCommand(a->second.ccw);
+      if (profile_.MessageExistsInMap(message)) {
+         const auto command_to_send {profile_.GetCommandForMessage(message)};
+         if (command_to_send != "PrevPro" && command_to_send != "NextPro"
+             && command_to_send != CommandSet::kUnassigned) { /* handled elsewhere */
+            if (const auto a {kCmdUpDown.find(command_to_send)}; a != kCmdUpDown.end())
+               [[unlikely]]
+               {
+                  static TimePoint next_response {};
+                  if (const auto now {Clock::now()}; next_response < now) {
+                     next_response = now + kDelay;
+                     if ((mm.message_type_byte == rsj::MessageType::Cc
+                             && controls_model_.GetCcMethod(message) == rsj::CCmethod::kAbsolute)
+                         || mm.message_type_byte == rsj::MessageType::Pw)
+                        SetRecenter(message);
+                     const auto change {controls_model_.MeasureChange(mm)};
+                     if (change > 0)
+                        SendCommand(a->second.cw); /* turned clockwise */
+                     else if (change < 0)
+                        SendCommand(a->second.ccw); /* turned counterclockwise */
+                     /* do nothing if change == 0 */
+                  }
+               }
+            else { /* not repeated command */
+               const auto wrap {std::find(kWrapAround.begin(), kWrapAround.end(), command_to_send)
+                                != kWrapAround.end()};
+               const auto computed_value {controls_model_.ControllerToPlugin(mm, wrap)};
+               SendCommand(fmt::format(FMT_STRING("{} {}\n"), command_to_send, computed_value));
             }
          }
-      else {
-         /* not repeated command */
-         static const std::array<std::string, 4> wrap_around {"ColorGradeGlobalHue",
-             "SplitToningHighlightHue", "ColorGradeMidtoneHue", "SplitToningShadowHue"};
-         const auto wrap {std::find(wrap_around.begin(), wrap_around.end(), command_to_send)
-                          != wrap_around.end()};
-         const auto computed_value {controls_model_.ControllerToPlugin(mm, wrap)};
-         SendCommand(fmt::format(FMT_STRING("{} {}\n"), command_to_send, computed_value));
       }
    }
    catch (const std::exception& e) {
@@ -293,10 +283,8 @@ void LrIpcOut::SendOut()
       auto command_copy {std::make_shared<std::string>(command_.pop())};
       if (*command_copy == kTerminate)
          [[unlikely]] return;
-      /* always connected when running SendOut, no need to check flag */
-      if (command_copy->back() != '\n')
-         /* should be terminated with \n */
-         [[unlikely]]* command_copy += '\n';
+      if (command_copy->back() != '\n') /* should be terminated with \n */
+         [[unlikely]] command_copy->push_back('\n');
       // ReSharper disable once CppLambdaCaptureNeverUsed
       asio::async_write(socket_, asio::buffer(*command_copy),
           [this, command_copy](const asio::error_code& error, std::size_t) {

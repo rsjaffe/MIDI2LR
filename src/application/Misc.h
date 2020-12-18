@@ -38,9 +38,9 @@
 #include <juce_core/juce_core.h>
 
 #ifdef NDEBUG /* asserts disabled */
-static constexpr bool kNdebug {true};
+constexpr bool kNdebug {true};
 #else
-static constexpr bool kNdebug {false};
+constexpr bool kNdebug {false};
 #endif
 
 #if defined(__GNUC__) || defined(__clang__)
@@ -58,7 +58,7 @@ constexpr auto MacOS {true};
 #endif
 
 #ifndef __ARM_ARCH
-#include <xmmintrin.h>
+#include <xmmintrin.h> /* needed for XCode, no harm for MSVS */
 #define MIDI2LR_FAST_FLOATS _mm_setcsr(_mm_getcsr() | 0x8040)
 #else
 #define MIDI2LR_FPU_GETCW(fpcr) __asm__ __volatile__("mrs %0, fpcr" : "=r"(fpcr))

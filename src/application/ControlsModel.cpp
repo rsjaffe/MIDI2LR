@@ -18,17 +18,16 @@
 #include <algorithm>
 #include <cmath>
 #include <exception>
+#include <stdexcept>
 
 #include "MidiUtilities.h"
 #include "Misc.h"
 
-double ChannelModel::OffsetResult(const int diff, const int controlnumber, bool wrap)
+double ChannelModel::OffsetResult(const int diff, const int controlnumber, bool const wrap)
 {
    try {
-      Expects(cc_high_.at(controlnumber) > 0); /* CCLow will always be 0 for offset controls */
-      Expects(diff <= kMaxNrpn && diff >= -kMaxNrpn);
-      Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       const auto high_limit {cc_high_.at(controlnumber)};
+      Expects(diff <= high_limit && diff >= -high_limit);
       auto cached_v {current_v_.at(controlnumber).load(std::memory_order_acquire)};
       int new_v {};
       if (wrap) {
@@ -98,10 +97,6 @@ double ChannelModel::ControllerToPlugin(
                    value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value, controlnumber, wrap);
             return OffsetResult(
                 value & kBit7 ? -((value ^ kMaxMidi) + 1) : value, controlnumber, wrap);
-         default:
-            Ensures(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
-            // ReSharper disable once CppUnreachableCode
-            return 0.0;
          }
       case rsj::MessageType::NoteOn:
          return static_cast<double>(value)
@@ -109,9 +104,10 @@ double ChannelModel::ControllerToPlugin(
       case rsj::MessageType::NoteOff:
          return 0.0;
       default:
-         Ensures(!"Should be unreachable code in ControllerToPlugin--unknown control type");
-         // ReSharper disable once CppUnreachableCode
-         return 0.0;
+         throw std::logic_error(fmt::format(
+             FMT_STRING("ChannelModel::ControllerToPlugin unexpected control type. Controltype {}, "
+                        "controlnumber {}, value {}, wrap {}."),
+             controltype, controlnumber, value, wrap));
       }
    }
    catch (const std::exception& e) {
@@ -184,18 +180,15 @@ int ChannelModel::MeasureChange(
             if (IsNRPN_(controlnumber))
                return value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value;
             return value & kBit7 ? -((value ^ kMaxMidi) + 1) : value;
-         default:
-            Ensures(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
-            // ReSharper disable once CppUnreachableCode
-            return int {0};
          }
       case rsj::MessageType::NoteOn:
       case rsj::MessageType::NoteOff:
          return int {0};
       default:
-         Ensures(!"Should be unreachable code in ControllerToPlugin--unknown control type");
-         // ReSharper disable once CppUnreachableCode
-         return int {0};
+         throw std::logic_error(
+             fmt::format(FMT_STRING("ChannelModel::MeasureChange unexpected control type. "
+                                    "Controltype {}, controlnumber {}, value {}."),
+                 controltype, controlnumber, value));
       }
    }
    catch (const std::exception& e) {
@@ -210,7 +203,6 @@ int ChannelModel::PluginToController(
     const rsj::MessageType controltype, const int controlnumber, const double value)
 {
    try {
-      Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       /* value effectively clamped to 0-1 by clamp calls below */
       switch (controltype) {
       case rsj::MessageType::Pw: {
@@ -234,10 +226,11 @@ int ChannelModel::PluginToController(
       case rsj::MessageType::NoteOn:
          return kMaxMidi;
       default:
-         Ensures(!"Unexpected control type");
+         throw std::logic_error(
+             fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
+                                    "Control type {}."),
+                 controltype));
       }
-      // ReSharper disable once CppUnreachableCode
-      return 0;
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -279,7 +272,6 @@ void ChannelModel::SetCcAll(
 void ChannelModel::SetCcMax(const int controlnumber, const int value)
 {
    try {
-      Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       Expects(value <= kMaxNrpn && value >= 0);
       if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
          cc_high_.at(controlnumber) = value < 0 ? 1000 : value;
@@ -299,7 +291,6 @@ void ChannelModel::SetCcMax(const int controlnumber, const int value)
 void ChannelModel::SetCcMin(const int controlnumber, const int value)
 {
    try {
-      Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
          cc_low_.at(controlnumber) = 0;
       else
