@@ -149,7 +149,7 @@ void LrIpcOut::Start()
 void LrIpcOut::Stop()
 {
    thread_should_exit_.store(true, std::memory_order_release);
-   /* pump output queue before port closed */
+   /* clear output queue before port closed */
    if (const auto m {command_.clear_count_emplace(kTerminate)})
       rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcOut destructor."), m));
    callbacks_.clear(); /* no more connect/disconnect notifications */
@@ -224,9 +224,9 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
                   static TimePoint next_response {};
                   if (const auto now {Clock::now()}; next_response < now) {
                      next_response = now + kDelay;
-                     if ((mm.message_type_byte == rsj::MessageType::Cc
+                     if ((mm.message_type_byte == rsj::MessageType::kCc
                              && controls_model_.GetCcMethod(message) == rsj::CCmethod::kAbsolute)
-                         || mm.message_type_byte == rsj::MessageType::Pw)
+                         || mm.message_type_byte == rsj::MessageType::kPw)
                         SetRecenter(message);
                      const auto change {controls_model_.MeasureChange(mm)};
                      if (change > 0)

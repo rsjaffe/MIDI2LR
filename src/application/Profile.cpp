@@ -90,17 +90,17 @@ void Profile::FromXml(const juce::XmlElement* root)
       while (setting) {
          if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message {setting->getIntAttribute("channel"),
-                setting->getIntAttribute("controller"), rsj::MessageType::Cc};
+                setting->getIntAttribute("controller"), rsj::MessageType::kCc};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), message);
          }
          else if (setting->hasAttribute("note")) {
             const rsj::MidiMessageId note {setting->getIntAttribute("channel"),
-                setting->getIntAttribute("note"), rsj::MessageType::NoteOn};
+                setting->getIntAttribute("note"), rsj::MessageType::kNoteOn};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), note);
          }
          else if (setting->hasAttribute("pitchbend")) {
             const rsj::MidiMessageId pb {
-                setting->getIntAttribute("channel"), 0, rsj::MessageType::Pw};
+                setting->getIntAttribute("channel"), 0, rsj::MessageType::kPw};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), pb);
          }
          setting = setting->getNextElement();
@@ -251,16 +251,20 @@ void Profile::ToXmlFile(const juce::File& file)
             auto setting {std::make_unique<juce::XmlElement>("setting")};
             setting->setAttribute("channel", msg_id.channel);
             switch (msg_id.msg_id_type) {
-            case rsj::MessageType::NoteOn:
+            case rsj::MessageType::kNoteOn:
                setting->setAttribute("note", msg_id.control_number);
                break;
-            case rsj::MessageType::Cc:
+            case rsj::MessageType::kCc:
                setting->setAttribute("controller", msg_id.control_number);
                break;
-            case rsj::MessageType::Pw:
+            case rsj::MessageType::kPw:
                setting->setAttribute("pitchbend", 0);
                break;
-            default:
+            case rsj::MessageType::kChanPressure:
+            case rsj::MessageType::kKeyPressure:
+            case rsj::MessageType::kNoteOff:
+            case rsj::MessageType::kPgmChange:
+            case rsj::MessageType::kSystem:
                /* can't handle other types */
                continue;
             }

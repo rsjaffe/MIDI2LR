@@ -38,28 +38,28 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm)
       message_type_byte = rsj::ToMessageType(raw[0]);
       channel = raw[0] & 0xF;
       switch (message_type_byte) {
-      case MessageType::Pw:
+      case MessageType::kPw:
          value = raw[2] << 7 | raw[1];
          break;
-      case MessageType::Cc:
-      case MessageType::KeyPressure:
-      case MessageType::NoteOff:
-      case MessageType::NoteOn:
+      case MessageType::kCc:
+      case MessageType::kKeyPressure:
+      case MessageType::kNoteOff:
+      case MessageType::kNoteOn:
          value = raw[2];
          control_number = raw[1];
          break;
-      case MessageType::PgmChange:
+      case MessageType::kPgmChange:
          control_number = raw[1];
          break;
-      case MessageType::ChanPressure:
+      case MessageType::kChanPressure:
          value = raw[1];
          break;
-      case MessageType::System:
+      case MessageType::kSystem:
          break; /* no action */
       }
    }
    else
-      message_type_byte = MessageType::System;
+      message_type_byte = MessageType::kSystem;
 #pragma warning(pop)
    // ReSharper restore CppClangTidyCppcoreguidelinesProBoundsPointerArithmetic
 }

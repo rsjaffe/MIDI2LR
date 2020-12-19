@@ -181,7 +181,7 @@ void ProfileManager::handleAsyncUpdate()
          SwitchToNextProfile();
          switch_state_ = SwitchState::kNone;
          break;
-      default:
+      case SwitchState::kNone:
          break;
       }
    }

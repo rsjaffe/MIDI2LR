@@ -75,7 +75,7 @@ namespace {
 
    HWND h_lr_wnd {nullptr};
 
-   BOOL CALLBACK EnumWindowsProc(_In_ const HWND hwnd, [[maybe_unused]] _In_ const LPARAM lParam)
+   BOOL CALLBACK EnumWindowsProc(_In_ const HWND hwnd, [[maybe_unused]] _In_ const LPARAM l_param)
    {
       if (!IsWindowVisible(hwnd))
          return true;
