@@ -90,32 +90,6 @@ LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile, const MidiSen
    midi_receiver.AddCallback(this, &LrIpcOut::MidiCmdCallback);
 }
 
-void LrIpcOut::SendCommand(std::string&& command)
-{
-   try {
-      if (sending_stopped_)
-         return;
-      command_.push(std::move(command));
-   }
-   catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
-      throw;
-   }
-}
-
-void LrIpcOut::SendCommand(const std::string& command)
-{
-   try {
-      if (sending_stopped_)
-         return;
-      command_.push(command);
-   }
-   catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
-      throw;
-   }
-}
-
 void LrIpcOut::SendingRestart()
 {
    try {
