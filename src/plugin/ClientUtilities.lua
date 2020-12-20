@@ -647,6 +647,51 @@ local function ProfileAmount(value)
   )
 end
 
+local function ResetAllGrayMixer()
+  LrDevelopController.resetToDefault('GrayMixerRed')
+  LrDevelopController.resetToDefault('GrayMixerOrange')
+  LrDevelopController.resetToDefault('GrayMixerYellow')
+  LrDevelopController.resetToDefault('GrayMixerGreen')
+  LrDevelopController.resetToDefault('GrayMixerAqua')
+  LrDevelopController.resetToDefault('GrayMixerBlue')
+  LrDevelopController.resetToDefault('GrayMixerPurple')
+  LrDevelopController.resetToDefault('GrayMixerMagenta')
+  if ProgramPreferences.ClientShowBezelOnChange then
+    local bezelname = (Database.CmdTrans.ResetAllGrayMixer and Database.CmdTrans.ResetAllGrayMixer[Database.LatestPVSupported]) or "ResetAllGrayMixer"
+    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
+  end
+end
+
+local function ResetAllHueAdjustment()
+  LrDevelopController.resetToDefault('HueAdjustmentRed')
+  LrDevelopController.resetToDefault('HueAdjustmentOrange')
+  LrDevelopController.resetToDefault('HueAdjustmentYellow')
+  LrDevelopController.resetToDefault('HueAdjustmentGreen')
+  LrDevelopController.resetToDefault('HueAdjustmentAqua')
+  LrDevelopController.resetToDefault('HueAdjustmentBlue')
+  LrDevelopController.resetToDefault('HueAdjustmentPurple')
+  LrDevelopController.resetToDefault('HueAdjustmentMagenta')
+  if ProgramPreferences.ClientShowBezelOnChange then
+    local bezelname = (Database.CmdTrans.ResetAllHueAdjustment and Database.CmdTrans.ResetAllHueAdjustment[Database.LatestPVSupported]) or "ResetAllHueAdjustment"
+    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
+  end
+end
+
+local function ResetAllLuminanceAdjustment()
+  LrDevelopController.resetToDefault('LuminanceAdjustmentRed')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentOrange')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentYellow')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentGreen')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentAqua')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentBlue')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentPurple')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentMagenta')
+  if ProgramPreferences.ClientShowBezelOnChange then
+    local bezelname = (Database.CmdTrans.ResetAllLuminanceAdjustment and Database.CmdTrans.ResetAllLuminanceAdjustment[Database.LatestPVSupported]) or "ResetAllLuminanceAdjustment"
+    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
+  end
+end
+
 return {
   ApplySettings = ApplySettings,
   FullRefresh = FullRefresh,
@@ -675,4 +720,7 @@ return {
   wrapFOM = wrapFOM,
   wrapForEachPhoto = wrapForEachPhoto,
   ProfileAmount = ProfileAmount,
+  ResetAllGrayMixer = ResetAllGrayMixer,
+  ResetAllHueAdjustment = ResetAllHueAdjustment,
+  ResetAllLuminanceAdjustment = ResetAllLuminanceAdjustment,
 }
