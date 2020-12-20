@@ -643,17 +643,21 @@ LrTasks.startAsyncTask(
             if not sendIsConnected then return end -- can't send
             if Limits.LimitsCanBeSet() and lastrefresh < os.clock() then
               -- refresh crop values
-              local val = LrDevelopController.getValue("CropBottom")
-              MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val))
-              MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val))
-              MIDI2LR.SERVER:send(string.format('CropAll %g\n', val))
-              MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val))
-              val = LrDevelopController.getValue("CropTop")
-              MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val))
-              MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val))
-              MIDI2LR.SERVER:send(string.format('CropTop %g\n', val))
-              MIDI2LR.SERVER:send(string.format('CropLeft %g\n', LrDevelopController.getValue("CropLeft")))
-              MIDI2LR.SERVER:send(string.format('CropRight %g\n', LrDevelopController.getValue("CropRight")))
+              local val_bottom = LrDevelopController.getValue("CropBottom")
+              MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val_bottom))
+              MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val_bottom))
+              MIDI2LR.SERVER:send(string.format('CropAll %g\n', val_bottom))
+              MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val_bottom))
+              local val_top = LrDevelopController.getValue("CropTop")
+              MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val_top))
+              MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val_top))
+              MIDI2LR.SERVER:send(string.format('CropTop %g\n', val_top))
+              local val_left = LrDevelopController.getValue("CropLeft")
+              local val_right = LrDevelopController.getValue("CropRight")
+              MIDI2LR.SERVER:send(string.format('CropLeft %g\n', val_left))
+              MIDI2LR.SERVER:send(string.format('CropRight %g\n', val_right))
+              MIDI2LR.SERVER:send(string.format('CropMoveVertical %g\n', val_top / (1 - (val_bottom - val_top))))
+              MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / (1 - (val_right - val_left))))
               for param in pairs(Database.Parameters) do
                 local lrvalue = LrDevelopController.getValue(param)
                 if observer[param] ~= lrvalue and type(lrvalue) == 'number' then --testing for MIDI2LR.SERVER.send kills responsiveness
@@ -759,6 +763,18 @@ LrTasks.startAsyncTask(
             UpdateParam("CropRight",new_right,true)
             UpdateParam("CropTop",new_top,true)
             UpdateParam("CropLeft",new_left,true)
+          elseif param == "CropMoveVertical" then
+            local range = 1 - (prior_c_bottom - prior_c_top)
+            local new_top = range * tonumber(value)
+            local new_bottom = new_top + prior_c_bottom - prior_c_top
+            UpdateParam("CropBottom",new_bottom,true)
+            UpdateParam("CropTop", new_top)
+          elseif param == "CropMoveHorizontal" then
+            local range = 1 - (prior_c_right - prior_c_left)
+            local new_left = range * tonumber(value)
+            local new_right = new_left + prior_c_bottom - prior_c_top
+            UpdateParam("CropLeft",new_left,true)
+            UpdateParam("CropRight", new_right)
           end
         end
 
