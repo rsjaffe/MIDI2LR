@@ -632,12 +632,20 @@ void UIViewComponentPeer::setBounds (const Rectangle<int>& newBounds, const bool
 
 Rectangle<int> UIViewComponentPeer::getBounds (const bool global) const
 {
-    CGRect r = view.frame;
+    auto r = view.frame;
 
-    if (global && view.window != nil)
+    if (global)
     {
-        r = [view convertRect: r toView: view.window];
-        r = [view.window convertRect: r toWindow: nil];
+        if (view.window != nil)
+        {
+            r = [view convertRect: r toView: view.window];
+            r = [view.window convertRect: r toWindow: nil];
+        }
+        else if (window != nil)
+        {
+            r.origin.x += window.frame.origin.x;
+            r.origin.y += window.frame.origin.y;
+        }
     }
 
     return convertToRectInt (r);
@@ -662,7 +670,7 @@ void UIViewComponentPeer::setFullScreen (bool shouldBeFullScreen)
 {
     if (! isSharedWindow)
     {
-        auto r = shouldBeFullScreen ? Desktop::getInstance().getDisplays().getMainDisplay().userArea
+        auto r = shouldBeFullScreen ? Desktop::getInstance().getDisplays().getPrimaryDisplay()->userArea
                                     : lastNonFullscreenBounds;
 
         if ((! shouldBeFullScreen) && r.isEmpty())
@@ -681,7 +689,7 @@ void UIViewComponentPeer::updateScreenBounds()
     auto& desktop = Desktop::getInstance();
 
     auto oldArea = component.getBounds();
-    auto oldDesktop = desktop.getDisplays().getMainDisplay().userArea;
+    auto oldDesktop = desktop.getDisplays().getPrimaryDisplay()->userArea;
 
     const_cast<Displays&> (desktop.getDisplays()).refresh();
 
@@ -696,7 +704,7 @@ void UIViewComponentPeer::updateScreenBounds()
         auto centreRelX = oldArea.getCentreX() / (float) oldDesktop.getWidth();
         auto centreRelY = oldArea.getCentreY() / (float) oldDesktop.getHeight();
 
-        auto newDesktop = desktop.getDisplays().getMainDisplay().userArea;
+        auto newDesktop = desktop.getDisplays().getPrimaryDisplay()->userArea;
 
         auto x = ((int) (newDesktop.getWidth()  * centreRelX)) - (oldArea.getWidth()  / 2);
         auto y = ((int) (newDesktop.getHeight() * centreRelY)) - (oldArea.getHeight() / 2);

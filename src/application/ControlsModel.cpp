@@ -16,20 +16,29 @@
 #include "ControlsModel.h"
 
 #include <algorithm>
+#include <cmath>
 #include <exception>
+#include <stdexcept>
 
 #include "MidiUtilities.h"
 #include "Misc.h"
 
-double ChannelModel::OffsetResult(const int diff, const int controlnumber)
+double ChannelModel::OffsetResult(const int diff, const int controlnumber, bool const wrap)
 {
    try {
-      Expects(cc_high_.at(controlnumber) > 0); /* CCLow will always be 0 for offset controls */
-      Expects(diff <= kMaxNrpn && diff >= -kMaxNrpn);
-      Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       const auto high_limit {cc_high_.at(controlnumber)};
+      Expects(diff <= high_limit && diff >= -high_limit);
       auto cached_v {current_v_.at(controlnumber).load(std::memory_order_acquire)};
-      const auto new_v {std::clamp(cached_v + diff, 0, high_limit)};
+      int new_v {};
+      if (wrap) {
+         new_v = cached_v + diff;
+         if (new_v > high_limit)
+            new_v -= high_limit;
+         else if (new_v < 0)
+            new_v += high_limit;
+      }
+      else
+         [[likely]] new_v = std::clamp(cached_v + diff, 0, high_limit);
       if (current_v_.at(controlnumber)
               .compare_exchange_strong(
                   cached_v, new_v, std::memory_order_release, std::memory_order_acquire))
@@ -45,26 +54,26 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber)
 }
 
 double ChannelModel::ControllerToPlugin(
-    const rsj::MessageType controltype, const int controlnumber, const int value)
+    const rsj::MessageType controltype, const int controlnumber, const int value, const bool wrap)
 {
    try {
-      Expects(controltype == rsj::MessageType::Cc
+      Expects(controltype == rsj::MessageType::kCc
                       && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute
                   ? cc_low_.at(controlnumber) < cc_high_.at(controlnumber)
                   : 1);
-      Expects(controltype == rsj::MessageType::Pw ? pitch_wheel_max_ > pitch_wheel_min_ : 1);
-      Expects(controltype == rsj::MessageType::Pw
+      Expects(controltype == rsj::MessageType::kPw ? pitch_wheel_max_ > pitch_wheel_min_ : 1);
+      Expects(controltype == rsj::MessageType::kPw
                   ? value >= pitch_wheel_min_ && value <= pitch_wheel_max_
                   : 1);
       /* note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7
        * bits, high bits are shifted one right when placed into int. */
       switch (controltype) {
-      case rsj::MessageType::Pw:
+      case rsj::MessageType::kPw:
          pitch_wheel_current_.store(value, std::memory_order_release);
 #pragma warning(suppress : 26451) /* int subtraction won't overflow 4 bytes here */
          return static_cast<double>(value - pitch_wheel_min_)
                 / static_cast<double>(pitch_wheel_max_ - pitch_wheel_min_);
-      case rsj::MessageType::Cc:
+      case rsj::MessageType::kCc:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute:
             current_v_.at(controlnumber).store(value, std::memory_order_release);
@@ -72,35 +81,41 @@ double ChannelModel::ControllerToPlugin(
             return static_cast<double>(value - cc_low_.at(controlnumber))
                    / static_cast<double>(cc_high_.at(controlnumber) - cc_low_.at(controlnumber));
          case rsj::CCmethod::kBinaryOffset:
-            if (IsNRPN_(controlnumber))
-               return OffsetResult(value - kBit14, controlnumber);
-            return OffsetResult(value - kBit7, controlnumber);
+            if (IsNrpn(controlnumber))
+               return OffsetResult(value - kBit14, controlnumber, wrap);
+            return OffsetResult(value - kBit7, controlnumber, wrap);
          case rsj::CCmethod::kSignMagnitude:
-            if (IsNRPN_(controlnumber))
-               return OffsetResult(value & kBit14 ? -(value & kLow13Bits) : value, controlnumber);
-            return OffsetResult(value & kBit7 ? -(value & kLow6Bits) : value, controlnumber);
+            if (IsNrpn(controlnumber))
+               return OffsetResult(
+                   value & kBit14 ? -(value & kLow13Bits) : value, controlnumber, wrap);
+            return OffsetResult(value & kBit7 ? -(value & kLow6Bits) : value, controlnumber, wrap);
          case rsj::CCmethod::kTwosComplement:
             /* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
              * flip twos comp and subtract--independent of processor architecture */
-            if (IsNRPN_(controlnumber))
+            if (IsNrpn(controlnumber))
                return OffsetResult(
-                   value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value, controlnumber);
-            return OffsetResult(value & kBit7 ? -((value ^ kMaxMidi) + 1) : value, controlnumber);
-         default:
-            Ensures(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
-            // ReSharper disable once CppUnreachableCode
-            return 0.0;
+                   value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value, controlnumber, wrap);
+            return OffsetResult(
+                value & kBit7 ? -((value ^ kMaxMidi) + 1) : value, controlnumber, wrap);
          }
-      case rsj::MessageType::NoteOn:
+      case rsj::MessageType::kNoteOn:
          return static_cast<double>(value)
-                / static_cast<double>((IsNRPN_(controlnumber) ? kMaxNrpn : kMaxMidi));
-      case rsj::MessageType::NoteOff:
+                / static_cast<double>((IsNrpn(controlnumber) ? kMaxNrpn : kMaxMidi));
+      case rsj::MessageType::kNoteOff:
          return 0.0;
-      default:
-         Ensures(!"Should be unreachable code in ControllerToPlugin--unknown control type");
-         // ReSharper disable once CppUnreachableCode
-         return 0.0;
+      case rsj::MessageType::kChanPressure:
+      case rsj::MessageType::kKeyPressure:
+      case rsj::MessageType::kPgmChange:
+      case rsj::MessageType::kSystem:
+         throw std::logic_error(fmt::format(
+             FMT_STRING("ChannelModel::ControllerToPlugin unexpected control type. Controltype {}, "
+                        "controlnumber {}, value {}, wrap {}."),
+             controltype, controlnumber, value, wrap));
       }
+      throw std::logic_error(
+          fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
+                                 "Control type {}."),
+              controltype));
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -115,17 +130,22 @@ int ChannelModel::SetToCenter(const rsj::MessageType controltype, const int cont
    try {
       auto retval {0};
       switch (controltype) {
-      case rsj::MessageType::Pw:
+      case rsj::MessageType::kPw:
          retval = CenterPw();
          pitch_wheel_current_.store(retval, std::memory_order_release);
          break;
-      case rsj::MessageType::Cc:
+      case rsj::MessageType::kCc:
          if (cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute) {
             retval = CenterCc(controlnumber);
             current_v_.at(controlnumber).store(retval, std::memory_order_release);
          }
          break;
-      default:
+      case rsj::MessageType::kChanPressure:
+      case rsj::MessageType::kKeyPressure:
+      case rsj::MessageType::kNoteOff:
+      case rsj::MessageType::kNoteOn:
+      case rsj::MessageType::kPgmChange:
+      case rsj::MessageType::kSystem:
          break;
       }
       return retval;
@@ -140,51 +160,55 @@ int ChannelModel::MeasureChange(
     const rsj::MessageType controltype, const int controlnumber, const int value)
 {
    try {
-      Expects(controltype == rsj::MessageType::Cc
+      Expects(controltype == rsj::MessageType::kCc
                       && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute
                   ? cc_low_.at(controlnumber) < cc_high_.at(controlnumber)
                   : 1);
-      Expects(controltype == rsj::MessageType::Pw ? pitch_wheel_max_ > pitch_wheel_min_ : 1);
-      Expects(controltype == rsj::MessageType::Pw
+      Expects(controltype == rsj::MessageType::kPw ? pitch_wheel_max_ > pitch_wheel_min_ : 1);
+      Expects(controltype == rsj::MessageType::kPw
                   ? value >= pitch_wheel_min_ && value <= pitch_wheel_max_
                   : 1);
       /* note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7
        * bits, high bits are shifted one right when placed into int. */
       switch (controltype) {
-      case rsj::MessageType::Pw: {
+      case rsj::MessageType::kPw: {
          return value - pitch_wheel_current_.exchange(value, std::memory_order_acq_rel);
       }
-      case rsj::MessageType::Cc:
+      case rsj::MessageType::kCc:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute:
             return value - current_v_.at(controlnumber).exchange(value, std::memory_order_acq_rel);
          case rsj::CCmethod::kBinaryOffset:
-            if (IsNRPN_(controlnumber))
+            if (IsNrpn(controlnumber))
                return value - kBit14;
             return value - kBit7;
          case rsj::CCmethod::kSignMagnitude:
-            if (IsNRPN_(controlnumber))
+            if (IsNrpn(controlnumber))
                return value & kBit14 ? -(value & kLow13Bits) : value;
             return value & kBit7 ? -(value & kLow6Bits) : value;
          case rsj::CCmethod::kTwosComplement:
             /* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
              * flip twos comp and subtract--independent of processor architecture */
-            if (IsNRPN_(controlnumber))
+            if (IsNrpn(controlnumber))
                return value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value;
             return value & kBit7 ? -((value ^ kMaxMidi) + 1) : value;
-         default:
-            Ensures(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
-            // ReSharper disable once CppUnreachableCode
-            return int {0};
          }
-      case rsj::MessageType::NoteOn:
-      case rsj::MessageType::NoteOff:
+      case rsj::MessageType::kNoteOff:
+      case rsj::MessageType::kNoteOn:
          return int {0};
-      default:
-         Ensures(!"Should be unreachable code in ControllerToPlugin--unknown control type");
-         // ReSharper disable once CppUnreachableCode
-         return int {0};
+      case rsj::MessageType::kChanPressure:
+      case rsj::MessageType::kKeyPressure:
+      case rsj::MessageType::kPgmChange:
+      case rsj::MessageType::kSystem:
+         throw std::logic_error(
+             fmt::format(FMT_STRING("ChannelModel::MeasureChange unexpected control type. "
+                                    "Controltype {}, controlnumber {}, value {}."),
+                 controltype, controlnumber, value));
       }
+      throw std::logic_error(
+          fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
+                                 "Control type {}."),
+              controltype));
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -198,32 +222,42 @@ int ChannelModel::PluginToController(
     const rsj::MessageType controltype, const int controlnumber, const double value)
 {
    try {
-      Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       /* value effectively clamped to 0-1 by clamp calls below */
       switch (controltype) {
-      case rsj::MessageType::Pw: {
+      case rsj::MessageType::kPw: {
          /* TODO(C26451): int subtraction: can it overflow? */
-         const auto newv {std::clamp(
-             rsj::RoundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_)) + pitch_wheel_min_,
-             pitch_wheel_min_, pitch_wheel_max_)};
+         const auto newv {
+             std::clamp(gsl::narrow<int>(std::lrint(value * (pitch_wheel_max_ - pitch_wheel_min_)))
+                            + pitch_wheel_min_,
+                 pitch_wheel_min_, pitch_wheel_max_)};
          pitch_wheel_current_.store(newv, std::memory_order_release);
          return newv;
       }
-      case rsj::MessageType::Cc: {
+      case rsj::MessageType::kCc: {
          /* TODO(C26451): int subtraction: can it overflow? */
          const auto clow {cc_low_.at(controlnumber)};
          const auto chigh {cc_high_.at(controlnumber)};
-         const auto newv {std::clamp(rsj::RoundToInt(value * (chigh - clow)) + clow, clow, chigh)};
+         const auto newv {
+             std::clamp(gsl::narrow<int>(std::lrint(value * (chigh - clow))) + clow, clow, chigh)};
          current_v_.at(controlnumber).store(newv, std::memory_order_release);
          return newv;
       }
-      case rsj::MessageType::NoteOn:
+      case rsj::MessageType::kNoteOn:
          return kMaxMidi;
-      default:
-         Ensures(!"Unexpected control type");
+      case rsj::MessageType::kChanPressure:
+      case rsj::MessageType::kKeyPressure:
+      case rsj::MessageType::kNoteOff:
+      case rsj::MessageType::kPgmChange:
+      case rsj::MessageType::kSystem:
+         throw std::logic_error(
+             fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
+                                    "Control type {}."),
+                 controltype));
       }
-      // ReSharper disable once CppUnreachableCode
-      return 0;
+      throw std::logic_error(
+          fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
+                                 "Control type {}."),
+              controltype));
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -251,12 +285,10 @@ void ChannelModel::SetCcAll(
     const int controlnumber, const int min, const int max, const rsj::CCmethod controltype)
 {
    try {
-      if (IsNRPN_(controlnumber))
-         for (auto a {kMaxMidi + 1}; a <= kMaxNrpn; ++a)
-            SetCc(a, min, max, controltype);
+      if (IsNrpn(controlnumber))
+         for (auto a {kMaxMidi + 1}; a <= kMaxNrpn; ++a) SetCc(a, min, max, controltype);
       else
-         for (auto a {0}; a <= kMaxMidi; ++a)
-            SetCc(a, min, max, controltype);
+         for (auto a {0}; a <= kMaxMidi; ++a) SetCc(a, min, max, controltype);
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -267,12 +299,11 @@ void ChannelModel::SetCcAll(
 void ChannelModel::SetCcMax(const int controlnumber, const int value)
 {
    try {
-      Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       Expects(value <= kMaxNrpn && value >= 0);
       if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
          cc_high_.at(controlnumber) = value < 0 ? 1000 : value;
       else {
-         const auto max {IsNRPN_(controlnumber) ? kMaxNrpn : kMaxMidi};
+         const auto max {IsNrpn(controlnumber) ? kMaxNrpn : kMaxMidi};
          cc_high_.at(controlnumber) =
              value <= cc_low_.at(controlnumber) || value > max ? max : value;
       }
@@ -287,7 +318,6 @@ void ChannelModel::SetCcMax(const int controlnumber, const int value)
 void ChannelModel::SetCcMin(const int controlnumber, const int value)
 {
    try {
-      Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
          cc_low_.at(controlnumber) = 0;
       else
@@ -339,8 +369,7 @@ void ChannelModel::CcDefaults()
       /* XCode throws linker error when use ChannelModel::kMaxNRPN here */
       cc_high_.fill(0x3FFF);
       cc_method_.fill(rsj::CCmethod::kAbsolute);
-      for (auto&& a : current_v_)
-         a.store(kMaxNrpnHalf, std::memory_order_relaxed);
+      for (auto&& a : current_v_) a.store(kMaxNrpnHalf, std::memory_order_relaxed);
       for (size_t a {0}; a <= kMaxMidi; ++a) {
          cc_high_.at(a) = kMaxMidi;
          current_v_.at(a).store(kMaxMidiHalf, std::memory_order_relaxed);

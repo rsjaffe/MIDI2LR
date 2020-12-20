@@ -15,6 +15,7 @@
  */
 #include "SettingsComponent.h"
 
+#include <cmath>
 #include <exception>
 
 #include <fmt/format.h>
@@ -120,7 +121,7 @@ void SettingsComponent::Init()
       addToLayout(&autohide_setting_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(autohide_setting_);
       autohide_setting_.onValueChange = [this] {
-         settings_manager_.SetAutoHideTime(rsj::RoundToInt(autohide_setting_.getValue()));
+         settings_manager_.SetAutoHideTime(std::lrint(autohide_setting_.getValue()));
          rsj::Log(fmt::format(
              FMT_STRING("Autohide time set to {} seconds."), settings_manager_.GetAutoHideTime()));
       };

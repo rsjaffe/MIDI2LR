@@ -24,7 +24,7 @@
 #include "Misc.h"
 
 namespace {
-   constexpr rsj::MidiMessage kTerminate {rsj::MessageType::Cc, 129, 0, 0}; /* impossible channel */
+   constexpr rsj::MidiMessage kTerminate {rsj::MessageType::kCc, 129, 0, 0}; /* impossible */
 }
 
 void MidiReceiver::Start()
@@ -63,23 +63,27 @@ void MidiReceiver::handleIncomingMidiMessage(
    try {
       const rsj::MidiMessage mess {message};
       switch (mess.message_type_byte) {
-      case rsj::MessageType::Cc: {
+      case rsj::MessageType::kCc: {
          const auto result {filters_[device](mess)};
          if (result.is_nrpn) {
             /* send when complete */
             if (result.is_ready)
-               messages_.emplace(rsj::MessageType::Cc, mess.channel, result.control, result.value);
+               messages_.emplace(rsj::MessageType::kCc, mess.channel, result.control, result.value);
             /* finished with nrpn piece */
             break;
          }
       }
          /* if not nrpn, handle like other messages */
          [[fallthrough]];
-      case rsj::MessageType::NoteOn:
-      case rsj::MessageType::Pw:
+      case rsj::MessageType::kNoteOn:
+      case rsj::MessageType::kPw:
          messages_.push(mess);
          break;
-      default:
+      case rsj::MessageType::kChanPressure:
+      case rsj::MessageType::kKeyPressure:
+      case rsj::MessageType::kNoteOff:
+      case rsj::MessageType::kPgmChange:
+      case rsj::MessageType::kSystem:
           /* no action if other type of MIDI message */;
       }
    }

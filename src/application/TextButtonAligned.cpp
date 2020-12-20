@@ -17,8 +17,9 @@
 #include "TextButtonAligned.h"
 
 #include <algorithm>
+#include <cmath>
 
-#include "Misc.h"
+#include <gsl/gsl>
 
 void TextButtonAligned::paintButton(juce::Graphics& g, const bool should_draw_button_as_highlighted,
     const bool should_draw_button_as_down)
@@ -51,7 +52,7 @@ void TextButtonAligned::DrawButtonText(juce::Graphics& g, juce::TextButton& butt
    const auto y_indent {std::min(4, button.proportionOfHeight(0.3f))}; //-V112
    const auto corner_size {std::min(button.getHeight(), button.getWidth()) / 2};
 
-   const auto font_height {rsj::RoundToInt(font.getHeight() * 0.6f)};
+   const auto font_height {gsl::narrow_cast<int>(std::lrint(font.getHeight() * 0.6f))};
    const auto left_indent {
        std::min(font_height, 2 + corner_size / (button.isConnectedOnLeft() ? 4 : 2))}; //-V112
    const auto right_indent {

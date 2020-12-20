@@ -42,7 +42,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
    try {
       if (modifiers.isPopupMenu()) {
          switch (message_.msg_id_type) {
-         case rsj::MessageType::Cc: {
+         case rsj::MessageType::kCc: {
             CCoptions ccopt;
             /* convert 1-based to 0-based */
             ccopt.BindToControl(message_.channel - 1, message_.control_number);
@@ -50,7 +50,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
                 juce::translate("Adjust CC dialog"), &ccopt, nullptr, juce::Colours::white, true);
             break;
          }
-         case rsj::MessageType::Pw: {
+         case rsj::MessageType::kPw: {
             PWoptions pwopt;
             /* convert 1-based to 0 based */
             pwopt.BindToControl(message_.channel - 1);
@@ -58,7 +58,12 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
                 juce::translate("Adjust PW dialog"), &pwopt, nullptr, juce::Colours::white, true);
             break;
          }
-         default:
+         case rsj::MessageType::kChanPressure:
+         case rsj::MessageType::kKeyPressure:
+         case rsj::MessageType::kNoteOff:
+         case rsj::MessageType::kNoteOn:
+         case rsj::MessageType::kPgmChange:
+         case rsj::MessageType::kSystem:
              /* do nothing for other types of controllers */;
          }
       }

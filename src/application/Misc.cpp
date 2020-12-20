@@ -56,11 +56,12 @@ namespace {
       ::std::string result {};
       result.reserve(in.size() * 3 / 2); /* midway between max and min final size */
       for (const auto a : in) {
-         if (gsl::narrow_cast<size_t>(a) < ascii_map.size())
+         if (rsj::cmp_less(rsj::CharToInt(a), ascii_map.size())
+             && rsj::cmp_greater_equal(rsj::CharToInt(a), 0))
 #pragma warning(suppress : 26446 26482) /* false alarm, range checked by if statement */
             // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
             result.append(ascii_map[gsl::narrow_cast<size_t>(a)]);
-         else if (a == 127)
+         else if (rsj::cmp_equal(rsj::CharToInt(a), 127))
             result.append("\\x7F");
          else if (a == '\\')
             result.append("\\\\");

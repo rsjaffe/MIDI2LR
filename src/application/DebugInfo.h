@@ -25,10 +25,7 @@
 class DebugInfo {
  public:
    explicit DebugInfo(const juce::String& profile_directory) noexcept;
-   [[nodiscard]] const std::vector<std::string>& GetInfo() const noexcept
-   {
-      return info_;
-   }
+   [[nodiscard]] const std::vector<std::string>& GetInfo() const noexcept { return info_; }
 
  private:
    void LogAndSave(std::string&& msg)

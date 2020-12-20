@@ -13,7 +13,7 @@
  * see <http://www.gnu.org/licenses/>.
  *
  */
- #include "Ocpp.h"
+#include "Ocpp.h"
 
 #include <cctype>
 #include <chrono>
@@ -33,7 +33,8 @@
 
 namespace {
    std::optional<std::pair<bool, UniChar>> ConvertKeyCodeToText(
-       const UCKeyboardLayout* keyboard_layout, UInt16 virtual_key_code, UInt32 modifiers)
+       const UCKeyboardLayout* keyboard_layout, const UInt16 virtual_key_code,
+       const UInt32 modifiers)
    {
       /* the following is adapted from
        * https://github.com/microsoft/node-native-keymap/blob/master/src/keyboard_mac.mm */
@@ -42,8 +43,8 @@ namespace {
       UInt32 dead_key_state {0};
       UniCharCount char_count {0};
       UniChar character {0};
-      OSStatus status {UCKeyTranslate(keyboard_layout, virtual_key_code, kUCKeyActionDown,
-          modifiers, LMGetKbdLast(), kUCKeyTranslateNoDeadKeysBit, &dead_key_state, 1, &char_count,
+      auto status {UCKeyTranslate(keyboard_layout, virtual_key_code, kUCKeyActionDown, modifiers,
+          LMGetKbdLast(), kUCKeyTranslateNoDeadKeysBit, &dead_key_state, 1, &char_count,
           &character)};
       bool dead_key {false};
       if (status == noErr && char_count == 0 && dead_key_state != 0) {
@@ -66,45 +67,43 @@ namespace {
    void FillInMessageLoop()
    {
       std::unique_lock lock {mtx};
-      TISInputSourceRef source {TISCopyCurrentKeyboardInputSource()};
+      rsj::CFAutoRelease<TISInputSourceRef> source {TISCopyCurrentKeyboardInputSource()};
       if (!source)
-         source = TISCopyCurrentKeyboardLayoutInputSource();
+         source.reset(TISCopyCurrentKeyboardLayoutInputSource());
       if (!source) {
          rsj::LogAndAlertError(
              juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
          return;
       }
-      CFStringRef sourceId {
-          (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyInputSourceID)};
+      const auto sourceId {static_cast<CFStringRef>(
+          TISGetInputSourceProperty(source.get(), kTISPropertyInputSourceID))};
       if (sourceId)
-         sourceIdString = std::string(((NSString*)sourceId).UTF8String);
+         sourceIdString = std::string(static_cast<NSString*>(sourceId).UTF8String);
 
-      CFStringRef localizedName {
-          (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyLocalizedName)};
+      const auto localizedName {static_cast<CFStringRef>(
+          TISGetInputSourceProperty(source.get(), kTISPropertyLocalizedName))};
       if (localizedName)
-         localizedNameString = std::string(((NSString*)localizedName).UTF8String);
+         localizedNameString = std::string(static_cast<NSString*>(localizedName).UTF8String);
 
-      NSArray* languages {
-          (NSArray*)TISGetInputSourceProperty(source, kTISPropertyInputSourceLanguages)};
+      const auto languages {static_cast<NSArray*>(
+          TISGetInputSourceProperty(source.get(), kTISPropertyInputSourceLanguages))};
       if (languages && languages.count > 0) {
-         NSString* lang {languages[0]};
+         const NSString* lang {languages[0]};
          if (lang)
             langString = std::string(lang.UTF8String);
       }
 
       /* get layout data here since it's before use is needed and it crashes if done on another
        * thread since MacOS Catalina. it must happen on the main message thread */
-      CFDataRef layout_data {static_cast<CFDataRef>(
-          (TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData)))};
-      CFRelease(source);
+      auto layout_data {static_cast<CFDataRef>(
+          (TISGetInputSourceProperty(source.get(), kTISPropertyUnicodeKeyLayoutData)))};
       if (!layout_data) {
          /* TISGetInputSourceProperty returns null with  Japanese keyboard layout. Using
           * TISCopyCurrentKeyboardLayoutInputSource to fix NULL return. */
-         TISInputSourceRef sourcea {TISCopyCurrentKeyboardLayoutInputSource()};
+         rsj::CFAutoRelease<TISInputSourceRef> sourcea {TISCopyCurrentKeyboardLayoutInputSource()};
          if (sourcea) {
             layout_data = static_cast<CFDataRef>(
-                (TISGetInputSourceProperty(sourcea, kTISPropertyUnicodeKeyLayoutData)));
-            CFRelease(sourcea);
+                (TISGetInputSourceProperty(sourcea.get(), kTISPropertyUnicodeKeyLayoutData)));
          }
       }
       if (!layout_data) {
@@ -112,7 +111,7 @@ namespace {
              juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
          return;
       }
-      const UCKeyboardLayout* keyboardLayout {
+      const auto keyboardLayout {
           reinterpret_cast<const UCKeyboardLayout*>(CFDataGetBytePtr(layout_data))};
       if (!keyboardLayout)
          rsj::LogAndAlertError(

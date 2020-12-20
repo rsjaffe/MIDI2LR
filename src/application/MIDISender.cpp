@@ -42,24 +42,21 @@ void MidiSender::Start()
 void MidiSender::Send(rsj::MidiMessageId id, int value) const
 {
    try {
-      if (id.msg_id_type == rsj::MessageType::Pw) {
+      if (id.msg_id_type == rsj::MessageType::kPw) {
          const auto msg {juce::MidiMessage::pitchWheel(id.channel, value)};
-         for (const auto& dev : output_devices_)
-            dev->sendMessageNow(msg);
+         for (const auto& dev : output_devices_) dev->sendMessageNow(msg);
       }
-      else if (id.msg_id_type == rsj::MessageType::NoteOn) {
+      else if (id.msg_id_type == rsj::MessageType::kNoteOn) {
          const auto msg {juce::MidiMessage::noteOn(
              id.channel, id.control_number, gsl::narrow_cast<juce::uint8>(value))};
-         for (const auto& dev : output_devices_)
-            dev->sendMessageNow(msg);
+         for (const auto& dev : output_devices_) dev->sendMessageNow(msg);
       }
-      else if (id.msg_id_type == rsj::MessageType::Cc) {
+      else if (id.msg_id_type == rsj::MessageType::kCc) {
          if (id.control_number < 128) {
             /* regular message */
             const auto msg {
                 juce::MidiMessage::controllerEvent(id.channel, id.control_number, value)};
-            for (const auto& dev : output_devices_)
-               dev->sendMessageNow(msg);
+            for (const auto& dev : output_devices_) dev->sendMessageNow(msg);
          }
          else {
             /* NRPN */

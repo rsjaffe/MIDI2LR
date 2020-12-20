@@ -50,9 +50,16 @@ class LrIpcOut {
          /* only store non-empty functions */
          callbacks_.emplace_back(std::bind(mf, object, _1, _2));
    }
-
-   void SendCommand(std::string&& command);
-   void SendCommand(const std::string& command);
+   void SendCommand(std::string&& command)
+   {
+      if (!sending_stopped_)
+         command_.push(std::move(command));
+   }
+   void SendCommand(const std::string& command)
+   {
+      if (!sending_stopped_)
+         command_.push(command);
+   }
    void SendingRestart();
    void SendingStop();
    void Start();

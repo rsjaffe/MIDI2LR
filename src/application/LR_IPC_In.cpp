@@ -41,7 +41,7 @@ namespace {
 } // namespace
 
 LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const Profile& profile,
-    const MidiSender& midi_sender) noexcept
+    const MidiSender& midi_sender)
     : midi_sender_ {midi_sender}, profile_ {profile}, controls_model_ {c_model},
       profile_manager_ {profile_manager}
 {
@@ -90,7 +90,7 @@ void LrIpcIn::Stop()
             if (ec)
                rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message()));
          }
-         /* pump input queue after port closed */
+         /* clear input queue after port closed */
          if (const auto m {line_.clear_count_emplace(kTerminate)})
             rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcIn destructor."), m));
       });
@@ -172,21 +172,19 @@ void LrIpcIn::ProcessLine()
                if (!value_view.empty()) {
                   rsj::SendKeyDownUp(
                       std::string(value_view), rsj::ActiveModifiers::FromMidi2LR(modifiers));
-                  /* skip logandalert error */
-                  continue;
+                  continue; /* skip logandalert error */
                }
             }
             rsj::LogAndAlertError(fmt::format(
                 FMT_STRING("SendKey couldn't identify keystroke. Message from plugin was \"{}\"."),
                 rsj::ReplaceInvisibleChars(line_copy)));
          }
-         else {
-            /* send associated messages to MIDI OUT devices */
+         else { /* send associated messages to MIDI OUT devices */
             const auto original_value {std::stod(std::string(value_view))};
             for (const auto& msg : profile_.GetMessagesForCommand(command)) {
                /* following needs to run for all controls: sets saved value */
                const auto value {controls_model_.PluginToController(msg, original_value)};
-               if (msg.msg_id_type != rsj::MessageType::Cc
+               if (msg.msg_id_type != rsj::MessageType::kCc
                    || controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute)
                   midi_sender_.Send(msg, value);
             }
@@ -222,8 +220,7 @@ void LrIpcIn::Read()
                    }
                 else {
                    rsj::Log(fmt::format(FMT_STRING("LR_IPC_In Read error: {}."), error.message()));
-                   if (error == asio::error::misc_errors::eof)
-                      /* LR closed socket */
+                   if (error == asio::error::misc_errors::eof) /* LR closed socket */
                       juce::JUCEApplication::getInstance()->systemRequestedQuit();
                 }
              });

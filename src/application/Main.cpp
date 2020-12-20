@@ -81,11 +81,19 @@ namespace {
       {
          juce::Logger::setCurrentLogger(new_logger);
 #ifdef _WIN32
-         wil::SetResultLoggingCallback([](wil::FailureInfo const& failure) noexcept {
-            std::array<wchar_t, 2048> debug_string {};
-            wil::GetFailureLogString(debug_string.data(), debug_string.size(), failure);
-            rsj::Log(debug_string.data());
-         });
+         try {
+            wil::SetResultLoggingCallback([](wil::FailureInfo const& failure) noexcept {
+               std::array<wchar_t, 2048> debug_string {};
+               wil::GetFailureLogString(debug_string.data(), debug_string.size(), failure);
+               rsj::Log(debug_string.data());
+            });
+         }
+         catch (const std::exception& e) {
+            MIDI2LR_E_RESPONSE;
+         }
+         catch (...) {
+            rsj::Log("Unable to set up wil logger.");
+         }
 #endif
       }
    };
@@ -135,10 +143,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       return ProjectInfo::versionString;
    }
 
-   bool moreThanOneInstanceAllowed() noexcept override
-   {
-      return false;
-   }
+   bool moreThanOneInstanceAllowed() noexcept override { return false; }
 
    void initialise(const juce::String& command_line) override
    {
@@ -213,7 +218,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          static std::once_flag of; /* function might be called twice during LR shutdown */
          std::call_once(of, [this] {
             if (profile_.ProfileUnsaved() && main_window_) {
-               const juce::MessageManagerLock mmLock; /* this may be unnecessary */
+               const juce::MessageManagerLock mm_lock; /* this may be unnecessary */
                const auto result {juce::NativeMessageBox::showYesNoBox(
                    juce::AlertWindow::WarningIcon, juce::translate("MIDI2LR profiles"),
                    juce::translate("Profile changed. Do you want to save your changes? If you "
@@ -237,7 +242,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    }
 
    [[noreturn]] void unhandledException(
-       const std::exception* e, const juce::String& source_filename, int lineNumber) override
+       const std::exception* e, const juce::String& source_filename, int line_number) override
    {
       /* If any unhandled exceptions make it through to the message dispatch loop, this callback
        * will be triggered, in case you want to log them or do some other type of error-handling. If
@@ -249,18 +254,18 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             const auto msgt {juce::translate("unhandled exception").toStdString()
                              + " {}, {} line {}. Total uncaught {}."};
             rsj::LogAndAlertError(fmt::format(msgt, e->what(), source_filename.toStdString(),
-                                      lineNumber, std::uncaught_exceptions()),
-                fmt::format(msge, e->what(), source_filename.toStdString(), lineNumber,
+                                      line_number, std::uncaught_exceptions()),
+                fmt::format(msge, e->what(), source_filename.toStdString(), line_number,
                     std::uncaught_exceptions()));
          }
          else {
             constexpr auto msge {"Unhandled exception {} line {}. Total uncaught {}."};
             const auto msgt {juce::translate("unhandled exception").toStdString()
                              + " {} line {}. Total uncaught {}."};
-            rsj::LogAndAlertError(fmt::format(msgt, source_filename.toStdString(), lineNumber,
+            rsj::LogAndAlertError(fmt::format(msgt, source_filename.toStdString(), line_number,
                                       std::uncaught_exceptions()),
                 fmt::format(
-                    msge, source_filename.toStdString(), lineNumber, std::uncaught_exceptions()));
+                    msge, source_filename.toStdString(), line_number, std::uncaught_exceptions()));
          }
       }
       catch (...) {

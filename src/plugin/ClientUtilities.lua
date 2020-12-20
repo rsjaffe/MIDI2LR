@@ -447,17 +447,21 @@ local function FullRefresh()
   -- if this code is changed, change similar code in Profiles.lua
   if Limits.LimitsCanBeSet() then
     -- refresh crop values
-    local val = LrDevelopController.getValue("CropBottom")
-    MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val))
-    MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val))
-    MIDI2LR.SERVER:send(string.format('CropAll %g\n', val))
-    MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val))
-    val = LrDevelopController.getValue("CropTop")
-    MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val))
-    MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val))
-    MIDI2LR.SERVER:send(string.format('CropTop %g\n', val))
-    MIDI2LR.SERVER:send(string.format('CropLeft %g\n', LrDevelopController.getValue("CropLeft")))
-    MIDI2LR.SERVER:send(string.format('CropRight %g\n', LrDevelopController.getValue("CropRight")))
+    local val_bottom = LrDevelopController.getValue("CropBottom")
+    MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val_bottom))
+    MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val_bottom))
+    MIDI2LR.SERVER:send(string.format('CropAll %g\n', val_bottom))
+    MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val_bottom))
+    local val_top = LrDevelopController.getValue("CropTop")
+    MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val_top))
+    MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val_top))
+    MIDI2LR.SERVER:send(string.format('CropTop %g\n', val_top))
+    local val_left = LrDevelopController.getValue("CropLeft")
+    local val_right = LrDevelopController.getValue("CropRight")
+    MIDI2LR.SERVER:send(string.format('CropLeft %g\n', val_left))
+    MIDI2LR.SERVER:send(string.format('CropRight %g\n', val_right))
+    MIDI2LR.SERVER:send(string.format('CropMoveVertical %g\n', val_top / (1 - (val_bottom - val_top))))
+    MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / (1 - (val_right - val_left))))
     for param in pairs(Database.Parameters) do
       local min,max = Limits.GetMinMax(param)
       local lrvalue = LrDevelopController.getValue(param)
@@ -643,6 +647,51 @@ local function ProfileAmount(value)
   )
 end
 
+local function ResetAllGrayMixer()
+  LrDevelopController.resetToDefault('GrayMixerRed')
+  LrDevelopController.resetToDefault('GrayMixerOrange')
+  LrDevelopController.resetToDefault('GrayMixerYellow')
+  LrDevelopController.resetToDefault('GrayMixerGreen')
+  LrDevelopController.resetToDefault('GrayMixerAqua')
+  LrDevelopController.resetToDefault('GrayMixerBlue')
+  LrDevelopController.resetToDefault('GrayMixerPurple')
+  LrDevelopController.resetToDefault('GrayMixerMagenta')
+  if ProgramPreferences.ClientShowBezelOnChange then
+    local bezelname = (Database.CmdTrans.ResetAllGrayMixer and Database.CmdTrans.ResetAllGrayMixer[Database.LatestPVSupported]) or "ResetAllGrayMixer"
+    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
+  end
+end
+
+local function ResetAllHueAdjustment()
+  LrDevelopController.resetToDefault('HueAdjustmentRed')
+  LrDevelopController.resetToDefault('HueAdjustmentOrange')
+  LrDevelopController.resetToDefault('HueAdjustmentYellow')
+  LrDevelopController.resetToDefault('HueAdjustmentGreen')
+  LrDevelopController.resetToDefault('HueAdjustmentAqua')
+  LrDevelopController.resetToDefault('HueAdjustmentBlue')
+  LrDevelopController.resetToDefault('HueAdjustmentPurple')
+  LrDevelopController.resetToDefault('HueAdjustmentMagenta')
+  if ProgramPreferences.ClientShowBezelOnChange then
+    local bezelname = (Database.CmdTrans.ResetAllHueAdjustment and Database.CmdTrans.ResetAllHueAdjustment[Database.LatestPVSupported]) or "ResetAllHueAdjustment"
+    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
+  end
+end
+
+local function ResetAllLuminanceAdjustment()
+  LrDevelopController.resetToDefault('LuminanceAdjustmentRed')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentOrange')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentYellow')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentGreen')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentAqua')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentBlue')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentPurple')
+  LrDevelopController.resetToDefault('LuminanceAdjustmentMagenta')
+  if ProgramPreferences.ClientShowBezelOnChange then
+    local bezelname = (Database.CmdTrans.ResetAllLuminanceAdjustment and Database.CmdTrans.ResetAllLuminanceAdjustment[Database.LatestPVSupported]) or "ResetAllLuminanceAdjustment"
+    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
+  end
+end
+
 return {
   ApplySettings = ApplySettings,
   FullRefresh = FullRefresh,
@@ -671,4 +720,7 @@ return {
   wrapFOM = wrapFOM,
   wrapForEachPhoto = wrapForEachPhoto,
   ProfileAmount = ProfileAmount,
+  ResetAllGrayMixer = ResetAllGrayMixer,
+  ResetAllHueAdjustment = ResetAllHueAdjustment,
+  ResetAllLuminanceAdjustment = ResetAllLuminanceAdjustment,
 }

@@ -58,10 +58,7 @@ namespace rsj {
       {
          return std::numeric_limits<result_type>::max();
       }
-      result_type operator()() noexcept
-      {
-         return NextRandom();
-      }
+      result_type operator()() noexcept { return NextRandom(); }
 
     private:
       alignas(128) static std::atomic<result_type> state_;
@@ -107,7 +104,8 @@ namespace rsj {
                else if (k < bo3)
                   std::this_thread::yield();
                else
-                  std::this_thread::sleep_for(1ms);
+#pragma warning(suppress : 26447)
+                  std::this_thread::sleep_for(1ms); /* never throws, analyzer false pos */
             }
          } while (flag_.exchange(true, std::memory_order_acquire));
       }
@@ -118,10 +116,7 @@ namespace rsj {
             return false;
          return !flag_.exchange(true, std::memory_order_acquire); /* try to acquire lock */
       }
-      void unlock() noexcept
-      {
-         flag_.store(false, std::memory_order_release);
-      }
+      void unlock() noexcept { flag_.store(false, std::memory_order_release); }
 
     private: /* see https://stackoverflow.com/a/52158819/5699329 for 128 value */
       alignas(128) std::atomic<bool> flag_ {false};
@@ -271,8 +266,7 @@ namespace rsj {
       T pop()
       {
          auto lock {std::unique_lock(mutex_)};
-         while (queue_.empty())
-            condition_.wait(lock);
+         while (queue_.empty()) condition_.wait(lock);
          T rc {std::move(queue_.front())};
          queue_.pop_front();
          return rc;
@@ -317,7 +311,6 @@ namespace rsj {
             auto lock {std::scoped_lock(mutex_)};
             std::swap(trash, queue_);
          }
-         trash.clear();
       }
       [[nodiscard]] size_type
       clear_count() noexcept(noexcept(std::declval<Container>().clear()) && noexcept(
@@ -328,9 +321,7 @@ namespace rsj {
             auto lock {std::scoped_lock(mutex_)};
             std::swap(trash, queue_);
          }
-         const size_type ret {trash.size()};
-         trash.clear();
-         return ret;
+         return trash.size();
       }
       size_type clear_count_push(const T& value)
       {
@@ -341,9 +332,7 @@ namespace rsj {
             queue_.push_back(value);
          }
          condition_.notify_one();
-         const size_type ret {trash.size()};
-         trash.clear();
-         return ret;
+         return trash.size();
       }
       size_type clear_count_push(T&& value)
       {
@@ -354,9 +343,7 @@ namespace rsj {
             queue_.push_back(std::move(value));
          }
          condition_.notify_one();
-         const size_type ret {trash.size()};
-         trash.clear();
-         return ret;
+         return trash.size();
       }
       template<class... Args> auto clear_count_emplace(Args&&... args)
       {
@@ -368,9 +355,7 @@ namespace rsj {
             queue_.push_back(std::move(new_item));
          }
          condition_.notify_one();
-         const size_type ret {trash.size()};
-         trash.clear();
-         return ret;
+         return trash.size();
       }
 
     private:

@@ -17,7 +17,10 @@
  */
 #ifndef _WIN32
 #include <string>
+#include <type_traits>
 #include <unordered_map>
+
+#import <CoreFoundation/CoreFoundation.h>
 
 using UniChar = uint16_t;
 using UInt16 = uint16_t;
@@ -38,6 +41,18 @@ namespace rsj {
    [[nodiscard]] std::string AppLogMac();
    [[nodiscard]] std::unordered_map<UniChar, KeyData> GetKeyMap();
    void CheckPermission(pid_t pid);
+
+   template<typename T> struct CFDeleter {
+      void operator()(T* p)
+      {
+         if (p)
+            ::CFRelease(p);
+      }
+   };
+
+   template<typename T>
+   using CFAutoRelease = std::unique_ptr<typename std::remove_pointer<T>::type,
+       CFDeleter<typename std::remove_pointer<T>::type>>;
 } // namespace rsj
 #endif
 #endif

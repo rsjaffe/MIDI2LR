@@ -18,6 +18,7 @@
 #include <exception>
 #include <string>
 
+#include <fmt/format.h>
 #include <gsl/gsl>
 
 #include "ControlsModel.h"
@@ -43,8 +44,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       auto file_array {directory.findChildFiles(juce::File::findFiles, false, "*.xml")};
       file_array.sort();
       profiles_.clear();
-      for (const auto& file : file_array)
-         profiles_.emplace_back(file.getFileName());
+      for (const auto& file : file_array) profiles_.emplace_back(file.getFileName());
       if (!profiles_.empty())
          SwitchToProfile(profiles_.at(0));
       current_profile_index_ = 0;
@@ -55,15 +55,12 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
    }
 }
 
-const std::vector<juce::String>& ProfileManager::GetMenuItems() const noexcept
-{
-   return profiles_;
-}
+const std::vector<juce::String>& ProfileManager::GetMenuItems() const noexcept { return profiles_; }
 
 void ProfileManager::SwitchToProfile(int profile_index)
 {
    try {
-      if (profile_index >= 0 && profile_index < gsl::narrow_cast<int>(profiles_.size())) {
+      if (profile_index >= 0 && rsj::cmp_less(profile_index, profiles_.size())) {
          SwitchToProfile(profiles_.at(gsl::narrow_cast<size_t>(profile_index)));
          current_profile_index_ = profile_index;
       }
@@ -80,14 +77,12 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
       const auto profile_file {profile_location_.getChildFile(profile)};
       if (profile_file.exists()) {
          if (const auto parsed {juce::parseXML(profile_file)}) {
-            for (const auto& cb : callbacks_)
-               cb(parsed.get(), profile);
+            for (const auto& cb : callbacks_) cb(parsed.get(), profile);
+            lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToDirectory {}\n"),
+                juce::File::addTrailingSeparator(profile_location_.getFullPathName())
+                    .toStdString()));
             lr_ipc_out_.SendCommand(
-                "ChangedToDirectory "
-                + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
-                      .toStdString()
-                + '\n');
-            lr_ipc_out_.SendCommand("ChangedToFile " + profile.toStdString() + '\n');
+                fmt::format(FMT_STRING("ChangedToFile {}\n"), profile.toStdString()));
          }
       }
    }
@@ -100,7 +95,7 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
 void ProfileManager::SwitchToNextProfile()
 {
    try {
-      if (++current_profile_index_ == gsl::narrow_cast<int>(profiles_.size()))
+      if (rsj::cmp_equal(++current_profile_index_, profiles_.size()))
          current_profile_index_ = 0;
       SwitchToProfile(current_profile_index_);
    }
@@ -148,7 +143,8 @@ void ProfileManager::MidiCmdCallback(const rsj::MidiMessage& mm)
       const rsj::MidiMessageId cc {mm};
       /* return if the value isn't high enough (notes may be < 1), or the command isn't a valid
        * profile-related command */
-      if (controls_model_.ControllerToPlugin(mm) < 0.4 || !current_profile_.MessageExistsInMap(cc))
+      if (controls_model_.ControllerToPlugin(mm, false) < 0.4
+          || !current_profile_.MessageExistsInMap(cc))
          return;
       MapCommand(cc);
    }
@@ -163,10 +159,8 @@ void ProfileManager::ConnectionCallback(const bool connected, const bool blocked
 {
    try {
       if (connected && !blocked) {
-         lr_ipc_out_.SendCommand(
-             "ChangedToDirectory "
-             + juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString()
-             + '\n');
+         lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToDirectory {}\n"),
+             juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString()));
       }
    }
    catch (const std::exception& e) {
@@ -187,7 +181,7 @@ void ProfileManager::handleAsyncUpdate()
          SwitchToNextProfile();
          switch_state_ = SwitchState::kNone;
          break;
-      default:
+      case SwitchState::kNone:
          break;
       }
    }

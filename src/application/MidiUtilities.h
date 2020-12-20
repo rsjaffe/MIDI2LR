@@ -39,28 +39,28 @@ namespace juce {
 /*****************************************************************************/
 namespace rsj {
    enum struct MessageType : uint8_t {
-      NoteOff = 0x8,
-      NoteOn = 0x9,
-      KeyPressure = 0xA, /* Individual key pressure */
-      Cc = 0xB,
-      PgmChange = 0xC,
-      ChanPressure = 0xD, /* max key pressure */
-      Pw = 0xE,           /* pitch wheel */
-      System = 0xF
+      kNoteOff = 0x8,
+      kNoteOn = 0x9,
+      kKeyPressure = 0xA, /* Individual key pressure */
+      kCc = 0xB,
+      kPgmChange = 0xC,
+      kChanPressure = 0xD, /* max key pressure */
+      kPw = 0xE,           /* pitch wheel */
+      kSystem = 0xF
    };
 
    constexpr bool ValidMessageType(uint8_t value) noexcept
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
       const auto from {value >> 4 & 0xF};
-      return from >= static_cast<decltype(from)>(MessageType::NoteOff);
+      return from >= static_cast<decltype(from)>(MessageType::kNoteOff);
    }
 
    constexpr MessageType ToMessageType(uint8_t value)
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
       const auto from {value >> 4 & 0xF};
-      if (from < static_cast<decltype(from)>(MessageType::NoteOff))
+      if (from < static_cast<decltype(from)>(MessageType::kNoteOff))
          throw std::out_of_range("ToMessageType: MessageType range error, must be 0x8 to 0xF");
       return static_cast<MessageType>(from);
    }
@@ -72,17 +72,17 @@ namespace rsj {
 #pragma warning(suppress : 26446 26482)
       // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
       return translation_table[static_cast<size_t>(from)
-                               - static_cast<size_t>(MessageType::NoteOff)];
+                               - static_cast<size_t>(MessageType::kNoteOff)];
    }
 
    inline const char* MessageTypeToLabel(MessageType from) noexcept
    {
-      static const std::array translation_table {"NOTE OFF", "NOTE ON", "KEY PRESSURE", "CC",
+      static const std::array kTranslationTable {"NOTE OFF", "NOTE ON", "KEY PRESSURE", "CC",
           "PROGRAM CHANGE", "CHANNEL PRESSURE", "PITCHBEND", "SYSTEM"};
 #pragma warning(suppress : 26446 26482)
       // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
-      return translation_table[static_cast<size_t>(from)
-                               - static_cast<size_t>(MessageType::NoteOff)];
+      return kTranslationTable[static_cast<size_t>(from)
+                               - static_cast<size_t>(MessageType::kNoteOff)];
    }
 } // namespace rsj
 
@@ -96,21 +96,21 @@ namespace fmt {
          if (it != ctx.end() && *it == ':')
             std::advance(it, 1);
          auto end {std::find(it, ctx.end(), '}')};
-         tm_format.reserve(detail::to_unsigned(end - it + 1));
-         tm_format.append(it, end);
-         tm_format.push_back('\0');
+         tm_format_.reserve(detail::to_unsigned(end - it + 1));
+         tm_format_.append(it, end);
+         tm_format_.push_back('\0');
          return end;
       }
 
       template<typename FormatContext> auto format(const rsj::MessageType& p, FormatContext& ctx)
       {
-         if (tm_format[0] == 'n')
+         if (tm_format_[0] == 'n')
             return format_to(ctx.out(), "{}", rsj::MessageTypeToName(p));
          return format_to(ctx.out(), "{}", rsj::MessageTypeToLabel(p));
       }
 
     private:
-      basic_memory_buffer<Char> tm_format;
+      basic_memory_buffer<Char> tm_format_;
    };
 } // namespace fmt
 
@@ -120,7 +120,7 @@ namespace fmt {
 namespace rsj {
    /* channel is 0-based in MidiMessage, 1-based in MidiMessageId */
    struct MidiMessage {
-      MessageType message_type_byte {MessageType::NoteOn};
+      MessageType message_type_byte {MessageType::kNoteOn};
       int channel {0}; /* 0-based */
       int control_number {0};
       int value {0};
@@ -144,7 +144,7 @@ namespace rsj {
    struct MidiMessageId {
       int channel {1}; /* 1-based */
       int control_number {0};
-      MessageType msg_id_type {MessageType::NoteOn};
+      MessageType msg_id_type {MessageType::kNoteOn};
 
       constexpr MidiMessageId() noexcept = default;
 

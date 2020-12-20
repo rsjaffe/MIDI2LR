@@ -33,10 +33,7 @@ class CommandTableModel final : public juce::TableListBoxModel {
    }
 
  private:
-   [[nodiscard]] int getNumRows() override
-   {
-      return gsl::narrow_cast<int>(profile_.Size());
-   }
+   [[nodiscard]] int getNumRows() override { return gsl::narrow_cast<int>(profile_.Size()); }
    void paintCell(juce::Graphics&, int row_number, int column_id, int width, int height,
        bool row_is_selected) override;
    void paintRowBackground(

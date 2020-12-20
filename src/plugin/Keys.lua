@@ -167,11 +167,11 @@ local function EndDialog(obstable, status)
     for i = 1,40 do
       ProgramPreferences.Keys[i] = {}
       if obstable['Keyskey'..i] ~= nil and obstable['Keyskey'..i] ~= '' and validate(obstable['Keyskey'..i]) == true then
-        ProgramPreferences.Keys[i]['alt'] = obstable['Keysalt'..i]
-        ProgramPreferences.Keys[i]['command'] = obstable['Keyscommand'..i]
-        ProgramPreferences.Keys[i]['control'] = obstable['Keyscontrol'..i]
+        ProgramPreferences.Keys[i]['alt'] = obstable['Keysalt'..i] or false
+        ProgramPreferences.Keys[i]['command'] = obstable['Keyscommand'..i] or false
+        ProgramPreferences.Keys[i]['control'] = obstable['Keyscontrol'..i] or false
         ProgramPreferences.Keys[i]['key'] = obstable['Keyskey'..i]
-        ProgramPreferences.Keys[i]['shift'] = obstable['Keysshift'..i]
+        ProgramPreferences.Keys[i]['shift'] = obstable['Keysshift'..i] or false
         if ProgramPreferences.Keys[i]['key'] == 'apostrophe' then
           ProgramPreferences.Keys[i]['key']  = '\''
         elseif ProgramPreferences.Keys[i]['key'] == 'backslash' then

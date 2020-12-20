@@ -42,7 +42,7 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
       g.setFont(std::min(16.0f, static_cast<float>(height) * 0.7f));
       if (column_id == 1) {
          /* write the MIDI message in the MIDI command column */
-         if (profile_.Size() <= gsl::narrow_cast<size_t>(row_number)) {
+         if (rsj::cmp_less_equal(profile_.Size(), row_number)) {
             /* error condition */
             g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
             rsj::Log(fmt::format(FMT_STRING("Unknown control CommandTableModel::paintCell. {} rows "
@@ -54,31 +54,31 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
             switch (
                 const auto cmd {profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))};
                 cmd.msg_id_type) {
-            case rsj::MessageType::NoteOn:
+            case rsj::MessageType::kNoteOn:
                format_str =
                    fmt::format(FMT_STRING("{} | Note : {}"), cmd.channel, cmd.control_number);
                break;
-            case rsj::MessageType::NoteOff:
+            case rsj::MessageType::kNoteOff:
                format_str =
                    fmt::format(FMT_STRING("{} | Note Off: {}"), cmd.channel, cmd.control_number);
                break;
-            case rsj::MessageType::Cc:
+            case rsj::MessageType::kCc:
                format_str = fmt::format(FMT_STRING("{} | CC: {}"), cmd.channel, cmd.control_number);
                break;
-            case rsj::MessageType::Pw:
+            case rsj::MessageType::kPw:
                format_str = fmt::format(FMT_STRING("{} | Pitch Bend"), cmd.channel);
                break;
-            case rsj::MessageType::KeyPressure:
+            case rsj::MessageType::kKeyPressure:
                format_str = fmt::format(
                    FMT_STRING("{} | Key Pressure: {}"), cmd.channel, cmd.control_number);
                break;
-            case rsj::MessageType::ChanPressure:
+            case rsj::MessageType::kChanPressure:
                format_str = fmt::format(FMT_STRING("{} | Channel Pressure"), cmd.channel);
                break;
-            case rsj::MessageType::PgmChange:
+            case rsj::MessageType::kPgmChange:
                format_str = fmt::format(FMT_STRING("{} | Program Change"), cmd.channel);
                break;
-            case rsj::MessageType::System:
+            case rsj::MessageType::kSystem:
                break;
             }
             g.drawText(format_str, 0, 0, width, height, juce::Justification::centredLeft);

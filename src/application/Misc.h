@@ -25,22 +25,22 @@
 #include <string>
 #include <string_view>
 #include <thread> /* sleep_for */
+#ifdef __cpp_lib_integer_comparison_functions
+#include <utility>
+#else
+#include <type_traits>
+#endif
 
 #include <fmt/chrono.h>
 #include <fmt/format.h>
 #include <gsl/gsl>
-#ifndef __ARM_ARCH
-#include <xmmintrin.h> /* for rounding intrinsics */
-#else
-#include <cmath>
-#endif
 
 #include <juce_core/juce_core.h>
 
 #ifdef NDEBUG /* asserts disabled */
-static constexpr bool kNdebug {true};
+constexpr bool kNdebug {true};
 #else
-static constexpr bool kNdebug {false};
+constexpr bool kNdebug {false};
 #endif
 
 #if defined(__GNUC__) || defined(__clang__)
@@ -58,6 +58,7 @@ constexpr auto MacOS {true};
 #endif
 
 #ifndef __ARM_ARCH
+#include <xmmintrin.h> /* needed for XCode, no harm for MSVS */
 #define MIDI2LR_FAST_FLOATS _mm_setcsr(_mm_getcsr() | 0x8040)
 #else
 #define MIDI2LR_FPU_GETCW(fpcr) __asm__ __volatile__("mrs %0, fpcr" : "=r"(fpcr))
@@ -160,33 +161,92 @@ namespace rsj {
       rsj::Log(fmt::format(
           FMT_STRING("{} thread slept for {}."), msg_prefix, SleepTimed(sleep_duration)));
    }
-   /*****************************************************************************/
-   /*******************Fast Floats***********************************************/
-   /*****************************************************************************/
-#ifndef __ARM_ARCH
-   inline int RoundToInt(float source)
-   {
-      return _mm_cvtss_si32(_mm_set_ss(source));
-   }
-   inline int RoundToInt(double source)
-   {
-      return _mm_cvtsd_si32(_mm_set_sd(source));
-   }
-   int RoundToInt(long double source) = delete;
-   inline void IgnoreDenormals()
-   { /* speed up floating point ops; we're not worried about precision of very small values */
-      _mm_setcsr(_mm_getcsr() | 0x8040);
-   }
+/*****************************************************************************/
+/**************Safe Integer Comparisons***************************************/
+/*****************************************************************************/
+#ifdef __cpp_lib_integer_comparison_functions
+   using std::cmp_equal;
+   using std::cmp_greater;
+   using std::cmp_greater_equal;
+   using std::cmp_less;
+   using std::cmp_less_equal;
+   using std::cmp_not_equal;
 #else
-   inline int RoundToInt(float source)
+   /* adapted from Microsoft <utility> Apache 2 license */
+   template<class T, class... Ts>
+   [[nodiscard]] constexpr bool IsAnyOfV = std::disjunction_v<std::is_same<T, Ts>...>;
+
+   template <class T>
+   [[nodiscard]] constexpr bool IsStandardInteger = std::is_integral_v<T>
+       && !IsAnyOfV<std::remove_cv_t<T>, bool, char, wchar_t,
+#ifdef __cpp_char8_t
+        char8_t,
+#endif
+        char16_t, char32_t>;
+
+   template<class S, class T>
+   [[nodiscard]] constexpr bool cmp_equal(const S left, const T right) noexcept
    {
-      return gsl::narrow<int>(std::lround(source));
+      static_assert(IsStandardInteger<S> && IsStandardInteger<T>,
+          "The integer comparison functions only accept standard and extended integer types.");
+      if constexpr (std::is_signed_v<S> == std::is_signed_v<T>) {
+         return left == right;
+      }
+      else if constexpr (std::is_signed_v<T>) {
+         return left == static_cast<std::make_unsigned_t<T>>(right) && right >= 0;
+      }
+      else {
+         return static_cast<std::make_unsigned_t<S>>(left) == right && left >= 0;
+      }
    }
-   inline int RoundToInt(double source)
+
+   template<class S, class T>
+   [[nodiscard]] constexpr bool cmp_not_equal(const S left, const T right) noexcept
    {
-      return gsl::narrow<int>(std::lround(source));
+      return !cmp_equal(left, right);
+   }
+
+   template<class S, class T>
+   [[nodiscard]] constexpr bool cmp_less(const S left, const T right) noexcept
+   {
+      static_assert(IsStandardInteger<S> && IsStandardInteger<T>,
+          "The integer comparison functions only accept standard and extended integer types.");
+      if constexpr (std::is_signed_v<S> == std::is_signed_v<T>) {
+         return left < right;
+      }
+      else if constexpr (std::is_signed_v<T>) {
+         return right > 0 && left < static_cast<std::make_unsigned_t<T>>(right);
+      }
+      else {
+         return left < 0 || static_cast<std::make_unsigned_t<S>>(left) < right;
+      }
+   }
+
+   template<class S, class T>
+   [[nodiscard]] constexpr bool cmp_greater(const S left, const T right) noexcept
+   {
+      return cmp_less(right, left);
+   }
+
+   template<class S, class T>
+   [[nodiscard]] constexpr bool cmp_less_equal(const S left, const T right) noexcept
+   {
+      return !cmp_less(right, left);
+   }
+
+   template<class S, class T>
+   [[nodiscard]] constexpr bool cmp_greater_equal(const S left, const T right) noexcept
+   {
+      return !cmp_less(left, right);
    }
 #endif
+   [[nodiscard]] constexpr auto CharToInt(const char in) noexcept
+   {
+      if constexpr (std::numeric_limits<char>::is_signed)
+         return static_cast<int>(in);
+      else
+         return static_cast<unsigned int>(in);
+   }
 } // namespace rsj
 
 #endif

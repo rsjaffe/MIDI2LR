@@ -138,29 +138,17 @@ class ChannelModel {
 
  public:
    ChannelModel();
-   double ControllerToPlugin(rsj::MessageType controltype, int controlnumber, int value);
+   double ControllerToPlugin(rsj::MessageType controltype, int controlnumber, int value, bool wrap);
    int MeasureChange(rsj::MessageType controltype, int controlnumber, int value);
    int SetToCenter(rsj::MessageType controltype, int controlnumber);
    [[nodiscard]] rsj::CCmethod GetCcMethod(int controlnumber) const
    {
       return cc_method_.at(controlnumber);
    }
-   [[nodiscard]] int GetCcMax(int controlnumber) const
-   {
-      return cc_high_.at(controlnumber);
-   }
-   [[nodiscard]] int GetCcMin(int controlnumber) const
-   {
-      return cc_low_.at(controlnumber);
-   }
-   [[nodiscard]] int GetPwMax() const noexcept
-   {
-      return pitch_wheel_max_;
-   }
-   [[nodiscard]] int GetPwMin() const noexcept
-   {
-      return pitch_wheel_min_;
-   }
+   [[nodiscard]] int GetCcMax(int controlnumber) const { return cc_high_.at(controlnumber); }
+   [[nodiscard]] int GetCcMin(int controlnumber) const { return cc_low_.at(controlnumber); }
+   [[nodiscard]] int GetPwMax() const noexcept { return pitch_wheel_max_; }
+   [[nodiscard]] int GetPwMin() const noexcept { return pitch_wheel_min_; }
    int PluginToController(rsj::MessageType controltype, int controlnumber, double value);
    void SetCc(int controlnumber, int min, int max, rsj::CCmethod controltype);
    void SetCcAll(int controlnumber, int min, int max, rsj::CCmethod controltype);
@@ -187,12 +175,12 @@ class ChannelModel {
              + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
    }
    // ReSharper disable once CppMemberFunctionMayBeStatic
-   [[nodiscard]] bool IsNRPN_(int controlnumber) const noexcept(kNdebug)
+   [[nodiscard]] bool IsNrpn(int controlnumber) const noexcept(kNdebug)
    {
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       return controlnumber > kMaxMidi;
    }
-   double OffsetResult(int diff, int controlnumber);
+   double OffsetResult(int diff, int controlnumber, bool wrap);
    void ActiveToSaved() const;
    void CcDefaults();
    void SavedToActive();
@@ -213,10 +201,10 @@ class ChannelModel {
 
 class ControlsModel {
  public:
-   double ControllerToPlugin(const rsj::MidiMessage& mm)
+   double ControllerToPlugin(const rsj::MidiMessage& mm, bool wrap)
    {
       return all_controls_.at(mm.channel)
-          .ControllerToPlugin(mm.message_type_byte, mm.control_number, mm.value);
+          .ControllerToPlugin(mm.message_type_byte, mm.control_number, mm.value, wrap);
    }
 
    int MeasureChange(const rsj::MidiMessage& mm)
@@ -254,15 +242,9 @@ class ControlsModel {
       return all_controls_.at(channel).GetCcMin(controlnumber);
    }
 
-   [[nodiscard]] int GetPwMax(int channel) const
-   {
-      return all_controls_.at(channel).GetPwMax();
-   }
+   [[nodiscard]] int GetPwMax(int channel) const { return all_controls_.at(channel).GetPwMax(); }
 
-   [[nodiscard]] int GetPwMin(int channel) const
-   {
-      return all_controls_.at(channel).GetPwMin();
-   }
+   [[nodiscard]] int GetPwMin(int channel) const { return all_controls_.at(channel).GetPwMin(); }
 
    int PluginToController(rsj::MidiMessageId msg_id, double value)
    {
@@ -300,15 +282,9 @@ class ControlsModel {
       all_controls_.at(channel).SetCcMin(controlnumber, value);
    }
 
-   void SetPwMax(int channel, int value)
-   {
-      all_controls_.at(channel).SetPwMax(value);
-   }
+   void SetPwMax(int channel, int value) { all_controls_.at(channel).SetPwMax(value); }
 
-   void SetPwMin(int channel, int value)
-   {
-      all_controls_.at(channel).SetPwMin(value);
-   }
+   void SetPwMin(int channel, int value) { all_controls_.at(channel).SetPwMin(value); }
 
  private:
    friend class cereal::access;
