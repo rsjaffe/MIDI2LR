@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<cereal>
-  <value0>
+    <?xml version="1.0" encoding="utf-8"?>
+    <cereal>
+    <value0>
     <cereal_class_version>1</cereal_class_version>
     <language>en</language>
     <all_commands size="dynamic">
@@ -761,7 +761,7 @@
             </value18>
             <value19>
               <first>PVLatest</first>
-              <second>Update process version to 5</second>
+              <second>Update to current process version</second>
             </value19>
             <value20>
               <first>ShowClipping</first>
@@ -1217,7 +1217,7 @@
             </value7>
             <value8>
               <first>ResetAllSaturationAdjustment</first>
-              <second>Reset Saturation — Change all</second>
+              <second>Reset Saturation Adjustments</second>
             </value8>
             <value9>
               <first>ResetHueAdjustmentRed</first>
@@ -1252,69 +1252,81 @@
               <second>Reset Hue Adjustment Magenta</second>
             </value16>
             <value17>
-              <first>ResetLuminanceAdjustmentRed</first>
-              <second>Reset Luminance Adjustment Red</second>
+              <first>ResetAllHueAdjustment</first>
+              <second>Reset Hue Adjustments</second>
             </value17>
             <value18>
-              <first>ResetLuminanceAdjustmentOrange</first>
-              <second>Reset Luminance Adjustment Orange</second>
+              <first>ResetLuminanceAdjustmentRed</first>
+              <second>Reset Luminance Adjustment Red</second>
             </value18>
             <value19>
-              <first>ResetLuminanceAdjustmentYellow</first>
-              <second>Reset Luminance Adjustment Yellow</second>
+              <first>ResetLuminanceAdjustmentOrange</first>
+              <second>Reset Luminance Adjustment Orange</second>
             </value19>
             <value20>
-              <first>ResetLuminanceAdjustmentGreen</first>
-              <second>Reset Luminance Adjustment Green</second>
+              <first>ResetLuminanceAdjustmentYellow</first>
+              <second>Reset Luminance Adjustment Yellow</second>
             </value20>
             <value21>
-              <first>ResetLuminanceAdjustmentAqua</first>
-              <second>Reset Luminance Adjustment Aqua</second>
+              <first>ResetLuminanceAdjustmentGreen</first>
+              <second>Reset Luminance Adjustment Green</second>
             </value21>
             <value22>
-              <first>ResetLuminanceAdjustmentBlue</first>
-              <second>Reset Luminance Adjustment Blue</second>
+              <first>ResetLuminanceAdjustmentAqua</first>
+              <second>Reset Luminance Adjustment Aqua</second>
             </value22>
             <value23>
-              <first>ResetLuminanceAdjustmentPurple</first>
-              <second>Reset Luminance Adjustment Purple</second>
+              <first>ResetLuminanceAdjustmentBlue</first>
+              <second>Reset Luminance Adjustment Blue</second>
             </value23>
             <value24>
-              <first>ResetLuminanceAdjustmentMagenta</first>
-              <second>Reset Luminance Adjustment Magenta</second>
+              <first>ResetLuminanceAdjustmentPurple</first>
+              <second>Reset Luminance Adjustment Purple</second>
             </value24>
             <value25>
-              <first>ResetGrayMixerRed</first>
-              <second>Reset Gray Mixer Red</second>
+              <first>ResetLuminanceAdjustmentMagenta</first>
+              <second>Reset Luminance Adjustment Magenta</second>
             </value25>
             <value26>
-              <first>ResetGrayMixerOrange</first>
-              <second>Reset Gray Mixer Orange</second>
+              <first>ResetAllLuminanceAdjustment</first>
+              <second>Reset Luminance Adjustments</second>
             </value26>
             <value27>
-              <first>ResetGrayMixerYellow</first>
-              <second>Reset Gray Mixer Yellow</second>
+              <first>ResetGrayMixerRed</first>
+              <second>Reset Gray Mixer Red</second>
             </value27>
             <value28>
-              <first>ResetGrayMixerGreen</first>
-              <second>Reset Gray Mixer Green</second>
+              <first>ResetGrayMixerOrange</first>
+              <second>Reset Gray Mixer Orange</second>
             </value28>
             <value29>
-              <first>ResetGrayMixerAqua</first>
-              <second>Reset Gray Mixer Aqua</second>
+              <first>ResetGrayMixerYellow</first>
+              <second>Reset Gray Mixer Yellow</second>
             </value29>
             <value30>
-              <first>ResetGrayMixerBlue</first>
-              <second>Reset Gray Mixer Blue</second>
+              <first>ResetGrayMixerGreen</first>
+              <second>Reset Gray Mixer Green</second>
             </value30>
             <value31>
-              <first>ResetGrayMixerPurple</first>
-              <second>Reset Gray Mixer Purple</second>
+              <first>ResetGrayMixerAqua</first>
+              <second>Reset Gray Mixer Aqua</second>
             </value31>
             <value32>
+              <first>ResetGrayMixerBlue</first>
+              <second>Reset Gray Mixer Blue</second>
+            </value32>
+            <value33>
+              <first>ResetGrayMixerPurple</first>
+              <second>Reset Gray Mixer Purple</second>
+            </value33>
+            <value34>
               <first>ResetGrayMixerMagenta</first>
               <second>Reset Gray Mixer Magenta</second>
-            </value32>
+            </value34>
+            <value35>
+              <first>ResetAllGrayMixer</first>
+              <second>Reset Gray Mixer</second>
+            </value35>
         </second>
       </value12>
       <value13>
@@ -1906,249 +1918,65 @@
               <second>Calibration enable/disable</second>
             </value1>
             <value2>
-              <first>Profile_Adobe_Standard</first>
-              <second>Standard</second>
-            </value2>
-            <value3>
-              <first>Profile_Camera_Bold</first>
-              <second>Camera Bold</second>
-            </value3>
-            <value4>
-              <first>Profile_Camera_Clear</first>
-              <second>Camera Clear</second>
-            </value4>
-            <value5>
-              <first>Profile_Camera_Color</first>
-              <second>Camera Color</second>
-            </value5>
-            <value6>
-              <first>Profile_Camera_Darker_Skin_Tone</first>
-              <second>Camera Darker Skin Tone</second>
-            </value6>
-            <value7>
-              <first>Profile_Camera_Deep</first>
-              <second>Camera Deep</second>
-            </value7>
-            <value8>
-              <first>Profile_Camera_Faithful</first>
-              <second>Camera Faithful</second>
-            </value8>
-            <value9>
-              <first>Profile_Camera_Flat</first>
-              <second>Camera Flat</second>
-            </value9>
-            <value10>
-              <first>Profile_Camera_Landscape</first>
-              <second>Camera Landscape</second>
-            </value10>
-            <value11>
-              <first>Profile_Camera_Light</first>
-              <second>Camera Light</second>
-            </value11>
-            <value12>
-              <first>Profile_Camera_Lighter_Skin_Tone</first>
-              <second>Camera Lighter Skin Tone</second>
-            </value12>
-            <value13>
-              <first>Profile_Camera_LMonochrome</first>
-              <second>Camera L-Monochrome</second>
-            </value13>
-            <value14>
-              <first>Profile_Camera_Monochrome</first>
-              <second>Camera Monochrome</second>
-            </value14>
-            <value15>
-              <first>Profile_Camera_Monotone</first>
-              <second>Camera Monotone</second>
-            </value15>
-            <value16>
-              <first>Profile_Camera_Muted</first>
-              <second>Camera Muted</second>
-            </value16>
-            <value17>
-              <first>Profile_Camera_Natural</first>
-              <second>Camera Natural</second>
-            </value17>
-            <value18>
-              <first>Profile_Camera_Neutral</first>
-              <second>Camera Neutral</second>
-            </value18>
-            <value19>
-              <first>Profile_Camera_Portrait</first>
-              <second>Camera Portrait</second>
-            </value19>
-            <value20>
-              <first>Profile_Camera_Positive_Film</first>
-              <second>Camera Positive Film</second>
-            </value20>
-            <value21>
-              <first>Profile_Camera_Scenery</first>
-              <second>Camera Scenery</second>
-            </value21>
-            <value22>
-              <first>Profile_Camera_Standard</first>
-              <second>Camera Standard</second>
-            </value22>
-            <value23>
-              <first>Profile_Camera_Vibrant</first>
-              <second>Camera Vibrant</second>
-            </value23>
-            <value24>
-              <first>Profile_Camera_Vivid</first>
-              <second>Camera Vivid</second>
-            </value24>
-            <value25>
-              <first>Profile_Camera_Vivid_Blue</first>
-              <second>Camera Vivid Blue</second>
-            </value25>
-            <value26>
-              <first>Profile_Camera_Vivid_Green</first>
-              <second>Camera Vivid Green</second>
-            </value26>
-            <value27>
-              <first>Profile_Camera_Vivid_Red</first>
-              <second>Camera Vivid Red</second>
-            </value27>
-            <value28>
-              <first>Profile_Custom_1</first>
-              <second>Custom camera profile 1</second>
-            </value28>
-            <value29>
-              <first>Profile_Custom_2</first>
-              <second>Custom camera profile 2</second>
-            </value29>
-            <value30>
-              <first>Profile_Custom_3</first>
-              <second>Custom camera profile 3</second>
-            </value30>
-            <value31>
-              <first>Profile_Custom_4</first>
-              <second>Custom camera profile 4</second>
-            </value31>
-            <value32>
-              <first>Profile_Custom_5</first>
-              <second>Custom camera profile 5</second>
-            </value32>
-            <value33>
-              <first>Profile_Custom_6</first>
-              <second>Custom camera profile 6</second>
-            </value33>
-            <value34>
-              <first>Profile_Custom_7</first>
-              <second>Custom camera profile 7</second>
-            </value34>
-            <value35>
-              <first>Profile_Custom_8</first>
-              <second>Custom camera profile 8</second>
-            </value35>
-            <value36>
-              <first>Profile_Custom_9</first>
-              <second>Custom camera profile 9</second>
-            </value36>
-            <value37>
-              <first>Profile_Custom_10</first>
-              <second>Custom camera profile 10</second>
-            </value37>
-            <value38>
-              <first>Profile_Custom_11</first>
-              <second>Custom camera profile 11</second>
-            </value38>
-            <value39>
-              <first>Profile_Custom_12</first>
-              <second>Custom camera profile 12</second>
-            </value39>
-            <value40>
-              <first>Profile_Custom_13</first>
-              <second>Custom camera profile 13</second>
-            </value40>
-            <value41>
-              <first>Profile_Custom_14</first>
-              <second>Custom camera profile 14</second>
-            </value41>
-            <value42>
-              <first>Profile_Custom_15</first>
-              <second>Custom camera profile 15</second>
-            </value42>
-            <value43>
-              <first>Profile_Custom_16</first>
-              <second>Custom camera profile 16</second>
-            </value43>
-            <value44>
-              <first>Profile_Custom_17</first>
-              <second>Custom camera profile 17</second>
-            </value44>
-            <value45>
-              <first>Profile_Custom_18</first>
-              <second>Custom camera profile 18</second>
-            </value45>
-            <value46>
-              <first>Profile_Custom_19</first>
-              <second>Custom camera profile 19</second>
-            </value46>
-            <value47>
-              <first>Profile_Custom_20</first>
-              <second>Custom camera profile 20</second>
-            </value47>
-            <value48>
               <first>ProfileAmount</first>
               <second>Profile amount</second>
-            </value48>
-            <value49>
+            </value2>
+            <value3>
               <first>ShadowTint</first>
               <second>Shadow Tint Calibration</second>
-            </value49>
-            <value50>
+            </value3>
+            <value4>
               <first>RedHue</first>
               <second>Red Hue Calibration</second>
-            </value50>
-            <value51>
+            </value4>
+            <value5>
               <first>RedSaturation</first>
               <second>Red Saturation Calibration</second>
-            </value51>
-            <value52>
+            </value5>
+            <value6>
               <first>GreenHue</first>
               <second>Green Hue Calibration</second>
-            </value52>
-            <value53>
+            </value6>
+            <value7>
               <first>GreenSaturation</first>
               <second>Green Saturation Calibration</second>
-            </value53>
-            <value54>
+            </value7>
+            <value8>
               <first>BlueHue</first>
               <second>Blue Hue Calibration</second>
-            </value54>
-            <value55>
+            </value8>
+            <value9>
               <first>BlueSaturation</first>
               <second>Blue Saturation Calibration</second>
-            </value55>
-            <value56>
+            </value9>
+            <value10>
               <first>ResetShadowTint</first>
               <second>Reset Shadow Tint Calibration</second>
-            </value56>
-            <value57>
+            </value10>
+            <value11>
               <first>ResetRedHue</first>
               <second>Reset Red Hue Calibration</second>
-            </value57>
-            <value58>
+            </value11>
+            <value12>
               <first>ResetRedSaturation</first>
               <second>Reset Red Saturation Calibration</second>
-            </value58>
-            <value59>
+            </value12>
+            <value13>
               <first>ResetGreenHue</first>
               <second>Reset Green Hue Calibration</second>
-            </value59>
-            <value60>
+            </value13>
+            <value14>
               <first>ResetGreenSaturation</first>
               <second>Reset Green Saturation Calibration</second>
-            </value60>
-            <value61>
+            </value14>
+            <value15>
               <first>ResetBlueHue</first>
               <second>Reset Blue Hue Calibration</second>
-            </value61>
-            <value62>
+            </value15>
+            <value16>
               <first>ResetBlueSaturation</first>
               <second>Reset Blue Saturation Calibration</second>
-            </value62>
+            </value16>
         </second>
       </value18>
       <value19>
@@ -2574,7 +2402,7 @@
             </value5>
             <value6>
               <first>ToggleOverlay</first>
-              <second>Local Adjustments Correction mask overlay show or hide</second>
+              <second>Local Adjustments Show/hide Correction mask overlay</second>
             </value6>
             <value7>
               <first>CycleMaskOverlayColor</first>
@@ -2912,17 +2740,25 @@
               <second>Crop - All</second>
             </value10>
             <value11>
-              <first>ResetCrop</first>
-              <second>Reset Crop</second>
+              <first>CropMoveVertical</first>
+              <second>Crop - move vertically</second>
             </value11>
             <value12>
-              <first>ResetstraightenAngle</first>
-              <second>Reset Straighten Angle</second>
+              <first>CropMoveHorizontal</first>
+              <second>Crop - move horizontally</second>
             </value12>
             <value13>
+              <first>ResetCrop</first>
+              <second>Reset Crop</second>
+            </value13>
+            <value14>
+              <first>ResetstraightenAngle</first>
+              <second>Reset Straighten Angle</second>
+            </value14>
+            <value15>
               <first>CropOverlay</first>
               <second>Show Crop</second>
-            </value13>
+            </value15>
         </second>
       </value24>
       <value25>
@@ -3109,6 +2945,6 @@
         </second>
       </value27>
     </all_commands>
-  </value0>
-</cereal>
+    </value0>
+    </cereal>
   
