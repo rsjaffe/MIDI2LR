@@ -48,14 +48,4 @@ return {
     end
     return "AllSaturationAdjustment"
   end,
-  ResetAllSaturationAdjustment = function()
-    for _, param in ipairs(SaturationAdjustments) do
-      LrDevelopController.resetToDefault(param)
-    end
-    if ProgramPreferences.ClientShowBezelOnChange then
-      local bezelname = (Database.CmdTrans.ResetAllSaturationAdjustment and Database.CmdTrans.ResetAllSaturationAdjustment[Database.LatestPVSupported]) or "ResetAllSaturationAdjustment"
-      LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
-    end
-    MIDI2LR.SERVER:send(string.format('%s %g\n', "AllSaturationAdjustment", CU.LRValueToMIDIValue("SaturationAdjustmentRed")))
-  end
 }

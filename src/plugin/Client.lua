@@ -386,6 +386,7 @@ LrTasks.startAsyncTask(
       ResetAllGrayMixer               = CU.ResetAllGrayMixer,
       ResetAllHueAdjustment           = CU.ResetAllHueAdjustment,
       ResetAllLuminanceAdjustment     = CU.ResetAllLuminanceAdjustment,
+      ResetAllSaturationAdjustment    = CU.ResetAllSaturationAdjustment,
       ResetBrushing                   = CU.wrapFOM(LrDevelopController.resetBrushing),
       ResetCircGrad                   = CU.wrapFOM(LrDevelopController.resetCircularGradient),
       ResetCrop                       = CU.wrapFOM(LrDevelopController.resetCrop),
