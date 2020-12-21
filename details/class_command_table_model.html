@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.0.4.0</span>
+   &#160;<span id="projectnumber">4.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -196,9 +196,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;   {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      <span class="keywordflow">return</span> gsl::narrow_cast&lt;int&gt;(<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a6f55aadcd33c6023b1e544b436d57de2">Size</a>());</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{ <span class="keywordflow">return</span> gsl::narrow_cast&lt;int&gt;(<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a6f55aadcd33c6023b1e544b436d57de2">Size</a>()); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -269,7 +267,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      g.setFont(std::min(16.0f, <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(height) * 0.7f));</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">if</span> (column_id == 1) {</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;         <span class="comment">/* write the MIDI message in the MIDI command column */</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a6f55aadcd33c6023b1e544b436d57de2">Size</a>() &lt;= gsl::narrow_cast&lt;size_t&gt;(row_number)) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="namespacersj.html#afcd687f097c7a336ee5e8447ca7b49c7">rsj::cmp_less_equal</a>(<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a6f55aadcd33c6023b1e544b436d57de2">Size</a>(), row_number)) {</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="comment">/* error condition */</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            g.drawText(<span class="stringliteral">&quot;Unknown control&quot;</span>, 0, 0, width, height, juce::Justification::centred);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Unknown control CommandTableModel::paintCell. {} rows &quot;</span></div>
@@ -281,31 +279,31 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keywordflow">switch</span> (</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> cmd {<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a4e7fdd115f53f1b6bca2c413cc2eb66c">GetMessageForNumber</a>(gsl::narrow_cast&lt;size_t&gt;(row_number))};</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                cmd.<a class="code" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::NoteOn:</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kNoteOn:</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;               format_str =</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                   fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Note : {}&quot;</span>), cmd.channel, cmd.control_number);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::NoteOff:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kNoteOff:</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;               format_str =</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                   fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Note Off: {}&quot;</span>), cmd.channel, cmd.control_number);</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::Cc:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kCc:</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;               format_str = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | CC: {}&quot;</span>), cmd.channel, cmd.control_number);</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::Pw:</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kPw:</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;               format_str = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Pitch Bend&quot;</span>), cmd.channel);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::KeyPressure:</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kKeyPressure:</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;               format_str = fmt::format(</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                   FMT_STRING(<span class="stringliteral">&quot;{} | Key Pressure: {}&quot;</span>), cmd.channel, cmd.control_number);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::ChanPressure:</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kChanPressure:</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;               format_str = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Channel Pressure&quot;</span>), cmd.channel);</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::PgmChange:</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kPgmChange:</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;               format_str = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Program Change&quot;</span>), cmd.channel);</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a6138748b0dea7e54d0ab77709ab74ba1">rsj::MessageType::System</a>:</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kSystem</a>:</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;               <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            }</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            g.drawText(format_str, 0, 0, width, height, juce::Justification::centredLeft);</div>
@@ -618,14 +616,15 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="aclass_profile_html_a414a11b557891329f59fb3ef7485428e"><div class="ttname"><a href="class_profile.html#a414a11b557891329f59fb3ef7485428e">Profile::RemoveRow</a></div><div class="ttdeci">void RemoveRow(size_t row)</div><div class="ttdef"><b>Definition:</b> Profile.cpp:165</div></div>
 <div class="ttc" id="astructrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:147</div></div>
 <div class="ttc" id="aclass_command_menu_html"><div class="ttname"><a href="class_command_menu.html">CommandMenu</a></div><div class="ttdef"><b>Definition:</b> CommandMenu.h:29</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:192</div></div>
+<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:193</div></div>
 <div class="ttc" id="aclass_profile_html_a4e7fdd115f53f1b6bca2c413cc2eb66c"><div class="ttname"><a href="class_profile.html#a4e7fdd115f53f1b6bca2c413cc2eb66c">Profile::GetMessageForNumber</a></div><div class="ttdeci">rsj::MidiMessageId GetMessageForNumber(size_t num) const</div><div class="ttdef"><b>Definition:</b> Profile.h:99</div></div>
 <div class="ttc" id="aclass_command_set_html_a7fc203db881c2ae7a587b061cafc3d52"><div class="ttname"><a href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandSet::CommandTextIndex</a></div><div class="ttdeci">size_t CommandTextIndex(const std::string &amp;command) const</div><div class="ttdef"><b>Definition:</b> CommandSet.cpp:114</div></div>
-<div class="ttc" id="aclass_command_menu_html_a17ca3546438d042151b0f90db1ecab81"><div class="ttname"><a href="class_command_menu.html#a17ca3546438d042151b0f90db1ecab81">CommandMenu::SetSelectedItem</a></div><div class="ttdeci">void SetSelectedItem(size_t index)</div><div class="ttdef"><b>Definition:</b> CommandMenu.h:38</div></div>
-<div class="ttc" id="aclass_command_table_model_html_ab32e4e562181f35a3f4072df0d4c6d12"><div class="ttname"><a href="class_command_table_model.html#ab32e4e562181f35a3f4072df0d4c6d12">CommandTableModel::command_set_</a></div><div class="ttdeci">const CommandSet &amp; command_set_</div><div class="ttdef"><b>Definition:</b> CommandTableModel.h:48</div></div>
-<div class="ttc" id="aclass_command_table_model_html_ac2297c76f51e355b450175774b193cbd"><div class="ttname"><a href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">CommandTableModel::profile_</a></div><div class="ttdeci">Profile &amp; profile_</div><div class="ttdef"><b>Definition:</b> CommandTableModel.h:49</div></div>
+<div class="ttc" id="aclass_command_menu_html_a17ca3546438d042151b0f90db1ecab81"><div class="ttname"><a href="class_command_menu.html#a17ca3546438d042151b0f90db1ecab81">CommandMenu::SetSelectedItem</a></div><div class="ttdeci">void SetSelectedItem(size_t index)</div><div class="ttdef"><b>Definition:</b> CommandMenu.h:35</div></div>
+<div class="ttc" id="aclass_command_table_model_html_ab32e4e562181f35a3f4072df0d4c6d12"><div class="ttname"><a href="class_command_table_model.html#ab32e4e562181f35a3f4072df0d4c6d12">CommandTableModel::command_set_</a></div><div class="ttdeci">const CommandSet &amp; command_set_</div><div class="ttdef"><b>Definition:</b> CommandTableModel.h:45</div></div>
+<div class="ttc" id="aclass_command_table_model_html_ac2297c76f51e355b450175774b193cbd"><div class="ttname"><a href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">CommandTableModel::profile_</a></div><div class="ttdeci">Profile &amp; profile_</div><div class="ttdef"><b>Definition:</b> CommandTableModel.h:46</div></div>
+<div class="ttc" id="anamespacersj_html_afcd687f097c7a336ee5e8447ca7b49c7"><div class="ttname"><a href="namespacersj.html#afcd687f097c7a336ee5e8447ca7b49c7">rsj::cmp_less_equal</a></div><div class="ttdeci">constexpr bool cmp_less_equal(const S left, const T right) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.h:232</div></div>
+<div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kNoteOff</a></div><div class="ttdeci">@ kNoteOff</div></div>
 <div class="ttc" id="aclass_profile_html_a52eacd441b3cbaa1ecad3eb260115809"><div class="ttname"><a href="class_profile.html#a52eacd441b3cbaa1ecad3eb260115809">Profile::GetCommandForMessage</a></div><div class="ttdeci">const std::string &amp; GetCommandForMessage(rsj::MidiMessageId message) const</div><div class="ttdef"><b>Definition:</b> Profile.h:88</div></div>
-<div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992a6138748b0dea7e54d0ab77709ab74ba1"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a6138748b0dea7e54d0ab77709ab74ba1">rsj::MessageType::NoteOff</a></div><div class="ttdeci">@ NoteOff</div></div>
 <div class="ttc" id="aclass_profile_html_a9913ba52ed28333789f8223f5248540f"><div class="ttname"><a href="class_profile.html#a9913ba52ed28333789f8223f5248540f">Profile::Resort</a></div><div class="ttdeci">void Resort(std::pair&lt; int, bool &gt; new_order)</div><div class="ttdef"><b>Definition:</b> Profile.cpp:204</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

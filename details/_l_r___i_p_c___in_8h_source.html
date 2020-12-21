@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.0.4.0</span>
+   &#160;<span id="projectnumber">4.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -119,7 +119,7 @@ $(document).ready(function(){initNavTree('_l_r___i_p_c___in_8h_source.html','');
 <div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="class_lr_ipc_in.html">   29</a></span>&#160;<span class="keyword">class</span> LrIpcIn {</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;   LrIpcIn(<a class="code" href="class_controls_model.html">ControlsModel</a>&amp; c_model, ProfileManager&amp; profile_manager, <span class="keyword">const</span> <a class="code" href="class_profile.html">Profile</a>&amp; profile,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;       <span class="keyword">const</span> <a class="code" href="class_midi_sender.html">MidiSender</a>&amp; midi_sender) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;       <span class="keyword">const</span> <a class="code" href="class_midi_sender.html">MidiSender</a>&amp; midi_sender);</div>
 <div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="class_lr_ipc_in.html#a5a20ae49e9e790062a61465556ba6f1a">   33</a></span>&#160;   ~LrIpcIn() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="class_lr_ipc_in.html#a468b27abc43e7f1f6d4012eb8dc14bfd">   34</a></span>&#160;   LrIpcIn(<span class="keyword">const</span> LrIpcIn&amp; other) = <span class="keyword">delete</span>;</div>
 <div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="class_lr_ipc_in.html#adfbf863dc7341c0ebc8b7f5ab13e71fc">   35</a></span>&#160;   LrIpcIn(LrIpcIn&amp;&amp; other) = <span class="keyword">delete</span>;</div>
@@ -149,11 +149,12 @@ $(document).ready(function(){initNavTree('_l_r___i_p_c___in_8h_source.html','');
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassrsj_1_1_concurrent_queue_html"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html">rsj::ConcurrentQueue</a></div><div class="ttdef"><b>Definition:</b> Concurrency.h:131</div></div>
-<div class="ttc" id="aclass_controls_model_html"><div class="ttname"><a href="class_controls_model.html">ControlsModel</a></div><div class="ttdef"><b>Definition:</b> ControlsModel.h:214</div></div>
+<div class="ttc" id="aclassrsj_1_1_concurrent_queue_html"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html">rsj::ConcurrentQueue</a></div><div class="ttdef"><b>Definition:</b> Concurrency.h:130</div></div>
+<div class="ttc" id="aclass_controls_model_html"><div class="ttname"><a href="class_controls_model.html">ControlsModel</a></div><div class="ttdef"><b>Definition:</b> ControlsModel.h:202</div></div>
+<div class="ttc" id="a_misc_8h_html_aa06578184280ad17b69e670d8290a5d3"><div class="ttname"><a href="_misc_8h.html#aa06578184280ad17b69e670d8290a5d3">MIDI2LR_FAST_FLOATS</a></div><div class="ttdeci">#define MIDI2LR_FAST_FLOATS</div><div class="ttdef"><b>Definition:</b> Misc.h:62</div></div>
 <div class="ttc" id="anamespacersj_html_a2f66b6c4ce47634151f3e40675ae62d8"><div class="ttname"><a href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath</a></div><div class="ttdeci">std::string AppLogFilePath(const std::string &amp;file_name)</div></div>
 <div class="ttc" id="aclass_profile_html"><div class="ttname"><a href="class_profile.html">Profile</a></div><div class="ttdef"><b>Definition:</b> Profile.h:36</div></div>
-<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:107</div></div>
+<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition:</b> Misc.h:123</div></div>
 <div class="ttc" id="aclass_midi_sender_html"><div class="ttname"><a href="class_midi_sender.html">MidiSender</a></div><div class="ttdef"><b>Definition:</b> MIDISender.h:34</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

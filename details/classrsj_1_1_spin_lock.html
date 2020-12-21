@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.0.4.0</span>
+   &#160;<span id="projectnumber">4.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -249,32 +249,33 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      { <span class="comment">/* if uncontested, don&#39;t bother with exponential back-off */</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;         <span class="keywordflow">if</span> (!<a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.load(std::memory_order_relaxed)</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;             &amp;&amp; !<a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.exchange(<span class="keyword">true</span>, std::memory_order_acquire))</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;         <span class="keyword">using</span> LoopT = std::uint64_t;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> [bo1, bo2, bo3] {[]() noexcept -&gt; std::tuple&lt;LoopT, LoopT, LoopT&gt; {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            static_assert(std::is_unsigned_v&lt;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                              <a class="code" href="classrsj_1_1_p_r_n_g.html#a2a4e10282dfb5fe28addc4367b6358ce">PRNG::result_type</a>&gt; &amp;&amp; <span class="keyword">sizeof</span>(<a class="code" href="classrsj_1_1_p_r_n_g.html#a2a4e10282dfb5fe28addc4367b6358ce">PRNG::result_type</a>) &gt;= <span class="keyword">sizeof</span>(uint16_t));</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> rn {<a class="code" href="classrsj_1_1_p_r_n_g.html#a7e78213f68ef5b86ff2ae0aa4388e16b">PRNG::NextRandom</a>()};</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keywordflow">return</span> {1 + (rn &amp; 0b11), 12 + (rn &gt;&gt; 2 &amp; 0b111), 56 + (rn &gt;&gt; 5 &amp; 0b1111)};</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;         }()};</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;         <span class="keywordflow">do</span> {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="comment">/* avoid cache invalidation if lock appears to be unavailable */</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">for</span> (LoopT k {0}; <a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.load(std::memory_order_relaxed); ++k) {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;               <span class="keyword">using namespace </span>std::chrono_literals;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;               <span class="keywordflow">if</span> (k &lt; bo1)</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                  <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;               <span class="keywordflow">if</span> (k &lt; bo2)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                  _mm_pause();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;               <span class="keywordflow">else</span> <span class="keywordflow">if</span> (k &lt; bo3)</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                  std::this_thread::yield();</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;               <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                  std::this_thread::sleep_for(1ms);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;         } <span class="keywordflow">while</span> (<a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.exchange(<span class="keyword">true</span>, std::memory_order_acquire));</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      { <span class="comment">/* if uncontested, don&#39;t bother with exponential back-off */</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;         <span class="keywordflow">if</span> (!<a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.load(std::memory_order_relaxed)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;             &amp;&amp; !<a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.exchange(<span class="keyword">true</span>, std::memory_order_acquire))</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;         <span class="keyword">using</span> LoopT = std::uint64_t;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> [bo1, bo2, bo3] {[]() noexcept -&gt; std::tuple&lt;LoopT, LoopT, LoopT&gt; {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            static_assert(std::is_unsigned_v&lt;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                              <a class="code" href="classrsj_1_1_p_r_n_g.html#a2a4e10282dfb5fe28addc4367b6358ce">PRNG::result_type</a>&gt; &amp;&amp; <span class="keyword">sizeof</span>(<a class="code" href="classrsj_1_1_p_r_n_g.html#a2a4e10282dfb5fe28addc4367b6358ce">PRNG::result_type</a>) &gt;= <span class="keyword">sizeof</span>(uint16_t));</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> rn {<a class="code" href="classrsj_1_1_p_r_n_g.html#a7e78213f68ef5b86ff2ae0aa4388e16b">PRNG::NextRandom</a>()};</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">return</span> {1 + (rn &amp; 0b11), 12 + (rn &gt;&gt; 2 &amp; 0b111), 56 + (rn &gt;&gt; 5 &amp; 0b1111)};</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;         }()};</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;         <span class="keywordflow">do</span> {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="comment">/* avoid cache invalidation if lock appears to be unavailable */</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">for</span> (LoopT k {0}; <a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.load(std::memory_order_relaxed); ++k) {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;               <span class="keyword">using namespace </span>std::chrono_literals;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;               <span class="keywordflow">if</span> (k &lt; bo1)</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                  <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;               <span class="keywordflow">if</span> (k &lt; bo2)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                  MIDI2LR_spin_pause;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;               <span class="keywordflow">else</span> <span class="keywordflow">if</span> (k &lt; bo3)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                  std::this_thread::yield();</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;               <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26447)</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                  std::this_thread::sleep_for(1ms); <span class="comment">/* never throws, analyzer false pos */</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;         } <span class="keywordflow">while</span> (<a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.exchange(<span class="keyword">true</span>, std::memory_order_acquire));</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -352,12 +353,12 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;         <span class="comment">/* avoid cache invalidation if lock appears to be unavailable */</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.load(std::memory_order_relaxed))</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;         <span class="keywordflow">return</span> !<a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.exchange(<span class="keyword">true</span>, std::memory_order_acquire); <span class="comment">/* try to acquire lock */</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;      {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;         <span class="comment">/* avoid cache invalidation if lock appears to be unavailable */</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.load(std::memory_order_relaxed))</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;         <span class="keywordflow">return</span> !<a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.exchange(<span class="keyword">true</span>, std::memory_order_acquire); <span class="comment">/* try to acquire lock */</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -383,9 +384,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;         <a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.store(<span class="keyword">false</span>, std::memory_order_release);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;{ <a class="code" href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">flag_</a>.store(<span class="keyword">false</span>, std::memory_order_release); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -439,9 +438,9 @@ Private Attributes</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassrsj_1_1_p_r_n_g_html_a7e78213f68ef5b86ff2ae0aa4388e16b"><div class="ttname"><a href="classrsj_1_1_p_r_n_g.html#a7e78213f68ef5b86ff2ae0aa4388e16b">rsj::PRNG::NextRandom</a></div><div class="ttdeci">static result_type NextRandom() noexcept</div><div class="ttdef"><b>Definition:</b> Concurrency.h:40</div></div>
-<div class="ttc" id="aclassrsj_1_1_p_r_n_g_html_a2a4e10282dfb5fe28addc4367b6358ce"><div class="ttname"><a href="classrsj_1_1_p_r_n_g.html#a2a4e10282dfb5fe28addc4367b6358ce">rsj::PRNG::result_type</a></div><div class="ttdeci">uint64_t result_type</div><div class="ttdef"><b>Definition:</b> Concurrency.h:39</div></div>
-<div class="ttc" id="aclassrsj_1_1_spin_lock_html_a084f11d73d761fbc327d16c82abbbfb0"><div class="ttname"><a href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">rsj::SpinLock::flag_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; flag_</div><div class="ttdef"><b>Definition:</b> Concurrency.h:123</div></div>
+<div class="ttc" id="aclassrsj_1_1_p_r_n_g_html_a7e78213f68ef5b86ff2ae0aa4388e16b"><div class="ttname"><a href="classrsj_1_1_p_r_n_g.html#a7e78213f68ef5b86ff2ae0aa4388e16b">rsj::PRNG::NextRandom</a></div><div class="ttdeci">static result_type NextRandom() noexcept</div><div class="ttdef"><b>Definition:</b> Concurrency.h:44</div></div>
+<div class="ttc" id="aclassrsj_1_1_p_r_n_g_html_a2a4e10282dfb5fe28addc4367b6358ce"><div class="ttname"><a href="classrsj_1_1_p_r_n_g.html#a2a4e10282dfb5fe28addc4367b6358ce">rsj::PRNG::result_type</a></div><div class="ttdeci">uint64_t result_type</div><div class="ttdef"><b>Definition:</b> Concurrency.h:43</div></div>
+<div class="ttc" id="aclassrsj_1_1_spin_lock_html_a084f11d73d761fbc327d16c82abbbfb0"><div class="ttname"><a href="classrsj_1_1_spin_lock.html#a084f11d73d761fbc327d16c82abbbfb0">rsj::SpinLock::flag_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; flag_</div><div class="ttdef"><b>Definition:</b> Concurrency.h:122</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

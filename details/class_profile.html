@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.0.4.0</span>
+   &#160;<span id="projectnumber">4.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -102,10 +102,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6012a9f1b5b3d0b43fbbb312b153117d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a959631959c1c89d9ec36ea42d781b5cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a959631959c1c89d9ec36ea42d781b5cb">AddCommandForMessage</a> (size_t command, <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> message)</td></tr>
 <tr class="separator:a959631959c1c89d9ec36ea42d781b5cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a729f7e64e1456b3c2cfb80e0dd346585"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a729f7e64e1456b3c2cfb80e0dd346585">AddRowMapped</a> (const std::string &amp;command, <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> message)</td></tr>
-<tr class="separator:a729f7e64e1456b3c2cfb80e0dd346585"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32d0d87e64744b5c429bc67fb576163b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a32d0d87e64744b5c429bc67fb576163b">AddRowUnmapped</a> (<a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> message)</td></tr>
-<tr class="separator:a32d0d87e64744b5c429bc67fb576163b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27523948da6b6423960a2afafba64792"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a27523948da6b6423960a2afafba64792">AddRowMapped</a> (const std::string &amp;command, const <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> &amp;message)</td></tr>
+<tr class="separator:a27523948da6b6423960a2afafba64792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a442cfca7c0f2bd3ac152cda33b9b35e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a442cfca7c0f2bd3ac152cda33b9b35e1">AddRowUnmapped</a> (const <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> &amp;message)</td></tr>
+<tr class="separator:a442cfca7c0f2bd3ac152cda33b9b35e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77ba709ce554f849159a08950a9a93d3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a77ba709ce554f849159a08950a9a93d3">CommandHasAssociatedMessage</a> (const std::string &amp;command) const</td></tr>
 <tr class="separator:a77ba709ce554f849159a08950a9a93d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5c72db4fbde77afeabb5b8ccd3b0720"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720">FromXml</a> (const juce::XmlElement *root)</td></tr>
@@ -124,8 +124,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a088d7d62d487c12a798f0d36145c2c84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa204f0fac70850e1f2fd7e62fea0e485"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#aa204f0fac70850e1f2fd7e62fea0e485">RemoveAllRows</a> ()</td></tr>
 <tr class="separator:aa204f0fac70850e1f2fd7e62fea0e485"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb1bca37a48aea146bb3088fc91dc4d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#abb1bca37a48aea146bb3088fc91dc4d1">RemoveMessage</a> (<a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> message)</td></tr>
-<tr class="separator:abb1bca37a48aea146bb3088fc91dc4d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae56fe39ecce15d0a5b63924504f6ee52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#ae56fe39ecce15d0a5b63924504f6ee52">RemoveMessage</a> (const <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> &amp;message)</td></tr>
+<tr class="separator:ae56fe39ecce15d0a5b63924504f6ee52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a414a11b557891329f59fb3ef7485428e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a414a11b557891329f59fb3ef7485428e">RemoveRow</a> (size_t row)</td></tr>
 <tr class="separator:a414a11b557891329f59fb3ef7485428e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52a1e65a7ec8df1864309e0c6d127fab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a52a1e65a7ec8df1864309e0c6d127fab">RemoveUnassignedMessages</a> ()</td></tr>
@@ -139,8 +139,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a2d705fbf852f061b35da0005a0a3e5ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a2d705fbf852f061b35da0005a0a3e5ae">AddCommandForMessageI</a> (size_t command, <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> message)</td></tr>
-<tr class="separator:a2d705fbf852f061b35da0005a0a3e5ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad212334c741e1a454b8dc2fb91a56e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#aad212334c741e1a454b8dc2fb91a56e3">AddCommandForMessageI</a> (size_t command, const <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> &amp;message)</td></tr>
+<tr class="separator:aad212334c741e1a454b8dc2fb91a56e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd372914d6fa73744da294b35b31b6ca"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#afd372914d6fa73744da294b35b31b6ca">GetCommandForMessageI</a> (<a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> message) const</td></tr>
 <tr class="separator:afd372914d6fa73744da294b35b31b6ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2efe68af43f35841a4504e18f6b4959"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#ac2efe68af43f35841a4504e18f6b4959">GetMessageForNumberI</a> (size_t num) const</td></tr>
@@ -235,15 +235,15 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;   <span class="keyword">auto</span> guard {std::unique_lock {<a class="code" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;   <a class="code" href="class_profile.html#a2d705fbf852f061b35da0005a0a3e5ae">AddCommandForMessageI</a>(command, message);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;   <a class="code" href="class_profile.html#aad212334c741e1a454b8dc2fb91a56e3">AddCommandForMessageI</a>(command, message);</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_profile.html#a2d705fbf852f061b35da0005a0a3e5ae">AddCommandForMessageI()</a>.</p>
+<p class="reference">References <a class="el" href="class_profile.html#aad212334c741e1a454b8dc2fb91a56e3">AddCommandForMessageI()</a>.</p>
 
 </div>
 </div>
-<a id="a2d705fbf852f061b35da0005a0a3e5ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d705fbf852f061b35da0005a0a3e5ae">&#9670;&nbsp;</a></span>AddCommandForMessageI()</h2>
+<a id="aad212334c741e1a454b8dc2fb91a56e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad212334c741e1a454b8dc2fb91a56e3">&#9670;&nbsp;</a></span>AddCommandForMessageI()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -260,7 +260,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> &amp;&#160;</td>
           <td class="paramname"><em>message</em>&#160;</td>
         </tr>
         <tr>
@@ -297,8 +297,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a729f7e64e1456b3c2cfb80e0dd346585"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a729f7e64e1456b3c2cfb80e0dd346585">&#9670;&nbsp;</a></span>AddRowMapped()</h2>
+<a id="a27523948da6b6423960a2afafba64792"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27523948da6b6423960a2afafba64792">&#9670;&nbsp;</a></span>AddRowMapped()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -312,7 +312,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> &amp;&#160;</td>
           <td class="paramname"><em>message</em>&#160;</td>
         </tr>
         <tr>
@@ -349,8 +349,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a32d0d87e64744b5c429bc67fb576163b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32d0d87e64744b5c429bc67fb576163b">&#9670;&nbsp;</a></span>AddRowUnmapped()</h2>
+<a id="a442cfca7c0f2bd3ac152cda33b9b35e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a442cfca7c0f2bd3ac152cda33b9b35e1">&#9670;&nbsp;</a></span>AddRowUnmapped()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -358,7 +358,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void Profile::AddRowUnmapped </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> &amp;&#160;</td>
           <td class="paramname"><em>message</em></td><td>)</td>
           <td></td>
         </tr>
@@ -368,7 +368,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;   <span class="keywordflow">try</span> {</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="keyword">auto</span> guard {std::unique_lock {<a class="code" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <span class="keywordflow">if</span> (!<a class="code" href="class_profile.html#a479befa4767dc9cd54fae07533c3c419">MessageExistsInMapI</a>(message)) {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;         <a class="code" href="class_profile.html#a2d705fbf852f061b35da0005a0a3e5ae">AddCommandForMessageI</a>(0, message); <span class="comment">/* add an entry for &#39;no command&#39; */</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;         <a class="code" href="class_profile.html#aad212334c741e1a454b8dc2fb91a56e3">AddCommandForMessageI</a>(0, message); <span class="comment">/* add an entry for &#39;no command&#39; */</span></div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;         <a class="code" href="class_profile.html#afe9d4ec7a1d0076e5e19bc53d1cc6f5a">command_table_</a>.push_back(message);</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;         <a class="code" href="class_profile.html#aeba39bf32fc079f948b4669c64887867">SortI</a>();</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;         <a class="code" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">true</span>;</div>
@@ -440,18 +440,18 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="keywordflow">while</span> (setting) {</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;         <span class="keywordflow">if</span> (setting-&gt;hasAttribute(<span class="stringliteral">&quot;controller&quot;</span>)) {</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keyword">const</span> <a class="code" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> message {setting-&gt;getIntAttribute(<span class="stringliteral">&quot;channel&quot;</span>),</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                setting-&gt;getIntAttribute(<span class="stringliteral">&quot;controller&quot;</span>), rsj::MessageType::Cc};</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <a class="code" href="class_profile.html#a729f7e64e1456b3c2cfb80e0dd346585">AddRowMapped</a>(setting-&gt;getStringAttribute(<span class="stringliteral">&quot;command_string&quot;</span>).toStdString(), message);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                setting-&gt;getIntAttribute(<span class="stringliteral">&quot;controller&quot;</span>), rsj::MessageType::kCc};</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <a class="code" href="class_profile.html#a27523948da6b6423960a2afafba64792">AddRowMapped</a>(setting-&gt;getStringAttribute(<span class="stringliteral">&quot;command_string&quot;</span>).toStdString(), message);</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;         }</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (setting-&gt;hasAttribute(<span class="stringliteral">&quot;note&quot;</span>)) {</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keyword">const</span> <a class="code" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> note {setting-&gt;getIntAttribute(<span class="stringliteral">&quot;channel&quot;</span>),</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                setting-&gt;getIntAttribute(<span class="stringliteral">&quot;note&quot;</span>), rsj::MessageType::NoteOn};</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <a class="code" href="class_profile.html#a729f7e64e1456b3c2cfb80e0dd346585">AddRowMapped</a>(setting-&gt;getStringAttribute(<span class="stringliteral">&quot;command_string&quot;</span>).toStdString(), note);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                setting-&gt;getIntAttribute(<span class="stringliteral">&quot;note&quot;</span>), rsj::MessageType::kNoteOn};</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <a class="code" href="class_profile.html#a27523948da6b6423960a2afafba64792">AddRowMapped</a>(setting-&gt;getStringAttribute(<span class="stringliteral">&quot;command_string&quot;</span>).toStdString(), note);</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;         }</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (setting-&gt;hasAttribute(<span class="stringliteral">&quot;pitchbend&quot;</span>)) {</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="keyword">const</span> <a class="code" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> pb {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                setting-&gt;getIntAttribute(<span class="stringliteral">&quot;channel&quot;</span>), 0, rsj::MessageType::Pw};</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <a class="code" href="class_profile.html#a729f7e64e1456b3c2cfb80e0dd346585">AddRowMapped</a>(setting-&gt;getStringAttribute(<span class="stringliteral">&quot;command_string&quot;</span>).toStdString(), pb);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                setting-&gt;getIntAttribute(<span class="stringliteral">&quot;channel&quot;</span>), 0, rsj::MessageType::kPw};</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <a class="code" href="class_profile.html#a27523948da6b6423960a2afafba64792">AddRowMapped</a>(setting-&gt;getStringAttribute(<span class="stringliteral">&quot;command_string&quot;</span>).toStdString(), pb);</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;         }</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;         setting = setting-&gt;getNextElement();</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      }</div>
@@ -721,7 +721,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;   <span class="keywordflow">return</span> <a class="code" href="class_profile.html#a4a2390bca21eda906de4d95a2ff94f8c">message_map_</a>.find(message) != <a class="code" href="class_profile.html#a4a2390bca21eda906de4d95a2ff94f8c">message_map_</a>.end();</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="class_profile.html#a729f7e64e1456b3c2cfb80e0dd346585">AddRowMapped()</a>, <a class="el" href="class_profile.html#a32d0d87e64744b5c429bc67fb576163b">AddRowUnmapped()</a>, and <a class="el" href="class_profile.html#a56598e659bf13a43596c2e119bc2cdcb">MessageExistsInMap()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_profile.html#a27523948da6b6423960a2afafba64792">AddRowMapped()</a>, <a class="el" href="class_profile.html#a442cfca7c0f2bd3ac152cda33b9b35e1">AddRowUnmapped()</a>, and <a class="el" href="class_profile.html#a56598e659bf13a43596c2e119bc2cdcb">MessageExistsInMap()</a>.</p>
 
 </div>
 </div>
@@ -789,8 +789,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="abb1bca37a48aea146bb3088fc91dc4d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb1bca37a48aea146bb3088fc91dc4d1">&#9670;&nbsp;</a></span>RemoveMessage()</h2>
+<a id="ae56fe39ecce15d0a5b63924504f6ee52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae56fe39ecce15d0a5b63924504f6ee52">&#9670;&nbsp;</a></span>RemoveMessage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -798,7 +798,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void Profile::RemoveMessage </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> &amp;&#160;</td>
           <td class="paramname"><em>message</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1008,7 +1008,7 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath()</a>, <a class="el" href="class_profile.html#af3dd223ec0e1ebf376647ba622d34e85">command_set_</a>, <a class="el" href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandSet::CommandTextIndex()</a>, and <a class="el" href="class_profile.html#afd372914d6fa73744da294b35b31b6ca">GetCommandForMessageI()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="class_profile.html#a2d705fbf852f061b35da0005a0a3e5ae">AddCommandForMessageI()</a>, <a class="el" href="class_profile.html#a729f7e64e1456b3c2cfb80e0dd346585">AddRowMapped()</a>, <a class="el" href="class_profile.html#a32d0d87e64744b5c429bc67fb576163b">AddRowUnmapped()</a>, <a class="el" href="class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720">FromXml()</a>, and <a class="el" href="class_profile.html#a9913ba52ed28333789f8223f5248540f">Resort()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_profile.html#aad212334c741e1a454b8dc2fb91a56e3">AddCommandForMessageI()</a>, <a class="el" href="class_profile.html#a27523948da6b6423960a2afafba64792">AddRowMapped()</a>, <a class="el" href="class_profile.html#a442cfca7c0f2bd3ac152cda33b9b35e1">AddRowUnmapped()</a>, <a class="el" href="class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720">FromXml()</a>, and <a class="el" href="class_profile.html#a9913ba52ed28333789f8223f5248540f">Resort()</a>.</p>
 
 </div>
 </div>
@@ -1038,39 +1038,43 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            <span class="keyword">auto</span> setting {std::make_unique&lt;juce::XmlElement&gt;(<span class="stringliteral">&quot;setting&quot;</span>)};</div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            setting-&gt;setAttribute(<span class="stringliteral">&quot;channel&quot;</span>, msg_id.channel);</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            <span class="keywordflow">switch</span> (msg_id.msg_id_type) {</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::NoteOn:</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kNoteOn:</div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;               setting-&gt;setAttribute(<span class="stringliteral">&quot;note&quot;</span>, msg_id.control_number);</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::Cc:</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kCc:</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;               setting-&gt;setAttribute(<span class="stringliteral">&quot;controller&quot;</span>, msg_id.control_number);</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::Pw:</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kPw:</div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;               setting-&gt;setAttribute(<span class="stringliteral">&quot;pitchbend&quot;</span>, 0);</div>
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;               <span class="comment">/* can&#39;t handle other types */</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;               <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            }</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            setting-&gt;setAttribute(<span class="stringliteral">&quot;command_string&quot;</span>, cmd_str);</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            root.addChildElement(setting.release());</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;         }</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;         <span class="keywordflow">if</span> (!root.writeTo(file)) {</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            <span class="comment">/* Give feedback if file-save doesn&#39;t work */</span></div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; p {file.getFullPathName()};</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                juce::translate(<span class="stringliteral">&quot;Unable to save file. Choose a different location and try again.&quot;</span>)</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                    + <span class="charliteral">&#39; &#39;</span> + p,</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                <span class="stringliteral">&quot;Unable to save file. Choose a different location and try again. &quot;</span> + p);</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;         }</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;         <a class="code" href="class_profile.html#a58d4e2b65f0a7d66104433993f3b867f">saved_map_</a> = <a class="code" href="class_profile.html#a4a2390bca21eda906de4d95a2ff94f8c">message_map_</a>;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;         <a class="code" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;      }</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;   }</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kChanPressure:</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kKeyPressure:</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kNoteOff:</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kPgmChange:</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kSystem</a>:</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;               <span class="comment">/* can&#39;t handle other types */</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;               <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;            }</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            setting-&gt;setAttribute(<span class="stringliteral">&quot;command_string&quot;</span>, cmd_str);</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            root.addChildElement(setting.release());</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;         }</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;         <span class="keywordflow">if</span> (!root.writeTo(file)) {</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            <span class="comment">/* Give feedback if file-save doesn&#39;t work */</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; p {file.getFullPathName()};</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                juce::translate(<span class="stringliteral">&quot;Unable to save file. Choose a different location and try again.&quot;</span>)</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;                    + <span class="charliteral">&#39; &#39;</span> + p,</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                <span class="stringliteral">&quot;Unable to save file. Choose a different location and try again. &quot;</span> + p);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;         }</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;         <a class="code" href="class_profile.html#a58d4e2b65f0a7d66104433993f3b867f">saved_map_</a> = <a class="code" href="class_profile.html#a4a2390bca21eda906de4d95a2ff94f8c">message_map_</a>;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;         <a class="code" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;      }</div>
 <div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;   }</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;}</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;   }</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a>.</p>
 
@@ -1097,7 +1101,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="class_profile.html#a6012a9f1b5b3d0b43fbbb312b153117d">Profile()</a>, <a class="el" href="class_profile.html#a729f7e64e1456b3c2cfb80e0dd346585">AddRowMapped()</a>, and <a class="el" href="class_profile.html#aeba39bf32fc079f948b4669c64887867">SortI()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_profile.html#a6012a9f1b5b3d0b43fbbb312b153117d">Profile()</a>, <a class="el" href="class_profile.html#a27523948da6b6423960a2afafba64792">AddRowMapped()</a>, and <a class="el" href="class_profile.html#aeba39bf32fc079f948b4669c64887867">SortI()</a>.</p>
 
 </div>
 </div>
@@ -1231,7 +1235,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="class_profile.html#a2d705fbf852f061b35da0005a0a3e5ae">AddCommandForMessageI()</a>, <a class="el" href="class_profile.html#a729f7e64e1456b3c2cfb80e0dd346585">AddRowMapped()</a>, <a class="el" href="class_profile.html#a32d0d87e64744b5c429bc67fb576163b">AddRowUnmapped()</a>, <a class="el" href="class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720">FromXml()</a>, <a class="el" href="class_profile.html#aa204f0fac70850e1f2fd7e62fea0e485">RemoveAllRows()</a>, <a class="el" href="class_profile.html#abb1bca37a48aea146bb3088fc91dc4d1">RemoveMessage()</a>, <a class="el" href="class_profile.html#a414a11b557891329f59fb3ef7485428e">RemoveRow()</a>, <a class="el" href="class_profile.html#a52a1e65a7ec8df1864309e0c6d127fab">RemoveUnassignedMessages()</a>, and <a class="el" href="class_profile.html#a6ae35735b1edc78dd1b32535c093aca8">ToXmlFile()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_profile.html#aad212334c741e1a454b8dc2fb91a56e3">AddCommandForMessageI()</a>, <a class="el" href="class_profile.html#a27523948da6b6423960a2afafba64792">AddRowMapped()</a>, <a class="el" href="class_profile.html#a442cfca7c0f2bd3ac152cda33b9b35e1">AddRowUnmapped()</a>, <a class="el" href="class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720">FromXml()</a>, <a class="el" href="class_profile.html#aa204f0fac70850e1f2fd7e62fea0e485">RemoveAllRows()</a>, <a class="el" href="class_profile.html#ae56fe39ecce15d0a5b63924504f6ee52">RemoveMessage()</a>, <a class="el" href="class_profile.html#a414a11b557891329f59fb3ef7485428e">RemoveRow()</a>, <a class="el" href="class_profile.html#a52a1e65a7ec8df1864309e0c6d127fab">RemoveUnassignedMessages()</a>, and <a class="el" href="class_profile.html#a6ae35735b1edc78dd1b32535c093aca8">ToXmlFile()</a>.</p>
 
 </div>
 </div>
@@ -1265,20 +1269,21 @@ Private Attributes</h2></td></tr>
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_profile_html_af3dd223ec0e1ebf376647ba622d34e85"><div class="ttname"><a href="class_profile.html#af3dd223ec0e1ebf376647ba622d34e85">Profile::command_set_</a></div><div class="ttdeci">const CommandSet &amp; command_set_</div><div class="ttdef"><b>Definition:</b> Profile.h:67</div></div>
 <div class="ttc" id="aclass_profile_html_aeba39bf32fc079f948b4669c64887867"><div class="ttname"><a href="class_profile.html#aeba39bf32fc079f948b4669c64887867">Profile::SortI</a></div><div class="ttdeci">void SortI()</div><div class="ttdef"><b>Definition:</b> Profile.cpp:217</div></div>
-<div class="ttc" id="aclass_command_set_html_a0311fc90ec6127582c5f97593130f41f"><div class="ttname"><a href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">CommandSet::kUnassigned</a></div><div class="ttdeci">static const std::string kUnassigned</div><div class="ttdef"><b>Definition:</b> CommandSet.h:72</div></div>
-<div class="ttc" id="aclass_profile_html_a2d705fbf852f061b35da0005a0a3e5ae"><div class="ttname"><a href="class_profile.html#a2d705fbf852f061b35da0005a0a3e5ae">Profile::AddCommandForMessageI</a></div><div class="ttdeci">void AddCommandForMessageI(size_t command, rsj::MidiMessageId message)</div><div class="ttdef"><b>Definition:</b> Profile.cpp:23</div></div>
+<div class="ttc" id="aclass_profile_html_a27523948da6b6423960a2afafba64792"><div class="ttname"><a href="class_profile.html#a27523948da6b6423960a2afafba64792">Profile::AddRowMapped</a></div><div class="ttdeci">void AddRowMapped(const std::string &amp;command, const rsj::MidiMessageId &amp;message)</div><div class="ttdef"><b>Definition:</b> Profile.cpp:40</div></div>
+<div class="ttc" id="aclass_command_set_html_a0311fc90ec6127582c5f97593130f41f"><div class="ttname"><a href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">CommandSet::kUnassigned</a></div><div class="ttdeci">static const std::string kUnassigned</div><div class="ttdef"><b>Definition:</b> CommandSet.h:57</div></div>
+<div class="ttc" id="aclass_profile_html_aad212334c741e1a454b8dc2fb91a56e3"><div class="ttname"><a href="class_profile.html#aad212334c741e1a454b8dc2fb91a56e3">Profile::AddCommandForMessageI</a></div><div class="ttdeci">void AddCommandForMessageI(size_t command, const rsj::MidiMessageId &amp;message)</div><div class="ttdef"><b>Definition:</b> Profile.cpp:23</div></div>
 <div class="ttc" id="aclass_profile_html_a88dcf644957ab23c0d23d8234a40dfb1"><div class="ttname"><a href="class_profile.html#a88dcf644957ab23c0d23d8234a40dfb1">Profile::command_string_map_</a></div><div class="ttdeci">std::multimap&lt; std::string, rsj::MidiMessageId &gt; command_string_map_</div><div class="ttdef"><b>Definition:</b> Profile.h:69</div></div>
 <div class="ttc" id="aclass_profile_html_a58d4e2b65f0a7d66104433993f3b867f"><div class="ttname"><a href="class_profile.html#a58d4e2b65f0a7d66104433993f3b867f">Profile::saved_map_</a></div><div class="ttdeci">std::unordered_map&lt; rsj::MidiMessageId, std::string &gt; saved_map_</div><div class="ttdef"><b>Definition:</b> Profile.h:72</div></div>
 <div class="ttc" id="aclass_command_set_html_a166df13ac3d95e6e96d3e5a6efcee685"><div class="ttname"><a href="class_command_set.html#a166df13ac3d95e6e96d3e5a6efcee685">CommandSet::CommandAbbrevSize</a></div><div class="ttdeci">auto CommandAbbrevSize() const noexcept</div><div class="ttdef"><b>Definition:</b> CommandSet.h:41</div></div>
 <div class="ttc" id="aclass_profile_html_a4a2390bca21eda906de4d95a2ff94f8c"><div class="ttname"><a href="class_profile.html#a4a2390bca21eda906de4d95a2ff94f8c">Profile::message_map_</a></div><div class="ttdeci">std::unordered_map&lt; rsj::MidiMessageId, std::string &gt; message_map_</div><div class="ttdef"><b>Definition:</b> Profile.h:71</div></div>
 <div class="ttc" id="aclass_profile_html_a5a3f148bef7c8510e96ec42824e834da"><div class="ttname"><a href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">Profile::profile_unsaved_</a></div><div class="ttdeci">bool profile_unsaved_</div><div class="ttdef"><b>Definition:</b> Profile.h:66</div></div>
 <div class="ttc" id="aclass_profile_html_af3463acf83f255b501ec8a3e44d12681"><div class="ttname"><a href="class_profile.html#af3463acf83f255b501ec8a3e44d12681">Profile::current_sort_</a></div><div class="ttdeci">std::pair&lt; int, bool &gt; current_sort_</div><div class="ttdef"><b>Definition:</b> Profile.h:70</div></div>
-<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:212</div></div>
+<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:213</div></div>
 <div class="ttc" id="aclass_command_set_html_a7fc203db881c2ae7a587b061cafc3d52"><div class="ttname"><a href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandSet::CommandTextIndex</a></div><div class="ttdeci">size_t CommandTextIndex(const std::string &amp;command) const</div><div class="ttdef"><b>Definition:</b> CommandSet.cpp:114</div></div>
 <div class="ttc" id="aclass_command_set_html_a1f12a89e0303d75fc0e9492bbb1f1458"><div class="ttname"><a href="class_command_set.html#a1f12a89e0303d75fc0e9492bbb1f1458">CommandSet::CommandAbbrevAt</a></div><div class="ttdeci">const auto &amp; CommandAbbrevAt(size_t index) const</div><div class="ttdef"><b>Definition:</b> CommandSet.h:36</div></div>
 <div class="ttc" id="aclass_profile_html_a769a8fab7e5f7b516ad9dabff0af7073"><div class="ttname"><a href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">Profile::mutex_</a></div><div class="ttdeci">std::shared_mutex mutex_</div><div class="ttdef"><b>Definition:</b> Profile.h:68</div></div>
+<div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kNoteOff</a></div><div class="ttdeci">@ kNoteOff</div></div>
 <div class="ttc" id="aclass_profile_html_ac2efe68af43f35841a4504e18f6b4959"><div class="ttname"><a href="class_profile.html#ac2efe68af43f35841a4504e18f6b4959">Profile::GetMessageForNumberI</a></div><div class="ttdeci">rsj::MidiMessageId GetMessageForNumberI(size_t num) const</div><div class="ttdef"><b>Definition:</b> Profile.h:105</div></div>
-<div class="ttc" id="aclass_profile_html_a729f7e64e1456b3c2cfb80e0dd346585"><div class="ttname"><a href="class_profile.html#a729f7e64e1456b3c2cfb80e0dd346585">Profile::AddRowMapped</a></div><div class="ttdeci">void AddRowMapped(const std::string &amp;command, rsj::MidiMessageId message)</div><div class="ttdef"><b>Definition:</b> Profile.cpp:40</div></div>
 <div class="ttc" id="astructrsj_1_1_midi_message_id_html"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a></div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:144</div></div>
 <div class="ttc" id="aclass_profile_html_afe9d4ec7a1d0076e5e19bc53d1cc6f5a"><div class="ttname"><a href="class_profile.html#afe9d4ec7a1d0076e5e19bc53d1cc6f5a">Profile::command_table_</a></div><div class="ttdeci">std::vector&lt; rsj::MidiMessageId &gt; command_table_</div><div class="ttdef"><b>Definition:</b> Profile.h:73</div></div>
 <div class="ttc" id="aclass_profile_html_afd372914d6fa73744da294b35b31b6ca"><div class="ttname"><a href="class_profile.html#afd372914d6fa73744da294b35b31b6ca">Profile::GetCommandForMessageI</a></div><div class="ttdeci">const std::string &amp; GetCommandForMessageI(rsj::MidiMessageId message) const</div><div class="ttdef"><b>Definition:</b> Profile.h:94</div></div>

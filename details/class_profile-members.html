@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.0.4.0</span>
+   &#160;<span id="projectnumber">4.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -92,9 +92,9 @@ $(document).ready(function(){initNavTree('class_profile.html',''); initResizable
 <p>This is the complete list of members for <a class="el" href="class_profile.html">Profile</a>, including all inherited members.</p>
 <table class="directory">
   <tr class="even"><td class="entry"><a class="el" href="class_profile.html#a959631959c1c89d9ec36ea42d781b5cb">AddCommandForMessage</a>(size_t command, rsj::MidiMessageId message)</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_profile.html#a2d705fbf852f061b35da0005a0a3e5ae">AddCommandForMessageI</a>(size_t command, rsj::MidiMessageId message)</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_profile.html#a729f7e64e1456b3c2cfb80e0dd346585">AddRowMapped</a>(const std::string &amp;command, rsj::MidiMessageId message)</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_profile.html#a32d0d87e64744b5c429bc67fb576163b">AddRowUnmapped</a>(rsj::MidiMessageId message)</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_profile.html#aad212334c741e1a454b8dc2fb91a56e3">AddCommandForMessageI</a>(size_t command, const rsj::MidiMessageId &amp;message)</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_profile.html#a27523948da6b6423960a2afafba64792">AddRowMapped</a>(const std::string &amp;command, const rsj::MidiMessageId &amp;message)</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_profile.html#a442cfca7c0f2bd3ac152cda33b9b35e1">AddRowUnmapped</a>(const rsj::MidiMessageId &amp;message)</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_profile.html#af3dd223ec0e1ebf376647ba622d34e85">command_set_</a></td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_profile.html#a88dcf644957ab23c0d23d8234a40dfb1">command_string_map_</a></td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_profile.html#afe9d4ec7a1d0076e5e19bc53d1cc6f5a">command_table_</a></td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
@@ -115,7 +115,7 @@ $(document).ready(function(){initNavTree('class_profile.html',''); initResizable
   <tr><td class="entry"><a class="el" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a></td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_profile.html#a088d7d62d487c12a798f0d36145c2c84">ProfileUnsaved</a>() const</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_profile.html#aa204f0fac70850e1f2fd7e62fea0e485">RemoveAllRows</a>()</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_profile.html#abb1bca37a48aea146bb3088fc91dc4d1">RemoveMessage</a>(rsj::MidiMessageId message)</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_profile.html#ae56fe39ecce15d0a5b63924504f6ee52">RemoveMessage</a>(const rsj::MidiMessageId &amp;message)</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_profile.html#a414a11b557891329f59fb3ef7485428e">RemoveRow</a>(size_t row)</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_profile.html#a52a1e65a7ec8df1864309e0c6d127fab">RemoveUnassignedMessages</a>()</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_profile.html#a9913ba52ed28333789f8223f5248540f">Resort</a>(std::pair&lt; int, bool &gt; new_order)</td><td class="entry"><a class="el" href="class_profile.html">Profile</a></td><td class="entry"></td></tr>

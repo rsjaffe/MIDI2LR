@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.0.4.0</span>
+   &#160;<span id="projectnumber">4.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -107,30 +107,45 @@ $(document).ready(function(){initNavTree('_ocpp_8h_source.html',''); initResizab
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">ifndef</span> _WIN32</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="preprocessor">&lt;</span><span class="preprocessor">string</span><span class="preprocessor">&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="preprocessor">&lt;</span><span class="preprocessor">unordered_map</span><span class="preprocessor">&gt;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using</span> UniChar = uint16_t;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">using</span> UInt16 = uint16_t;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">using</span> pid_t = <span class="keywordtype">int</span>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">namespace</span> rsj {</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html">   27</a></span>&#160;   <span class="keyword">struct</span> KeyData {</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#ab5ebca4ea60c00e4178be19e3fd6075c">   28</a></span>&#160;      UInt16 keycode {};</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#a3313ae580916016fa62cbf78d45f7ed3">   29</a></span>&#160;      <span class="keywordtype">bool</span> shift {};</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#aa29d051a4e1e0820707710b50d2fa9c9">   30</a></span>&#160;      <span class="keywordtype">bool</span> option {};</div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#a4801a480b68e62abf903384deda4d2a0">   31</a></span>&#160;      <span class="keyword">constexpr</span> KeyData(UInt16 k, <span class="keywordtype">bool</span> s, <span class="keywordtype">bool</span> o) : keycode {k}, shift {s}, option {o} {}</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#a16d3d6e801fd17f89e5f5d64194e65f3">   32</a></span>&#160;      <span class="keyword">constexpr</span> KeyData(<span class="keyword">const</span> KeyData&amp; other) = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#a38e4caf9448dd117a287a08b1c3e2349">   33</a></span>&#160;      <span class="keyword">constexpr</span> KeyData(KeyData&amp;&amp; other) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#a028330d60195f8350f3ba1d3cf6a55d3">   34</a></span>&#160;      <span class="keyword">constexpr</span> KeyData&amp; operator=(<span class="keyword">const</span> KeyData&amp; other) = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#afae624b4b97154ea22ab3c4dce244fae">   35</a></span>&#160;      <span class="keyword">constexpr</span> KeyData&amp; operator=(KeyData&amp;&amp; other) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;   };</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;   [[nodiscard]] std::string AppDataMac();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;   [[nodiscard]] std::string AppLogMac();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;   [[nodiscard]] std::unordered_map&lt;UniChar, KeyData&gt; GetKeyMap();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;   <span class="keywordtype">void</span> CheckPermission(pid_t pid);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;} <span class="comment">// namespace rsj</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="preprocessor">&lt;</span><span class="preprocessor">type_traits</span><span class="preprocessor">&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="preprocessor">&lt;</span><span class="preprocessor">unordered_map</span><span class="preprocessor">&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">import</span> <span class="preprocessor">&lt;</span><span class="preprocessor">CoreFoundation</span><span class="preprocessor">/</span><span class="preprocessor">CoreFoundation</span><span class="preprocessor">.</span><span class="preprocessor">h</span><span class="preprocessor">&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">using</span> UniChar = uint16_t;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">using</span> UInt16 = uint16_t;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">using</span> pid_t = <span class="keywordtype">int</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace</span> rsj {</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html">   30</a></span>&#160;   <span class="keyword">struct</span> KeyData {</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#ab5ebca4ea60c00e4178be19e3fd6075c">   31</a></span>&#160;      UInt16 keycode {};</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#a3313ae580916016fa62cbf78d45f7ed3">   32</a></span>&#160;      <span class="keywordtype">bool</span> shift {};</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#aa29d051a4e1e0820707710b50d2fa9c9">   33</a></span>&#160;      <span class="keywordtype">bool</span> option {};</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#a4801a480b68e62abf903384deda4d2a0">   34</a></span>&#160;      <span class="keyword">constexpr</span> KeyData(UInt16 k, <span class="keywordtype">bool</span> s, <span class="keywordtype">bool</span> o) : keycode {k}, shift {s}, option {o} {}</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#a16d3d6e801fd17f89e5f5d64194e65f3">   35</a></span>&#160;      <span class="keyword">constexpr</span> KeyData(<span class="keyword">const</span> KeyData&amp; other) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#a38e4caf9448dd117a287a08b1c3e2349">   36</a></span>&#160;      <span class="keyword">constexpr</span> KeyData(KeyData&amp;&amp; other) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#a028330d60195f8350f3ba1d3cf6a55d3">   37</a></span>&#160;      <span class="keyword">constexpr</span> KeyData&amp; operator=(<span class="keyword">const</span> KeyData&amp; other) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="structrsj_1_1_key_data.html#afae624b4b97154ea22ab3c4dce244fae">   38</a></span>&#160;      <span class="keyword">constexpr</span> KeyData&amp; operator=(KeyData&amp;&amp; other) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;   };</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;   [[nodiscard]] std::string AppDataMac();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;   [[nodiscard]] std::string AppLogMac();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;   [[nodiscard]] std::unordered_map&lt;UniChar, KeyData&gt; GetKeyMap();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;   <span class="keywordtype">void</span> CheckPermission(pid_t pid);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="structrsj_1_1_c_f_deleter.html">   45</a></span>&#160;   <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct</span> CFDeleter {</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="structrsj_1_1_c_f_deleter.html#a0f8b930429fdcf04864e0ac457f1659d">   46</a></span>&#160;      <span class="keywordtype">void</span> operator()(T* p)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;         <span class="keywordflow">if</span> (p)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            ::CFRelease(p);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;   };</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;   <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="namespacersj.html#a817eae200a8b549a6e7c9b6a288f5175">   54</a></span>&#160;   <span class="keyword">using</span> CFAutoRelease = std::unique_ptr&lt;<span class="keyword">typename</span> std::remove_pointer&lt;T&gt;::type,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;       CFDeleter&lt;<span class="keyword">typename</span> std::remove_pointer&lt;T&gt;::type&gt;&gt;;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;} <span class="comment">// namespace rsj</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacersj_html_a2f66b6c4ce47634151f3e40675ae62d8"><div class="ttname"><a href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath</a></div><div class="ttdeci">std::string AppLogFilePath(const std::string &amp;file_name)</div></div>

@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.0.4.0</span>
+   &#160;<span id="projectnumber">4.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -159,9 +159,9 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;         <span class="keywordflow">return</span> std::numeric_limits&lt;result_type&gt;::max();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;         <span class="keywordflow">return</span> std::numeric_limits&lt;result_type&gt;::max();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -187,9 +187,9 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;         <span class="keywordflow">return</span> std::numeric_limits&lt;result_type&gt;::min();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;         <span class="keywordflow">return</span> std::numeric_limits&lt;result_type&gt;::min();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -215,14 +215,14 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;         <a class="code" href="classrsj_1_1_p_r_n_g.html#a2a4e10282dfb5fe28addc4367b6358ce">result_type</a> z {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;             <a class="code" href="classrsj_1_1_p_r_n_g.html#a2a870b99d3ebb1b87beade59f73304d2">state_</a>.fetch_add(0x9e3779b97f4a7c15, std::memory_order_relaxed) + 0x9e3779b97f4a7c15};</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;         z = (z ^ z &gt;&gt; 30) * 0xbf58476d1ce4e5b9;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;         z = (z ^ z &gt;&gt; 27) * 0x94d049bb133111eb;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;         <span class="keywordflow">return</span> z ^ z &gt;&gt; 31;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;         static_assert(std::is_unsigned_v&lt;decltype(z)&gt;, <span class="stringliteral">&quot;Avoid sign extension&quot;</span>);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;         <a class="code" href="classrsj_1_1_p_r_n_g.html#a2a4e10282dfb5fe28addc4367b6358ce">result_type</a> z {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;             <a class="code" href="classrsj_1_1_p_r_n_g.html#a2a870b99d3ebb1b87beade59f73304d2">state_</a>.fetch_add(0x9e3779b97f4a7c15, std::memory_order_relaxed) + 0x9e3779b97f4a7c15};</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;         z = (z ^ z &gt;&gt; 30) * 0xbf58476d1ce4e5b9;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;         z = (z ^ z &gt;&gt; 27) * 0x94d049bb133111eb;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;         <span class="keywordflow">return</span> z ^ z &gt;&gt; 31;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;         static_assert(std::is_unsigned_v&lt;decltype(z)&gt;, <span class="stringliteral">&quot;Avoid sign extension&quot;</span>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="classrsj_1_1_p_r_n_g.html#a076187dbe204b863a744fd1414018041">operator()()</a>.</p>
 
@@ -250,9 +250,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;         <span class="keywordflow">return</span> <a class="code" href="classrsj_1_1_p_r_n_g.html#a7e78213f68ef5b86ff2ae0aa4388e16b">NextRandom</a>();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="classrsj_1_1_p_r_n_g.html#a7e78213f68ef5b86ff2ae0aa4388e16b">NextRandom</a>(); }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="classrsj_1_1_p_r_n_g.html#a7e78213f68ef5b86ff2ae0aa4388e16b">NextRandom()</a>.</p>
 
@@ -292,9 +290,9 @@ Static Private Attributes</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassrsj_1_1_p_r_n_g_html_a7e78213f68ef5b86ff2ae0aa4388e16b"><div class="ttname"><a href="classrsj_1_1_p_r_n_g.html#a7e78213f68ef5b86ff2ae0aa4388e16b">rsj::PRNG::NextRandom</a></div><div class="ttdeci">static result_type NextRandom() noexcept</div><div class="ttdef"><b>Definition:</b> Concurrency.h:40</div></div>
-<div class="ttc" id="aclassrsj_1_1_p_r_n_g_html_a2a870b99d3ebb1b87beade59f73304d2"><div class="ttname"><a href="classrsj_1_1_p_r_n_g.html#a2a870b99d3ebb1b87beade59f73304d2">rsj::PRNG::state_</a></div><div class="ttdeci">static std::atomic&lt; result_type &gt; state_</div><div class="ttdef"><b>Definition:</b> Concurrency.h:63</div></div>
-<div class="ttc" id="aclassrsj_1_1_p_r_n_g_html_a2a4e10282dfb5fe28addc4367b6358ce"><div class="ttname"><a href="classrsj_1_1_p_r_n_g.html#a2a4e10282dfb5fe28addc4367b6358ce">rsj::PRNG::result_type</a></div><div class="ttdeci">uint64_t result_type</div><div class="ttdef"><b>Definition:</b> Concurrency.h:39</div></div>
+<div class="ttc" id="aclassrsj_1_1_p_r_n_g_html_a7e78213f68ef5b86ff2ae0aa4388e16b"><div class="ttname"><a href="classrsj_1_1_p_r_n_g.html#a7e78213f68ef5b86ff2ae0aa4388e16b">rsj::PRNG::NextRandom</a></div><div class="ttdeci">static result_type NextRandom() noexcept</div><div class="ttdef"><b>Definition:</b> Concurrency.h:44</div></div>
+<div class="ttc" id="aclassrsj_1_1_p_r_n_g_html_a2a870b99d3ebb1b87beade59f73304d2"><div class="ttname"><a href="classrsj_1_1_p_r_n_g.html#a2a870b99d3ebb1b87beade59f73304d2">rsj::PRNG::state_</a></div><div class="ttdeci">static std::atomic&lt; result_type &gt; state_</div><div class="ttdef"><b>Definition:</b> Concurrency.h:64</div></div>
+<div class="ttc" id="aclassrsj_1_1_p_r_n_g_html_a2a4e10282dfb5fe28addc4367b6358ce"><div class="ttname"><a href="classrsj_1_1_p_r_n_g.html#a2a4e10282dfb5fe28addc4367b6358ce">rsj::PRNG::result_type</a></div><div class="ttdeci">uint64_t result_type</div><div class="ttdef"><b>Definition:</b> Concurrency.h:43</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

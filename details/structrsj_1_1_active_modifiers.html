@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.0.4.0</span>
+   &#160;<span id="projectnumber">4.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -139,14 +139,14 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;   {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      ActiveModifiers am {};</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      am.alt_opt = from &amp; 1;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      am.command = from &amp; 8;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      am.control = from &amp; 2;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      am.shift = from &amp; 4;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      <span class="keywordflow">return</span> am;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;   {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      ActiveModifiers am {};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      am.alt_opt = from &amp; 1;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      am.command = from &amp; 8;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      am.control = from &amp; 2;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      am.shift = from &amp; 4;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="keywordflow">return</span> am;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;   }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="structrsj_1_1_active_modifiers.html#a371d0ef47c6bcf9ac874335dd4a8928f">alt_opt</a>, <a class="el" href="structrsj_1_1_active_modifiers.html#ad46a01f2fe20405d3ac4bca6a9934b8e">command</a>, <a class="el" href="structrsj_1_1_active_modifiers.html#a78b0a997c4ccabbf2a2e22017a9a6d8f">control</a>, and <a class="el" href="structrsj_1_1_active_modifiers.html#a672648dd23bcb5b479057549137ccc13">shift</a>.</p>
 
@@ -175,15 +175,15 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;   {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="comment">/* shift coded as follows: 1: shift, 2: ctrl, 4: alt, 8: hankaku */</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      ActiveModifiers am {};</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      am.alt_opt = from &amp; 4;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      am.control = from &amp; 2;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      am.hankaku = from &amp; 8;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      am.shift = from &amp; 1;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <span class="keywordflow">return</span> am;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;   {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="comment">/* shift coded as follows: 1: shift, 2: ctrl, 4: alt, 8: hankaku */</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      ActiveModifiers am {};</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      am.alt_opt = from &amp; 4;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      am.control = from &amp; 2;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      am.hankaku = from &amp; 8;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      am.shift = from &amp; 1;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <span class="keywordflow">return</span> am;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;   }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="structrsj_1_1_active_modifiers.html#a371d0ef47c6bcf9ac874335dd4a8928f">alt_opt</a>, <a class="el" href="structrsj_1_1_active_modifiers.html#a78b0a997c4ccabbf2a2e22017a9a6d8f">control</a>, <a class="el" href="structrsj_1_1_active_modifiers.html#acab80a2f2d2edd0f97b3c0e3e1f28d0b">hankaku</a>, and <a class="el" href="structrsj_1_1_active_modifiers.html#a672648dd23bcb5b479057549137ccc13">shift</a>.</p>
 
@@ -202,7 +202,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="structrsj_1_1_active_modifiers.html#af8c78c7149026efddd0b39ceee4ca170">FromMidi2LR()</a>, <a class="el" href="structrsj_1_1_active_modifiers.html#aa78acabce2f33efb42bfd957a50f0662">FromWindows()</a>, and <a class="el" href="namespacersj.html#a7ef1999b70f9edef40831d04404d3761">rsj::SendKeyDownUp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="structrsj_1_1_active_modifiers.html#af8c78c7149026efddd0b39ceee4ca170">FromMidi2LR()</a>, <a class="el" href="structrsj_1_1_active_modifiers.html#aa78acabce2f33efb42bfd957a50f0662">FromWindows()</a>, and <a class="el" href="namespacersj.html#a25f50401bd3c91bb19985f25a7b0c31e">rsj::SendKeyDownUp()</a>.</p>
 
 </div>
 </div>
@@ -234,7 +234,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="structrsj_1_1_active_modifiers.html#af8c78c7149026efddd0b39ceee4ca170">FromMidi2LR()</a>, <a class="el" href="structrsj_1_1_active_modifiers.html#aa78acabce2f33efb42bfd957a50f0662">FromWindows()</a>, and <a class="el" href="namespacersj.html#a7ef1999b70f9edef40831d04404d3761">rsj::SendKeyDownUp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="structrsj_1_1_active_modifiers.html#af8c78c7149026efddd0b39ceee4ca170">FromMidi2LR()</a>, <a class="el" href="structrsj_1_1_active_modifiers.html#aa78acabce2f33efb42bfd957a50f0662">FromWindows()</a>, and <a class="el" href="namespacersj.html#a25f50401bd3c91bb19985f25a7b0c31e">rsj::SendKeyDownUp()</a>.</p>
 
 </div>
 </div>

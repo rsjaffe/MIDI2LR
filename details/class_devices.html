@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.0.4.0</span>
+   &#160;<span id="projectnumber">4.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -115,8 +115,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a87414122573f3209ae89eec07579ff89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2eefc218e57fbe2c8ac0b9ec6060f05"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_devices.html#af2eefc218e57fbe2c8ac0b9ec6060f05">Enabled</a> (const juce::MidiDeviceInfo &amp;info, juce::String io) const</td></tr>
 <tr class="separator:af2eefc218e57fbe2c8ac0b9ec6060f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a065a6a233db44ccd5627c4534bcb4a3f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_devices.html#a065a6a233db44ccd5627c4534bcb4a3f">EnabledOrNew</a> (const juce::MidiDeviceInfo &amp;info, juce::String io)</td></tr>
-<tr class="separator:a065a6a233db44ccd5627c4534bcb4a3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1422ea1542473f126633f82087634b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_devices.html#ac1422ea1542473f126633f82087634b0">EnabledOrNew</a> (const juce::MidiDeviceInfo &amp;info, const juce::String &amp;io)</td></tr>
+<tr class="separator:ac1422ea1542473f126633f82087634b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebcebd1870f16909662a9d878fe40de7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_devices.html">Devices</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_devices.html#aebcebd1870f16909662a9d878fe40de7">operator=</a> (const <a class="el" href="class_devices.html">Devices</a> &amp;other)=delete</td></tr>
 <tr class="separator:aebcebd1870f16909662a9d878fe40de7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ad882bb7822a325c86a2abbb02d2391"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_devices.html">Devices</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_devices.html#a2ad882bb7822a325c86a2abbb02d2391">operator=</a> (<a class="el" href="class_devices.html">Devices</a> &amp;&amp;other) noexcept=default</td></tr>
@@ -377,8 +377,8 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a065a6a233db44ccd5627c4534bcb4a3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a065a6a233db44ccd5627c4534bcb4a3f">&#9670;&nbsp;</a></span>EnabledOrNew()</h2>
+<a id="ac1422ea1542473f126633f82087634b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1422ea1542473f126633f82087634b0">&#9670;&nbsp;</a></span>EnabledOrNew()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -392,7 +392,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">juce::String&#160;</td>
+          <td class="paramtype">const juce::String &amp;&#160;</td>
           <td class="paramname"><em>io</em>&#160;</td>
         </tr>
         <tr>
@@ -585,15 +585,15 @@ Private Attributes</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclass_devices_html_a1dd210727694b0ddf21826f1cb191c05"><div class="ttname"><a href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">Devices::data_list_</a></div><div class="ttdeci">juce::XmlElement * data_list_</div><div class="ttdef"><b>Definition:</b> Devices.h:93</div></div>
-<div class="ttc" id="aclass_devices_html_a78d63d5c7df827256f7d71870e597644"><div class="ttname"><a href="class_devices.html#a78d63d5c7df827256f7d71870e597644">Devices::num_rows_</a></div><div class="ttdeci">int num_rows_</div><div class="ttdef"><b>Definition:</b> Devices.h:94</div></div>
-<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:212</div></div>
-<div class="ttc" id="aclass_devices_html_aef0eab8753ced3201db679a4b1d718b9"><div class="ttname"><a href="class_devices.html#aef0eab8753ced3201db679a4b1d718b9">Devices::column_list_</a></div><div class="ttdeci">juce::XmlElement * column_list_</div><div class="ttdef"><b>Definition:</b> Devices.h:92</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:192</div></div>
-<div class="ttc" id="aclass_devices_html_ad04a115b64234c6872aaeffc4c0160f2"><div class="ttname"><a href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">Devices::device_listing_</a></div><div class="ttdeci">std::map&lt; DevInfo, bool &gt; device_listing_</div><div class="ttdef"><b>Definition:</b> Devices.h:90</div></div>
+<div class="ttc" id="aclass_devices_html_a1dd210727694b0ddf21826f1cb191c05"><div class="ttname"><a href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">Devices::data_list_</a></div><div class="ttdeci">juce::XmlElement * data_list_</div><div class="ttdef"><b>Definition:</b> Devices.h:90</div></div>
+<div class="ttc" id="aclass_devices_html_a78d63d5c7df827256f7d71870e597644"><div class="ttname"><a href="class_devices.html#a78d63d5c7df827256f7d71870e597644">Devices::num_rows_</a></div><div class="ttdeci">int num_rows_</div><div class="ttdef"><b>Definition:</b> Devices.h:91</div></div>
+<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:213</div></div>
+<div class="ttc" id="aclass_devices_html_aef0eab8753ced3201db679a4b1d718b9"><div class="ttname"><a href="class_devices.html#aef0eab8753ced3201db679a4b1d718b9">Devices::column_list_</a></div><div class="ttdeci">juce::XmlElement * column_list_</div><div class="ttdef"><b>Definition:</b> Devices.h:89</div></div>
+<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:193</div></div>
+<div class="ttc" id="aclass_devices_html_ad04a115b64234c6872aaeffc4c0160f2"><div class="ttname"><a href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">Devices::device_listing_</a></div><div class="ttdeci">std::map&lt; DevInfo, bool &gt; device_listing_</div><div class="ttdef"><b>Definition:</b> Devices.h:87</div></div>
 <div class="ttc" id="anamespacersj_html_ad9fd7ddfd6792dd72b9f217e9d7967c3"><div class="ttname"><a href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a></div><div class="ttdeci">std::string AppDataFilePath(const std::string &amp;file_name)</div></div>
 <div class="ttc" id="aclass_devices_html_af2eefc218e57fbe2c8ac0b9ec6060f05"><div class="ttname"><a href="class_devices.html#af2eefc218e57fbe2c8ac0b9ec6060f05">Devices::Enabled</a></div><div class="ttdeci">bool Enabled(const juce::MidiDeviceInfo &amp;info, juce::String io) const</div><div class="ttdef"><b>Definition:</b> Devices.cpp:115</div></div>
-<div class="ttc" id="aclass_devices_html_abc356d82a06fb846454d42633126a4d4"><div class="ttname"><a href="class_devices.html#abc356d82a06fb846454d42633126a4d4">Devices::device_xml_</a></div><div class="ttdeci">std::unique_ptr&lt; juce::XmlElement &gt; device_xml_</div><div class="ttdef"><b>Definition:</b> Devices.h:91</div></div>
+<div class="ttc" id="aclass_devices_html_abc356d82a06fb846454d42633126a4d4"><div class="ttname"><a href="class_devices.html#abc356d82a06fb846454d42633126a4d4">Devices::device_xml_</a></div><div class="ttdeci">std::unique_ptr&lt; juce::XmlElement &gt; device_xml_</div><div class="ttdef"><b>Definition:</b> Devices.h:88</div></div>
 <div class="ttc" id="aclass_devices_html_a87414122573f3209ae89eec07579ff89"><div class="ttname"><a href="class_devices.html#a87414122573f3209ae89eec07579ff89">Devices::Add</a></div><div class="ttdeci">bool Add(const juce::MidiDeviceInfo &amp;info, const juce::String &amp;io)</div><div class="ttdef"><b>Definition:</b> Devices.cpp:91</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

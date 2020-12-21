@@ -7,7 +7,7 @@ var class_devices =
     [ "Devices", "class_devices.html#aa9a9f9233e85dad185bc33cb15cf05f8", null ],
     [ "Add", "class_devices.html#a87414122573f3209ae89eec07579ff89", null ],
     [ "Enabled", "class_devices.html#af2eefc218e57fbe2c8ac0b9ec6060f05", null ],
-    [ "EnabledOrNew", "class_devices.html#a065a6a233db44ccd5627c4534bcb4a3f", null ],
+    [ "EnabledOrNew", "class_devices.html#ac1422ea1542473f126633f82087634b0", null ],
     [ "operator=", "class_devices.html#aebcebd1870f16909662a9d878fe40de7", null ],
     [ "operator=", "class_devices.html#a2ad882bb7822a325c86a2abbb02d2391", null ],
     [ "column_list_", "class_devices.html#aef0eab8753ced3201db679a4b1d718b9", null ],

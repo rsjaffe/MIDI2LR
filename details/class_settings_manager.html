@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.0.4.0</span>
+   &#160;<span id="projectnumber">4.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -320,7 +320,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keyword">const</span> <a class="code" href="class_debug_info.html">DebugInfo</a> db {<a class="code" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>()};</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <a class="code" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(<span class="stringliteral">&quot;AppInfoClear 1\n&quot;</span>);</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; info : db.GetInfo()) {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;               <a class="code" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(<span class="stringliteral">&quot;AppInfo &quot;</span> + info + <span class="charliteral">&#39;\n&#39;</span>);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;               <a class="code" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;AppInfo {}\n&quot;</span>), info));</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            }</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <a class="code" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(<span class="stringliteral">&quot;AppInfoDone 1\n&quot;</span>);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <a class="code" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(<span class="stringliteral">&quot;GetPluginInfo 1\n&quot;</span>);</div>
@@ -357,9 +357,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;   {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;getIntValue(<span class="stringliteral">&quot;autohide&quot;</span>, 0);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;   {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;getIntValue(<span class="stringliteral">&quot;autohide&quot;</span>, 0);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -385,9 +385,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;   {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;getValue(<span class="stringliteral">&quot;default_profile&quot;</span>);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;   {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;getValue(<span class="stringliteral">&quot;default_profile&quot;</span>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -413,10 +413,12 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;   {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;getIntValue(<span class="stringliteral">&quot;LastVersionFound&quot;</span>, 0);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;   {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;getIntValue(<span class="stringliteral">&quot;LastVersionFound&quot;</span>, 0);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;   }</div>
 </div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="class_version_checker.html#a7373fdc96ead41b3f5c79acd77f0c6b3">VersionChecker::Run()</a>.</p>
+
 </div>
 </div>
 <a id="ad3c2351b353983433605b1c936b2f77b"></a>
@@ -441,9 +443,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;   {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;getBoolValue(<span class="stringliteral">&quot;pickup_enabled&quot;</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;   {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;getBoolValue(<span class="stringliteral">&quot;pickup_enabled&quot;</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -469,9 +471,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;   {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;getValue(<span class="stringliteral">&quot;profile_directory&quot;</span>);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;   {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;getValue(<span class="stringliteral">&quot;profile_directory&quot;</span>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -550,9 +552,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;   {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;setValue(<span class="stringliteral">&quot;autohide&quot;</span>, new_time);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{ <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;setValue(<span class="stringliteral">&quot;autohide&quot;</span>, new_time); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -579,9 +579,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;   {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;setValue(<span class="stringliteral">&quot;default_profile&quot;</span>, default_profile);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;   {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;setValue(<span class="stringliteral">&quot;default_profile&quot;</span>, default_profile);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -608,10 +608,12 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;   {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;setValue(<span class="stringliteral">&quot;LastVersionFound&quot;</span>, version_number);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;   {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;setValue(<span class="stringliteral">&quot;LastVersionFound&quot;</span>, version_number);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;   }</div>
 </div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="class_version_checker.html#a7373fdc96ead41b3f5c79acd77f0c6b3">VersionChecker::Run()</a>.</p>
+
 </div>
 </div>
 <a id="a838cdaffb2fccb100bd18985d6ea1337"></a>
@@ -637,10 +639,10 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;   {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;setValue(<span class="stringliteral">&quot;pickup_enabled&quot;</span>, enabled);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <a class="code" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(std::string(<span class="stringliteral">&quot;Pickup &quot;</span>) + (enabled ? <span class="charliteral">&#39;1&#39;</span> : <span class="charliteral">&#39;0&#39;</span>) + <span class="charliteral">&#39;\n&#39;</span>);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;   {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;setValue(<span class="stringliteral">&quot;pickup_enabled&quot;</span>, enabled);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <a class="code" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Pickup {}\n&quot;</span>), enabled ? <span class="charliteral">&#39;1&#39;</span> : <span class="charliteral">&#39;0&#39;</span>));</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -667,10 +669,10 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;   {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;setValue(<span class="stringliteral">&quot;profile_directory&quot;</span>, profile_directory);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <a class="code" href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">profile_manager_</a>.<a class="code" href="class_profile_manager.html#acb0cff45331b1e60e58b247efcfb5bf8">SetProfileDirectory</a>(profile_directory);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;   }</div>
+<div class="fragment"><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;   {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;setValue(<span class="stringliteral">&quot;profile_directory&quot;</span>, profile_directory);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <a class="code" href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">profile_manager_</a>.<a class="code" href="class_profile_manager.html#acb0cff45331b1e60e58b247efcfb5bf8">SetProfileDirectory</a>(profile_directory);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -747,17 +749,17 @@ Private Attributes</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclass_settings_manager_html_ace80bfa9373c5f1613b202e612fef025"><div class="ttname"><a href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">SettingsManager::properties_file_</a></div><div class="ttdeci">std::unique_ptr&lt; juce::PropertiesFile &gt; properties_file_</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:83</div></div>
-<div class="ttc" id="aclass_settings_manager_html_ad3c2351b353983433605b1c936b2f77b"><div class="ttname"><a href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">SettingsManager::GetPickupEnabled</a></div><div class="ttdeci">bool GetPickupEnabled() const noexcept</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:46</div></div>
-<div class="ttc" id="aclass_settings_manager_html_adc8d58846516e741e4c3940945100c83"><div class="ttname"><a href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">SettingsManager::GetProfileDirectory</a></div><div class="ttdeci">juce::String GetProfileDirectory() const noexcept</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:50</div></div>
+<div class="ttc" id="aclass_settings_manager_html_ace80bfa9373c5f1613b202e612fef025"><div class="ttname"><a href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">SettingsManager::properties_file_</a></div><div class="ttdeci">std::unique_ptr&lt; juce::PropertiesFile &gt; properties_file_</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:82</div></div>
+<div class="ttc" id="aclass_settings_manager_html_ad3c2351b353983433605b1c936b2f77b"><div class="ttname"><a href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">SettingsManager::GetPickupEnabled</a></div><div class="ttdeci">bool GetPickupEnabled() const noexcept</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:48</div></div>
+<div class="ttc" id="aclass_settings_manager_html_adc8d58846516e741e4c3940945100c83"><div class="ttname"><a href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">SettingsManager::GetProfileDirectory</a></div><div class="ttdeci">juce::String GetProfileDirectory() const noexcept</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:52</div></div>
 <div class="ttc" id="aclass_debug_info_html"><div class="ttname"><a href="class_debug_info.html">DebugInfo</a></div><div class="ttdef"><b>Definition:</b> DebugInfo.h:25</div></div>
-<div class="ttc" id="aclass_settings_manager_html_afcb8cc77d01b25a3ff7b2713dbb84011"><div class="ttname"><a href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">SettingsManager::profile_manager_</a></div><div class="ttdeci">ProfileManager &amp; profile_manager_</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:82</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:192</div></div>
-<div class="ttc" id="aclass_profile_manager_html_acb0cff45331b1e60e58b247efcfb5bf8"><div class="ttname"><a href="class_profile_manager.html#acb0cff45331b1e60e58b247efcfb5bf8">ProfileManager::SetProfileDirectory</a></div><div class="ttdeci">void SetProfileDirectory(const juce::File &amp;directory)</div><div class="ttdef"><b>Definition:</b> ProfileManager.cpp:39</div></div>
+<div class="ttc" id="aclass_settings_manager_html_afcb8cc77d01b25a3ff7b2713dbb84011"><div class="ttname"><a href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">SettingsManager::profile_manager_</a></div><div class="ttdeci">ProfileManager &amp; profile_manager_</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:81</div></div>
+<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:193</div></div>
+<div class="ttc" id="aclass_profile_manager_html_acb0cff45331b1e60e58b247efcfb5bf8"><div class="ttname"><a href="class_profile_manager.html#acb0cff45331b1e60e58b247efcfb5bf8">ProfileManager::SetProfileDirectory</a></div><div class="ttdeci">void SetProfileDirectory(const juce::File &amp;directory)</div><div class="ttdef"><b>Definition:</b> ProfileManager.cpp:40</div></div>
 <div class="ttc" id="aclass_lr_ipc_out_html_a868d8f460f4f2140e177d74d1210f254"><div class="ttname"><a href="class_lr_ipc_out.html#a868d8f460f4f2140e177d74d1210f254">LrIpcOut::AddCallback</a></div><div class="ttdeci">void AddCallback(_In_ T *const object, _In_ void(T::*const mf)(bool, bool))</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.h:46</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_ae1e40469ef8e53e58ef1c833774f8dac"><div class="ttname"><a href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">LrIpcOut::SendCommand</a></div><div class="ttdeci">void SendCommand(std::string &amp;&amp;command)</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.cpp:55</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_ae1e40469ef8e53e58ef1c833774f8dac"><div class="ttname"><a href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">LrIpcOut::SendCommand</a></div><div class="ttdeci">void SendCommand(std::string &amp;&amp;command)</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.h:53</div></div>
 <div class="ttc" id="aclass_settings_manager_html_a0f59381a05adefe4ed87846127092ba8"><div class="ttname"><a href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8">SettingsManager::ConnectionCallback</a></div><div class="ttdeci">void ConnectionCallback(bool, bool)</div><div class="ttdef"><b>Definition:</b> SettingsManager.cpp:50</div></div>
-<div class="ttc" id="aclass_settings_manager_html_ad065363b99b0db676f60ebfc249f2e22"><div class="ttname"><a href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">SettingsManager::lr_ipc_out_</a></div><div class="ttdeci">LrIpcOut &amp; lr_ipc_out_</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:81</div></div>
+<div class="ttc" id="aclass_settings_manager_html_ad065363b99b0db676f60ebfc249f2e22"><div class="ttname"><a href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">SettingsManager::lr_ipc_out_</a></div><div class="ttdeci">LrIpcOut &amp; lr_ipc_out_</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:80</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

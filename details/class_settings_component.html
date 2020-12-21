@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.0.4.0</span>
+   &#160;<span id="projectnumber">4.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -173,10 +173,14 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    : ResizableLayout {<span class="keyword">this</span>}, <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a> {settings_manager}</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    : ResizableLayout {<span class="keyword">this</span>}, <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a> {settings_manager}</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="class_settings_component.html#a99d9cc142ad64122c1cb3768f006543d">SettingsComponent()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_settings_component.html#a99d9cc142ad64122c1cb3768f006543d">SettingsComponent()</a>.</p>
+
 </div>
 </div>
 <a id="a7a4688bc9cfe9c8868124bd62f5d8a4d"></a>
@@ -271,104 +275,104 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      setSize(kSettingsWidth, kSettingsHeight);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <a class="code" href="class_settings_component.html#a5a940179ee85980b89f17976ed58bfa3">pickup_group_</a>.setText(juce::translate(<span class="stringliteral">&quot;Pick up&quot;</span>));</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <a class="code" href="class_settings_component.html#a5a940179ee85980b89f17976ed58bfa3">pickup_group_</a>.setBounds(0, 0, kSettingsWidth, 100);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#a5a940179ee85980b89f17976ed58bfa3">pickup_group_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#a5a940179ee85980b89f17976ed58bfa3">pickup_group_</a>);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>.setFont(juce::Font {16.f, juce::Font::bold});</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>.setText(juce::translate(<span class="stringliteral">&quot;Disabling the pickup mode may be better for &quot;</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                                            <span class="stringliteral">&quot;touchscreen interfaces and may solve issues with &quot;</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                            <span class="stringliteral">&quot;Lightroom not picking up fast fader/knob movements&quot;</span>),</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;          juce::NotificationType::dontSendNotification);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>.setBounds(kSettingsLeft, 15, kSettingsWidth - 2 * kSettingsLeft, 50);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>.setEditable(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>.setColour(juce::Label::textColourId, juce::Colours::darkgrey);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <a class="code" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>.setToggleState(</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;          <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">GetPickupEnabled</a>(), juce::NotificationType::dontSendNotification);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <a class="code" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>.setBounds(kSettingsLeft, 60, kSettingsWidth - 2 * kSettingsLeft,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;          32); <span class="comment">//-V112</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <a class="code" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>.onClick = [<span class="keyword">this</span>] {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> pickup_state {<a class="code" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>.getToggleState()};</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;         <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#a838cdaffb2fccb100bd18985d6ea1337">SetPickupEnabled</a>(pickup_state);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(pickup_state ? <span class="stringliteral">&quot;Pickup set to enabled.&quot;</span> : <span class="stringliteral">&quot;Pickup set to disabled.&quot;</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      };</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="comment">/* profile */</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <a class="code" href="class_settings_component.html#a222ff0fd93e54e7bc52ec0d7250f38c5">profile_group_</a>.setText(juce::translate(<span class="stringliteral">&quot;Profile&quot;</span>));</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <a class="code" href="class_settings_component.html#a222ff0fd93e54e7bc52ec0d7250f38c5">profile_group_</a>.setBounds(0, 100, kSettingsWidth, 100);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#a222ff0fd93e54e7bc52ec0d7250f38c5">profile_group_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#a222ff0fd93e54e7bc52ec0d7250f38c5">profile_group_</a>);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      <a class="code" href="class_settings_component.html#ac8a3ae31bce6bd1452258b185e39add6">profile_location_button_</a>.setBounds(</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;          kSettingsLeft, 120, kSettingsWidth - 2 * kSettingsLeft, 25);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#ac8a3ae31bce6bd1452258b185e39add6">profile_location_button_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#ac8a3ae31bce6bd1452258b185e39add6">profile_location_button_</a>);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      <a class="code" href="class_settings_component.html#ac8a3ae31bce6bd1452258b185e39add6">profile_location_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;         juce::FileChooser chooser {juce::translate(<span class="stringliteral">&quot;Select Folder&quot;</span>),</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;             juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), <span class="stringliteral">&quot;&quot;</span>, <span class="keyword">true</span>};</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;         <span class="keywordflow">if</span> (chooser.browseForDirectory()) {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> profile_location {chooser.getResult().getFullPathName()};</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b">SetProfileDirectory</a>(profile_location);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                FMT_STRING(<span class="stringliteral">&quot;Profile location set to {}.&quot;</span>), profile_location.toStdString()));</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>.setText(</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                profile_location, juce::NotificationType::dontSendNotification);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;         }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      };</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>.setEditable(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>.setBounds(kSettingsLeft, 145, kSettingsWidth - 2 * kSettingsLeft, 30);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>.setColour(juce::Label::textColourId, juce::Colours::darkgrey);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>.setText(</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;          <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>(), juce::NotificationType::dontSendNotification);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      <span class="comment">/* autohide */</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <a class="code" href="class_settings_component.html#ad72c07e03e96de1113929c7c558044c9">autohide_group_</a>.setText(juce::translate(<span class="stringliteral">&quot;Auto hide&quot;</span>));</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <a class="code" href="class_settings_component.html#ad72c07e03e96de1113929c7c558044c9">autohide_group_</a>.setBounds(0, 200, kSettingsWidth, 100);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#ad72c07e03e96de1113929c7c558044c9">autohide_group_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#ad72c07e03e96de1113929c7c558044c9">autohide_group_</a>);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      <a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>.setFont(juce::Font {16.f, juce::Font::bold});</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>.setText(juce::translate(<span class="stringliteral">&quot;Autohide the plugin window in x seconds, &quot;</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                                                      <span class="stringliteral">&quot;select 0 for disabling autohide&quot;</span>),</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;          juce::NotificationType::dontSendNotification);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      <a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>.setBounds(kSettingsLeft, 215, kSettingsWidth - 2 * kSettingsLeft, 50);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;      <a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>.setEditable(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      <a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>.setFont(juce::Font {16.f, juce::Font::bold});</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;      <a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>.setColour(juce::Label::textColourId, juce::Colours::darkgrey);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;      <a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>.setBounds(kSettingsLeft, 245, kSettingsWidth - 2 * kSettingsLeft, 50);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      <a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>.setRange(0, 10, 1);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      <a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>.setValue(</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;          <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd">GetAutoHideTime</a>(), juce::NotificationType::dontSendNotification);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>);</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      <a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>.onValueChange = [<span class="keyword">this</span>] {</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;         <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#ae7ffc72fc568559369271dd1497da53b">SetAutoHideTime</a>(<a class="code" href="namespacersj.html#ab379048e807318f10deda9a1ddf0a345">rsj::RoundToInt</a>(<a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>.getValue()));</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;             FMT_STRING(<span class="stringliteral">&quot;Autohide time set to {} seconds.&quot;</span>), <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd">GetAutoHideTime</a>()));</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;      };</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      <span class="comment">/* turn it on */</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      activateLayout();</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;   }</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;   }</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      setSize(kSettingsWidth, kSettingsHeight);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <a class="code" href="class_settings_component.html#a5a940179ee85980b89f17976ed58bfa3">pickup_group_</a>.setText(juce::translate(<span class="stringliteral">&quot;Pick up&quot;</span>));</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <a class="code" href="class_settings_component.html#a5a940179ee85980b89f17976ed58bfa3">pickup_group_</a>.setBounds(0, 0, kSettingsWidth, 100);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#a5a940179ee85980b89f17976ed58bfa3">pickup_group_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#a5a940179ee85980b89f17976ed58bfa3">pickup_group_</a>);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>.setFont(juce::Font {16.f, juce::Font::bold});</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>.setText(juce::translate(<span class="stringliteral">&quot;Disabling the pickup mode may be better for &quot;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                            <span class="stringliteral">&quot;touchscreen interfaces and may solve issues with &quot;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                            <span class="stringliteral">&quot;Lightroom not picking up fast fader/knob movements&quot;</span>),</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;          juce::NotificationType::dontSendNotification);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>.setBounds(kSettingsLeft, 15, kSettingsWidth - 2 * kSettingsLeft, 50);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>.setEditable(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>.setColour(juce::Label::textColourId, juce::Colours::darkgrey);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">pickup_label_</a>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <a class="code" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>.setToggleState(</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;          <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">GetPickupEnabled</a>(), juce::NotificationType::dontSendNotification);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <a class="code" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>.setBounds(kSettingsLeft, 60, kSettingsWidth - 2 * kSettingsLeft,</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;          32); <span class="comment">//-V112</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <a class="code" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>.onClick = [<span class="keyword">this</span>] {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> pickup_state {<a class="code" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>.getToggleState()};</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;         <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#a838cdaffb2fccb100bd18985d6ea1337">SetPickupEnabled</a>(pickup_state);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(pickup_state ? <span class="stringliteral">&quot;Pickup set to enabled.&quot;</span> : <span class="stringliteral">&quot;Pickup set to disabled.&quot;</span>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      };</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <span class="comment">/* profile */</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <a class="code" href="class_settings_component.html#a222ff0fd93e54e7bc52ec0d7250f38c5">profile_group_</a>.setText(juce::translate(<span class="stringliteral">&quot;Profile&quot;</span>));</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <a class="code" href="class_settings_component.html#a222ff0fd93e54e7bc52ec0d7250f38c5">profile_group_</a>.setBounds(0, 100, kSettingsWidth, 100);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#a222ff0fd93e54e7bc52ec0d7250f38c5">profile_group_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#a222ff0fd93e54e7bc52ec0d7250f38c5">profile_group_</a>);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <a class="code" href="class_settings_component.html#ac8a3ae31bce6bd1452258b185e39add6">profile_location_button_</a>.setBounds(</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;          kSettingsLeft, 120, kSettingsWidth - 2 * kSettingsLeft, 25);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#ac8a3ae31bce6bd1452258b185e39add6">profile_location_button_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#ac8a3ae31bce6bd1452258b185e39add6">profile_location_button_</a>);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      <a class="code" href="class_settings_component.html#ac8a3ae31bce6bd1452258b185e39add6">profile_location_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;         juce::FileChooser chooser {juce::translate(<span class="stringliteral">&quot;Select Folder&quot;</span>),</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;             juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), <span class="stringliteral">&quot;&quot;</span>, <span class="keyword">true</span>};</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;         <span class="keywordflow">if</span> (chooser.browseForDirectory()) {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> profile_location {chooser.getResult().getFullPathName()};</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b">SetProfileDirectory</a>(profile_location);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                FMT_STRING(<span class="stringliteral">&quot;Profile location set to {}.&quot;</span>), profile_location.toStdString()));</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>.setText(</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                profile_location, juce::NotificationType::dontSendNotification);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;         }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      };</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>.setEditable(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>.setBounds(kSettingsLeft, 145, kSettingsWidth - 2 * kSettingsLeft, 30);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      <a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>.setColour(juce::Label::textColourId, juce::Colours::darkgrey);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      <a class="code" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>.setText(</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;          <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>(), juce::NotificationType::dontSendNotification);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <span class="comment">/* autohide */</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <a class="code" href="class_settings_component.html#ad72c07e03e96de1113929c7c558044c9">autohide_group_</a>.setText(juce::translate(<span class="stringliteral">&quot;Auto hide&quot;</span>));</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      <a class="code" href="class_settings_component.html#ad72c07e03e96de1113929c7c558044c9">autohide_group_</a>.setBounds(0, 200, kSettingsWidth, 100);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#ad72c07e03e96de1113929c7c558044c9">autohide_group_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#ad72c07e03e96de1113929c7c558044c9">autohide_group_</a>);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>.setFont(juce::Font {16.f, juce::Font::bold});</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      <a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>.setText(juce::translate(<span class="stringliteral">&quot;Autohide the plugin window in x seconds, &quot;</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                                      <span class="stringliteral">&quot;select 0 for disabling autohide&quot;</span>),</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;          juce::NotificationType::dontSendNotification);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      <a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>.setBounds(kSettingsLeft, 215, kSettingsWidth - 2 * kSettingsLeft, 50);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      <a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>.setEditable(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;      <a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>.setFont(juce::Font {16.f, juce::Font::bold});</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;      <a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>.setColour(juce::Label::textColourId, juce::Colours::darkgrey);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">autohide_explain_label_</a>);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      <a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>.setBounds(kSettingsLeft, 245, kSettingsWidth - 2 * kSettingsLeft, 50);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      <a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>.setRange(0, 10, 1);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      <a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>.setValue(</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;          <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd">GetAutoHideTime</a>(), juce::NotificationType::dontSendNotification);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      addToLayout(&amp;<a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      addAndMakeVisible(<a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;      <a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>.onValueChange = [<span class="keyword">this</span>] {</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;         <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#ae7ffc72fc568559369271dd1497da53b">SetAutoHideTime</a>(std::lrint(<a class="code" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>.getValue()));</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;             FMT_STRING(<span class="stringliteral">&quot;Autohide time set to {} seconds.&quot;</span>), <a class="code" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code" href="class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd">GetAutoHideTime</a>()));</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      };</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      <span class="comment">/* turn it on */</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      activateLayout();</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;   }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;   }</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -447,15 +451,15 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;{ <span class="comment">//-V2009 overridden method</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;      g.fillAll(juce::Colours::white); <span class="comment">/* clear the background */</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;   }</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;   }</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;{ <span class="comment">//-V2009 overridden method</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;      g.fillAll(juce::Colours::white); <span class="comment">/* clear the background */</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;   }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;   }</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -686,19 +690,18 @@ Private Attributes</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclass_settings_manager_html_a3f72426f5881bed364d70b41f52844cd"><div class="ttname"><a href="class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd">SettingsManager::GetAutoHideTime</a></div><div class="ttdeci">int GetAutoHideTime() const noexcept</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:34</div></div>
-<div class="ttc" id="aclass_settings_manager_html_ad3c2351b353983433605b1c936b2f77b"><div class="ttname"><a href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">SettingsManager::GetPickupEnabled</a></div><div class="ttdeci">bool GetPickupEnabled() const noexcept</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:46</div></div>
-<div class="ttc" id="aclass_settings_manager_html_adc8d58846516e741e4c3940945100c83"><div class="ttname"><a href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">SettingsManager::GetProfileDirectory</a></div><div class="ttdeci">juce::String GetProfileDirectory() const noexcept</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:50</div></div>
-<div class="ttc" id="aclass_settings_manager_html_af9bc82888f253394d2ae8c9015bab30b"><div class="ttname"><a href="class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b">SettingsManager::SetProfileDirectory</a></div><div class="ttdeci">void SetProfileDirectory(const juce::String &amp;profile_directory)</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:72</div></div>
+<div class="ttc" id="aclass_settings_manager_html_a3f72426f5881bed364d70b41f52844cd"><div class="ttname"><a href="class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd">SettingsManager::GetAutoHideTime</a></div><div class="ttdeci">int GetAutoHideTime() const noexcept</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:36</div></div>
+<div class="ttc" id="aclass_settings_manager_html_ad3c2351b353983433605b1c936b2f77b"><div class="ttname"><a href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">SettingsManager::GetPickupEnabled</a></div><div class="ttdeci">bool GetPickupEnabled() const noexcept</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:48</div></div>
+<div class="ttc" id="aclass_settings_manager_html_adc8d58846516e741e4c3940945100c83"><div class="ttname"><a href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">SettingsManager::GetProfileDirectory</a></div><div class="ttdeci">juce::String GetProfileDirectory() const noexcept</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:52</div></div>
+<div class="ttc" id="aclass_settings_manager_html_af9bc82888f253394d2ae8c9015bab30b"><div class="ttname"><a href="class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b">SettingsManager::SetProfileDirectory</a></div><div class="ttdeci">void SetProfileDirectory(const juce::String &amp;profile_directory)</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:71</div></div>
 <div class="ttc" id="aclass_settings_component_html_a222ff0fd93e54e7bc52ec0d7250f38c5"><div class="ttname"><a href="class_settings_component.html#a222ff0fd93e54e7bc52ec0d7250f38c5">SettingsComponent::profile_group_</a></div><div class="ttdeci">juce::GroupComponent profile_group_</div><div class="ttdef"><b>Definition:</b> SettingsComponent.h:41</div></div>
 <div class="ttc" id="aclass_settings_component_html_a812c07641b8e7a0a98dcb438f86c99ee"><div class="ttname"><a href="class_settings_component.html#a812c07641b8e7a0a98dcb438f86c99ee">SettingsComponent::pickup_label_</a></div><div class="ttdeci">juce::Label pickup_label_</div><div class="ttdef"><b>Definition:</b> SettingsComponent.h:43</div></div>
-<div class="ttc" id="aclass_settings_manager_html_a838cdaffb2fccb100bd18985d6ea1337"><div class="ttname"><a href="class_settings_manager.html#a838cdaffb2fccb100bd18985d6ea1337">SettingsManager::SetPickupEnabled</a></div><div class="ttdeci">void SetPickupEnabled(bool enabled)</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:67</div></div>
-<div class="ttc" id="anamespacersj_html_ab379048e807318f10deda9a1ddf0a345"><div class="ttname"><a href="namespacersj.html#ab379048e807318f10deda9a1ddf0a345">rsj::RoundToInt</a></div><div class="ttdeci">int RoundToInt(float source)</div><div class="ttdef"><b>Definition:</b> Misc.h:151</div></div>
+<div class="ttc" id="aclass_settings_manager_html_a838cdaffb2fccb100bd18985d6ea1337"><div class="ttname"><a href="class_settings_manager.html#a838cdaffb2fccb100bd18985d6ea1337">SettingsManager::SetPickupEnabled</a></div><div class="ttdeci">void SetPickupEnabled(bool enabled)</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:66</div></div>
 <div class="ttc" id="aclass_settings_component_html_ac8a3ae31bce6bd1452258b185e39add6"><div class="ttname"><a href="class_settings_component.html#ac8a3ae31bce6bd1452258b185e39add6">SettingsComponent::profile_location_button_</a></div><div class="ttdeci">juce::TextButton profile_location_button_</div><div class="ttdef"><b>Definition:</b> SettingsComponent.h:46</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:192</div></div>
+<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:193</div></div>
 <div class="ttc" id="aclass_settings_component_html_a712c728c2cb956ac307dd6081cbe19e6"><div class="ttname"><a href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">SettingsComponent::pickup_enabled_</a></div><div class="ttdeci">juce::ToggleButton pickup_enabled_</div><div class="ttdef"><b>Definition:</b> SettingsComponent.h:47</div></div>
 <div class="ttc" id="aclass_settings_component_html_a5a940179ee85980b89f17976ed58bfa3"><div class="ttname"><a href="class_settings_component.html#a5a940179ee85980b89f17976ed58bfa3">SettingsComponent::pickup_group_</a></div><div class="ttdeci">juce::GroupComponent pickup_group_</div><div class="ttdef"><b>Definition:</b> SettingsComponent.h:40</div></div>
-<div class="ttc" id="aclass_settings_manager_html_ae7ffc72fc568559369271dd1497da53b"><div class="ttname"><a href="class_settings_manager.html#ae7ffc72fc568559369271dd1497da53b">SettingsManager::SetAutoHideTime</a></div><div class="ttdeci">void SetAutoHideTime(int new_time)</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:55</div></div>
+<div class="ttc" id="aclass_settings_manager_html_ae7ffc72fc568559369271dd1497da53b"><div class="ttname"><a href="class_settings_manager.html#ae7ffc72fc568559369271dd1497da53b">SettingsManager::SetAutoHideTime</a></div><div class="ttdeci">void SetAutoHideTime(int new_time)</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:57</div></div>
 <div class="ttc" id="aclass_settings_component_html_a365024c4fa8fb199f558fc2e98d238b5"><div class="ttname"><a href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">SettingsComponent::profile_location_label_</a></div><div class="ttdeci">juce::Label profile_location_label_</div><div class="ttdef"><b>Definition:</b> SettingsComponent.h:44</div></div>
 <div class="ttc" id="aclass_settings_component_html_ad72c07e03e96de1113929c7c558044c9"><div class="ttname"><a href="class_settings_component.html#ad72c07e03e96de1113929c7c558044c9">SettingsComponent::autohide_group_</a></div><div class="ttdeci">juce::GroupComponent autohide_group_</div><div class="ttdef"><b>Definition:</b> SettingsComponent.h:39</div></div>
 <div class="ttc" id="aclass_settings_component_html_a55053eacfda31da77c3b47df31d08a90"><div class="ttname"><a href="class_settings_component.html#a55053eacfda31da77c3b47df31d08a90">SettingsComponent::autohide_explain_label_</a></div><div class="ttdeci">juce::Label autohide_explain_label_</div><div class="ttdef"><b>Definition:</b> SettingsComponent.h:42</div></div>

@@ -1,6 +1,6 @@
 var class_controls_model =
 [
-    [ "ControllerToPlugin", "class_controls_model.html#a65cd81b61070ad2b2c33c2f1e741cfb0", null ],
+    [ "ControllerToPlugin", "class_controls_model.html#af1978533a6696b6cc2c43b9ca7fa94cf", null ],
     [ "GetCcMax", "class_controls_model.html#a53582c18fecf1ecc59b59874a56764f6", null ],
     [ "GetCcMethod", "class_controls_model.html#a0d0e3cd4d2c696c20e959afc76cb3f3d", null ],
     [ "GetCcMethod", "class_controls_model.html#a608a609d5cde005d56eb3df74526bf34", null ],

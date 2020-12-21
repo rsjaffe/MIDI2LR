@@ -30,6 +30,8 @@ var NAVTREE =
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
         [ "Functions", "namespacemembers_func.html", null ],
+        [ "Variables", "namespacemembers_vars.html", null ],
+        [ "Typedefs", "namespacemembers_type.html", null ],
         [ "Enumerations", "namespacemembers_enum.html", null ]
       ] ]
     ] ],
@@ -52,7 +54,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "",
-"class_m_i_d_i2_l_r_application.html#a9cdd475a9c0cad7f863c5ea017577d40",
+"class_m_i_d_i2_l_r_application.html#a9b5a76b74f45e3be820fbf62d9616e2f",
 "classes.html"
 ];
 

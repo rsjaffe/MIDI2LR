@@ -6,6 +6,7 @@ var hierarchy =
       [ "ProfileManager", "class_profile_manager.html", null ],
       [ "VersionChecker", "class_version_checker.html", null ]
     ] ],
+    [ "rsj::CFDeleter< T >", "structrsj_1_1_c_f_deleter.html", null ],
     [ "ChannelModel", "class_channel_model.html", null ],
     [ "CommandSet", "class_command_set.html", null ],
     [ "Component", null, [

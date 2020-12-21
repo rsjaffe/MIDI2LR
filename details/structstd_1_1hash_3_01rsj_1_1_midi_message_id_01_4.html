@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.0.4.0</span>
+   &#160;<span id="projectnumber">4.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -125,9 +125,10 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;   {</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;      <span class="comment">/* channel is one byte, messagetype is one byte, controller (data) is two bytes */</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      <span class="keywordflow">return</span> hash&lt;int_fast32_t&gt;()(int_fast32_t(k.<a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>) | int_fast32_t(k.<a class="code" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>) &lt;&lt; 8</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                                  | int_fast32_t(k.<a class="code" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>) &lt;&lt; 16);</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;   }</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      <span class="keywordflow">return</span> hash&lt;int_fast32_t&gt;()(<span class="keyword">static_cast&lt;</span>int_fast32_t<span class="keyword">&gt;</span>(k.<a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>)</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                                  | <span class="keyword">static_cast&lt;</span>int_fast32_t<span class="keyword">&gt;</span>(k.<a class="code" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>) &lt;&lt; 8</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                                  | <span class="keyword">static_cast&lt;</span>int_fast32_t<span class="keyword">&gt;</span>(k.<a class="code" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>) &lt;&lt; 16);</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
