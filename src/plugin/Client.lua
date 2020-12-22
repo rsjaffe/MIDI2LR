@@ -450,6 +450,7 @@ LrTasks.startAsyncTask(
       SwToMslideshow                  = CU.fChangeModule('slideshow'),
       SwToMweb                        = CU.fChangeModule('web'),
       ToggleBlue                      = LrSelection.toggleBlueLabel,
+      ToggleFlag                      = function() MIDI2LR.SERVER:send('SendKey '..KS.KeyCode.ToggleFlagKey..'\n') end,
       ToggleGreen                     = LrSelection.toggleGreenLabel,
       ToggleLoupe                     = LrApplicationView.toggleLoupe,
       ToggleOverlay                   = LrDevelopController.toggleOverlay,

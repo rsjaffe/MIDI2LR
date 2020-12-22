@@ -250,6 +250,7 @@ local DataBase = {
   --flagging
   {Command='Pick',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/SetPick=Set Pick Flag'),Group=flagging,Explanation=''},
   {Command='Reject',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/SetReject=Set Rejected Flag'),Group=flagging,Explanation=''},
+  {Command='ToggleFlag',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/ToggleFlag=Toggle Flag'),Group=flagging,Explanation=''},
   {Command='RemoveFlag',Type='button',Translation=LOC('$$$/AgLibrary/Filter/BrowserCriteria/Flag/Unflagged=Unflagged'),Group=flagging,Explanation=''},
   {Command='ToggleBlue',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelBlue=Blue')),Group=flagging,Explanation=''},
   {Command='ToggleGreen',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelGreen=Green')),Group=flagging,Explanation=''},

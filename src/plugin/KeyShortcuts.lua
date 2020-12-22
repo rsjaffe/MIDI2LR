@@ -43,6 +43,7 @@ local KeyCode = {
   ShowAdjustmentBrushOverlayKey  = "0 o",
   SliderDecreaseKey              = '0 '..LOC("$$$/AgDevelop/KBSC/decrementTargetAdjustmentValue=-"),
   SliderIncreaseKey              = '0 '..LOC("$$$/AgDevelop/KBSC/incrementTargetAdjustmentValue=="),
+  ToggleFlagKey                  = '0 '..LOC("$$$/AgLibrary/Menu/ToggleFlag/Key=`"),
 }
 
 if WIN_ENV then -- shortcuts that differ between Mac and PC
