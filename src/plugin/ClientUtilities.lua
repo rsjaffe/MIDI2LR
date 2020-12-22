@@ -706,7 +706,89 @@ local function ResetAllSaturationAdjustment()
     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
   end
   MIDI2LR.SERVER:send(string.format('%s %g\n', "AllSaturationAdjustment", CU.LRValueToMIDIValue("SaturationAdjustmentRed")))
+end
 
+local cropbezel = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')..' ' -- no need to recompute each time we crop
+
+local function RatioCrop(param, value, UpdateParam)
+  if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+    LrApplicationView.switchToModule('develop')
+  end
+  LrDevelopController.selectTool('crop')
+  local prior_c_bottom = LrDevelopController.getValue("CropBottom") --starts at 1
+  local prior_c_top = LrDevelopController.getValue("CropTop") -- starts at 0
+  local prior_c_left = LrDevelopController.getValue("CropLeft") -- starts at 0
+  local prior_c_right = LrDevelopController.getValue("CropRight") -- starts at 1
+  local ratio = (prior_c_right - prior_c_left) / (prior_c_bottom - prior_c_top)
+  if param == "CropTopLeft" then
+    local new_top = tonumber(value)
+    local new_left = prior_c_right - ratio * (prior_c_bottom - new_top)
+    if new_left < 0 then
+      new_top = prior_c_bottom - prior_c_right / ratio
+      new_left = 0
+    end
+    UpdateParam("CropTop",new_top, 
+      cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(prior_c_bottom-new_top)*100,0)..'%')
+    UpdateParam("CropLeft",new_left,true)
+  elseif param == "CropTopRight" then
+    local new_top = tonumber(value)
+    local new_right = prior_c_left + ratio * (prior_c_bottom - new_top)
+    if new_right > 1 then
+      new_top = prior_c_bottom - (1 - prior_c_left) / ratio
+      new_right = 1
+    end
+    UpdateParam("CropTop",new_top,              
+      cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(prior_c_bottom-new_top)*100,0)..'%')
+    UpdateParam("CropRight",new_right,true)
+  elseif param == "CropBottomLeft" then
+    local new_bottom = tonumber(value)
+    local new_left = prior_c_right - ratio * (new_bottom - prior_c_top)
+    if new_left < 0 then
+      new_bottom = prior_c_right / ratio + prior_c_top
+      new_left = 0
+    end
+    UpdateParam("CropBottom",new_bottom,              
+      cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(new_bottom-prior_c_top)*100,0)..'%')
+    UpdateParam("CropLeft",new_left,true)
+  elseif param == "CropBottomRight" then
+    local new_bottom = tonumber(value)
+    local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
+    if new_right > 1 then
+      new_bottom = (1 - prior_c_left) / ratio + prior_c_top
+      new_right = 1
+    end
+    UpdateParam("CropBottom",new_bottom,              
+      cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(new_bottom-prior_c_top)*100,0)..'%')
+    UpdateParam("CropRight",new_right,true)
+  elseif param == "CropAll" then
+    local new_bottom = tonumber(value)
+    local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
+    if new_right > 1 then
+      new_right = 1
+    end
+    local new_top = math.max(prior_c_bottom - new_bottom + prior_c_top,0)
+    local new_left = new_right - ratio * (new_bottom - new_top)
+    if new_left < 0 then
+      new_top = new_bottom - new_right / ratio
+      new_left = 0
+    end
+    UpdateParam("CropBottom",new_bottom,              
+      cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-new_left)*(new_bottom-new_top)*100,0)..'%')
+    UpdateParam("CropRight",new_right,true)
+    UpdateParam("CropTop",new_top,true)
+    UpdateParam("CropLeft",new_left,true)
+  elseif param == "CropMoveVertical" then
+    local new_top = (1 - (prior_c_bottom - prior_c_top)) * tonumber(value)
+    local new_bottom = new_top + prior_c_bottom - prior_c_top
+    UpdateParam("CropBottom",new_bottom,true)
+    UpdateParam("CropTop", new_top)
+  elseif param == "CropMoveHorizontal" then
+    local new_left = (1 - (prior_c_right - prior_c_left)) * tonumber(value)
+    local new_right = new_left + prior_c_bottom - prior_c_top
+    UpdateParam("CropLeft",new_left,true)
+    UpdateParam("CropRight", new_right)
+  end
 end
 
 return {
@@ -741,4 +823,5 @@ return {
   ResetAllHueAdjustment = ResetAllHueAdjustment,
   ResetAllLuminanceAdjustment = ResetAllLuminanceAdjustment,
   ResetAllSaturationAdjustment = ResetAllSaturationAdjustment,
+  RatioCrop = RatioCrop,
 }
