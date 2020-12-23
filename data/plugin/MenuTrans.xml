@@ -1,6 +1,6 @@
-    <?xml version="1.0" encoding="utf-8"?>
-    <cereal>
-    <value0>
+<?xml version="1.0" encoding="utf-8"?>
+<cereal>
+  <value0>
     <cereal_class_version>1</cereal_class_version>
     <language>en</language>
     <all_commands size="dynamic">
@@ -513,33 +513,37 @@
               <second>Set Rejected Flag</second>
             </value1>
             <value2>
-              <first>RemoveFlag</first>
-              <second>Unflagged</second>
+              <first>ToggleFlag</first>
+              <second>Toggle Flag</second>
             </value2>
             <value3>
-              <first>ToggleBlue</first>
-              <second>Label Blue Enable/Disable</second>
+              <first>RemoveFlag</first>
+              <second>Unflagged</second>
             </value3>
             <value4>
-              <first>ToggleGreen</first>
-              <second>Label Green Enable/Disable</second>
+              <first>ToggleBlue</first>
+              <second>Label Blue Enable/Disable</second>
             </value4>
             <value5>
-              <first>ToggleRed</first>
-              <second>Label Red Enable/Disable</second>
+              <first>ToggleGreen</first>
+              <second>Label Green Enable/Disable</second>
             </value5>
             <value6>
-              <first>TogglePurple</first>
-              <second>Label Purple Enable/Disable</second>
+              <first>ToggleRed</first>
+              <second>Label Red Enable/Disable</second>
             </value6>
             <value7>
-              <first>ToggleYellow</first>
-              <second>Label Yellow Enable/Disable</second>
+              <first>TogglePurple</first>
+              <second>Label Purple Enable/Disable</second>
             </value7>
             <value8>
+              <first>ToggleYellow</first>
+              <second>Label Yellow Enable/Disable</second>
+            </value8>
+            <value9>
               <first>ColorLabelNone</first>
               <second>Remove color label</second>
-            </value8>
+            </value9>
         </second>
       </value5>
       <value6>
@@ -2945,6 +2949,6 @@
         </second>
       </value27>
     </all_commands>
-    </value0>
-    </cereal>
+  </value0>
+</cereal>
   
