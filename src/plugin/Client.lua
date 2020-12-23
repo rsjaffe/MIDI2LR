@@ -647,7 +647,7 @@ LrTasks.startAsyncTask(
           return function(observer) -- closure
             if not sendIsConnected then return end -- can't send
             if Limits.LimitsCanBeSet() and lastrefresh < os.clock() then
-              -- refresh crop values
+              -- refresh crop values NOTE: this function is repeated in ClientUtilities and Profiles
               local val_bottom = LrDevelopController.getValue("CropBottom")
               MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val_bottom))
               MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val_bottom))

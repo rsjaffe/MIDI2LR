@@ -31,7 +31,6 @@ local Modifiers = {
 --keycodes using Cmd in LR use 0x8 in OSX and 0x2 in Windows for modifier
 ------------------------------------------------------------------------------]]
 
-
 --functions using KeyCode must get it right
 --errors in spelling can cause crashes (e.g., BrushIncrease instead of BrushIncreaseKey)
 local KeyCode = { 

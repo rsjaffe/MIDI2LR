@@ -115,9 +115,7 @@ local function ApplyLocalPreset(LocalPresetFilename)  --LocalPresetName eg: 'Bur
 
       LocalPresets[tostring(LocalPresetName)] = s['value'] --Add the currently selected preset to the table of presets
     end
-
     LrDialogs.showBezel (LocalPresetName)
-
     --Apply preset to LR
     for param, MappedParam in pairs(localPresetMap) do
       local value = LocalPresets[LocalPresetName][param]
@@ -154,7 +152,6 @@ local function StartDialog(obstable,f)
   end
   return f:column(dlgrows)
 end
-
 
 local function EndDialog(obstable, status)
   if status == 'ok' then

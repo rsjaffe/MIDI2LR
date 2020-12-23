@@ -1,12 +1,3 @@
---------------------------------------------------------------------------------
--- Provides methods to manage control limits.
--- This allows limited-range MIDI controls (0-127) to control a LR parameter
--- with reasonable accuracy. It limits the total range that particular MIDI
--- control affects.
--- @module Limits
--- @license GNU GPLv3
---------------------------------------------------------------------------------
-
 --[[
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
@@ -21,13 +12,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 --]]
---All variables and functions defined here must be local, except for return table.
---The only global identifiers used in this module are 'import', 'LOC' and 'MIDI2LR'.
---In ZeroBrane IDE, check for global identifiers by pressing shift-F7 while 
---viewing this file.
---Limits are now stored in the form Limits.Temperature[50000]{3000,9000} in the Preferences module
 
---imports
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
@@ -199,20 +184,19 @@ end
 local function EndDialog(obstable, status)
   if status == 'ok' and LimitsCanBeSet() then
     --assign limits
-      for _,p in ipairs(DisplayOrder) do
-        if obstable['Limits'..p..'Low'] ~= nil and obstable['Limits'..p..'High'] ~= nil then
-          if obstable['Limits'..p..'Low'] > obstable['Limits'..p..'High'] then --swap values
-            obstable['Limits'..p..'Low'], obstable['Limits'..p..'High'] = obstable['Limits'..p..'High'], obstable['Limits'..p..'Low']
-          end
-          local _,max = LrDevelopController.getRange(p) --limitsCanBeSet only when in Develop module, no need to check again
-          ProgramPreferences.Limits[p][max] = {obstable['Limits'..p..'Low'], obstable['Limits'..p..'High']}
+    for _,p in ipairs(DisplayOrder) do
+      if obstable['Limits'..p..'Low'] ~= nil and obstable['Limits'..p..'High'] ~= nil then
+        if obstable['Limits'..p..'Low'] > obstable['Limits'..p..'High'] then --swap values
+          obstable['Limits'..p..'Low'], obstable['Limits'..p..'High'] = obstable['Limits'..p..'High'], obstable['Limits'..p..'Low']
         end
+        local _,max = LrDevelopController.getRange(p) --limitsCanBeSet only when in Develop module, no need to check again
+        ProgramPreferences.Limits[p][max] = {obstable['Limits'..p..'Low'], obstable['Limits'..p..'High']}
       end
+    end
   end
 end
 
---- @export
-return { --table of exports, setting table member name and module function it points to
+return {
   ClampValue  = ClampValue,
   EndDialog   = EndDialog,
   GetMinMax   = GetMinMax,

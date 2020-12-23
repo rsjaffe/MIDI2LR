@@ -20,12 +20,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local Preferences = require 'Preferences'
 local LrDialogs   = import 'LrDialogs'
 
-
 local openfiles = LrDialogs.runOpenPanel({title=LOC("$$$/MIDI2LR/Menu/ImportConfiguration=&Import configuration"):gsub('%(%&%a%)',''):gsub('%&',''),canchooseFiles=true,canChooseDirectories=false,canCreateDirectories=false,
     allowsMultipleSelection=false,fileTypes="txt"})
-  
+
 if type(openfiles) == 'table' then
   Preferences.Load(openfiles[1])
 end
 
-  
+

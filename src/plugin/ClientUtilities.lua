@@ -18,6 +18,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
+
 local Limits     = require 'Limits'
 local Database   = require 'Database'
 local Profiles   = require 'Profiles'
@@ -443,42 +444,6 @@ local function ApplySettings(settings)
   )
 end
 
-local function FullRefresh()
-  -- if this code is changed, change similar code in Profiles.lua
-  if Limits.LimitsCanBeSet() then
-    -- refresh crop values
-    local val_bottom = LrDevelopController.getValue("CropBottom")
-    MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val_bottom))
-    MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val_bottom))
-    MIDI2LR.SERVER:send(string.format('CropAll %g\n', val_bottom))
-    MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val_bottom))
-    local val_top = LrDevelopController.getValue("CropTop")
-    MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val_top))
-    MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val_top))
-    MIDI2LR.SERVER:send(string.format('CropTop %g\n', val_top))
-    local val_left = LrDevelopController.getValue("CropLeft")
-    local val_right = LrDevelopController.getValue("CropRight")
-    MIDI2LR.SERVER:send(string.format('CropLeft %g\n', val_left))
-    MIDI2LR.SERVER:send(string.format('CropRight %g\n', val_right))
-    MIDI2LR.SERVER:send(string.format('CropMoveVertical %g\n', val_top / (1 - (val_bottom - val_top))))
-    MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / (1 - (val_right - val_left))))
-    for param in pairs(Database.Parameters) do
-      local min,max = Limits.GetMinMax(param)
-      local lrvalue = LrDevelopController.getValue(param)
-      if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
-        local midivalue = (lrvalue-min)/(max-min)
-        if midivalue >= 1.0 then 
-          MIDI2LR.SERVER:send(string.format('%s 1.0\n', param))
-        elseif midivalue <= 0.0 then -- = catches -0.0 and sends it as 0.0
-          MIDI2LR.SERVER:send(string.format('%s 0.0\n', param))
-        else
-          MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
-        end
-      end
-    end
-  end
-end
-
 local function MIDIValueToLRValue(param, midi_value)
   -- must be called when in develop module with photo selected
   -- map midi range to develop parameter range
@@ -497,6 +462,45 @@ local function LRValueToMIDIValue(param)
   return retval
 end
 
+local function FullRefresh()
+  -- if this code is changed, change similar code in Profiles.lua
+  if Limits.LimitsCanBeSet() then
+    -- refresh crop values
+    local val_bottom = LrDevelopController.getValue("CropBottom")
+    MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val_bottom))
+    MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val_bottom))
+    MIDI2LR.SERVER:send(string.format('CropAll %g\n', val_bottom))
+    MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val_bottom))
+    local val_top = LrDevelopController.getValue("CropTop")
+    MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val_top))
+    MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val_top))
+    MIDI2LR.SERVER:send(string.format('CropTop %g\n', val_top))
+    local val_left = LrDevelopController.getValue("CropLeft")
+    local val_right = LrDevelopController.getValue("CropRight")
+    MIDI2LR.SERVER:send(string.format('CropLeft %g\n', val_left))
+    MIDI2LR.SERVER:send(string.format('CropRight %g\n', val_right))
+    local range_v = (1 - (val_bottom - val_top))
+    if range_v == 0.0 then
+      MIDI2LR.SERVER:send('CropMoveVertical 0\n')
+    else
+      MIDI2LR.SERVER:send(string.format('CropMoveVertical %g\n', val_top / range_v))
+    end
+    local range_h = (1 - (val_right - val_left))
+    if range_h == 0.0 then
+      MIDI2LR.SERVER:send('CropMoveHorizontal 0\n')
+    else
+      MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / range_h))
+    end
+    for param in pairs(Database.Parameters) do
+      local lrvalue = LrDevelopController.getValue(param)
+      if type(lrvalue) == 'number' then 
+        MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param)))
+
+      end
+    end
+  end
+end
+
 local function fSimulateKeys(keys, developonly, tool)
   return function()
     if developonly then
@@ -510,7 +514,6 @@ local function fSimulateKeys(keys, developonly, tool)
     end
   end
 end
-
 
 local function UpdatePointCurve(settings)
   return function()
@@ -705,7 +708,7 @@ local function ResetAllSaturationAdjustment()
     local bezelname = (Database.CmdTrans.ResetAllSaturationAdjustment and Database.CmdTrans.ResetAllSaturationAdjustment[Database.LatestPVSupported]) or "ResetAllSaturationAdjustment"
     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
   end
-  MIDI2LR.SERVER:send(string.format('%s %g\n', "AllSaturationAdjustment", CU.LRValueToMIDIValue("SaturationAdjustmentRed")))
+  MIDI2LR.SERVER:send(string.format('%s %g\n', "AllSaturationAdjustment", LRValueToMIDIValue("SaturationAdjustmentRed")))
 end
 
 local cropbezel = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')..' ' -- no need to recompute each time we crop

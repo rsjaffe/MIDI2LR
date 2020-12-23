@@ -33,7 +33,6 @@ local currentTMP = {Tool = '', Module = '', Panel = '', Profile = ''}
 local loadedprofile = ''-- according to application and us
 local profilepath = '' --according to application
 
-
 local function doprofilechange(newprofile)
   if ProgramPreferences.ProfilesShowBezelOnChange then
     local filename = newprofile:match(".-([^\\^/]-([^%.]+))$")
@@ -57,10 +56,20 @@ local function doprofilechange(newprofile)
     local val_right = LrDevelopController.getValue("CropRight")
     MIDI2LR.SERVER:send(string.format('CropLeft %g\n', val_left))
     MIDI2LR.SERVER:send(string.format('CropRight %g\n', val_right))
-    MIDI2LR.SERVER:send(string.format('CropMoveVertical %g\n', val_top / (1 - (val_bottom - val_top))))
-    MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / (1 - (val_right - val_left))))
+    local range_v = (1 - (val_bottom - val_top))
+    if range_v == 0.0 then
+      MIDI2LR.SERVER:send('CropMoveVertical 0\n')
+    else
+      MIDI2LR.SERVER:send(string.format('CropMoveVertical %g\n', val_top / range_v))
+    end
+    local range_h = (1 - (val_right - val_left))
+    if range_h == 0.0 then
+      MIDI2LR.SERVER:send('CropMoveHorizontal 0\n')
+    else
+      MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / range_h))
+    end
     for param in pairs(Database.Parameters) do
-      local min,max = Limits.GetMinMax(param)
+      local min,max = Limits.GetMinMax(param) --can't include ClientUtilities: circular reference
       local lrvalue = LrDevelopController.getValue(param)
       if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
         local midivalue = (lrvalue-min)/(max-min)

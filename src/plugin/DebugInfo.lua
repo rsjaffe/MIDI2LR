@@ -16,6 +16,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
+
 local Info           = require 'Info'
 local Ut             = require 'Utilities'
 local LrApplication  = import 'LrApplication'
@@ -23,6 +24,7 @@ local LrFileUtils    = import 'LrFileUtils'
 local LrLocalization = import 'LrLocalization'
 local LrPathUtils    = import 'LrPathUtils'
 local LrSystemInfo   = import 'LrSystemInfo'
+
 local testfile = LrPathUtils.child(_PLUGIN.path,'Client.lua')
 local writeable = ''
 if not LrFileUtils.isWritable(testfile) then
@@ -30,19 +32,18 @@ if not LrFileUtils.isWritable(testfile) then
 end
 
 local function gatherInformation()
-
   local longest = 40
   local mess = '----------- LIGHTROOM -----------'
-..'\nOperating system '..LrSystemInfo.summaryString()
-..'\nVersion '..LrApplication.versionString()
-..'\nLanguage '..LrLocalization.currentLanguage() 
-..'\nPreferences path '..LrPathUtils.getStandardFilePath ('appPrefs') 
-..'\nApplication data path '..LrPathUtils.getStandardFilePath ('appData')
-..'\n----------- PLUGIN -----------' 
-..'\nVersion '..Info.VERSION.major..'.'..Info.VERSION.minor..'.'..Info.VERSION.revision..'.'..Info.VERSION.build 
-..'\nPath '.._PLUGIN.path..writeable
-..'\nMIDI2LR log path '..Ut.applogpath()
-..'\nMIDI2LR data path '..Ut.appdatapath()
+  ..'\nOperating system '..LrSystemInfo.summaryString()
+  ..'\nVersion '..LrApplication.versionString()
+  ..'\nLanguage '..LrLocalization.currentLanguage() 
+  ..'\nPreferences path '..LrPathUtils.getStandardFilePath ('appPrefs') 
+  ..'\nApplication data path '..LrPathUtils.getStandardFilePath ('appData')
+  ..'\n----------- PLUGIN -----------' 
+  ..'\nVersion '..Info.VERSION.major..'.'..Info.VERSION.minor..'.'..Info.VERSION.revision..'.'..Info.VERSION.build 
+  ..'\nPath '.._PLUGIN.path..writeable
+  ..'\nMIDI2LR log path '..Ut.applogpath()
+  ..'\nMIDI2LR data path '..Ut.appdatapath()
   local lines = 11 -- update if change above message
   if type(Info.AppInfo) == 'table' then
     mess = mess..'\n----------- APP -----------'
@@ -74,7 +75,6 @@ local function sendLog()
   MIDI2LR.SERVER:send('Log Plugin log path '..Ut.applogpath()..'\n')
   MIDI2LR.SERVER:send('Log Plugin data path '..Ut.appdatapath()..'\n')
 end
-
 
 return {
   gatherInformation = gatherInformation,

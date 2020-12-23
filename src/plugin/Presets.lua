@@ -17,8 +17,10 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
+
 local LrApplication = import 'LrApplication'
 local LrView        = import 'LrView'
+
 local number_of_presets = 80
 
 local function StartDialog(obstable,f)
@@ -55,7 +57,6 @@ local function StartDialog(obstable,f)
           transform = function(value) return k..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
         },  -- title
       } -- push_button
-
     end
   end
   -- set up group boxes on left of selection dialog
