@@ -300,7 +300,7 @@ local function fApplyFilter(filternumber)
   return function()
     local filterUuid = ProgramPreferences.Filters[filternumber]
     if filterUuid == nil then return end
-    if LrApplication.activeCatalog():setViewFilter(filterUuid) then --true if filter changed
+    if LrApplication.activeCatalog():setViewFilter(filterUuid) and ProgramPreferences.ClientShowBezelOnChange then --true if filter changed
       local _,str = LrApplication.activeCatalog():getCurrentViewFilter()
       if str then LrDialogs.showBezel(str) end -- str nil if not defined
     end
@@ -315,8 +315,10 @@ local function fApplyPreset(presetnumber)
     LrTasks.startAsyncTask ( function () 
         LrApplication.activeCatalog():withWriteAccessDo(
           'Apply preset '..preset:getName(), 
-          function()     
-            LrDialogs.showBezel(preset:getName())
+          function() 
+            if ProgramPreferences.ClientShowBezelOnChange then
+              LrDialogs.showBezel(preset:getName())
+            end
             LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) 
           end,
           { timeout = 4, 

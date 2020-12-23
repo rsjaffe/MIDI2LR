@@ -69,7 +69,9 @@ local function ApplyKeyword(Keyword)
       local TargetPhoto  = LrCat:getTargetPhoto()
       if TargetPhoto and LrKeyword then
         local TargetPhotos = LrCat:getTargetPhotos()
-        LrDialogs.showBezel(LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SettingsString/ConstructionWithColon=^1: ^2",LOC("$$$/AgLibrary/AddKeyword=Add Keyword"),LrKeyword:getName()))
+        if ProgramPreferences.ClientShowBezelOnChange then
+          LrDialogs.showBezel(LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SettingsString/ConstructionWithColon=^1: ^2",LOC("$$$/AgLibrary/AddKeyword=Add Keyword"),LrKeyword:getName()))
+        end
         for _,v in ipairs(TargetPhotos) do
           LrCat:withWriteAccessDo( 'addKeyword',function( context ) v:addKeyword(LrKeyword) end, { timeout = 2 } )
         end
