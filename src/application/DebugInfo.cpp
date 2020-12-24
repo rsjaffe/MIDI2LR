@@ -164,6 +164,8 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
    try {
       LogAndSave(fmt::format(FMT_STRING("Application: System language {}."),
           juce::SystemStats::getDisplayLanguage().toStdString()));
+      LogAndSave(fmt::format(
+          FMT_STRING("Application: CPU {}."), juce::SystemStats::getCpuModel().toStdString()));
       // ReSharper disable CppUnreachableCode
       if constexpr (kNdebug) {
          LogAndSave(fmt::format(

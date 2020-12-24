@@ -4,7 +4,7 @@ ClientUtilities.lua
 
 Procedures used by Client.lua. Moved to separate file as size of Client.lua
 became unwieldy.
- 
+
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
@@ -16,7 +16,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local Limits     = require 'Limits'
@@ -73,8 +73,8 @@ setmetatable ( needsModule, _needsModule)
 --------------------------------------------------------------------------------
 -- Returns function passed to it, with appropriate switch to Lightroom module if
 -- needed.
--- This should wrap a module-specific Lightroom SDK function call unless you 
--- already know that Lightroom is set to the correct module. Stays in module that was 
+-- This should wrap a module-specific Lightroom SDK function call unless you
+-- already know that Lightroom is set to the correct module. Stays in module that was
 -- opened after function ends.
 -- @tparam function F The function to use.
 -- @param...Any arguments to the function.
@@ -83,7 +83,7 @@ setmetatable ( needsModule, _needsModule)
 local function wrapFOM(F,...)
   local openModule = needsModule[F]['module']
   if openModule == nil then
-    return function() 
+    return function()
       return F(unpack(arg))  --proper tail call
     end
   end
@@ -100,8 +100,8 @@ end
 --------------------------------------------------------------------------------
 -- Executes function passed to it, with appropriate switch to Lightroom module if
 -- needed.
--- This should wrap a module-specific Lightroom SDK function call unless you 
--- already know that Lightroom is set to the correct module. Stays in module that was 
+-- This should wrap a module-specific Lightroom SDK function call unless you
+-- already know that Lightroom is set to the correct module. Stays in module that was
 -- opened after function ends.
 -- @tparam function F The function to use.
 -- @param...Any arguments to the function.
@@ -140,7 +140,7 @@ local wfep_action = {
 local function wrapForEachPhoto(F) --note lightroom applies this to all selected photos. no need to get all selected
   local SelectedAction = wfep_action
   [F]
-  return function()    
+  return function()
     local LrCat = LrApplication.activeCatalog()
     local TargetPhoto  = LrCat:getTargetPhoto()
     if TargetPhoto then
@@ -156,7 +156,7 @@ local function QuickCropAspect(aspect)
   end
 end
 
-local sb_precisionList = { 
+local sb_precisionList = {
   Blacks=0,
   BlueHue=0,
   BlueSaturation=0,
@@ -312,19 +312,19 @@ local function fApplyPreset(presetnumber)
     local presetUuid = ProgramPreferences.Presets[presetnumber]
     if presetUuid == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
     local preset = LrApplication.developPresetByUuid(presetUuid)
-    LrTasks.startAsyncTask ( function () 
+    LrTasks.startAsyncTask ( function ()
         LrApplication.activeCatalog():withWriteAccessDo(
-          'Apply preset '..preset:getName(), 
-          function() 
+          'Apply preset '..preset:getName(),
+          function()
             if ProgramPreferences.ClientShowBezelOnChange then
               LrDialogs.showBezel(preset:getName())
             end
-            LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) 
+            LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset)
           end,
-          { timeout = 4, 
-            callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..'PastePreset.') end, 
+          { timeout = 4,
+            callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..'PastePreset.') end,
             asynchronous = true }
-        ) 
+        )
       end )
   end
 end
@@ -332,14 +332,14 @@ end
 local function fChangePanel(panelname)
   return function()
     execFOM(LrDevelopController.revealPanel,panelname)
-    Profiles.changeProfile(panelname) 
+    Profiles.changeProfile(panelname)
   end
 end
 
 local function fChangeModule(modulename)
   return function()
-    LrApplicationView.switchToModule(modulename) 
-    Profiles.changeProfile(modulename) 
+    LrApplicationView.switchToModule(modulename)
+    Profiles.changeProfile(modulename)
   end
 end
 
@@ -382,7 +382,7 @@ local function fToggleTFasync(param)
           function()
             local params = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
             params[param] = not params[param]
-            LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(params) 
+            LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(params)
           end,
           { timeout = 4,
             callback = function()
@@ -419,10 +419,10 @@ local ftt1_functionList = {
 }
 local function fToggleTool1(param) --for new version toggle tool
   return function()
-    if LrApplicationView.getCurrentModuleName() == 'develop' and 
+    if LrApplicationView.getCurrentModuleName() == 'develop' and
     LrDevelopController.getSelectedTool() == param then
       LrDevelopController.selectTool('loupe')
-    else 
+    else
       ftt1_functionList[param]()
     end
   end
@@ -495,7 +495,7 @@ local function FullRefresh()
     end
     for param in pairs(Database.Parameters) do
       local lrvalue = LrDevelopController.getValue(param)
-      if type(lrvalue) == 'number' then 
+      if type(lrvalue) == 'number' then
         MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param)))
 
       end
@@ -634,7 +634,7 @@ local function ProfileAmount(value)
           local params = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
           if params and params.Look and params.Look.Amount then
             params.Look.Amount = val * 2
-            LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(params) 
+            LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(params)
             if ProgramPreferences.ClientShowBezelOnChange then
               local bezelname = (Database.CmdTrans.ProfileAmount and Database.CmdTrans.ProfileAmount[Database.LatestPVSupported]) or patrans
               LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(val*200, 0))
@@ -733,7 +733,7 @@ local function RatioCrop(param, value, UpdateParam)
       new_top = prior_c_bottom - prior_c_right / ratio
       new_left = 0
     end
-    UpdateParam("CropTop",new_top, 
+    UpdateParam("CropTop",new_top,
       cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(prior_c_bottom-new_top)*100,0)..'%')
     UpdateParam("CropLeft",new_left,true)
   elseif param == "CropTopRight" then
@@ -743,7 +743,7 @@ local function RatioCrop(param, value, UpdateParam)
       new_top = prior_c_bottom - (1 - prior_c_left) / ratio
       new_right = 1
     end
-    UpdateParam("CropTop",new_top,              
+    UpdateParam("CropTop",new_top,
       cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(prior_c_bottom-new_top)*100,0)..'%')
     UpdateParam("CropRight",new_right,true)
   elseif param == "CropBottomLeft" then
@@ -753,7 +753,7 @@ local function RatioCrop(param, value, UpdateParam)
       new_bottom = prior_c_right / ratio + prior_c_top
       new_left = 0
     end
-    UpdateParam("CropBottom",new_bottom,              
+    UpdateParam("CropBottom",new_bottom,
       cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(new_bottom-prior_c_top)*100,0)..'%')
     UpdateParam("CropLeft",new_left,true)
   elseif param == "CropBottomRight" then
@@ -763,7 +763,7 @@ local function RatioCrop(param, value, UpdateParam)
       new_bottom = (1 - prior_c_left) / ratio + prior_c_top
       new_right = 1
     end
-    UpdateParam("CropBottom",new_bottom,              
+    UpdateParam("CropBottom",new_bottom,
       cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(new_bottom-prior_c_top)*100,0)..'%')
     UpdateParam("CropRight",new_right,true)
   elseif param == "CropAll" then
@@ -778,7 +778,7 @@ local function RatioCrop(param, value, UpdateParam)
       new_top = new_bottom - new_right / ratio
       new_left = 0
     end
-    UpdateParam("CropBottom",new_bottom,              
+    UpdateParam("CropBottom",new_bottom,
       cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-new_left)*(new_bottom-new_top)*100,0)..'%')
     UpdateParam("CropRight",new_right,true)
     UpdateParam("CropTop",new_top,true)
@@ -801,7 +801,13 @@ return {
   FullRefresh = FullRefresh,
   LRValueToMIDIValue = LRValueToMIDIValue,
   MIDIValueToLRValue = MIDIValueToLRValue,
+  ProfileAmount = ProfileAmount,
   QuickCropAspect = QuickCropAspect,
+  RatioCrop = RatioCrop,
+  ResetAllGrayMixer = ResetAllGrayMixer,
+  ResetAllHueAdjustment = ResetAllHueAdjustment,
+  ResetAllLuminanceAdjustment = ResetAllLuminanceAdjustment,
+  ResetAllSaturationAdjustment = ResetAllSaturationAdjustment,
   UpdatePointCurve = UpdatePointCurve,
   cg_hsl_copy = cg_hsl_copy,
   cg_hsl_paste = cg_hsl_paste,
@@ -823,10 +829,4 @@ return {
   showBezel = showBezel,
   wrapFOM = wrapFOM,
   wrapForEachPhoto = wrapForEachPhoto,
-  ProfileAmount = ProfileAmount,
-  ResetAllGrayMixer = ResetAllGrayMixer,
-  ResetAllHueAdjustment = ResetAllHueAdjustment,
-  ResetAllLuminanceAdjustment = ResetAllLuminanceAdjustment,
-  ResetAllSaturationAdjustment = ResetAllSaturationAdjustment,
-  RatioCrop = RatioCrop,
 }
