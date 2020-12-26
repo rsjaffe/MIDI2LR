@@ -23,6 +23,7 @@
 #ifdef __cpp_lib_three_way_comparison
 #include <compare>
 #endif
+#include <stdexcept>
 #include <type_traits>
 #include <typeindex> /*declaration of std::hash template*/
 

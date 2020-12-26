@@ -23,7 +23,6 @@
 
 #ifdef _WIN32
 #include <array>
-#include <exception>
 #include <string>
 #include <unordered_map>
 

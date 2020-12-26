@@ -17,6 +17,7 @@
 #include "Devices.h"
 
 #include <algorithm>
+#include <exception>
 
 #include "Misc.h"
 

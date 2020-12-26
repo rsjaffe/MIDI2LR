@@ -9,7 +9,7 @@
 namespace rsj
 {
    const auto de = u8R"===(language: German
-countries: de
+countries: de at li
 
 "0" = "0"
 "127" = "127"
@@ -75,7 +75,7 @@ countries: de
 "Version " = "Version "
 )===";
    const auto es = u8R"===(language: Spanish
-countries: es
+countries: es ar cl co cr cu do ec sv gt hn mx ni pa py pe uy ve
 
 "0" = "0"
 "127" = "127"
@@ -141,7 +141,7 @@ countries: es
 "Version " = "Versión "
 )===";
    const auto fr = u8R"===(language: French
-countries: fr
+countries: fr bj bf cf cg cd ga gn ci ml mc ne sn tg ht bi mg
 
 "0" = "0"
 "127" = "127"
@@ -207,7 +207,7 @@ countries: fr
 "Version " = "Version "
 )===";
    const auto it = u8R"===(language: Italian
-countries: it
+countries: it mt sm va
 
 "0" = "0"
 "127" = "127"
@@ -273,7 +273,7 @@ countries: it
 "Version " = "Versione "
 )===";
    const auto ja = u8R"===(language: Japanese
-countries: ja
+countries: jp
 
 "0" = "0"
 "127" = "127"
@@ -339,7 +339,7 @@ countries: ja
 "Version " = "バージョン "
 )===";
    const auto ko = u8R"===(language: Korean
-countries: ko
+countries: kr kp
 
 "0" = "0"
 "127" = "127"
@@ -405,7 +405,7 @@ countries: ko
 "Version " = "버전 "
 )===";
    const auto nl = u8R"===(language: Dutch
-countries: nl
+countries: nl sr
 
 "0" = "0"
 "127" = "127"
@@ -471,7 +471,7 @@ countries: nl
 "Version " = "Versie "
 )===";
    const auto pt = u8R"===(language: Portuguese
-countries: pt
+countries: pt br ao mz cv gw st
 
 "0" = "0"
 "127" = "127"
@@ -603,7 +603,7 @@ countries: ru
 "Version " = "Версия "
 )===";
    const auto sv = u8R"===(language: Swedish
-countries: sv
+countries: se
 
 "0" = "0"
 "127" = "127"
@@ -735,7 +735,7 @@ countries: th
 "Version " = "เวอร์ชัน "
 )===";
    const auto zh_cn = u8R"===(language: Chinese simplified
-countries: zh-cn
+countries: cn sg
 
 "0" = "0"
 "127" = "127"
@@ -801,7 +801,7 @@ countries: zh-cn
 "Version " = "版本 "
 )===";
    const auto zh_tw = u8R"===(language: Chinese traditional
-countries: zh-tw
+countries: tw
 
 "0" = "0"
 "127" = "127"

@@ -15,6 +15,7 @@
  */
 #include "CommandSet.h"
 
+#include <utility>
 #ifndef _WIN32
 #include <AvailabilityMacros.h>
 #if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \

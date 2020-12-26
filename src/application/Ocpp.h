@@ -16,6 +16,7 @@
  *
  */
 #ifndef _WIN32
+#include <memory>
 #include <string>
 #include <type_traits>
 #include <unordered_map>

@@ -20,11 +20,14 @@
 #include <condition_variable>
 #include <cstddef>
 #include <deque>
+#include <limits>
 #include <mutex>
 #include <optional>
 #include <random>
 #include <thread>
+#include <tuple>
 #include <type_traits>
+#include <utility>
 #ifndef __ARM_ARCH
 extern "C" {
 extern void _mm_pause();

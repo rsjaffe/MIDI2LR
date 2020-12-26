@@ -19,6 +19,7 @@
 #include <exception>
 #include <string_view> //ReSharper false alarm
 #include <thread>
+#include <utility>
 
 #include <fmt/format.h>
 

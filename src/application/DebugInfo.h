@@ -16,6 +16,7 @@
  *
  */
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <juce_core/juce_core.h>

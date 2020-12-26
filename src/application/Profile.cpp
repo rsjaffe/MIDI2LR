@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <exception>
+#include <memory>
 
 #include "Misc.h"
 

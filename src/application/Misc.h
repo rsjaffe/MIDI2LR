@@ -19,6 +19,7 @@
 
 #include <chrono>
 #include <exception>
+#include <limits>
 #ifdef __cpp_lib_source_location
 #include <source_location>
 #endif

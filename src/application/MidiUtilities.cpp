@@ -16,6 +16,7 @@
 #include "MidiUtilities.h"
 
 #include <exception>
+#include <mutex>
 
 #include <fmt/format.h>
 #include <gsl/gsl>

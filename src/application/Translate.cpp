@@ -21,13 +21,13 @@
 
 #include <juce_core/juce_core.h>
 
-#include "../../data/application/Translate.txt"
 #include "Misc.h"
 #ifdef __cpp_char8_t
 using TransType = const char8_t*;
 #else
 using TransType = const char*;
 #endif
+#include "../../data/application/Translate.txt"
 
 void rsj::Translate(const std::string& lg)
 {

@@ -45,7 +45,7 @@ class CommandMenu final : public TextButtonAligned {
    const CommandSet& command_set_;
    Profile& profile_;
    rsj::MidiMessageId message_;
-   size_t selected_item_ {std::numeric_limits<size_t>::max()};
+   size_t selected_item_ {std::numeric_limits<decltype(selected_item_)>::max()};
 };
 
 #endif

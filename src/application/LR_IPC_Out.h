@@ -19,6 +19,7 @@
 #include <functional>
 #include <future>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <asio.hpp>
