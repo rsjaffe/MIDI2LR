@@ -300,10 +300,41 @@ local function fApplyFilter(filternumber)
   return function()
     local filterUuid = ProgramPreferences.Filters[filternumber]
     if filterUuid == nil then return end
-    if LrApplication.activeCatalog():setViewFilter(filterUuid) and ProgramPreferences.ClientShowBezelOnChange then --true if filter changed
+    LrApplication.activeCatalog():setViewFilter(filterUuid)
+    if ProgramPreferences.ClientShowBezelOnChange then
       local _,str = LrApplication.activeCatalog():getCurrentViewFilter()
       if str then LrDialogs.showBezel(str) end -- str nil if not defined
     end
+  end
+end
+
+local nofilter = {
+  columnBrowserActive=false,
+  filtersActive=false,
+  sesarchStringActive=false,
+  label1=false,
+  label2=false,
+  label3=false,
+  label4=false,
+  label5=false,
+  customLabel=false,
+  noLabel=false,
+  minRating=0,
+  ratingOp=">=",
+--pick="<nil>",
+--edit="<nil>",
+--whichCopies="<nil>",
+  searchOp="all",
+  searchString="",
+  searchTarget="all",
+  searchStringActive=false,
+  gpsLocation=false,
+  labelOp="any",
+}
+local function RemoveFilters()
+  LrApplication.activeCatalog():setViewFilter(nofilter)
+  if ProgramPreferences.ClientShowBezelOnChange then
+    LrDialogs.showBezel(Database.CmdTrans.FilterNone[1]) --PV doesn't matter
   end
 end
 
@@ -804,6 +835,7 @@ return {
   ProfileAmount = ProfileAmount,
   QuickCropAspect = QuickCropAspect,
   RatioCrop = RatioCrop,
+  RemoveFilters = RemoveFilters,
   ResetAllGrayMixer = ResetAllGrayMixer,
   ResetAllHueAdjustment = ResetAllHueAdjustment,
   ResetAllLuminanceAdjustment = ResetAllLuminanceAdjustment,

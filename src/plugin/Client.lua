@@ -169,6 +169,7 @@ LrTasks.startAsyncTask(
       EnableRetouch                   = CU.fToggleTFasync('EnableRetouch'),
       EnableToneCurve                 = CU.fToggleTFasync('EnableToneCurve'),
       EnableTransform                 = CU.fToggleTFasync('EnableTransform'),
+      FilterNone                      = CU.RemoveFilters,
       Filter_1                        = CU.fApplyFilter(1),
       Filter_10                       = CU.fApplyFilter(10),
       Filter_11                       = CU.fApplyFilter(11),
@@ -269,7 +270,7 @@ LrTasks.startAsyncTask(
       PV2                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 2'),
       PV3                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 3'),
       PV4                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 4'),
-      PV5                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 5'),      
+      PV5                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 5'),
       PVLatest                        = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version '..Database.LatestPVSupported),
       Pause                           = function() LrTasks.sleep( 0.02 ) end,
       Pick                            = LrSelection.flagAsPick,
@@ -492,15 +493,15 @@ LrTasks.startAsyncTask(
       profile16                       = function() Profiles.changeProfile('profile16', true) end,
       profile17                       = function() Profiles.changeProfile('profile17', true) end,
       profile18                       = function() Profiles.changeProfile('profile18', true) end,
-      profile19                       = function() Profiles.changeProfile('profile19', true) end, 
+      profile19                       = function() Profiles.changeProfile('profile19', true) end,
       profile2                        = function() Profiles.changeProfile('profile2', true) end,
-      profile20                       = function() Profiles.changeProfile('profile20', true) end, 
-      profile21                       = function() Profiles.changeProfile('profile21', true) end, 
-      profile22                       = function() Profiles.changeProfile('profile22', true) end, 
-      profile23                       = function() Profiles.changeProfile('profile23', true) end, 
-      profile24                       = function() Profiles.changeProfile('profile24', true) end, 
-      profile25                       = function() Profiles.changeProfile('profile25', true) end, 
-      profile26                       = function() Profiles.changeProfile('profile26', true) end, 
+      profile20                       = function() Profiles.changeProfile('profile20', true) end,
+      profile21                       = function() Profiles.changeProfile('profile21', true) end,
+      profile22                       = function() Profiles.changeProfile('profile22', true) end,
+      profile23                       = function() Profiles.changeProfile('profile23', true) end,
+      profile24                       = function() Profiles.changeProfile('profile24', true) end,
+      profile25                       = function() Profiles.changeProfile('profile25', true) end,
+      profile26                       = function() Profiles.changeProfile('profile26', true) end,
       profile3                        = function() Profiles.changeProfile('profile3', true) end,
       profile4                        = function() Profiles.changeProfile('profile4', true) end,
       profile5                        = function() Profiles.changeProfile('profile5', true) end,
@@ -518,14 +519,14 @@ LrTasks.startAsyncTask(
     ACTIONS.ActionSeries6 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[6],ACTIONS) end
     ACTIONS.ActionSeries7 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[7],ACTIONS) end
     ACTIONS.ActionSeries8 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[8],ACTIONS) end
-    ACTIONS.ActionSeries9 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[9],ACTIONS) end  
-    ACTIONS.ActionSeries10 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[10],ACTIONS) end  
-    ACTIONS.ActionSeries11 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[11],ACTIONS) end  
-    ACTIONS.ActionSeries12 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[12],ACTIONS) end  
-    ACTIONS.ActionSeries13 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[13],ACTIONS) end  
-    ACTIONS.ActionSeries14 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[14],ACTIONS) end  
-    ACTIONS.ActionSeries15 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[15],ACTIONS) end  
-    ACTIONS.ActionSeries16 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[16],ACTIONS) end  
+    ACTIONS.ActionSeries9 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[9],ACTIONS) end
+    ACTIONS.ActionSeries10 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[10],ACTIONS) end
+    ACTIONS.ActionSeries11 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[11],ACTIONS) end
+    ACTIONS.ActionSeries12 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[12],ACTIONS) end
+    ACTIONS.ActionSeries13 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[13],ACTIONS) end
+    ACTIONS.ActionSeries14 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[14],ACTIONS) end
+    ACTIONS.ActionSeries15 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[15],ACTIONS) end
+    ACTIONS.ActionSeries16 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[16],ACTIONS) end
 
     local function notsupported() LrDialogs.showBezel(LOC('$$$/MIDI2LR/Dialog/NeedNewerLR=A newer version of Lightroom is required')) end
 
@@ -552,7 +553,7 @@ LrTasks.startAsyncTask(
       Will need to add code to AdjustmentChangeObserver and FullRefresh, and remember last fader
       position received by SetRating.
       --]]
-      SetRating          = function(value) 
+      SetRating          = function(value)
         local newrating = math.min(5,math.floor(tonumber(value)*6))
         if newrating ~= LrSelection.getRating() then
           LrSelection.setRating(newrating)
@@ -722,7 +723,7 @@ LrTasks.startAsyncTask(
                 local gradeFocus = GradeFocusTable[param]
                 if gradeFocus then
                   local currentView = LrDevelopController.getActiveColorGradingView()
-                  if currentView ~= '3-way' or gradeFocus == 'global' then 
+                  if currentView ~= '3-way' or gradeFocus == 'global' then
                     if currentView ~= gradeFocus then
                       LrDevelopController.setActiveColorGradingView(gradeFocus)
                     end
@@ -739,7 +740,7 @@ LrTasks.startAsyncTask(
                 if lp then
                   LastParam = lp
                 end
-              elseif param:sub(1,4) == 'Crop'  then 
+              elseif param:sub(1,4) == 'Crop'  then
                 CU.RatioCrop(param,value,UpdateParam)
               elseif param:sub(1,5) == 'Reset' then -- perform a reset other than those explicitly coded in ACTIONS array
                 if tonumber(value) > BUTTON_ON then
@@ -753,7 +754,7 @@ LrTasks.startAsyncTask(
                     local gradeFocus = GradeFocusTable[resetparam] -- scroll to correct view on color grading
                     if gradeFocus then
                       local currentView = LrDevelopController.getActiveColorGradingView()
-                      if currentView ~= '3-way' or gradeFocus == 'global' then 
+                      if currentView ~= '3-way' or gradeFocus == 'global' then
                         if currentView ~= gradeFocus then
                           LrDevelopController.setActiveColorGradingView(gradeFocus)
                         end

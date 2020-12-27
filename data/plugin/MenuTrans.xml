@@ -369,6 +369,10 @@
               <first>Filter_12</first>
               <second>Library filter 12</second>
             </value11>
+            <value12>
+              <first>FilterNone</first>
+              <second>Filters off</second>
+            </value12>
         </second>
       </value2>
       <value3>
