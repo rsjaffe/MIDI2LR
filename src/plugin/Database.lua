@@ -91,7 +91,7 @@ local whiteBalance = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/W
 --If the group was listed above this comment, it'd still work ok, but it would be more confusing to the reader
 local keyshortcuts = LOC('$$$/AgLayoutShortcuts/Header/UISortcuts=Keyboard Shortcuts for User')
 local commandseries = LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Command sequence')
-local filter= LOC('$$$/Library/Filter/FilterLabel=Library filter')
+local filter= LOC('$$$/Library/Filter/FilterLabel=Library filter'):gsub(' ?:','')
 local view = LOC('$$$/AgLibrary/Help/Shortcuts/Header/ViewShortcuts=View')
 local rating = LOC('$$$/AgLibrary/Help/Shortcuts/Header/RatingsShortcuts=Rating')
 local flagging = LOC('$$$/AgLibrary/Help/Shortcuts/Header/FlaggingShortcuts=Flagging')
@@ -116,7 +116,7 @@ local localizedAdjustments = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/L
 local localadjresets = LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj)
 --local localpresets = locadjpre
 local crop = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')
-local gotoToolModulePanel = LOC('$$$/AgDialogs/Select=Select')..' '..LOC('$$$/AgDevelop/Menu/Tools=Tools'):gsub('%(%&%a%)',''):gsub('%&','')..LOC('$$$/AgStringUtils/localizedList/separatorString=, ')..LOC('$$$/Application/Menu/Window/Modules=Modules:'):gsub(':','')..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..LOC('$$$/AgPreferences/Interface/GroupTitle/Panels=Panels')
+local gotoToolModulePanel = LOC('$$$/AgDialogs/Select=Select')..' '..LOC('$$$/AgDevelop/Menu/Tools=Tools'):gsub('%(%&%a%)',''):gsub('%&','')..LOC('$$$/AgStringUtils/localizedList/separatorString=, ')..LOC('$$$/Application/Menu/Window/Modules=Modules:'):gsub(' ?:','')..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..LOC('$$$/AgPreferences/Interface/GroupTitle/Panels=Panels')
 local secondaryDisplay = LOC('$$$/AgApplication/Menu/Window/SecondaryDisplay=Secondary Display')
 local profiles = LOC("$$$/CRaw/Style/ProfileGroup/Profiles=Profiles")
 
@@ -301,10 +301,10 @@ local DataBase = {
   {Command='LRPaste',Type='button',Translation='Lightroom '..LOC('$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings'),Group=develop,Explanation='Lightroom Paste. Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>v</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>v</kbd> (OSX) to Lightroom.'},
   {Command='VirtualCopy',Type='button',Translation=LOC('$$$/AgLibrary/History/CreateVirtualCopy=Create Virtual Copy'),Group=develop,Explanation='Creates a virtual copy for each of the currently selected photos and videos. The new virtual copies will be selected.'},
   {Command='ResetAll',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/ResetSettings=Reset Settings'),Group=develop,Explanation='Reset to defaults.'},
-  {Command='ResetLast',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified'):gsub(':','')),Group=develop,Explanation='Resets the last parameter that was adjusted by an encoder or fader to default.'},
+  {Command='ResetLast',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified'):gsub(' ?:','')),Group=develop,Explanation='Resets the last parameter that was adjusted by an encoder or fader to default.'},
   {Command='ChangeLastDevelopParameter',Type='repeat',Translation=LOC('$$$/ImportView/More=More')..' – '..LOC('$$$/ImportView/Less=Less')..' '..LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified'),Group=develop,Explanation='Increments or decrements the last parameter that was adjusted by an encoder or fader. Turning knob clockwise sends Increment signals to Lightroom, counterclockwise Decrement.'..repeatexp},
-  {Command='IncrementLastDevelopParameter',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=^1 Increase: ^2','',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified')):gsub(':',''):gsub('^%s*(.-)%s*$', '%1'),Group=develop,Explanation='Increments the last parameter that was adjusted by an encoder or fader.'},
-  {Command='DecrementLastDevelopParameter',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 Decrease: ^2','',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified')):gsub(':',''):gsub('^%s*(.-)%s*$', '%1'),Group=develop,Explanation='Decrements the last parameter that was adjusted by an encoder or fader.'},
+  {Command='IncrementLastDevelopParameter',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=^1 Increase: ^2','',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified')):gsub(' ?:',''):gsub('^%s*(.-)%s*$', '%1'),Group=develop,Explanation='Increments the last parameter that was adjusted by an encoder or fader.'},
+  {Command='DecrementLastDevelopParameter',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 Decrease: ^2','',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified')):gsub(' ?:',''):gsub('^%s*(.-)%s*$', '%1'),Group=develop,Explanation='Decrements the last parameter that was adjusted by an encoder or fader.'},
   {Command='ChangeCurrentSlider',Type='repeat',Translation=LOC('$$$/ImportView/More=More')..' – '..LOC('$$$/ImportView/Less=Less'),Group=develop,Explanation='Adjusts selected develop slider up or down. Turning knob clockwise sends Increment keystrokes to Lightroom, counterclockwise Decrement.'..repeatexp},
   {Command='SliderIncrease',Type='button',Translation=LOC('$$$/ImportView/More=More'),Group=develop,Explanation='Sends the keystroke to increase the selected develop slider.'},
   {Command='SliderDecrease',Type='button',Translation=LOC('$$$/ImportView/Less=Less'),Group=develop,Explanation='Sends the keystroke to decrease the selected develop slider.'},
