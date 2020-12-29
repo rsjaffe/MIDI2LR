@@ -113,6 +113,8 @@ namespace rsj {
        const std::source_location& location = std::source_location::current()) noexcept;
    void Log(gsl::czstring<> info,
        const std::source_location& location = std::source_location::current()) noexcept;
+   void Log(gsl::cwzstring<> info,
+       const std::source_location& location = std::source_location::current()) noexcept;
 #define MIDI2LR_E_RESPONSE   rsj::ExceptionResponse(e)
 #define MIDI2LR_E_RESPONSE_F rsj::ExceptionResponse(e)
 #else
@@ -121,6 +123,7 @@ namespace rsj {
    void LogAndAlertError(gsl::czstring<> error_text) noexcept;
    void Log(const juce::String& info) noexcept;
    void Log(gsl::czstring<> info) noexcept;
+   void Log(gsl::cwzstring<> info) noexcept;
 #define MIDI2LR_E_RESPONSE   rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e)
 #define MIDI2LR_E_RESPONSE_F rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e)
 #endif

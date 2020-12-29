@@ -129,6 +129,18 @@ void rsj::Log(gsl::czstring<> info, const std::source_location& location) noexce
    try {
       if (juce::Logger::getCurrentLogger())
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ":"
+                                  + location.file_name() + ":" + location.line() + " "
+                                  + juce::String(juce::CharPointer_UTF8(info)));
+   }
+   catch (...) { //-V565
+   }
+}
+
+void rsj::Log(gsl::cwzstring<> info, const std::source_location& location) noexcept
+{
+   try {
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ":"
                                   + location.file_name() + ":" + location.line() + " " + info);
    }
    catch (...) { //-V565
@@ -201,6 +213,17 @@ void rsj::Log(const juce::String& info) noexcept
 }
 
 void rsj::Log(gsl::czstring<> info) noexcept
+{
+   try {
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": "
+                                  + juce::String(juce::CharPointer_UTF8(info)));
+   }
+   catch (...) { //-V565
+   }
+}
+
+void rsj::Log(gsl::cwzstring<> info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger())
