@@ -330,7 +330,7 @@ local function StartDialog(obstable,f)
         },
         f:spacer { height=11 },
         f:group_box {
-          title = LOC("$$$/CRaw/Style/Profiles=Profiles"),
+          title = LOC("$$$/CRaw/Style/ProfileGroup/Profiles=Profiles"),
           width = LrView.share('profile_group'),
           size='regular', font='<system/small/bold>',
           f:row {
@@ -387,7 +387,7 @@ local function StartDialog(obstable,f)
       f:column {
         width = LrView.share('profile_column'),
         f:group_box {
-          title = LOC("$$$/CRaw/Style/Profiles=Profiles"),
+          title = LOC("$$$/CRaw/Style/ProfileGroup/Profiles=Profiles"),
           width = LrView.share('profile_group'),
           font='<system/small/bold>',
           f:row {
