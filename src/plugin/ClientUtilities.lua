@@ -26,6 +26,7 @@ local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
+local LrLocalization      = import 'LrLocalization'
 local LrStringUtils       = import 'LrStringUtils'
 local LrTasks             = import 'LrTasks'
 
@@ -745,6 +746,10 @@ local function ResetAllSaturationAdjustment()
 end
 
 local cropbezel = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')..' ' -- no need to recompute each time we crop
+local pct = '%'
+if LrLocalization.currentLanguage() == 'fr' then
+  pct = ' %'
+end
 
 local function RatioCrop(param, value, UpdateParam)
   if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
@@ -765,7 +770,7 @@ local function RatioCrop(param, value, UpdateParam)
       new_left = 0
     end
     UpdateParam("CropTop",new_top,
-      cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(prior_c_bottom-new_top)*100,0)..'%')
+      cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(prior_c_bottom-new_top)*100,0)..pct)
     UpdateParam("CropLeft",new_left,true)
   elseif param == "CropTopRight" then
     local new_top = tonumber(value)
@@ -775,7 +780,7 @@ local function RatioCrop(param, value, UpdateParam)
       new_right = 1
     end
     UpdateParam("CropTop",new_top,
-      cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(prior_c_bottom-new_top)*100,0)..'%')
+      cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(prior_c_bottom-new_top)*100,0)..pct)
     UpdateParam("CropRight",new_right,true)
   elseif param == "CropBottomLeft" then
     local new_bottom = tonumber(value)
@@ -785,7 +790,7 @@ local function RatioCrop(param, value, UpdateParam)
       new_left = 0
     end
     UpdateParam("CropBottom",new_bottom,
-      cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(new_bottom-prior_c_top)*100,0)..'%')
+      cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(new_bottom-prior_c_top)*100,0)..pct)
     UpdateParam("CropLeft",new_left,true)
   elseif param == "CropBottomRight" then
     local new_bottom = tonumber(value)
@@ -795,7 +800,7 @@ local function RatioCrop(param, value, UpdateParam)
       new_right = 1
     end
     UpdateParam("CropBottom",new_bottom,
-      cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(new_bottom-prior_c_top)*100,0)..'%')
+      cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(new_bottom-prior_c_top)*100,0)..pct)
     UpdateParam("CropRight",new_right,true)
   elseif param == "CropAll" then
     local new_bottom = tonumber(value)
@@ -810,7 +815,7 @@ local function RatioCrop(param, value, UpdateParam)
       new_left = 0
     end
     UpdateParam("CropBottom",new_bottom,
-      cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-new_left)*(new_bottom-new_top)*100,0)..'%')
+      cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-new_left)*(new_bottom-new_top)*100,0)..pct)
     UpdateParam("CropRight",new_right,true)
     UpdateParam("CropTop",new_top,true)
     UpdateParam("CropLeft",new_left,true)
