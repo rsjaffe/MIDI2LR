@@ -26,3 +26,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide1=Dölj/Visa ^1"
 "$$$/MIDI2LR/Shortcuts/Key=Nyckel"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Kommandosekvens"
+"$$$/MIDI2LR/Keyword/Toggle=Växla nyckelord (av/på)"

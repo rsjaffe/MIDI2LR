@@ -740,6 +740,22 @@ local DataBase = {
   {Command='Keyword14',Type='button',Translation=keyword..' 14',Group=keywords,Explanation='Apply keyword 14 to all selected photos.'},
   {Command='Keyword15',Type='button',Translation=keyword..' 15',Group=keywords,Explanation='Apply keyword 15 to all selected photos.'},
   {Command='Keyword16',Type='button',Translation=keyword..' 16',Group=keywords,Explanation='Apply keyword 16 to all selected photos.'},
+  {Command='Keyword1Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 1',Group=keywords,Explanation='Toggle keyword 1 in each of the selected photos.'},
+  {Command='Keyword2Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 2',Group=keywords,Explanation='Toggle keyword 2 in each of the selected photos.'},
+  {Command='Keyword3Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 3',Group=keywords,Explanation='Toggle keyword 3 in each of the selected photos.'},
+  {Command='Keyword4Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 4',Group=keywords,Explanation='Toggle keyword 4 in each of the selected photos.'},
+  {Command='Keyword5Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 5',Group=keywords,Explanation='Toggle keyword 5 in each of the selected photos.'},
+  {Command='Keyword6Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 6',Group=keywords,Explanation='Toggle keyword 6 in each of the selected photos.'},
+  {Command='Keyword7Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 7',Group=keywords,Explanation='Toggle keyword 7 in each of the selected photos.'},
+  {Command='Keyword8Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 8',Group=keywords,Explanation='Toggle keyword 8 in each of the selected photos.'},
+  {Command='Keyword9Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 9',Group=keywords,Explanation='Toggle keyword 9 in each of the selected photos.'},
+  {Command='Keyword10Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 10',Group=keywords,Explanation='Toggle keyword 10 in each of the selected photos.'},
+  {Command='Keyword11Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 11',Group=keywords,Explanation='Toggle keyword 11 in each of the selected photos.'},
+  {Command='Keyword12Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 12',Group=keywords,Explanation='Toggle keyword 12 in each of the selected photos.'},
+  {Command='Keyword13Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 13',Group=keywords,Explanation='Toggle keyword 13 in each of the selected photos.'},
+  {Command='Keyword14Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 14',Group=keywords,Explanation='Toggle keyword 14 in each of the selected photos.'},
+  {Command='Keyword15Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 15',Group=keywords,Explanation='Toggle keyword 15 in each of the selected photos.'},
+  {Command='Keyword16Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 16',Group=keywords,Explanation='Toggle keyword 16 in each of the selected photos.'},
 
 --
 --develop: localized adjustments

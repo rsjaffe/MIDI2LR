@@ -26,3 +26,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide1=Nascondi/mostra ^1"
 "$$$/MIDI2LR/Shortcuts/Key=Tasto"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Sequenza di comandi"
+"$$$/MIDI2LR/Keyword/Toggle=Attiva/disattiva parola chiave"

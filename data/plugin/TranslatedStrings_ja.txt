@@ -26,3 +26,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide1=^1 を表示 / 非表示"
 "$$$/MIDI2LR/Shortcuts/Key=キー"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=コマンドシーケンス"
+"$$$/MIDI2LR/Keyword/Toggle=キーワードの切り替え"

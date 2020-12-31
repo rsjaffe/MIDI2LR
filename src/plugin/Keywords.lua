@@ -80,6 +80,35 @@ local function ApplyKeyword(Keyword)
   )
 end
 
+local function ToggleKeyword(Keyword)
+  LrTasks.startAsyncTask( function(context)
+      local LrCat = LrApplication.activeCatalog()
+      local LrKeyword = LrCat:getKeywordsByLocalId({Keyword})[1]
+      local TargetPhoto  = LrCat:getTargetPhoto()
+      if TargetPhoto and LrKeyword then
+        local TargetPhotos = LrCat:getTargetPhotos()
+        if ProgramPreferences.ClientShowBezelOnChange then
+          LrDialogs.showBezel(LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SettingsString/ConstructionWithColon=^1: ^2",LOC("$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword"),LrKeyword:getName()))
+        end
+        for _,v in ipairs(TargetPhotos) do
+          local keyword_enabled = false
+          for _,k in ipairs(v:getRawMetadata('keywords')) do
+            if k.localIdentifier == Keyword then
+              keyword_enabled = true
+              break
+            end
+          end
+          if keyword_enabled then
+            LrCat:withWriteAccessDo( 'removeKeyword',function( context ) v:removeKeyword(LrKeyword) end, { timeout = 2 } )
+          else
+            LrCat:withWriteAccessDo( 'addKeyword',function( context ) v:addKeyword(LrKeyword) end, { timeout = 2 } )
+          end
+        end
+      end
+    end
+  )
+end
+
 local function StartDialog(obstable,f)
   local group_rows, group_cols = 4,4 -- row X col must equal numseries
   if ListReady then
@@ -152,4 +181,5 @@ return {
   EndDialog          = EndDialog,
   GetKeywords        = GetKeywords,
   StartDialog        = StartDialog,
+  ToggleKeyword      = ToggleKeyword,
 }
