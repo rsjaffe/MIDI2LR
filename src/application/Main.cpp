@@ -419,7 +419,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    Profile profile_ {command_set_};
    MidiSender midi_sender_ {devices_};
    MidiReceiver midi_receiver_ {devices_};
-   LrIpcOut lr_ipc_out_ {controls_model_, profile_, midi_sender_, midi_receiver_};
+   LrIpcOut lr_ipc_out_ {command_set_, controls_model_, profile_, midi_sender_, midi_receiver_};
    ProfileManager profile_manager_ {controls_model_, profile_, lr_ipc_out_, midi_receiver_};
    LrIpcIn lr_ipc_in_ {controls_model_, profile_manager_, profile_, midi_sender_};
    SettingsManager settings_manager_ {profile_manager_, lr_ipc_out_};

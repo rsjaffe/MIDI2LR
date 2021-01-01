@@ -19,6 +19,7 @@
 #include <functional>
 #include <future>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -26,6 +27,7 @@
 
 #include "Concurrency.h"
 #include "MidiUtilities.h"
+class CommandSet;
 class ControlsModel;
 class MidiReceiver;
 class MidiSender;
@@ -36,8 +38,8 @@ class Profile;
 
 class LrIpcOut {
  public:
-   LrIpcOut(ControlsModel& c_model, const Profile& profile, const MidiSender& midi_sender,
-       MidiReceiver& midi_receiver);
+   LrIpcOut(const CommandSet& command_set, ControlsModel& c_model, const Profile& profile,
+       const MidiSender& midi_sender, MidiReceiver& midi_receiver);
    ~LrIpcOut() = default;
    LrIpcOut(const LrIpcOut& other) = delete;
    LrIpcOut(LrIpcOut&& other) = delete;
@@ -79,6 +81,8 @@ class LrIpcOut {
    bool sending_stopped_ {false};
    const MidiSender& midi_sender_;
    const Profile& profile_;
+   const std::unordered_map<std::string, std::pair<std::string, std::string>>& repeat_cmd_;
+   const std::vector<std::string>& wrap_;
    ControlsModel& controls_model_;
    rsj::ConcurrentQueue<std::string> command_;
    std::atomic<bool> connected_ {false};

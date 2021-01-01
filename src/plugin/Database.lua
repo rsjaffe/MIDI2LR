@@ -50,7 +50,9 @@ Type
   variable needs slider value
   repeat sends repeated LR commands when twisting knob (see LR_IPC_Out.cpp)
 
-Fields (experimental and panel are optional)
+Fields (Wraps, Repeats, experimental and panel are optional)
+for wraps, would enter wrap = true for values that wrap around (e.g., color wheel)
+for repeats, would enter repeats={cw_key,ccw_key} for what gets sent when turn right/left
 Command Type Experimental Translation Group (in app) Explanation Panel (in LR Devel)
 also optional are PV1 PV2 PV3 PV4 PV5. These change the bezel display for different process versions
   -----------------------------------------------------------------------------]]
@@ -165,26 +167,26 @@ local DataBase = {
   {Command='Key38',Type='button',Translation=key..' 38',Group=keyshortcuts,Explanation='Key 38'..keyexp},
   {Command='Key39',Type='button',Translation=key..' 39',Group=keyshortcuts,Explanation='Key 39'..keyexp},
   {Command='Key40',Type='button',Translation=key..' 40',Group=keyshortcuts,Explanation='Key 40'..keyexp},
-  {Command='Key2Key1',Type='repeat',Translation=key..' 2 – '..key..' 1',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key2 signals to Lightroom, counterclockwise Key1.'..repeatexp},
-  {Command='Key4Key3',Type='repeat',Translation=key..' 4 – '..key..' 3',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key4 signals to Lightroom, counterclockwise Key3.'..repeatexp},
-  {Command='Key6Key5',Type='repeat',Translation=key..' 6 – '..key..' 5',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key6 signals to Lightroom, counterclockwise Key5.'..repeatexp},
-  {Command='Key8Key7',Type='repeat',Translation=key..' 8 – '..key..' 7',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key8 signals to Lightroom, counterclockwise Key7.'..repeatexp},
-  {Command='Key10Key9',Type='repeat',Translation=key..' 10 – '..key..' 9',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key10 signals to Lightroom, counterclockwise Key9.'..repeatexp},
-  {Command='Key12Key11',Type='repeat',Translation=key..' 12 – '..key..' 11',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key12 signals to Lightroom, counterclockwise Key11.'..repeatexp},
-  {Command='Key14Key13',Type='repeat',Translation=key..' 14 – '..key..' 13',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key14 signals to Lightroom, counterclockwise Key13.'..repeatexp},
-  {Command='Key16Key15',Type='repeat',Translation=key..' 16 – '..key..' 15',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key16 signals to Lightroom, counterclockwise Key15.'..repeatexp},
-  {Command='Key18Key17',Type='repeat',Translation=key..' 18 – '..key..' 17',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key18 signals to Lightroom, counterclockwise Key17.'..repeatexp},
-  {Command='Key20Key19',Type='repeat',Translation=key..' 20 – '..key..' 19',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key20 signals to Lightroom, counterclockwise Key19.'..repeatexp},
-  {Command='Key22Key21',Type='repeat',Translation=key..' 22 – '..key..' 21',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key22 signals to Lightroom, counterclockwise Key21.'..repeatexp},
-  {Command='Key24Key23',Type='repeat',Translation=key..' 24 – '..key..' 23',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key24 signals to Lightroom, counterclockwise Key23.'..repeatexp},
-  {Command='Key26Key25',Type='repeat',Translation=key..' 26 – '..key..' 25',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key26 signals to Lightroom, counterclockwise Key25.'..repeatexp},
-  {Command='Key28Key27',Type='repeat',Translation=key..' 28 – '..key..' 27',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key28 signals to Lightroom, counterclockwise Key27.'..repeatexp},
-  {Command='Key30Key29',Type='repeat',Translation=key..' 30 – '..key..' 29',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key30 signals to Lightroom, counterclockwise Key29.'..repeatexp},
-  {Command='Key32Key31',Type='repeat',Translation=key..' 32 – '..key..' 31',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key32 signals to Lightroom, counterclockwise Key31.'..repeatexp},
-  {Command='Key34Key33',Type='repeat',Translation=key..' 34 – '..key..' 33',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key34 signals to Lightroom, counterclockwise Key33.'..repeatexp},
-  {Command='Key36Key35',Type='repeat',Translation=key..' 36 – '..key..' 35',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key36 signals to Lightroom, counterclockwise Key35.'..repeatexp},
-  {Command='Key38Key37',Type='repeat',Translation=key..' 38 – '..key..' 37',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key38 signals to Lightroom, counterclockwise Key37.'..repeatexp},
-  {Command='Key40Key39',Type='repeat',Translation=key..' 40 – '..key..' 39',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key40 signals to Lightroom, counterclockwise Key39.'..repeatexp},
+  {Command='Key2Key1',Type='repeat',Translation=key..' 2 – '..key..' 1',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key2 signals to Lightroom, counterclockwise Key1.'..repeatexp,Repeats={'Key2','Key1'}},
+  {Command='Key4Key3',Type='repeat',Translation=key..' 4 – '..key..' 3',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key4 signals to Lightroom, counterclockwise Key3.'..repeatexp,Repeats={'Key4','Key3'}},
+  {Command='Key6Key5',Type='repeat',Translation=key..' 6 – '..key..' 5',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key6 signals to Lightroom, counterclockwise Key5.'..repeatexp,Repeats={'Key6','Key5'}},
+  {Command='Key8Key7',Type='repeat',Translation=key..' 8 – '..key..' 7',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key8 signals to Lightroom, counterclockwise Key7.'..repeatexp,Repeats={'Key8','Key7'}},
+  {Command='Key10Key9',Type='repeat',Translation=key..' 10 – '..key..' 9',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key10 signals to Lightroom, counterclockwise Key9.'..repeatexp,Repeats={'Key10','Key9'}},
+  {Command='Key12Key11',Type='repeat',Translation=key..' 12 – '..key..' 11',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key12 signals to Lightroom, counterclockwise Key11.'..repeatexp,Repeats={'Key12','Key11'}},
+  {Command='Key14Key13',Type='repeat',Translation=key..' 14 – '..key..' 13',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key14 signals to Lightroom, counterclockwise Key13.'..repeatexp,Repeats={'Key14','Key13'}},
+  {Command='Key16Key15',Type='repeat',Translation=key..' 16 – '..key..' 15',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key16 signals to Lightroom, counterclockwise Key15.'..repeatexp,Repeats={'Key16','Key15'}},
+  {Command='Key18Key17',Type='repeat',Translation=key..' 18 – '..key..' 17',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key18 signals to Lightroom, counterclockwise Key17.'..repeatexp,Repeats={'Key18','Key17'}},
+  {Command='Key20Key19',Type='repeat',Translation=key..' 20 – '..key..' 19',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key20 signals to Lightroom, counterclockwise Key19.'..repeatexp,Repeats={'Key20','Key19'}},
+  {Command='Key22Key21',Type='repeat',Translation=key..' 22 – '..key..' 21',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key22 signals to Lightroom, counterclockwise Key21.'..repeatexp,Repeats={'Key22','Key21'}},
+  {Command='Key24Key23',Type='repeat',Translation=key..' 24 – '..key..' 23',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key24 signals to Lightroom, counterclockwise Key23.'..repeatexp,Repeats={'Key24','Key23'}},
+  {Command='Key26Key25',Type='repeat',Translation=key..' 26 – '..key..' 25',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key26 signals to Lightroom, counterclockwise Key25.'..repeatexp,Repeats={'Key26','Key25'}},
+  {Command='Key28Key27',Type='repeat',Translation=key..' 28 – '..key..' 27',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key28 signals to Lightroom, counterclockwise Key27.'..repeatexp,Repeats={'Key28','Key27'}},
+  {Command='Key30Key29',Type='repeat',Translation=key..' 30 – '..key..' 29',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key30 signals to Lightroom, counterclockwise Key29.'..repeatexp,Repeats={'Key30','Key29'}},
+  {Command='Key32Key31',Type='repeat',Translation=key..' 32 – '..key..' 31',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key32 signals to Lightroom, counterclockwise Key31.'..repeatexp,Repeats={'Key32','Key31'}},
+  {Command='Key34Key33',Type='repeat',Translation=key..' 34 – '..key..' 33',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key34 signals to Lightroom, counterclockwise Key33.'..repeatexp,Repeats={'Key34','Key33'}},
+  {Command='Key36Key35',Type='repeat',Translation=key..' 36 – '..key..' 35',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key36 signals to Lightroom, counterclockwise Key35.'..repeatexp,Repeats={'Key36','Key35'}},
+  {Command='Key38Key37',Type='repeat',Translation=key..' 38 – '..key..' 37',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key38 signals to Lightroom, counterclockwise Key37.'..repeatexp,Repeats={'Key38','Key37'}},
+  {Command='Key40Key39',Type='repeat',Translation=key..' 40 – '..key..' 39',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key40 signals to Lightroom, counterclockwise Key39.'..repeatexp,Repeats={'Key40','Key39'}},
   --command series
   {Command='ActionSeries1',Type='button',Translation=commandseries..' 1',Group=commandseries,Explanation=serexp},
   {Command='ActionSeries2',Type='button',Translation=commandseries..' 2',Group=commandseries,Explanation=serexp},
@@ -230,8 +232,8 @@ local DataBase = {
   {Command='NextScreenMode',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/CycleToNextScreenMode=Cycle to next screen mode'),Group=view,Explanation='Changes to the next screen mode.'},
   {Command='ToggleLoupe',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleLoupeView=Loupe view activate/inactivate'):gsub('%(%&%a%)',''):gsub('%&',''),Group=view,Explanation='Toggle loupe view while in Library.'},
   {Command='ToggleZoomOffOn',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleZoomView=Enable/Disable Zoom'):gsub('%(%&%a%)',''):gsub('%&',''),Group=view,Explanation=''},
-  {Command='ZoomInOut',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In')..' '..LOC('$$$/ImportView/Less=Less')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out')..' '..LOC('$$$/ImportView/Less=Less'),Group=view,Explanation='Turning knob clockwise zooms in, counterclockwise zooms out.'..repeatexp},
-  {Command='ZoomOutIn',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out')..' '..LOC('$$$/ImportView/Less=Less')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In')..' '..LOC('$$$/ImportView/Less=Less'),Group=view,Explanation='Turning knob clockwise zooms out, counterclockwise zooms in.'..repeatexp},
+  {Command='ZoomInOut',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In')..' '..LOC('$$$/ImportView/Less=Less')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out')..' '..LOC('$$$/ImportView/Less=Less'),Group=view,Explanation='Turning knob clockwise zooms in, counterclockwise zooms out.'..repeatexp,Repeats={'ZoomInSmallStep','ZoomOutSmallStep'}},
+  {Command='ZoomOutIn',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out')..' '..LOC('$$$/ImportView/Less=Less')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In')..' '..LOC('$$$/ImportView/Less=Less'),Group=view,Explanation='Turning knob clockwise zooms out, counterclockwise zooms in.'..repeatexp,Repeats={'ZoomOutSmallStep','ZoomInSmallStep'}},
   {Command='ZoomInLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In'),Group=view,Explanation=''},
   {Command='ZoomInSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In')..' '..LOC('$$$/ImportView/Less=Less'),Group=view,Explanation=''},
   {Command='ZoomOutSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out')..' '..LOC('$$$/ImportView/Less=Less'),Group=view,Explanation=''},
@@ -246,7 +248,7 @@ local DataBase = {
   {Command='SetRating5',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',5),Group=rating,Explanation=''},
   {Command='IncreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating'),Group=rating,Explanation=''},
   {Command='DecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation=''},
-  {Command='IncreaseDecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating')..' — '..LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation='Turning knob clockwise increases the star rating, counterclockwise decreases it.'..repeatexp},
+  {Command='IncreaseDecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating')..' — '..LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation='Turning knob clockwise increases the star rating, counterclockwise decreases it.'..repeatexp,Repeats={'IncreaseRating','DecreaseRating'}},
   {Command='SetRating',Type='variable',Translation=LOC('$$$/AgDevelop/Toolbar/Tooltip/SetRating=Set Rating'),Group=rating,Explanation='Unlike *Increase Rating \226\128\148 Decrease Rating*, this relies on the absolute position of the control to set the rating. Best suited for faders. Suggest using *Increase Rating \226\128\148 Decrease Rating* for rotary controls. Note that MIDI2LR does not synchronize the control with the current photo\226\128\153s rating and does not use pickup mode for this control, so the rating will immediately change to the control value when the control is moved, even if the control rating is far from the photo\226\128\153s current rating.'},
   --flagging
   {Command='Pick',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/SetPick=Set Pick Flag'),Group=flagging,Explanation=''},
@@ -264,10 +266,10 @@ local DataBase = {
   {Command='EditPhotoshop',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop'),Group=photos,Explanation='Edit the current photo in Photoshop.'},
   {Command='openExportDialog',Type='button',Translation=LOC('$$$/AgLibrary/Panel/ExportButtonTitle=Export...'),Group=photos,Explanation='Opens export dialog for all selected photos.'},
   {Command='openExportWithPreviousDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export/ExportAgain=Export again'):gsub('%(%&%a%)',''):gsub('%&',''),Group=photos,Explanation='Exports with previous settings for all selected photos.'},
-  {Command='SelectRightLeft',Type='repeat',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left')..' '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=photos,Explanation='Extend selection to right or left. Turning knob clockwise sends select Right signals to Lightroom, counterclockwise select Left.'..repeatexp},
+  {Command='SelectRightLeft',Type='repeat',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left')..' '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=photos,Explanation='Extend selection to right or left. Turning knob clockwise sends select Right signals to Lightroom, counterclockwise select Left.'..repeatexp,Repeats={'Select1Right','Select1Left'}},
   {Command='Select1Left',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left'),Group=photos,Explanation='Extend selection one picture to the left.'},
   {Command='Select1Right',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=photos,Explanation='Extend selection one picture to the right.'},
-  {Command='NextPrev',Type='repeat',Translation=LOC('$$$/AgDevelopShortcuts/Next_Photo=Next Photo')..' — '..LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=photos,Explanation='Move to next or previous photo. Turning knob clockwise sends Next signals to Lightroom, counterclockwise Previous.'..repeatexp},
+  {Command='NextPrev',Type='repeat',Translation=LOC('$$$/AgDevelopShortcuts/Next_Photo=Next Photo')..' — '..LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=photos,Explanation='Move to next or previous photo. Turning knob clockwise sends Next signals to Lightroom, counterclockwise Previous.'..repeatexp,Repeats={'Next','Prev'}},
   {Command='Next',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Next_Photo=Next Photo'),Group=photos,Explanation=''},
   {Command='Prev',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=photos,Explanation=''},
   {Command='RotateLeft',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_left=Rotate left'),Group=photos,Explanation='Rotates all selected photos left.'},
@@ -302,13 +304,13 @@ local DataBase = {
   {Command='VirtualCopy',Type='button',Translation=LOC('$$$/AgLibrary/History/CreateVirtualCopy=Create Virtual Copy'),Group=develop,Explanation='Creates a virtual copy for each of the currently selected photos and videos. The new virtual copies will be selected.'},
   {Command='ResetAll',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/ResetSettings=Reset Settings'),Group=develop,Explanation='Reset to defaults.'},
   {Command='ResetLast',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified'):gsub(' ?:','')),Group=develop,Explanation='Resets the last parameter that was adjusted by an encoder or fader to default.'},
-  {Command='ChangeLastDevelopParameter',Type='repeat',Translation=LOC('$$$/ImportView/More=More')..' – '..LOC('$$$/ImportView/Less=Less')..' '..LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified'),Group=develop,Explanation='Increments or decrements the last parameter that was adjusted by an encoder or fader. Turning knob clockwise sends Increment signals to Lightroom, counterclockwise Decrement.'..repeatexp},
+  {Command='ChangeLastDevelopParameter',Type='repeat',Translation=LOC('$$$/ImportView/More=More')..' – '..LOC('$$$/ImportView/Less=Less')..' '..LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified'),Group=develop,Explanation='Increments or decrements the last parameter that was adjusted by an encoder or fader. Turning knob clockwise sends Increment signals to Lightroom, counterclockwise Decrement.'..repeatexp,Repeats={'IncrementLastDevelopParameter','DecrementLastDevelopParameter'}},
   {Command='IncrementLastDevelopParameter',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=^1 Increase: ^2','',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified')):gsub(' ?:',''):gsub('^%s*(.-)%s*$', '%1'),Group=develop,Explanation='Increments the last parameter that was adjusted by an encoder or fader.'},
   {Command='DecrementLastDevelopParameter',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 Decrease: ^2','',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified')):gsub(' ?:',''):gsub('^%s*(.-)%s*$', '%1'),Group=develop,Explanation='Decrements the last parameter that was adjusted by an encoder or fader.'},
-  {Command='ChangeCurrentSlider',Type='repeat',Translation=LOC('$$$/ImportView/More=More')..' – '..LOC('$$$/ImportView/Less=Less'),Group=develop,Explanation='Adjusts selected develop slider up or down. Turning knob clockwise sends Increment keystrokes to Lightroom, counterclockwise Decrement.'..repeatexp},
+  {Command='ChangeCurrentSlider',Type='repeat',Translation=LOC('$$$/ImportView/More=More')..' – '..LOC('$$$/ImportView/Less=Less'),Group=develop,Explanation='Adjusts selected develop slider up or down. Turning knob clockwise sends Increment keystrokes to Lightroom, counterclockwise Decrement.'..repeatexp,Repeats={'SliderIncrease','SliderDecrease'}},
   {Command='SliderIncrease',Type='button',Translation=LOC('$$$/ImportView/More=More'),Group=develop,Explanation='Sends the keystroke to increase the selected develop slider.'},
   {Command='SliderDecrease',Type='button',Translation=LOC('$$$/ImportView/Less=Less'),Group=develop,Explanation='Sends the keystroke to decrease the selected develop slider.'},
-  {Command='RedoUndo',Type='repeat',Translation=LOC('$$$/Bezel/RedoTitle=Redo')..' – '..LOC('$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo'),Group=develop,Explanation='Turning knob clockwise sends Redo keystrokes (<kbd>\226\140\131 Control</kbd>+<kbd>y</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>z</kbd> (OSX)) to Lightroom, counterclockwise Undo (<kbd>\226\140\131 Control</kbd>+<kbd>z</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>z</kbd> (OSX)).'..repeatexp},
+  {Command='RedoUndo',Type='repeat',Translation=LOC('$$$/Bezel/RedoTitle=Redo')..' – '..LOC('$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo'),Group=develop,Explanation='Turning knob clockwise sends Redo keystrokes (<kbd>\226\140\131 Control</kbd>+<kbd>y</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>z</kbd> (OSX)) to Lightroom, counterclockwise Undo (<kbd>\226\140\131 Control</kbd>+<kbd>z</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>z</kbd> (OSX)).'..repeatexp,Repeats={'Redo','Undo'}},
   {Command='Undo',Type='button',Translation=LOC('$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo'),Group=develop,Explanation='Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>z</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>z</kbd> (OSX) to Lightroom.'},
   {Command='Redo',Type='button',Translation=LOC('$$$/Bezel/RedoTitle=Redo'),Group=develop,Explanation='Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>y</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>z</kbd> (OSX) to Lightroom.'},
   {Command='PV1',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',1),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 1.'},
@@ -470,16 +472,16 @@ local DataBase = {
   {Command='EnableColorGrading',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleColorGrading=Color grading enable/disable'),Group=colorGrading,Explanation='Enable or disable color grading.',Panel='colorGradingPanel'},
   {Command='ColorGradeBlending',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeBlending=Color Blending'),Group=colorGrading,Explanation='Color grading blending changes the transition between each range: highlight, midtone, shadow. More blending gives a broader transition. The legacy Split Toning panel used a blending value of 100.',Panel='colorGradingPanel'},
   {Command='SplitToningBalance',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeBalance=Color Grading Balance'),Group=colorGrading,Explanation='Set the Balance slider to balance the effect between the Highlight and Shadow sliders. Positive values moves more of the image into the highlight slider range; negative values moves more of the image into the shadows slider range. Midtones are shifted as well.',Panel='colorGradingPanel'},
-  {Command='ColorGradeGlobalHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalHue=Global Hue'),Group=colorGrading,Explanation='Adjust color grading global hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel'},
+  {Command='ColorGradeGlobalHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalHue=Global Hue'),Group=colorGrading,Explanation='Adjust color grading global hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel',Wraps=true},
   {Command='ColorGradeGlobalLum',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalLum=Global Luminance'),Group=colorGrading,Explanation='Adjust color grading global luminance.',Panel='colorGradingPanel'},
   {Command='ColorGradeGlobalSat',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalSat=Global Saturation'),Group=colorGrading,Explanation='Adjust color grading global saturation.',Panel='colorGradingPanel'},
-  {Command='SplitToningHighlightHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningHighlightHue=Highlight Hue'),Group=colorGrading,Explanation='Adjust color grading highlight hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel'},
+  {Command='SplitToningHighlightHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningHighlightHue=Highlight Hue'),Group=colorGrading,Explanation='Adjust color grading highlight hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel',Wraps=true},
   {Command='ColorGradeHighlightLum',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeHighlightLum=Highlight Luminance'),Group=colorGrading,Explanation='Adjust color grading highlight luminance.',Panel='colorGradingPanel'},
   {Command='SplitToningHighlightSaturation',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningHighlightSaturation=Highlight Saturation'),Group=colorGrading,Explanation='Adjust color grading highlight saturation.',Panel='colorGradingPanel'},
-  {Command='ColorGradeMidtoneHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneHue=Midtone Hue'),Group=colorGrading,Explanation='Adjust color grading midtone hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel'},
+  {Command='ColorGradeMidtoneHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneHue=Midtone Hue'),Group=colorGrading,Explanation='Adjust color grading midtone hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel',Wraps=true},
   {Command='ColorGradeMidtoneLum',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneLum=Midtone Luminance'),Group=colorGrading,Explanation='Adjust color grading midtone luminance.',Panel='colorGradingPanel'},
   {Command='ColorGradeMidtoneSat',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneSat=Midtone Saturation'),Group=colorGrading,Explanation='Adjust color grading midtone saturation.',Panel='colorGradingPanel'},
-  {Command='SplitToningShadowHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowHue=Shadow Hue'),Group=colorGrading,Explanation='Adjust color grading shadow hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel'},
+  {Command='SplitToningShadowHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowHue=Shadow Hue'),Group=colorGrading,Explanation='Adjust color grading shadow hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel',Wraps=true},
   {Command='ColorGradeShadowLum',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeShadowLum=Shadow Luminance'),Group=colorGrading,Explanation='Adjust color grading shadow luminance.',Panel='colorGradingPanel'},
   {Command='SplitToningShadowSaturation',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowSaturation=Shadow Saturation'),Group=colorGrading,Explanation='Adjust color grading shadow saturation.',Panel='colorGradingPanel'},
   {Command='ColorGradeCopy',Type='button',Translation=LOC('$$$/AgDevelop/ColorGrading/ChannelSettings/Copy=Copy channel settings'),Group=colorGrading,Explanation='Copy settings from currently displayed channel.',Panel='colorGradingPanel'},
@@ -773,10 +775,10 @@ local DataBase = {
   {Command='EnablePaintBasedCorrections',Type='button',Translation=LOC('$$$/AgDevelop/Settings/TogglePaintBasedCorrections=Brush adjustments enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable brush adjustments.'},
   {Command='EnableRedEye',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleRedEye=Red-Eye enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable red eye correction.'},
   {Command='EnableRetouch',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleSpotRemoval=Spot removal enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable spot removal.'},
-  {Command='ChangeBrushSize',Type='repeat',Translation=brush..' — '..size,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Change adjustment brush size. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size.'..repeatexp},
+  {Command='ChangeBrushSize',Type='repeat',Translation=brush..' — '..size,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Change adjustment brush size. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size.'..repeatexp,Repeats={'BrushSizeLarger','BrushSizeSmaller'}},
   {Command='BrushSizeSmaller',Type='button',Translation=brush..' — '..size..' — '..smaller,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Reduce adjustment brush size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.'},
   {Command='BrushSizeLarger',Type='button',Translation=brush..' — '..size..' — '..larger,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Increase adjustment brush size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.'},
-  {Command='ChangeFeatherSize',Type='repeat',Translation=brush..' — '..feather,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Change adjustment brush feather size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size.'..repeatexp},
+  {Command='ChangeFeatherSize',Type='repeat',Translation=brush..' — '..feather,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Change adjustment brush feather size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size.'..repeatexp,Repeats={'BrushFeatherLarger','BrushFeatherSmaller'}},
   {Command='BrushFeatherSmaller',Type='button',Translation=brush..' — '..feather..' — '..smaller,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Reduce adjustment brush feather. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.'},
   {Command='BrushFeatherLarger',Type='button',Translation=brush..' — '..feather..' — '..larger,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Increase adjustment brush feather. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.'},
   {Command='local_Temperature',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Temperature=Temp.')..' (PV 3+)',PV3=locadj..' '..LOC('$$$/AgDevelop/Localized/Temperature=Temp.'),Group=localizedAdjustments,Explanation='Adjust Temperature for the currently active tool: Brush, Radial Filter, or Graduated Filter.'},
@@ -934,6 +936,8 @@ local function WriteAppTrans(language)
   --new version for xml file
   local CmdStructure={}
   local GroupOrder={}
+  local repeats={}
+  local wraps={}
   for _,v in ipairs(DataBase) do
     if CmdStructure[v.Group] then
       table.insert(CmdStructure[v.Group],{v.Command,v.Translation})
@@ -942,12 +946,18 @@ local function WriteAppTrans(language)
       CmdStructure[v.Group]={}
       table.insert(CmdStructure[v.Group],{v.Command,v.Translation})
     end
+    if v.Wraps then
+      wraps[#wraps+1]=v.Command
+    end
+    if v.Repeats and type(v.Repeats == 'table') then
+      repeats[v.Command] = v.Repeats
+    end
   end
   file:write([=[
 <?xml version="1.0" encoding="utf-8"?>
 <cereal>
   <value0>
-    <cereal_class_version>1</cereal_class_version>
+    <cereal_class_version>2</cereal_class_version>
     <language>]=],language,[=[</language>
     <all_commands size="dynamic">
   ]=])
@@ -964,6 +974,25 @@ local function WriteAppTrans(language)
   end
   file:write([=[
     </all_commands>
+    <repeats size="dynamic">
+]=])
+   local i = 0
+  for k,v in pairs(repeats) do
+    file:write('      <value'.. i ..'>\n        <key>'..k..
+      '</key>\n        <value>\n          <first xml:space="preserve">'..
+      v[1]..' 1\n</first>\n          <second xml:space="preserve">'..v[2]..
+      ' 1\n</second>\n        </value>\n      </value'..i..'>\n')
+    i = i + 1
+  end
+  file:write([=[
+    </repeats>
+    <wraps size="dynamic">
+   ]=])
+  for j,v in ipairs(wraps) do
+    file:write('      <value'.. j-1 ..'>'..v..'</value'.. j-1 ..'>\n')
+  end
+  file:write([=[
+    </wraps>
   </value0>
 </cereal>
   ]=])
