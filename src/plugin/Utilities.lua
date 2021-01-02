@@ -1,9 +1,3 @@
---------------------------------------------------------------------------------
--- Provides utility methods for MIDI2LR.
--- @module Utilities
--- @license GNU GPLv3
---------------------------------------------------------------------------------
-
 --[[
 Utilities.lua
 Provides utility methods for MIDI2LR
@@ -21,12 +15,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 --]]
---All variables and functions defined here must be local, except for return table.
---The only global identifiers used in this module are 'import'.
---In ZeroBrane IDE, check for global identifiers by pressing shift-F7 while 
---viewing this file.
 
---imports
 local LrPathUtils   = import 'LrPathUtils'
 local LrFileUtils   = import 'LrFileUtils'
 
@@ -54,9 +43,7 @@ local function appdatapath()
   return ret
 end
 
-
---- @export
-return { --table of exports, setting table member name and module function it points to
+return {
   appdatapath = appdatapath,
   applogpath = applogpath,
 }

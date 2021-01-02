@@ -26,3 +26,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide1=^1 tonen/verbergen"
 "$$$/MIDI2LR/Shortcuts/Key=Toets"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Commando volgorde"
+"$$$/MIDI2LR/Keyword/Toggle=Trefwoord in-/uitschakelen"

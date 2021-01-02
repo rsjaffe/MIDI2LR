@@ -19,6 +19,7 @@
 #include <compare>
 #endif
 #include <map>
+#include <memory>
 #include <utility>
 
 #include <juce_audio_devices/juce_audio_devices.h>

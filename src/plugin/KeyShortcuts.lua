@@ -31,7 +31,6 @@ local Modifiers = {
 --keycodes using Cmd in LR use 0x8 in OSX and 0x2 in Windows for modifier
 ------------------------------------------------------------------------------]]
 
-
 --functions using KeyCode must get it right
 --errors in spelling can cause crashes (e.g., BrushIncrease instead of BrushIncreaseKey)
 local KeyCode = { 
@@ -43,6 +42,7 @@ local KeyCode = {
   ShowAdjustmentBrushOverlayKey  = "0 o",
   SliderDecreaseKey              = '0 '..LOC("$$$/AgDevelop/KBSC/decrementTargetAdjustmentValue=-"),
   SliderIncreaseKey              = '0 '..LOC("$$$/AgDevelop/KBSC/incrementTargetAdjustmentValue=="),
+  ToggleFlagKey                  = '0 '..LOC("$$$/AgLibrary/Menu/ToggleFlag/Key=`"),
 }
 
 if WIN_ENV then -- shortcuts that differ between Mac and PC

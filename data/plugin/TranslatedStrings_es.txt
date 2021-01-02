@@ -1,4 +1,4 @@
-﻿"$$$/MIDI2LR/About/about=Modo de empleo: conectar un controlador MIDI, lanzar MIDI2LR, y comenzar a editar! Ver https://github.com/rsjaffe/MIDI2LR/wiki para más detalles."
+﻿"$$$/MIDI2LR/About/about=Modo de empleo: ¡conectar un controlador MIDI, lanzar MIDI2LR, y comenzar a editar! Ver https://github.com/rsjaffe/MIDI2LR/wiki para más detalles."
 "$$$/MIDI2LR/Database/Show1=Mostrar ^1"
 "$$$/MIDI2LR/Dialog/InvalidKey=El valor debe ser de un solo carácter o deletrear una tecla F (F1-F16) o: apostrophe, backslash, backspace (en MacOS representa eliminar hacia la izquierda), cursor down, cursor left, cursor right, cursor up, delete (en MacOS representa eliminar hacia la derecha), end, escape , home, page down, page up, return, space, tab o numpad 0 (a través de numpad 9), numpad add (o decimal, divide, multiply, subtract)."
 "$$$/MIDI2LR/Dialog/NeedNewerLR=Se requiere una versión más reciente del Lightroom"
@@ -26,3 +26,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide1=Mostrar/ocultar ^1"
 "$$$/MIDI2LR/Shortcuts/Key=Clave"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Secuencia de comandos"
+"$$$/MIDI2LR/Keyword/Toggle=Alternar palabra clave"

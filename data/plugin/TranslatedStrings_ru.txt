@@ -26,3 +26,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide1=Скрыть/показать ^1"
 "$$$/MIDI2LR/Shortcuts/Key=клавиша"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Последовательность команд"
+"$$$/MIDI2LR/Keyword/Toggle=Переключить ключевое слово"

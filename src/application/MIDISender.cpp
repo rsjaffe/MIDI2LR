@@ -16,6 +16,7 @@
 #include "MIDISender.h"
 
 #include <exception>
+#include <utility>
 
 #include <fmt/format.h>
 #include <gsl/gsl>

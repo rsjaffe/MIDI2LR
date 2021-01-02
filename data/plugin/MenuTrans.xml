@@ -1,7 +1,7 @@
-    <?xml version="1.0" encoding="utf-8"?>
-    <cereal>
-    <value0>
-    <cereal_class_version>1</cereal_class_version>
+<?xml version="1.0" encoding="utf-8"?>
+<cereal>
+  <value0>
+    <cereal_class_version>2</cereal_class_version>
     <language>en</language>
     <all_commands size="dynamic">
         <value0>
@@ -369,6 +369,10 @@
               <first>Filter_12</first>
               <second>Library filter 12</second>
             </value11>
+            <value12>
+              <first>FilterNone</first>
+              <second>Filters off</second>
+            </value12>
         </second>
       </value2>
       <value3>
@@ -428,11 +432,11 @@
             </value12>
             <value13>
               <first>ZoomInOut</first>
-              <second>Zoom In Some Zoom Out Some</second>
+              <second>Zoom In Less Zoom Out Less</second>
             </value13>
             <value14>
               <first>ZoomOutIn</first>
-              <second>Zoom Out Some Zoom In Some</second>
+              <second>Zoom Out Less Zoom In Less</second>
             </value14>
             <value15>
               <first>ZoomInLargeStep</first>
@@ -440,11 +444,11 @@
             </value15>
             <value16>
               <first>ZoomInSmallStep</first>
-              <second>Zoom In Some</second>
+              <second>Zoom In Less</second>
             </value16>
             <value17>
               <first>ZoomOutSmallStep</first>
-              <second>Zoom Out Some</second>
+              <second>Zoom Out Less</second>
             </value17>
             <value18>
               <first>ZoomOutLargeStep</first>
@@ -513,33 +517,37 @@
               <second>Set Rejected Flag</second>
             </value1>
             <value2>
-              <first>RemoveFlag</first>
-              <second>Unflagged</second>
+              <first>ToggleFlag</first>
+              <second>Toggle Flag</second>
             </value2>
             <value3>
-              <first>ToggleBlue</first>
-              <second>Label Blue Enable/Disable</second>
+              <first>RemoveFlag</first>
+              <second>Unflagged</second>
             </value3>
             <value4>
-              <first>ToggleGreen</first>
-              <second>Label Green Enable/Disable</second>
+              <first>ToggleBlue</first>
+              <second>Label Blue Enable/Disable</second>
             </value4>
             <value5>
-              <first>ToggleRed</first>
-              <second>Label Red Enable/Disable</second>
+              <first>ToggleGreen</first>
+              <second>Label Green Enable/Disable</second>
             </value5>
             <value6>
-              <first>TogglePurple</first>
-              <second>Label Purple Enable/Disable</second>
+              <first>ToggleRed</first>
+              <second>Label Red Enable/Disable</second>
             </value6>
             <value7>
-              <first>ToggleYellow</first>
-              <second>Label Yellow Enable/Disable</second>
+              <first>TogglePurple</first>
+              <second>Label Purple Enable/Disable</second>
             </value7>
             <value8>
+              <first>ToggleYellow</first>
+              <second>Label Yellow Enable/Disable</second>
+            </value8>
+            <value9>
               <first>ColorLabelNone</first>
               <second>Remove color label</second>
-            </value8>
+            </value9>
         </second>
       </value5>
       <value6>
@@ -1612,7 +1620,7 @@
             </value4>
             <value5>
               <first>LensProfileChromaticAberrationScale</first>
-              <second>Lens Profile Chromatic Aberration Scale</second>
+              <second>chromatic Aberration — Scale</second>
             </value5>
             <value6>
               <first>LensProfileVignettingScale</first>
@@ -1628,7 +1636,7 @@
             </value8>
             <value9>
               <first>ResetLensProfileChromaticAberrationScale</first>
-              <second>Reset Lens Profile Chromatic Aberration Scale</second>
+              <second>Reset chromatic Aberration — Scale</second>
             </value9>
             <value10>
               <first>ResetLensProfileVignettingScale</first>
@@ -2371,6 +2379,70 @@
               <first>Keyword16</first>
               <second>Keyword 16</second>
             </value15>
+            <value16>
+              <first>Keyword1Toggle</first>
+              <second>Toggle Keyword 1</second>
+            </value16>
+            <value17>
+              <first>Keyword2Toggle</first>
+              <second>Toggle Keyword 2</second>
+            </value17>
+            <value18>
+              <first>Keyword3Toggle</first>
+              <second>Toggle Keyword 3</second>
+            </value18>
+            <value19>
+              <first>Keyword4Toggle</first>
+              <second>Toggle Keyword 4</second>
+            </value19>
+            <value20>
+              <first>Keyword5Toggle</first>
+              <second>Toggle Keyword 5</second>
+            </value20>
+            <value21>
+              <first>Keyword6Toggle</first>
+              <second>Toggle Keyword 6</second>
+            </value21>
+            <value22>
+              <first>Keyword7Toggle</first>
+              <second>Toggle Keyword 7</second>
+            </value22>
+            <value23>
+              <first>Keyword8Toggle</first>
+              <second>Toggle Keyword 8</second>
+            </value23>
+            <value24>
+              <first>Keyword9Toggle</first>
+              <second>Toggle Keyword 9</second>
+            </value24>
+            <value25>
+              <first>Keyword10Toggle</first>
+              <second>Toggle Keyword 10</second>
+            </value25>
+            <value26>
+              <first>Keyword11Toggle</first>
+              <second>Toggle Keyword 11</second>
+            </value26>
+            <value27>
+              <first>Keyword12Toggle</first>
+              <second>Toggle Keyword 12</second>
+            </value27>
+            <value28>
+              <first>Keyword13Toggle</first>
+              <second>Toggle Keyword 13</second>
+            </value28>
+            <value29>
+              <first>Keyword14Toggle</first>
+              <second>Toggle Keyword 14</second>
+            </value29>
+            <value30>
+              <first>Keyword15Toggle</first>
+              <second>Toggle Keyword 15</second>
+            </value30>
+            <value31>
+              <first>Keyword16Toggle</first>
+              <second>Toggle Keyword 16</second>
+            </value31>
         </second>
       </value20>
       <value21>
@@ -2945,6 +3017,284 @@
         </second>
       </value27>
     </all_commands>
-    </value0>
-    </cereal>
+    <repeats size="dynamic">
+         <value0>
+        <key>Key2Key1</key>
+        <value>
+          <first xml:space="preserve">Key2 1
+</first>
+          <second xml:space="preserve">Key1 1
+</second>
+        </value>
+      </value0>
+      <value1>
+        <key>ZoomInOut</key>
+        <value>
+          <first xml:space="preserve">ZoomInSmallStep 1
+</first>
+          <second xml:space="preserve">ZoomOutSmallStep 1
+</second>
+        </value>
+      </value1>
+      <value2>
+        <key>Key28Key27</key>
+        <value>
+          <first xml:space="preserve">Key28 1
+</first>
+          <second xml:space="preserve">Key27 1
+</second>
+        </value>
+      </value2>
+      <value3>
+        <key>ChangeFeatherSize</key>
+        <value>
+          <first xml:space="preserve">BrushFeatherLarger 1
+</first>
+          <second xml:space="preserve">BrushFeatherSmaller 1
+</second>
+        </value>
+      </value3>
+      <value4>
+        <key>Key12Key11</key>
+        <value>
+          <first xml:space="preserve">Key12 1
+</first>
+          <second xml:space="preserve">Key11 1
+</second>
+        </value>
+      </value4>
+      <value5>
+        <key>ChangeBrushSize</key>
+        <value>
+          <first xml:space="preserve">BrushSizeLarger 1
+</first>
+          <second xml:space="preserve">BrushSizeSmaller 1
+</second>
+        </value>
+      </value5>
+      <value6>
+        <key>Key24Key23</key>
+        <value>
+          <first xml:space="preserve">Key24 1
+</first>
+          <second xml:space="preserve">Key23 1
+</second>
+        </value>
+      </value6>
+      <value7>
+        <key>RedoUndo</key>
+        <value>
+          <first xml:space="preserve">Redo 1
+</first>
+          <second xml:space="preserve">Undo 1
+</second>
+        </value>
+      </value7>
+      <value8>
+        <key>Key26Key25</key>
+        <value>
+          <first xml:space="preserve">Key26 1
+</first>
+          <second xml:space="preserve">Key25 1
+</second>
+        </value>
+      </value8>
+      <value9>
+        <key>ChangeCurrentSlider</key>
+        <value>
+          <first xml:space="preserve">SliderIncrease 1
+</first>
+          <second xml:space="preserve">SliderDecrease 1
+</second>
+        </value>
+      </value9>
+      <value10>
+        <key>Key14Key13</key>
+        <value>
+          <first xml:space="preserve">Key14 1
+</first>
+          <second xml:space="preserve">Key13 1
+</second>
+        </value>
+      </value10>
+      <value11>
+        <key>Key32Key31</key>
+        <value>
+          <first xml:space="preserve">Key32 1
+</first>
+          <second xml:space="preserve">Key31 1
+</second>
+        </value>
+      </value11>
+      <value12>
+        <key>ZoomOutIn</key>
+        <value>
+          <first xml:space="preserve">ZoomOutSmallStep 1
+</first>
+          <second xml:space="preserve">ZoomInSmallStep 1
+</second>
+        </value>
+      </value12>
+      <value13>
+        <key>IncreaseDecreaseRating</key>
+        <value>
+          <first xml:space="preserve">IncreaseRating 1
+</first>
+          <second xml:space="preserve">DecreaseRating 1
+</second>
+        </value>
+      </value13>
+      <value14>
+        <key>Key40Key39</key>
+        <value>
+          <first xml:space="preserve">Key40 1
+</first>
+          <second xml:space="preserve">Key39 1
+</second>
+        </value>
+      </value14>
+      <value15>
+        <key>Key6Key5</key>
+        <value>
+          <first xml:space="preserve">Key6 1
+</first>
+          <second xml:space="preserve">Key5 1
+</second>
+        </value>
+      </value15>
+      <value16>
+        <key>Key38Key37</key>
+        <value>
+          <first xml:space="preserve">Key38 1
+</first>
+          <second xml:space="preserve">Key37 1
+</second>
+        </value>
+      </value16>
+      <value17>
+        <key>SelectRightLeft</key>
+        <value>
+          <first xml:space="preserve">Select1Right 1
+</first>
+          <second xml:space="preserve">Select1Left 1
+</second>
+        </value>
+      </value17>
+      <value18>
+        <key>Key10Key9</key>
+        <value>
+          <first xml:space="preserve">Key10 1
+</first>
+          <second xml:space="preserve">Key9 1
+</second>
+        </value>
+      </value18>
+      <value19>
+        <key>Key34Key33</key>
+        <value>
+          <first xml:space="preserve">Key34 1
+</first>
+          <second xml:space="preserve">Key33 1
+</second>
+        </value>
+      </value19>
+      <value20>
+        <key>NextPrev</key>
+        <value>
+          <first xml:space="preserve">Next 1
+</first>
+          <second xml:space="preserve">Prev 1
+</second>
+        </value>
+      </value20>
+      <value21>
+        <key>Key16Key15</key>
+        <value>
+          <first xml:space="preserve">Key16 1
+</first>
+          <second xml:space="preserve">Key15 1
+</second>
+        </value>
+      </value21>
+      <value22>
+        <key>Key36Key35</key>
+        <value>
+          <first xml:space="preserve">Key36 1
+</first>
+          <second xml:space="preserve">Key35 1
+</second>
+        </value>
+      </value22>
+      <value23>
+        <key>Key18Key17</key>
+        <value>
+          <first xml:space="preserve">Key18 1
+</first>
+          <second xml:space="preserve">Key17 1
+</second>
+        </value>
+      </value23>
+      <value24>
+        <key>ChangeLastDevelopParameter</key>
+        <value>
+          <first xml:space="preserve">IncrementLastDevelopParameter 1
+</first>
+          <second xml:space="preserve">DecrementLastDevelopParameter 1
+</second>
+        </value>
+      </value24>
+      <value25>
+        <key>Key30Key29</key>
+        <value>
+          <first xml:space="preserve">Key30 1
+</first>
+          <second xml:space="preserve">Key29 1
+</second>
+        </value>
+      </value25>
+      <value26>
+        <key>Key22Key21</key>
+        <value>
+          <first xml:space="preserve">Key22 1
+</first>
+          <second xml:space="preserve">Key21 1
+</second>
+        </value>
+      </value26>
+      <value27>
+        <key>Key8Key7</key>
+        <value>
+          <first xml:space="preserve">Key8 1
+</first>
+          <second xml:space="preserve">Key7 1
+</second>
+        </value>
+      </value27>
+      <value28>
+        <key>Key20Key19</key>
+        <value>
+          <first xml:space="preserve">Key20 1
+</first>
+          <second xml:space="preserve">Key19 1
+</second>
+        </value>
+      </value28>
+      <value29>
+        <key>Key4Key3</key>
+        <value>
+          <first xml:space="preserve">Key4 1
+</first>
+          <second xml:space="preserve">Key3 1
+</second>
+        </value>
+      </value29>
+    </repeats>
+    <wraps size="dynamic">
+         <value0>ColorGradeGlobalHue</value0>
+      <value1>SplitToningHighlightHue</value1>
+      <value2>ColorGradeMidtoneHue</value2>
+      <value3>SplitToningShadowHue</value3>
+    </wraps>
+  </value0>
+</cereal>
   

@@ -15,6 +15,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
+
 local LrStringUtils = import 'LrStringUtils'
 local LrView = import 'LrView'
 
@@ -97,8 +98,6 @@ local function validate(_,value)
   if legalanswers[value] then return true,value end
   return false, '', LOC("$$$/MIDI2LR/Dialog/InvalidKey=Value must be single character or spell out an F key (F1-F16) or: apostrophe, backslash, backspace (in MacOS represents delete leftwards), cursor down, cursor left, cursor right, cursor up, delete (in MacOS represents delete rightwards, end, escape, home, page down, page up, return, space, tab, or numpad 0 (through numpad 9), numpad add (or decimal, divide, multiply, subtract).")
 end
-
-
 
 local function StartDialog(obstable,f)
   local internalview1 = {}
@@ -208,7 +207,6 @@ local function GetKey(i)
   end
   return string.format('%u',modifiers)..' '..ProgramPreferences.Keys[i]['key']
 end
-
 
 return { --table of exports, setting table member name and module function it points to
   EndDialog   = EndDialog,

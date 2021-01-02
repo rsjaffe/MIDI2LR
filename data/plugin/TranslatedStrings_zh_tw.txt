@@ -26,3 +26,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide1=隱藏/顯示^1"
 "$$$/MIDI2LR/Shortcuts/Key=金鑰"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=命令順序"
+"$$$/MIDI2LR/Keyword/Toggle=切換關鍵字"

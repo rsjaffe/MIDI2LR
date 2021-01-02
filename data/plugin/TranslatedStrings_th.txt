@@ -26,3 +26,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide1=ซ่อน/แสดง^1"
 "$$$/MIDI2LR/Shortcuts/Key=แป้น"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=ลำดับคำสั่ง"
+"$$$/MIDI2LR/Keyword/Toggle=สลับทางคำหลัก"

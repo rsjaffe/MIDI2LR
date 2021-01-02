@@ -28,7 +28,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local Database = require 'Database'
 local ProfileTypes        = require 'ProfileTypes'
 
-
 --ActionSeries.lua
 local function UseDefaultsActionSeries()
   ProgramPreferences.ActionSeries = {}
@@ -60,7 +59,6 @@ local function LoadedKeywords()
 end
 
 --Limits.lua
-
 local function UseDefaultsLimits()
   ProgramPreferences.Limits = {}
   ProgramPreferences.Limits.Temperature = {param = 'Temperature', label = Database.CmdTrans.Temperature[Database.LatestPVSupported], 

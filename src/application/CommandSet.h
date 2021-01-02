@@ -37,17 +37,13 @@ class CommandSet {
    {
       return cmd_by_number_.at(index);
    }
-
    [[nodiscard]] auto CommandAbbrevSize() const noexcept { return cmd_by_number_.size(); }
-
    [[nodiscard]] auto CommandLabelAt(size_t index) const { return cmd_label_by_number_.at(index); }
-
    [[nodiscard]] const auto& GetLanguage() const noexcept { return m_impl_.language_; }
-
    [[nodiscard]] const auto& GetMenus() const noexcept { return menus_; }
-
    [[nodiscard]] const auto& GetMenuEntries() const noexcept { return menu_entries_; }
-
+   [[nodiscard]] const auto& GetRepeats() const noexcept { return m_impl_.repeat_messages_; }
+   [[nodiscard]] const auto& GetWraps() const noexcept { return m_impl_.wraps_; }
    [[nodiscard]] static const auto& UnassignedTranslated()
    {
       static const auto unassigned {juce::translate("Unassigned").toStdString()};
@@ -67,9 +63,10 @@ class CommandSet {
       Impl& operator=(Impl&& other) = delete;
       template<class Archive> void serialize(Archive& archive, std::uint32_t const version)
       {
-         if (rsj::cmp_equal(version, 1))
+         if (rsj::cmp_equal(version, 2))
             archive(cereal::make_nvp("language", language_),
-                cereal::make_nvp("all_commands", allcommands_));
+                cereal::make_nvp("all_commands", allcommands_),
+                cereal::make_nvp("repeats", repeat_messages_), cereal::make_nvp("wraps", wraps_));
          else {
             constexpr auto msg {
                 "The file, 'MenuTrans.xml', is marked as a version not supported by the current "
@@ -81,6 +78,8 @@ class CommandSet {
       std::string language_;
       std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::string>>>>
           allcommands_;
+      std::unordered_map<std::string, std::pair<std::string, std::string>> repeat_messages_;
+      std::vector<std::string> wraps_;
    };
 
    friend class cereal::access;
@@ -96,6 +95,6 @@ class CommandSet {
 };
 #pragma warning(push)
 #pragma warning(disable : 26426 26440 26444)
-CEREAL_CLASS_VERSION(CommandSet::Impl, 1)
+CEREAL_CLASS_VERSION(CommandSet::Impl, 2)
 #pragma warning(pop)
 #endif

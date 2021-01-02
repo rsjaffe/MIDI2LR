@@ -18,7 +18,6 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-
 local LrApplication = import 'LrApplication'
 local LrView        = import 'LrView'
 local numfilters = 12
@@ -50,7 +49,6 @@ local function StartDialog(obstable,f)
         transform = function(value) return i..' '..filtersbyuuid[value[1]] end
       },  -- title
     } -- push_button
-
   end
   local tabviewitems = {} 
   local filterrows, filtercolumns = 4,3 -- x*y must equal local numfilters, above
@@ -73,7 +71,6 @@ local function StartDialog(obstable,f)
   } -- row
 end
 
-
 local function EndDialog(obstable, status)
   if status == 'ok' then
     ProgramPreferences.Filters = {} -- empty out prior settings
@@ -84,8 +81,6 @@ local function EndDialog(obstable, status)
     end
   end
 end
-
-
 
 return {
   StartDialog = StartDialog,

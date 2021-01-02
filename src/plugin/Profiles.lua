@@ -3,7 +3,7 @@
 Profiles.lua
 
 Manages profile changes for plugin
- 
+
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
@@ -15,7 +15,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local Database            = require 'Database'
@@ -32,7 +32,6 @@ local LrView              = import 'LrView'
 local currentTMP = {Tool = '', Module = '', Panel = '', Profile = ''}
 local loadedprofile = ''-- according to application and us
 local profilepath = '' --according to application
-
 
 local function doprofilechange(newprofile)
   if ProgramPreferences.ProfilesShowBezelOnChange then
@@ -57,14 +56,24 @@ local function doprofilechange(newprofile)
     local val_right = LrDevelopController.getValue("CropRight")
     MIDI2LR.SERVER:send(string.format('CropLeft %g\n', val_left))
     MIDI2LR.SERVER:send(string.format('CropRight %g\n', val_right))
-    MIDI2LR.SERVER:send(string.format('CropMoveVertical %g\n', val_top / (1 - (val_bottom - val_top))))
-    MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / (1 - (val_right - val_left))))
+    local range_v = (1 - (val_bottom - val_top))
+    if range_v == 0.0 then
+      MIDI2LR.SERVER:send('CropMoveVertical 0\n')
+    else
+      MIDI2LR.SERVER:send(string.format('CropMoveVertical %g\n', val_top / range_v))
+    end
+    local range_h = (1 - (val_right - val_left))
+    if range_h == 0.0 then
+      MIDI2LR.SERVER:send('CropMoveHorizontal 0\n')
+    else
+      MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / range_h))
+    end
     for param in pairs(Database.Parameters) do
-      local min,max = Limits.GetMinMax(param)
+      local min,max = Limits.GetMinMax(param) --can't include ClientUtilities: circular reference
       local lrvalue = LrDevelopController.getValue(param)
       if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
         local midivalue = (lrvalue-min)/(max-min)
-        if midivalue >= 1.0 then 
+        if midivalue >= 1.0 then
           MIDI2LR.SERVER:send(string.format('%s 1.0\n', param))
         elseif midivalue <= 0.0 then -- = catches -0.0 and sends it as 0.0
           MIDI2LR.SERVER:send(string.format('%s 0.0\n', param))
@@ -99,7 +108,7 @@ local function changeProfile(profilename, ignoreCurrent)
   if profilename and ProfileTypes[profilename] then
     local newprofile_file = ProgramPreferences.Profiles[profilename]
     local TMP = ProfileTypes[profilename]['TMP']
-    if (newprofile_file ~= nil) and (newprofile_file ~= '') and (loadedprofile ~= newprofile_file) and 
+    if (newprofile_file ~= nil) and (newprofile_file ~= '') and (loadedprofile ~= newprofile_file) and
     ((ignoreCurrent == true) or (currentTMP[TMP] ~= profilename)) then
       MIDI2LR.SERVER:send('SwitchProfile '..newprofile_file..'\n')
       doprofilechange(newprofile_file)
@@ -152,51 +161,51 @@ local function StartDialog(obstable,f)
       f:column {
         width = LrView.share('profile_column'),
         f:group_box {
-          title = LOC("$$$/Application/Menu/Window/Modules=Modules:"):gsub(':',''), --string has : in it in LR database
+          title = LOC("$$$/Application/Menu/Window/Modules=Modules:"):gsub(' ?:',''), --string has : in it in LR database
           width = LrView.share('profile_group'),
           font='<system/small/bold>',
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.library.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profilelibrary'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profilelibrary'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.develop.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profiledevelop'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profiledevelop'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.map.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profilemap'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profilemap'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.book.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profilebook'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profilebook'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },  
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.slideshow.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileslideshow'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileslideshow'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.print.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprint'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprint'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.web.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileweb'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileweb'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
         },
         f:spacer { height=11 },
         f:group_box {
@@ -206,45 +215,45 @@ local function StartDialog(obstable,f)
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.loupe.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileloupe'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileloupe'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.crop.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profilecrop'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profilecrop'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },    
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.dust.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profiledust'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profiledust'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },  
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.redeye.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileredeye'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileredeye'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },  
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.gradient.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profilegradient'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profilegradient'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.circularGradient.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('ProfilecircularGradient'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('ProfilecircularGradient'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },   
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.localized.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profilelocalized'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profilelocalized'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },  
+          },
           f:spacer{height = f:control_spacing() * 4,},
           f:push_button {title = LOC("$$$/AgDevelop/PresetsPanel/ClearAll=Clear All"), action = function()
               for k in obstable:pairs() do
@@ -267,39 +276,39 @@ local function StartDialog(obstable,f)
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.adjustPanel.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('ProfileadjustPanel'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('ProfileadjustPanel'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.tonePanel.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('ProfiletonePanel'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('ProfiletonePanel'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.mixerPanel.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('ProfilemixerPanel'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('ProfilemixerPanel'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.colorGradingPanel.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('ProfilecolorGradingPanel'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('ProfilecolorGradingPanel'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },            
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.detailPanel.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('ProfiledetailPanel'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('ProfiledetailPanel'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.lensCorrectionsPanel.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('ProfilelensCorrectionsPanel'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('ProfilelensCorrectionsPanel'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.transformPanel.friendlyName, width = LrView.share('profile_label'),},
@@ -309,184 +318,184 @@ local function StartDialog(obstable,f)
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.effectsPanel.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('ProfileeffectsPanel'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('ProfileeffectsPanel'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.calibratePanel.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('ProfilecalibratePanel'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('ProfilecalibratePanel'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },  
+          },
         },
         f:spacer { height=11 },
         f:group_box {
-          title = LOC("$$$/CRaw/Style/Profiles=Profiles"),
+          title = LOC("$$$/CRaw/Style/ProfileGroup/Profiles=Profiles"),
           width = LrView.share('profile_group'),
           size='regular', font='<system/small/bold>',
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile1.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile1'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile1'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile2.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile2'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile2'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile3.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile3'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile3'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile4.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile4'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile4'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile5.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile5'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile5'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile6.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile6'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile6'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile7.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile7'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile7'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile8.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile8'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile8'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
         },
       },
       f:spacer { width = 2 },
       f:column {
         width = LrView.share('profile_column'),
         f:group_box {
-          title = LOC("$$$/CRaw/Style/Profiles=Profiles"),
+          title = LOC("$$$/CRaw/Style/ProfileGroup/Profiles=Profiles"),
           width = LrView.share('profile_group'),
           font='<system/small/bold>',
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile9.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile9'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile9'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile10.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile10'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile10'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile11.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile11'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile11'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile12.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile12'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile12'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile13.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile13'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile13'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile14.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile14'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile14'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile15.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile15'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile15'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile16.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile16'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile16'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile17.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile17'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile17'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },    
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile18.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile18'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile18'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile19.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile19'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile19'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
+          },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile20.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile20'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile20'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile21.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile21'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile21'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile22.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile22'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile22'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile23.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile23'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile23'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile24.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile24'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile24'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile25.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile25'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile25'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },
           f:row {
             font='<system>',
             f:static_text{title = ProfileTypes.profile26.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileprofile26'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profileprofile26'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },
         },

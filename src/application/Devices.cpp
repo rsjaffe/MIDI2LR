@@ -17,6 +17,7 @@
 #include "Devices.h"
 
 #include <algorithm>
+#include <exception>
 
 #include "Misc.h"
 
@@ -81,7 +82,7 @@ Devices::~Devices()
       device_xml_->writeTo(source);
    }
    catch (const std::exception& e) {
-      rsj::LogAndAlertError(juce::String("Exception in ~Devices: ") + e.what());
+      MIDI2LR_E_RESPONSE;
    }
    catch (...) {
       rsj::LogAndAlertError("Non-standard exception in ~Devices.");

@@ -3,7 +3,7 @@
 Options.lua
 
 Manages options for plugin
- 
+
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
@@ -15,7 +15,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local ActionSeries      = require 'ActionSeries'
@@ -47,7 +47,7 @@ local function setOptions()
       properties.RevealAdjustedControls = ProgramPreferences.RevealAdjustedControls
 
       -- assemble dialog box contents
-      local contents = 
+      local contents =
       f:view{
         bind_to_object = properties, -- default bound table
         f:tab_view {
@@ -57,7 +57,7 @@ local function setOptions()
             Profiles.StartDialog(properties,f),
           },
           f:tab_view_item{
-            title = LOC("$$$/Library/Filter/FilterLabel=Library filter"):gsub(':',''),
+            title = LOC("$$$/Library/Filter/FilterLabel=Library filter"):gsub(' ?:',''),
             identifier = 'filters',
             Filters.StartDialog(properties,f),
           },
@@ -120,4 +120,5 @@ local function setOptions()
     end
   )
 end
+
 setOptions() --execute

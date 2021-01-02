@@ -1,3 +1,3 @@
 From https://github.com/microsoft/wil
 
-Last updated November 25 2020
+Last updated January 2 2021

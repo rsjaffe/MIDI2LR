@@ -2,7 +2,7 @@
 
 Database.lua
 Source of translations and menu for app and plugin
- 
+
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
@@ -14,7 +14,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 --[[----------------------------------------------------------------------------
@@ -50,7 +50,9 @@ Type
   variable needs slider value
   repeat sends repeated LR commands when twisting knob (see LR_IPC_Out.cpp)
 
-Fields (experimental and panel are optional)
+Fields (Wraps, Repeats, experimental and panel are optional)
+for wraps, would enter wrap = true for values that wrap around (e.g., color wheel)
+for repeats, would enter repeats={cw_key,ccw_key} for what gets sent when turn right/left
 Command Type Experimental Translation Group (in app) Explanation Panel (in LR Devel)
 also optional are PV1 PV2 PV3 PV4 PV5. These change the bezel display for different process versions
   -----------------------------------------------------------------------------]]
@@ -69,7 +71,7 @@ local brush = LOC('$$$/TouchWorkspace/Adjustments/Local/Brush=Brush')
 local developPreset = LOC('$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Single=Develop Preset')
 local dgh = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GreenDefringeHueLo=Defringe Green Hue')
 local dph = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PurpleDefringeHueLo=Defringe Purple Hue')
-local feather = LOC('$$$/AgDevelop/Toolbar/Localized/BrushFeather=Feather')
+local feather = LOC('$$$/AgDevelop/Localized/Feather=Feather')
 local filtexp = '. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information.'
 local key = LOC('$$$/MIDI2LR/Shortcuts/Key=Key')
 local keyexp = '. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information.'
@@ -91,12 +93,12 @@ local whiteBalance = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/W
 --If the group was listed above this comment, it'd still work ok, but it would be more confusing to the reader
 local keyshortcuts = LOC('$$$/AgLayoutShortcuts/Header/UISortcuts=Keyboard Shortcuts for User')
 local commandseries = LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Command sequence')
-local filter= LOC('$$$/Library/Filter/FilterLabel=Library filter')
+local filter= LOC('$$$/Library/Filter/FilterLabel=Library filter'):gsub(' ?:','')
 local view = LOC('$$$/AgLibrary/Help/Shortcuts/Header/ViewShortcuts=View')
 local rating = LOC('$$$/AgLibrary/Help/Shortcuts/Header/RatingsShortcuts=Rating')
 local flagging = LOC('$$$/AgLibrary/Help/Shortcuts/Header/FlaggingShortcuts=Flagging')
 local photos = LOC('$$$/AgLibrary/Help/Shortcuts/Header/ImageShortcuts=Photos')
---local general = LOC('$$$/WFCatSearch/TermCategories/General=General')
+--local general = LOC('$$$/AgPreferences/TabView/General=General')
 --local library = LOC('$$$/AgLibraryModule/ModuleTitle=Library')
 local develop = LOC('$$$/SmartCollection/Criteria/Heading/Develop=Develop')
 local basicTone = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/BasicTone=Basic Tone')
@@ -116,7 +118,7 @@ local localizedAdjustments = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/L
 local localadjresets = LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj)
 --local localpresets = locadjpre
 local crop = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')
-local gotoToolModulePanel = LOC('$$$/AgDialogs/Select=Select')..' '..LOC('$$$/AgDevelop/Menu/Tools=Tools'):gsub('%(%&%a%)',''):gsub('%&','')..LOC('$$$/AgStringUtils/localizedList/separatorString=, ')..LOC('$$$/Application/Menu/Window/Modules=Modules:'):gsub(':','')..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..LOC('$$$/AgPreferences/Interface/GroupTitle/Panels=Panels')
+local gotoToolModulePanel = LOC('$$$/AgDialogs/Select=Select')..' '..LOC('$$$/AgDevelop/Menu/Tools=Tools'):gsub('%(%&%a%)',''):gsub('%&','')..LOC('$$$/AgStringUtils/localizedList/separatorString=, ')..LOC('$$$/Application/Menu/Window/Modules=Modules:'):gsub(' ?:','')..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..LOC('$$$/AgPreferences/Interface/GroupTitle/Panels=Panels')
 local secondaryDisplay = LOC('$$$/AgApplication/Menu/Window/SecondaryDisplay=Secondary Display')
 local profiles = LOC("$$$/CRaw/Style/ProfileGroup/Profiles=Profiles")
 
@@ -165,26 +167,26 @@ local DataBase = {
   {Command='Key38',Type='button',Translation=key..' 38',Group=keyshortcuts,Explanation='Key 38'..keyexp},
   {Command='Key39',Type='button',Translation=key..' 39',Group=keyshortcuts,Explanation='Key 39'..keyexp},
   {Command='Key40',Type='button',Translation=key..' 40',Group=keyshortcuts,Explanation='Key 40'..keyexp},
-  {Command='Key2Key1',Type='repeat',Translation=key..' 2 – '..key..' 1',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key2 signals to Lightroom, counterclockwise Key1.'..repeatexp}, 
-  {Command='Key4Key3',Type='repeat',Translation=key..' 4 – '..key..' 3',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key4 signals to Lightroom, counterclockwise Key3.'..repeatexp}, 
-  {Command='Key6Key5',Type='repeat',Translation=key..' 6 – '..key..' 5',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key6 signals to Lightroom, counterclockwise Key5.'..repeatexp},  
-  {Command='Key8Key7',Type='repeat',Translation=key..' 8 – '..key..' 7',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key8 signals to Lightroom, counterclockwise Key7.'..repeatexp}, 
-  {Command='Key10Key9',Type='repeat',Translation=key..' 10 – '..key..' 9',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key10 signals to Lightroom, counterclockwise Key9.'..repeatexp},  
-  {Command='Key12Key11',Type='repeat',Translation=key..' 12 – '..key..' 11',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key12 signals to Lightroom, counterclockwise Key11.'..repeatexp}, 
-  {Command='Key14Key13',Type='repeat',Translation=key..' 14 – '..key..' 13',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key14 signals to Lightroom, counterclockwise Key13.'..repeatexp},
-  {Command='Key16Key15',Type='repeat',Translation=key..' 16 – '..key..' 15',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key16 signals to Lightroom, counterclockwise Key15.'..repeatexp},  
-  {Command='Key18Key17',Type='repeat',Translation=key..' 18 – '..key..' 17',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key18 signals to Lightroom, counterclockwise Key17.'..repeatexp}, 
-  {Command='Key20Key19',Type='repeat',Translation=key..' 20 – '..key..' 19',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key20 signals to Lightroom, counterclockwise Key19.'..repeatexp}, 
-  {Command='Key22Key21',Type='repeat',Translation=key..' 22 – '..key..' 21',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key22 signals to Lightroom, counterclockwise Key21.'..repeatexp},  
-  {Command='Key24Key23',Type='repeat',Translation=key..' 24 – '..key..' 23',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key24 signals to Lightroom, counterclockwise Key23.'..repeatexp}, 
-  {Command='Key26Key25',Type='repeat',Translation=key..' 26 – '..key..' 25',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key26 signals to Lightroom, counterclockwise Key25.'..repeatexp},  
-  {Command='Key28Key27',Type='repeat',Translation=key..' 28 – '..key..' 27',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key28 signals to Lightroom, counterclockwise Key27.'..repeatexp}, 
-  {Command='Key30Key29',Type='repeat',Translation=key..' 30 – '..key..' 29',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key30 signals to Lightroom, counterclockwise Key29.'..repeatexp},
-  {Command='Key32Key31',Type='repeat',Translation=key..' 32 – '..key..' 31',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key32 signals to Lightroom, counterclockwise Key31.'..repeatexp},
-  {Command='Key34Key33',Type='repeat',Translation=key..' 34 – '..key..' 33',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key34 signals to Lightroom, counterclockwise Key33.'..repeatexp},
-  {Command='Key36Key35',Type='repeat',Translation=key..' 36 – '..key..' 35',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key36 signals to Lightroom, counterclockwise Key35.'..repeatexp},
-  {Command='Key38Key37',Type='repeat',Translation=key..' 38 – '..key..' 37',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key38 signals to Lightroom, counterclockwise Key37.'..repeatexp},
-  {Command='Key40Key39',Type='repeat',Translation=key..' 40 – '..key..' 39',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key40 signals to Lightroom, counterclockwise Key39.'..repeatexp},
+  {Command='Key2Key1',Type='repeat',Translation=key..' 2 – '..key..' 1',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key2 signals to Lightroom, counterclockwise Key1.'..repeatexp,Repeats={'Key2','Key1'}},
+  {Command='Key4Key3',Type='repeat',Translation=key..' 4 – '..key..' 3',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key4 signals to Lightroom, counterclockwise Key3.'..repeatexp,Repeats={'Key4','Key3'}},
+  {Command='Key6Key5',Type='repeat',Translation=key..' 6 – '..key..' 5',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key6 signals to Lightroom, counterclockwise Key5.'..repeatexp,Repeats={'Key6','Key5'}},
+  {Command='Key8Key7',Type='repeat',Translation=key..' 8 – '..key..' 7',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key8 signals to Lightroom, counterclockwise Key7.'..repeatexp,Repeats={'Key8','Key7'}},
+  {Command='Key10Key9',Type='repeat',Translation=key..' 10 – '..key..' 9',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key10 signals to Lightroom, counterclockwise Key9.'..repeatexp,Repeats={'Key10','Key9'}},
+  {Command='Key12Key11',Type='repeat',Translation=key..' 12 – '..key..' 11',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key12 signals to Lightroom, counterclockwise Key11.'..repeatexp,Repeats={'Key12','Key11'}},
+  {Command='Key14Key13',Type='repeat',Translation=key..' 14 – '..key..' 13',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key14 signals to Lightroom, counterclockwise Key13.'..repeatexp,Repeats={'Key14','Key13'}},
+  {Command='Key16Key15',Type='repeat',Translation=key..' 16 – '..key..' 15',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key16 signals to Lightroom, counterclockwise Key15.'..repeatexp,Repeats={'Key16','Key15'}},
+  {Command='Key18Key17',Type='repeat',Translation=key..' 18 – '..key..' 17',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key18 signals to Lightroom, counterclockwise Key17.'..repeatexp,Repeats={'Key18','Key17'}},
+  {Command='Key20Key19',Type='repeat',Translation=key..' 20 – '..key..' 19',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key20 signals to Lightroom, counterclockwise Key19.'..repeatexp,Repeats={'Key20','Key19'}},
+  {Command='Key22Key21',Type='repeat',Translation=key..' 22 – '..key..' 21',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key22 signals to Lightroom, counterclockwise Key21.'..repeatexp,Repeats={'Key22','Key21'}},
+  {Command='Key24Key23',Type='repeat',Translation=key..' 24 – '..key..' 23',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key24 signals to Lightroom, counterclockwise Key23.'..repeatexp,Repeats={'Key24','Key23'}},
+  {Command='Key26Key25',Type='repeat',Translation=key..' 26 – '..key..' 25',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key26 signals to Lightroom, counterclockwise Key25.'..repeatexp,Repeats={'Key26','Key25'}},
+  {Command='Key28Key27',Type='repeat',Translation=key..' 28 – '..key..' 27',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key28 signals to Lightroom, counterclockwise Key27.'..repeatexp,Repeats={'Key28','Key27'}},
+  {Command='Key30Key29',Type='repeat',Translation=key..' 30 – '..key..' 29',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key30 signals to Lightroom, counterclockwise Key29.'..repeatexp,Repeats={'Key30','Key29'}},
+  {Command='Key32Key31',Type='repeat',Translation=key..' 32 – '..key..' 31',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key32 signals to Lightroom, counterclockwise Key31.'..repeatexp,Repeats={'Key32','Key31'}},
+  {Command='Key34Key33',Type='repeat',Translation=key..' 34 – '..key..' 33',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key34 signals to Lightroom, counterclockwise Key33.'..repeatexp,Repeats={'Key34','Key33'}},
+  {Command='Key36Key35',Type='repeat',Translation=key..' 36 – '..key..' 35',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key36 signals to Lightroom, counterclockwise Key35.'..repeatexp,Repeats={'Key36','Key35'}},
+  {Command='Key38Key37',Type='repeat',Translation=key..' 38 – '..key..' 37',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key38 signals to Lightroom, counterclockwise Key37.'..repeatexp,Repeats={'Key38','Key37'}},
+  {Command='Key40Key39',Type='repeat',Translation=key..' 40 – '..key..' 39',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key40 signals to Lightroom, counterclockwise Key39.'..repeatexp,Repeats={'Key40','Key39'}},
   --command series
   {Command='ActionSeries1',Type='button',Translation=commandseries..' 1',Group=commandseries,Explanation=serexp},
   {Command='ActionSeries2',Type='button',Translation=commandseries..' 2',Group=commandseries,Explanation=serexp},
@@ -194,14 +196,14 @@ local DataBase = {
   {Command='ActionSeries6',Type='button',Translation=commandseries..' 6',Group=commandseries,Explanation=serexp},
   {Command='ActionSeries7',Type='button',Translation=commandseries..' 7',Group=commandseries,Explanation=serexp},
   {Command='ActionSeries8',Type='button',Translation=commandseries..' 8',Group=commandseries,Explanation=serexp},
-  {Command='ActionSeries9',Type='button',Translation=commandseries..' 9',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries10',Type='button',Translation=commandseries..' 10',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries11',Type='button',Translation=commandseries..' 11',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries12',Type='button',Translation=commandseries..' 12',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries13',Type='button',Translation=commandseries..' 13',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries14',Type='button',Translation=commandseries..' 14',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries15',Type='button',Translation=commandseries..' 15',Group=commandseries,Explanation=serexp}, 
-  {Command='ActionSeries16',Type='button',Translation=commandseries..' 16',Group=commandseries,Explanation=serexp}, 
+  {Command='ActionSeries9',Type='button',Translation=commandseries..' 9',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries10',Type='button',Translation=commandseries..' 10',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries11',Type='button',Translation=commandseries..' 11',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries12',Type='button',Translation=commandseries..' 12',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries13',Type='button',Translation=commandseries..' 13',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries14',Type='button',Translation=commandseries..' 14',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries15',Type='button',Translation=commandseries..' 15',Group=commandseries,Explanation=serexp},
+  {Command='ActionSeries16',Type='button',Translation=commandseries..' 16',Group=commandseries,Explanation=serexp},
   --library filters
   {Command='Filter_1',Type='button',Translation=filter..' 1',Group=filter,Explanation='Library filter 1'..filtexp},
   {Command='Filter_2',Type='button',Translation=filter..' 2',Group=filter,Explanation='Library filter 2'..filtexp},
@@ -212,12 +214,13 @@ local DataBase = {
   {Command='Filter_7',Type='button',Translation=filter..' 7',Group=filter,Explanation='Library filter 7'..filtexp},
   {Command='Filter_8',Type='button',Translation=filter..' 8',Group=filter,Explanation='Library filter 8'..filtexp},
   {Command='Filter_9',Type='button',Translation=filter..' 9',Group=filter,Explanation='Library filter 9'..filtexp},
-  {Command='Filter_10',Type='button',Translation=filter..' 10',Group=filter,Explanation='Library filter 10'..filtexp},  
-  {Command='Filter_11',Type='button',Translation=filter..' 11',Group=filter,Explanation='Library filter 11'..filtexp},  
-  {Command='Filter_12',Type='button',Translation=filter..' 12',Group=filter,Explanation='Library filter 12'..filtexp},  
+  {Command='Filter_10',Type='button',Translation=filter..' 10',Group=filter,Explanation='Library filter 10'..filtexp},
+  {Command='Filter_11',Type='button',Translation=filter..' 11',Group=filter,Explanation='Library filter 11'..filtexp},
+  {Command='Filter_12',Type='button',Translation=filter..' 12',Group=filter,Explanation='Library filter 12'..filtexp},
+  {Command='FilterNone',Type='button',Translation=LOC('$$$/AgLibrary/FilterPresets/FiltersOff=Filters off'),Group=filter,Explanation='Library filters off.'},
   --view
   {Command='SwToMlibrary',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgLibraryModule/ModuleTitle=Library')),Group=view,Explanation='Switch to Library module.'},
-  {Command='ShoVwpeople',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/People=People'),Group=view,Explanation='In the People view, the different faces are organized by people stacks.'},  
+  {Command='ShoVwpeople',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/People=People'),Group=view,Explanation='In the People view, the different faces are organized by people stacks.'},
   {Command='ShoVwgrid',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Grid=Grid'),Group=view,Explanation='Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes.'},
   {Command='GridViewStyle',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/CycleGridViews=Cycle grid views'),Group=view,Explanation='Changes the grid view style.'},
   {Command='ShoVwloupe',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Loupe=Loupe'),Group=view,Explanation='Displays a single photo. Zoom levels up to 11:1 are available.'},
@@ -229,11 +232,11 @@ local DataBase = {
   {Command='NextScreenMode',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/CycleToNextScreenMode=Cycle to next screen mode'),Group=view,Explanation='Changes to the next screen mode.'},
   {Command='ToggleLoupe',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleLoupeView=Loupe view activate/inactivate'):gsub('%(%&%a%)',''):gsub('%&',''),Group=view,Explanation='Toggle loupe view while in Library.'},
   {Command='ToggleZoomOffOn',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleZoomView=Enable/Disable Zoom'):gsub('%(%&%a%)',''):gsub('%&',''),Group=view,Explanation=''},
-  {Command='ZoomInOut',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some'),Group=view,Explanation='Turning knob clockwise zooms in, counterclockwise zooms out.'..repeatexp},    
-  {Command='ZoomOutIn',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some'),Group=view,Explanation='Turning knob clockwise zooms out, counterclockwise zooms in.'..repeatexp},    
+  {Command='ZoomInOut',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In')..' '..LOC('$$$/ImportView/Less=Less')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out')..' '..LOC('$$$/ImportView/Less=Less'),Group=view,Explanation='Turning knob clockwise zooms in, counterclockwise zooms out.'..repeatexp,Repeats={'ZoomInSmallStep','ZoomOutSmallStep'}},
+  {Command='ZoomOutIn',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out')..' '..LOC('$$$/ImportView/Less=Less')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In')..' '..LOC('$$$/ImportView/Less=Less'),Group=view,Explanation='Turning knob clockwise zooms out, counterclockwise zooms in.'..repeatexp,Repeats={'ZoomOutSmallStep','ZoomInSmallStep'}},
   {Command='ZoomInLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In'),Group=view,Explanation=''},
-  {Command='ZoomInSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some'),Group=view,Explanation=''},
-  {Command='ZoomOutSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some'),Group=view,Explanation=''},
+  {Command='ZoomInSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In')..' '..LOC('$$$/ImportView/Less=Less'),Group=view,Explanation=''},
+  {Command='ZoomOutSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out')..' '..LOC('$$$/ImportView/Less=Less'),Group=view,Explanation=''},
   {Command='ZoomOutLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out'),Group=view,Explanation=''},
   {Command='ZoomTo100',Type='button',Experimental=true,Translation=LOC('$$$/AgLibrary/Menu/View/ZoomTo100=Zoom to 100%'),Group=view,Explanation=''},
 --rating
@@ -245,11 +248,12 @@ local DataBase = {
   {Command='SetRating5',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',5),Group=rating,Explanation=''},
   {Command='IncreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating'),Group=rating,Explanation=''},
   {Command='DecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation=''},
-  {Command='IncreaseDecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating')..' — '..LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation='Turning knob clockwise increases the star rating, counterclockwise decreases it.'..repeatexp},
+  {Command='IncreaseDecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating')..' — '..LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation='Turning knob clockwise increases the star rating, counterclockwise decreases it.'..repeatexp,Repeats={'IncreaseRating','DecreaseRating'}},
   {Command='SetRating',Type='variable',Translation=LOC('$$$/AgDevelop/Toolbar/Tooltip/SetRating=Set Rating'),Group=rating,Explanation='Unlike *Increase Rating \226\128\148 Decrease Rating*, this relies on the absolute position of the control to set the rating. Best suited for faders. Suggest using *Increase Rating \226\128\148 Decrease Rating* for rotary controls. Note that MIDI2LR does not synchronize the control with the current photo\226\128\153s rating and does not use pickup mode for this control, so the rating will immediately change to the control value when the control is moved, even if the control rating is far from the photo\226\128\153s current rating.'},
   --flagging
   {Command='Pick',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/SetPick=Set Pick Flag'),Group=flagging,Explanation=''},
   {Command='Reject',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/SetReject=Set Rejected Flag'),Group=flagging,Explanation=''},
+  {Command='ToggleFlag',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/ToggleFlag=Toggle Flag'),Group=flagging,Explanation=''},
   {Command='RemoveFlag',Type='button',Translation=LOC('$$$/AgLibrary/Filter/BrowserCriteria/Flag/Unflagged=Unflagged'),Group=flagging,Explanation=''},
   {Command='ToggleBlue',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelBlue=Blue')),Group=flagging,Explanation=''},
   {Command='ToggleGreen',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelGreen=Green')),Group=flagging,Explanation=''},
@@ -259,13 +263,13 @@ local DataBase = {
   {Command='ColorLabelNone',Type='button',Translation=LOC('$$$/AgLibrary/LabelCommands/UndoName/RemovedColorLabel=Remove color label'),Group=flagging,Explanation=''},
   --photos
   {Command='AddOrRemoveFromTargetColl',Type='button',Translation=LOC('$$$/Help/Shortcuts/AddToTargetCollection=Add to the target collection'),Group=photos,Explanation='Adds all selected photos to target collection. If the photos are already in the target collection, removes them from it.'},
-  {Command='EditPhotoshop',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop'),Group=photos,Explanation='Edit the current photo in Photoshop.'},  
+  {Command='EditPhotoshop',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop'),Group=photos,Explanation='Edit the current photo in Photoshop.'},
   {Command='openExportDialog',Type='button',Translation=LOC('$$$/AgLibrary/Panel/ExportButtonTitle=Export...'),Group=photos,Explanation='Opens export dialog for all selected photos.'},
   {Command='openExportWithPreviousDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export/ExportAgain=Export again'):gsub('%(%&%a%)',''):gsub('%&',''),Group=photos,Explanation='Exports with previous settings for all selected photos.'},
-  {Command='SelectRightLeft',Type='repeat',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left')..' '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=photos,Explanation='Extend selection to right or left. Turning knob clockwise sends select Right signals to Lightroom, counterclockwise select Left.'..repeatexp},   
+  {Command='SelectRightLeft',Type='repeat',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left')..' '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=photos,Explanation='Extend selection to right or left. Turning knob clockwise sends select Right signals to Lightroom, counterclockwise select Left.'..repeatexp,Repeats={'Select1Right','Select1Left'}},
   {Command='Select1Left',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left'),Group=photos,Explanation='Extend selection one picture to the left.'},
   {Command='Select1Right',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=photos,Explanation='Extend selection one picture to the right.'},
-  {Command='NextPrev',Type='repeat',Translation=LOC('$$$/AgDevelopShortcuts/Next_Photo=Next Photo')..' — '..LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=photos,Explanation='Move to next or previous photo. Turning knob clockwise sends Next signals to Lightroom, counterclockwise Previous.'..repeatexp},
+  {Command='NextPrev',Type='repeat',Translation=LOC('$$$/AgDevelopShortcuts/Next_Photo=Next Photo')..' — '..LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=photos,Explanation='Move to next or previous photo. Turning knob clockwise sends Next signals to Lightroom, counterclockwise Previous.'..repeatexp,Repeats={'Next','Prev'}},
   {Command='Next',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Next_Photo=Next Photo'),Group=photos,Explanation=''},
   {Command='Prev',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=photos,Explanation=''},
   {Command='RotateLeft',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_left=Rotate left'),Group=photos,Explanation='Rotates all selected photos left.'},
@@ -281,16 +285,16 @@ local DataBase = {
   {Command='QuickDevWBFluorescent',Type='button',Translation=quickdev..' '..whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Fluorescent=Fluorescent'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets fluorescent white balance for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevWBFlash',Type='button',Translation=quickdev..' '..whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Flash=Flash'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets Auto flash balance for all selected photos. Works in Library and Develop modules.'},
   {Command='SetTreatmentBW',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetGrayscale=Set treatment B&W'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets the treatment to B&W for all selected photos. Works in Library and Develop modules.'},
-  {Command='SetTreatmentColor',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/TreatmentColor=Set treatment Color'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets the treatment to Color for all selected photos. Works in Library and Develop modules.'},
+  {Command='SetTreatmentColor',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetColor=Set treatment Color'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets the treatment to Color for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevCropAspectOriginal',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropName/Original=Original')),Group=quickdev,Explanation='Set crop ratio to original. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevCropAspectAsShot',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropName/AsShot=As shot')),Group=quickdev,Explanation='Set crop ratio to as shot. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevCropAspect1x1',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','1','1')),Group=quickdev,Explanation='Set crop ratio to 1 by 1. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevCropAspect2x3',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','2','3')),Group=quickdev,Explanation='Set crop ratio to 2 by 3. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules.'},
-  {Command='QuickDevCropAspect3x4',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','3','4')),Group=quickdev,Explanation='Set crop ratio to 3 by 4. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules.'},  
+  {Command='QuickDevCropAspect3x4',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','3','4')),Group=quickdev,Explanation='Set crop ratio to 3 by 4. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevCropAspect4x5',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','4','5')),Group=quickdev,Explanation='Set crop ratio to 4 by 5. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevCropAspect5x7',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','5','7')),Group=quickdev,Explanation='Set crop ratio to 5 by 7. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevCropAspect85x11',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','8.5','11')),Group=quickdev,Explanation='Set crop ratio to 8.5 by 11. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules.'},
-  {Command='QuickDevCropAspect9x16',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','9','16')),Group=quickdev,Explanation='Set crop ratio to 9 by 16. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules.'},  
+  {Command='QuickDevCropAspect9x16',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/CameraRawView/Ops/SetCropAspect=Set crop ratio: ^1',LOC('$$$/AgLibrary/CameraRawView/Ops/CropNameConstruction=^1 x ^2','9','16')),Group=quickdev,Explanation='Set crop ratio to 9 by 16. Using the Library\226\128\153s quick develop mode, sets crop aspect for all selected photos. Works in Library and Develop modules.'},
 
   --Develop
   {Command='SwToMdevelop',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/SmartCollection/Criteria/Heading/Develop=Develop')),Group=develop,Explanation='Switch to Develop module.'},
@@ -299,14 +303,14 @@ local DataBase = {
   {Command='LRPaste',Type='button',Translation='Lightroom '..LOC('$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings'),Group=develop,Explanation='Lightroom Paste. Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>v</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>v</kbd> (OSX) to Lightroom.'},
   {Command='VirtualCopy',Type='button',Translation=LOC('$$$/AgLibrary/History/CreateVirtualCopy=Create Virtual Copy'),Group=develop,Explanation='Creates a virtual copy for each of the currently selected photos and videos. The new virtual copies will be selected.'},
   {Command='ResetAll',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/ResetSettings=Reset Settings'),Group=develop,Explanation='Reset to defaults.'},
-  {Command='ResetLast',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified'):gsub(':','')),Group=develop,Explanation='Resets the last parameter that was adjusted by an encoder or fader to default.'},
-  {Command='ChangeLastDevelopParameter',Type='repeat',Translation=LOC('$$$/ImportView/More=More')..' – '..LOC('$$$/ImportView/Less=Less')..' '..LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified'),Group=develop,Explanation='Increments or decrements the last parameter that was adjusted by an encoder or fader. Turning knob clockwise sends Increment signals to Lightroom, counterclockwise Decrement.'..repeatexp},
-  {Command='IncrementLastDevelopParameter',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=^1 Increase: ^2','',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified')):gsub(':',''):gsub('^%s*(.-)%s*$', '%1'),Group=develop,Explanation='Increments the last parameter that was adjusted by an encoder or fader.'},
-  {Command='DecrementLastDevelopParameter',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 Decrease: ^2','',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified')):gsub(':',''):gsub('^%s*(.-)%s*$', '%1'),Group=develop,Explanation='Decrements the last parameter that was adjusted by an encoder or fader.'},
-  {Command='ChangeCurrentSlider',Type='repeat',Translation=LOC('$$$/ImportView/More=More')..' – '..LOC('$$$/ImportView/Less=Less'),Group=develop,Explanation='Adjusts selected develop slider up or down. Turning knob clockwise sends Increment keystrokes to Lightroom, counterclockwise Decrement.'..repeatexp},
+  {Command='ResetLast',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified'):gsub(' ?:','')),Group=develop,Explanation='Resets the last parameter that was adjusted by an encoder or fader to default.'},
+  {Command='ChangeLastDevelopParameter',Type='repeat',Translation=LOC('$$$/ImportView/More=More')..' – '..LOC('$$$/ImportView/Less=Less')..' '..LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified'),Group=develop,Explanation='Increments or decrements the last parameter that was adjusted by an encoder or fader. Turning knob clockwise sends Increment signals to Lightroom, counterclockwise Decrement.'..repeatexp,Repeats={'IncrementLastDevelopParameter','DecrementLastDevelopParameter'}},
+  {Command='IncrementLastDevelopParameter',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=^1 Increase: ^2','',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified')):gsub(' ?:',''):gsub('^%s*(.-)%s*$', '%1'),Group=develop,Explanation='Increments the last parameter that was adjusted by an encoder or fader.'},
+  {Command='DecrementLastDevelopParameter',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 Decrease: ^2','',LOC('$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified')):gsub(' ?:',''):gsub('^%s*(.-)%s*$', '%1'),Group=develop,Explanation='Decrements the last parameter that was adjusted by an encoder or fader.'},
+  {Command='ChangeCurrentSlider',Type='repeat',Translation=LOC('$$$/ImportView/More=More')..' – '..LOC('$$$/ImportView/Less=Less'),Group=develop,Explanation='Adjusts selected develop slider up or down. Turning knob clockwise sends Increment keystrokes to Lightroom, counterclockwise Decrement.'..repeatexp,Repeats={'SliderIncrease','SliderDecrease'}},
   {Command='SliderIncrease',Type='button',Translation=LOC('$$$/ImportView/More=More'),Group=develop,Explanation='Sends the keystroke to increase the selected develop slider.'},
   {Command='SliderDecrease',Type='button',Translation=LOC('$$$/ImportView/Less=Less'),Group=develop,Explanation='Sends the keystroke to decrease the selected develop slider.'},
-  {Command='RedoUndo',Type='repeat',Translation=LOC('$$$/Bezel/RedoTitle=Redo')..' – '..LOC('$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo'),Group=develop,Explanation='Turning knob clockwise sends Redo keystrokes (<kbd>\226\140\131 Control</kbd>+<kbd>y</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>z</kbd> (OSX)) to Lightroom, counterclockwise Undo (<kbd>\226\140\131 Control</kbd>+<kbd>z</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>z</kbd> (OSX)).'..repeatexp},
+  {Command='RedoUndo',Type='repeat',Translation=LOC('$$$/Bezel/RedoTitle=Redo')..' – '..LOC('$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo'),Group=develop,Explanation='Turning knob clockwise sends Redo keystrokes (<kbd>\226\140\131 Control</kbd>+<kbd>y</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>z</kbd> (OSX)) to Lightroom, counterclockwise Undo (<kbd>\226\140\131 Control</kbd>+<kbd>z</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>z</kbd> (OSX)).'..repeatexp,Repeats={'Redo','Undo'}},
   {Command='Undo',Type='button',Translation=LOC('$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo'),Group=develop,Explanation='Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>z</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>z</kbd> (OSX) to Lightroom.'},
   {Command='Redo',Type='button',Translation=LOC('$$$/Bezel/RedoTitle=Redo'),Group=develop,Explanation='Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>y</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>z</kbd> (OSX) to Lightroom.'},
   {Command='PV1',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',1),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 1.'},
@@ -360,7 +364,7 @@ local DataBase = {
   {Command='ResetBlacks',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawUI/Blacks=Blacks')),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
   {Command='ResetTexture',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawUI/Texture=Texture')),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
   {Command='ResetClarity',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawUI/Clarity=Clarity')),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
-  {Command='ResetDehaze',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawUI/DehazeAmount=Dehaze Amount')),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},  
+  {Command='ResetDehaze',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawUI/DehazeAmount=Dehaze Amount')),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
   {Command='ResetVibrance',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawUI/Vibrance=Vibrance')),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
   {Command='ResetSaturation',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawUI/Saturation=Saturation')),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
 --
@@ -468,16 +472,16 @@ local DataBase = {
   {Command='EnableColorGrading',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleColorGrading=Color grading enable/disable'),Group=colorGrading,Explanation='Enable or disable color grading.',Panel='colorGradingPanel'},
   {Command='ColorGradeBlending',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeBlending=Color Blending'),Group=colorGrading,Explanation='Color grading blending changes the transition between each range: highlight, midtone, shadow. More blending gives a broader transition. The legacy Split Toning panel used a blending value of 100.',Panel='colorGradingPanel'},
   {Command='SplitToningBalance',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeBalance=Color Grading Balance'),Group=colorGrading,Explanation='Set the Balance slider to balance the effect between the Highlight and Shadow sliders. Positive values moves more of the image into the highlight slider range; negative values moves more of the image into the shadows slider range. Midtones are shifted as well.',Panel='colorGradingPanel'},
-  {Command='ColorGradeGlobalHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalHue=Global Hue'),Group=colorGrading,Explanation='Adjust color grading global hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel'},
+  {Command='ColorGradeGlobalHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalHue=Global Hue'),Group=colorGrading,Explanation='Adjust color grading global hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel',Wraps=true},
   {Command='ColorGradeGlobalLum',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalLum=Global Luminance'),Group=colorGrading,Explanation='Adjust color grading global luminance.',Panel='colorGradingPanel'},
   {Command='ColorGradeGlobalSat',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeGlobalSat=Global Saturation'),Group=colorGrading,Explanation='Adjust color grading global saturation.',Panel='colorGradingPanel'},
-  {Command='SplitToningHighlightHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningHighlightHue=Highlight Hue'),Group=colorGrading,Explanation='Adjust color grading highlight hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel'},
+  {Command='SplitToningHighlightHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningHighlightHue=Highlight Hue'),Group=colorGrading,Explanation='Adjust color grading highlight hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel',Wraps=true},
   {Command='ColorGradeHighlightLum',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeHighlightLum=Highlight Luminance'),Group=colorGrading,Explanation='Adjust color grading highlight luminance.',Panel='colorGradingPanel'},
   {Command='SplitToningHighlightSaturation',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningHighlightSaturation=Highlight Saturation'),Group=colorGrading,Explanation='Adjust color grading highlight saturation.',Panel='colorGradingPanel'},
-  {Command='ColorGradeMidtoneHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneHue=Midtone Hue'),Group=colorGrading,Explanation='Adjust color grading midtone hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel'},
+  {Command='ColorGradeMidtoneHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneHue=Midtone Hue'),Group=colorGrading,Explanation='Adjust color grading midtone hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel',Wraps=true},
   {Command='ColorGradeMidtoneLum',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneLum=Midtone Luminance'),Group=colorGrading,Explanation='Adjust color grading midtone luminance.',Panel='colorGradingPanel'},
   {Command='ColorGradeMidtoneSat',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeMidtoneSat=Midtone Saturation'),Group=colorGrading,Explanation='Adjust color grading midtone saturation.',Panel='colorGradingPanel'},
-  {Command='SplitToningShadowHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowHue=Shadow Hue'),Group=colorGrading,Explanation='Adjust color grading shadow hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel'},
+  {Command='SplitToningShadowHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowHue=Shadow Hue'),Group=colorGrading,Explanation='Adjust color grading shadow hue. Users with [controllers that send relative values](https://github.com/rsjaffe/MIDI2LR/wiki/MIDI-Controller-Setup#controllers-that-send-relative-values-or-have-unusual-ranges) can rotate continuously around the color wheel without ever having to reverse the control movement.',Panel='colorGradingPanel',Wraps=true},
   {Command='ColorGradeShadowLum',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeShadowLum=Shadow Luminance'),Group=colorGrading,Explanation='Adjust color grading shadow luminance.',Panel='colorGradingPanel'},
   {Command='SplitToningShadowSaturation',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowSaturation=Shadow Saturation'),Group=colorGrading,Explanation='Adjust color grading shadow saturation.',Panel='colorGradingPanel'},
   {Command='ColorGradeCopy',Type='button',Translation=LOC('$$$/AgDevelop/ColorGrading/ChannelSettings/Copy=Copy channel settings'),Group=colorGrading,Explanation='Copy settings from currently displayed channel.',Panel='colorGradingPanel'},
@@ -537,11 +541,11 @@ local DataBase = {
   {Command='LensProfileEnable',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileEnable=Toggle Profile Corrections'),Group=lensCorrections,Explanation='Enable or disable lens profile correction.',Panel='lensCorrectionsPanel'},
   {Command='AutoLateralCA',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RemoveChromaticAberration=Remove Chromatic Aberration'),Group=lensCorrections,Explanation='Toggle Remove Chromatic Aberration.',Panel='lensCorrectionsPanel'},
   {Command='LensProfileDistortionScale',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileDistortionScale=Lens Profile Distortion Scale'),Group=lensCorrections,Explanation='The default value 100 applies 100% of the distortion correction in the profile. Values over 100 apply greater correction to the distortion; values under 100 apply less correction to the distortion.',Panel='lensCorrectionsPanel'},
-  {Command='LensProfileChromaticAberrationScale',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileChromaticAberrationScale=Lens Profile Chromatic Aberration Scale'),Group=lensCorrections,Explanation='The default value 100 applies 100% of the chromatic aberration correction in the profile. Values over 100 apply greater correction to color fringing; values under 100 apply less correction to color fringing.',Panel='lensCorrectionsPanel'},
+  {Command='LensProfileChromaticAberrationScale',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/ChromaticAberration=chromatic Aberration')..' — '..LOC('$$$/AgCameraRawUI/ControlTitle/LensProfileDistortionScale=Scale'),Group=lensCorrections,Explanation='The default value 100 applies 100% of the chromatic aberration correction in the profile. Values over 100 apply greater correction to color fringing; values under 100 apply less correction to color fringing.',Panel='lensCorrectionsPanel'},
   {Command='LensProfileVignettingScale',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileVignettingScale=Lens Profile Vignetting Scale'),Group=lensCorrections,Explanation='The default value 100 applies 100% of the vignetting correction in the profile. Values over 100 apply greater correction to vignetting; values under 100 apply less correction to vignetting.',Panel='lensCorrectionsPanel'},
   {Command='CropConstrainToWarp',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CropConstrainToWarp=Constrain to Warp'),Group=lensCorrections,Explanation='Enable or disable Constrain Crop.',Panel='lensCorrectionsPanel'},
   {Command='ResetLensProfileDistortionScale',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileDistortionScale=Lens Profile Distortion Scale')),Group=lensCorrections,Explanation='Reset to default.',Panel='lensCorrectionsPanel'},
-  {Command='ResetLensProfileChromaticAberrationScale',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileChromaticAberrationScale=Lens Profile Chromatic Aberration Scale')),Group=lensCorrections,Explanation='Reset to default.',Panel='lensCorrectionsPanel'},
+  {Command='ResetLensProfileChromaticAberrationScale',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/ChromaticAberration=chromatic Aberration'))..' — '..LOC('$$$/AgCameraRawUI/ControlTitle/LensProfileDistortionScale=Scale'),Group=lensCorrections,Explanation='Reset to default.',Panel='lensCorrectionsPanel'},
   {Command='ResetLensProfileVignettingScale',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileVignettingScale=Lens Profile Vignetting Scale')),Group=lensCorrections,Explanation='Reset to default.',Panel='lensCorrectionsPanel'},
   {Command='DefringePurpleAmount',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PurpleDefringeAmount=Defringe Purple Amount'),Group=lensCorrections,Explanation='You can adjust the affected purple or green hue range using the Purple Hue and the Green Hue sliders. Drag either end-point control to expand or decrease the range of affected colors. Drag between the end point controls to move the hue range. The minimum space between end points is ten units.',Panel='lensCorrectionsPanel'},
   {Command='DefringePurpleHueLo',Type='parameter',Translation=dph..' - '..LOC('$$$/Slideshow/Panels/PanAndZoom/Low=Low'),Group=lensCorrections,Explanation='See \226\128\152Defringe Purple Amount\226\128\153 description for details.',Panel='lensCorrectionsPanel'},
@@ -580,7 +584,7 @@ local DataBase = {
   {Command='PerspectiveAspect',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveAspect=Perspective Aspect'),Group=transform,Explanation='Adjusts the amount the image is stretched horizontally or vertically.',Panel='transformPanel'},
   {Command='PerspectiveX',Type='parameter',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveX=Perspective X'),Group=transform,Explanation='Moves the center of the image laterally.',Panel='transformPanel'},
   {Command='PerspectiveY',Type='parameter',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveY=Perspective Y'),Group=transform,Explanation='Moves the center of the image vertically.',Panel='transformPanel'},
-  {Command='ResetTransforms',Type='button',Translation=LOC("$$$/AgLibrary/Ops/ResetTransforms=Reset all transforms"),Group=transform,Explanation='Clears all transforms from the current photo. Must be called while the Develop module is active.',Panel='transformPanel'},  
+  {Command='ResetTransforms',Type='button',Translation=LOC("$$$/AgLibrary/Ops/ResetTransforms=Reset all transforms"),Group=transform,Explanation='Clears all transforms from the current photo. Must be called while the Develop module is active.',Panel='transformPanel'},
   {Command='ResetPerspectiveVertical',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveVertical=Perspective Vertical')),Group=transform,Explanation='Reset to default.',Panel='transformPanel'},
   {Command='ResetPerspectiveHorizontal',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveHorizontal=Perspective Horizontal')),Group=transform,Explanation='Reset to default.',Panel='transformPanel'},
   {Command='ResetPerspectiveRotate',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveRotate=Perspective Rotate')),Group=transform,Explanation='Reset to default.',Panel='transformPanel'},
@@ -619,7 +623,7 @@ local DataBase = {
 --
   {Command='RevealPanelCalibrate',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',calibration),Group=calibration,Explanation='Open Camera Calibration Panel in Develop Module.'},
   {Command='EnableCalibration',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleCalibration=Calibration enable/disable'),Group=calibration,Explanation='Enable or disable custom camera calibration.',Panel='calibratePanel'},
-  {Command='ProfileAmount',Type='variable',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ProfileAmount=Profile amount'),Group=calibration,Explanation='Varies amount of custom calibration applied. **Note**: The MIDI controller does not get updated when the value is changed directly in Lightroom, either by using a mouse or when changing images. Pickup mode does not affect behavior of this adjustment. Also, Lightroom may complain of being unable to update the value if too many changes occur in a short period of time. Just dismiss those warnings and continue.', Panel='calibratePanel'}, 
+  {Command='ProfileAmount',Type='variable',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ProfileAmount=Profile amount'),Group=calibration,Explanation='Varies amount of custom calibration applied. **Note**: The MIDI controller does not get updated when the value is changed directly in Lightroom, either by using a mouse or when changing images. Pickup mode does not affect behavior of this adjustment. Also, Lightroom may complain of being unable to update the value if too many changes occur in a short period of time. Just dismiss those warnings and continue.', Panel='calibratePanel'},
   {Command='ShadowTint',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ShadowTintCalibration=Shadow Tint Calibration'),Group=calibration,Explanation='Corrects for any green or magenta tint in the shadow areas of the photo.',Panel='calibratePanel'},
   {Command='RedHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RedHueCalibration=Red Hue Calibration'),Group=calibration,Explanation='For the red primary. Moving the Hue slider to the left (negative value) is similar to a counterclockwise move on the color wheel; moving it to the right (positive value) is similar to a clockwise move.',Panel='calibratePanel'},
   {Command='RedSaturation',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RedSaturationCalibration=Red Saturation Calibration'),Group=calibration,Explanation='For the red primary. Moving the Saturation slider to the left (negative value) desaturates the color; moving it to the right (positive value) increases saturation.',Panel='calibratePanel'},
@@ -738,6 +742,22 @@ local DataBase = {
   {Command='Keyword14',Type='button',Translation=keyword..' 14',Group=keywords,Explanation='Apply keyword 14 to all selected photos.'},
   {Command='Keyword15',Type='button',Translation=keyword..' 15',Group=keywords,Explanation='Apply keyword 15 to all selected photos.'},
   {Command='Keyword16',Type='button',Translation=keyword..' 16',Group=keywords,Explanation='Apply keyword 16 to all selected photos.'},
+  {Command='Keyword1Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 1',Group=keywords,Explanation='Toggle keyword 1 in each of the selected photos.'},
+  {Command='Keyword2Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 2',Group=keywords,Explanation='Toggle keyword 2 in each of the selected photos.'},
+  {Command='Keyword3Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 3',Group=keywords,Explanation='Toggle keyword 3 in each of the selected photos.'},
+  {Command='Keyword4Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 4',Group=keywords,Explanation='Toggle keyword 4 in each of the selected photos.'},
+  {Command='Keyword5Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 5',Group=keywords,Explanation='Toggle keyword 5 in each of the selected photos.'},
+  {Command='Keyword6Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 6',Group=keywords,Explanation='Toggle keyword 6 in each of the selected photos.'},
+  {Command='Keyword7Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 7',Group=keywords,Explanation='Toggle keyword 7 in each of the selected photos.'},
+  {Command='Keyword8Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 8',Group=keywords,Explanation='Toggle keyword 8 in each of the selected photos.'},
+  {Command='Keyword9Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 9',Group=keywords,Explanation='Toggle keyword 9 in each of the selected photos.'},
+  {Command='Keyword10Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 10',Group=keywords,Explanation='Toggle keyword 10 in each of the selected photos.'},
+  {Command='Keyword11Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 11',Group=keywords,Explanation='Toggle keyword 11 in each of the selected photos.'},
+  {Command='Keyword12Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 12',Group=keywords,Explanation='Toggle keyword 12 in each of the selected photos.'},
+  {Command='Keyword13Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 13',Group=keywords,Explanation='Toggle keyword 13 in each of the selected photos.'},
+  {Command='Keyword14Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 14',Group=keywords,Explanation='Toggle keyword 14 in each of the selected photos.'},
+  {Command='Keyword15Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 15',Group=keywords,Explanation='Toggle keyword 15 in each of the selected photos.'},
+  {Command='Keyword16Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 16',Group=keywords,Explanation='Toggle keyword 16 in each of the selected photos.'},
 
 --
 --develop: localized adjustments
@@ -755,10 +775,10 @@ local DataBase = {
   {Command='EnablePaintBasedCorrections',Type='button',Translation=LOC('$$$/AgDevelop/Settings/TogglePaintBasedCorrections=Brush adjustments enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable brush adjustments.'},
   {Command='EnableRedEye',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleRedEye=Red-Eye enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable red eye correction.'},
   {Command='EnableRetouch',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleSpotRemoval=Spot removal enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable spot removal.'},
-  {Command='ChangeBrushSize',Type='repeat',Translation=brush..' — '..size,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Change adjustment brush size. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size.'..repeatexp},
+  {Command='ChangeBrushSize',Type='repeat',Translation=brush..' — '..size,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Change adjustment brush size. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size.'..repeatexp,Repeats={'BrushSizeLarger','BrushSizeSmaller'}},
   {Command='BrushSizeSmaller',Type='button',Translation=brush..' — '..size..' — '..smaller,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Reduce adjustment brush size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.'},
   {Command='BrushSizeLarger',Type='button',Translation=brush..' — '..size..' — '..larger,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Increase adjustment brush size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.'},
-  {Command='ChangeFeatherSize',Type='repeat',Translation=brush..' — '..feather,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Change adjustment brush feather size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size.'..repeatexp},
+  {Command='ChangeFeatherSize',Type='repeat',Translation=brush..' — '..feather,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Change adjustment brush feather size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size.'..repeatexp,Repeats={'BrushFeatherLarger','BrushFeatherSmaller'}},
   {Command='BrushFeatherSmaller',Type='button',Translation=brush..' — '..feather..' — '..smaller,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Reduce adjustment brush feather. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.'},
   {Command='BrushFeatherLarger',Type='button',Translation=brush..' — '..feather..' — '..larger,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Increase adjustment brush feather. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.'},
   {Command='local_Temperature',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Temperature=Temp.')..' (PV 3+)',PV3=locadj..' '..LOC('$$$/AgDevelop/Localized/Temperature=Temp.'),Group=localizedAdjustments,Explanation='Adjust Temperature for the currently active tool: Brush, Radial Filter, or Graduated Filter.'},
@@ -779,7 +799,7 @@ local DataBase = {
   {Command='local_Moire',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire')..' (PV 3+)',PV3=locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire'),Group=localizedAdjustments,Explanation='Adjust Moire for the currently active tool: Brush, Radial Filter, or Graduated Filter.'},
   {Command='local_Defringe',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')..' (PV 3+)',PV3=locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe'),Group=localizedAdjustments,Explanation='Adjust Defringe for the currently active tool: Brush, Radial Filter, or Graduated Filter.'},
   {Command='local_ToningLuminance',Type='parameter',Translation=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)',PV2=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance'),PV3=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)',Group=localizedAdjustments,Explanation='Adjust Toning Luminance for the currently active tool: Brush, Radial Filter, or Graduated Filter.'},
-  --local adjustment resets 
+  --local adjustment resets
   {Command='ResetCircGrad',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetRadialFilters=Reset Radial Filters'),Group=localadjresets,Explanation='Delete radial filter.'},
   {Command='ResetGradient',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetGraduatedFilters=Reset Graduated Filters'),Group=localadjresets,Explanation='Delete graduated filter.'},
   {Command='ResetBrushing',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetBrushing=Reset Brush Corrections'),Group=localadjresets,Explanation='Delete brush adjustments.'},
@@ -791,18 +811,18 @@ local DataBase = {
   {Command='Resetlocal_Contrast',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Contrast=Contrast')..' ('..P2and3plus..')'),PV2=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Contrast=Contrast')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Highlights',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Highlights=Highlights')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Highlights=Highlights')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Shadows',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Shadows=Shadows')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Shadows=Shadows')),Group=localadjresets,Explanation='Reset to default.'},
-  {Command='Resetlocal_Whites2012',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Whites=Whites')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Whites=Whites')),Group=localadjresets,Explanation='Reset to default.'}, 
-  {Command='Resetlocal_Blacks2012',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Blacks=Blacks')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Blacks=Blacks')),Group=localadjresets,Explanation='Reset to default.'}, 
+  {Command='Resetlocal_Whites2012',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Whites=Whites')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Whites=Whites')),Group=localadjresets,Explanation='Reset to default.'},
+  {Command='Resetlocal_Blacks2012',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Blacks=Blacks')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Blacks=Blacks')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Texture',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawUI/Texture=Texture')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Clarity',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Clarity=Clarity')..' ('..P2and3plus..')'),PV2=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Clarity=Clarity')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Dehaze',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Dehaze=Dehaze')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Dehaze=Dehaze')),Group=localadjresets,Explanation='Reset to default.'},
-  {Command='Resetlocal_Hue',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Hue=Hue')..' (PV 5+)'),PV5=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Hue=Hue')),Group=localadjresets,Explanation='Reset to default.'},  
+  {Command='Resetlocal_Hue',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Hue=Hue')..' (PV 5+)'),PV5=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Hue=Hue')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Saturation',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Saturation=Saturation')..' ('..P2and3plus..')'),PV2=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Saturation=Saturation')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Sharpness',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Sharpness=Sharpness')..' ('..P2and3plus..')'),PV2=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Sharpness=Sharpness')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_LuminanceNoise',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/LuminanceNoiseReduction=Luminence Noise Reduction')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/LuminanceNoiseReduction=Luminence Noise Reduction')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Moire',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Defringe',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')),Group=localadjresets,Explanation='Reset to default.'},
-  {Command='Resetlocal_ToningLuminance',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)'),PV2=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminanz')),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminanz')..' (PV 2)'),Group=localadjresets,Explanation='Reset to default.'}, 
+  {Command='Resetlocal_ToningLuminance',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)'),PV2=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminanz')),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminanz')..' (PV 2)'),Group=localadjresets,Explanation='Reset to default.'},
   --local adjustment presets
   {Command='LocalPreset1',Type='button',Translation=locadjpre..' 1',Group=locadjpre,Explanation='Use preset 1 for localized adjustments.'},
   {Command='LocalPreset2',Type='button',Translation=locadjpre..' 2',Group=locadjpre,Explanation='Use preset 2 for localized adjustments.'},
@@ -812,14 +832,14 @@ local DataBase = {
   {Command='LocalPreset6',Type='button',Translation=locadjpre..' 6',Group=locadjpre,Explanation='Use preset 6 for localized adjustments.'},
   {Command='LocalPreset7',Type='button',Translation=locadjpre..' 7',Group=locadjpre,Explanation='Use preset 7 for localized adjustments.'},
   {Command='LocalPreset8',Type='button',Translation=locadjpre..' 8',Group=locadjpre,Explanation='Use preset 8 for localized adjustments.'},
-  {Command='LocalPreset9',Type='button',Translation=locadjpre..' 9',Group=locadjpre,Explanation='Use preset 9 for localized adjustments.'},  
-  {Command='LocalPreset10',Type='button',Translation=locadjpre..' 10',Group=locadjpre,Explanation='Use preset 10 for localized adjustments.'},  
-  {Command='LocalPreset11',Type='button',Translation=locadjpre..' 11',Group=locadjpre,Explanation='Use preset 11 for localized adjustments.'},  
-  {Command='LocalPreset12',Type='button',Translation=locadjpre..' 12',Group=locadjpre,Explanation='Use preset 12 for localized adjustments.'},  
-  {Command='LocalPreset13',Type='button',Translation=locadjpre..' 13',Group=locadjpre,Explanation='Use preset 13 for localized adjustments.'},  
-  {Command='LocalPreset14',Type='button',Translation=locadjpre..' 14',Group=locadjpre,Explanation='Use preset 14 for localized adjustments.'},  
-  {Command='LocalPreset15',Type='button',Translation=locadjpre..' 15',Group=locadjpre,Explanation='Use preset 15 for localized adjustments.'}, 
-  {Command='LocalPreset16',Type='button',Translation=locadjpre..' 16',Group=locadjpre,Explanation='Use preset 16 for localized adjustments.'},  
+  {Command='LocalPreset9',Type='button',Translation=locadjpre..' 9',Group=locadjpre,Explanation='Use preset 9 for localized adjustments.'},
+  {Command='LocalPreset10',Type='button',Translation=locadjpre..' 10',Group=locadjpre,Explanation='Use preset 10 for localized adjustments.'},
+  {Command='LocalPreset11',Type='button',Translation=locadjpre..' 11',Group=locadjpre,Explanation='Use preset 11 for localized adjustments.'},
+  {Command='LocalPreset12',Type='button',Translation=locadjpre..' 12',Group=locadjpre,Explanation='Use preset 12 for localized adjustments.'},
+  {Command='LocalPreset13',Type='button',Translation=locadjpre..' 13',Group=locadjpre,Explanation='Use preset 13 for localized adjustments.'},
+  {Command='LocalPreset14',Type='button',Translation=locadjpre..' 14',Group=locadjpre,Explanation='Use preset 14 for localized adjustments.'},
+  {Command='LocalPreset15',Type='button',Translation=locadjpre..' 15',Group=locadjpre,Explanation='Use preset 15 for localized adjustments.'},
+  {Command='LocalPreset16',Type='button',Translation=locadjpre..' 16',Group=locadjpre,Explanation='Use preset 16 for localized adjustments.'},
 
   --
   -- Misc
@@ -904,18 +924,20 @@ for _,v in ipairs(DataBase) do
     Parameters[v.Command] = true
   elseif v.Type == 'button' then
     ValidActions[v.Command] = true
-  end 
+  end
 end
 
 local LrPathUtils = import 'LrPathUtils'
 local Ut = require 'Utilities'
 
-local AppTrans = LrPathUtils.child(Ut.appdatapath() , 'MenuTrans.xml') 
-local function WriteAppTrans(language) 
-  local file = assert(io.open(AppTrans,'w'),LOC("$$$/AgImageIO/Errors/WriteFile=The file could not be written.")..' '..'MenuTrans.txt') 
-  --new version for xml file  
+local AppTrans = LrPathUtils.child(Ut.appdatapath() , 'MenuTrans.xml')
+local function WriteAppTrans(language)
+  local file = assert(io.open(AppTrans,'w'),LOC("$$$/AgImageIO/Errors/WriteFile=The file could not be written.")..' '..'MenuTrans.txt')
+  --new version for xml file
   local CmdStructure={}
   local GroupOrder={}
+  local repeats={}
+  local wraps={}
   for _,v in ipairs(DataBase) do
     if CmdStructure[v.Group] then
       table.insert(CmdStructure[v.Group],{v.Command,v.Translation})
@@ -924,12 +946,18 @@ local function WriteAppTrans(language)
       CmdStructure[v.Group]={}
       table.insert(CmdStructure[v.Group],{v.Command,v.Translation})
     end
+    if v.Wraps then
+      wraps[#wraps+1]=v.Command
+    end
+    if v.Repeats and type(v.Repeats == 'table') then
+      repeats[v.Command] = v.Repeats
+    end
   end
   file:write([=[
 <?xml version="1.0" encoding="utf-8"?>
 <cereal>
   <value0>
-    <cereal_class_version>1</cereal_class_version>
+    <cereal_class_version>2</cereal_class_version>
     <language>]=],language,[=[</language>
     <all_commands size="dynamic">
   ]=])
@@ -946,13 +974,32 @@ local function WriteAppTrans(language)
   end
   file:write([=[
     </all_commands>
+    <repeats size="dynamic">
+]=])
+   local i = 0
+  for k,v in pairs(repeats) do
+    file:write('      <value'.. i ..'>\n        <key>'..k..
+      '</key>\n        <value>\n          <first xml:space="preserve">'..
+      v[1]..' 1\n</first>\n          <second xml:space="preserve">'..v[2]..
+      ' 1\n</second>\n        </value>\n      </value'..i..'>\n')
+    i = i + 1
+  end
+  file:write([=[
+    </repeats>
+    <wraps size="dynamic">
+   ]=])
+  for j,v in ipairs(wraps) do
+    file:write('      <value'.. j-1 ..'>'..v..'</value'.. j-1 ..'>\n')
+  end
+  file:write([=[
+    </wraps>
   </value0>
 </cereal>
   ]=])
   file:close()
 end
 
-return { 
+return {
   AppTrans = AppTrans,
   CmdPanel = CmdPanel,
   CmdTrans = CmdTrans,

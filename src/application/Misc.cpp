@@ -129,6 +129,18 @@ void rsj::Log(gsl::czstring<> info, const std::source_location& location) noexce
    try {
       if (juce::Logger::getCurrentLogger())
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ":"
+                                  + location.file_name() + ":" + location.line() + " "
+                                  + juce::String(juce::CharPointer_UTF8(info)));
+   }
+   catch (...) { //-V565
+   }
+}
+
+void rsj::Log(gsl::cwzstring<> info, const std::source_location& location) noexcept
+{
+   try {
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ":"
                                   + location.file_name() + ":" + location.line() + " " + info);
    }
    catch (...) { //-V565
@@ -140,9 +152,10 @@ void rsj::LogAndAlertError(
 {
    try {
       {
-         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
-         juce::NativeMessageBox::showMessageBox(
-             juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+         juce::MessageManager::callAsync([=] {
+            juce::NativeMessageBox::showMessageBox(
+                juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+         });
       }
       rsj::Log(error_text, location);
    }
@@ -155,9 +168,10 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
 {
    try {
       {
-         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
-         juce::NativeMessageBox::showMessageBox(
-             juce::AlertWindow::WarningIcon, juce::translate("Error"), alert_text);
+         juce::MessageManager::callAsync([=] {
+            juce::NativeMessageBox::showMessageBox(
+                juce::AlertWindow::WarningIcon, juce::translate("Error"), alert_text);
+         });
       }
       rsj::Log(error_text, location);
    }
@@ -170,9 +184,10 @@ void rsj::LogAndAlertError(
 {
    try {
       {
-         const juce::MessageManagerLock mmLock; /* this may be unnecessary */
-         juce::NativeMessageBox::showMessageBox(
-             juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+         juce::MessageManager::callAsync([=] {
+            juce::NativeMessageBox::showMessageBox(
+                juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+         });
       }
       rsj::Log(error_text, location);
    }
@@ -204,6 +219,17 @@ void rsj::Log(gsl::czstring<> info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": "
+                                  + juce::String(juce::CharPointer_UTF8(info)));
+   }
+   catch (...) { //-V565
+   }
+}
+
+void rsj::Log(gsl::cwzstring<> info) noexcept
+{
+   try {
+      if (juce::Logger::getCurrentLogger())
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": " + info);
    }
    catch (...) { //-V565
@@ -214,9 +240,10 @@ void rsj::LogAndAlertError(const juce::String& error_text) noexcept
 {
    try {
       {
-         const juce::MessageManagerLock mm_lock; /* this may be unnecessary */
-         juce::NativeMessageBox::showMessageBox(
-             juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+         juce::MessageManager::callAsync([=] {
+            juce::NativeMessageBox::showMessageBox(
+                juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+         });
       }
       rsj::Log(error_text);
    }
@@ -228,9 +255,10 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
 {
    try {
       {
-         const juce::MessageManagerLock mm_lock; /* this may be unnecessary */
-         juce::NativeMessageBox::showMessageBox(
-             juce::AlertWindow::WarningIcon, juce::translate("Error"), alert_text);
+         juce::MessageManager::callAsync([=] {
+            juce::NativeMessageBox::showMessageBox(
+                juce::AlertWindow::WarningIcon, juce::translate("Error"), alert_text);
+         });
       }
       rsj::Log(error_text);
    }
@@ -242,9 +270,10 @@ void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
 {
    try {
       {
-         const juce::MessageManagerLock mm_lock; /* this may be unnecessary */
-         juce::NativeMessageBox::showMessageBox(
-             juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+         juce::MessageManager::callAsync([=] {
+            juce::NativeMessageBox::showMessageBox(
+                juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+         });
       }
       rsj::Log(error_text);
    }

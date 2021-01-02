@@ -26,3 +26,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide1=Show/hide ^1"
 "$$$/MIDI2LR/Shortcuts/Key=Key"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Command sequence"
+"$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword"

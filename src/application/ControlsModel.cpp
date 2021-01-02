@@ -17,7 +17,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <exception>
 #include <stdexcept>
 
 #include "MidiUtilities.h"

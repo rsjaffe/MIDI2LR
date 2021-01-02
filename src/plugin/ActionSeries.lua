@@ -24,7 +24,6 @@ local LrDevelopController = import 'LrDevelopController'
 local LrTasks             = import 'LrTasks'
 local LrView              = import 'LrView'
 
-
 Database.ValidActions.Pause = true --this is in addition to the menu list
 
 local function ValidateActions(_,value)
@@ -67,7 +66,6 @@ local function StartDialog(obstable,f)
   return 
   f:column(dlgrows)
 end
-
 
 local function EndDialog(obstable, status)
   if status == 'ok' then

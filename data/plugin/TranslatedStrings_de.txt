@@ -26,3 +26,4 @@
 "$$$/MIDI2LR/ShortCuts/ShowHide1=^1 ein-/ausblenden"
 "$$$/MIDI2LR/Shortcuts/Key=Taste"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Befehlssequenz"
+"$$$/MIDI2LR/Keyword/Toggle=Stichwort aktivieren/deaktivieren"

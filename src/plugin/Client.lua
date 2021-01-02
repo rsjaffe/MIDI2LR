@@ -169,6 +169,7 @@ LrTasks.startAsyncTask(
       EnableRetouch                   = CU.fToggleTFasync('EnableRetouch'),
       EnableToneCurve                 = CU.fToggleTFasync('EnableToneCurve'),
       EnableTransform                 = CU.fToggleTFasync('EnableTransform'),
+      FilterNone                      = CU.RemoveFilters,
       Filter_1                        = CU.fApplyFilter(1),
       Filter_10                       = CU.fApplyFilter(10),
       Filter_11                       = CU.fApplyFilter(11),
@@ -243,6 +244,22 @@ LrTasks.startAsyncTask(
       Keyword7  = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[7]) end,
       Keyword8  = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[8]) end,
       Keyword9  = function() Keywords.ApplyKeyword(ProgramPreferences.Keywords[9]) end,
+      Keyword1Toggle  = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[1]) end,
+      Keyword10Toggle = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[10]) end,
+      Keyword11Toggle = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[11]) end,
+      Keyword12Toggle = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[12]) end,
+      Keyword13Toggle = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[13]) end,
+      Keyword14Toggle = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[14]) end,
+      Keyword15Toggle = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[15]) end,
+      Keyword16Toggle = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[16]) end,
+      Keyword2Toggle  = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[2]) end,
+      Keyword3Toggle  = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[3]) end,
+      Keyword4Toggle  = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[4]) end,
+      Keyword5Toggle  = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[5]) end,
+      Keyword6Toggle  = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[6]) end,
+      Keyword7Toggle  = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[7]) end,
+      Keyword8Toggle  = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[8]) end,
+      Keyword9Toggle  = function() Keywords.ToggleKeyword(ProgramPreferences.Keywords[9]) end,
       LRCopy                          = CU.fSimulateKeys(KS.KeyCode.CopyKey,true),
       LRPaste                         = CU.fSimulateKeys(KS.KeyCode.PasteKey,true),
       LensProfileEnable               = CU.fToggle01Async('LensProfileEnable'),
@@ -269,7 +286,7 @@ LrTasks.startAsyncTask(
       PV2                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 2'),
       PV3                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 3'),
       PV4                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 4'),
-      PV5                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 5'),      
+      PV5                             = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 5'),
       PVLatest                        = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version '..Database.LatestPVSupported),
       Pause                           = function() LrTasks.sleep( 0.02 ) end,
       Pick                            = LrSelection.flagAsPick,
@@ -450,6 +467,7 @@ LrTasks.startAsyncTask(
       SwToMslideshow                  = CU.fChangeModule('slideshow'),
       SwToMweb                        = CU.fChangeModule('web'),
       ToggleBlue                      = LrSelection.toggleBlueLabel,
+      ToggleFlag                      = function() MIDI2LR.SERVER:send('SendKey '..KS.KeyCode.ToggleFlagKey..'\n') end,
       ToggleGreen                     = LrSelection.toggleGreenLabel,
       ToggleLoupe                     = LrApplicationView.toggleLoupe,
       ToggleOverlay                   = LrDevelopController.toggleOverlay,
@@ -491,15 +509,15 @@ LrTasks.startAsyncTask(
       profile16                       = function() Profiles.changeProfile('profile16', true) end,
       profile17                       = function() Profiles.changeProfile('profile17', true) end,
       profile18                       = function() Profiles.changeProfile('profile18', true) end,
-      profile19                       = function() Profiles.changeProfile('profile19', true) end, 
+      profile19                       = function() Profiles.changeProfile('profile19', true) end,
       profile2                        = function() Profiles.changeProfile('profile2', true) end,
-      profile20                       = function() Profiles.changeProfile('profile20', true) end, 
-      profile21                       = function() Profiles.changeProfile('profile21', true) end, 
-      profile22                       = function() Profiles.changeProfile('profile22', true) end, 
-      profile23                       = function() Profiles.changeProfile('profile23', true) end, 
-      profile24                       = function() Profiles.changeProfile('profile24', true) end, 
-      profile25                       = function() Profiles.changeProfile('profile25', true) end, 
-      profile26                       = function() Profiles.changeProfile('profile26', true) end, 
+      profile20                       = function() Profiles.changeProfile('profile20', true) end,
+      profile21                       = function() Profiles.changeProfile('profile21', true) end,
+      profile22                       = function() Profiles.changeProfile('profile22', true) end,
+      profile23                       = function() Profiles.changeProfile('profile23', true) end,
+      profile24                       = function() Profiles.changeProfile('profile24', true) end,
+      profile25                       = function() Profiles.changeProfile('profile25', true) end,
+      profile26                       = function() Profiles.changeProfile('profile26', true) end,
       profile3                        = function() Profiles.changeProfile('profile3', true) end,
       profile4                        = function() Profiles.changeProfile('profile4', true) end,
       profile5                        = function() Profiles.changeProfile('profile5', true) end,
@@ -517,14 +535,14 @@ LrTasks.startAsyncTask(
     ACTIONS.ActionSeries6 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[6],ACTIONS) end
     ACTIONS.ActionSeries7 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[7],ACTIONS) end
     ACTIONS.ActionSeries8 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[8],ACTIONS) end
-    ACTIONS.ActionSeries9 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[9],ACTIONS) end  
-    ACTIONS.ActionSeries10 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[10],ACTIONS) end  
-    ACTIONS.ActionSeries11 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[11],ACTIONS) end  
-    ACTIONS.ActionSeries12 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[12],ACTIONS) end  
-    ACTIONS.ActionSeries13 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[13],ACTIONS) end  
-    ACTIONS.ActionSeries14 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[14],ACTIONS) end  
-    ACTIONS.ActionSeries15 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[15],ACTIONS) end  
-    ACTIONS.ActionSeries16 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[16],ACTIONS) end  
+    ACTIONS.ActionSeries9 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[9],ACTIONS) end
+    ACTIONS.ActionSeries10 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[10],ACTIONS) end
+    ACTIONS.ActionSeries11 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[11],ACTIONS) end
+    ACTIONS.ActionSeries12 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[12],ACTIONS) end
+    ACTIONS.ActionSeries13 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[13],ACTIONS) end
+    ACTIONS.ActionSeries14 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[14],ACTIONS) end
+    ACTIONS.ActionSeries15 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[15],ACTIONS) end
+    ACTIONS.ActionSeries16 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[16],ACTIONS) end
 
     local function notsupported() LrDialogs.showBezel(LOC('$$$/MIDI2LR/Dialog/NeedNewerLR=A newer version of Lightroom is required')) end
 
@@ -551,7 +569,7 @@ LrTasks.startAsyncTask(
       Will need to add code to AdjustmentChangeObserver and FullRefresh, and remember last fader
       position received by SetRating.
       --]]
-      SetRating          = function(value) 
+      SetRating          = function(value)
         local newrating = math.min(5,math.floor(tonumber(value)*6))
         if newrating ~= LrSelection.getRating() then
           LrSelection.setRating(newrating)
@@ -646,7 +664,7 @@ LrTasks.startAsyncTask(
           return function(observer) -- closure
             if not sendIsConnected then return end -- can't send
             if Limits.LimitsCanBeSet() and lastrefresh < os.clock() then
-              -- refresh crop values
+              -- refresh crop values NOTE: this function is repeated in ClientUtilities and Profiles
               local val_bottom = LrDevelopController.getValue("CropBottom")
               MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val_bottom))
               MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val_bottom))
@@ -706,90 +724,6 @@ LrTasks.startAsyncTask(
           }
         end
 
-        local cropbezel = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')..' ' -- no need to recompute each time we crop
-        local LrStringUtils       = import 'LrStringUtils'
-
-        local function RatioCrop(param, value)
-          if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-          if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-            LrApplicationView.switchToModule('develop')
-          end
-          LrDevelopController.selectTool('crop')
-          local prior_c_bottom = LrDevelopController.getValue("CropBottom") --starts at 1
-          local prior_c_top = LrDevelopController.getValue("CropTop") -- starts at 0
-          local prior_c_left = LrDevelopController.getValue("CropLeft") -- starts at 0
-          local prior_c_right = LrDevelopController.getValue("CropRight") -- starts at 1
-          local ratio = (prior_c_right - prior_c_left) / (prior_c_bottom - prior_c_top)
-          if param == "CropTopLeft" then
-            local new_top = tonumber(value)
-            local new_left = prior_c_right - ratio * (prior_c_bottom - new_top)
-            if new_left < 0 then
-              new_top = prior_c_bottom - prior_c_right / ratio
-              new_left = 0
-            end
-            UpdateParam("CropTop",new_top, 
-              cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(prior_c_bottom-new_top)*100,0)..'%')
-            UpdateParam("CropLeft",new_left,true)
-          elseif param == "CropTopRight" then
-            local new_top = tonumber(value)
-            local new_right = prior_c_left + ratio * (prior_c_bottom - new_top)
-            if new_right > 1 then
-              new_top = prior_c_bottom - (1 - prior_c_left) / ratio
-              new_right = 1
-            end
-            UpdateParam("CropTop",new_top,              
-              cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(prior_c_bottom-new_top)*100,0)..'%')
-            UpdateParam("CropRight",new_right,true)
-          elseif param == "CropBottomLeft" then
-            local new_bottom = tonumber(value)
-            local new_left = prior_c_right - ratio * (new_bottom - prior_c_top)
-            if new_left < 0 then
-              new_bottom = prior_c_right / ratio + prior_c_top
-              new_left = 0
-            end
-            UpdateParam("CropBottom",new_bottom,              
-              cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(new_bottom-prior_c_top)*100,0)..'%')
-            UpdateParam("CropLeft",new_left,true)
-          elseif param == "CropBottomRight" then
-            local new_bottom = tonumber(value)
-            local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
-            if new_right > 1 then
-              new_bottom = (1 - prior_c_left) / ratio + prior_c_top
-              new_right = 1
-            end
-            UpdateParam("CropBottom",new_bottom,              
-              cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(new_bottom-prior_c_top)*100,0)..'%')
-            UpdateParam("CropRight",new_right,true)
-          elseif param == "CropAll" then
-            local new_bottom = tonumber(value)
-            local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
-            if new_right > 1 then
-              new_right = 1
-            end
-            local new_top = math.max(prior_c_bottom - new_bottom + prior_c_top,0)
-            local new_left = new_right - ratio * (new_bottom - new_top)
-            if new_left < 0 then
-              new_top = new_bottom - new_right / ratio
-              new_left = 0
-            end
-            UpdateParam("CropBottom",new_bottom,              
-              cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-new_left)*(new_bottom-new_top)*100,0)..'%')
-            UpdateParam("CropRight",new_right,true)
-            UpdateParam("CropTop",new_top,true)
-            UpdateParam("CropLeft",new_left,true)
-          elseif param == "CropMoveVertical" then
-            local new_top = (1 - (prior_c_bottom - prior_c_top)) * tonumber(value)
-            local new_bottom = new_top + prior_c_bottom - prior_c_top
-            UpdateParam("CropBottom",new_bottom,true)
-            UpdateParam("CropTop", new_top)
-          elseif param == "CropMoveHorizontal" then
-            local new_left = (1 - (prior_c_right - prior_c_left)) * tonumber(value)
-            local new_right = new_left + prior_c_bottom - prior_c_top
-            UpdateParam("CropLeft",new_left,true)
-            UpdateParam("CropRight", new_right)
-          end
-        end
-
         MIDI2LR.CLIENT = LrSocket.bind {
           functionContext = context,
           plugin = _PLUGIN,
@@ -805,7 +739,7 @@ LrTasks.startAsyncTask(
                 local gradeFocus = GradeFocusTable[param]
                 if gradeFocus then
                   local currentView = LrDevelopController.getActiveColorGradingView()
-                  if currentView ~= '3-way' or gradeFocus == 'global' then 
+                  if currentView ~= '3-way' or gradeFocus == 'global' then
                     if currentView ~= gradeFocus then
                       LrDevelopController.setActiveColorGradingView(gradeFocus)
                     end
@@ -822,22 +756,24 @@ LrTasks.startAsyncTask(
                 if lp then
                   LastParam = lp
                 end
-              elseif param:sub(1,4) == 'Crop'  then 
-                RatioCrop(param,value)
+              elseif param:sub(1,4) == 'Crop'  then
+                CU.RatioCrop(param,value,UpdateParam)
               elseif param:sub(1,5) == 'Reset' then -- perform a reset other than those explicitly coded in ACTIONS array
                 if tonumber(value) > BUTTON_ON then
                   local resetparam = param:sub(6)
-                  CU.execFOM(LrDevelopController.resetToDefault,resetparam)
-                  if ProgramPreferences.ClientShowBezelOnChange then
-                    local lrvalue = LrDevelopController.getValue(resetparam)
-                    CU.showBezel(resetparam,lrvalue)
-                  end
-                  local gradeFocus = GradeFocusTable[resetparam] -- scroll to correct view on color grading
-                  if gradeFocus then
-                    local currentView = LrDevelopController.getActiveColorGradingView()
-                    if currentView ~= '3-way' or gradeFocus == 'global' then 
-                      if currentView ~= gradeFocus then
-                        LrDevelopController.setActiveColorGradingView(gradeFocus)
+                  if Database.Parameters[resetparam] then -- sanitize input: is it really a parameter?
+                    CU.execFOM(LrDevelopController.resetToDefault,resetparam)
+                    if ProgramPreferences.ClientShowBezelOnChange then
+                      local lrvalue = LrDevelopController.getValue(resetparam)
+                      CU.showBezel(resetparam,lrvalue)
+                    end
+                    local gradeFocus = GradeFocusTable[resetparam] -- scroll to correct view on color grading
+                    if gradeFocus then
+                      local currentView = LrDevelopController.getActiveColorGradingView()
+                      if currentView ~= '3-way' or gradeFocus == 'global' then
+                        if currentView ~= gradeFocus then
+                          LrDevelopController.setActiveColorGradingView(gradeFocus)
+                        end
                       end
                     end
                   end
