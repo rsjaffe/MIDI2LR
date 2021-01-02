@@ -19,6 +19,12 @@
 #include <fstream>
 #include <memory>
 #include <mutex>
+#ifdef __cpp_lib_atomic_wait
+#include <atomic>
+#else
+#include <condition_variable>
+#endif
+
 #ifndef _WIN32
 #include <AvailabilityMacros.h>
 #if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
@@ -218,13 +224,44 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          static std::once_flag of; /* function might be called twice during LR shutdown */
          std::call_once(of, [this] {
             if (profile_.ProfileUnsaved() && main_window_) {
-               const juce::MessageManagerLock mm_lock; /* this may be unnecessary */
-               const auto result {juce::NativeMessageBox::showYesNoBox(
-                   juce::AlertWindow::WarningIcon, juce::translate("MIDI2LR profiles"),
-                   juce::translate("Profile changed. Do you want to save your changes? If you "
-                                   "continue without saving, your changes will be lost."))};
-               if (result)
-                  main_window_->SaveProfile();
+#ifdef __cpp_lib_atomic_wait
+               std::atomic<bool> ready {false};
+#else
+               std::condition_variable cv;
+               std::mutex m;
+               bool ready {false};
+#endif
+
+               juce::MessageManager::callAsync([&]() {
+                  try {
+                     const auto result {juce::NativeMessageBox::showYesNoBox(
+                         juce::AlertWindow::WarningIcon, juce::translate("MIDI2LR profiles"),
+                         juce::translate("Profile changed. Do you want to save your changes? If "
+                                         "you "
+                                         "continue without saving, your changes will be lost."))};
+                     if (result)
+                        main_window_->SaveProfile();
+                  }
+                  catch (const std::exception& e) {
+                     MIDI2LR_E_RESPONSE; /* and continue, so ready flag can be set */
+                  }
+                  catch (...) {
+                  }
+#ifdef __cpp_lib_atomic_wait
+                  ready = true;
+                  ready.notify_one();
+               });
+               ready.wait(true);
+#else
+                  {
+                     std::unique_lock<std::mutex> lk {m};
+                     ready = true;
+                  }
+                  cv.notify_one();
+               });
+               std::unique_lock<std::mutex> lk {m};
+               cv.wait(lk, [&] { return ready; });
+#endif
             }
             quit();
          });
