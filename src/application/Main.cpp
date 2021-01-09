@@ -71,6 +71,8 @@ namespace fs = std::filesystem;
 namespace {
    class LookAndFeelMIDI2LR final : public juce::LookAndFeel_V3 {
     public:
+      LookAndFeelMIDI2LR() noexcept { juce::LookAndFeel::setDefaultLookAndFeel(this); }
+      ~LookAndFeelMIDI2LR() { juce::LookAndFeel::setDefaultLookAndFeel(nullptr); }
       juce::Font getTextButtonFont(juce::TextButton&, const int button_height) override
       {
          return juce::Font(std::min(16.0f, static_cast<float>(button_height) * 0.7f));
@@ -83,6 +85,13 @@ namespace {
 
    class UpdateCurrentLogger {
     public:
+      ~UpdateCurrentLogger()
+      {
+#ifdef _WIN32
+         wil::SetResultLoggingCallback(nullptr);
+#endif
+         juce::Logger::setCurrentLogger(nullptr);
+      }
       explicit UpdateCurrentLogger(juce::Logger* new_logger) noexcept
       {
          juce::Logger::setCurrentLogger(new_logger);
@@ -165,7 +174,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             MIDI2LR_FAST_FLOATS;
             CCoptions::LinkToControlsModel(&controls_model_);
             PWoptions::LinkToControlsModel(&controls_model_);
-            juce::LookAndFeel::setDefaultLookAndFeel(&look_feel_);
             /* set language and load appropriate fonts and files */
             SetAppFont();
             LoadControlsModel();
@@ -209,10 +217,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       version_checker_.Stop();
       DefaultProfileSave();
       SaveControlsModel();
-      settings_manager_.SetDefaultProfile(main_window_->GetProfileName());
-      /* (delete our window) */
-      main_window_.reset();
-      juce::Logger::setCurrentLogger(nullptr);
    }
 
    void systemRequestedQuit() override
@@ -325,7 +329,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;
-         throw;
       }
    }
 
@@ -381,6 +384,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;
+         throw;
       }
    }
 
@@ -439,7 +443,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;
-         throw;
       }
    }
 
@@ -460,10 +463,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    ProfileManager profile_manager_ {controls_model_, profile_, lr_ipc_out_, midi_receiver_};
    LrIpcIn lr_ipc_in_ {controls_model_, profile_manager_, profile_, midi_sender_};
    SettingsManager settings_manager_ {profile_manager_, lr_ipc_out_};
-   std::unique_ptr<MainWindow> main_window_ {nullptr};
-   /* destroy after window that uses it */
    LookAndFeelMIDI2LR look_feel_;
-   /* initialize this last as it needs window to exist */
+   std::unique_ptr<MainWindow> main_window_ {nullptr};
    VersionChecker version_checker_ {settings_manager_};
 };
 

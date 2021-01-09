@@ -78,7 +78,6 @@ void VersionChecker::handleAsyncUpdate()
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
-      throw;
    }
 }
 
@@ -112,6 +111,5 @@ void VersionChecker::Run()
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
-      throw;
    }
 }

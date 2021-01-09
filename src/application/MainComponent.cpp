@@ -76,6 +76,11 @@ catch (const std::exception& e)
    throw;
 }
 
+MainContentComponent::~MainContentComponent()
+{
+   settings_manager_.SetDefaultProfile(profile_name_label_.getText());
+}
+
 void MainContentComponent::Init()
 {
    try {
