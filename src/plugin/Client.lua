@@ -811,6 +811,7 @@ LrTasks.startAsyncTask(
           LrTasks.sleep ( .29 )
           Profiles.checkProfile()
         end --sleep away until ended or until develop module activated
+        LrTasks.sleep ( .2 ) --avoid "attempt to index field 'libraryImage' (a nil value) on fast machines: LR bug
         if MIDI2LR.RUNNING then --didn't drop out of loop because of program termination
           if ProgramPreferences.RevealAdjustedControls then --may be nil or false
             LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
