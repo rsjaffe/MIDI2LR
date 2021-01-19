@@ -69,32 +69,29 @@ namespace fs = std::filesystem;
 #endif
 
 namespace {
+   constexpr auto kShutDownString {"--LRSHUTDOWN"};
+   constexpr auto kSettingsFileX {"settings.xml"};
+   constexpr auto kDefaultsFile {"default.xml"};
+
    class LookAndFeelMIDI2LR final : public juce::LookAndFeel_V3 {
     public:
       LookAndFeelMIDI2LR() noexcept { juce::LookAndFeel::setDefaultLookAndFeel(this); }
       ~LookAndFeelMIDI2LR() { juce::LookAndFeel::setDefaultLookAndFeel(nullptr); }
+      LookAndFeelMIDI2LR(const LookAndFeelMIDI2LR& s) = default;
+      LookAndFeelMIDI2LR(LookAndFeelMIDI2LR&& s) = default;
+      LookAndFeelMIDI2LR& operator=(const LookAndFeelMIDI2LR& s) = default;
+      LookAndFeelMIDI2LR& operator=(LookAndFeelMIDI2LR&& s) = default;
       juce::Font getTextButtonFont(juce::TextButton&, const int button_height) override
       {
          return juce::Font(std::min(16.0f, static_cast<float>(button_height) * 0.7f));
       }
    };
 
-   constexpr auto kShutDownString {"--LRSHUTDOWN"};
-   constexpr auto kSettingsFileX {"settings.xml"};
-   constexpr auto kDefaultsFile {"default.xml"};
-
-   class UpdateCurrentLogger {
+   class SetLogger {
     public:
-      ~UpdateCurrentLogger()
+      SetLogger() noexcept
       {
-#ifdef _WIN32
-         wil::SetResultLoggingCallback(nullptr);
-#endif
-         juce::Logger::setCurrentLogger(nullptr);
-      }
-      explicit UpdateCurrentLogger(juce::Logger* new_logger) noexcept
-      {
-         juce::Logger::setCurrentLogger(new_logger);
+         juce::Logger::setCurrentLogger(logger_.get());
 #ifdef _WIN32
          try {
             wil::SetResultLoggingCallback([](wil::FailureInfo const& failure) noexcept {
@@ -111,6 +108,22 @@ namespace {
          }
 #endif
       }
+
+      ~SetLogger()
+      {
+#ifdef _WIN32
+         wil::SetResultLoggingCallback(nullptr);
+#endif
+         juce::Logger::setCurrentLogger(nullptr);
+      }
+      SetLogger(const SetLogger& s) = delete;
+      SetLogger(SetLogger&& s) = default;
+      SetLogger& operator=(const SetLogger& s) = delete;
+      SetLogger& operator=(SetLogger&& s) = default;
+
+    private:
+      std::unique_ptr<juce::FileLogger> logger_ {juce::FileLogger::createDefaultAppLogger(
+          "MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    };
 
    [[noreturn]] void OnTerminate() noexcept
@@ -449,10 +462,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    /* create logger first, makes sure that MIDI2LR directory is created for writing by other modules
     * log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX) need to own
     * pointer created by createDefaultAppLogger */
-   std::unique_ptr<juce::FileLogger> logger_ {
-       juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    /* forcing assignment to static early in construction */
-   [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_ {logger_.get()};
+   [[maybe_unused]] const SetLogger dummy_ {};
    Devices devices_ {};
    const CommandSet command_set_ {};
    ControlsModel controls_model_ {};
@@ -463,7 +474,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    ProfileManager profile_manager_ {controls_model_, profile_, lr_ipc_out_, midi_receiver_};
    LrIpcIn lr_ipc_in_ {controls_model_, profile_manager_, profile_, midi_sender_};
    SettingsManager settings_manager_ {profile_manager_, lr_ipc_out_};
-   LookAndFeelMIDI2LR look_feel_;
+   [[maybe_unused]] const LookAndFeelMIDI2LR look_feel_;
    std::unique_ptr<MainWindow> main_window_ {nullptr};
    VersionChecker version_checker_ {settings_manager_};
 };
