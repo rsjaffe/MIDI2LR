@@ -53,9 +53,11 @@ constexpr bool kNdebug {false};
 #ifdef _WIN32
 constexpr auto MSWindows {true};
 constexpr auto MacOS {false};
+#define MIDI2LR_UC_LITERAL(text) L##text
 #else
 constexpr auto MSWindows {false};
 constexpr auto MacOS {true};
+#define MIDI2LR_UC_LITERAL(text) text
 #endif
 
 #ifndef __ARM_ARCH
@@ -78,10 +80,18 @@ namespace rsj {
    /*****************************************************************************/
    /**************Thread Labels**************************************************/
    /*****************************************************************************/
-#if !defined(NDEBUG) && defined(_WIN32)
+#ifndef NDEBUG
+#ifdef _WIN32
    void LabelThread(gsl::cwzstring<> threadname);
 #else
+   void LabelThread(gsl::czstring<> threadname);
+#endif
+#else
+#ifdef _WIN32
    constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
+#else
+   constexpr void LabelThread([[maybe_unused]] gsl::czstring<> threadname) noexcept {}
+#endif
 #endif
    /*****************************************************************************/
    /**************String Routines************************************************/

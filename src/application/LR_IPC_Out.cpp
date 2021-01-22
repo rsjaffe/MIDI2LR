@@ -82,7 +82,7 @@ void LrIpcOut::Start()
    try {
       Connect();
       io_thread0_ = std::async(std::launch::async, [this] {
-         rsj::LabelThread(L"LrIpcOut io_thread0_");
+         rsj::LabelThread(MIDI2LR_UC_LITERAL("LrIpcOut io_thread0_"));
          MIDI2LR_FAST_FLOATS;
          if constexpr (kNdebug)
             io_context_.run();
@@ -91,7 +91,7 @@ void LrIpcOut::Start()
                 fmt::format(FMT_STRING("LrIpcOut thread0 ran {} handlers."), io_context_.run()));
       });
       io_thread1_ = std::async(std::launch::async, [this] {
-         rsj::LabelThread(L"LrIpcOut io_thread1_");
+         rsj::LabelThread(MIDI2LR_UC_LITERAL("LrIpcOut io_thread1_"));
          MIDI2LR_FAST_FLOATS;
          if constexpr (kNdebug)
             io_context_.run();

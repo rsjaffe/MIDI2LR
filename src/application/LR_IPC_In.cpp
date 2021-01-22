@@ -52,13 +52,13 @@ void LrIpcIn::Start()
 {
    try {
       process_line_future_ = std::async(std::launch::async, [this] {
-         rsj::LabelThread(L"LrIpcIn ProcessLine thread");
+         rsj::LabelThread(MIDI2LR_UC_LITERAL("LrIpcIn ProcessLine thread"));
          MIDI2LR_FAST_FLOATS;
          ProcessLine();
       });
       Connect();
       io_thread_ = std::async(std::launch::async, [this] {
-         rsj::LabelThread(L"LrIpcIn io_thread_");
+         rsj::LabelThread(MIDI2LR_UC_LITERAL("LrIpcIn io_thread_"));
          MIDI2LR_FAST_FLOATS;
          if constexpr (kNdebug)
             io_context_.run();

@@ -46,7 +46,7 @@ VersionChecker::VersionChecker(SettingsManager& settings_manager) noexcept
 void VersionChecker::Start()
 {
    run_future_ = std::async(std::launch::async, [this] {
-      rsj::LabelThread(L"VersionChecker run thread");
+      rsj::LabelThread(MIDI2LR_UC_LITERAL("VersionChecker run thread"));
       MIDI2LR_FAST_FLOATS;
       Run();
    });

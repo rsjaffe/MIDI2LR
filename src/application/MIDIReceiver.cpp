@@ -33,7 +33,7 @@ void MidiReceiver::Start()
    try {
       InitDevices();
       dispatch_messages_future_ = std::async(std::launch::async, [this] {
-         rsj::LabelThread(L"MidiReceiver dispatch messages thread");
+         rsj::LabelThread(MIDI2LR_UC_LITERAL("MidiReceiver dispatch messages thread"));
          MIDI2LR_FAST_FLOATS;
          DispatchMessages();
       });
