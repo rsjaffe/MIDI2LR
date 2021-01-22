@@ -29,15 +29,15 @@
 #include <AvailabilityMacros.h>
 #if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
     && defined(__cpp_lib_filesystem)
-#define FILESYSTEM_AVAILABLE_MIDI2LR
+#define MIDI2LR_FILESYSTEM_AVAILABLE
 #endif
 #else
 
 #ifdef __cpp_lib_filesystem
-#define FILESYSTEM_AVAILABLE_MIDI2LR
+#define MIDI2LR_FILESYSTEM_AVAILABLE
 #endif
 #endif
-#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
 #include <filesystem>
 namespace fs = std::filesystem;
 #endif
@@ -348,7 +348,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    void SaveControlsModel() const
    {
       try {
-#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
          const fs::path p {rsj::AppDataFilePath(kSettingsFileX)};
 #else
          const auto p {rsj::AppDataFilePath(kSettingsFileX)};
@@ -358,7 +358,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto oarchive {std::make_unique<cereal::XMLOutputArchive>(outfile)};
             (*oarchive)(controls_model_);
-#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
             rsj::Log(
                 fmt::format(FMT_STRING("ControlsModel archive in Main saved to {}."), p.string()));
 #else
@@ -377,7 +377,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    void LoadControlsModel()
    {
       try {
-#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
          const fs::path px {rsj::AppDataFilePath(kSettingsFileX)};
 #else
          const auto px {rsj::AppDataFilePath(kSettingsFileX)};
@@ -387,7 +387,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto iarchive {std::make_unique<cereal::XMLInputArchive>(in_file)};
             (*iarchive)(controls_model_);
-#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
             rsj::Log(fmt::format(
                 FMT_STRING("ControlsModel archive in Main loaded from {}."), px.string()));
 #else

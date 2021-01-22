@@ -20,14 +20,14 @@
 #include <AvailabilityMacros.h>
 #if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
     && defined(__cpp_lib_filesystem)
-#define FILESYSTEM_AVAILABLE_MIDI2LR
+#define MIDI2LR_FILESYSTEM_AVAILABLE
 #endif
 #else
 #ifdef __cpp_lib_filesystem
-#define FILESYSTEM_AVAILABLE_MIDI2LR
+#define MIDI2LR_FILESYSTEM_AVAILABLE
 #endif
 #endif
-#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
 #include <filesystem>
 namespace fs = std::filesystem;
 #endif
@@ -74,7 +74,7 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
 CommandSet::Impl::Impl()
 {
    try {
-#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
       const fs::path p {rsj::AppDataFilePath("MenuTrans.xml")};
 #else
       const auto p {rsj::AppDataFilePath("MenuTrans.xml")};
@@ -84,7 +84,7 @@ CommandSet::Impl::Impl()
 #pragma warning(suppress : 26414) /* too large to construct on stack */
          const auto iarchive {std::make_unique<cereal::XMLInputArchive>(infile)};
          (*iarchive)(*this);
-#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
          rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p.string()));
 #else
          rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p));
