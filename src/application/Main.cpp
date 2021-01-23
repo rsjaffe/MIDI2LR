@@ -77,10 +77,10 @@ namespace {
     public:
       LookAndFeelMIDI2LR() noexcept { juce::LookAndFeel::setDefaultLookAndFeel(this); }
       ~LookAndFeelMIDI2LR() { juce::LookAndFeel::setDefaultLookAndFeel(nullptr); }
-      LookAndFeelMIDI2LR(const LookAndFeelMIDI2LR& s) = default;
-      LookAndFeelMIDI2LR(LookAndFeelMIDI2LR&& s) = default;
-      LookAndFeelMIDI2LR& operator=(const LookAndFeelMIDI2LR& s) = default;
-      LookAndFeelMIDI2LR& operator=(LookAndFeelMIDI2LR&& s) = default;
+      LookAndFeelMIDI2LR(const LookAndFeelMIDI2LR& s) = delete;
+      LookAndFeelMIDI2LR(LookAndFeelMIDI2LR&& s) = delete;
+      LookAndFeelMIDI2LR& operator=(const LookAndFeelMIDI2LR& s) = delete;
+      LookAndFeelMIDI2LR& operator=(LookAndFeelMIDI2LR&& s) = delete;
       juce::Font getTextButtonFont(juce::TextButton&, const int button_height) override
       {
          return juce::Font(std::min(16.0f, static_cast<float>(button_height) * 0.7f));
@@ -185,6 +185,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
           * run. */
          if (command_line != kShutDownString) {
             MIDI2LR_FAST_FLOATS;
+            rsj::LabelThread(MIDI2LR_UC_LITERAL("Main MIDI2LR thread"));
             CCoptions::LinkToControlsModel(&controls_model_);
             PWoptions::LinkToControlsModel(&controls_model_);
             /* set language and load appropriate fonts and files */

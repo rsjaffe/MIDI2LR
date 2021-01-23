@@ -48,10 +48,8 @@ class LrIpcOut {
 
    template<class T> void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(bool, bool))
    {
-      using namespace std::placeholders;
       if (object && mf)
-         /* only store non-empty functions */
-         callbacks_.emplace_back(std::bind(mf, object, _1, _2));
+         callbacks_.emplace_back([=](bool a, bool b) { (object->*mf)(a, b); });
    }
    void SendCommand(std::string&& command)
    {
