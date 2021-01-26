@@ -16,16 +16,15 @@
  *
  */
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
-
-#include <juce_core/juce_core.h>
 
 #include "Misc.h"
 
 class DebugInfo {
  public:
-   explicit DebugInfo(const juce::String& profile_directory) noexcept;
+   explicit DebugInfo(std::string_view profile_directory) noexcept;
    [[nodiscard]] const std::vector<std::string>& GetInfo() const noexcept { return info_; }
 
  private:

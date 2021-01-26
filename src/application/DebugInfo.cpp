@@ -23,7 +23,6 @@
 
 #ifdef _WIN32
 #include <array>
-#include <string>
 #include <unordered_map>
 
 #include <Windows.h>
@@ -158,7 +157,7 @@ namespace {
 
 #pragma warning(push)
 #pragma warning(disable : 26447) /* all exceptions suppressed by catch blocks */
-DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
+DebugInfo::DebugInfo(std::string_view profile_directory) noexcept
 {
    try {
       LogAndSave(fmt::format(FMT_STRING("Application: System language {}."),
@@ -180,7 +179,7 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
               .getFullPathName()
               .toStdString()));
       LogAndSave(fmt::format(
-          FMT_STRING("Application: Profile directory {}."), profile_directory.toStdString()));
+          FMT_STRING("Application: Profile directory {}."), profile_directory));
       LogAndSave(fmt::format(FMT_STRING("Application: Log file directory {}."),
           ww898::utf::conv<char>(rsj::AppLogFilePath(""))));
       LogAndSave(fmt::format(FMT_STRING("Application: Settings file directory {}."),

@@ -61,7 +61,7 @@ void SettingsManager::ConnectionCallback(const bool connected, const bool blocke
          }
          static std::once_flag of; /* add debug info once to logs */
          std::call_once(of, [this] {
-            const DebugInfo db {GetProfileDirectory()};
+            const DebugInfo db {GetProfileDirectory().toStdString()};
             lr_ipc_out_.SendCommand("AppInfoClear 1\n");
             for (const auto& info : db.GetInfo()) {
                lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("AppInfo {}\n"), info));
