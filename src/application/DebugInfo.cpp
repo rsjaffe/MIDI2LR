@@ -178,12 +178,11 @@ DebugInfo::DebugInfo(std::string_view profile_directory) noexcept
           juce::File::getSpecialLocation(juce::File::currentApplicationFile)
               .getFullPathName()
               .toStdString()));
-      LogAndSave(fmt::format(
-          FMT_STRING("Application: Profile directory {}."), profile_directory));
+      LogAndSave(fmt::format(FMT_STRING("Application: Profile directory {}."), profile_directory));
       LogAndSave(fmt::format(FMT_STRING("Application: Log file directory {}."),
-          ww898::utf::conv<char>(rsj::AppLogFilePath(""))));
+          ww898::utf::conv<char>(rsj::AppLogFilePath(MIDI2LR_UC_LITERAL("")))));
       LogAndSave(fmt::format(FMT_STRING("Application: Settings file directory {}."),
-          ww898::utf::conv<char>(rsj::AppDataFilePath(""))));
+          ww898::utf::conv<char>(rsj::AppDataFilePath(MIDI2LR_UC_LITERAL("")))));
 #ifdef _WIN32
       /* MacOS defers keyboard layout information until first keystroke sent */
       LogAndSave(fmt::format(FMT_STRING("Application: Keyboard type {}."), GetKeyboardLayout()));

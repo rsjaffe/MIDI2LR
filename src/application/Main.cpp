@@ -70,8 +70,8 @@ namespace fs = std::filesystem;
 
 namespace {
    constexpr auto kShutDownString {"--LRSHUTDOWN"};
-   constexpr auto kSettingsFileX {"settings.xml"};
-   constexpr auto kDefaultsFile {"default.xml"};
+   constexpr auto kSettingsFileX {MIDI2LR_UC_LITERAL("settings.xml")};
+   constexpr auto kDefaultsFile {MIDI2LR_UC_LITERAL("default.xml")};
 
    class LookAndFeelMIDI2LR final : public juce::LookAndFeel_V3 {
     public:

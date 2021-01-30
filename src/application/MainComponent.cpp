@@ -55,7 +55,7 @@ namespace {
    constexpr int kCommandLabelY {kProfileNameY};
    constexpr int kBottomButtonY {kMainHeight - kBottomSectionHeight + 135};
    constexpr int kBottomButtonY2 {kMainHeight - kBottomSectionHeight + 160};
-   constexpr auto kDefaultsFile {"default.xml"};
+   constexpr auto kDefaultsFile {MIDI2LR_UC_LITERAL("default.xml")};
 } // namespace
 
 MainContentComponent::MainContentComponent(const CommandSet& command_set, Profile& profile,

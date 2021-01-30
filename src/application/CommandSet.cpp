@@ -75,9 +75,9 @@ CommandSet::Impl::Impl()
 {
    try {
 #ifdef MIDI2LR_FILESYSTEM_AVAILABLE
-      const fs::path p {rsj::AppDataFilePath("MenuTrans.xml")};
+      const fs::path p {rsj::AppDataFilePath(MIDI2LR_UC_LITERAL("MenuTrans.xml"))};
 #else
-      const auto p {rsj::AppDataFilePath("MenuTrans.xml")};
+      const auto p {rsj::AppDataFilePath(MIDI2LR_UC_LITERAL("MenuTrans.xml"))};
 #endif
       std::ifstream infile {p};
       if (infile.is_open()) {

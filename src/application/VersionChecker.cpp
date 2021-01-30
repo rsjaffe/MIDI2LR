@@ -81,7 +81,7 @@ void VersionChecker::handleAsyncUpdate()
    }
 }
 
-void VersionChecker::Run()
+void VersionChecker::Run() noexcept
 {
    try {
       const juce::URL version_url {"https://rsjaffe.github.io/MIDI2LR/version.xml"};
