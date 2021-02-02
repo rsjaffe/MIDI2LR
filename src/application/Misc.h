@@ -80,18 +80,10 @@ namespace rsj {
    /*****************************************************************************/
    /**************Thread Labels**************************************************/
    /*****************************************************************************/
-#ifndef NDEBUG
 #ifdef _WIN32
    void LabelThread(gsl::cwzstring<> threadname);
 #else
    void LabelThread(gsl::czstring<> threadname);
-#endif
-#else
-#ifdef _WIN32
-   constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
-#else
-   constexpr void LabelThread([[maybe_unused]] gsl::czstring<> threadname) noexcept {}
-#endif
 #endif
    /*****************************************************************************/
    /**************String Routines************************************************/
