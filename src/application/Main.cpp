@@ -19,12 +19,12 @@
 #include <fstream>
 #include <memory>
 #include <mutex>
+#include <version>
 #ifdef __cpp_lib_atomic_wait
 #include <atomic>
 #else
 #include <condition_variable>
 #endif
-
 #ifndef _WIN32
 #include <AvailabilityMacros.h>
 #if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
@@ -32,7 +32,6 @@
 #define MIDI2LR_FILESYSTEM_AVAILABLE
 #endif
 #else
-
 #ifdef __cpp_lib_filesystem
 #define MIDI2LR_FILESYSTEM_AVAILABLE
 #endif
@@ -363,7 +362,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             rsj::Log(
                 fmt::format(FMT_STRING("ControlsModel archive in Main saved to {}."), p.string()));
 #else
-            rsj::Log(fmt::format(FMT_STRING("ControlsModel archive in Main saved to {}."), p));
+            rsj::Log(fmt::format(
+                FMT_STRING(MIDI2LR_UC_LITERAL("ControlsModel archive in Main saved to {}.")), p));
 #endif
          }
          else
@@ -392,7 +392,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             rsj::Log(fmt::format(
                 FMT_STRING("ControlsModel archive in Main loaded from {}."), px.string()));
 #else
-            rsj::Log(fmt::format(FMT_STRING("ControlsModel archive in Main loaded from {}."), px));
+            rsj::Log(fmt::format(
+                FMT_STRING(MIDI2LR_UC_LITERAL("ControlsModel archive in Main loaded from {}.")),
+                px));
 #endif
          }
       }

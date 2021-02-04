@@ -20,12 +20,13 @@
 #include <chrono>
 #include <exception>
 #include <limits>
-#ifdef __cpp_lib_source_location
-#include <source_location>
-#endif
 #include <string>
 #include <string_view>
 #include <thread> /* sleep_for */
+#include <version>
+#ifdef __cpp_lib_source_location
+#include <source_location>
+#endif
 #ifdef __cpp_lib_integer_comparison_functions
 #include <utility>
 #else
