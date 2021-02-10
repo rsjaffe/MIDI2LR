@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <exception>
 #include <fstream>
+#include <future>
 #include <memory>
 #include <mutex>
 #include <version>
@@ -41,6 +42,7 @@
 namespace fs = std::filesystem;
 #endif
 
+#include <asio.hpp>
 #include <cereal/archives/xml.hpp>
 #include <fmt/format.h>
 
@@ -185,6 +187,24 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          if (command_line != kShutDownString) {
             MIDI2LR_FAST_FLOATS;
             rsj::LabelThread(MIDI2LR_UC_LITERAL("Main MIDI2LR thread"));
+            io_thread0_ = std::async(std::launch::async, [this] {
+               rsj::LabelThread(MIDI2LR_UC_LITERAL("io_thread0_"));
+               MIDI2LR_FAST_FLOATS;
+               if constexpr (kNdebug)
+                  io_context_.run();
+               else
+                  rsj::Log(fmt::format(
+                      FMT_STRING("io_thread0_ ran {} handlers."), io_context_.run()));
+            });
+            io_thread1_ = std::async(std::launch::async, [this] {
+               rsj::LabelThread(MIDI2LR_UC_LITERAL("io_thread1_"));
+               MIDI2LR_FAST_FLOATS;
+               if constexpr (kNdebug)
+                  io_context_.run();
+               else
+                  rsj::Log(fmt::format(
+                      FMT_STRING("io_thread1_ ran {} handlers."), io_context_.run()));
+            });
             CCoptions::LinkToControlsModel(&controls_model_);
             PWoptions::LinkToControlsModel(&controls_model_);
             /* set language and load appropriate fonts and files */
@@ -224,6 +244,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        * destroyed, 2) stop additional threads in VersionChecker, LR_IPC_In, LR_IPC_Out and
        * MIDIReceiver. Add to this list if new threads or callback lists are developed in this
        * app. */
+      work = asio::any_io_executor(); // Allow run() to exit
       midi_receiver_.Stop();
       lr_ipc_in_.Stop();
       lr_ipc_out_.Stop();
@@ -304,22 +325,21 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        * be valid. If the exception is of unknown type, this pointer will be null. */
       try {
          if (e) {
-            constexpr auto msge {"Unhandled exception {}, {} line {}. Total uncaught {}."};
             const auto msgt {juce::translate("unhandled exception").toStdString()
                              + " {}, {} line {}. Total uncaught {}."};
             rsj::LogAndAlertError(fmt::format(msgt, e->what(), source_filename.toStdString(),
                                       line_number, std::uncaught_exceptions()),
-                fmt::format(msge, e->what(), source_filename.toStdString(), line_number,
+                fmt::format(FMT_STRING("Unhandled exception {}, {} line {}. Total uncaught {}."),
+                    e->what(), source_filename.toStdString(), line_number,
                     std::uncaught_exceptions()));
          }
          else {
-            constexpr auto msge {"Unhandled exception {} line {}. Total uncaught {}."};
             const auto msgt {juce::translate("unhandled exception").toStdString()
                              + " {} line {}. Total uncaught {}."};
             rsj::LogAndAlertError(fmt::format(msgt, source_filename.toStdString(), line_number,
                                       std::uncaught_exceptions()),
-                fmt::format(
-                    msge, source_filename.toStdString(), line_number, std::uncaught_exceptions()));
+                fmt::format(FMT_STRING("Unhandled exception {} line {}. Total uncaught {}."),
+                    source_filename.toStdString(), line_number, std::uncaught_exceptions()));
          }
       }
       catch (...) {
@@ -467,15 +487,21 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
     * pointer created by createDefaultAppLogger */
    /* forcing assignment to static early in construction */
    [[maybe_unused]] const SetLogger dummy_ {};
+   std::future<void> io_thread0_;
+   std::future<void> io_thread1_;
+   asio::io_context io_context_ {};
+   asio::any_io_executor work {
+       asio::require(io_context_.get_executor(), asio::execution::outstanding_work.tracked)};
    Devices devices_ {};
    const CommandSet command_set_ {};
    ControlsModel controls_model_ {};
    Profile profile_ {command_set_};
    MidiSender midi_sender_ {devices_};
    MidiReceiver midi_receiver_ {devices_};
-   LrIpcOut lr_ipc_out_ {command_set_, controls_model_, profile_, midi_sender_, midi_receiver_};
+   LrIpcOut lr_ipc_out_ {
+       command_set_, controls_model_, profile_, midi_sender_, midi_receiver_, io_context_};
    ProfileManager profile_manager_ {controls_model_, profile_, lr_ipc_out_, midi_receiver_};
-   LrIpcIn lr_ipc_in_ {controls_model_, profile_manager_, profile_, midi_sender_};
+   LrIpcIn lr_ipc_in_ {controls_model_, profile_manager_, profile_, midi_sender_, io_context_};
    SettingsManager settings_manager_ {profile_manager_, lr_ipc_out_};
    [[maybe_unused]] const LookAndFeelMIDI2LR look_feel_;
    std::unique_ptr<MainWindow> main_window_ {nullptr};
