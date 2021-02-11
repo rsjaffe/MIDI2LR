@@ -52,8 +52,6 @@ void VersionChecker::Start()
    });
 }
 
-void VersionChecker::Stop() noexcept { thread_should_exit_.store(true, std::memory_order_release); }
-
 void VersionChecker::handleAsyncUpdate()
 {
    try {

@@ -62,7 +62,7 @@ class LrIpcOut {
    }
    void SendingRestart();
    void SendingStop();
-   void Start();
+   void Start() { Connect(); }
    void Stop();
 
  private:

@@ -78,17 +78,6 @@ void LrIpcOut::SendingStop()
    }
 }
 
-void LrIpcOut::Start()
-{
-   try {
-      Connect();
-   }
-   catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
-      throw;
-   }
-}
-
 void LrIpcOut::Stop()
 {
    thread_should_exit_.store(true, std::memory_order_release);

@@ -55,8 +55,6 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
    }
 }
 
-const std::vector<juce::String>& ProfileManager::GetMenuItems() const noexcept { return profiles_; }
-
 void ProfileManager::SwitchToProfile(int profile_index)
 {
    try {

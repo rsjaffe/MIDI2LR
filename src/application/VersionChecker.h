@@ -31,7 +31,7 @@ class VersionChecker final : juce::AsyncUpdater {
    VersionChecker& operator=(const VersionChecker& other) = delete;
    VersionChecker& operator=(VersionChecker&& other) = delete;
    void Start();
-   void Stop() noexcept;
+   void Stop() noexcept { thread_should_exit_.store(true, std::memory_order_release); }
 
  private:
    void handleAsyncUpdate() override;
