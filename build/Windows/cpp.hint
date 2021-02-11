@@ -1,8 +1,7 @@
-#define AE_FORCEINLINE
-#define GSL_SUPPRESS(x)
-#define GSL_SUPPRESS(x) [[gsl::suppress("x")]]
-#define GSL_SUPPRESS(x) [[gsl::suppress(x)]]
-#define MOODYCAMEL_DELETE_FUNCTION
-#define MOODYCAMEL_NOEXCEPT
 #define _In_
+// Hint files help the Visual Studio IDE interpret Visual C++ identifiers
+// such as names of functions and macros.
 // For more information see https://go.microsoft.com/fwlink/?linkid=865984
+#define MIDI2LR_E_RESPONSE rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e)
+#define MIDI2LR_FAST_FLOATS _mm_setcsr(_mm_getcsr() | 0x8040)
+

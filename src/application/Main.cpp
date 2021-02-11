@@ -193,8 +193,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                if constexpr (kNdebug)
                   io_context_.run();
                else
-                  rsj::Log(fmt::format(
-                      FMT_STRING("io_thread0_ ran {} handlers."), io_context_.run()));
+                  rsj::Log(
+                      fmt::format(FMT_STRING("io_thread0_ ran {} handlers."), io_context_.run()));
             });
             io_thread1_ = std::async(std::launch::async, [this] {
                rsj::LabelThread(MIDI2LR_UC_LITERAL("io_thread1_"));
@@ -202,8 +202,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                if constexpr (kNdebug)
                   io_context_.run();
                else
-                  rsj::Log(fmt::format(
-                      FMT_STRING("io_thread1_ ran {} handlers."), io_context_.run()));
+                  rsj::Log(
+                      fmt::format(FMT_STRING("io_thread1_ ran {} handlers."), io_context_.run()));
             });
             CCoptions::LinkToControlsModel(&controls_model_);
             PWoptions::LinkToControlsModel(&controls_model_);
@@ -244,10 +244,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        * destroyed, 2) stop additional threads in VersionChecker, LR_IPC_In, LR_IPC_Out and
        * MIDIReceiver. Add to this list if new threads or callback lists are developed in this
        * app. */
-      work = asio::any_io_executor(); // Allow run() to exit
       midi_receiver_.Stop();
       lr_ipc_in_.Stop();
       lr_ipc_out_.Stop();
+      work_ = asio::any_io_executor(); // Allow run() to exit
       version_checker_.Stop();
       DefaultProfileSave();
       SaveControlsModel();
@@ -490,7 +490,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    std::future<void> io_thread0_;
    std::future<void> io_thread1_;
    asio::io_context io_context_ {};
-   asio::any_io_executor work {
+   asio::any_io_executor work_ {
        asio::require(io_context_.get_executor(), asio::execution::outstanding_work.tracked)};
    Devices devices_ {};
    const CommandSet command_set_ {};
