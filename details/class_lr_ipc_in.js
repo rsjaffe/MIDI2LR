@@ -1,6 +1,6 @@
 var class_lr_ipc_in =
 [
-    [ "LrIpcIn", "class_lr_ipc_in.html#a295b1707dc959d0375ab80242bcaaf3c", null ],
+    [ "LrIpcIn", "class_lr_ipc_in.html#aaf1fd1c1e669f5759ce8c75df770cc58", null ],
     [ "~LrIpcIn", "class_lr_ipc_in.html#a5a20ae49e9e790062a61465556ba6f1a", null ],
     [ "LrIpcIn", "class_lr_ipc_in.html#a468b27abc43e7f1f6d4012eb8dc14bfd", null ],
     [ "LrIpcIn", "class_lr_ipc_in.html#adfbf863dc7341c0ebc8b7f5ab13e71fc", null ],
@@ -12,8 +12,6 @@ var class_lr_ipc_in =
     [ "Start", "class_lr_ipc_in.html#a5210ba8aacb2a42f2cae043f99315b0e", null ],
     [ "Stop", "class_lr_ipc_in.html#a5f701822ea96e3ae3f192b19dc0054b5", null ],
     [ "controls_model_", "class_lr_ipc_in.html#a59ace245fb362643d6ce712a952ae238", null ],
-    [ "io_context_", "class_lr_ipc_in.html#a72529a78debfeb17532b865c9c5765f3", null ],
-    [ "io_thread_", "class_lr_ipc_in.html#ad0c79d7921fcc2432b1654ec5fbb33f2", null ],
     [ "line_", "class_lr_ipc_in.html#a63df8f884021aba7eb7d0c9414ae2684", null ],
     [ "midi_sender_", "class_lr_ipc_in.html#af0b8a04af5fb42527bfb0945524b75b6", null ],
     [ "process_line_future_", "class_lr_ipc_in.html#a31844f93eb6e2ba93a30caa1e4f4f0e3", null ],

@@ -1,6 +1,6 @@
 var class_lr_ipc_out =
 [
-    [ "LrIpcOut", "class_lr_ipc_out.html#a09020194b07ab3d1b584de00ff8fbb4e", null ],
+    [ "LrIpcOut", "class_lr_ipc_out.html#aa3f33b7a97b82f70c4bbd8b35e252930", null ],
     [ "~LrIpcOut", "class_lr_ipc_out.html#aa5757d745ff2f173a3d5bb914561cb90", null ],
     [ "LrIpcOut", "class_lr_ipc_out.html#a6d2c565aa0b5bafded8524bd2fc5e5c8", null ],
     [ "LrIpcOut", "class_lr_ipc_out.html#a34874e90a87db6ab6ac9bad8ead0969e", null ],
@@ -22,13 +22,12 @@ var class_lr_ipc_out =
     [ "command_", "class_lr_ipc_out.html#a1a364ce0f026b92697353216418155f7", null ],
     [ "connected_", "class_lr_ipc_out.html#a720ce6df86df44c2933bc99da90845c6", null ],
     [ "controls_model_", "class_lr_ipc_out.html#a70ca7c622a8e55bdb8de678e1d89ddf1", null ],
-    [ "io_context_", "class_lr_ipc_out.html#a0c6bdd9dbaaed4b1e6e3fd60e0f22169", null ],
-    [ "io_thread0_", "class_lr_ipc_out.html#a7fdcc2faa384c2eaa82b5b9d9c878dfc", null ],
-    [ "io_thread1_", "class_lr_ipc_out.html#a261de59a14ec0fed397a26943c64be46", null ],
     [ "midi_sender_", "class_lr_ipc_out.html#a8e7931bf88e634e6ef88d581ff8ab2fd", null ],
     [ "profile_", "class_lr_ipc_out.html#a918bc9c12e61d6a21a53cace2994eaa1", null ],
     [ "recenter_timer_", "class_lr_ipc_out.html#a122d235bb2afab84a51143ee5c1000ff", null ],
+    [ "repeat_cmd_", "class_lr_ipc_out.html#aa3a137db476a517020dd53728e68978a", null ],
     [ "sending_stopped_", "class_lr_ipc_out.html#aa4648a7022acb4cf386148fb59858e6d", null ],
     [ "socket_", "class_lr_ipc_out.html#a4d001349752bb6ed6d2999177b78c9c6", null ],
-    [ "thread_should_exit_", "class_lr_ipc_out.html#ab4396e5e479bf52e5ae1ba1e4b48857e", null ]
+    [ "thread_should_exit_", "class_lr_ipc_out.html#ab4396e5e479bf52e5ae1ba1e4b48857e", null ],
+    [ "wrap_", "class_lr_ipc_out.html#aa76f983ed7b1aa0bcdb7b68291b25e4a", null ]
 ];

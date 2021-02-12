@@ -11,7 +11,7 @@ var class_channel_model =
     [ "GetCcMin", "class_channel_model.html#a4c1c50a58b143b986e7dac9ad1d1e20f", null ],
     [ "GetPwMax", "class_channel_model.html#a2a5b329d93121e7291cbdd072c4aae59", null ],
     [ "GetPwMin", "class_channel_model.html#a6f174e71ed195c52214ecf6fe3bd6c0e", null ],
-    [ "IsNrpn", "class_channel_model.html#a0ec45d0cb09d54872fa9e03737fc58f4", null ],
+    [ "IsNrpn", "class_channel_model.html#a04fb487ef9775f037898e43b7840c48c", null ],
     [ "load", "class_channel_model.html#a9286a06325714cfb1fea1d33d76fb3c7", null ],
     [ "MeasureChange", "class_channel_model.html#a6757ab4be213706df3608450c668d427", null ],
     [ "OffsetResult", "class_channel_model.html#a285ba1a5e78bb98d45583418bf629163", null ],

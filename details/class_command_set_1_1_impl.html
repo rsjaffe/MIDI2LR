@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.2.0.0</span>
+   &#160;<span id="projectnumber">4.3.1.11</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -117,6 +117,10 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a5c16feb21c0e0afd6452dae19763fe4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2041dd12563a7559e2e0437102d0dd8e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_set_1_1_impl.html#a2041dd12563a7559e2e0437102d0dd8e">language_</a></td></tr>
 <tr class="separator:a2041dd12563a7559e2e0437102d0dd8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa572aeaa100f0097f71dde576592b40"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::pair&lt; std::string, std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_set_1_1_impl.html#afa572aeaa100f0097f71dde576592b40">repeat_messages_</a></td></tr>
+<tr class="separator:afa572aeaa100f0097f71dde576592b40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf8782abc6af5dd4abe7706697bd0c6e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_set_1_1_impl.html#acf8782abc6af5dd4abe7706697bd0c6e">wraps_</a></td></tr>
+<tr class="separator:acf8782abc6af5dd4abe7706697bd0c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a3e06c2c721917d9085a91ad7f1295c8d"></a>
@@ -133,33 +137,33 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      <span class="keyword">const</span> fs::path p {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(<span class="stringliteral">&quot;MenuTrans.xml&quot;</span>)};</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> p {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(<span class="stringliteral">&quot;MenuTrans.xml&quot;</span>)};</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      std::ifstream infile {p};</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      <span class="keywordflow">if</span> (infile.is_open()) {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26414) </span><span class="comment">/* too large to construct on stack */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> iarchive {std::make_unique&lt;cereal::XMLInputArchive&gt;(infile)};</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;         (*iarchive)(*this);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#ifdef FILESYSTEM_AVAILABLE_MIDI2LR</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;MenuTrans.xml archive loaded from {}.&quot;</span>), p.string()));</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;MenuTrans.xml archive loaded from {}.&quot;</span>), p));</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;         <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;             juce::translate(<span class="stringliteral">&quot;Unable to load MenuTrans.xml.&quot;</span>), <span class="stringliteral">&quot;Unable to load MenuTrans.xml.&quot;</span>);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;   }</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;   }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;{</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#ifdef MIDI2LR_FILESYSTEM_AVAILABLE</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      <span class="keyword">const</span> fs::path p {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;MenuTrans.xml&quot;</span>))};</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> p {<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;MenuTrans.xml&quot;</span>))};</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      std::ifstream infile {p};</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      <span class="keywordflow">if</span> (infile.is_open()) {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26414) </span><span class="comment">/* too large to construct on stack */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> iarchive {std::make_unique&lt;cereal::XMLInputArchive&gt;(infile)};</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;         (*iarchive)(*this);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#ifdef MIDI2LR_FILESYSTEM_AVAILABLE</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;MenuTrans.xml archive loaded from {}.&quot;</span>), p.string()));</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;MenuTrans.xml archive loaded from {}.&quot;</span>), p));</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;         <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;             juce::translate(<span class="stringliteral">&quot;Unable to load MenuTrans.xml.&quot;</span>), <span class="stringliteral">&quot;Unable to load MenuTrans.xml.&quot;</span>);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;   }</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;   }</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -328,18 +332,19 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="namespacersj.html#a19e049330dad53869b2e3251ef1b12d3">rsj::cmp_equal</a>(version, 1))</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            archive(cereal::make_nvp(<span class="stringliteral">&quot;language&quot;</span>, <a class="code" href="class_command_set_1_1_impl.html#a2041dd12563a7559e2e0437102d0dd8e">language_</a>),</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                cereal::make_nvp(<span class="stringliteral">&quot;all_commands&quot;</span>, <a class="code" href="class_command_set_1_1_impl.html#a5c16feb21c0e0afd6452dae19763fe4e">allcommands_</a>));</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;         <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            constexpr <span class="keyword">auto</span> msg {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="stringliteral">&quot;The file, &#39;MenuTrans.xml&#39;, is marked as a version not supported by the current &quot;</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="stringliteral">&quot;version of MIDI2LR, and won&#39;t be loaded. File version: {}.&quot;</span>};</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(fmt::format(juce::translate(msg).toStdString(), version),</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                fmt::format(msg, version));</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;         }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="namespacersj.html#a19e049330dad53869b2e3251ef1b12d3">rsj::cmp_equal</a>(version, 2))</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            archive(cereal::make_nvp(<span class="stringliteral">&quot;language&quot;</span>, <a class="code" href="class_command_set_1_1_impl.html#a2041dd12563a7559e2e0437102d0dd8e">language_</a>),</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                cereal::make_nvp(<span class="stringliteral">&quot;all_commands&quot;</span>, <a class="code" href="class_command_set_1_1_impl.html#a5c16feb21c0e0afd6452dae19763fe4e">allcommands_</a>),</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                cereal::make_nvp(<span class="stringliteral">&quot;repeats&quot;</span>, <a class="code" href="class_command_set_1_1_impl.html#afa572aeaa100f0097f71dde576592b40">repeat_messages_</a>), cereal::make_nvp(<span class="stringliteral">&quot;wraps&quot;</span>, <a class="code" href="class_command_set_1_1_impl.html#acf8782abc6af5dd4abe7706697bd0c6e">wraps_</a>));</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;         <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            constexpr <span class="keyword">auto</span> msg {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="stringliteral">&quot;The file, &#39;MenuTrans.xml&#39;, is marked as a version not supported by the current &quot;</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <span class="stringliteral">&quot;version of MIDI2LR, and won&#39;t be loaded. File version: {}.&quot;</span>};</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <a class="code" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(fmt::format(juce::translate(msg).toStdString(), version),</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                fmt::format(msg, version));</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;         }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_command_set_1_1_impl.html#a5c16feb21c0e0afd6452dae19763fe4e">allcommands_</a>.</p>
 
@@ -378,18 +383,48 @@ template&lt;class Archive &gt; </div>
 
 </div>
 </div>
+<a id="afa572aeaa100f0097f71dde576592b40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa572aeaa100f0097f71dde576592b40">&#9670;&nbsp;</a></span>repeat_messages_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::pair&lt;std::string, std::string&gt; &gt; CommandSet::Impl::repeat_messages_</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acf8782abc6af5dd4abe7706697bd0c6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf8782abc6af5dd4abe7706697bd0c6e">&#9670;&nbsp;</a></span>wraps_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; CommandSet::Impl::wraps_</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/<a class="el" href="_command_set_8h_source.html">CommandSet.h</a></li>
 <li>C:/Users/rsjaf/source/repos/MIDI2LR/src/application/CommandSet.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="anamespacersj_html_a19e049330dad53869b2e3251ef1b12d3"><div class="ttname"><a href="namespacersj.html#a19e049330dad53869b2e3251ef1b12d3">rsj::cmp_equal</a></div><div class="ttdeci">constexpr bool cmp_equal(const S left, const T right) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.h:188</div></div>
-<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:213</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:193</div></div>
-<div class="ttc" id="aclass_command_set_1_1_impl_html_a5c16feb21c0e0afd6452dae19763fe4e"><div class="ttname"><a href="class_command_set_1_1_impl.html#a5c16feb21c0e0afd6452dae19763fe4e">CommandSet::Impl::allcommands_</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt; &gt; allcommands_</div><div class="ttdef"><b>Definition:</b> CommandSet.h:83</div></div>
+<div class="ttc" id="aclass_command_set_1_1_impl_html_afa572aeaa100f0097f71dde576592b40"><div class="ttname"><a href="class_command_set_1_1_impl.html#afa572aeaa100f0097f71dde576592b40">CommandSet::Impl::repeat_messages_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::pair&lt; std::string, std::string &gt; &gt; repeat_messages_</div><div class="ttdef"><b>Definition:</b> CommandSet.h:81</div></div>
+<div class="ttc" id="anamespacersj_html_a19e049330dad53869b2e3251ef1b12d3"><div class="ttname"><a href="namespacersj.html#a19e049330dad53869b2e3251ef1b12d3">rsj::cmp_equal</a></div><div class="ttdeci">constexpr bool cmp_equal(const S left, const T right) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.h:195</div></div>
+<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:248</div></div>
+<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:217</div></div>
+<div class="ttc" id="aclass_command_set_1_1_impl_html_a5c16feb21c0e0afd6452dae19763fe4e"><div class="ttname"><a href="class_command_set_1_1_impl.html#a5c16feb21c0e0afd6452dae19763fe4e">CommandSet::Impl::allcommands_</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt; &gt; allcommands_</div><div class="ttdef"><b>Definition:</b> CommandSet.h:80</div></div>
 <div class="ttc" id="anamespacersj_html_ad9fd7ddfd6792dd72b9f217e9d7967c3"><div class="ttname"><a href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a></div><div class="ttdeci">std::string AppDataFilePath(const std::string &amp;file_name)</div></div>
-<div class="ttc" id="aclass_command_set_1_1_impl_html_a2041dd12563a7559e2e0437102d0dd8e"><div class="ttname"><a href="class_command_set_1_1_impl.html#a2041dd12563a7559e2e0437102d0dd8e">CommandSet::Impl::language_</a></div><div class="ttdeci">std::string language_</div><div class="ttdef"><b>Definition:</b> CommandSet.h:81</div></div>
+<div class="ttc" id="aclass_command_set_1_1_impl_html_acf8782abc6af5dd4abe7706697bd0c6e"><div class="ttname"><a href="class_command_set_1_1_impl.html#acf8782abc6af5dd4abe7706697bd0c6e">CommandSet::Impl::wraps_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; wraps_</div><div class="ttdef"><b>Definition:</b> CommandSet.h:82</div></div>
+<div class="ttc" id="aclass_command_set_1_1_impl_html_a2041dd12563a7559e2e0437102d0dd8e"><div class="ttname"><a href="class_command_set_1_1_impl.html#a2041dd12563a7559e2e0437102d0dd8e">CommandSet::Impl::language_</a></div><div class="ttdeci">std::string language_</div><div class="ttdef"><b>Definition:</b> CommandSet.h:78</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

@@ -10,6 +10,8 @@ var class_command_set =
     [ "GetLanguage", "class_command_set.html#ad049db1f1226f2a434aa332ed281ccf5", null ],
     [ "GetMenuEntries", "class_command_set.html#a396f351db20309ef15d49e64ab8960ad", null ],
     [ "GetMenus", "class_command_set.html#ae2e91f3799f9820892ab5cb42c58c866", null ],
+    [ "GetRepeats", "class_command_set.html#a5620c5caca69cfdd3ee8f87a8eb77f73", null ],
+    [ "GetWraps", "class_command_set.html#a09c8ade47982e78c6fbc339667cd386d", null ],
     [ "MakeImpl", "class_command_set.html#aec94deb6175081074094fd15e3640928", null ],
     [ "UnassignedTranslated", "class_command_set.html#ab51b4f7ff3ded142a72bf0b4a8e29ef6", null ],
     [ "cereal::access", "class_command_set.html#ab2f44cbb59a08132f4c843e5225bba0e", null ],

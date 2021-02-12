@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.2.0.0</span>
+   &#160;<span id="projectnumber">4.3.1.11</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -165,9 +165,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    : <a class="code" href="class_command_table_model.html#ab32e4e562181f35a3f4072df0d4c6d12">command_set_</a> {command_set}, <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a> {profile}</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    : <a class="code" href="class_command_table_model.html#ab32e4e562181f35a3f4072df0d4c6d12">command_set_</a> {command_set}, <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a> {profile}</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_command_table_model.html#ab32e4e562181f35a3f4072df0d4c6d12">command_set_</a>.</p>
 
@@ -257,64 +257,64 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;   <span class="comment">/* This must draw one of the cells. The graphics context&#39;s origin will already be set to the</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">    * top-left of the cell, whose size is specified by(width, height). Note that the rowNumber value</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">    * may be greater than the number of rows in your list, so be careful that you don&#39;t assume it&#39;s</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">    * less than getNumRows(). */</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      g.setColour(juce::Colours::black);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      g.setFont(std::min(16.0f, <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(height) * 0.7f));</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">if</span> (column_id == 1) {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;         <span class="comment">/* write the MIDI message in the MIDI command column */</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="namespacersj.html#afcd687f097c7a336ee5e8447ca7b49c7">rsj::cmp_less_equal</a>(<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a6f55aadcd33c6023b1e544b436d57de2">Size</a>(), row_number)) {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="comment">/* error condition */</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            g.drawText(<span class="stringliteral">&quot;Unknown control&quot;</span>, 0, 0, width, height, juce::Justification::centred);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Unknown control CommandTableModel::paintCell. {} rows &quot;</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                                            <span class="stringliteral">&quot;in profile, row number to be painted is {}.&quot;</span>),</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a6f55aadcd33c6023b1e544b436d57de2">Size</a>(), row_number));</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;         }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;         <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            std::string format_str;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keywordflow">switch</span> (</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> cmd {<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a4e7fdd115f53f1b6bca2c413cc2eb66c">GetMessageForNumber</a>(gsl::narrow_cast&lt;size_t&gt;(row_number))};</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                cmd.<a class="code" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kNoteOn:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;               format_str =</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                   fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Note : {}&quot;</span>), cmd.channel, cmd.control_number);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kNoteOff:</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;               format_str =</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                   fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Note Off: {}&quot;</span>), cmd.channel, cmd.control_number);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kCc:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;               format_str = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | CC: {}&quot;</span>), cmd.channel, cmd.control_number);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kPw:</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;               format_str = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Pitch Bend&quot;</span>), cmd.channel);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kKeyPressure:</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;               format_str = fmt::format(</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                   FMT_STRING(<span class="stringliteral">&quot;{} | Key Pressure: {}&quot;</span>), cmd.channel, cmd.control_number);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kChanPressure:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;               format_str = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Channel Pressure&quot;</span>), cmd.channel);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kPgmChange:</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;               format_str = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Program Change&quot;</span>), cmd.channel);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kSystem</a>:</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;               <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            g.drawText(format_str, 0, 0, width, height, juce::Justification::centredLeft);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;         }</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;   }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;   }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;   <span class="comment">/* This must draw one of the cells. The graphics context&#39;s origin will already be set to the</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">    * top-left of the cell, whose size is specified by(width, height). Note that the rowNumber value</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">    * may be greater than the number of rows in your list, so be careful that you don&#39;t assume it&#39;s</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">    * less than getNumRows(). */</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      g.setColour(juce::Colours::black);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      g.setFont(std::min(16.0f, <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(height) * 0.7f));</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordflow">if</span> (column_id == 1) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;         <span class="comment">/* write the MIDI message in the MIDI command column */</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="namespacersj.html#afcd687f097c7a336ee5e8447ca7b49c7">rsj::cmp_less_equal</a>(<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a6f55aadcd33c6023b1e544b436d57de2">Size</a>(), row_number)) {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="comment">/* error condition */</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            g.drawText(<span class="stringliteral">&quot;Unknown control&quot;</span>, 0, 0, width, height, juce::Justification::centred);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Unknown control CommandTableModel::paintCell. {} rows &quot;</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                                            <span class="stringliteral">&quot;in profile, row number to be painted is {}.&quot;</span>),</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a6f55aadcd33c6023b1e544b436d57de2">Size</a>(), row_number));</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;         }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;         <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            std::string format_str;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordflow">switch</span> (</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> cmd {<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a4e7fdd115f53f1b6bca2c413cc2eb66c">GetMessageForNumber</a>(gsl::narrow_cast&lt;size_t&gt;(row_number))};</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                cmd.<a class="code" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>) {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kNoteOn:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;               format_str =</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                   fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Note : {}&quot;</span>), cmd.channel, cmd.control_number);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;               <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kNoteOff:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;               format_str =</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                   fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Note Off: {}&quot;</span>), cmd.channel, cmd.control_number);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;               <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kCc:</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;               format_str = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | CC: {}&quot;</span>), cmd.channel, cmd.control_number);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;               <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kPw:</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;               format_str = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Pitch Bend&quot;</span>), cmd.channel);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;               <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kKeyPressure:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;               format_str = fmt::format(</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                   FMT_STRING(<span class="stringliteral">&quot;{} | Key Pressure: {}&quot;</span>), cmd.channel, cmd.control_number);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;               <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kChanPressure:</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;               format_str = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Channel Pressure&quot;</span>), cmd.channel);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;               <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">case</span> rsj::MessageType::kPgmChange:</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;               format_str = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} | Program Change&quot;</span>), cmd.channel);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;               <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kSystem</a>:</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;               <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            }</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            g.drawText(format_str, 0, 0, width, height, juce::Justification::centredLeft);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;         }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;   }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;   }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -369,20 +369,20 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;{</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;   <span class="comment">/* This must draw the background behind one of the rows in the table. The graphics context has</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment">    * its origin at the row&#39;s top-left, and your method should fill the area specified by the width</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">    * and height parameters. Note that the rowNumber value may be greater than the number of rows in</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">    * your list, so be careful that you don&#39;t assume it&#39;s less than getNumRows(). */</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      <span class="keywordflow">if</span> (row_is_selected)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;         g.fillAll(juce::Colours::lightblue);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;   }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;   }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;{</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;   <span class="comment">/* This must draw the background behind one of the rows in the table. The graphics context has</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">    * its origin at the row&#39;s top-left, and your method should fill the area specified by the width</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">    * and height parameters. Note that the rowNumber value may be greater than the number of rows in</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment">    * your list, so be careful that you don&#39;t assume it&#39;s less than getNumRows(). */</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keywordflow">if</span> (row_is_selected)</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;         g.fillAll(juce::Colours::lightblue);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;   }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;   }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -431,51 +431,51 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;{</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;   <span class="comment">/* This is used to create or update a custom component to go in a cell. Any cell may contain a</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment">    * custom component, or can just be drawn with the paintCell() method and handle mouse clicks</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment">    * with cellClicked(). This method will be called whenever a custom component might need to be</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment">    * updated - e.g. when the table is changed, or TableListBox::updateContent() is called. If you</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment">    * don&#39;t need a custom component for the specified cell, then return nullptr. (Bear in mind that</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment">    * even if you&#39;re not creating a new component, you may still need to delete</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">    * existingComponentToUpdate if it&#39;s non-null). If you do want a custom component, and the</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment">    * existingComponentToUpdate is null, then this method must create a new component suitable for</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment">    * the cell, and return it. If the existingComponentToUpdate is non - null, it will be a pointer</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment">    * to a component previously created by this method.In this case, the method must either update</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">    * it to make sure it&#39;s correctly representing the given cell(which may be different from the one</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">    * that the component was created for), or it can delete this component and return a new one.</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">    * Because Juce recycles these components when scrolling, we need to reset their properties. */</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      <span class="keywordflow">if</span> (column_id == 2) <span class="comment">/* LR command column */</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;         <span class="keyword">auto</span> command_select {<span class="keyword">dynamic_cast&lt;</span><a class="code" href="class_command_menu.html">CommandMenu</a>*<span class="keyword">&gt;</span>(existing_component)};</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;         <span class="keywordflow">if</span> (command_select == <span class="keyword">nullptr</span>) {</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="comment">/* create a new command menu, delete old one if it exists */</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <span class="keyword">delete</span> existing_component; <span class="comment">// NOLINT(cppcoreguidelines-owning-memory)</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="keyword">auto</span> new_select {std::make_unique&lt;CommandMenu&gt;(</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a4e7fdd115f53f1b6bca2c413cc2eb66c">GetMessageForNumber</a>(gsl::narrow_cast&lt;size_t&gt;(row_number)), <a class="code" href="class_command_table_model.html#ab32e4e562181f35a3f4072df0d4c6d12">command_set_</a>,</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>)};</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            new_select-&gt;<a class="code" href="class_command_menu.html#a17ca3546438d042151b0f90db1ecab81">SetSelectedItem</a>(</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                <a class="code" href="class_command_table_model.html#ab32e4e562181f35a3f4072df0d4c6d12">command_set_</a>.<a class="code" href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandTextIndex</a>(<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a52eacd441b3cbaa1ecad3eb260115809">GetCommandForMessage</a>(</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                    <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a4e7fdd115f53f1b6bca2c413cc2eb66c">GetMessageForNumber</a>(gsl::narrow_cast&lt;size_t&gt;(row_number))))</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                + 1);</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            <span class="keywordflow">return</span> new_select.release();</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;         }</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;         <span class="comment">/* change old command menu */</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;         command_select-&gt;SetMsg(<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a4e7fdd115f53f1b6bca2c413cc2eb66c">GetMessageForNumber</a>(gsl::narrow_cast&lt;size_t&gt;(row_number)));</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;         command_select-&gt;SetSelectedItem(</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;             <a class="code" href="class_command_table_model.html#ab32e4e562181f35a3f4072df0d4c6d12">command_set_</a>.<a class="code" href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandTextIndex</a>(<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a52eacd441b3cbaa1ecad3eb260115809">GetCommandForMessage</a>(</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                 <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a4e7fdd115f53f1b6bca2c413cc2eb66c">GetMessageForNumber</a>(gsl::narrow_cast&lt;size_t&gt;(row_number))))</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;             + 1);</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;         <span class="keywordflow">return</span> command_select;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;      }</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;   }</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;   }</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;{</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;   <span class="comment">/* This is used to create or update a custom component to go in a cell. Any cell may contain a</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment">    * custom component, or can just be drawn with the paintCell() method and handle mouse clicks</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment">    * with cellClicked(). This method will be called whenever a custom component might need to be</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment">    * updated - e.g. when the table is changed, or TableListBox::updateContent() is called. If you</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment">    * don&#39;t need a custom component for the specified cell, then return nullptr. (Bear in mind that</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">    * even if you&#39;re not creating a new component, you may still need to delete</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment">    * existingComponentToUpdate if it&#39;s non-null). If you do want a custom component, and the</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment">    * existingComponentToUpdate is null, then this method must create a new component suitable for</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment">    * the cell, and return it. If the existingComponentToUpdate is non - null, it will be a pointer</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">    * to a component previously created by this method.In this case, the method must either update</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">    * it to make sure it&#39;s correctly representing the given cell(which may be different from the one</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">    * that the component was created for), or it can delete this component and return a new one.</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment">    * Because Juce recycles these components when scrolling, we need to reset their properties. */</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      <span class="keywordflow">if</span> (column_id == 2) <span class="comment">/* LR command column */</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;         <span class="keyword">auto</span> command_select {<span class="keyword">dynamic_cast&lt;</span><a class="code" href="class_command_menu.html">CommandMenu</a>*<span class="keyword">&gt;</span>(existing_component)};</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;         <span class="keywordflow">if</span> (command_select == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <span class="comment">/* create a new command menu, delete old one if it exists */</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="keyword">delete</span> existing_component; <span class="comment">// NOLINT(cppcoreguidelines-owning-memory)</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            <span class="keyword">auto</span> new_select {std::make_unique&lt;CommandMenu&gt;(</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a4e7fdd115f53f1b6bca2c413cc2eb66c">GetMessageForNumber</a>(gsl::narrow_cast&lt;size_t&gt;(row_number)), <a class="code" href="class_command_table_model.html#ab32e4e562181f35a3f4072df0d4c6d12">command_set_</a>,</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>)};</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            new_select-&gt;<a class="code" href="class_command_menu.html#a17ca3546438d042151b0f90db1ecab81">SetSelectedItem</a>(</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                <a class="code" href="class_command_table_model.html#ab32e4e562181f35a3f4072df0d4c6d12">command_set_</a>.<a class="code" href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandTextIndex</a>(<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a52eacd441b3cbaa1ecad3eb260115809">GetCommandForMessage</a>(</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                    <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a4e7fdd115f53f1b6bca2c413cc2eb66c">GetMessageForNumber</a>(gsl::narrow_cast&lt;size_t&gt;(row_number))))</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                + 1);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            <span class="keywordflow">return</span> new_select.release();</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;         }</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;         <span class="comment">/* change old command menu */</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;         command_select-&gt;SetMsg(<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a4e7fdd115f53f1b6bca2c413cc2eb66c">GetMessageForNumber</a>(gsl::narrow_cast&lt;size_t&gt;(row_number)));</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;         command_select-&gt;SetSelectedItem(</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;             <a class="code" href="class_command_table_model.html#ab32e4e562181f35a3f4072df0d4c6d12">command_set_</a>.<a class="code" href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandTextIndex</a>(<a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a52eacd441b3cbaa1ecad3eb260115809">GetCommandForMessage</a>(</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                 <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a4e7fdd115f53f1b6bca2c413cc2eb66c">GetMessageForNumber</a>(gsl::narrow_cast&lt;size_t&gt;(row_number))))</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;             + 1);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;         <span class="keywordflow">return</span> command_select;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      }</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;   }</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;   }</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -544,16 +544,16 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;{</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> current_sort {std::make_pair(new_sort_column_id, is_forwards)};</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a9913ba52ed28333789f8223f5248540f">Resort</a>(current_sort);</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;   }</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;   }</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;{</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> current_sort {std::make_pair(new_sort_column_id, is_forwards)};</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;      <a class="code" href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">profile_</a>.<a class="code" href="class_profile.html#a9913ba52ed28333789f8223f5248540f">Resort</a>(current_sort);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;   }</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;   }</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -613,19 +613,19 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_profile_html_a6f55aadcd33c6023b1e544b436d57de2"><div class="ttname"><a href="class_profile.html#a6f55aadcd33c6023b1e544b436d57de2">Profile::Size</a></div><div class="ttdeci">size_t Size() const</div><div class="ttdef"><b>Definition:</b> Profile.h:134</div></div>
-<div class="ttc" id="aclass_profile_html_a414a11b557891329f59fb3ef7485428e"><div class="ttname"><a href="class_profile.html#a414a11b557891329f59fb3ef7485428e">Profile::RemoveRow</a></div><div class="ttdeci">void RemoveRow(size_t row)</div><div class="ttdef"><b>Definition:</b> Profile.cpp:165</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:147</div></div>
+<div class="ttc" id="aclass_profile_html_a414a11b557891329f59fb3ef7485428e"><div class="ttname"><a href="class_profile.html#a414a11b557891329f59fb3ef7485428e">Profile::RemoveRow</a></div><div class="ttdeci">void RemoveRow(size_t row)</div><div class="ttdef"><b>Definition:</b> Profile.cpp:166</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:149</div></div>
 <div class="ttc" id="aclass_command_menu_html"><div class="ttname"><a href="class_command_menu.html">CommandMenu</a></div><div class="ttdef"><b>Definition:</b> CommandMenu.h:29</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:193</div></div>
+<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:217</div></div>
 <div class="ttc" id="aclass_profile_html_a4e7fdd115f53f1b6bca2c413cc2eb66c"><div class="ttname"><a href="class_profile.html#a4e7fdd115f53f1b6bca2c413cc2eb66c">Profile::GetMessageForNumber</a></div><div class="ttdeci">rsj::MidiMessageId GetMessageForNumber(size_t num) const</div><div class="ttdef"><b>Definition:</b> Profile.h:99</div></div>
-<div class="ttc" id="aclass_command_set_html_a7fc203db881c2ae7a587b061cafc3d52"><div class="ttname"><a href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandSet::CommandTextIndex</a></div><div class="ttdeci">size_t CommandTextIndex(const std::string &amp;command) const</div><div class="ttdef"><b>Definition:</b> CommandSet.cpp:114</div></div>
+<div class="ttc" id="aclass_command_set_html_a7fc203db881c2ae7a587b061cafc3d52"><div class="ttname"><a href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandSet::CommandTextIndex</a></div><div class="ttdeci">size_t CommandTextIndex(const std::string &amp;command) const</div><div class="ttdef"><b>Definition:</b> CommandSet.cpp:116</div></div>
 <div class="ttc" id="aclass_command_menu_html_a17ca3546438d042151b0f90db1ecab81"><div class="ttname"><a href="class_command_menu.html#a17ca3546438d042151b0f90db1ecab81">CommandMenu::SetSelectedItem</a></div><div class="ttdeci">void SetSelectedItem(size_t index)</div><div class="ttdef"><b>Definition:</b> CommandMenu.h:35</div></div>
 <div class="ttc" id="aclass_command_table_model_html_ab32e4e562181f35a3f4072df0d4c6d12"><div class="ttname"><a href="class_command_table_model.html#ab32e4e562181f35a3f4072df0d4c6d12">CommandTableModel::command_set_</a></div><div class="ttdeci">const CommandSet &amp; command_set_</div><div class="ttdef"><b>Definition:</b> CommandTableModel.h:45</div></div>
 <div class="ttc" id="aclass_command_table_model_html_ac2297c76f51e355b450175774b193cbd"><div class="ttname"><a href="class_command_table_model.html#ac2297c76f51e355b450175774b193cbd">CommandTableModel::profile_</a></div><div class="ttdeci">Profile &amp; profile_</div><div class="ttdef"><b>Definition:</b> CommandTableModel.h:46</div></div>
-<div class="ttc" id="anamespacersj_html_afcd687f097c7a336ee5e8447ca7b49c7"><div class="ttname"><a href="namespacersj.html#afcd687f097c7a336ee5e8447ca7b49c7">rsj::cmp_less_equal</a></div><div class="ttdeci">constexpr bool cmp_less_equal(const S left, const T right) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.h:232</div></div>
+<div class="ttc" id="anamespacersj_html_afcd687f097c7a336ee5e8447ca7b49c7"><div class="ttname"><a href="namespacersj.html#afcd687f097c7a336ee5e8447ca7b49c7">rsj::cmp_less_equal</a></div><div class="ttdeci">constexpr bool cmp_less_equal(const S left, const T right) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.h:239</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kNoteOff</a></div><div class="ttdeci">@ kNoteOff</div></div>
 <div class="ttc" id="aclass_profile_html_a52eacd441b3cbaa1ecad3eb260115809"><div class="ttname"><a href="class_profile.html#a52eacd441b3cbaa1ecad3eb260115809">Profile::GetCommandForMessage</a></div><div class="ttdeci">const std::string &amp; GetCommandForMessage(rsj::MidiMessageId message) const</div><div class="ttdef"><b>Definition:</b> Profile.h:88</div></div>
-<div class="ttc" id="aclass_profile_html_a9913ba52ed28333789f8223f5248540f"><div class="ttname"><a href="class_profile.html#a9913ba52ed28333789f8223f5248540f">Profile::Resort</a></div><div class="ttdeci">void Resort(std::pair&lt; int, bool &gt; new_order)</div><div class="ttdef"><b>Definition:</b> Profile.cpp:204</div></div>
+<div class="ttc" id="aclass_profile_html_a9913ba52ed28333789f8223f5248540f"><div class="ttname"><a href="class_profile.html#a9913ba52ed28333789f8223f5248540f">Profile::Resort</a></div><div class="ttdeci">void Resort(std::pair&lt; int, bool &gt; new_order)</div><div class="ttdef"><b>Definition:</b> Profile.cpp:205</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

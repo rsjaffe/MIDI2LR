@@ -1,7 +1,7 @@
 var searchData=
 [
   ['data_5flist_5f_100',['data_list_',['../class_devices.html#a1dd210727694b0ddf21826f1cb191c05',1,'Devices']]],
-  ['debuginfo_101',['DebugInfo',['../class_debug_info.html',1,'DebugInfo'],['../class_debug_info.html#a071053365a3097369dc3255505f51e07',1,'DebugInfo::DebugInfo()']]],
+  ['debuginfo_101',['DebugInfo',['../class_debug_info.html',1,'DebugInfo'],['../class_debug_info.html#a9d62c8717279cd98370a4f5395ba4220',1,'DebugInfo::DebugInfo()']]],
   ['defaultprofilesave_102',['DefaultProfileSave',['../class_m_i_d_i2_l_r_application.html#a8138fd30c26fe9b14cc69c3eb3def3c5',1,'MIDI2LRApplication::DefaultProfileSave()'],['../class_m_i_d_i2_l_r_application.html#a8138fd30c26fe9b14cc69c3eb3def3c5',1,'MIDI2LRApplication::DefaultProfileSave()']]],
   ['device_5flisting_5f_103',['device_listing_',['../class_devices.html#ad04a115b64234c6872aaeffc4c0160f2',1,'Devices']]],
   ['device_5fxml_5f_104',['device_xml_',['../class_devices.html#abc356d82a06fb846454d42633126a4d4',1,'Devices']]],
@@ -12,5 +12,5 @@ var searchData=
   ['dispatch_5fmessages_5ffuture_5f_109',['dispatch_messages_future_',['../class_midi_receiver.html#a90cf4a5de8a026c91513b38332702d0a',1,'MidiReceiver']]],
   ['dispatchmessages_110',['DispatchMessages',['../class_midi_receiver.html#a2002ccf0c5057164b72579f52f574f02',1,'MidiReceiver']]],
   ['drawbuttontext_111',['DrawButtonText',['../class_text_button_aligned.html#a64924c47f4a7ef3c9b2180f34de0c8e8',1,'TextButtonAligned']]],
-  ['dummy_5f_112',['dummy_',['../class_m_i_d_i2_l_r_application.html#a7a2dfab3572e76f9d3c7cd39f81ef5bf',1,'MIDI2LRApplication']]]
+  ['dummy_5f_112',['dummy_',['../class_m_i_d_i2_l_r_application.html#a050d134e1eb2ef71d65b8d9e73c42a06',1,'MIDI2LRApplication']]]
 ];

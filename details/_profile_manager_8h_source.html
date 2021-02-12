@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.2.0.0</span>
+   &#160;<span id="projectnumber">4.3.1.11</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -137,54 +137,52 @@ $(document).ready(function(){initNavTree('_profile_manager_8h_source.html',''); 
 <div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="class_profile_manager.html#a991fb70897af11237ddc35b725ecc09c">   47</a></span>&#160;   <span class="keywordtype">void</span> AddCallback(</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;       <a class="code" href="_c_coptions_8h.html#aa74f89aa7d942f4a79ea12d7c9b763ef">_In_</a> T* <span class="keyword">const</span> object, <a class="code" href="_c_coptions_8h.html#aa74f89aa7d942f4a79ea12d7c9b763ef">_In_</a> <span class="keywordtype">void</span> (T::*<span class="keyword">const</span> mf)(juce::XmlElement*, <span class="keyword">const</span> juce::String&amp;))</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;   {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keyword">using</span> <span class="keyword">namespace</span> std::placeholders;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">if</span> (object &amp;&amp; mf)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;         <span class="comment">/* only store non-empty functions */</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;         callbacks_.emplace_back(std::bind(mf, object, _1, _2));</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;   }</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="class_profile_manager.html#a6de418c8dafd9f6881aae664a792a1a5">   55</a></span>&#160;   [[nodiscard]] <span class="keyword">const</span> juce::String&amp; GetProfileDirectory() <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;   {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keywordflow">return</span> profile_location_.getFullPathName();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;   }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;   <span class="keywordtype">void</span> SetProfileDirectory(<span class="keyword">const</span> juce::File&amp; directory);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;   <span class="keywordtype">void</span> SwitchToProfile(<span class="keywordtype">int</span> profile_index);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;   <span class="keywordtype">void</span> SwitchToProfile(<span class="keyword">const</span> juce::String&amp; profile);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;   [[nodiscard]] <span class="keyword">const</span> std::vector&lt;juce::String&gt;&amp; GetMenuItems() <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;   <span class="keywordtype">void</span> ConnectionCallback(<span class="keywordtype">bool</span>, <span class="keywordtype">bool</span>);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;   <span class="keywordtype">void</span> handleAsyncUpdate() override;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;   <span class="keywordtype">void</span> MapCommand(<span class="keyword">const</span> <a class="code" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj</a>::<a class="code" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a>&amp; msg);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;   <span class="keywordtype">void</span> MidiCmdCallback(<span class="keyword">const</span> <a class="code" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj</a>::<a class="code" href="structrsj_1_1_midi_message.html">MidiMessage</a>&amp;);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;   <span class="keywordtype">void</span> SwitchToNextProfile();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;   <span class="keywordtype">void</span> SwitchToPreviousProfile();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064">   72</a></span>&#160;   <span class="keyword">enum</span> <span class="keyword">class</span> SwitchState {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      kNone,</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      kPrev,</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      kNext,</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;   };</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="class_profile_manager.html#ace4ed8782a87e7a0e721153895cfcfa5">   78</a></span>&#160;   <span class="keyword">const</span> <a class="code" href="class_profile.html">Profile</a>&amp; current_profile_;</div>
-<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="class_profile_manager.html#a83c2146e269d1483571f7bc85687decc">   79</a></span>&#160;   <a class="code" href="class_controls_model.html">ControlsModel</a>&amp; controls_model_;</div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">   80</a></span>&#160;   <span class="keywordtype">int</span> current_profile_index_ {0};</div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="class_profile_manager.html#a6e08a701bab52d887e1712d3b73e8c62">   81</a></span>&#160;   juce::File profile_location_;</div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="class_profile_manager.html#ace43210fbcd9fd810ef4930448b4a59e">   82</a></span>&#160;   LrIpcOut&amp; lr_ipc_out_;</div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="class_profile_manager.html#a1b3262551dab34b845cb52e9e5070570">   83</a></span>&#160;   std::vector&lt;juce::String&gt; profiles_;</div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="class_profile_manager.html#abbe77680917497809ae1bf0aee0d89f9">   84</a></span>&#160;   std::vector&lt;std::function&lt;<span class="keywordtype">void</span>(juce::XmlElement*, <span class="keyword">const</span> juce::String&amp;)&gt;&gt; callbacks_;</div>
-<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">   85</a></span>&#160;   SwitchState switch_state_ {SwitchState::kNone};</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;};</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keywordflow">if</span> (object &amp;&amp; mf)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;         callbacks_.emplace_back(</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;             [=](juce::XmlElement* a, <span class="keyword">const</span> juce::String&amp; b) { (object-&gt;*mf)(a, b); });</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;   }</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="class_profile_manager.html#a6de418c8dafd9f6881aae664a792a1a5">   54</a></span>&#160;   [[nodiscard]] <span class="keyword">const</span> juce::String&amp; GetProfileDirectory() <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;   {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="keywordflow">return</span> profile_location_.getFullPathName();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;   }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;   <span class="keywordtype">void</span> SetProfileDirectory(<span class="keyword">const</span> juce::File&amp; directory);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;   <span class="keywordtype">void</span> SwitchToProfile(<span class="keywordtype">int</span> profile_index);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;   <span class="keywordtype">void</span> SwitchToProfile(<span class="keyword">const</span> juce::String&amp; profile);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;   <span class="keywordtype">void</span> ConnectionCallback(<span class="keywordtype">bool</span>, <span class="keywordtype">bool</span>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;   <span class="keywordtype">void</span> handleAsyncUpdate() override;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;   <span class="keywordtype">void</span> MapCommand(<span class="keyword">const</span> <a class="code" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj</a>::<a class="code" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a>&amp; msg);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;   <span class="keywordtype">void</span> MidiCmdCallback(<span class="keyword">const</span> <a class="code" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj</a>::<a class="code" href="structrsj_1_1_midi_message.html">MidiMessage</a>&amp;);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;   <span class="keywordtype">void</span> SwitchToNextProfile();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;   <span class="keywordtype">void</span> SwitchToPreviousProfile();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064">   70</a></span>&#160;   <span class="keyword">enum</span> <span class="keyword">class</span> SwitchState {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      kNone,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      kPrev,</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      kNext,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;   };</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="class_profile_manager.html#ace4ed8782a87e7a0e721153895cfcfa5">   76</a></span>&#160;   <span class="keyword">const</span> <a class="code" href="class_profile.html">Profile</a>&amp; current_profile_;</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="class_profile_manager.html#a83c2146e269d1483571f7bc85687decc">   77</a></span>&#160;   <a class="code" href="class_controls_model.html">ControlsModel</a>&amp; controls_model_;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">   78</a></span>&#160;   <span class="keywordtype">int</span> current_profile_index_ {0};</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="class_profile_manager.html#a6e08a701bab52d887e1712d3b73e8c62">   79</a></span>&#160;   juce::File profile_location_;</div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="class_profile_manager.html#ace43210fbcd9fd810ef4930448b4a59e">   80</a></span>&#160;   LrIpcOut&amp; lr_ipc_out_;</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="class_profile_manager.html#a1b3262551dab34b845cb52e9e5070570">   81</a></span>&#160;   std::vector&lt;juce::String&gt; profiles_;</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="class_profile_manager.html#abbe77680917497809ae1bf0aee0d89f9">   82</a></span>&#160;   std::vector&lt;std::function&lt;<span class="keywordtype">void</span>(juce::XmlElement*, <span class="keyword">const</span> juce::String&amp;)&gt;&gt; callbacks_;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">   83</a></span>&#160;   SwitchState switch_state_ {SwitchState::kNone};</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;};</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclass_midi_receiver_html_a8ae371505226f912b3e41717cbb5df8f"><div class="ttname"><a href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">MidiReceiver::input_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiInput &gt; &gt; input_devices_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:67</div></div>
+<div class="ttc" id="aclass_midi_receiver_html_a8ae371505226f912b3e41717cbb5df8f"><div class="ttname"><a href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">MidiReceiver::input_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiInput &gt; &gt; input_devices_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:65</div></div>
 <div class="ttc" id="aclass_controls_model_html"><div class="ttname"><a href="class_controls_model.html">ControlsModel</a></div><div class="ttdef"><b>Definition:</b> ControlsModel.h:202</div></div>
 <div class="ttc" id="a_c_coptions_8h_html_aa74f89aa7d942f4a79ea12d7c9b763ef"><div class="ttname"><a href="_c_coptions_8h.html#aa74f89aa7d942f4a79ea12d7c9b763ef">_In_</a></div><div class="ttdeci">#define _In_</div><div class="ttdef"><b>Definition:</b> CCoptions.h:42</div></div>
 <div class="ttc" id="anamespacersj_html_a2f66b6c4ce47634151f3e40675ae62d8"><div class="ttname"><a href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath</a></div><div class="ttdeci">std::string AppLogFilePath(const std::string &amp;file_name)</div></div>
 <div class="ttc" id="aclass_profile_html"><div class="ttname"><a href="class_profile.html">Profile</a></div><div class="ttdef"><b>Definition:</b> Profile.h:36</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a></div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:144</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html"><div class="ttname"><a href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a></div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:122</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a></div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:146</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html"><div class="ttname"><a href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a></div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:124</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

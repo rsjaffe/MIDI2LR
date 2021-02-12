@@ -27,9 +27,11 @@ var class_m_i_d_i2_l_r_application =
     [ "command_set_", "class_m_i_d_i2_l_r_application.html#ab7665efd9d1cfa839c38b3693b17e027", null ],
     [ "controls_model_", "class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3", null ],
     [ "devices_", "class_m_i_d_i2_l_r_application.html#ab8f495d7a4fe0caa59e6c426936c1a6c", null ],
-    [ "dummy_", "class_m_i_d_i2_l_r_application.html#a7a2dfab3572e76f9d3c7cd39f81ef5bf", null ],
-    [ "logger_", "class_m_i_d_i2_l_r_application.html#ad5376bbf75dff5686011d923e4f2ecec", null ],
-    [ "look_feel_", "class_m_i_d_i2_l_r_application.html#ae75b25dd5dec75487354fcc7d50c4d9a", null ],
+    [ "dummy_", "class_m_i_d_i2_l_r_application.html#a050d134e1eb2ef71d65b8d9e73c42a06", null ],
+    [ "io_context_", "class_m_i_d_i2_l_r_application.html#a4c2470ed3e7680f08bc5ea4d40ec8f97", null ],
+    [ "io_thread0_", "class_m_i_d_i2_l_r_application.html#a32a4aa0c1b669dfdbad9ccdf6ff8202d", null ],
+    [ "io_thread1_", "class_m_i_d_i2_l_r_application.html#a09a40319067d47c05997e5c8fec811ff", null ],
+    [ "look_feel_", "class_m_i_d_i2_l_r_application.html#a5af94e98175927f707bd5e1e5b308f04", null ],
     [ "lr_ipc_in_", "class_m_i_d_i2_l_r_application.html#a51fbfea1e27c7bb86f6a25a6934659c7", null ],
     [ "lr_ipc_out_", "class_m_i_d_i2_l_r_application.html#a4ad720c757a457b67277a286047ac773", null ],
     [ "main_window_", "class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf", null ],
@@ -38,5 +40,6 @@ var class_m_i_d_i2_l_r_application =
     [ "profile_", "class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c", null ],
     [ "profile_manager_", "class_m_i_d_i2_l_r_application.html#aa7b54bb994b9b49e2013acae7b024ae9", null ],
     [ "settings_manager_", "class_m_i_d_i2_l_r_application.html#a6e3422a18346a2daee93e39b6776dfa1", null ],
-    [ "version_checker_", "class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14", null ]
+    [ "version_checker_", "class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14", null ],
+    [ "work_", "class_m_i_d_i2_l_r_application.html#ad7189bf7ec3d80fb58751439dfdfa4a8", null ]
 ];

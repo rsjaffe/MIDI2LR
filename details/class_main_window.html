@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.2.0.0</span>
+   &#160;<span id="projectnumber">4.3.1.11</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -114,8 +114,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae2b38c91456f2034e8d354f97c453dd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a767824566011a82d1d75339774258614"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a767824566011a82d1d75339774258614">~MainWindow</a> ()=default</td></tr>
 <tr class="separator:a767824566011a82d1d75339774258614"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30f0ede1af57314d45db099d16cbceec"><td class="memItemLeft" align="right" valign="top">juce::String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a30f0ede1af57314d45db099d16cbceec">GetProfileName</a> () const</td></tr>
-<tr class="separator:a30f0ede1af57314d45db099d16cbceec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6e0e61eb18c597ea788e98f72f3768c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_main_window.html">MainWindow</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#ae6e0e61eb18c597ea788e98f72f3768c">operator=</a> (const <a class="el" href="class_main_window.html">MainWindow</a> &amp;other)=delete</td></tr>
 <tr class="separator:ae6e0e61eb18c597ea788e98f72f3768c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7815cd3a5ff047f1641fb3533c06f10c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_main_window.html">MainWindow</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a7815cd3a5ff047f1641fb3533c06f10c">operator=</a> (<a class="el" href="class_main_window.html">MainWindow</a> &amp;&amp;other)=delete</td></tr>
@@ -320,35 +318,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;   {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      juce::JUCEApplication::getInstance()-&gt;systemRequestedQuit();</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;   }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a30f0ede1af57314d45db099d16cbceec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30f0ede1af57314d45db099d16cbceec">&#9670;&nbsp;</a></span>GetProfileName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">juce::String MainWindow::GetProfileName </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="class_main_window.html#aab0d0a63b289dadf16e5354240e1ee6a">window_content_</a>-&gt;GetProfileName(); }</div>
+<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;   {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      juce::JUCEApplication::getInstance()-&gt;systemRequestedQuit();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -496,7 +468,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_settings_manager_html_a3f72426f5881bed364d70b41f52844cd"><div class="ttname"><a href="class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd">SettingsManager::GetAutoHideTime</a></div><div class="ttdeci">int GetAutoHideTime() const noexcept</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:36</div></div>
-<div class="ttc" id="aclass_main_window_html_aab0d0a63b289dadf16e5354240e1ee6a"><div class="ttname"><a href="class_main_window.html#aab0d0a63b289dadf16e5354240e1ee6a">MainWindow::window_content_</a></div><div class="ttdeci">std::unique_ptr&lt; MainContentComponent &gt; window_content_</div><div class="ttdef"><b>Definition:</b> MainWindow.h:58</div></div>
+<div class="ttc" id="aclass_main_window_html_aab0d0a63b289dadf16e5354240e1ee6a"><div class="ttname"><a href="class_main_window.html#aab0d0a63b289dadf16e5354240e1ee6a">MainWindow::window_content_</a></div><div class="ttdeci">std::unique_ptr&lt; MainContentComponent &gt; window_content_</div><div class="ttdef"><b>Definition:</b> MainWindow.h:57</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

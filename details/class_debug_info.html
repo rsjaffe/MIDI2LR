@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.2.0.0</span>
+   &#160;<span id="projectnumber">4.3.1.11</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -98,8 +98,8 @@ $(document).ready(function(){initNavTree('class_debug_info.html',''); initResiza
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a071053365a3097369dc3255505f51e07"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_debug_info.html#a071053365a3097369dc3255505f51e07">DebugInfo</a> (const juce::String &amp;profile_directory) noexcept</td></tr>
-<tr class="separator:a071053365a3097369dc3255505f51e07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d62c8717279cd98370a4f5395ba4220"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_debug_info.html#a9d62c8717279cd98370a4f5395ba4220">DebugInfo</a> (std::string_view profile_directory) noexcept</td></tr>
+<tr class="separator:a9d62c8717279cd98370a4f5395ba4220"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2105a2023808495bdc6a8a29530f8ec"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_debug_info.html#aa2105a2023808495bdc6a8a29530f8ec">GetInfo</a> () const noexcept</td></tr>
 <tr class="separator:aa2105a2023808495bdc6a8a29530f8ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -114,8 +114,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a575d4944d074eb26910c200f953a3b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a071053365a3097369dc3255505f51e07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a071053365a3097369dc3255505f51e07">&#9670;&nbsp;</a></span>DebugInfo()</h2>
+<a id="a9d62c8717279cd98370a4f5395ba4220"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d62c8717279cd98370a4f5395ba4220">&#9670;&nbsp;</a></span>DebugInfo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -126,7 +126,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">DebugInfo::DebugInfo </td>
           <td>(</td>
-          <td class="paramtype">const juce::String &amp;&#160;</td>
+          <td class="paramtype">std::string_view&#160;</td>
           <td class="paramname"><em>profile_directory</em></td><td>)</td>
           <td></td>
         </tr>
@@ -137,10 +137,12 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;{</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;      <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Application: System language {}.&quot;</span>),</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;          juce::SystemStats::getDisplayLanguage().toStdString()));</div>
+<div class="fragment"><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;{</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Application: System language {}.&quot;</span>),</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;          juce::SystemStats::getDisplayLanguage().toStdString()));</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;      <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;          FMT_STRING(<span class="stringliteral">&quot;Application: CPU {}.&quot;</span>), juce::SystemStats::getCpuModel().toStdString()));</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;      <span class="comment">// ReSharper disable CppUnreachableCode</span></div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;      <span class="keywordflow">if</span> constexpr (kNdebug) {</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;         <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(</div>
@@ -155,27 +157,26 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;          juce::File::getSpecialLocation(juce::File::currentApplicationFile)</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;              .getFullPathName()</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;              .toStdString()));</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;      <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;          FMT_STRING(<span class="stringliteral">&quot;Application: Profile directory {}.&quot;</span>), profile_directory.toStdString()));</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;      <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Application: Log file directory {}.&quot;</span>),</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;          ww898::utf::conv&lt;char&gt;(<a class="code" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath</a>(<span class="stringliteral">&quot;&quot;</span>))));</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;      <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Application: Settings file directory {}.&quot;</span>),</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;          ww898::utf::conv&lt;char&gt;(<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(<span class="stringliteral">&quot;&quot;</span>))));</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;      <span class="comment">/* MacOS defers keyboard layout information until first keystroke sent */</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;      <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Application: Keyboard type {}.&quot;</span>), GetKeyboardLayout()));</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;   }</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;   <span class="keywordflow">catch</span> (...) {</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;         <span class="keyword">static</span> constexpr <span class="keyword">auto</span> kErr {<span class="stringliteral">&quot;Failed to obtain app info. Exception.&quot;</span>};</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;         <a class="code" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>.emplace_back(kErr);</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(kErr);</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      }</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      <span class="keywordflow">catch</span> (...) { <span class="comment">//-V565</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      }</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;   }</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;}</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;      <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Application: Profile directory {}.&quot;</span>), profile_directory));</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;      <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Application: Log file directory {}.&quot;</span>),</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;          ww898::utf::conv&lt;char&gt;(<a class="code" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath</a>(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;&quot;</span>)))));</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;      <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Application: Settings file directory {}.&quot;</span>),</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;          ww898::utf::conv&lt;char&gt;(<a class="code" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;&quot;</span>)))));</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;      <span class="comment">/* MacOS defers keyboard layout information until first keystroke sent */</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;      <a class="code" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Application: Keyboard type {}.&quot;</span>), GetKeyboardLayout()));</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;   }</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;   <span class="keywordflow">catch</span> (...) {</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;         <span class="keyword">static</span> constexpr <span class="keyword">auto</span> kErr {<span class="stringliteral">&quot;Failed to obtain app info. Exception.&quot;</span>};</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;         <a class="code" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>.emplace_back(kErr);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(kErr);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      }</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      <span class="keywordflow">catch</span> (...) { <span class="comment">//-V565</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      }</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;   }</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -265,7 +266,7 @@ Private Attributes</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:193</div></div>
+<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:217</div></div>
 <div class="ttc" id="anamespacersj_html_ad9fd7ddfd6792dd72b9f217e9d7967c3"><div class="ttname"><a href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a></div><div class="ttdeci">std::string AppDataFilePath(const std::string &amp;file_name)</div></div>
 <div class="ttc" id="anamespacersj_html_a2f66b6c4ce47634151f3e40675ae62d8"><div class="ttname"><a href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath</a></div><div class="ttdeci">std::string AppLogFilePath(const std::string &amp;file_name)</div></div>
 <div class="ttc" id="aclass_debug_info_html_a61484a1e043aee5035aed983750cbf10"><div class="ttname"><a href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">DebugInfo::LogAndSave</a></div><div class="ttdeci">void LogAndSave(std::string &amp;&amp;msg)</div><div class="ttdef"><b>Definition:</b> DebugInfo.h:31</div></div>

@@ -1,10 +1,9 @@
 var class_main_content_component =
 [
     [ "MainContentComponent", "class_main_content_component.html#a434ad5f88b6b1cca4d75b32067289564", null ],
-    [ "~MainContentComponent", "class_main_content_component.html#a0ad6ee663c2e5f135946a23bed278320", null ],
+    [ "~MainContentComponent", "class_main_content_component.html#a7769da539c2bc4d2c66b2a0f200dad18", null ],
     [ "MainContentComponent", "class_main_content_component.html#a51f9db3497adb66ea0c1c4878ceff9b7", null ],
     [ "MainContentComponent", "class_main_content_component.html#ad04bdda172036cdeadc62d3a58a2bbf8", null ],
-    [ "GetProfileName", "class_main_content_component.html#afc2d324ddc2f326373292d608a5b6a26", null ],
     [ "handleAsyncUpdate", "class_main_content_component.html#a9be726b895f68c0e9163d618ee4d20f6", null ],
     [ "Init", "class_main_content_component.html#ae702256a158baa25205b97aee67b63f3", null ],
     [ "LrIpcOutCallback", "class_main_content_component.html#a5c7da1ac272d106cfed84954a4816334", null ],
