@@ -20,12 +20,13 @@
 #include <chrono>
 #include <exception>
 #include <limits>
-#ifdef __cpp_lib_source_location
-#include <source_location>
-#endif
 #include <string>
 #include <string_view>
 #include <thread> /* sleep_for */
+#include <version>
+#ifdef __cpp_lib_source_location
+#include <source_location>
+#endif
 #ifdef __cpp_lib_integer_comparison_functions
 #include <utility>
 #else
@@ -53,9 +54,11 @@ constexpr bool kNdebug {false};
 #ifdef _WIN32
 constexpr auto MSWindows {true};
 constexpr auto MacOS {false};
+#define MIDI2LR_UC_LITERAL(text) L##text
 #else
 constexpr auto MSWindows {false};
 constexpr auto MacOS {true};
+#define MIDI2LR_UC_LITERAL(text) text
 #endif
 
 #ifndef __ARM_ARCH
@@ -78,10 +81,10 @@ namespace rsj {
    /*****************************************************************************/
    /**************Thread Labels**************************************************/
    /*****************************************************************************/
-#if !defined(NDEBUG) && defined(_WIN32)
+#ifdef _WIN32
    void LabelThread(gsl::cwzstring<> threadname);
 #else
-   constexpr void LabelThread([[maybe_unused]] gsl::cwzstring<> threadname) noexcept {}
+   void LabelThread(gsl::czstring<> threadname);
 #endif
    /*****************************************************************************/
    /**************String Routines************************************************/

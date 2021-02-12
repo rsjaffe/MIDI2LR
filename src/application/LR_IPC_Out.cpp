@@ -43,8 +43,9 @@ namespace {
 } // namespace
 
 LrIpcOut::LrIpcOut(const CommandSet& command_set, ControlsModel& c_model, const Profile& profile,
-    const MidiSender& midi_sender, MidiReceiver& midi_receiver)
-    : midi_sender_ {midi_sender}, profile_ {profile}, repeat_cmd_ {command_set.GetRepeats()},
+    const MidiSender& midi_sender, MidiReceiver& midi_receiver, asio::io_context& io_context)
+    : socket_ {asio::make_strand(io_context)}, recenter_timer_ {asio::make_strand(io_context)},
+      midi_sender_ {midi_sender}, profile_ {profile}, repeat_cmd_ {command_set.GetRepeats()},
       wrap_ {command_set.GetWraps()}, controls_model_ {c_model}
 {
    midi_receiver.AddCallback(this, &LrIpcOut::MidiCmdCallback);
@@ -77,35 +78,6 @@ void LrIpcOut::SendingStop()
    }
 }
 
-void LrIpcOut::Start()
-{
-   try {
-      Connect();
-      io_thread0_ = std::async(std::launch::async, [this] {
-         rsj::LabelThread(L"LrIpcOut io_thread0_");
-         MIDI2LR_FAST_FLOATS;
-         if constexpr (kNdebug)
-            io_context_.run();
-         else
-            rsj::Log(
-                fmt::format(FMT_STRING("LrIpcOut thread0 ran {} handlers."), io_context_.run()));
-      });
-      io_thread1_ = std::async(std::launch::async, [this] {
-         rsj::LabelThread(L"LrIpcOut io_thread1_");
-         MIDI2LR_FAST_FLOATS;
-         if constexpr (kNdebug)
-            io_context_.run();
-         else
-            rsj::Log(
-                fmt::format(FMT_STRING("LrIpcOut thread1 ran {} handlers."), io_context_.run()));
-      });
-   }
-   catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
-      throw;
-   }
-}
-
 void LrIpcOut::Stop()
 {
    thread_should_exit_.store(true, std::memory_order_release);
@@ -113,22 +85,20 @@ void LrIpcOut::Stop()
    if (const auto m {command_.clear_count_emplace(kTerminate)})
       rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcOut destructor."), m));
    callbacks_.clear(); /* no more connect/disconnect notifications */
-   asio::post([this] {
-      if (socket_.is_open()) {
-         asio::error_code ec;
-         /* For portable behaviour with respect to graceful closure of a connected socket, call
-          * shutdown() before closing the socket. */
-         socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
-         if (ec) {
-            rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket shutdown error {}."), ec.message()));
-            ec.clear();
-         }
-         socket_.close(ec);
-         if (ec)
-            rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec.message()));
+   recenter_timer_.cancel();
+   if (socket_.is_open()) {
+      asio::error_code ec;
+      /* For portable behaviour with respect to graceful closure of a connected socket, call
+       * shutdown() before closing the socket. */
+      socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+      if (ec) {
+         rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket shutdown error {}."), ec.message()));
+         ec.clear();
       }
-      recenter_timer_.cancel();
-   });
+      socket_.close(ec);
+      if (ec)
+         rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec.message()));
+   }
 }
 
 void LrIpcOut::Connect()
@@ -225,9 +195,8 @@ void LrIpcOut::SendOut()
           [this, command_copy](const asio::error_code& error, std::size_t) {
              if (!error)
                 [[likely]] SendOut();
-             else {
+             else
                 rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out Write: {}."), error.message()));
-             }
           });
    }
    catch (const std::exception& e) {

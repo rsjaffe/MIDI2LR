@@ -45,14 +45,13 @@ class MainContentComponent final :
    MainContentComponent(const CommandSet& command_set, Profile& profile,
        ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
        MidiReceiver& midi_receiver, MidiSender& midi_sender);
-   ~MainContentComponent() = default; // NOLINT(modernize-use-override)
+   ~MainContentComponent(); // NOLINT(modernize-use-override)
    MainContentComponent(const MainContentComponent& other) = delete;
    MainContentComponent(MainContentComponent&& other) = delete;
    MainContentComponent& operator=(const MainContentComponent& other) = delete;
    MainContentComponent& operator=(MainContentComponent&& other) = delete;
    void Init();
    void SaveProfile() const;
-   [[nodiscard]] juce::String GetProfileName() const { return profile_name_label_.getText(); }
 
  private:
    void handleAsyncUpdate() override;

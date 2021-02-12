@@ -20,12 +20,13 @@
  * ourselves. <typeindex> is guaranteed to provide such a declaration, and is much cheaper to
  * include than <functional>. See https://en.cppreference.com/w/cpp/language/extending_std. */
 #include <array>
-#ifdef __cpp_lib_three_way_comparison
-#include <compare>
-#endif
 #include <stdexcept>
 #include <type_traits>
 #include <typeindex> /*declaration of std::hash template*/
+#include <version>
+#ifdef __cpp_lib_three_way_comparison
+#include <compare>
+#endif
 
 #include <fmt/format.h>
 

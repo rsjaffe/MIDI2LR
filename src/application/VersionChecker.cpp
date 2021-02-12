@@ -46,13 +46,11 @@ VersionChecker::VersionChecker(SettingsManager& settings_manager) noexcept
 void VersionChecker::Start()
 {
    run_future_ = std::async(std::launch::async, [this] {
-      rsj::LabelThread(L"VersionChecker run thread");
+      rsj::LabelThread(MIDI2LR_UC_LITERAL("VersionChecker run thread"));
       MIDI2LR_FAST_FLOATS;
       Run();
    });
 }
-
-void VersionChecker::Stop() noexcept { thread_should_exit_.store(true, std::memory_order_release); }
 
 void VersionChecker::handleAsyncUpdate()
 {
@@ -78,11 +76,10 @@ void VersionChecker::handleAsyncUpdate()
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
-      throw;
    }
 }
 
-void VersionChecker::Run()
+void VersionChecker::Run() noexcept
 {
    try {
       const juce::URL version_url {"https://rsjaffe.github.io/MIDI2LR/version.xml"};
@@ -112,6 +109,5 @@ void VersionChecker::Run()
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
-      throw;
    }
 }

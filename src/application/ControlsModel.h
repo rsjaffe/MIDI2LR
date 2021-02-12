@@ -175,7 +175,7 @@ class ChannelModel {
              + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
    }
    // ReSharper disable once CppMemberFunctionMayBeStatic
-   [[nodiscard]] bool IsNrpn(int controlnumber) const noexcept(kNdebug)
+   [[nodiscard]] bool IsNrpn(int controlnumber) const
    {
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       return controlnumber > kMaxMidi;

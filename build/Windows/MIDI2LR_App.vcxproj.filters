@@ -242,4 +242,7 @@
       <Filter>JUCE Library Code</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="..\..\external\gsl\GSL.natvis" />
+  </ItemGroup>
 </Project>

@@ -18,21 +18,23 @@
 
 #include <algorithm>
 #include <exception>
+#include <type_traits>
 
 #include "Misc.h"
-
+namespace {
+   template<class T> juce::File GetSource(T path)
+   {
+      if constexpr (MSWindows)
+         return static_cast<juce::File>(juce::CharPointer_UTF16(rsj::AppDataFilePath(path).data()));
+      else
+         return static_cast<juce::File>(juce::CharPointer_UTF8(rsj::AppDataFilePath(path).data()));
+   }
+} // namespace
 Devices::Devices()
 {
    try {
       /* open file with xml list of devices */
-#ifdef _WIN32
-      const juce::File source {
-          juce::CharPointer_UTF16(rsj::AppDataFilePath("DisabledControllers.xml").data())};
-#else
-      const juce::File source {
-          juce::CharPointer_UTF8(rsj::AppDataFilePath("DisabledControllers.xml").data())};
-#endif
-
+      const auto source {GetSource(MIDI2LR_UC_LITERAL("DisabledControllers.xml"))};
       if (source.exists())
          device_xml_ = juce::parseXML(source);
    }
@@ -71,13 +73,7 @@ Devices::~Devices()
 {
    try {
       /* open file with xml list of devices */
-#ifdef _WIN32
-      const juce::File source {
-          juce::CharPointer_UTF16(rsj::AppDataFilePath("DisabledControllers.xml").data())};
-#else
-      const juce::File source {
-          juce::CharPointer_UTF8(rsj::AppDataFilePath("DisabledControllers.xml").data())};
-#endif
+      const auto source {GetSource(MIDI2LR_UC_LITERAL("DisabledControllers.xml"))};
       // ReSharper disable once CppExpressionWithoutSideEffects
       device_xml_->writeTo(source);
    }

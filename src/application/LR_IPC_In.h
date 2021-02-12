@@ -29,7 +29,7 @@ class ProfileManager;
 class LrIpcIn {
  public:
    LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const Profile& profile,
-       const MidiSender& midi_sender);
+       const MidiSender& midi_sender, asio::io_context& io_context);
    ~LrIpcIn() = default;
    LrIpcIn(const LrIpcIn& other) = delete;
    LrIpcIn(LrIpcIn&& other) = delete;
@@ -43,8 +43,7 @@ class LrIpcIn {
    void ProcessLine();
    void Read();
 
-   asio::io_context io_context_ {1};
-   asio::ip::tcp::socket socket_ {io_context_};
+   asio::ip::tcp::socket socket_;
    asio::streambuf streambuf_ {};
    const MidiSender& midi_sender_;
    const Profile& profile_;
@@ -52,7 +51,6 @@ class LrIpcIn {
    ProfileManager& profile_manager_;
    rsj::ConcurrentQueue<std::string> line_;
    std::atomic<bool> thread_should_exit_ {false};
-   std::future<void> io_thread_;
    std::future<void> process_line_future_;
 };
 

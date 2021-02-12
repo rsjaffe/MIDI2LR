@@ -46,7 +46,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       profiles_.clear();
       for (const auto& file : file_array) profiles_.emplace_back(file.getFileName());
       if (!profiles_.empty())
-         SwitchToProfile(profiles_[0]);
+         SwitchToProfile(profiles_.front());
       current_profile_index_ = 0;
    }
    catch (const std::exception& e) {
@@ -54,8 +54,6 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       throw;
    }
 }
-
-const std::vector<juce::String>& ProfileManager::GetMenuItems() const noexcept { return profiles_; }
 
 void ProfileManager::SwitchToProfile(int profile_index)
 {

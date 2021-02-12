@@ -968,7 +968,7 @@
 					"DEBUG=1",
 					"JUCE_DISPLAY_SPLASH_SCREEN=0",
 					"JUCE_USE_DARK_SPLASH_SCREEN=1",
-					"JUCE_PROJUCER_VERSION=0x60005",
+					"JUCE_PROJUCER_VERSION=0x60007",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
@@ -994,8 +994,8 @@
 					"JUCE_STRICT_REFCOUNTEDPOINTER=1",
 					"JUCE_STANDALONE_APPLICATION=1",
 					"JUCER_XCODE_MAC_46BB2872=1",
-					"JUCE_APP_VERSION=4.3.0.0",
-					"JUCE_APP_VERSION_HEX=0x4030000",
+					"JUCE_APP_VERSION=4.3.1.11",
+					"JUCE_APP_VERSION_HEX=0x403010b",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -1007,10 +1007,10 @@
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
-					"../../external/JuceLibraryCode",
-					"../../external/JuceLibraryCode/modules",
-					"../../external/",
-					"../../external/asio/",
+					"$(SRCROOT)/../../external/JuceLibraryCode",
+					"$(SRCROOT)/../../external/JuceLibraryCode/modules",
+					"$(SRCROOT)/../../external/",
+					"$(SRCROOT)/../../external/asio/",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-App.plist;
@@ -1018,10 +1018,10 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_HEADER_SEARCH_PATHS = (
-					"../../external/JuceLibraryCode",
-					"../../external/JuceLibraryCode/modules",
-					"../../external/",
-					"../../external/asio/",
+					"$(SRCROOT)/../../external/JuceLibraryCode",
+					"$(SRCROOT)/../../external/JuceLibraryCode/modules",
+					"$(SRCROOT)/../../external/",
+					"$(SRCROOT)/../../external/asio/",
 				);
 				OTHER_CPLUSPLUSFLAGS = "-Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Woverloaded-virtual -Wreorder -Wconstant-conversion -Wsign-conversion -Wunused-private-field -Wbool-conversion -Wextra-semi -Wunreachable-code -Wzero-as-null-pointer-constant -Wcast-align -Winconsistent-missing-destructor-override -Wshift-sign-overflow -Wnullable-to-nonnull-conversion -Wno-missing-field-initializers -Wno-ignored-qualifiers -Wswitch-enum";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
@@ -1053,7 +1053,7 @@
 					"NDEBUG=1",
 					"JUCE_DISPLAY_SPLASH_SCREEN=0",
 					"JUCE_USE_DARK_SPLASH_SCREEN=1",
-					"JUCE_PROJUCER_VERSION=0x60005",
+					"JUCE_PROJUCER_VERSION=0x60007",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
@@ -1079,8 +1079,8 @@
 					"JUCE_STRICT_REFCOUNTEDPOINTER=1",
 					"JUCE_STANDALONE_APPLICATION=1",
 					"JUCER_XCODE_MAC_46BB2872=1",
-					"JUCE_APP_VERSION=4.3.0.0",
-					"JUCE_APP_VERSION_HEX=0x4030000",
+					"JUCE_APP_VERSION=4.3.1.11",
+					"JUCE_APP_VERSION_HEX=0x403010b",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -1092,10 +1092,10 @@
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
-					"../../external/JuceLibraryCode",
-					"../../external/JuceLibraryCode/modules",
-					"../../external/",
-					"../../external/asio/",
+					"$(SRCROOT)/../../external/JuceLibraryCode",
+					"$(SRCROOT)/../../external/JuceLibraryCode/modules",
+					"$(SRCROOT)/../../external/",
+					"$(SRCROOT)/../../external/asio/",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-App.plist;
@@ -1104,10 +1104,10 @@
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_HEADER_SEARCH_PATHS = (
-					"../../external/JuceLibraryCode",
-					"../../external/JuceLibraryCode/modules",
-					"../../external/",
-					"../../external/asio/",
+					"$(SRCROOT)/../../external/JuceLibraryCode",
+					"$(SRCROOT)/../../external/JuceLibraryCode/modules",
+					"$(SRCROOT)/../../external/",
+					"$(SRCROOT)/../../external/asio/",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
 				PRODUCT_NAME = "MIDI2LR";
@@ -1319,7 +1319,7 @@
 		DFD30DF9237597CD5AF365AE = {
 			isa = PBXProject;
 			buildConfigurationList = 1F2C01BA514CBFEA905450CC;
-			attributes = { LastUpgradeCheck = 1200; ORGANIZATIONNAME = "Rory Jaffe"; TargetAttributes = { FD946FDE29418E71B61DACDC = { DevelopmentTeam = VN44PD5JV9; ProvisioningStyle = Manual; SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 1; }; }; }; }; };
+			attributes = { LastUpgradeCheck = 1230; ORGANIZATIONNAME = "Rory Jaffe"; TargetAttributes = { FD946FDE29418E71B61DACDC = { DevelopmentTeam = VN44PD5JV9; ProvisioningStyle = Manual; SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 1; }; }; }; }; };
 			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 0;
 			mainGroup = 1C312ECBCB4990D995AB81D1;

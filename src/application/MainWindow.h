@@ -46,7 +46,6 @@ class MainWindow final : juce::DocumentWindow, juce::Timer {
     * them, so by overriding you might break its functionality. It's best to do all your work in
     * your content component instead, but if you really have to override any DocumentWindow methods,
     * make sure your subclass also calls the superclass's method. */
-   [[nodiscard]] juce::String GetProfileName() const { return window_content_->GetProfileName(); }
 
  private:
    void closeButtonPressed() override

@@ -17,31 +17,32 @@
 #include <algorithm>
 #include <exception>
 #include <fstream>
+#include <future>
 #include <memory>
 #include <mutex>
+#include <version>
 #ifdef __cpp_lib_atomic_wait
 #include <atomic>
 #else
 #include <condition_variable>
 #endif
-
 #ifndef _WIN32
 #include <AvailabilityMacros.h>
 #if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
     && defined(__cpp_lib_filesystem)
-#define FILESYSTEM_AVAILABLE_MIDI2LR
+#define MIDI2LR_FILESYSTEM_AVAILABLE
 #endif
 #else
-
 #ifdef __cpp_lib_filesystem
-#define FILESYSTEM_AVAILABLE_MIDI2LR
+#define MIDI2LR_FILESYSTEM_AVAILABLE
 #endif
 #endif
-#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
 #include <filesystem>
 namespace fs = std::filesystem;
 #endif
 
+#include <asio.hpp>
 #include <cereal/archives/xml.hpp>
 #include <fmt/format.h>
 
@@ -69,23 +70,29 @@ namespace fs = std::filesystem;
 #endif
 
 namespace {
+   constexpr auto kShutDownString {"--LRSHUTDOWN"};
+   constexpr auto kSettingsFileX {MIDI2LR_UC_LITERAL("settings.xml")};
+   constexpr auto kDefaultsFile {MIDI2LR_UC_LITERAL("default.xml")};
+
    class LookAndFeelMIDI2LR final : public juce::LookAndFeel_V3 {
     public:
+      LookAndFeelMIDI2LR() noexcept { juce::LookAndFeel::setDefaultLookAndFeel(this); }
+      ~LookAndFeelMIDI2LR() { juce::LookAndFeel::setDefaultLookAndFeel(nullptr); }
+      LookAndFeelMIDI2LR(const LookAndFeelMIDI2LR& s) = delete;
+      LookAndFeelMIDI2LR(LookAndFeelMIDI2LR&& s) = delete;
+      LookAndFeelMIDI2LR& operator=(const LookAndFeelMIDI2LR& s) = delete;
+      LookAndFeelMIDI2LR& operator=(LookAndFeelMIDI2LR&& s) = delete;
       juce::Font getTextButtonFont(juce::TextButton&, const int button_height) override
       {
          return juce::Font(std::min(16.0f, static_cast<float>(button_height) * 0.7f));
       }
    };
 
-   constexpr auto kShutDownString {"--LRSHUTDOWN"};
-   constexpr auto kSettingsFileX {"settings.xml"};
-   constexpr auto kDefaultsFile {"default.xml"};
-
-   class UpdateCurrentLogger {
+   class SetLogger {
     public:
-      explicit UpdateCurrentLogger(juce::Logger* new_logger) noexcept
+      SetLogger() noexcept
       {
-         juce::Logger::setCurrentLogger(new_logger);
+         juce::Logger::setCurrentLogger(logger_.get());
 #ifdef _WIN32
          try {
             wil::SetResultLoggingCallback([](wil::FailureInfo const& failure) noexcept {
@@ -102,6 +109,22 @@ namespace {
          }
 #endif
       }
+
+      ~SetLogger()
+      {
+#ifdef _WIN32
+         wil::SetResultLoggingCallback(nullptr);
+#endif
+         juce::Logger::setCurrentLogger(nullptr);
+      }
+      SetLogger(const SetLogger& s) = delete;
+      SetLogger(SetLogger&& s) = default;
+      SetLogger& operator=(const SetLogger& s) = delete;
+      SetLogger& operator=(SetLogger&& s) = default;
+
+    private:
+      std::unique_ptr<juce::FileLogger> logger_ {juce::FileLogger::createDefaultAppLogger(
+          "MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    };
 
    [[noreturn]] void OnTerminate() noexcept
@@ -163,9 +186,27 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
           * run. */
          if (command_line != kShutDownString) {
             MIDI2LR_FAST_FLOATS;
+            rsj::LabelThread(MIDI2LR_UC_LITERAL("Main MIDI2LR thread"));
+            io_thread0_ = std::async(std::launch::async, [this] {
+               rsj::LabelThread(MIDI2LR_UC_LITERAL("io_thread0_"));
+               MIDI2LR_FAST_FLOATS;
+               if constexpr (kNdebug)
+                  io_context_.run();
+               else
+                  rsj::Log(
+                      fmt::format(FMT_STRING("io_thread0_ ran {} handlers."), io_context_.run()));
+            });
+            io_thread1_ = std::async(std::launch::async, [this] {
+               rsj::LabelThread(MIDI2LR_UC_LITERAL("io_thread1_"));
+               MIDI2LR_FAST_FLOATS;
+               if constexpr (kNdebug)
+                  io_context_.run();
+               else
+                  rsj::Log(
+                      fmt::format(FMT_STRING("io_thread1_ ran {} handlers."), io_context_.run()));
+            });
             CCoptions::LinkToControlsModel(&controls_model_);
             PWoptions::LinkToControlsModel(&controls_model_);
-            juce::LookAndFeel::setDefaultLookAndFeel(&look_feel_);
             /* set language and load appropriate fonts and files */
             SetAppFont();
             LoadControlsModel();
@@ -206,13 +247,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       midi_receiver_.Stop();
       lr_ipc_in_.Stop();
       lr_ipc_out_.Stop();
+      work_ = asio::any_io_executor(); // Allow run() to exit
       version_checker_.Stop();
       DefaultProfileSave();
       SaveControlsModel();
-      settings_manager_.SetDefaultProfile(main_window_->GetProfileName());
-      /* (delete our window) */
-      main_window_.reset();
-      juce::Logger::setCurrentLogger(nullptr);
    }
 
    void systemRequestedQuit() override
@@ -287,22 +325,21 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        * be valid. If the exception is of unknown type, this pointer will be null. */
       try {
          if (e) {
-            constexpr auto msge {"Unhandled exception {}, {} line {}. Total uncaught {}."};
             const auto msgt {juce::translate("unhandled exception").toStdString()
                              + " {}, {} line {}. Total uncaught {}."};
             rsj::LogAndAlertError(fmt::format(msgt, e->what(), source_filename.toStdString(),
                                       line_number, std::uncaught_exceptions()),
-                fmt::format(msge, e->what(), source_filename.toStdString(), line_number,
+                fmt::format(FMT_STRING("Unhandled exception {}, {} line {}. Total uncaught {}."),
+                    e->what(), source_filename.toStdString(), line_number,
                     std::uncaught_exceptions()));
          }
          else {
-            constexpr auto msge {"Unhandled exception {} line {}. Total uncaught {}."};
             const auto msgt {juce::translate("unhandled exception").toStdString()
                              + " {} line {}. Total uncaught {}."};
             rsj::LogAndAlertError(fmt::format(msgt, source_filename.toStdString(), line_number,
                                       std::uncaught_exceptions()),
-                fmt::format(
-                    msge, source_filename.toStdString(), line_number, std::uncaught_exceptions()));
+                fmt::format(FMT_STRING("Unhandled exception {} line {}. Total uncaught {}."),
+                    source_filename.toStdString(), line_number, std::uncaught_exceptions()));
          }
       }
       catch (...) {
@@ -325,14 +362,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;
-         throw;
       }
    }
 
    void SaveControlsModel() const
    {
       try {
-#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
          const fs::path p {rsj::AppDataFilePath(kSettingsFileX)};
 #else
          const auto p {rsj::AppDataFilePath(kSettingsFileX)};
@@ -342,11 +378,12 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto oarchive {std::make_unique<cereal::XMLOutputArchive>(outfile)};
             (*oarchive)(controls_model_);
-#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
             rsj::Log(
                 fmt::format(FMT_STRING("ControlsModel archive in Main saved to {}."), p.string()));
 #else
-            rsj::Log(fmt::format(FMT_STRING("ControlsModel archive in Main saved to {}."), p));
+            rsj::Log(fmt::format(
+                FMT_STRING(MIDI2LR_UC_LITERAL("ControlsModel archive in Main saved to {}.")), p));
 #endif
          }
          else
@@ -361,7 +398,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    void LoadControlsModel()
    {
       try {
-#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
          const fs::path px {rsj::AppDataFilePath(kSettingsFileX)};
 #else
          const auto px {rsj::AppDataFilePath(kSettingsFileX)};
@@ -371,16 +408,19 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto iarchive {std::make_unique<cereal::XMLInputArchive>(in_file)};
             (*iarchive)(controls_model_);
-#ifdef FILESYSTEM_AVAILABLE_MIDI2LR
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
             rsj::Log(fmt::format(
                 FMT_STRING("ControlsModel archive in Main loaded from {}."), px.string()));
 #else
-            rsj::Log(fmt::format(FMT_STRING("ControlsModel archive in Main loaded from {}."), px));
+            rsj::Log(fmt::format(
+                FMT_STRING(MIDI2LR_UC_LITERAL("ControlsModel archive in Main loaded from {}.")),
+                px));
 #endif
          }
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;
+         throw;
       }
    }
 
@@ -439,31 +479,32 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;
-         throw;
       }
    }
 
    /* create logger first, makes sure that MIDI2LR directory is created for writing by other modules
     * log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX) need to own
     * pointer created by createDefaultAppLogger */
-   std::unique_ptr<juce::FileLogger> logger_ {
-       juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    /* forcing assignment to static early in construction */
-   [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_ {logger_.get()};
+   [[maybe_unused]] const SetLogger dummy_ {};
+   std::future<void> io_thread0_;
+   std::future<void> io_thread1_;
+   asio::io_context io_context_ {};
+   asio::any_io_executor work_ {
+       asio::require(io_context_.get_executor(), asio::execution::outstanding_work.tracked)};
    Devices devices_ {};
    const CommandSet command_set_ {};
    ControlsModel controls_model_ {};
    Profile profile_ {command_set_};
    MidiSender midi_sender_ {devices_};
    MidiReceiver midi_receiver_ {devices_};
-   LrIpcOut lr_ipc_out_ {command_set_, controls_model_, profile_, midi_sender_, midi_receiver_};
+   LrIpcOut lr_ipc_out_ {
+       command_set_, controls_model_, profile_, midi_sender_, midi_receiver_, io_context_};
    ProfileManager profile_manager_ {controls_model_, profile_, lr_ipc_out_, midi_receiver_};
-   LrIpcIn lr_ipc_in_ {controls_model_, profile_manager_, profile_, midi_sender_};
+   LrIpcIn lr_ipc_in_ {controls_model_, profile_manager_, profile_, midi_sender_, io_context_};
    SettingsManager settings_manager_ {profile_manager_, lr_ipc_out_};
+   [[maybe_unused]] const LookAndFeelMIDI2LR look_feel_;
    std::unique_ptr<MainWindow> main_window_ {nullptr};
-   /* destroy after window that uses it */
-   LookAndFeelMIDI2LR look_feel_;
-   /* initialize this last as it needs window to exist */
    VersionChecker version_checker_ {settings_manager_};
 };
 

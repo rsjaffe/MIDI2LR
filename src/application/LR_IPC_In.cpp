@@ -42,9 +42,9 @@ namespace {
 } // namespace
 
 LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const Profile& profile,
-    const MidiSender& midi_sender)
-    : midi_sender_ {midi_sender}, profile_ {profile}, controls_model_ {c_model},
-      profile_manager_ {profile_manager}
+    const MidiSender& midi_sender, asio::io_context& io_context)
+    : socket_ {asio::make_strand(io_context)}, midi_sender_ {midi_sender}, profile_ {profile},
+      controls_model_ {c_model}, profile_manager_ {profile_manager}
 {
 }
 
@@ -52,19 +52,11 @@ void LrIpcIn::Start()
 {
    try {
       process_line_future_ = std::async(std::launch::async, [this] {
-         rsj::LabelThread(L"LrIpcIn ProcessLine thread");
+         rsj::LabelThread(MIDI2LR_UC_LITERAL("LrIpcIn ProcessLine thread"));
          MIDI2LR_FAST_FLOATS;
          ProcessLine();
       });
       Connect();
-      io_thread_ = std::async(std::launch::async, [this] {
-         rsj::LabelThread(L"LrIpcIn io_thread_");
-         MIDI2LR_FAST_FLOATS;
-         if constexpr (kNdebug)
-            io_context_.run();
-         else
-            rsj::Log(fmt::format(FMT_STRING("LrIpcIn thread ran {} handlers."), io_context_.run()));
-      });
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -76,25 +68,22 @@ void LrIpcIn::Stop()
 {
    try {
       thread_should_exit_.store(true, std::memory_order_release);
-      asio::post([this] {
-         if (socket_.is_open()) {
-            asio::error_code ec;
-            /* For portable behaviour with respect to graceful closure of a connected socket, call
-             * shutdown() before closing the socket. */
-            socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
-            if (ec) {
-               rsj::Log(
-                   fmt::format(FMT_STRING("LR_IPC_In socket shutdown error {}."), ec.message()));
-               ec.clear();
-            }
-            socket_.close(ec);
-            if (ec)
-               rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message()));
+      if (socket_.is_open()) {
+         asio::error_code ec;
+         /* For portable behaviour with respect to graceful closure of a connected socket, call
+          * shutdown() before closing the socket. */
+         socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+         if (ec) {
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket shutdown error {}."), ec.message()));
+            ec.clear();
          }
-         /* clear input queue after port closed */
-         if (const auto m {line_.clear_count_emplace(kTerminate)})
-            rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcIn destructor."), m));
-      });
+         socket_.close(ec);
+         if (ec)
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message()));
+      }
+      /* clear input queue after port closed */
+      if (const auto m {line_.clear_count_emplace(kTerminate)})
+         rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcIn destructor."), m));
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

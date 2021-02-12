@@ -17,7 +17,6 @@
  */
 #include <atomic>
 #include <functional>
-#include <future>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -39,7 +38,7 @@ class Profile;
 class LrIpcOut {
  public:
    LrIpcOut(const CommandSet& command_set, ControlsModel& c_model, const Profile& profile,
-       const MidiSender& midi_sender, MidiReceiver& midi_receiver);
+       const MidiSender& midi_sender, MidiReceiver& midi_receiver, asio::io_context& io_context);
    ~LrIpcOut() = default;
    LrIpcOut(const LrIpcOut& other) = delete;
    LrIpcOut(LrIpcOut&& other) = delete;
@@ -48,10 +47,8 @@ class LrIpcOut {
 
    template<class T> void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(bool, bool))
    {
-      using namespace std::placeholders;
       if (object && mf)
-         /* only store non-empty functions */
-         callbacks_.emplace_back(std::bind(mf, object, _1, _2));
+         callbacks_.emplace_back([=](bool a, bool b) { (object->*mf)(a, b); });
    }
    void SendCommand(std::string&& command)
    {
@@ -65,7 +62,7 @@ class LrIpcOut {
    }
    void SendingRestart();
    void SendingStop();
-   void Start();
+   void Start() { Connect(); }
    void Stop();
 
  private:
@@ -74,10 +71,8 @@ class LrIpcOut {
    void MidiCmdCallback(const rsj::MidiMessage&);
    void SendOut();
    void SetRecenter(rsj::MidiMessageId mm);
-
-   asio::io_context io_context_ {};
-   asio::ip::tcp::socket socket_ {io_context_};
-   asio::steady_timer recenter_timer_ {io_context_};
+   asio::ip::tcp::socket socket_;
+   asio::steady_timer recenter_timer_;
    bool sending_stopped_ {false};
    const MidiSender& midi_sender_;
    const Profile& profile_;
@@ -87,8 +82,6 @@ class LrIpcOut {
    rsj::ConcurrentQueue<std::string> command_;
    std::atomic<bool> connected_ {false};
    std::atomic<bool> thread_should_exit_ {false};
-   std::future<void> io_thread0_;
-   std::future<void> io_thread1_; /* need second thread for recenter timer */
    std::vector<std::function<void(bool, bool)>> callbacks_ {};
 };
 

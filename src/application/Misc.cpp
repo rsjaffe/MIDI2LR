@@ -34,10 +34,19 @@
 /*****************************************************************************/
 /**************Thread Labels**************************************************/
 /*****************************************************************************/
-#if !defined(NDEBUG) && defined(_WIN32)
+#ifdef _WIN32
 void rsj::LabelThread(gsl::cwzstring<> threadname)
 {
    LOG_IF_FAILED(SetThreadDescription(GetCurrentThread(), threadname));
+}
+#else
+#include <pthread.h>
+void rsj::LabelThread(gsl::czstring<> threadname)
+{
+   auto result {pthread_setname_np(threadname)};
+   if (result)
+      rsj::Log(
+          fmt::format(FMT_STRING("Label thread {} failed with {} error."), threadname, result));
 }
 #endif
 /*****************************************************************************/
