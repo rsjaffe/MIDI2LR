@@ -1010,7 +1010,6 @@
 					"$(SRCROOT)/../../external/JuceLibraryCode",
 					"$(SRCROOT)/../../external/JuceLibraryCode/modules",
 					"$(SRCROOT)/../../external/",
-					"$(SRCROOT)/../../external/asio/",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-App.plist;
@@ -1021,7 +1020,6 @@
 					"$(SRCROOT)/../../external/JuceLibraryCode",
 					"$(SRCROOT)/../../external/JuceLibraryCode/modules",
 					"$(SRCROOT)/../../external/",
-					"$(SRCROOT)/../../external/asio/",
 				);
 				OTHER_CPLUSPLUSFLAGS = "-Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Woverloaded-virtual -Wreorder -Wconstant-conversion -Wsign-conversion -Wunused-private-field -Wbool-conversion -Wextra-semi -Wunreachable-code -Wzero-as-null-pointer-constant -Wcast-align -Winconsistent-missing-destructor-override -Wshift-sign-overflow -Wnullable-to-nonnull-conversion -Wno-missing-field-initializers -Wno-ignored-qualifiers -Wswitch-enum";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
@@ -1095,7 +1093,6 @@
 					"$(SRCROOT)/../../external/JuceLibraryCode",
 					"$(SRCROOT)/../../external/JuceLibraryCode/modules",
 					"$(SRCROOT)/../../external/",
-					"$(SRCROOT)/../../external/asio/",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-App.plist;
@@ -1107,7 +1104,6 @@
 					"$(SRCROOT)/../../external/JuceLibraryCode",
 					"$(SRCROOT)/../../external/JuceLibraryCode/modules",
 					"$(SRCROOT)/../../external/",
-					"$(SRCROOT)/../../external/asio/",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
 				PRODUCT_NAME = "MIDI2LR";

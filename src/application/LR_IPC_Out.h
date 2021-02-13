@@ -22,7 +22,7 @@
 #include <utility>
 #include <vector>
 
-#include <asio.hpp>
+#include <asio/asio.hpp>
 
 #include "Concurrency.h"
 #include "MidiUtilities.h"

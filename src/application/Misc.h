@@ -247,6 +247,7 @@ namespace rsj {
       return !cmp_less(left, right);
    }
 #endif
+   template<class T> auto CharToInt(T t) = delete;
    [[nodiscard]] constexpr auto CharToInt(const char in) noexcept
    {
       if constexpr (std::numeric_limits<char>::is_signed)

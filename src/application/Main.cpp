@@ -42,7 +42,7 @@
 namespace fs = std::filesystem;
 #endif
 
-#include <asio.hpp>
+#include <asio/asio.hpp>
 #include <cereal/archives/xml.hpp>
 #include <fmt/format.h>
 
