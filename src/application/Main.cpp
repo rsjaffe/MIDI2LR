@@ -247,7 +247,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       midi_receiver_.Stop();
       lr_ipc_in_.Stop();
       lr_ipc_out_.Stop();
-      work_ = asio::any_io_executor(); // Allow run() to exit
       version_checker_.Stop();
       DefaultProfileSave();
       SaveControlsModel();
@@ -490,7 +489,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    std::future<void> io_thread0_;
    std::future<void> io_thread1_;
    asio::io_context io_context_ {};
-   asio::any_io_executor work_ {
+   [[maybe_unused]] asio::any_io_executor work_ {
        asio::require(io_context_.get_executor(), asio::execution::outstanding_work.tracked)};
    Devices devices_ {};
    const CommandSet command_set_ {};
