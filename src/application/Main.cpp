@@ -21,8 +21,8 @@
 #include <memory>
 #include <mutex>
 #include <version>
-#ifdef __cpp_lib_atomic_wait
-#include <atomic>
+#ifdef __cpp_lib_semaphore
+#include <semaphore>
 #else
 #include <condition_variable>
 #endif
@@ -261,8 +261,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          static std::once_flag of; /* function might be called twice during LR shutdown */
          std::call_once(of, [this] {
             if (profile_.ProfileUnsaved() && main_window_) {
-#ifdef __cpp_lib_atomic_wait
-               std::atomic<bool> ready {false};
+#ifdef __cpp_lib_semaphore
+               std::binary_semaphore ready_sem(1);
 #else
                std::condition_variable cv;
                std::mutex m;
@@ -284,11 +284,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                   }
                   catch (...) {
                   }
-#ifdef __cpp_lib_atomic_wait
-                  ready = true;
-                  ready.notify_one();
+#ifdef __cpp_lib_semaphore
+                  ready_sem.release();
                });
-               ready.wait(true);
+               ready_sem.acquire();
 #else
                   {
                      std::unique_lock<std::mutex> lk {m};
