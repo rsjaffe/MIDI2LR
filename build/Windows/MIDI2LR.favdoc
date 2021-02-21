@@ -130,6 +130,40 @@
         </Favorite>
       </favorites>
     </Folder>
+    <Folder>
+      <name>mm files</name>
+      <folders />
+      <favorites>
+        <Favorite>
+          <name>Ocpp.mm</name>
+          <absolutePath>C:\Users\rsjaf\source\repos\MIDI2LR\src\application\Ocpp.mm</absolutePath>
+          <position>
+            <line>36</line>
+            <column>57</column>
+            <lineHash>apSKbzgelEN8Zr3ORm0jwCFBt7VxsiSH0tIa3FwGyD0=</lineHash>
+          </position>
+        </Favorite>
+        <Favorite>
+          <name>KeyMap.mm</name>
+          <absolutePath>C:\Users\rsjaf\source\repos\MIDI2LR\src\application\KeyMap.mm</absolutePath>
+          <position>
+            <line>1</line>
+            <column>1</column>
+            <lineHash>ZkdW8Q7+VDjn0NNM6mDrYmAX0T92ok3pBbGxDs5ooWM=</lineHash>
+          </position>
+        </Favorite>
+        <Favorite>
+          <name>Ocpp.h</name>
+          <absolutePath>C:\Users\rsjaf\source\repos\MIDI2LR\src\application\Ocpp.h</absolutePath>
+          <viewKind>7651a701-06e5-11d1-8ebd-00a0c90f26ea</viewKind>
+          <position>
+            <line>1</line>
+            <column>1</column>
+            <lineHash>eDf87z0u2MQOUwo/xZkuMa0b4HMIEJac7nDnFr2Kwj8=</lineHash>
+          </position>
+        </Favorite>
+      </favorites>
+    </Folder>
   </folders>
   <favorites />
 </Favorites>

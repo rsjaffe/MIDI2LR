@@ -21,6 +21,13 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <version>
+#ifdef __cpp_lib_semaphore
+#include <semaphore>
+#else
+#include <condition_variable>
+#include <mutex>
+#endif
 
 #include <asio/asio.hpp>
 
@@ -82,6 +89,13 @@ class LrIpcOut {
    rsj::ConcurrentQueue<std::string> command_;
    std::atomic<bool> connected_ {false};
    std::atomic<bool> thread_should_exit_ {false};
+#ifdef __cpp_lib_semaphore
+   std::binary_semaphore sendout_running_ {1};
+#else
+   bool sendout_running_ {false};
+   std::mutex mtx_;
+   std::condition_variable cv_;
+#endif
    std::vector<std::function<void(bool, bool)>> callbacks_ {};
 };
 

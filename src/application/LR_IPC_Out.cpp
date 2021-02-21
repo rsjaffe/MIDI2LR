@@ -86,6 +86,12 @@ void LrIpcOut::Stop()
       rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcOut destructor."), m));
    callbacks_.clear(); /* no more connect/disconnect notifications */
    recenter_timer_.cancel();
+#ifdef __cpp_lib_semaphore
+   sendout_running_.acquire();
+#else
+   auto lock {std::unique_lock(mtx_)};
+   cv_.wait(lock, [this] { return !sendout_running_; });
+#endif
    if (socket_.is_open()) {
       asio::error_code ec;
       /* For portable behaviour with respect to graceful closure of a connected socket, call
@@ -108,6 +114,12 @@ void LrIpcOut::Connect()
           [this](const asio::error_code& error) {
              if (!error) {
                 ConnectionMade();
+#ifdef __cpp_lib_semaphore
+                sendout_running_.acquire();
+#else
+                auto lock {std::scoped_lock(mtx_)};
+                sendout_running_ = true;
+#endif
                 SendOut();
              }
              else {
@@ -187,7 +199,19 @@ void LrIpcOut::SendOut()
    try {
       auto command_copy {std::make_shared<std::string>(command_.pop())};
       if (*command_copy == kTerminate)
-         [[unlikely]] return;
+         [[unlikely]]
+         {
+#ifdef __cpp_lib_semaphore
+            sendout_running_.release();
+#else
+            {
+               auto lock {std::scoped_lock(mtx_)};
+               sendout_running_ = false;
+            }
+            cv_.notify_one();
+#endif
+            return;
+         }
       if (command_copy->back() != '\n') /* should be terminated with \n */
          [[unlikely]] command_copy->push_back('\n');
       // ReSharper disable once CppLambdaCaptureNeverUsed
@@ -195,11 +219,30 @@ void LrIpcOut::SendOut()
           [this, command_copy](const asio::error_code& error, std::size_t) {
              if (!error)
                 [[likely]] SendOut();
-             else
+             else {
+#ifdef __cpp_lib_semaphore
+                sendout_running_.release();
+#else
+                {
+                   auto lock {std::scoped_lock(mtx_)};
+                   sendout_running_ = false;
+                }
+                cv_.notify_one();
+#endif
                 rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out Write: {}."), error.message()));
+             }
           });
    }
    catch (const std::exception& e) {
+#ifdef __cpp_lib_semaphore
+      sendout_running_.release();
+#else
+      {
+         auto lock {std::scoped_lock(mtx_)};
+         sendout_running_ = false;
+      }
+      cv_.notify_one();
+#endif
       MIDI2LR_E_RESPONSE;
       throw;
    }
