@@ -18,6 +18,13 @@
 #include <atomic>
 #include <future>
 #include <string>
+#include <version>
+#ifdef __cpp_lib_semaphore
+#include <semaphore>
+#else
+#include <condition_variable>
+#include <mutex>
+#endif
 
 #include <asio/asio.hpp>
 
@@ -52,6 +59,13 @@ class LrIpcIn {
    rsj::ConcurrentQueue<std::string> line_;
    std::atomic<bool> thread_should_exit_ {false};
    std::future<void> process_line_future_;
+#ifdef __cpp_lib_semaphore
+   std::binary_semaphore read_running_ {1};
+#else
+   bool read_running_ {false};
+   std::mutex mtx_;
+   std::condition_variable cv_;
+#endif
 };
 
 #endif

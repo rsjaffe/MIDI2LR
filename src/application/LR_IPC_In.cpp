@@ -81,6 +81,12 @@ void LrIpcIn::Stop()
          if (ec)
             rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message()));
       }
+#ifdef __cpp_lib_semaphore
+      read_running_.acquire();
+#else
+      auto lock {std::unique_lock(mtx_)};
+      cv_.wait(lock, [this] { return !read_running_; });
+#endif
       /* clear input queue after port closed */
       if (const auto m {line_.clear_count_emplace(kTerminate)})
          rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcIn destructor."), m));
@@ -98,6 +104,12 @@ void LrIpcIn::Connect()
           [this](const asio::error_code& error) {
              if (!error) {
                 rsj::Log("Socket connected in LR_IPC_In.");
+#ifdef __cpp_lib_semaphore
+                read_running_.acquire();
+#else
+                auto lock {std::scoped_lock(mtx_)};
+                read_running_ = true;
+#endif
                 Read();
              }
              else {
@@ -210,13 +222,42 @@ void LrIpcIn::Read()
                    }
                 else {
                    rsj::Log(fmt::format(FMT_STRING("LR_IPC_In Read error: {}."), error.message()));
+#ifdef __cpp_lib_semaphore
+                   read_running_.release();
+#else
+                   {
+                      auto lock {std::scoped_lock(mtx_)};
+                      read_running_ = false;
+                   }
+                   cv_.notify_one();
+#endif
                    if (error == asio::error::misc_errors::eof) /* LR closed socket */
                       juce::JUCEApplication::getInstance()->systemRequestedQuit();
                 }
              });
       }
+      else {
+#ifdef __cpp_lib_semaphore
+         read_running_.release();
+#else
+         {
+            auto lock {std::scoped_lock(mtx_)};
+            read_running_ = false;
+         }
+         cv_.notify_one();
+#endif
+      }
    }
    catch (const std::exception& e) {
+#ifdef __cpp_lib_semaphore
+      read_running_.release();
+#else
+      {
+         auto lock {std::scoped_lock(mtx_)};
+         read_running_ = false;
+      }
+      cv_.notify_one();
+#endif
       MIDI2LR_E_RESPONSE;
       throw;
    }
