@@ -51,18 +51,20 @@ namespace rsj {
       kSystem = 0xF
    };
 
-   constexpr bool ValidMessageType(uint8_t value) noexcept
+   constexpr bool ValidMessageType(std::underlying_type_t<MessageType> value) noexcept
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
-      const auto from {value >> 4 & 0xF};
-      return from >= static_cast<decltype(from)>(MessageType::kNoteOff);
+      const auto from {value >> 4u & 0xFu};
+      return rsj::cmp_greater_equal(
+          from, static_cast<std::underlying_type_t<MessageType>>(MessageType::kNoteOff));
    }
 
-   constexpr MessageType ToMessageType(uint8_t value)
+   constexpr MessageType ToMessageType(std::underlying_type_t<MessageType> value)
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
-      const auto from {value >> 4 & 0xF};
-      if (from < static_cast<decltype(from)>(MessageType::kNoteOff))
+      const auto from {value >> 4u & 0xFu};
+      if (rsj::cmp_less(
+              from, static_cast<std::underlying_type_t<MessageType>>(MessageType::kNoteOff)))
          throw std::out_of_range("ToMessageType: MessageType range error, must be 0x8 to 0xF");
       return static_cast<MessageType>(from);
    }

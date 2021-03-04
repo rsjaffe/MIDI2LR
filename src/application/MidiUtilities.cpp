@@ -74,37 +74,39 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
       Expects(message.control_number <= 0x7F && message.control_number >= 0);
       ProcessResult ret_val {false, false, 0, 0};
       switch (message.control_number) {
-      case 6: {
-         auto& i_ref {intermediate_results_.at(message.channel)};
-         auto lock {std::scoped_lock(filter_mutex_)};
-         if (i_ref.ready_flags_ >= 0b11) {
-            ret_val.is_nrpn = true;
-            i_ref.value_msb_ = message.value & 0x7F;
-            i_ref.ready_flags_ |= 0b100; //-V112
-            if (i_ref.ready_flags_ == 0b1111) {
-               ret_val.is_ready = true;
-               ret_val.control = (i_ref.control_msb_ << 7) + i_ref.control_lsb_;
-               ret_val.value = (i_ref.value_msb_ << 7) + i_ref.value_lsb_;
-               Clear(message.channel);
+      case 6:
+         {
+            auto& i_ref {intermediate_results_.at(message.channel)};
+            auto lock {std::scoped_lock(filter_mutex_)};
+            if (i_ref.ready_flags_ >= 0b11) {
+               ret_val.is_nrpn = true;
+               i_ref.value_msb_ = message.value & 0x7F;
+               i_ref.ready_flags_ |= 0b100; //-V112
+               if (i_ref.ready_flags_ == 0b1111) {
+                  ret_val.is_ready = true;
+                  ret_val.control = (i_ref.control_msb_ << 7) + i_ref.control_lsb_;
+                  ret_val.value = (i_ref.value_msb_ << 7) + i_ref.value_lsb_;
+                  Clear(message.channel);
+               }
             }
          }
-      }
          return ret_val;
-      case 38: {
-         auto& i_ref {intermediate_results_.at(message.channel)};
-         auto lock {std::scoped_lock(filter_mutex_)};
-         if (i_ref.ready_flags_ >= 0b11) {
-            ret_val.is_nrpn = true;
-            i_ref.value_lsb_ = message.value & 0x7F;
-            i_ref.ready_flags_ |= 0b1000;
-            if (i_ref.ready_flags_ == 0b1111) {
-               ret_val.is_ready = true;
-               ret_val.control = (i_ref.control_msb_ << 7) + i_ref.control_lsb_;
-               ret_val.value = (i_ref.value_msb_ << 7) + i_ref.value_lsb_;
-               Clear(message.channel);
+      case 38:
+         {
+            auto& i_ref {intermediate_results_.at(message.channel)};
+            auto lock {std::scoped_lock(filter_mutex_)};
+            if (i_ref.ready_flags_ >= 0b11) {
+               ret_val.is_nrpn = true;
+               i_ref.value_lsb_ = message.value & 0x7F;
+               i_ref.ready_flags_ |= 0b1000;
+               if (i_ref.ready_flags_ == 0b1111) {
+                  ret_val.is_ready = true;
+                  ret_val.control = (i_ref.control_msb_ << 7) + i_ref.control_lsb_;
+                  ret_val.value = (i_ref.value_msb_ << 7) + i_ref.value_lsb_;
+                  Clear(message.channel);
+               }
             }
          }
-      }
          return ret_val;
       case 98:
          ret_val.is_nrpn = true;

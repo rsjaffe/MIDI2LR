@@ -30,7 +30,7 @@
 #include <utility>
 #ifndef __ARM_ARCH
 extern "C" {
-extern void _mm_pause();
+   extern void _mm_pause();
 }
 #define MIDI2LR_spin_pause _mm_pause()
 #else

@@ -1,7 +1,6 @@
 ---
-# Visual Studio 2019 currently (November 2020) using clang-format v10. Options for later versions
+# Visual Studio 2019 currently (March 2021) using clang-format v11. Options for later versions
 # may be included but are commented out. Uncomment if used with a later version of clang-format.
-# currently includes options for version 11.
 AccessModifierOffset: -2
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: false
@@ -67,9 +66,9 @@ IncludeCategories:
 #project headers
   - Regex:           '^".*"$'
     Priority:        4
-#IndentCaseBlocks: false
+IndentCaseBlocks: true
 IndentCaseLabels: false
-#IndentExternBlock: Indent
+IndentExternBlock: Indent
 IndentGotoLabels: false
 IndentPPDirectives: None
 #IndentRequires: true

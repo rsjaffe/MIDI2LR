@@ -64,16 +64,18 @@ void MidiReceiver::handleIncomingMidiMessage(
    try {
       const rsj::MidiMessage mess {message};
       switch (mess.message_type_byte) {
-      case rsj::MessageType::kCc: {
-         const auto result {filters_[device](mess)};
-         if (result.is_nrpn) {
-            /* send when complete */
-            if (result.is_ready)
-               messages_.emplace(rsj::MessageType::kCc, mess.channel, result.control, result.value);
-            /* finished with nrpn piece */
-            break;
+      case rsj::MessageType::kCc:
+         {
+            const auto result {filters_[device](mess)};
+            if (result.is_nrpn) {
+               /* send when complete */
+               if (result.is_ready)
+                  messages_.emplace(
+                      rsj::MessageType::kCc, mess.channel, result.control, result.value);
+               /* finished with nrpn piece */
+               break;
+            }
          }
-      }
          /* if not nrpn, handle like other messages */
          [[fallthrough]];
       case rsj::MessageType::kNoteOn:

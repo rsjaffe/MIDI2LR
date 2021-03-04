@@ -164,6 +164,21 @@
         </Favorite>
       </favorites>
     </Folder>
+    <Folder>
+      <name>Translate</name>
+      <folders />
+      <favorites>
+        <Favorite>
+          <name>Translate.txt</name>
+          <absolutePath>C:\Users\rsjaf\source\repos\MIDI2LR\data\application\Translate.txt</absolutePath>
+          <position>
+            <line>1</line>
+            <column>1</column>
+            <lineHash>7V3qfrdOyy+h1b1yTz0+PU3k7FFNcXAZdZSpoWnQvVQ=</lineHash>
+          </position>
+        </Favorite>
+      </favorites>
+    </Folder>
   </folders>
   <favorites />
 </Favorites>

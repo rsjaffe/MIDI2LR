@@ -36,8 +36,8 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber, bool 
          else if (new_v < 0)
             new_v += high_limit;
       }
-      else
-         [[likely]] new_v = std::clamp(cached_v + diff, 0, high_limit);
+      else [[likely]]
+         new_v = std::clamp(cached_v + diff, 0, high_limit);
       if (current_v_.at(controlnumber)
               .compare_exchange_strong(
                   cached_v, new_v, std::memory_order_release, std::memory_order_acquire))
@@ -170,9 +170,10 @@ int ChannelModel::MeasureChange(
       /* note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7
        * bits, high bits are shifted one right when placed into int. */
       switch (controltype) {
-      case rsj::MessageType::kPw: {
-         return value - pitch_wheel_current_.exchange(value, std::memory_order_acq_rel);
-      }
+      case rsj::MessageType::kPw:
+         {
+            return value - pitch_wheel_current_.exchange(value, std::memory_order_acq_rel);
+         }
       case rsj::MessageType::kCc:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute:
@@ -223,24 +224,26 @@ int ChannelModel::PluginToController(
    try {
       /* value effectively clamped to 0-1 by clamp calls below */
       switch (controltype) {
-      case rsj::MessageType::kPw: {
-         /* TODO(C26451): int subtraction: can it overflow? */
-         const auto newv {
-             std::clamp(gsl::narrow<int>(std::lrint(value * (pitch_wheel_max_ - pitch_wheel_min_)))
-                            + pitch_wheel_min_,
-                 pitch_wheel_min_, pitch_wheel_max_)};
-         pitch_wheel_current_.store(newv, std::memory_order_release);
-         return newv;
-      }
-      case rsj::MessageType::kCc: {
-         /* TODO(C26451): int subtraction: can it overflow? */
-         const auto clow {cc_low_.at(controlnumber)};
-         const auto chigh {cc_high_.at(controlnumber)};
-         const auto newv {
-             std::clamp(gsl::narrow<int>(std::lrint(value * (chigh - clow))) + clow, clow, chigh)};
-         current_v_.at(controlnumber).store(newv, std::memory_order_release);
-         return newv;
-      }
+      case rsj::MessageType::kPw:
+         {
+            /* TODO(C26451): int subtraction: can it overflow? */
+            const auto newv {std::clamp(
+                gsl::narrow<int>(std::lrint(value * (pitch_wheel_max_ - pitch_wheel_min_)))
+                    + pitch_wheel_min_,
+                pitch_wheel_min_, pitch_wheel_max_)};
+            pitch_wheel_current_.store(newv, std::memory_order_release);
+            return newv;
+         }
+      case rsj::MessageType::kCc:
+         {
+            /* TODO(C26451): int subtraction: can it overflow? */
+            const auto clow {cc_low_.at(controlnumber)};
+            const auto chigh {cc_high_.at(controlnumber)};
+            const auto newv {std::clamp(
+                gsl::narrow<int>(std::lrint(value * (chigh - clow))) + clow, clow, chigh)};
+            current_v_.at(controlnumber).store(newv, std::memory_order_release);
+            return newv;
+         }
       case rsj::MessageType::kNoteOn:
          return kMaxMidi;
       case rsj::MessageType::kChanPressure:

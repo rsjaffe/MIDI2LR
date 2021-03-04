@@ -174,7 +174,7 @@ void LrIpcIn::ProcessLine()
                if (!value_view.empty()) {
                   rsj::SendKeyDownUp(
                       std::string(value_view), rsj::ActiveModifiers::FromMidi2LR(modifiers));
-                  continue; /* skip logandalert error */
+                  continue; /* skip log and alert error */
                }
             }
             rsj::LogAndAlertError(fmt::format(
@@ -205,21 +205,19 @@ void LrIpcIn::Read()
       if (!thread_should_exit_.load(std::memory_order_acquire)) {
          asio::async_read_until(socket_, streambuf_, '\n',
              [this](const asio::error_code& error, const std::size_t bytes_transferred) {
-                if (!error)
-                   [[likely]]
-                   {
-                      if (!bytes_transferred)
-                         [[unlikely]] std::this_thread::sleep_for(kEmptyWait);
-                      else {
-                         std::string command {buffers_begin(streambuf_.data()),
-                             buffers_begin(streambuf_.data()) + bytes_transferred};
-                         if (command == "TerminateApplication 1\n")
-                            thread_should_exit_.store(true, std::memory_order_release);
-                         line_.push(std::move(command));
-                         streambuf_.consume(bytes_transferred);
-                      }
-                      Read();
+                if (!error) [[likely]] {
+                   if (!bytes_transferred) [[unlikely]]
+                      std::this_thread::sleep_for(kEmptyWait);
+                   else {
+                      std::string command {buffers_begin(streambuf_.data()),
+                          buffers_begin(streambuf_.data()) + bytes_transferred};
+                      if (command == "TerminateApplication 1\n")
+                         thread_should_exit_.store(true, std::memory_order_release);
+                      line_.push(std::move(command));
+                      streambuf_.consume(bytes_transferred);
                    }
+                   Read();
+                }
                 else {
                    rsj::Log(fmt::format(FMT_STRING("LR_IPC_In Read error: {}."), error.message()));
 #ifdef __cpp_lib_semaphore

@@ -161,24 +161,23 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
          if (command_to_send != "PrevPro" && command_to_send != "NextPro"
              && command_to_send != CommandSet::kUnassigned) { /* handled elsewhere */
             if (const auto a {repeat_cmd_.find(command_to_send)}; a != repeat_cmd_.end())
-               [[unlikely]]
-               {
-                  static TimePoint next_response {};
-                  if (const auto now {Clock::now()}; next_response < now) {
-                     next_response = now + kDelay;
-                     if ((mm.message_type_byte == rsj::MessageType::kCc
-                             && controls_model_.GetCcMethod(message) == rsj::CCmethod::kAbsolute)
-                         || mm.message_type_byte == rsj::MessageType::kPw)
-                        SetRecenter(message);
-                     const auto change {controls_model_.MeasureChange(mm)};
-                     const auto [cw, ccw] {a->second};
-                     if (change > 0)
-                        SendCommand(cw); /* turned clockwise */
-                     else if (change < 0)
-                        SendCommand(ccw); /* turned counterclockwise */
-                     /* do nothing if change == 0 */
-                  }
+                [[unlikely]] {
+               static TimePoint next_response {};
+               if (const auto now {Clock::now()}; next_response < now) {
+                  next_response = now + kDelay;
+                  if ((mm.message_type_byte == rsj::MessageType::kCc
+                          && controls_model_.GetCcMethod(message) == rsj::CCmethod::kAbsolute)
+                      || mm.message_type_byte == rsj::MessageType::kPw)
+                     SetRecenter(message);
+                  const auto change {controls_model_.MeasureChange(mm)};
+                  const auto [cw, ccw] {a->second};
+                  if (change > 0)
+                     SendCommand(cw); /* turned clockwise */
+                  else if (change < 0)
+                     SendCommand(ccw); /* turned counterclockwise */
+                  /* do nothing if change == 0 */
                }
+            }
             else { /* not repeated command */
                const auto wrap {
                    std::find(wrap_.begin(), wrap_.end(), command_to_send) != wrap_.end()};
@@ -198,27 +197,25 @@ void LrIpcOut::SendOut()
 {
    try {
       auto command_copy {std::make_shared<std::string>(command_.pop())};
-      if (*command_copy == kTerminate)
-         [[unlikely]]
-         {
+      if (*command_copy == kTerminate) [[unlikely]] {
 #ifdef __cpp_lib_semaphore
-            sendout_running_.release();
+         sendout_running_.release();
 #else
-            {
-               auto lock {std::scoped_lock(mtx_)};
-               sendout_running_ = false;
-            }
-            cv_.notify_one();
-#endif
-            return;
+         {
+            auto lock {std::scoped_lock(mtx_)};
+            sendout_running_ = false;
          }
-      if (command_copy->back() != '\n') /* should be terminated with \n */
-         [[unlikely]] command_copy->push_back('\n');
+         cv_.notify_one();
+#endif
+         return;
+      }
+      if (command_copy->back() != '\n') [[unlikely]] /* should be terminated with \n */
+         command_copy->push_back('\n');
       // ReSharper disable once CppLambdaCaptureNeverUsed
       asio::async_write(socket_, asio::buffer(*command_copy),
           [this, command_copy](const asio::error_code& error, std::size_t) {
-             if (!error)
-                [[likely]] SendOut();
+             if (!error) [[likely]]
+                SendOut();
              else {
 #ifdef __cpp_lib_semaphore
                 sendout_running_.release();

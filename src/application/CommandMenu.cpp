@@ -42,22 +42,24 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
    try {
       if (modifiers.isPopupMenu()) {
          switch (message_.msg_id_type) {
-         case rsj::MessageType::kCc: {
-            CCoptions ccopt;
-            /* convert 1-based to 0-based */
-            ccopt.BindToControl(message_.channel - 1, message_.control_number);
-            juce::DialogWindow::showModalDialog(
-                juce::translate("Adjust CC dialog"), &ccopt, nullptr, juce::Colours::white, true);
-            break;
-         }
-         case rsj::MessageType::kPw: {
-            PWoptions pwopt;
-            /* convert 1-based to 0 based */
-            pwopt.BindToControl(message_.channel - 1);
-            juce::DialogWindow::showModalDialog(
-                juce::translate("Adjust PW dialog"), &pwopt, nullptr, juce::Colours::white, true);
-            break;
-         }
+         case rsj::MessageType::kCc:
+            {
+               CCoptions ccopt;
+               /* convert 1-based to 0-based */
+               ccopt.BindToControl(message_.channel - 1, message_.control_number);
+               juce::DialogWindow::showModalDialog(juce::translate("Adjust CC dialog"), &ccopt,
+                   nullptr, juce::Colours::white, true);
+               break;
+            }
+         case rsj::MessageType::kPw:
+            {
+               PWoptions pwopt;
+               /* convert 1-based to 0 based */
+               pwopt.BindToControl(message_.channel - 1);
+               juce::DialogWindow::showModalDialog(juce::translate("Adjust PW dialog"), &pwopt,
+                   nullptr, juce::Colours::white, true);
+               break;
+            }
          case rsj::MessageType::kChanPressure:
          case rsj::MessageType::kKeyPressure:
          case rsj::MessageType::kNoteOff:
