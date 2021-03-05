@@ -41,7 +41,15 @@ class Devices {
  private:
    struct DevInfo {
 #ifdef __cpp_lib_three_way_comparison
-      std::strong_ordering operator<=>(const DevInfo&) noexcept const = default;
+      std::strong_ordering operator<=>(const DevInfo& rhs) const noexcept
+      {
+         if (const auto a = name.compare(rhs.name))
+            return a <=> 0;
+         if (const auto a = identifier.compare(rhs.identifier))
+            return a <=> 0;
+         const auto a = i_o.compare(rhs.i_o);
+         return a <=> 0;
+      }
 #else
       friend bool operator==(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
