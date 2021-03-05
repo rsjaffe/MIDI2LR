@@ -44,7 +44,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       auto file_array {directory.findChildFiles(juce::File::findFiles, false, "*.xml")};
       file_array.sort();
       profiles_.clear();
-      for (const auto& file : file_array) profiles_.emplace_back(file.getFileName());
+      for (const auto& file : file_array) profiles_.push_back(file.getFileName());
       if (!profiles_.empty())
          SwitchToProfile(profiles_.front());
       current_profile_index_ = 0;

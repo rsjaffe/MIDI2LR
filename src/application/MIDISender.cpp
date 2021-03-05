@@ -116,7 +116,7 @@ void MidiSender::InitDevices()
                if (devname != "Microsoft GS Wavetable Synth"
                    && devices_.EnabledOrNew(open_device->getDeviceInfo(), "output")) {
                   rsj::Log(fmt::format(FMT_STRING("Opened output device {}."), devname));
-                  output_devices_.emplace_back(std::move(open_device));
+                  output_devices_.push_back(std::move(open_device));
                }
                else
                   rsj::Log(fmt::format(FMT_STRING("Ignored output device {}."), devname));
@@ -124,7 +124,7 @@ void MidiSender::InitDevices()
             else {
                if (devices_.EnabledOrNew(open_device->getDeviceInfo(), "output")) {
                   rsj::Log(fmt::format(FMT_STRING("Opened output device {}."), devname));
-                  output_devices_.emplace_back(std::move(open_device));
+                  output_devices_.push_back(std::move(open_device));
                }
                else
                   rsj::Log(fmt::format(FMT_STRING("Ignored output device {}."), devname));

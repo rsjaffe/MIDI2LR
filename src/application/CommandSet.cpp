@@ -49,8 +49,8 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
    /* manually insert unmapped at first position */
    try {
       rsj::Translate(m_impl_.language_); /* so UnassignedTranslated translated properly */
-      cmd_by_number_.emplace_back(kUnassigned);
-      cmd_label_by_number_.emplace_back(UnassignedTranslated());
+      cmd_by_number_.push_back(kUnassigned);
+      cmd_label_by_number_.push_back(UnassignedTranslated());
       cmd_idx_[kUnassigned] = 0;
       size_t idx = 1;
       for (const auto& [cmd_group, cmd_abbrev_label] : m_impl_.allcommands_) {
@@ -60,10 +60,10 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
             cmd_by_number_.push_back(cmd_abbrev);
             cmd_label_by_number_.push_back(group_colon + cmd_label);
             cmd_idx_[cmd_abbrev] = idx++;
-            menu_items_temp.emplace_back(cmd_label);
+            menu_items_temp.push_back(cmd_label);
          }
-         menus_.emplace_back(cmd_group);
-         menu_entries_.emplace_back(std::move(menu_items_temp));
+         menus_.push_back(cmd_group);
+         menu_entries_.push_back(std::move(menu_items_temp));
       }
    }
    catch (const std::exception& e) {

@@ -31,7 +31,7 @@ class DebugInfo {
    void LogAndSave(std::string&& msg)
    {
       rsj::Log(msg);
-      info_.emplace_back(std::move(msg));
+      info_.push_back(std::move(msg));
    }
    std::vector<std::string> info_;
 };

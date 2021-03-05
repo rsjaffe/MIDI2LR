@@ -125,7 +125,7 @@ void MidiReceiver::TryToOpen()
                open_device->start();
                rsj::Log(fmt::format(
                    FMT_STRING("Opened input device {}."), open_device->getName().toStdString()));
-               input_devices_.emplace_back(std::move(open_device));
+               input_devices_.push_back(std::move(open_device));
             }
             else
                rsj::Log(fmt::format(
