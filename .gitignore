@@ -366,3 +366,4 @@ build/MacOS/build/
 tools/luacheck/luacheck.results
 
 tools/selene/selene.txt
+*.favdoc
