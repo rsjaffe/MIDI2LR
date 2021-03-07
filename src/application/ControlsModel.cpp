@@ -106,13 +106,13 @@ double ChannelModel::ControllerToPlugin(
       case rsj::MessageType::kKeyPressure:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::logic_error(fmt::format(
+         throw std::invalid_argument(fmt::format(
              FMT_STRING("ChannelModel::ControllerToPlugin unexpected control type. Controltype {}, "
                         "controlnumber {}, value {}, wrap {}."),
              controltype, controlnumber, value, wrap));
       }
-      throw std::logic_error(
-          fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
+      throw std::domain_error(
+          fmt::format(FMT_STRING("Undefined control type in ChannelModel::PluginToController. "
                                  "Control type {}."),
               controltype));
    }
@@ -200,13 +200,13 @@ int ChannelModel::MeasureChange(
       case rsj::MessageType::kKeyPressure:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::logic_error(
+         throw std::invalid_argument(
              fmt::format(FMT_STRING("ChannelModel::MeasureChange unexpected control type. "
                                     "Controltype {}, controlnumber {}, value {}."),
                  controltype, controlnumber, value));
       }
-      throw std::logic_error(
-          fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
+      throw std::domain_error(
+          fmt::format(FMT_STRING("Undefined control type in ChannelModel::PluginToController. "
                                  "Control type {}."),
               controltype));
    }
@@ -251,13 +251,13 @@ int ChannelModel::PluginToController(
       case rsj::MessageType::kNoteOff:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::logic_error(
+         throw std::invalid_argument(
              fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
                                     "Control type {}."),
                  controltype));
       }
-      throw std::logic_error(
-          fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
+      throw std::domain_error(
+          fmt::format(FMT_STRING("Undefined control type in ChannelModel::PluginToController. "
                                  "Control type {}."),
               controltype));
    }
