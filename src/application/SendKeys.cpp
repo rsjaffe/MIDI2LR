@@ -72,8 +72,9 @@ namespace rsj {
 } // namespace rsj
 
 namespace {
-#ifdef _WIN32
+   std::mutex mutex_sending {};
 
+#ifdef _WIN32
    HWND h_lr_wnd {nullptr};
 
    BOOL CALLBACK EnumWindowsProc(_In_ const HWND hwnd, [[maybe_unused]] _In_ const LPARAM l_param)
@@ -160,7 +161,6 @@ namespace {
          ip.ki.dwFlags = KEYEVENTF_KEYUP;
          std::for_each(strokes.cbegin(), strokes.cend(), push_stroke);
          /* send strokes */
-         static std::mutex mutex_sending {};
          auto lock {std::scoped_lock(mutex_sending)};
          THROW_LAST_ERROR_IF(!SendInput(
              gsl::narrow_cast<UINT>(stroke_vector.size()), stroke_vector.data(), sizeof ip));
@@ -371,10 +371,13 @@ namespace {
       try {
          rsj::CFAutoRelease<CGEventRef> d {CGEventCreateKeyboardEvent(nullptr, vk, true)};
          rsj::CFAutoRelease<CGEventRef> u {CGEventCreateKeyboardEvent(nullptr, vk, false)};
-         CGEventSetFlags(d.get(), flags);
-         CGEventSetFlags(u.get(), flags);
-         CGEventPostToPid(lr_pid, d.get());
-         CGEventPostToPid(lr_pid, u.get());
+         {
+            auto lock {std::scoped_lock(mutex_sending)};
+            CGEventSetFlags(d.get(), flags);
+            CGEventSetFlags(u.get(), flags);
+            CGEventPostToPid(lr_pid, d.get());
+            CGEventPostToPid(lr_pid, u.get());
+         }
          static std::once_flag of;
          std::call_once(of, [lr_pid]() { rsj::CheckPermission(lr_pid); });
       }
