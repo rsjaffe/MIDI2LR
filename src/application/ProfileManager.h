@@ -21,14 +21,15 @@
 #include <juce_core/juce_core.h>
 #include <juce_events/juce_events.h>
 
-#ifndef _MSC_VER
-#define _In_
-#endif
-
 class ControlsModel;
 class LrIpcOut;
 class MidiReceiver;
 class Profile;
+
+#ifndef _MSC_VER
+#define _In_
+#endif
+
 namespace rsj {
    struct MidiMessage;
    struct MidiMessageId;

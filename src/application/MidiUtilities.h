@@ -24,9 +24,6 @@
 #include <type_traits>
 #include <typeindex> /*declaration of std::hash template*/
 #include <version>
-#ifdef __cpp_lib_three_way_comparison
-#include <compare>
-#endif
 
 #include <fmt/format.h>
 
@@ -35,6 +32,10 @@
 namespace juce {
    class MidiMessage;
 }
+
+#ifdef __cpp_lib_three_way_comparison
+#include <compare>
+#endif
 
 /*****************************************************************************/
 /*************MessageType*****************************************************/

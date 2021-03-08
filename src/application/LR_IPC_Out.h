@@ -22,12 +22,6 @@
 #include <utility>
 #include <vector>
 #include <version>
-#ifdef __cpp_lib_semaphore
-#include <semaphore>
-#else
-#include <condition_variable>
-#include <mutex>
-#endif
 
 #include <asio/asio.hpp>
 
@@ -38,6 +32,13 @@ class ControlsModel;
 class MidiReceiver;
 class MidiSender;
 class Profile;
+
+#ifdef __cpp_lib_semaphore
+#include <semaphore>
+#else
+#include <condition_variable>
+#include <mutex>
+#endif
 #ifndef _MSC_VER
 #define _In_
 #endif

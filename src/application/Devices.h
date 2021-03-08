@@ -19,12 +19,13 @@
 #include <memory>
 #include <utility>
 #include <version>
-#ifdef __cpp_lib_three_way_comparison
-#include <compare>
-#endif
 
 #include <juce_audio_devices/juce_audio_devices.h>
 #include <juce_core/juce_core.h>
+
+#ifdef __cpp_lib_three_way_comparison
+#include <compare>
+#endif
 
 class Devices {
  public:

@@ -20,6 +20,15 @@
 #include <memory>
 #include <utility>
 #include <version>
+
+#include <cereal/archives/xml.hpp>
+#include <cereal/types/string.hpp> /*ReSharper false alarm*/
+#include <cereal/types/unordered_map.hpp>
+#include <cereal/types/vector.hpp> /*ReSharper false alarm*/
+#include <fmt/format.h>
+
+#include "Translate.h"
+
 #ifndef _WIN32
 #include <AvailabilityMacros.h>
 #if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
@@ -35,14 +44,6 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 #endif
-
-#include <cereal/archives/xml.hpp>
-#include <cereal/types/string.hpp> /*ReSharper false alarm*/
-#include <cereal/types/unordered_map.hpp>
-#include <cereal/types/vector.hpp> /*ReSharper false alarm*/
-#include <fmt/format.h>
-
-#include "Translate.h"
 
 CommandSet::CommandSet() : m_impl_(MakeImpl())
 {

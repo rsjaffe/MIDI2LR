@@ -17,13 +17,16 @@
  */
 //-V813_MINSIZE=13 /* warn if passing structure by value > 12 bytes (3*sizeof(int)) */
 
-#include <chrono>
 #include <exception>
 #include <limits>
 #include <string>
 #include <string_view>
-#include <thread> /* sleep_for */
 #include <version>
+
+#include <gsl/gsl>
+
+#include <juce_core/juce_core.h>
+
 #ifdef __cpp_lib_source_location
 #include <source_location>
 #endif
@@ -32,12 +35,6 @@
 #else
 #include <type_traits>
 #endif
-
-#include <fmt/chrono.h>
-#include <fmt/format.h>
-#include <gsl/gsl>
-
-#include <juce_core/juce_core.h>
 
 #ifdef NDEBUG /* asserts disabled */
 constexpr bool kNdebug {true};
@@ -148,26 +145,6 @@ namespace rsj {
    [[nodiscard]] std::string AppDataFilePath(const std::string& file_name);
    [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);
 #endif
-   /*****************************************************************************/
-   /*******************Sleep Timed and Logged************************************/
-   /*****************************************************************************/
-   template<class Rep, class Period>
-   [[nodiscard]] auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) //-V801
-   {
-      const auto start {std::chrono::steady_clock::now()};
-      std::this_thread::sleep_for(sleep_duration);
-      const auto end {std::chrono::steady_clock::now()};
-      const std::chrono::duration<double, Period> elapsed {end - start};
-      return elapsed;
-   }
-
-   template<class Rep, class Period>
-   void SleepTimedLogged(
-       std::string_view msg_prefix, const std::chrono::duration<Rep, Period> sleep_duration) //-V801
-   {
-      rsj::Log(fmt::format(
-          FMT_STRING("{} thread slept for {}."), msg_prefix, SleepTimed(sleep_duration)));
-   }
 /*****************************************************************************/
 /**************Safe Integer Comparisons***************************************/
 /*****************************************************************************/

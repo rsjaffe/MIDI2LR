@@ -17,6 +17,7 @@
 
 #include <chrono>
 #include <exception>
+#include <thread>
 #include <utility>
 
 #include <fmt/format.h>
@@ -148,12 +149,14 @@ void MidiReceiver::InitDevices()
       if (input_devices_.empty()) /* encountering errors first try on MacOS */
       {
          rsj::Log("Retrying to open input devices.");
-         rsj::SleepTimedLogged("Open input devices", 20ms);
+         std::this_thread::sleep_for(20ms);
+         rsj::Log("20ms sleep for open input devices.");
          TryToOpen();
          if (input_devices_.empty()) /* encountering errors second try on MacOS */
          {
             rsj::Log("Retrying second time to open input devices.");
-            rsj::SleepTimedLogged("Open input devices", 80ms);
+            std::this_thread::sleep_for(80ms);
+            rsj::Log("80ms sleep for open input devices.");
             TryToOpen();
          }
       }

@@ -21,26 +21,6 @@
 #include <memory>
 #include <mutex>
 #include <version>
-#ifdef __cpp_lib_semaphore
-#include <semaphore>
-#else
-#include <condition_variable>
-#endif
-#ifndef _WIN32
-#include <AvailabilityMacros.h>
-#if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
-    && defined(__cpp_lib_filesystem)
-#define MIDI2LR_FILESYSTEM_AVAILABLE
-#endif
-#else
-#ifdef __cpp_lib_filesystem
-#define MIDI2LR_FILESYSTEM_AVAILABLE
-#endif
-#endif
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
-#include <filesystem>
-namespace fs = std::filesystem;
-#endif
 
 #include <asio/asio.hpp>
 #include <cereal/archives/xml.hpp>
@@ -63,6 +43,28 @@ namespace fs = std::filesystem;
 #include "ProfileManager.h"
 #include "SettingsManager.h"
 #include "VersionChecker.h"
+
+#ifdef __cpp_lib_semaphore
+#include <semaphore>
+#else
+#include <condition_variable>
+#endif
+#ifndef _WIN32
+#include <AvailabilityMacros.h>
+#if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
+    && defined(__cpp_lib_filesystem)
+#define MIDI2LR_FILESYSTEM_AVAILABLE
+#endif
+#else
+#ifdef __cpp_lib_filesystem
+#define MIDI2LR_FILESYSTEM_AVAILABLE
+#endif
+#endif
+#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
+#include <filesystem>
+namespace fs = std::filesystem;
+#endif
+
 #ifdef _WIN32
 #include <array>
 

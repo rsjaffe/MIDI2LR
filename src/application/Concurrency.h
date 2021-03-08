@@ -28,6 +28,7 @@
 #include <tuple>
 #include <type_traits>
 #include <utility>
+
 #ifndef __ARM_ARCH
 extern "C" {
    extern void _mm_pause();
@@ -110,7 +111,8 @@ namespace rsj {
 #pragma warning(suppress : 26447)
                   std::this_thread::sleep_for(1ms); /* never throws, analyzer false pos */
             }
-         } while (flag_.exchange(true, std::memory_order_acquire));
+         } while (flag_.load(std::memory_order_relaxed)
+                  || flag_.exchange(true, std::memory_order_acquire));
       }
       bool try_lock() noexcept
       {

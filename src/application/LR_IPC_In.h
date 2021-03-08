@@ -19,12 +19,6 @@
 #include <future>
 #include <string>
 #include <version>
-#ifdef __cpp_lib_semaphore
-#include <semaphore>
-#else
-#include <condition_variable>
-#include <mutex>
-#endif
 
 #include <asio/asio.hpp>
 
@@ -33,6 +27,14 @@ class ControlsModel;
 class MidiSender;
 class Profile;
 class ProfileManager;
+
+#ifdef __cpp_lib_semaphore
+#include <semaphore>
+#else
+#include <condition_variable>
+#include <mutex>
+#endif
+
 class LrIpcIn {
  public:
    LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const Profile& profile,

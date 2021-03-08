@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <cctype>
 
+#include <fmt/format.h>
 #include <ww898/utf_converters.hpp>
 
 #include <juce_events/juce_events.h>
