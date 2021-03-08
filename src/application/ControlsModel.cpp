@@ -22,29 +22,31 @@
 #include "MidiUtilities.h"
 #include "Misc.h"
 
-double ChannelModel::OffsetResult(const int diff, const int controlnumber, bool const wrap)
+double ChannelModel::OffsetResult(const int diff, const int controlnumber, const bool wrap)
 {
    try {
       const auto high_limit {cc_high_.at(controlnumber)};
       Expects(diff <= high_limit && diff >= -high_limit);
-      auto cached_v {current_v_.at(controlnumber).load(std::memory_order_acquire)};
+      auto& cv {current_v_.at(controlnumber)};
+      auto old_v {cv.load(std::memory_order_acquire)};
       int new_v {};
       if (wrap) {
-         new_v = cached_v + diff;
-         if (new_v > high_limit)
-            new_v -= high_limit;
-         else if (new_v < 0)
-            new_v += high_limit;
+         do {
+            new_v = old_v + diff;
+            if (new_v > high_limit)
+               new_v -= high_limit;
+            else if (new_v < 0)
+               new_v += high_limit;
+         } while (!cv.compare_exchange_weak(
+             old_v, new_v, std::memory_order_release, std::memory_order_acquire));
       }
-      else [[likely]]
-         new_v = std::clamp(cached_v + diff, 0, high_limit);
-      if (current_v_.at(controlnumber)
-              .compare_exchange_strong(
-                  cached_v, new_v, std::memory_order_release, std::memory_order_acquire))
-         return static_cast<double>(new_v) / static_cast<double>(high_limit);
-      /* someone else got to change the value first, use theirs to be consistent � cached_v updated
-       * by exchange */
-      return static_cast<double>(cached_v) / static_cast<double>(high_limit);
+      else [[likely]] {
+         do {
+            new_v = std::clamp(old_v + diff, 0, high_limit);
+         } while (!cv.compare_exchange_weak(
+             old_v, new_v, std::memory_order_release, std::memory_order_acquire));
+      }
+      return static_cast<double>(new_v) / static_cast<double>(high_limit);
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
