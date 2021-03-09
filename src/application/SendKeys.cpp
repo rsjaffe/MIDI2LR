@@ -371,10 +371,10 @@ namespace {
       try {
          rsj::CFAutoRelease<CGEventRef> d {CGEventCreateKeyboardEvent(nullptr, vk, true)};
          rsj::CFAutoRelease<CGEventRef> u {CGEventCreateKeyboardEvent(nullptr, vk, false)};
+         CGEventSetFlags(d.get(), flags);
+         CGEventSetFlags(u.get(), flags);
          {
             auto lock {std::scoped_lock(mutex_sending)};
-            CGEventSetFlags(d.get(), flags);
-            CGEventSetFlags(u.get(), flags);
             CGEventPostToPid(lr_pid, d.get());
             CGEventPostToPid(lr_pid, u.get());
          }
