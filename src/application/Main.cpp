@@ -49,6 +49,7 @@
 #else
 #include <condition_variable>
 #endif
+
 #ifndef _WIN32
 #include <AvailabilityMacros.h>
 #if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
@@ -60,6 +61,7 @@
 #define MIDI2LR_FILESYSTEM_AVAILABLE
 #endif
 #endif
+
 #ifdef MIDI2LR_FILESYSTEM_AVAILABLE
 #include <filesystem>
 namespace fs = std::filesystem;

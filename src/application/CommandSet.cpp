@@ -40,6 +40,7 @@
 #define MIDI2LR_FILESYSTEM_AVAILABLE
 #endif
 #endif
+
 #ifdef MIDI2LR_FILESYSTEM_AVAILABLE
 #include <filesystem>
 namespace fs = std::filesystem;

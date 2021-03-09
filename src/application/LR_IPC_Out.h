@@ -39,6 +39,7 @@ class Profile;
 #include <condition_variable>
 #include <mutex>
 #endif
+
 #ifndef _MSC_VER
 #define _In_
 #endif

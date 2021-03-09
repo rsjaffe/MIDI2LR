@@ -27,6 +27,7 @@
 #include <ww898/utf_converters.hpp>
 
 #include "Misc.h"
+
 #ifdef _WIN32
 #include <tuple>
 #include <utility>

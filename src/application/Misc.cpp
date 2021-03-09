@@ -140,7 +140,7 @@ void rsj::Log(gsl::czstring<> info, const std::source_location& location) noexce
       if (juce::Logger::getCurrentLogger())
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ":"
                                   + location.file_name() + ":" + location.line() + " "
-                                  + juce::String(juce::CharPointer_UTF8(info)));
+                                  + juce::String::fromUTF8(info));
    }
    catch (...) { //-V565
    }
@@ -229,8 +229,8 @@ void rsj::Log(gsl::czstring<> info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger())
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": "
-                                  + juce::String(juce::CharPointer_UTF8(info)));
+         juce::Logger::writeToLog(
+             juce::Time::getCurrentTime().toISO8601(true) + ": " + juce::String::fromUTF8(info));
    }
    catch (...) { //-V565
    }
@@ -332,7 +332,7 @@ std::wstring rsj::AppDataFilePath(std::wstring_view file_name)
 {
    wil::unique_cotaskmem_string pathptr {nullptr};
    if (SUCCEEDED_LOG(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathptr)))
-      return std::wstring(pathptr.get()) + L"\\MIDI2LR\\" + std::wstring(file_name);
+      return fmt::format(FMT_STRING(L"{}\\MIDI2LR\\{}"), pathptr.get(), file_name);
    return std::wstring(file_name);
 }
 
