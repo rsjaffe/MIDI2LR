@@ -74,6 +74,8 @@
       <FILE id="o8SiAm" name="ProfileManager.h" compile="0" resource="0"
             file="src/application/ProfileManager.h"/>
       <FILE id="kES39X" name="SendKeys.cpp" compile="1" resource="0" file="src/application/SendKeys.cpp"/>
+      <FILE id="gX3lVq" name="SendKeysMac.cpp" compile="1" resource="0" file="src/application/SendKeysMac.cpp"/>
+      <FILE id="Qsz4ZZ" name="SendKeysWin.cpp" compile="1" resource="0" file="src/application/SendKeysWin.cpp"/>
       <FILE id="Sgq8EC" name="SendKeys.h" compile="0" resource="0" file="src/application/SendKeys.h"/>
       <FILE id="mUzFUq" name="SettingsComponent.cpp" compile="1" resource="0"
             file="src/application/SettingsComponent.cpp"/>

@@ -153,6 +153,14 @@
 			isa = PBXBuildFile;
 			fileRef = 1732433E668830E1BD0BA525;
 		};
+		EC3D02ADD22B5B2C0B7B9A83 = {
+			isa = PBXBuildFile;
+			fileRef = 571EF746CEB3CB6D41F4DEC5;
+		};
+		F33C6EDC70E8EE758F9A8E5A = {
+			isa = PBXBuildFile;
+			fileRef = EE3A796241AB65522A482884;
+		};
 		9CA4A6E3321461571B4A2903 = {
 			isa = PBXBuildFile;
 			fileRef = 08D1E68D2E0A989D61DE3AE9;
@@ -413,6 +421,13 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = MIDIReceiver.cpp;
 			path = ../../src/application/MIDIReceiver.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		571EF746CEB3CB6D41F4DEC5 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = SendKeysMac.cpp;
+			path = ../../src/application/SendKeysMac.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		5E94B6497D6EE8478D62DFAF = {
@@ -744,6 +759,13 @@
 			path = ../../src/application/Translate.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		EE3A796241AB65522A482884 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = SendKeysWin.cpp;
+			path = ../../src/application/SendKeysWin.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		F20F6CF6FB96E8AA2A4A7866 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -861,6 +883,8 @@
 				4E588D3E49AB8B79FF29BB95,
 				37FEB57B61384D8D0405A5FB,
 				1732433E668830E1BD0BA525,
+				571EF746CEB3CB6D41F4DEC5,
+				EE3A796241AB65522A482884,
 				C45F6F22CC36F925643D467E,
 				08D1E68D2E0A989D61DE3AE9,
 				ACAF950A21C3B921C6ADAC57,
@@ -1265,6 +1289,8 @@
 				FC74B26CD05687C5FFD1A1C8,
 				925E0D4D6DD289DBC2589206,
 				7DDD04C84B0DAC61A148D56B,
+				EC3D02ADD22B5B2C0B7B9A83,
+				F33C6EDC70E8EE758F9A8E5A,
 				9CA4A6E3321461571B4A2903,
 				5B0ADCE28CCFBFA460C35E6C,
 				0130BF32CFE9EFE340CE491E,

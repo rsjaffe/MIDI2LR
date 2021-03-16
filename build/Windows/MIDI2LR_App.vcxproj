@@ -162,6 +162,8 @@
     <ClCompile Include="..\..\src\application\Profile.cpp"/>
     <ClCompile Include="..\..\src\application\ProfileManager.cpp"/>
     <ClCompile Include="..\..\src\application\SendKeys.cpp"/>
+    <ClCompile Include="..\..\src\application\SendKeysMac.cpp"/>
+    <ClCompile Include="..\..\src\application\SendKeysWin.cpp"/>
     <ClCompile Include="..\..\src\application\SettingsComponent.cpp"/>
     <ClCompile Include="..\..\src\application\SettingsManager.cpp"/>
     <ClCompile Include="..\..\src\application\TextButtonAligned.cpp"/>
