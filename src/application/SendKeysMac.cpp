@@ -38,7 +38,6 @@
 #include "SendKeys.h"
 
 namespace {
-   std::mutex mutex_sending {};
    std::once_flag of_check_permission;
    const auto kLrc {".app/Contents/MacOS/Adobe Lightroom Classic"};
 
@@ -239,11 +238,9 @@ namespace {
          rsj::CFAutoRelease<CGEventRef> u {CGEventCreateKeyboardEvent(nullptr, vk, false)};
          CGEventSetFlags(d.get(), flags);
          CGEventSetFlags(u.get(), flags);
-         {
-            auto lock {std::scoped_lock(mutex_sending)};
-            CGEventPostToPid(lr_pid, d.get());
-            CGEventPostToPid(lr_pid, u.get());
-         }
+         /* mutex unnecessary, as always called on main message thread */
+         CGEventPostToPid(lr_pid, d.get());
+         CGEventPostToPid(lr_pid, u.get());
          std::call_once(of_check_permission, [lr_pid]() { rsj::CheckPermission(lr_pid); });
       }
       catch (const std::exception& e) {
