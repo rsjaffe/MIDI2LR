@@ -117,8 +117,10 @@ void LrIpcOut::Connect()
 #ifdef __cpp_lib_semaphore
                 sendout_running_.acquire();
 #else
-                auto lock {std::scoped_lock(mtx_)};
-                sendout_running_ = true;
+                {
+                   auto lock {std::scoped_lock(mtx_)};
+                   sendout_running_ = true;
+                }
 #endif
                 SendOut();
              }

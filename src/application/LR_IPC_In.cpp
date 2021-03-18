@@ -107,8 +107,10 @@ void LrIpcIn::Connect()
 #ifdef __cpp_lib_semaphore
                 read_running_.acquire();
 #else
-                auto lock {std::scoped_lock(mtx_)};
-                read_running_ = true;
+                {
+                   auto lock {std::scoped_lock(mtx_)};
+                   read_running_ = true;
+                }
 #endif
                 Read();
              }
