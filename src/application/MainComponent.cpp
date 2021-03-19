@@ -90,7 +90,7 @@ void MainContentComponent::Init()
 
       /* Main title */
       StandardLabelSettings(title_label_);
-      title_label_.setFont(juce::Font {36.f, juce::Font::bold});
+      title_label_.setFont(juce::Font {36.F, juce::Font::bold});
       title_label_.setComponentEffect(&title_shadow_);
       title_label_.setBounds(kMainLeft, 10, kFullWidth, 30);
       addToLayout(&title_label_, anchorMidLeft, anchorMidRight);
@@ -121,13 +121,13 @@ void MainContentComponent::Init()
                 juce::translate("MIDI2LR profiles"),
                 juce::translate("Profile changed. Do you want to save your changes? If you "
                                 "continue without saving, your changes will be lost."))};
-            if (result)
-               SaveProfile();
+            if (result) { SaveProfile(); }
          }
          juce::File profile_directory {settings_manager_.GetProfileDirectory()};
          const auto directory_saved {profile_directory.exists()};
-         if (!directory_saved) [[unlikely]]
+         if (!directory_saved) [[unlikely]] {
             profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+         }
          juce::FileChooser chooser {
              juce::translate("Open profile"), profile_directory, "*.xml", true};
          if (chooser.browseForFileToOpen()) {
@@ -140,9 +140,10 @@ void MainContentComponent::Init()
                profile_.FromXml(parsed.get());
                command_table_.updateContent();
                command_table_.repaint();
-               if (!directory_saved) [[unlikely]] /* haven't saved a directory yet */
+               if (!directory_saved) [[unlikely]] { /* haven't saved a directory yet */
                   settings_manager_.SetProfileDirectory(
                       new_profile.getParentDirectory().getFullPathName());
+               }
             }
             else {
                rsj::Log(fmt::format(FMT_STRING("Unable to load profile {}."),
@@ -253,11 +254,10 @@ void MainContentComponent::Init()
       }
       else {
          const auto last_prof {settings_manager_.GetDefaultProfile()};
-         if (last_prof != juce::String())
-            profile_manager_.SwitchToProfile(last_prof);
-         else
-            /* otherwise use the last profile from the profile directory */
+         if (last_prof != juce::String()) { profile_manager_.SwitchToProfile(last_prof); }
+         else { /* otherwise use the last profile from the profile directory */
             profile_manager_.SwitchToProfile(0);
+         }
       }
 
       /* turn it on */
@@ -272,8 +272,9 @@ void MainContentComponent::Init()
 void MainContentComponent::SaveProfile() const
 {
    juce::File profile_directory {settings_manager_.GetProfileDirectory()};
-   if (!profile_directory.exists())
+   if (!profile_directory.exists()) {
       profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+   }
    juce::FileChooser chooser {juce::translate("Save profile"), profile_directory, "*.xml", true};
    if (chooser.browseForFileToSave(true)) {
       const auto selected_file {chooser.getResult().withFileExtension("xml")};
@@ -363,7 +364,7 @@ void MainContentComponent::ProfileChanged(
 void MainContentComponent::StandardLabelSettings(juce::Label& label_to_set)
 {
    try {
-      label_to_set.setFont(juce::Font {16.f, juce::Font::bold});
+      label_to_set.setFont(juce::Font {16.F, juce::Font::bold});
       label_to_set.setEditable(false);
       label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
    }

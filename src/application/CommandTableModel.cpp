@@ -40,7 +40,7 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
     * less than getNumRows(). */
    try {
       g.setColour(juce::Colours::black);
-      g.setFont(std::min(16.0f, static_cast<float>(height) * 0.7f));
+      g.setFont(std::min(16.0F, static_cast<float>(height) * 0.7F));
       if (column_id == 1) {
          /* write the MIDI message in the MIDI command column */
          if (rsj::cmp_less_equal(profile_.Size(), row_number)) {
@@ -100,8 +100,7 @@ void CommandTableModel::paintRowBackground(
     * and height parameters. Note that the rowNumber value may be greater than the number of rows in
     * your list, so be careful that you don't assume it's less than getNumRows(). */
    try {
-      if (row_is_selected)
-         g.fillAll(juce::Colours::lightblue);
+      if (row_is_selected) { g.fillAll(juce::Colours::lightblue); }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

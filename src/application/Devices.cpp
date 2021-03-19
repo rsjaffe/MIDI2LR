@@ -24,10 +24,12 @@
 namespace {
    template<class T> juce::File GetSource(T path)
    {
-      if constexpr (MSWindows)
+      if constexpr (MSWindows) {
          return static_cast<juce::File>(juce::CharPointer_UTF16(rsj::AppDataFilePath(path).data()));
-      else
+      }
+      else {
          return static_cast<juce::File>(juce::CharPointer_UTF8(rsj::AppDataFilePath(path).data()));
+      }
    }
 } // namespace
 Devices::Devices()
@@ -35,14 +37,13 @@ Devices::Devices()
    try {
       /* open file with xml list of devices */
       const auto source {GetSource(MIDI2LR_UC_LITERAL("DisabledControllers.xml"))};
-      if (source.exists())
-         device_xml_ = juce::parseXML(source);
+      if (source.exists()) { device_xml_ = juce::parseXML(source); }
    }
    catch (const std::exception& e) { /* log and carry on */
       MIDI2LR_E_RESPONSE;
       device_xml_.reset();
    }
-   if (!device_xml_)
+   if (!device_xml_) {
       device_xml_ = juce::parseXML(R"===(<?xml version="1.0" encoding="UTF-8"?>
 <table_data>
   <heading>
@@ -54,19 +55,22 @@ Devices::Devices()
   <data>
   </data>
 </table_data>)===");
+   }
    column_list_ = device_xml_->getChildByName("heading");
    data_list_ = device_xml_->getChildByName("data");
 
    if (data_list_) {
       num_rows_ = data_list_->getNumChildElements();
-      forEachXmlChildElement(*data_list_, data_element)
-          device_listing_.emplace(DevInfo {data_element->getStringAttribute("devicename"),
-                                      data_element->getStringAttribute("systemid"),
-                                      data_element->getStringAttribute("inputoutput")},
-              data_element->getIntAttribute("active"));
+      forEachXmlChildElement (*data_list_, data_element) {
+         device_listing_.emplace(DevInfo {data_element->getStringAttribute("devicename"),
+                                     data_element->getStringAttribute("systemid"),
+                                     data_element->getStringAttribute("inputoutput")},
+             data_element->getIntAttribute("active"));
+      }
    }
-   else
+   else {
       data_list_ = device_xml_->createNewChildElement("data");
+   }
 }
 
 Devices::~Devices()
@@ -113,8 +117,7 @@ bool Devices::Enabled(const juce::MidiDeviceInfo& info, juce::String io) const
 {
    try {
       const auto it {device_listing_.find({info, std::move(io)})};
-      if (it == device_listing_.end())
-         return true;
+      if (it == device_listing_.end()) { return true; }
       return it->second;
    }
    catch (const std::exception& e) {
@@ -126,8 +129,7 @@ bool Devices::Enabled(const juce::MidiDeviceInfo& info, juce::String io) const
 bool Devices::EnabledOrNew(const juce::MidiDeviceInfo& info, const juce::String& io)
 {
    try {
-      if (Add(info, io))
-         return true;
+      if (Add(info, io)) { return true; }
       return Enabled(info, io);
    }
    catch (const std::exception& e) {

@@ -66,7 +66,8 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
          case rsj::MessageType::kNoteOn:
          case rsj::MessageType::kPgmChange:
          case rsj::MessageType::kSystem:
-             /* do nothing for other types of controllers */;
+            break; /* do nothing for other types of controllers */
+            ;
          }
       }
       else {
@@ -89,8 +90,9 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
                   sub_menu.addColouredItem(
                       gsl::narrow_cast<int>(index), command, juce::Colours::red, true, tick_item);
                }
-               else
+               else {
                   sub_menu.addItem(gsl::narrow_cast<int>(index), command, true, false);
+               }
                index++;
             }
             main_menu.addSubMenu(
@@ -100,10 +102,12 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
          if (result) {
             /* user chose a different command, remove previous command mapping associated to this
              * menu */
-            if (selected_item_ < std::numeric_limits<decltype(selected_item_)>::max())
+            if (selected_item_ < std::numeric_limits<decltype(selected_item_)>::max()) {
                profile_.RemoveMessage(message_);
-            if (result - 1 < command_set_.CommandAbbrevSize())
+            }
+            if (result - 1 < command_set_.CommandAbbrevSize()) {
                juce::Button::setButtonText(command_set_.CommandLabelAt(result - 1));
+            }
             selected_item_ = result;
             /* Map the selected command to the CC */
             profile_.AddCommandForMessage(result - 1, message_);

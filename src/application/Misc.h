@@ -59,8 +59,11 @@ constexpr auto MacOS {true};
 #endif
 
 #ifndef __ARM_ARCH
-#include <xmmintrin.h> /* needed for XCode, no harm for MSVS */
-#define MIDI2LR_FAST_FLOATS _mm_setcsr(_mm_getcsr() | 0x8040)
+extern "C" {
+   extern unsigned int _mm_getcsr();
+   extern void _mm_setcsr(unsigned int);
+}
+#define MIDI2LR_FAST_FLOATS _mm_setcsr(_mm_getcsr() | 0x8040U)
 #else
 #define MIDI2LR_FPU_GETCW(fpcr) __asm__ __volatile__("mrs %0, fpcr" : "=r"(fpcr))
 #define MIDI2LR_FPU_SETCW(fpcr) __asm__ __volatile__("msr fpcr, %0" : : "r"(fpcr))
@@ -173,9 +176,7 @@ namespace rsj {
    {
       static_assert(IsStandardInteger<S> && IsStandardInteger<T>,
           "The integer comparison functions only accept standard and extended integer types.");
-      if constexpr (std::is_signed_v<S> == std::is_signed_v<T>) {
-         return left == right;
-      }
+      if constexpr (std::is_signed_v<S> == std::is_signed_v<T>) { return left == right; }
       else if constexpr (std::is_signed_v<T>) {
          return left == static_cast<std::make_unsigned_t<T>>(right) && right >= 0;
       }
@@ -195,9 +196,7 @@ namespace rsj {
    {
       static_assert(IsStandardInteger<S> && IsStandardInteger<T>,
           "The integer comparison functions only accept standard and extended integer types.");
-      if constexpr (std::is_signed_v<S> == std::is_signed_v<T>) {
-         return left < right;
-      }
+      if constexpr (std::is_signed_v<S> == std::is_signed_v<T>) { return left < right; }
       else if constexpr (std::is_signed_v<T>) {
          return right > 0 && left < static_cast<std::make_unsigned_t<T>>(right);
       }
@@ -227,10 +226,10 @@ namespace rsj {
    template<class T> auto CharToInt(T t) = delete;
    [[nodiscard]] constexpr auto CharToInt(const char in) noexcept
    {
-      if constexpr (std::numeric_limits<char>::is_signed)
-         return static_cast<int>(in);
-      else
+      if constexpr (std::numeric_limits<char>::is_signed) { return static_cast<int>(in); }
+      else {
          return static_cast<unsigned int>(in);
+      }
    }
 } // namespace rsj
 

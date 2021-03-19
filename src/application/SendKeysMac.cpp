@@ -198,12 +198,10 @@ namespace {
              PROC_ALL_PIDS, 0, pids.data(), gsl::narrow_cast<int>(sizeof(pids[0]) * pids.size()));
          std::array<char, PROC_PIDPATHINFO_MAXSIZE> path_buffer {};
          for (const auto pid : pids) {
-            if (pid == 0)
-               continue;
+            if (pid == 0) { continue; }
             path_buffer.fill(0);
             proc_pidpath(pid, path_buffer.data(), path_buffer.size());
-            if (path_buffer[0] && std::strstr(path_buffer.data(), kLrc))
-               return pid;
+            if (path_buffer[0] && std::strstr(path_buffer.data(), kLrc)) { return pid; }
          }
          rsj::LogAndAlertError("Lightroom PID not found.");
          return 0;
@@ -220,10 +218,10 @@ namespace {
       try {
          static const std::unordered_map<UniChar, rsj::KeyData> char_code_map {rsj::GetKeyMap()};
          const auto result {char_code_map.find(c)};
-         if (result != char_code_map.end())
-            return result->second;
-         else
+         if (result != char_code_map.end()) { return result->second; }
+         else {
             return {};
+         }
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE_F;
@@ -280,8 +278,9 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods
       }
       CGKeyCode vk {0};
       CGEventFlags flags {0};
-      if (const auto mapped_key {kKeyMap.find(rsj::ToLower(key))}; mapped_key != kKeyMap.end())
+      if (const auto mapped_key {kKeyMap.find(rsj::ToLower(key))}; mapped_key != kKeyMap.end()) {
          vk = mapped_key->second;
+      }
       else {
          const UniChar uc {ww898::utf::conv<char16_t>(key).front()};
          const auto key_code_result {KeyCodeForChar(uc)};
@@ -292,21 +291,16 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods
          }
          const auto k_data {*key_code_result};
          vk = k_data.keycode;
-         if (k_data.shift)
-            flags |= kCGEventFlagMaskShift;
-         if (k_data.option)
-            flags |= kCGEventFlagMaskAlternate;
+         if (k_data.shift) { flags |= kCGEventFlagMaskShift; }
+         if (k_data.option) { flags |= kCGEventFlagMaskAlternate; }
       }
-      if (mods.alt_opt)
-         flags |= kCGEventFlagMaskAlternate;
-      if (mods.command)
-         flags |= kCGEventFlagMaskCommand;
-      if (mods.control)
-         flags |= kCGEventFlagMaskControl;
-      if (mods.shift)
-         flags |= kCGEventFlagMaskShift;
-      if (!juce::MessageManager::callAsync([vk, flags] { MacKeyDownUp(lr_pid, vk, flags); }))
+      if (mods.alt_opt) { flags |= kCGEventFlagMaskAlternate; }
+      if (mods.command) { flags |= kCGEventFlagMaskCommand; }
+      if (mods.control) { flags |= kCGEventFlagMaskControl; }
+      if (mods.shift) { flags |= kCGEventFlagMaskShift; }
+      if (!juce::MessageManager::callAsync([vk, flags] { MacKeyDownUp(lr_pid, vk, flags); })) {
          rsj::Log("Unable to post keystroke to message queue.");
+      }
    }
    catch (const std::exception& e) {
       rsj::LogAndAlertError(fmt::format(

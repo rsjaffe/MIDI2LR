@@ -78,8 +78,9 @@ void LrIpcIn::Stop()
             ec.clear();
          }
          socket_.close(ec);
-         if (ec)
+         if (ec) {
             rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message()));
+         }
       }
 #ifdef __cpp_lib_semaphore
       read_running_.acquire();
@@ -88,8 +89,9 @@ void LrIpcIn::Stop()
       cv_.wait(lock, [this] { return !read_running_; });
 #endif
       /* clear input queue after port closed */
-      if (const auto m {line_.clear_count_emplace(kTerminate)})
+      if (const auto m {line_.clear_count_emplace(kTerminate)}) {
          rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcIn destructor."), m));
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -119,9 +121,10 @@ void LrIpcIn::Connect()
                     fmt::format(FMT_STRING("LR_IPC_In did not connect. {}."), error.message()));
                 asio::error_code ec2;
                 socket_.close(ec2);
-                if (ec2)
+                if (ec2) {
                    rsj::Log(
                        fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec2.message()));
+                }
              }
           });
    }
@@ -148,8 +151,7 @@ void LrIpcIn::ProcessLine()
    try {
       do {
          const auto line_copy {line_.pop()};
-         if (line_copy == kTerminate)
-            return;
+         if (line_copy == kTerminate) { return; }
          auto [command_view, value_view] {SplitLine(line_copy)};
          const auto command {std::string(command_view)};
          if (command == "TerminateApplication") {
@@ -189,8 +191,9 @@ void LrIpcIn::ProcessLine()
                /* following needs to run for all controls: sets saved value */
                const auto value {controls_model_.PluginToController(msg, original_value)};
                if (msg.msg_id_type != rsj::MessageType::kCc
-                   || controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute)
+                   || controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute) {
                   midi_sender_.Send(msg, value);
+               }
             }
          }
       } while (true);
@@ -208,13 +211,15 @@ void LrIpcIn::Read()
          asio::async_read_until(socket_, streambuf_, '\n',
              [this](const asio::error_code& error, const std::size_t bytes_transferred) {
                 if (!error) [[likely]] {
-                   if (!bytes_transferred) [[unlikely]]
+                   if (bytes_transferred == 0) [[unlikely]] {
                       std::this_thread::sleep_for(kEmptyWait);
+                   }
                    else {
                       std::string command {buffers_begin(streambuf_.data()),
                           buffers_begin(streambuf_.data()) + bytes_transferred};
-                      if (command == "TerminateApplication 1\n")
+                      if (command == "TerminateApplication 1\n") {
                          thread_should_exit_.store(true, std::memory_order_release);
+                      }
                       line_.push(std::move(command));
                       streambuf_.consume(bytes_transferred);
                    }
@@ -231,8 +236,9 @@ void LrIpcIn::Read()
                    }
                    cv_.notify_one();
 #endif
-                   if (error == asio::error::misc_errors::eof) /* LR closed socket */
+                   if (error == asio::error::misc_errors::eof) { /* LR closed socket */
                       juce::JUCEApplication::getInstance()->systemRequestedQuit();
+                   }
                 }
              });
       }

@@ -44,9 +44,8 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       auto file_array {directory.findChildFiles(juce::File::findFiles, false, "*.xml")};
       file_array.sort();
       profiles_.clear();
-      for (const auto& file : file_array) profiles_.push_back(file.getFileName());
-      if (!profiles_.empty())
-         SwitchToProfile(profiles_.front());
+      for (const auto& file : file_array) { profiles_.push_back(file.getFileName()); }
+      if (!profiles_.empty()) { SwitchToProfile(profiles_.front()); }
       current_profile_index_ = 0;
    }
    catch (const std::exception& e) {
@@ -75,7 +74,7 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
       const auto profile_file {profile_location_.getChildFile(profile)};
       if (profile_file.exists()) {
          if (const auto parsed {juce::parseXML(profile_file)}) {
-            for (const auto& cb : callbacks_) cb(parsed.get(), profile);
+            for (const auto& cb : callbacks_) { cb(parsed.get(), profile); }
             lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToDirectory {}\n"),
                 juce::File::addTrailingSeparator(profile_location_.getFullPathName())
                     .toStdString()));
@@ -93,8 +92,9 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
 void ProfileManager::SwitchToNextProfile()
 {
    try {
-      if (rsj::cmp_equal(++current_profile_index_, profiles_.size()))
+      if (rsj::cmp_equal(++current_profile_index_, profiles_.size())) {
          current_profile_index_ = 0;
+      }
       SwitchToProfile(current_profile_index_);
    }
    catch (const std::exception& e) {
@@ -106,8 +106,9 @@ void ProfileManager::SwitchToNextProfile()
 void ProfileManager::SwitchToPreviousProfile()
 {
    try {
-      if (--current_profile_index_ < 0)
+      if (--current_profile_index_ < 0) {
          current_profile_index_ = gsl::narrow_cast<int>(profiles_.size()) - 1;
+      }
       SwitchToProfile(current_profile_index_);
    }
    catch (const std::exception& e) {
@@ -128,6 +129,8 @@ void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
          switch_state_ = SwitchState::kNext;
          triggerAsyncUpdate();
       }
+      else { /* no action needed */
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -142,8 +145,9 @@ void ProfileManager::MidiCmdCallback(const rsj::MidiMessage& mm)
       /* return if the value isn't high enough (notes may be < 1), or the command isn't a valid
        * profile-related command */
       if (controls_model_.ControllerToPlugin(mm, false) < 0.4
-          || !current_profile_.MessageExistsInMap(cc))
+          || !current_profile_.MessageExistsInMap(cc)) {
          return;
+      }
       MapCommand(cc);
    }
    catch (const std::exception& e) {

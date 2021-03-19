@@ -44,10 +44,8 @@ class Devices {
 #ifdef __cpp_lib_three_way_comparison
       std::strong_ordering operator<=>(const DevInfo& rhs) const noexcept
       {
-         if (const auto a = name.compare(rhs.name))
-            return a <=> 0;
-         if (const auto a = identifier.compare(rhs.identifier))
-            return a <=> 0;
+         if (const auto a = name.compare(rhs.name)) { return a <=> 0; }
+         if (const auto a = identifier.compare(rhs.identifier)) { return a <=> 0; }
          const auto a = i_o.compare(rhs.i_o);
          return a <=> 0;
       }
@@ -62,14 +60,10 @@ class Devices {
       }
       friend bool operator<(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
-         if (lhs.name < rhs.name)
-            return true;
-         if (rhs.name < lhs.name)
-            return false;
-         if (lhs.identifier < rhs.identifier)
-            return true;
-         if (rhs.identifier < lhs.identifier)
-            return false;
+         if (lhs.name < rhs.name) { return true; }
+         if (rhs.name < lhs.name) { return false; }
+         if (lhs.identifier < rhs.identifier) { return true; }
+         if (rhs.identifier < lhs.identifier) { return false; }
          return lhs.i_o < rhs.i_o;
       }
       friend bool operator<=(const DevInfo& lhs, const DevInfo& rhs) noexcept

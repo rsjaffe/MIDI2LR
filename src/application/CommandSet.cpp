@@ -93,9 +93,10 @@ CommandSet::Impl::Impl()
          rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p));
 #endif
       }
-      else
+      else {
          rsj::LogAndAlertError(
              juce::translate("Unable to load MenuTrans.xml."), "Unable to load MenuTrans.xml.");
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

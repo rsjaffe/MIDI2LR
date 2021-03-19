@@ -29,7 +29,7 @@
 class Devices;
 
 #ifndef _MSC_VER
-#define _In_
+#define _In_ //-V3547
 #endif
 
 class MidiReceiver final : juce::MidiInputCallback {
@@ -47,8 +47,9 @@ class MidiReceiver final : juce::MidiInputCallback {
    template<class T>
    void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(const rsj::MidiMessage&))
    {
-      if (object && mf)
+      if (object && mf) {
          callbacks_.emplace_back([=](const rsj::MidiMessage& a) { (object->*mf)(a); });
+      }
    }
 
  private:

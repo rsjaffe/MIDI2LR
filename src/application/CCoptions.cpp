@@ -266,20 +266,24 @@ void CCoptions::buttonClicked(Button* buttonThatWasClicked)
    else if (buttonThatWasClicked == applyAll.get()) {
       //[UserButtonCode_applyAll] -- add your button handler code here..
       rsj::CCmethod ccm {};
-      if (twosbutton->getToggleState())
-         ccm = rsj::CCmethod::kTwosComplement;
-      else if (absbutton->getToggleState())
+      if (twosbutton->getToggleState()) { ccm = rsj::CCmethod::kTwosComplement; }
+      else if (absbutton->getToggleState()) {
          ccm = rsj::CCmethod::kAbsolute;
-      else if (binbutton->getToggleState())
+      }
+      else if (binbutton->getToggleState()) {
          ccm = rsj::CCmethod::kBinaryOffset;
-      else if (signbutton->getToggleState())
+      }
+      else if (signbutton->getToggleState()) {
          ccm = rsj::CCmethod::kSignMagnitude;
+      }
       else {
          throw std::logic_error("CCoptions::buttonClicked reached unreachable code");
       }
       controls_model_->SetCcAll(bound_channel_, bound_number_, minvaltext->getText().getIntValue(),
           maxvaltext->getText().getIntValue(), ccm);
       //[/UserButtonCode_applyAll]
+   }
+   else { /* no action needed */
    }
 
    //[UserbuttonClicked_Post]
@@ -291,10 +295,12 @@ void CCoptions::textEditorFocusLost(TextEditor& t)
 {
    const auto val = t.getText().getIntValue();
    const auto& nam = t.getName();
-   if (nam == "minvaltext")
-      controls_model_->SetCcMin(bound_channel_, bound_number_, val);
-   else if (nam == "maxvaltext")
+   if (nam == "minvaltext") { controls_model_->SetCcMin(bound_channel_, bound_number_, val); }
+   else if (nam == "maxvaltext") {
       controls_model_->SetCcMax(bound_channel_, bound_number_, val);
+   }
+   else { /* no action needed */
+   }
 }
 
 void CCoptions::BindToControl(const int channel, const int control_number)

@@ -39,12 +39,10 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 class ControlsModel;
 #ifndef _MSC_VER
-#define _In_
+#define _In_ //-V3547
 #endif
 // NOTE: must add juce:: qualifiers in header if regenerate file
 //[/Headers]
-
-
 
 //==============================================================================
 /**

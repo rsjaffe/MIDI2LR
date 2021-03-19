@@ -43,7 +43,7 @@ void Profile::AddRowMapped(const std::string& command, const rsj::MidiMessageId&
    try {
       auto guard {std::unique_lock {mutex_}};
       if (!MessageExistsInMapI(message)) {
-         if (!command_set_.CommandTextIndex(command)) {
+         if (command_set_.CommandTextIndex(command) == 0) {
             message_map_[message] = CommandSet::kUnassigned;
             command_string_map_.emplace(CommandSet::kUnassigned, message);
          }
@@ -84,8 +84,7 @@ void Profile::FromXml(const juce::XmlElement* root)
    /* external use only, but will either use external versions of Profile calls to lock individual
     * accesses or manually lock any internal calls instead of using mutex for entire method */
    try {
-      if (!root || root->getTagName().compare("settings") != 0)
-         return;
+      if (!root || root->getTagName().compare("settings") != 0) { return; }
       RemoveAllRows();
       const auto* setting {root->getFirstChildElement()};
       while (setting) {
@@ -103,6 +102,8 @@ void Profile::FromXml(const juce::XmlElement* root)
             const rsj::MidiMessageId pb {
                 setting->getIntAttribute("channel"), 0, rsj::MessageType::kPw};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), pb);
+         }
+         else { /* no action needed */
          }
          setting = setting->getNextElement();
       }
@@ -224,15 +225,18 @@ void Profile::SortI()
       const auto msg_sort {[&msg_idx](const rsj::MidiMessageId a, const rsj::MidiMessageId b) {
          return msg_idx(a) < msg_idx(b);
       }};
-      if (current_sort_.first == 1)
-         if (current_sort_.second)
-            std::sort(command_table_.begin(), command_table_.end());
-         else
+      if (current_sort_.first == 1) {
+         if (current_sort_.second) { std::sort(command_table_.begin(), command_table_.end()); }
+         else {
             std::sort(command_table_.rbegin(), command_table_.rend());
-      else if (current_sort_.second)
+         }
+      }
+      else if (current_sort_.second) {
          std::sort(command_table_.begin(), command_table_.end(), msg_sort);
-      else
+      }
+      else {
          std::sort(command_table_.rbegin(), command_table_.rend(), msg_sort);
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

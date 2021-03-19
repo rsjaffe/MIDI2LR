@@ -45,19 +45,19 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
    try {
       if (id.msg_id_type == rsj::MessageType::kPw) {
          const auto msg {juce::MidiMessage::pitchWheel(id.channel, value)};
-         for (const auto& dev : output_devices_) dev->sendMessageNow(msg);
+         for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
       }
       else if (id.msg_id_type == rsj::MessageType::kNoteOn) {
          const auto msg {juce::MidiMessage::noteOn(
              id.channel, id.control_number, gsl::narrow_cast<juce::uint8>(value))};
-         for (const auto& dev : output_devices_) dev->sendMessageNow(msg);
+         for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
       }
       else if (id.msg_id_type == rsj::MessageType::kCc) {
          if (id.control_number < 128) {
             /* regular message */
             const auto msg {
                 juce::MidiMessage::controllerEvent(id.channel, id.control_number, value)};
-            for (const auto& dev : output_devices_) dev->sendMessageNow(msg);
+            for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
          }
          else {
             /* NRPN */
@@ -118,16 +118,18 @@ void MidiSender::InitDevices()
                   rsj::Log(fmt::format(FMT_STRING("Opened output device {}."), devname));
                   output_devices_.push_back(std::move(open_device));
                }
-               else
+               else {
                   rsj::Log(fmt::format(FMT_STRING("Ignored output device {}."), devname));
+               }
             }
             else {
                if (devices_.EnabledOrNew(open_device->getDeviceInfo(), "output")) {
                   rsj::Log(fmt::format(FMT_STRING("Opened output device {}."), devname));
                   output_devices_.push_back(std::move(open_device));
                }
-               else
+               else {
                   rsj::Log(fmt::format(FMT_STRING("Ignored output device {}."), devname));
+               }
             }
          }
       } /* devices that are skipped have their pointers deleted and are automatically closed*/

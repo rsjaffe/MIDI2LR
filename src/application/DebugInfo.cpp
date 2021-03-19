@@ -133,8 +133,9 @@ namespace {
          if (LOG_IF_WIN32_BOOL_FALSE(GetKeyboardLayoutNameA(klid_ascii.data()))) {
             try {
                const auto klid {std::stoul(std::string(klid_ascii.data()), nullptr, 16)};
-               if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end())
+               if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end()) {
                   return f->second;
+               }
                return fmt::format(
                    FMT_STRING("KLID not in keyboard_names: 0x{}."), klid_ascii.data());
             }

@@ -59,18 +59,19 @@ void rsj::CheckPermission(pid_t pid)
          rsj::Log(fmt::format(
              FMT_STRING("Automation permission granted for {}."), bundleIdentifierCString));
          break;
-      case errAEEventNotPermitted: {
-         rsj::Log(fmt::format(
-             FMT_STRING("Automation permission denied for {}."), bundleIdentifierCString));
-         const auto title {
-             juce::translate("MIDI2LR needs your authorization to send keystrokes to Lightroom")};
-         const auto message {juce::translate(
-             "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these "
-             "steps:\r\n1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) "
-             "Select \"Accessibility Apps\"\r\n4) Add this application to the approval list")};
-         juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, title, message);
-         break;
-      }
+      case errAEEventNotPermitted:
+         {
+            rsj::Log(fmt::format(
+                FMT_STRING("Automation permission denied for {}."), bundleIdentifierCString));
+            const auto title {juce::translate(
+                "MIDI2LR needs your authorization to send keystrokes to Lightroom")};
+            const auto message {juce::translate(
+                "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these "
+                "steps:\r\n1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) "
+                "Select \"Accessibility Apps\"\r\n4) Add this application to the approval list")};
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, title, message);
+            break;
+         }
       case procNotFound:
          rsj::Log(
              fmt::format(FMT_STRING("Application not found. Automation permission unknown for {}."),
@@ -83,6 +84,7 @@ void rsj::CheckPermission(pid_t pid)
          break;
       }
    }
-   else
+   else {
       rsj::Log(fmt::format(FMT_STRING("AECreateDesc returned error {}."), aeresult));
+   }
 }

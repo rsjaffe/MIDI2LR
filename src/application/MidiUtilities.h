@@ -55,7 +55,7 @@ namespace rsj {
    constexpr bool ValidMessageType(std::underlying_type_t<MessageType> value) noexcept
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
-      const auto from {value >> 4u & 0xFu};
+      const auto from {value >> 4U & 0xFU};
       return rsj::cmp_greater_equal(
           from, static_cast<std::underlying_type_t<MessageType>>(MessageType::kNoteOff));
    }
@@ -63,10 +63,11 @@ namespace rsj {
    constexpr MessageType ToMessageType(std::underlying_type_t<MessageType> value)
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
-      const auto from {value >> 4u & 0xFu};
+      const auto from {value >> 4U & 0xFU};
       if (rsj::cmp_less(
-              from, static_cast<std::underlying_type_t<MessageType>>(MessageType::kNoteOff)))
+              from, static_cast<std::underlying_type_t<MessageType>>(MessageType::kNoteOff))) {
          throw std::out_of_range("ToMessageType: MessageType range error, must be 0x8 to 0xF");
+      }
       return static_cast<MessageType>(from);
    }
 
@@ -96,10 +97,8 @@ namespace fmt {
       template<typename ParseContext> constexpr auto parse(ParseContext& ctx)
       { /* parsing copied from fmt's chrono.h */
          auto it {ctx.begin()};
-         if (!it)
-            return ctx.end();
-         if (it != ctx.end() && *it == ':')
-            std::advance(it, 1);
+         if (!it) { return ctx.end(); }
+         if (it != ctx.end() && *it == ':') { std::advance(it, 1); }
          auto end {std::find(it, ctx.end(), '}')};
          tm_format_.reserve(detail::to_unsigned(end - it + 1));
          tm_format_.append(it, end);
@@ -109,8 +108,7 @@ namespace fmt {
 
       template<typename FormatContext> auto format(const rsj::MessageType& p, FormatContext& ctx)
       {
-         if (tm_format_[0] == 'n')
-            return format_to(ctx.out(), "{}", rsj::MessageTypeToName(p));
+         if (tm_format_[0] == 'n') { return format_to(ctx.out(), "{}", rsj::MessageTypeToName(p)); }
          return format_to(ctx.out(), "{}", rsj::MessageTypeToLabel(p));
       }
 
@@ -175,13 +173,12 @@ namespace rsj {
 
       constexpr bool operator<(const MidiMessageId& other) const noexcept
       {
-         if (channel < other.channel)
-            return true;
+         if (channel < other.channel) { return true; }
          if (channel == other.channel) {
-            if (control_number < other.control_number)
+            if (control_number < other.control_number) { return true; }
+            if (control_number == other.control_number && msg_id_type < other.msg_id_type) {
                return true;
-            if (control_number == other.control_number && msg_id_type < other.msg_id_type)
-               return true;
+            }
          }
          return false;
       }

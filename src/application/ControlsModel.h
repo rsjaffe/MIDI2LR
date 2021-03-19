@@ -61,6 +61,7 @@ namespace rsj {
                rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
                    fmt::format(msg, version));
             }
+            break;
          }
       }
 
@@ -119,6 +120,7 @@ namespace rsj {
                   rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
                       fmt::format(msg, version));
                }
+               break;
             }
          }
          catch (const std::exception& e) {
@@ -294,8 +296,7 @@ class ControlsModel {
    friend class cereal::access;
    template<class Archive> void serialize(Archive& archive, uint32_t const version)
    {
-      if (version == 1)
-         archive(all_controls_);
+      if (version == 1) { archive(all_controls_); }
    }
    std::array<ChannelModel, 16> all_controls_;
 };
@@ -324,6 +325,7 @@ template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const
             rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
                 fmt::format(msg, version));
          }
+         break;
       }
    }
    catch (const std::exception& e) {
@@ -356,6 +358,7 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
             rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
                 fmt::format(msg, version));
          }
+         break;
       }
    }
    catch (const std::exception& e) {

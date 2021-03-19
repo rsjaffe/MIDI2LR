@@ -39,18 +39,17 @@ namespace {
 
    BOOL CALLBACK EnumWindowsProc(_In_ const HWND hwnd, [[maybe_unused]] _In_ const LPARAM l_param)
    {
-      if (!IsWindowVisible(hwnd))
-         return true;
+      if (!IsWindowVisible(hwnd)) { return true; }
       std::array<WCHAR, 500> buffer {};
       const auto length {GetWindowTextW(hwnd, buffer.data(), gsl::narrow_cast<int>(buffer.size()))};
       if (length) {
          /* check for issues with extra-long window titles and log them */
-         if (rsj::cmp_greater_equal(length + 1, buffer.size()))
+         if (rsj::cmp_greater_equal(length + 1, buffer.size())) {
             rsj::Log(fmt::format(
                 FMT_STRING(L"EnumWindowsProc window text length > {}, truncated text is {}."),
                 buffer.size(), buffer.data())
                          .data());
-         /* try to find Lightroom Classic. Use Lightroom as fallback */
+         } /* try to find Lightroom Classic. Use Lightroom as fallback */
          const auto title {std::wstring_view(buffer.data(), length)};
          const auto lr_start {title.find(L"Lightroom")};
          if (lr_start != std::string_view::npos) {
@@ -67,12 +66,12 @@ namespace {
    {
       std::call_once(of_getlanguage, [] {
          LOG_IF_WIN32_BOOL_FALSE(EnumWindows(&EnumWindowsProc, 0));
-         if (!h_lr_wnd)
-            rsj::Log("Unable to find Lightroom in EnumWindows.");
+         if (!h_lr_wnd) { rsj::Log("Unable to find Lightroom in EnumWindows."); }
       });
       if (h_lr_wnd) { /* get language that LR is using (if hLrWnd is found) */
-         if (const auto thread_id {GetWindowThreadProcessId(h_lr_wnd, nullptr)})
+         if (const auto thread_id {GetWindowThreadProcessId(h_lr_wnd, nullptr)}) {
             return GetKeyboardLayout(thread_id);
+         }
          h_lr_wnd = nullptr;
          rsj::Log("Unable to find lightroom thread id in GetLanguage.");
       }
@@ -118,8 +117,9 @@ namespace {
          std::for_each(strokes.cbegin(), strokes.cend(), push_stroke);
          /* send strokes */
          auto lock {std::scoped_lock(mutex_sending)};
-         THROW_LAST_ERROR_IF(!SendInput(
-             gsl::narrow_cast<UINT>(stroke_vector.size()), stroke_vector.data(), sizeof ip));
+         THROW_LAST_ERROR_IF(SendInput(gsl::narrow_cast<UINT>(stroke_vector.size()),
+                                 stroke_vector.data(), sizeof ip)
+                             == 0);
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE_F;
@@ -156,28 +156,23 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods
       Expects(!key.empty());
       BYTE vk {0};
       rsj::ActiveModifiers vk_mod {};
-      if (const auto mapped_key {kKeyMap.find(rsj::ToLower(key))}; mapped_key != kKeyMap.end())
+      if (const auto mapped_key {kKeyMap.find(rsj::ToLower(key))}; mapped_key != kKeyMap.end()) {
          vk = mapped_key->second;
-      else
-         /* Translate key code to keyboard-dependent scan code, may be UTF-8 */
+      }
+      else { /* Translate key code to keyboard-dependent scan code, may be UTF-8 */
          std::tie(vk, vk_mod) = KeyToVk(key);
-      /* construct virtual keystroke sequence */
+      } /* construct virtual keystroke sequence */
       std::vector<WORD> strokes {vk};
       /* start with actual key, then mods */
-      if (mods.shift || vk_mod.shift)
-         strokes.push_back(VK_SHIFT);
+      if (mods.shift || vk_mod.shift) { strokes.push_back(VK_SHIFT); }
       if (vk_mod.control && vk_mod.alt_opt) {
          strokes.push_back(VK_RMENU); /* AltGr */
-         if (mods.alt_opt)
-            strokes.push_back(VK_MENU);
-         if (mods.control)
-            strokes.push_back(VK_CONTROL);
+         if (mods.alt_opt) { strokes.push_back(VK_MENU); }
+         if (mods.control) { strokes.push_back(VK_CONTROL); }
       }
       else {
-         if (mods.alt_opt || vk_mod.alt_opt)
-            strokes.push_back(VK_MENU);
-         if (mods.control || vk_mod.control)
-            strokes.push_back(VK_CONTROL);
+         if (mods.alt_opt || vk_mod.alt_opt) { strokes.push_back(VK_MENU); }
+         if (mods.control || vk_mod.control) { strokes.push_back(VK_CONTROL); }
       }
       /* ignored for now
        * SEE:https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values */

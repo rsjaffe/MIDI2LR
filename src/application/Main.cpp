@@ -88,7 +88,7 @@ namespace {
       LookAndFeelMIDI2LR& operator=(LookAndFeelMIDI2LR&& s) = delete;
       juce::Font getTextButtonFont(juce::TextButton&, const int button_height) override
       {
-         return juce::Font(std::min(16.0f, static_cast<float>(button_height) * 0.7f));
+         return juce::Font(std::min(16.0F, static_cast<float>(button_height) * 0.7F));
       }
    };
 
@@ -149,8 +149,9 @@ namespace {
                rsj::Log("Terminate called, unknown exception type.");
             }
          }
-         else
+         else {
             rsj::Log("Terminate called, no exception available.");
+         }
       }
       catch (...) { //-V565
       }
@@ -194,20 +195,20 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             io_thread0_ = std::async(std::launch::async, [this] {
                rsj::LabelThread(MIDI2LR_UC_LITERAL("io_thread0_"));
                MIDI2LR_FAST_FLOATS;
-               if constexpr (kNdebug)
-                  io_context_.run();
-               else
+               if constexpr (kNdebug) { io_context_.run(); }
+               else {
                   rsj::Log(
                       fmt::format(FMT_STRING("io_thread0_ ran {} handlers."), io_context_.run()));
+               }
             });
             io_thread1_ = std::async(std::launch::async, [this] {
                rsj::LabelThread(MIDI2LR_UC_LITERAL("io_thread1_"));
                MIDI2LR_FAST_FLOATS;
-               if constexpr (kNdebug)
-                  io_context_.run();
-               else
+               if constexpr (kNdebug) { io_context_.run(); }
+               else {
                   rsj::Log(
                       fmt::format(FMT_STRING("io_thread1_ ran {} handlers."), io_context_.run()));
+               }
             });
             CCoptions::LinkToControlsModel(&controls_model_);
             PWoptions::LinkToControlsModel(&controls_model_);
@@ -280,8 +281,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                          juce::translate("Profile changed. Do you want to save your changes? If "
                                          "you continue without saving, your changes will be "
                                          "lost."))};
-                     if (result)
-                        main_window_->SaveProfile();
+                     if (result) { main_window_->SaveProfile(); }
                   }
                   catch (const std::exception& e) {
                      MIDI2LR_E_RESPONSE; /* and continue, so ready flag can be set */
@@ -314,8 +314,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
    void anotherInstanceStarted(const juce::String& command_line) override
    {
-      if (command_line == kShutDownString)
-         systemRequestedQuit();
+      if (command_line == kShutDownString) { systemRequestedQuit(); }
    }
 
    [[noreturn]] void unhandledException(
@@ -388,9 +387,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                 FMT_STRING(MIDI2LR_UC_LITERAL("ControlsModel archive in Main saved to {}.")), p));
 #endif
          }
-         else
+         else {
             rsj::LogAndAlertError(
                 juce::translate("Unable to save settings.xml"), "Unable to save settings.xml");
+         }
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;
@@ -447,14 +447,16 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          const auto& lang {command_set_.GetLanguage()};
          juce::String font1_name;
          juce::String font2_name;
-         if (lang == "ko")
-            font1_name = "NotoSansKR-Regular.otf";
-         else if (lang == "zh_TW" || lang == "zh_tw")
+         if (lang == "ko") { font1_name = "NotoSansKR-Regular.otf"; }
+         else if (lang == "zh_TW" || lang == "zh_tw") {
             font1_name = "NotoSansTC-Regular.otf";
-         else if (lang == "zh_CN" || lang == "zh_cn")
+         }
+         else if (lang == "zh_CN" || lang == "zh_cn") {
             font1_name = "NotoSansSC-Regular.otf";
-         else if (lang == "ja")
+         }
+         else if (lang == "ja") {
             font1_name = "NotoSansJP-Regular.otf";
+         }
          else {
             font1_name = "NotoSans-Regular-Plus-Thai.ttf";
             font2_name = "NotoSans-Bold-plus-Thai.ttf";
@@ -462,21 +464,25 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          juce::MemoryBlock font_data {};
          auto font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
                               .getSiblingFile(font1_name);
-         if (font_file.loadFileAsData(font_data))
+         if (font_file.loadFileAsData(font_data)) {
             juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
                 juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize()));
-         else
+         }
+         else {
             rsj::Log(fmt::format(
                 FMT_STRING("Unable to load primary font file {}."), font1_name.toStdString()));
+         }
          if (font2_name.isNotEmpty()) {
             font_data.reset();
             font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
                             .getSiblingFile(font2_name);
-            if (font_file.loadFileAsData(font_data))
+            if (font_file.loadFileAsData(font_data)) {
                juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize());
-            else
+            }
+            else {
                rsj::Log(fmt::format(
                    FMT_STRING("Unable to load bold font file {}."), font2_name.toStdString()));
+            }
          }
       }
       catch (const std::exception& e) {

@@ -41,7 +41,7 @@ class Profile;
 #endif
 
 #ifndef _MSC_VER
-#define _In_
+#define _In_ //-V3547
 #endif
 
 class LrIpcOut {
@@ -56,18 +56,17 @@ class LrIpcOut {
 
    template<class T> void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(bool, bool))
    {
-      if (object && mf)
+      if (object && mf) {
          callbacks_.emplace_back([=](bool a, bool b) { (object->*mf)(a, b); });
+      }
    }
    void SendCommand(std::string&& command)
    {
-      if (!sending_stopped_)
-         command_.push(std::move(command));
+      if (!sending_stopped_) { command_.push(std::move(command)); }
    }
    void SendCommand(const std::string& command)
    {
-      if (!sending_stopped_)
-         command_.push(command);
+      if (!sending_stopped_) { command_.push(command); }
    }
    void SendingRestart();
    void SendingStop();

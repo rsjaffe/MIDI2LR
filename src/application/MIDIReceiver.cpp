@@ -51,8 +51,9 @@ void MidiReceiver::Stop()
       dev->stop();
       rsj::Log(fmt::format(FMT_STRING("Stopped input device {}."), dev->getName().toStdString()));
    }
-   if (const auto remaining {messages_.clear_count_push(kTerminate)})
+   if (const auto remaining {messages_.clear_count_push(kTerminate)}) {
       rsj::Log(fmt::format(FMT_STRING("{} left in queue in MidiReceiver StopRunning."), remaining));
+   }
    callbacks_.clear(); /* after queue emptied */
 }
 
@@ -70,10 +71,10 @@ void MidiReceiver::handleIncomingMidiMessage(
             const auto result {filters_[device](mess)};
             if (result.is_nrpn) {
                /* send when complete */
-               if (result.is_ready)
+               if (result.is_ready) {
                   messages_.emplace(
                       rsj::MessageType::kCc, mess.channel, result.control, result.value);
-               /* finished with nrpn piece */
+               } /* finished with nrpn piece */
                break;
             }
          }
@@ -88,7 +89,7 @@ void MidiReceiver::handleIncomingMidiMessage(
       case rsj::MessageType::kNoteOff:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-          /* no action if other type of MIDI message */;
+         break; /* no action if other type of MIDI message */
       }
    }
    catch (const std::exception& e) {
@@ -128,9 +129,10 @@ void MidiReceiver::TryToOpen()
                    FMT_STRING("Opened input device {}."), open_device->getName().toStdString()));
                input_devices_.push_back(std::move(open_device));
             }
-            else
+            else {
                rsj::Log(fmt::format(
                    FMT_STRING("Ignored input device {}."), open_device->getName().toStdString()));
+            }
          }
       }
    }
@@ -172,12 +174,12 @@ void MidiReceiver::DispatchMessages()
    try {
       do {
          const auto message_copy {messages_.pop()};
-         if (message_copy == kTerminate)
-            return;
-         for (const auto& cb : callbacks_)
+         if (message_copy == kTerminate) { return; }
+         for (const auto& cb : callbacks_) {
 #pragma warning(suppress : 26489)
             /* false warning, checked for existence before adding to callbacks_ */
             cb(message_copy);
+         }
       } while (true);
    }
    catch (const std::exception& e) {

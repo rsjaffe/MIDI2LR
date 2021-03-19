@@ -33,10 +33,12 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber, const
       if (wrap) {
          do {
             new_v = old_v + diff;
-            if (new_v > high_limit)
-               new_v -= high_limit;
-            else if (new_v < 0)
+            if (new_v > high_limit) { new_v -= high_limit; }
+            else if (new_v < 0) {
                new_v += high_limit;
+            }
+            else { /* no action needed */
+            }
          } while (!cv.compare_exchange_weak(
              old_v, new_v, std::memory_order_release, std::memory_order_acquire));
       }
@@ -82,20 +84,21 @@ double ChannelModel::ControllerToPlugin(
             return static_cast<double>(value - cc_low_.at(controlnumber))
                    / static_cast<double>(cc_high_.at(controlnumber) - cc_low_.at(controlnumber));
          case rsj::CCmethod::kBinaryOffset:
-            if (IsNrpn(controlnumber))
-               return OffsetResult(value - kBit14, controlnumber, wrap);
+            if (IsNrpn(controlnumber)) { return OffsetResult(value - kBit14, controlnumber, wrap); }
             return OffsetResult(value - kBit7, controlnumber, wrap);
          case rsj::CCmethod::kSignMagnitude:
-            if (IsNrpn(controlnumber))
+            if (IsNrpn(controlnumber)) {
                return OffsetResult(
                    value & kBit14 ? -(value & kLow13Bits) : value, controlnumber, wrap);
+            }
             return OffsetResult(value & kBit7 ? -(value & kLow6Bits) : value, controlnumber, wrap);
          case rsj::CCmethod::kTwosComplement:
             /* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
              * flip twos comp and subtract--independent of processor architecture */
-            if (IsNrpn(controlnumber))
+            if (IsNrpn(controlnumber)) {
                return OffsetResult(
                    value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value, controlnumber, wrap);
+            }
             return OffsetResult(
                 value & kBit7 ? -((value ^ kMaxMidi) + 1) : value, controlnumber, wrap);
          }
@@ -181,18 +184,17 @@ int ChannelModel::MeasureChange(
          case rsj::CCmethod::kAbsolute:
             return value - current_v_.at(controlnumber).exchange(value, std::memory_order_acq_rel);
          case rsj::CCmethod::kBinaryOffset:
-            if (IsNrpn(controlnumber))
-               return value - kBit14;
+            if (IsNrpn(controlnumber)) { return value - kBit14; }
             return value - kBit7;
          case rsj::CCmethod::kSignMagnitude:
-            if (IsNrpn(controlnumber))
-               return value & kBit14 ? -(value & kLow13Bits) : value;
+            if (IsNrpn(controlnumber)) { return value & kBit14 ? -(value & kLow13Bits) : value; }
             return value & kBit7 ? -(value & kLow6Bits) : value;
          case rsj::CCmethod::kTwosComplement:
             /* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
              * flip twos comp and subtract--independent of processor architecture */
-            if (IsNrpn(controlnumber))
+            if (IsNrpn(controlnumber)) {
                return value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value;
+            }
             return value & kBit7 ? -((value ^ kMaxMidi) + 1) : value;
          }
       case rsj::MessageType::kNoteOff:
@@ -229,10 +231,11 @@ int ChannelModel::PluginToController(
       case rsj::MessageType::kPw:
          {
             /* TODO(C26451): int subtraction: can it overflow? */
-            const auto newv {std::clamp(
-                gsl::narrow<int>(std::lrint(value * (pitch_wheel_max_ - pitch_wheel_min_)))
-                    + pitch_wheel_min_,
-                pitch_wheel_min_, pitch_wheel_max_)};
+            const auto newv {
+                std::clamp(gsl::narrow<int>(std::lrint(
+                               value * static_cast<double>(pitch_wheel_max_ - pitch_wheel_min_)))
+                               + pitch_wheel_min_,
+                    pitch_wheel_min_, pitch_wheel_max_)};
             pitch_wheel_current_.store(newv, std::memory_order_release);
             return newv;
          }
@@ -242,7 +245,8 @@ int ChannelModel::PluginToController(
             const auto clow {cc_low_.at(controlnumber)};
             const auto chigh {cc_high_.at(controlnumber)};
             const auto newv {std::clamp(
-                gsl::narrow<int>(std::lrint(value * (chigh - clow))) + clow, clow, chigh)};
+                gsl::narrow<int>(std::lrint(value * static_cast<double>(chigh - clow))) + clow,
+                clow, chigh)};
             current_v_.at(controlnumber).store(newv, std::memory_order_release);
             return newv;
          }
@@ -304,8 +308,9 @@ void ChannelModel::SetCcMax(const int controlnumber, const int value)
 {
    try {
       Expects(value <= kMaxNrpn && value >= 0);
-      if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
+      if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute) {
          cc_high_.at(controlnumber) = value < 0 ? 1000 : value;
+      }
       else {
          const auto max {IsNrpn(controlnumber) ? kMaxNrpn : kMaxMidi};
          cc_high_.at(controlnumber) =
@@ -322,10 +327,12 @@ void ChannelModel::SetCcMax(const int controlnumber, const int value)
 void ChannelModel::SetCcMin(const int controlnumber, const int value)
 {
    try {
-      if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
+      if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute) {
          cc_low_.at(controlnumber) = 0;
-      else
+      }
+      else {
          cc_low_.at(controlnumber) = value < 0 || value >= cc_high_.at(controlnumber) ? 0 : value;
+      }
       current_v_.at(controlnumber).store(CenterCc(controlnumber), std::memory_order_release);
    }
    catch (const std::exception& e) {
@@ -350,14 +357,18 @@ void ChannelModel::ActiveToSaved() const
 {
    try {
       settings_to_save_.clear();
-      for (auto i {0}; i <= kMaxMidi; ++i)
+      for (auto i {0}; i <= kMaxMidi; ++i) {
          if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxMidi
-             || cc_low_.at(i) != 0)
+             || cc_low_.at(i) != 0) {
             settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
-      for (auto i {kMaxMidi + 1}; i <= kMaxNrpn; ++i)
+         }
+      }
+      for (auto i {kMaxMidi + 1}; i <= kMaxNrpn; ++i) {
          if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxNrpn
-             || cc_low_.at(i) != 0)
+             || cc_low_.at(i) != 0) {
             settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
+         }
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -373,7 +384,7 @@ void ChannelModel::CcDefaults()
       /* XCode throws linker error when use ChannelModel::kMaxNRPN here */
       cc_high_.fill(0x3FFF);
       cc_method_.fill(rsj::CCmethod::kAbsolute);
-      for (auto&& a : current_v_) a.store(kMaxNrpnHalf, std::memory_order_relaxed);
+      for (auto&& a : current_v_) { a.store(kMaxNrpnHalf, std::memory_order_relaxed); }
       for (size_t a {0}; a <= kMaxMidi; ++a) {
          cc_high_.at(a) = kMaxMidi;
          current_v_.at(a).store(kMaxMidiHalf, std::memory_order_relaxed);
@@ -389,8 +400,9 @@ void ChannelModel::SavedToActive()
 {
    try {
       CcDefaults();
-      for (const auto& set : settings_to_save_)
+      for (const auto& set : settings_to_save_) {
          SetCc(set.control_number, set.low, set.high, set.method);
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

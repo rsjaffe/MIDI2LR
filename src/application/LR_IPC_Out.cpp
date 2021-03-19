@@ -56,7 +56,7 @@ void LrIpcOut::SendingRestart()
    try {
       sending_stopped_ = false;
       const auto con {connected_.load(std::memory_order_acquire)};
-      for (const auto& cb : callbacks_) cb(con, false);
+      for (const auto& cb : callbacks_) { cb(con, false); }
       SendCommand("FullRefresh 1\n"); /* synchronize controls */
    }
    catch (const std::exception& e) {
@@ -70,7 +70,7 @@ void LrIpcOut::SendingStop()
    try {
       sending_stopped_ = true;
       const auto con {connected_.load(std::memory_order_acquire)};
-      for (const auto& cb : callbacks_) cb(con, true);
+      for (const auto& cb : callbacks_) { cb(con, true); }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -82,8 +82,9 @@ void LrIpcOut::Stop()
 {
    thread_should_exit_.store(true, std::memory_order_release);
    /* clear output queue before port closed */
-   if (const auto m {command_.clear_count_emplace(kTerminate)})
+   if (const auto m {command_.clear_count_emplace(kTerminate)}) {
       rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcOut destructor."), m));
+   }
    callbacks_.clear(); /* no more connect/disconnect notifications */
    recenter_timer_.cancel();
 #ifdef __cpp_lib_semaphore
@@ -102,8 +103,9 @@ void LrIpcOut::Stop()
          ec.clear();
       }
       socket_.close(ec);
-      if (ec)
+      if (ec) {
          rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec.message()));
+      }
    }
 }
 
@@ -129,9 +131,10 @@ void LrIpcOut::Connect()
                     fmt::format(FMT_STRING("LR_IPC_Out did not connect. {}."), error.message()));
                 asio::error_code ec2;
                 socket_.close(ec2);
-                if (ec2)
+                if (ec2) {
                    rsj::Log(
                        fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec2.message()));
+                }
              }
           });
    }
@@ -146,7 +149,7 @@ void LrIpcOut::ConnectionMade()
    connected_.store(true, std::memory_order_release);
    try {
       rsj::Log("Socket connected in LR_IPC_Out.");
-      for (const auto& cb : callbacks_) cb(true, sending_stopped_);
+      for (const auto& cb : callbacks_) { cb(true, sending_stopped_); }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -169,15 +172,17 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
                   next_response = now + kDelay;
                   if ((mm.message_type_byte == rsj::MessageType::kCc
                           && controls_model_.GetCcMethod(message) == rsj::CCmethod::kAbsolute)
-                      || mm.message_type_byte == rsj::MessageType::kPw)
+                      || mm.message_type_byte == rsj::MessageType::kPw) {
                      SetRecenter(message);
-                  const auto change {controls_model_.MeasureChange(mm)};
-                  const auto [cw, ccw] {a->second};
-                  if (change > 0)
-                     SendCommand(cw); /* turned clockwise */
-                  else if (change < 0)
-                     SendCommand(ccw); /* turned counterclockwise */
-                  /* do nothing if change == 0 */
+                  }
+                  if (const auto change {controls_model_.MeasureChange(mm)}; change > 0) {
+                     SendCommand(a->second.first); /* turned clockwise */
+                  }
+                  else if (change < 0) {
+                     SendCommand(a->second.second); /* turned counterclockwise */
+                  }
+                  else { /* do nothing if change == 0 */
+                  }
                }
             }
             else { /* not repeated command */
@@ -211,13 +216,12 @@ void LrIpcOut::SendOut()
 #endif
          return;
       }
-      if (command_copy->back() != '\n') [[unlikely]] /* should be terminated with \n */
+      if (command_copy->back() != '\n') [[unlikely]] { /* should be terminated with \n */
          command_copy->push_back('\n');
-      // ReSharper disable once CppLambdaCaptureNeverUsed
+      } // ReSharper disable once CppLambdaCaptureNeverUsed
       asio::async_write(socket_, asio::buffer(*command_copy),
           [this, command_copy](const asio::error_code& error, std::size_t) {
-             if (!error) [[likely]]
-                SendOut();
+             if (!error) [[likely]] { SendOut(); }
              else {
 #ifdef __cpp_lib_semaphore
                 sendout_running_.release();
@@ -254,8 +258,9 @@ void LrIpcOut::SetRecenter(rsj::MidiMessageId mm)
    try {
       asio::dispatch([this] { recenter_timer_.expires_after(kRecenterTimer); });
       recenter_timer_.async_wait([this, mm](const asio::error_code& error) {
-         if (!error && !thread_should_exit_.load(std::memory_order_acquire))
+         if (!error && !thread_should_exit_.load(std::memory_order_acquire)) {
             midi_sender_.Send(mm, controls_model_.SetToCenter(mm));
+         }
       });
    }
    catch (const std::exception& e) {

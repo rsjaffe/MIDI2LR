@@ -59,8 +59,9 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm)
          break; /* no action */
       }
    }
-   else
+   else {
       message_type_byte = MessageType::kSystem;
+   }
 #pragma warning(pop)
    // ReSharper restore CppClangTidyCppcoreguidelinesProBoundsPointerArithmetic
 }

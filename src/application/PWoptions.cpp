@@ -161,10 +161,12 @@ void PWoptions::textEditorFocusLost(TextEditor& t)
 {
    const auto val = t.getText().getIntValue();
    const auto& nam = t.getName();
-   if (nam == "minval")
-      controls_model_->SetPwMin(boundchannel_, val);
-   else if (nam == "maxval")
+   if (nam == "minval") { controls_model_->SetPwMin(boundchannel_, val); }
+   else if (nam == "maxval") {
       controls_model_->SetPwMax(boundchannel_, val);
+   }
+   else { /* no action needed */
+   }
 }
 
 void PWoptions::BindToControl(const int channel)

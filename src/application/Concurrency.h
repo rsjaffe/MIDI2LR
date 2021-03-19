@@ -47,10 +47,10 @@ namespace rsj {
       using result_type = uint64_t;
       static result_type NextRandom() noexcept
       {
-         result_type z {
-             state_.fetch_add(0x9e3779b97f4a7c15, std::memory_order_relaxed) + 0x9e3779b97f4a7c15};
-         z = (z ^ z >> 30) * 0xbf58476d1ce4e5b9;
-         z = (z ^ z >> 27) * 0x94d049bb133111eb;
+         result_type z {state_.fetch_add(0x9e3779b97f4a7c15ULL, std::memory_order_relaxed)
+                        + 0x9e3779b97f4a7c15ULL};
+         z = (z ^ z >> 30) * 0xbf58476d1ce4e5b9ULL;
+         z = (z ^ z >> 27) * 0x94d049bb133111ebULL;
          return z ^ z >> 31;
          static_assert(std::is_unsigned_v<decltype(z)>, "Avoid sign extension");
       }
@@ -88,8 +88,9 @@ namespace rsj {
       void lock() noexcept
       { /* if uncontested, don't bother with exponential back-off */
          if (!flag_.load(std::memory_order_relaxed)
-             && !flag_.exchange(true, std::memory_order_acquire))
+             && !flag_.exchange(true, std::memory_order_acquire)) {
             return;
+         }
          using LoopT = std::uint64_t;
          const auto [bo1, bo2, bo3] {[]() noexcept -> std::tuple<LoopT, LoopT, LoopT> {
             static_assert(std::is_unsigned_v<
@@ -101,15 +102,15 @@ namespace rsj {
             /* avoid cache invalidation if lock appears to be unavailable */
             for (LoopT k {0}; flag_.load(std::memory_order_relaxed); ++k) {
                using namespace std::chrono_literals;
-               if (k < bo1)
-                  continue;
-               if (k < bo2)
-                  MIDI2LR_spin_pause;
-               else if (k < bo3)
+               if (k < bo1) { continue; }
+               if (k < bo2) { MIDI2LR_spin_pause; }
+               else if (k < bo3) {
                   std::this_thread::yield();
-               else
+               }
+               else {
 #pragma warning(suppress : 26447)
                   std::this_thread::sleep_for(1ms); /* never throws, analyzer false pos */
+               }
             }
          } while (flag_.load(std::memory_order_relaxed)
                   || flag_.exchange(true, std::memory_order_acquire));
@@ -117,8 +118,7 @@ namespace rsj {
       bool try_lock() noexcept
       {
          /* avoid cache invalidation if lock appears to be unavailable */
-         if (flag_.load(std::memory_order_relaxed))
-            return false;
+         if (flag_.load(std::memory_order_relaxed)) { return false; }
          return !flag_.exchange(true, std::memory_order_acquire); /* try to acquire lock */
       }
       void unlock() noexcept { flag_.store(false, std::memory_order_release); }
@@ -271,7 +271,7 @@ namespace rsj {
       T pop()
       {
          auto lock {std::unique_lock(mutex_)};
-         while (queue_.empty()) condition_.wait(lock);
+         while (queue_.empty()) { condition_.wait(lock); }
          T rc {std::move(queue_.front())};
          queue_.pop_front();
          return rc;
@@ -279,8 +279,7 @@ namespace rsj {
       std::optional<T> try_pop()
       {
          auto lock {std::scoped_lock(mutex_)};
-         if (queue_.empty())
-            return std::nullopt;
+         if (queue_.empty()) { return std::nullopt; }
          T rc {std::move(queue_.front())};
          queue_.pop_front();
          return rc;
