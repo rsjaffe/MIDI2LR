@@ -24,6 +24,7 @@
 #include <vector>
 
 #include <Windows.h>
+#include <dry-comparisons/dry-comparisons.hpp>
 #include <fmt/format.h>
 #include <gsl/gsl>
 #include <wil/result.h>
@@ -86,7 +87,7 @@ namespace {
          static const auto kLanguageId {GetLanguage()};
          const auto vk_code_and_shift {VkKeyScanExW(uc, kLanguageId)};
          THROW_LAST_ERROR_IF(
-             LOBYTE(vk_code_and_shift) == 0xFF && HIBYTE(vk_code_and_shift) == 0xFF);
+             rollbear::all_of(LOBYTE(vk_code_and_shift), HIBYTE(vk_code_and_shift)) == 0xFF);
          return {LOBYTE(vk_code_and_shift),
              rsj::ActiveModifiers::FromWindows(HIBYTE(vk_code_and_shift))};
       }

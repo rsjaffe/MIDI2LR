@@ -20,6 +20,7 @@
 #include <exception>
 #include <utility>
 
+#include <dry-comparisons/dry-comparisons.hpp>
 #include <fmt/format.h>
 
 #include "CommandSet.h"
@@ -163,8 +164,8 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
       const rsj::MidiMessageId message {mm};
       if (profile_.MessageExistsInMap(message)) {
          const auto command_to_send {profile_.GetCommandForMessage(message)};
-         if (command_to_send != "PrevPro" && command_to_send != "NextPro"
-             && command_to_send != CommandSet::kUnassigned) { /* handled elsewhere */
+         if (rollbear::none_of("PrevPro", "NextPro", CommandSet::kUnassigned)
+             == command_to_send) { /* handled elsewhere */
             if (const auto a {repeat_cmd_.find(command_to_send)}; a != repeat_cmd_.end())
                 [[unlikely]] {
                static TimePoint next_response {};

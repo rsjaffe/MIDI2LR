@@ -24,6 +24,7 @@
 
 #include <asio/asio.hpp>
 #include <cereal/archives/xml.hpp>
+#include <dry-comparisons/dry-comparisons.hpp>
 #include <fmt/format.h>
 
 #include <JuceHeader.h>
@@ -448,10 +449,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          juce::String font1_name;
          juce::String font2_name;
          if (lang == "ko") { font1_name = "NotoSansKR-Regular.otf"; }
-         else if (lang == "zh_TW" || lang == "zh_tw") {
+         else if (rollbear::any_of("zh_TW", "zh_tw") == lang) {
             font1_name = "NotoSansTC-Regular.otf";
          }
-         else if (lang == "zh_CN" || lang == "zh_cn") {
+         else if (rollbear::any_of("zh_CN", "zh_cn") == lang) {
             font1_name = "NotoSansSC-Regular.otf";
          }
          else if (lang == "ja") {
