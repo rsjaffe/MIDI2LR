@@ -61,7 +61,7 @@ Devices::Devices()
 
    if (data_list_) {
       num_rows_ = data_list_->getNumChildElements();
-      forEachXmlChildElement (*data_list_, data_element) {
+      for (const auto* data_element : data_list_->getChildIterator()) {
          device_listing_.emplace(DevInfo {data_element->getStringAttribute("devicename"),
                                      data_element->getStringAttribute("systemid"),
                                      data_element->getStringAttribute("inputoutput")},
