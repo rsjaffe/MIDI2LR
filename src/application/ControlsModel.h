@@ -202,7 +202,11 @@ class ChannelModel {
    std::array<rsj::CCmethod, kMaxControls> cc_method_ {};
    std::array<int, kMaxControls> cc_high_ {};
    std::array<int, kMaxControls> cc_low_ {};
+#if __cpp_lib_atomic_ref
+   std::array<int, kMaxControls> current_v_ {};
+#else
    std::array<std::atomic<int>, kMaxControls> current_v_ {};
+#endif
 };
 
 class ControlsModel {
