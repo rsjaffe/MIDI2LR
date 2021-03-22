@@ -24,7 +24,7 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber, const
    try {
       const auto high_limit {cc_high_.at(controlnumber)};
       Expects(diff <= high_limit && diff >= -high_limit);
-#if __cpp_lib_atomic_ref
+#ifdef __cpp_lib_atomic_ref
       std::atomic_ref cv {current_v_.at(controlnumber)};
 #else
       auto& cv {current_v_.at(controlnumber)};
@@ -80,7 +80,7 @@ double ChannelModel::ControllerToPlugin(
       case rsj::MessageType::kCc:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute:
-#if __cpp_lib_atomic_ref
+#ifdef __cpp_lib_atomic_ref
             std::atomic_ref(current_v_.at(controlnumber)).store(value, std::memory_order_release);
 #else
             current_v_.at(controlnumber).store(value, std::memory_order_release);
@@ -146,7 +146,7 @@ int ChannelModel::SetToCenter(const rsj::MessageType controltype, const int cont
       case rsj::MessageType::kCc:
          if (cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute) {
             retval = CenterCc(controlnumber);
-#if __cpp_lib_atomic_ref
+#ifdef __cpp_lib_atomic_ref
             std::atomic_ref(current_v_.at(controlnumber)).store(retval, std::memory_order_release);
 #else
             current_v_.at(controlnumber).store(retval, std::memory_order_release);
@@ -191,7 +191,7 @@ int ChannelModel::MeasureChange(
       case rsj::MessageType::kCc:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute:
-#if __cpp_lib_atomic_ref
+#ifdef __cpp_lib_atomic_ref
             return value
                    - std::atomic_ref(current_v_.at(controlnumber))
                          .exchange(value, std::memory_order_acq_rel);
@@ -262,7 +262,7 @@ int ChannelModel::PluginToController(
             const auto newv {std::clamp(
                 gsl::narrow<int>(std::lrint(value * static_cast<double>(chigh - clow))) + clow,
                 clow, chigh)};
-#if __cpp_lib_atomic_ref
+#ifdef __cpp_lib_atomic_ref
             std::atomic_ref(current_v_.at(controlnumber)).store(newv, std::memory_order_release);
 #else
             current_v_.at(controlnumber).store(newv, std::memory_order_release);
@@ -335,7 +335,7 @@ void ChannelModel::SetCcMax(const int controlnumber, const int value)
          cc_high_.at(controlnumber) =
              value <= cc_low_.at(controlnumber) || value > max ? max : value;
       }
-#if __cpp_lib_atomic_ref
+#ifdef __cpp_lib_atomic_ref
       std::atomic_ref(current_v_.at(controlnumber))
           .store(CenterCc(controlnumber), std::memory_order_release);
 #else
@@ -357,7 +357,7 @@ void ChannelModel::SetCcMin(const int controlnumber, const int value)
       else {
          cc_low_.at(controlnumber) = value < 0 || value >= cc_high_.at(controlnumber) ? 0 : value;
       }
-#if __cpp_lib_atomic_ref
+#ifdef __cpp_lib_atomic_ref
       std::atomic_ref(current_v_.at(controlnumber))
           .store(CenterCc(controlnumber), std::memory_order_release);
 #else
@@ -413,7 +413,7 @@ void ChannelModel::CcDefaults()
       /* XCode throws linker error when use ChannelModel::kMaxNRPN here */
       cc_high_.fill(0x3FFF);
       cc_method_.fill(rsj::CCmethod::kAbsolute);
-#if __cpp_lib_atomic_ref
+#ifdef __cpp_lib_atomic_ref
       current_v_.fill(kMaxNrpnHalf);
       for (size_t a {0}; a <= kMaxMidi; ++a) {
          cc_high_.at(a) = kMaxMidi;
