@@ -17,6 +17,7 @@
 
 #include <exception>
 
+#include <fmt/format.h>
 #include <ww898/utf_converters.hpp>
 
 #include <JuceLibraryCode/JuceHeader.h>
@@ -26,10 +27,7 @@
 #include <unordered_map>
 
 #include <Windows.h>
-#include <fmt/format.h>
 #include <wil/result.h>
-
-#include "Misc.h"
 
 /* SEE:https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
  */

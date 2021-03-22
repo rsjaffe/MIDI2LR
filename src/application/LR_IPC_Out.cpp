@@ -18,7 +18,6 @@
 #include <algorithm>
 #include <chrono>
 #include <exception>
-#include <utility>
 
 #include <dry-comparisons/dry-comparisons.hpp>
 #include <fmt/format.h>
@@ -27,7 +26,6 @@
 #include "ControlsModel.h"
 #include "MIDIReceiver.h"
 #include "MIDISender.h"
-#include "MidiUtilities.h"
 #include "Misc.h"
 #include "Profile.h"
 

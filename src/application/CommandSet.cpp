@@ -25,7 +25,6 @@
 #include <cereal/types/string.hpp> /*ReSharper false alarm*/
 #include <cereal/types/unordered_map.hpp>
 #include <cereal/types/vector.hpp> /*ReSharper false alarm*/
-#include <fmt/format.h>
 
 #include "Translate.h"
 

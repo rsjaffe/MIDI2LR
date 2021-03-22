@@ -19,9 +19,6 @@
 #include <cmath>
 #include <stdexcept>
 
-#include "MidiUtilities.h"
-#include "Misc.h"
-
 double ChannelModel::OffsetResult(const int diff, const int controlnumber, const bool wrap)
 {
    try {

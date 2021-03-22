@@ -20,7 +20,6 @@
 #include <gsl/gsl>
 
 #include "CCoptions.h"
-#include "CommandSet.h"
 #include "Misc.h"
 #include "PWoptions.h"
 #include "Profile.h"
