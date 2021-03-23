@@ -408,10 +408,8 @@ void ChannelModel::ActiveToSaved() const
 void ChannelModel::CcDefaults()
 {
    try {
-      /* atomics relaxed as this does not occur concurrently with other actions */
       cc_low_.fill(0);
-      /* XCode throws linker error when use ChannelModel::kMaxNRPN here */
-      cc_high_.fill(0x3FFF);
+      cc_high_.fill(kMaxNrpn);
       cc_method_.fill(rsj::CCmethod::kAbsolute);
 #ifdef __cpp_lib_atomic_ref
       current_v_.fill(kMaxNrpnHalf);
