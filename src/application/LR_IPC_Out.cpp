@@ -53,9 +53,11 @@ LrIpcOut::LrIpcOut(const CommandSet& command_set, ControlsModel& c_model, const 
 void LrIpcOut::SendingRestart()
 {
    try {
-      sending_stopped_ = false;
-      const auto con {connected_.load(std::memory_order_acquire)};
-      for (const auto& cb : callbacks_) { cb(con, false); }
+      {
+         std::scoped_lock lk(callback_mtx_);
+         sending_stopped_ = false;
+         for (const auto& cb : callbacks_) { cb(connected_, false); }
+      }
       SendCommand("FullRefresh 1\n"); /* synchronize controls */
    }
    catch (const std::exception& e) {
@@ -67,9 +69,9 @@ void LrIpcOut::SendingRestart()
 void LrIpcOut::SendingStop()
 {
    try {
+      std::scoped_lock lk(callback_mtx_);
       sending_stopped_ = true;
-      const auto con {connected_.load(std::memory_order_acquire)};
-      for (const auto& cb : callbacks_) { cb(con, true); }
+      for (const auto& cb : callbacks_) { cb(connected_, true); }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -84,7 +86,10 @@ void LrIpcOut::Stop()
    if (const auto m {command_.clear_count_emplace(kTerminate)}) {
       rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcOut destructor."), m));
    }
-   callbacks_.clear(); /* no more connect/disconnect notifications */
+   {
+      std::scoped_lock lk(callback_mtx_);
+      callbacks_.clear(); /* no more connect/disconnect notifications */
+   }
    recenter_timer_.cancel();
 #ifdef __cpp_lib_semaphore
    sendout_running_.acquire();
@@ -145,10 +150,13 @@ void LrIpcOut::Connect()
 
 void LrIpcOut::ConnectionMade()
 {
-   connected_.store(true, std::memory_order_release);
    try {
+      {
+         std::scoped_lock lk(callback_mtx_);
+         connected_ = true;
+         for (const auto& cb : callbacks_) { cb(true, sending_stopped_); }
+      }
       rsj::Log("Socket connected in LR_IPC_Out.");
-      for (const auto& cb : callbacks_) { cb(true, sending_stopped_); }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

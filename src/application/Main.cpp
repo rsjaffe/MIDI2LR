@@ -287,7 +287,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                   catch (const std::exception& e) {
                      MIDI2LR_E_RESPONSE; /* and continue, so ready flag can be set */
                   }
-                  catch (...) {
+                  catch (...) { //-V565
                   }
 #ifdef __cpp_lib_semaphore
                   ready_sem.release();

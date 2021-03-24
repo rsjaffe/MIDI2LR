@@ -65,7 +65,7 @@ class LrIpcIn {
    std::binary_semaphore read_running_ {1};
 #else
    bool read_running_ {false};
-   std::mutex mtx_;
+   mutable std::mutex mtx_;
    std::condition_variable cv_;
 #endif
 };

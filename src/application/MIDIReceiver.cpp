@@ -54,7 +54,6 @@ void MidiReceiver::Stop()
    if (const auto remaining {messages_.clear_count_push(kTerminate)}) {
       rsj::Log(fmt::format(FMT_STRING("{} left in queue in MidiReceiver StopRunning."), remaining));
    }
-   callbacks_.clear(); /* after queue emptied */
 }
 
 void MidiReceiver::handleIncomingMidiMessage(
@@ -67,19 +66,13 @@ void MidiReceiver::handleIncomingMidiMessage(
       const rsj::MidiMessage mess {message};
       switch (mess.message_type_byte) {
       case rsj::MessageType::kCc:
-         {
-            const auto result {filters_[device](mess)};
-            if (result.is_nrpn) {
-               /* send when complete */
-               if (result.is_ready) {
-                  messages_.emplace(
-                      rsj::MessageType::kCc, mess.channel, result.control, result.value);
-               } /* finished with nrpn piece */
-               break;
+         if (const auto result {filters_[device](mess)}; result.is_nrpn) {
+            if (result.is_ready) { /* send when complete */
+               messages_.emplace(rsj::MessageType::kCc, mess.channel, result.control, result.value);
             }
+            break; /* finished with nrpn piece */
          }
-         /* if not nrpn, handle like other messages */
-         [[fallthrough]];
+         [[fallthrough]]; /* if not nrpn, handle like other messages */
       case rsj::MessageType::kNoteOn:
       case rsj::MessageType::kPw:
          messages_.push(mess);

@@ -185,9 +185,7 @@ int ChannelModel::MeasureChange(
        * bits, high bits are shifted one right when placed into int. */
       switch (controltype) {
       case rsj::MessageType::kPw:
-         {
-            return value - pitch_wheel_current_.exchange(value, std::memory_order_acq_rel);
-         }
+         return value - pitch_wheel_current_.exchange(value, std::memory_order_acq_rel);
       case rsj::MessageType::kCc:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute:

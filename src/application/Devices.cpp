@@ -20,6 +20,8 @@
 #include <exception>
 #include <type_traits>
 
+#include <gsl/gsl>
+
 #include "Misc.h"
 namespace {
    template<class T> juce::File GetSource(T path)
@@ -61,7 +63,7 @@ Devices::Devices()
 
    if (data_list_) {
       num_rows_ = data_list_->getNumChildElements();
-      for (const auto* data_element : data_list_->getChildIterator()) {
+      for (gsl::not_null<const juce::XmlElement*> data_element : data_list_->getChildIterator()) {
          device_listing_.emplace(DevInfo {data_element->getStringAttribute("devicename"),
                                      data_element->getStringAttribute("systemid"),
                                      data_element->getStringAttribute("inputoutput")},

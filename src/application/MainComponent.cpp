@@ -342,7 +342,7 @@ void MainContentComponent::LrIpcOutCallback(const bool connected, const bool sen
 
 #pragma warning(suppress : 26461) /* must not change function signature, used as callback */
 void MainContentComponent::ProfileChanged(
-    juce::XmlElement* xml_element, const juce::String& file_name)
+    juce::XmlElement* xml_element, const juce::String& file_name) //-V3536
 { //-V2009 overridden method
    try {
       {
