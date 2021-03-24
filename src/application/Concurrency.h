@@ -28,6 +28,22 @@
 #include <tuple>
 #include <type_traits>
 #include <utility>
+#include <version>
+
+#ifdef __cpp_lib_hardware_interference_size
+#include <new>
+namespace rsj {
+   constexpr auto interference {std::hardware_destructive_interference_size};
+}
+#else
+namespace rsj {
+#ifdef __ARM_ARCH
+   constexpr size_t interference {128};
+#else
+   constexpr size_t interference {64};
+#endif
+} // namespace rsj
+#endif
 
 #ifndef __ARM_ARCH
 extern "C" {
@@ -65,12 +81,14 @@ namespace rsj {
       result_type operator()() noexcept { return NextRandom(); }
 
     private:
-      alignas(128) static std::atomic<result_type> state_;
+      alignas(rsj::interference) static std::atomic<result_type> state_;
+      // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
+      [[maybe_unused]] alignas(1) static std::byte padding_[rsj::interference - sizeof(state_)];
    };
    /* have to separate declaration from definition due to MSVC bug when std:c++latest
     * https://developercommunity.visualstudio.com/content/problem/1079261/alignas-not-accepted-when-applied-to-inline-static.html
     */
-   alignas(128) inline std::atomic<PRNG::result_type> PRNG::state_ {[] {
+   alignas(rsj::interference) inline std::atomic<PRNG::result_type> PRNG::state_ {[] {
       static_assert(sizeof(std::random_device::result_type) * 2 == sizeof(result_type)
                     && sizeof(std::random_device::result_type) == sizeof(uint32_t));
       auto rd {std::random_device {}};
@@ -123,11 +141,10 @@ namespace rsj {
       }
       void unlock() noexcept { flag_.store(false, std::memory_order_release); }
 
-    private: /* see https://stackoverflow.com/a/52158819/5699329 for 128 value */
-      alignas(128) std::atomic<bool> flag_ {false};
-      static_assert(sizeof(bool) == 1, "Padding assumes size of bool is 1.");
+    private:
+      alignas(rsj::interference) std::atomic<bool> flag_ {false};
       // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
-      [[maybe_unused]] alignas(1) std::byte padding_[127];
+      [[maybe_unused]] alignas(1) std::byte padding_[rsj::interference - sizeof(flag_)];
    };
 
    /* all but blocking pops use scoped_lock. blocking pops use unique_lock */
