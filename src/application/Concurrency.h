@@ -30,20 +30,10 @@
 #include <utility>
 #include <version>
 
-#ifdef __cpp_lib_hardware_interference_size
-#include <new>
+
 namespace rsj {
-   constexpr auto interference {std::hardware_destructive_interference_size};
+   constexpr auto interference {64};
 }
-#else
-namespace rsj {
-#ifdef __ARM_ARCH
-   constexpr size_t interference {128};
-#else
-   constexpr size_t interference {64};
-#endif
-} // namespace rsj
-#endif
 
 #ifndef __ARM_ARCH
 extern "C" {
