@@ -186,7 +186,7 @@ DebugInfo::DebugInfo(std::string_view profile_directory) noexcept
       /* MacOS defers keyboard layout information until first keystroke sent */
       LogAndSave(fmt::format(FMT_STRING("Application: Keyboard type {}."), GetKeyboardLayout()));
 #endif
-      LogAndSave(fmt::format(FMT_STRING("Juce version {}."),juce::SystemStats::getJUCEVersion()));
+      LogAndSave(fmt::format(FMT_STRING("Juce version {}."),juce::SystemStats::getJUCEVersion().toStdString()));
    }
    catch (...) {
       try {
