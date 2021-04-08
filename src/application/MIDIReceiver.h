@@ -54,12 +54,16 @@ class MidiReceiver final : juce::MidiInputCallback {
 
  private:
    void DispatchMessages();
-   void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
+   void handleIncomingMidiMessage(
+       juce::MidiInput* device, const juce::MidiMessage& message) override
+   {
+      messages_.push({rsj::MidiMessage(message), device});
+   }
    void InitDevices();
    void TryToOpen(); /* inner code for InitDevices */
 
    Devices& devices_;
-   rsj::ConcurrentQueue<rsj::MidiMessage> messages_;
+   rsj::ConcurrentQueue<std::pair<rsj::MidiMessage, juce::MidiInput*>> messages_;
    std::map<juce::MidiInput*, NrpnFilter> filters_ {};
    std::vector<std::function<void(const rsj::MidiMessage&)>> callbacks_;
    std::vector<std::unique_ptr<juce::MidiInput>> input_devices_;

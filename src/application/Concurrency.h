@@ -15,12 +15,10 @@
  * see <http://www.gnu.org/licenses/>.
  *
  */
-#include <atomic>
 #include <chrono>
 #include <condition_variable>
 #include <cstddef>
 #include <deque>
-#include <limits>
 #include <mutex>
 #include <optional>
 #include <random>
@@ -28,115 +26,8 @@
 #include <tuple>
 #include <type_traits>
 #include <utility>
-#include <version>
-
 
 namespace rsj {
-   constexpr auto interference {64};
-}
-
-#ifndef __ARM_ARCH
-extern "C" {
-   extern void _mm_pause();
-}
-#define MIDI2LR_spin_pause _mm_pause()
-#else
-#define MIDI2LR_spin_pause __asm__ __volatile__("yield")
-#endif
-
-namespace rsj {
-   /* from http://prng.di.unimi.it/splitmix64.c, made state atomically updated and added methods to
-    * satisfy concept std::uniform_random_bit_generator */
-
-   class PRNG {
-    public:
-      using result_type = uint64_t;
-      static result_type NextRandom() noexcept
-      {
-         result_type z {state_.fetch_add(0x9e3779b97f4a7c15ULL, std::memory_order_relaxed)
-                        + 0x9e3779b97f4a7c15ULL};
-         z = (z ^ z >> 30) * 0xbf58476d1ce4e5b9ULL;
-         z = (z ^ z >> 27) * 0x94d049bb133111ebULL;
-         return z ^ z >> 31;
-         static_assert(std::is_unsigned_v<decltype(z)>, "Avoid sign extension");
-      }
-      [[nodiscard]] constexpr result_type min() const noexcept
-      {
-         return std::numeric_limits<result_type>::min();
-      }
-      [[nodiscard]] constexpr result_type max() const noexcept
-      {
-         return std::numeric_limits<result_type>::max();
-      }
-      result_type operator()() noexcept { return NextRandom(); }
-
-    private:
-      alignas(rsj::interference) static std::atomic<result_type> state_;
-      // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
-      [[maybe_unused]] alignas(1) static std::byte padding_[rsj::interference - sizeof(state_)];
-   };
-   /* have to separate declaration from definition due to MSVC bug when std:c++latest
-    * https://developercommunity.visualstudio.com/content/problem/1079261/alignas-not-accepted-when-applied-to-inline-static.html
-    */
-   alignas(rsj::interference) inline std::atomic<PRNG::result_type> PRNG::state_ {[] {
-      static_assert(sizeof(std::random_device::result_type) * 2 == sizeof(result_type)
-                    && sizeof(std::random_device::result_type) == sizeof(uint32_t));
-      auto rd {std::random_device {}};
-      return static_cast<result_type>(rd()) << 32 | static_cast<result_type>(rd());
-   }()};
-
-   class SpinLock {
-    public:
-      SpinLock() noexcept = default;
-      ~SpinLock() = default;
-      SpinLock(const SpinLock& other) = delete;
-      SpinLock(SpinLock&& other) = delete;
-      SpinLock& operator=(const SpinLock& other) = delete;
-      SpinLock& operator=(SpinLock&& other) = delete;
-      void lock() noexcept
-      { /* if uncontested, don't bother with exponential back-off */
-         if (!flag_.load(std::memory_order_relaxed)
-             && !flag_.exchange(true, std::memory_order_acquire)) {
-            return;
-         }
-         using LoopT = std::uint64_t;
-         const auto [bo1, bo2, bo3] {[]() noexcept -> std::tuple<LoopT, LoopT, LoopT> {
-            static_assert(std::is_unsigned_v<
-                              PRNG::result_type> && sizeof(PRNG::result_type) >= sizeof(uint16_t));
-            const auto rn {PRNG::NextRandom()};
-            return {1 + (rn & 0b11), 12 + (rn >> 2 & 0b111), 56 + (rn >> 5 & 0b1111)};
-         }()};
-         do {
-            /* avoid cache invalidation if lock appears to be unavailable */
-            for (LoopT k {0}; flag_.load(std::memory_order_relaxed); ++k) {
-               using namespace std::chrono_literals;
-               if (k < bo1) { continue; }
-               if (k < bo2) { MIDI2LR_spin_pause; }
-               else if (k < bo3) {
-                  std::this_thread::yield();
-               }
-               else {
-#pragma warning(suppress : 26447)
-                  std::this_thread::sleep_for(1ms); /* never throws, analyzer false pos */
-               }
-            }
-         } while (flag_.load(std::memory_order_relaxed)
-                  || flag_.exchange(true, std::memory_order_acquire));
-      }
-      bool try_lock() noexcept
-      {
-         /* avoid cache invalidation if lock appears to be unavailable */
-         if (flag_.load(std::memory_order_relaxed)) { return false; }
-         return !flag_.exchange(true, std::memory_order_acquire); /* try to acquire lock */
-      }
-      void unlock() noexcept { flag_.store(false, std::memory_order_release); }
-
-    private:
-      alignas(rsj::interference) std::atomic<bool> flag_ {false};
-      // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
-      [[maybe_unused]] alignas(1) std::byte padding_[rsj::interference - sizeof(flag_)];
-   };
-
    /* all but blocking pops use scoped_lock. blocking pops use unique_lock */
    template<typename T, class Container = std::deque<T>, class Mutex = std::mutex>
    class ConcurrentQueue {

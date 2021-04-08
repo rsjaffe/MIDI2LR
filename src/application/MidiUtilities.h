@@ -230,7 +230,6 @@ class NrpnFilter {
       int value_lsb_ {0};
       int value_msb_ {0};
    };
-   mutable rsj::SpinLock filter_mutex_ {};
    static constexpr int kChannels {16};
    std::array<InternalStructure, kChannels> intermediate_results_ {};
 };

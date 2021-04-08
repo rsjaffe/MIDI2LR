@@ -51,43 +51,8 @@ void MidiReceiver::Stop()
       dev->stop();
       rsj::Log(fmt::format(FMT_STRING("Stopped input device {}."), dev->getName().toStdString()));
    }
-   if (const auto remaining {messages_.clear_count_push(kTerminate)}) {
+   if (const auto remaining {messages_.clear_count_push({kTerminate, nullptr})}) {
       rsj::Log(fmt::format(FMT_STRING("{} left in queue in MidiReceiver StopRunning."), remaining));
-   }
-}
-
-void MidiReceiver::handleIncomingMidiMessage(
-    juce::MidiInput* device, const juce::MidiMessage& message)
-{
-   /* reentrant ok. NRPN filter contains mutex in case of concurrency. This procedure is in
-    * near-real-time, so must return quickly. will place message in multithreaded queue and let
-    * separate process handle the messages */
-   try {
-      const rsj::MidiMessage mess {message};
-      switch (mess.message_type_byte) {
-      case rsj::MessageType::kCc:
-         if (const auto result {filters_[device](mess)}; result.is_nrpn) {
-            if (result.is_ready) { /* send when complete */
-               messages_.emplace(rsj::MessageType::kCc, mess.channel, result.control, result.value);
-            }
-            break; /* finished with nrpn piece */
-         }
-         [[fallthrough]]; /* if not nrpn, handle like other messages */
-      case rsj::MessageType::kNoteOn:
-      case rsj::MessageType::kPw:
-         messages_.push(mess);
-         break;
-      case rsj::MessageType::kChanPressure:
-      case rsj::MessageType::kKeyPressure:
-      case rsj::MessageType::kNoteOff:
-      case rsj::MessageType::kPgmChange:
-      case rsj::MessageType::kSystem:
-         break; /* no action if other type of MIDI message */
-      }
-   }
-   catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
-      throw;
    }
 }
 
@@ -166,12 +131,35 @@ void MidiReceiver::DispatchMessages()
 {
    try {
       do {
-         const auto message_copy {messages_.pop()};
-         if (message_copy == kTerminate) { return; }
-         for (const auto& cb : callbacks_) {
-#pragma warning(suppress : 26489)
-            /* false warning, checked for existence before adding to callbacks_ */
-            cb(message_copy);
+         const auto [message, device] {messages_.pop()};
+         if (message == kTerminate) { return; }
+         switch (message.message_type_byte) {
+         case rsj::MessageType::kCc:
+            if (const auto result {filters_[device](message)}; result.is_nrpn) {
+               if (result.is_ready) {
+                  const rsj::MidiMessage nrpn_message {
+                      rsj::MessageType::kCc, message.channel, result.control, result.value};
+                  for (const auto& cb : callbacks_) {
+#pragma warning(suppress : 26489) /* checked for existence before adding to callbacks_ */
+                     cb(nrpn_message);
+                  }
+               }
+               break;
+            }
+            [[fallthrough]]; /* if not nrpn, handle like other messages */
+         case rsj::MessageType::kNoteOn:
+         case rsj::MessageType::kPw:
+            for (const auto& cb : callbacks_) {
+#pragma warning(suppress : 26489) /* checked for existence before adding to callbacks_ */
+               cb(message);
+            }
+            break;
+         case rsj::MessageType::kChanPressure:
+         case rsj::MessageType::kKeyPressure:
+         case rsj::MessageType::kNoteOff:
+         case rsj::MessageType::kPgmChange:
+         case rsj::MessageType::kSystem:
+            break; /* no action if other type of MIDI message */
          }
       } while (true);
    }

@@ -16,7 +16,6 @@
 #include "MidiUtilities.h"
 
 #include <exception>
-#include <mutex>
 
 #include <gsl/gsl>
 
@@ -76,7 +75,6 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
       case 6:
          {
             auto& i_ref {intermediate_results_.at(message.channel)};
-            auto lock {std::scoped_lock(filter_mutex_)};
             if (i_ref.ready_flags_ >= 0b11) {
                ret_val.is_nrpn = true;
                i_ref.value_msb_ = message.value & 0x7F;
@@ -93,7 +91,6 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
       case 38:
          {
             auto& i_ref {intermediate_results_.at(message.channel)};
-            auto lock {std::scoped_lock(filter_mutex_)};
             if (i_ref.ready_flags_ >= 0b11) {
                ret_val.is_nrpn = true;
                i_ref.value_lsb_ = message.value & 0x7F;
@@ -111,7 +108,6 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
          ret_val.is_nrpn = true;
          {
             auto& i_ref {intermediate_results_.at(message.channel)};
-            auto lock {std::scoped_lock(filter_mutex_)};
             i_ref.control_lsb_ = message.value & 0x7F;
             i_ref.ready_flags_ |= 0b10;
          }
@@ -120,7 +116,6 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message
          ret_val.is_nrpn = true;
          {
             auto& i_ref {intermediate_results_.at(message.channel)};
-            auto lock {std::scoped_lock(filter_mutex_)};
             i_ref.control_msb_ = message.value & 0x7F;
             i_ref.ready_flags_ |= 0b1;
          }
