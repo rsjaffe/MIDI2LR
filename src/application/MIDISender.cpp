@@ -53,7 +53,7 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
          for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
       }
       else if (id.msg_id_type == rsj::MessageType::kCc) {
-         if (id.control_number < 128) {
+         if (id.control_number < 128 && value < 128) {
             /* regular message */
             const auto msg {
                 juce::MidiMessage::controllerEvent(id.channel, id.control_number, value)};
