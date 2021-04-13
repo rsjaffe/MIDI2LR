@@ -69,9 +69,7 @@ namespace {
    {
       std::unique_lock lock {mtx};
       rsj::CFAutoRelease<TISInputSourceRef> source {TISCopyCurrentKeyboardInputSource()};
-      if (!source) {
-         source.reset(TISCopyCurrentKeyboardLayoutInputSource());
-      }
+      if (!source) { source.reset(TISCopyCurrentKeyboardLayoutInputSource()); }
       if (!source) {
          rsj::LogAndAlertError(
              juce::translate("Invalid keyboard layout handle."), "Invalid keyboard layout handle.");
@@ -79,21 +77,15 @@ namespace {
       }
       const auto sourceId {static_cast<CFStringRef>(
           TISGetInputSourceProperty(source.get(), kTISPropertyInputSourceID))};
-      if (sourceId) {
-         sourceIdString = std::string(static_cast<NSString*>(sourceId).UTF8String);
-      }
+      if (sourceId) { sourceIdString = std::string(static_cast<NSString*>(sourceId).UTF8String); }
       const auto localizedName {static_cast<CFStringRef>(
           TISGetInputSourceProperty(source.get(), kTISPropertyLocalizedName))};
-      if (localizedName) {
-         localizedNameString = std::string(static_cast<NSString*>(localizedName).UTF8String);
-      }
+      if (localizedName) { localizedNameString = static_cast<NSString*>(localizedName).UTF8String; }
       const auto languages {static_cast<NSArray*>(
           TISGetInputSourceProperty(source.get(), kTISPropertyInputSourceLanguages))};
       if (languages && languages.count > 0) {
          const NSString* lang {languages[0]};
-         if (lang) {
-            langString = std::string(lang.UTF8String);
-         }
+         if (lang) { langString = lang.UTF8String; }
       }
 
       /* get layout data here since it's before use is needed and it crashes if done on another
@@ -123,16 +115,16 @@ namespace {
       else {
          for (UInt16 native_keycode = 0; native_keycode <= 0xFF; ++native_keycode) {
             if (const auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 0)) {
-               KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, false, false));
+               KeyMapA.try_emplace(value->second, native_keycode, false, false);
             }
             if (const auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 2)) {
-               KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, true, false));
+               KeyMapA.try_emplace(value->second, native_keycode, true, false);
             }
             if (const auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 8)) {
-               KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, false, true));
+               KeyMapA.try_emplace(value->second, native_keycode, false, true);
             }
             if (const auto value = ConvertKeyCodeToText(keyboardLayout, native_keycode, 10)) {
-               KeyMapA.try_emplace(value->second, rsj::KeyData(native_keycode, true, true));
+               KeyMapA.try_emplace(value->second, native_keycode, true, true);
             }
          }
       }
@@ -148,15 +140,9 @@ namespace {
    {
       std::shared_lock lock {mtx};
       std::string result;
-      if (!sourceIdString.empty()) {
-         result = "Id " + sourceIdString;
-      }
-      if (!localizedNameString.empty()) {
-         result += ". Localized name = " + localizedNameString;
-      }
-      if (!langString.empty()) {
-         result += ". Language = " + langString;
-      }
+      if (!sourceIdString.empty()) { result = "Id " + sourceIdString; }
+      if (!localizedNameString.empty()) { result += ". Localized name = " + localizedNameString; }
+      if (!langString.empty()) { result += ". Language = " + langString; }
       return result;
    }
 
@@ -174,9 +160,7 @@ std::unordered_map<UniChar, rsj::KeyData> rsj::GetKeyMap()
       rsj::Log("Unable to post FillInMessageLoop to message queue.");
    }
    for (int i = 0; i < 4; ++i) {
-      if (FillInSucceeded()) {
-         break;
-      }
+      if (FillInSucceeded()) { break; }
       std::this_thread::sleep_for(20ms);
       rsj::Log("20ms sleep for message queue waiting for FillInMessageLoop to run.");
    }
