@@ -77,7 +77,7 @@ namespace {
       }
       const auto sourceId {static_cast<CFStringRef>(
           TISGetInputSourceProperty(source.get(), kTISPropertyInputSourceID))};
-      if (sourceId) { sourceIdString = std::string(static_cast<NSString*>(sourceId).UTF8String); }
+      if (sourceId) { sourceIdString = static_cast<NSString*>(sourceId).UTF8String; }
       const auto localizedName {static_cast<CFStringRef>(
           TISGetInputSourceProperty(source.get(), kTISPropertyLocalizedName))};
       if (localizedName) { localizedNameString = static_cast<NSString*>(localizedName).UTF8String; }
