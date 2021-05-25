@@ -212,7 +212,7 @@ void rsj::LogAndAlertError(
 void rsj::ExceptionResponse(const std::exception& e, const std::source_location& location) noexcept
 {
    try {
-      const auto alert_text {juce::translate("Exception ").toStdString() + " " e.what())};
+      const auto alert_text {juce::translate("Exception ").toStdString() + e.what()};
       const auto error_text {std::string("Exception ") + e.what()};
       rsj::LogAndAlertError(alert_text, error_text, location);
    }
