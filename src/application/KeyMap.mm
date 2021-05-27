@@ -146,6 +146,12 @@ namespace {
       return result;
    }
 
+   std::string KeyboardLayout()
+   {
+       std::shared_lock lock {mtx};
+       return sourceIdString;
+   }
+
    std::unordered_map<UniChar, rsj::KeyData> InternalKeyMap()
    {
       std::shared_lock lock {mtx};
