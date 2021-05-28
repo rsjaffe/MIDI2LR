@@ -300,7 +300,7 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods
          const UniChar uc {ww898::utf::conv<char16_t>(key).front()};
          const auto key_code_result {KeyCodeForChar(uc)};
          if (!key_code_result) {
-            static const layout_russian {rsj::KeyBoardLayout() == "com.apple.keylayout.Russian"};
+            static const layout_russian {rsj::KeyboardLayout() == "com.apple.keylayout.Russian"};
             if (layout_russian) {
                if (const auto mapped_key {kRussianKeyMap.find(rsj::ToLower(key))};
                    mapped_key != kRussianKeyMap.end()) {
