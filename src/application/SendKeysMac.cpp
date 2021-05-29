@@ -266,7 +266,7 @@ namespace {
        {"numpad multiply", kVK_ANSI_KeypadMultiply}, {"numpad divide", kVK_ANSI_KeypadDivide},
        {"numpad decimal", kVK_ANSI_KeypadDecimal}};
 
-   const std::unordered_map<std::string, unsigned char> kRussianKeyMap {{"-", kVK_ANSI_Minus},
+   const std::unordered_map<std::string, unsigned char> kNonASCIIKeyMap {{"-", kVK_ANSI_Minus},
        {",", kVK_ANSI_Comma}, {".", kVK_ANSI_Period}, {"/", kVK_ANSI_Slash},
        {";", kVK_ANSI_Semicolon}, {"[", kVK_ANSI_LeftBracket}, {"\"", kVK_ANSI_Quote},
        {"\\", kVK_ANSI_Backslash}, {"]", kVK_ANSI_RightBracket}, {"`", kVK_ANSI_Grave},
@@ -300,21 +300,13 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods
          const UniChar uc {ww898::utf::conv<char16_t>(key).front()};
          const auto key_code_result {KeyCodeForChar(uc)};
          if (!key_code_result) {
-            static const bool layout_russian {rsj::KeyboardLayout() == "com.apple.keylayout.Russian"};
-            if (layout_russian) {
-               if (const auto mapped_key {kRussianKeyMap.find(rsj::ToLower(key))};
-                   mapped_key != kRussianKeyMap.end()) {
-                  vk = mapped_key->second;
-               }
-               else {
-                  rsj::LogAndAlertError(
-                      fmt::format(FMT_STRING("Unsupported character was used: \"{}\", no ANSI equivalent."), key));
-                  return;
-               }
+            if (const auto mapped_key {kNonASCIIKeyMap.find(rsj::ToLower(key))};
+                mapped_key != kNonASCIIKeyMap.end()) {
+               vk = mapped_key->second;
             }
             else {
-               rsj::LogAndAlertError(
-                   fmt::format(FMT_STRING("Unsupported character was used: \"{}\"."), key));
+               rsj::LogAndAlertError(fmt::format(
+                   FMT_STRING("Unsupported character was used: \"{}\", no ANSI equivalent."), key));
                return;
             }
          }
