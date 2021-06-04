@@ -268,7 +268,7 @@ namespace {
 
    const std::unordered_map<std::string, unsigned char> kNonASCIIKeyMap {{"-", kVK_ANSI_Minus},
        {",", kVK_ANSI_Comma}, {".", kVK_ANSI_Period}, {"/", kVK_ANSI_Slash},
-       {";", kVK_ANSI_Semicolon}, {"[", kVK_ANSI_LeftBracket}, {"\"", kVK_ANSI_Quote},
+       {";", kVK_ANSI_Semicolon}, {"[", kVK_ANSI_LeftBracket}, {"'", kVK_ANSI_Quote},
        {"\\", kVK_ANSI_Backslash}, {"]", kVK_ANSI_RightBracket}, {"`", kVK_ANSI_Grave},
        {"=", kVK_ANSI_Equal}, {"0", kVK_ANSI_0}, {"1", kVK_ANSI_1}, {"2", kVK_ANSI_2},
        {"3", kVK_ANSI_3}, {"4", kVK_ANSI_4}, {"5", kVK_ANSI_5}, {"6", kVK_ANSI_6},
@@ -280,6 +280,14 @@ namespace {
        {"r", kVK_ANSI_R}, {"s", kVK_ANSI_S}, {"t", kVK_ANSI_T}, {"u", kVK_ANSI_U},
        {"v", kVK_ANSI_V}, {"w", kVK_ANSI_W}, {"x", kVK_ANSI_X}, {"y", kVK_ANSI_Y},
        {"z", kVK_ANSI_Z}};
+
+   const std::unordered_map<std::string, unsigned char> kNonASCIIKeyMapShifted {
+       {"_", kVK_ANSI_Minus}, {"<", kVK_ANSI_Comma}, {">", kVK_ANSI_Period}, {"?", kVK_ANSI_Slash},
+       {":", kVK_ANSI_Semicolon}, {"{", kVK_ANSI_LeftBracket}, {"\"", kVK_ANSI_Quote},
+       {"|", kVK_ANSI_Backslash}, {"}", kVK_ANSI_RightBracket}, {"~", kVK_ANSI_Grave},
+       {"+", kVK_ANSI_Equal}, {")", kVK_ANSI_0}, {"!", kVK_ANSI_1}, {"@", kVK_ANSI_2},
+       {"#", kVK_ANSI_3}, {"$", kVK_ANSI_4}, {"%", kVK_ANSI_5}, {"^", kVK_ANSI_6},
+       {"&", kVK_ANSI_7}, {"*", kVK_ANSI_8}, {"(", kVK_ANSI_9}};
 } // namespace
 
 void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods) noexcept
@@ -303,6 +311,11 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods
             if (const auto mapped_key {kNonASCIIKeyMap.find(rsj::ToLower(key))};
                 mapped_key != kNonASCIIKeyMap.end()) {
                vk = mapped_key->second;
+            }
+            else if (const auto mapped_shifted_key {kNonASCIIKeyMapShifted.find(key)};
+                     mapped_shifted_key != kNonASCIIKeyMapShifted.end()) {
+               vk = mapped_shifted_key->second;
+               flags |= kCGEventFlagMaskShift;
             }
             else {
                rsj::LogAndAlertError(fmt::format(
