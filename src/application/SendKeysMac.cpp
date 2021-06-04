@@ -307,7 +307,13 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods
       else {
          const UniChar uc {ww898::utf::conv<char16_t>(key).front()};
          const auto key_code_result {KeyCodeForChar(uc)};
-         if (!key_code_result) {
+         if (key_code_result) {
+            const auto k_data {*key_code_result};
+            vk = k_data.keycode;
+            if (k_data.shift) { flags |= kCGEventFlagMaskShift; }
+            if (k_data.option) { flags |= kCGEventFlagMaskAlternate; }
+         }
+         else {
             if (const auto mapped_key {kNonASCIIKeyMap.find(rsj::ToLower(key))};
                 mapped_key != kNonASCIIKeyMap.end()) {
                vk = mapped_key->second;
@@ -323,10 +329,6 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods
                return;
             }
          }
-         const auto k_data {*key_code_result};
-         vk = k_data.keycode;
-         if (k_data.shift) { flags |= kCGEventFlagMaskShift; }
-         if (k_data.option) { flags |= kCGEventFlagMaskAlternate; }
       }
       if (mods.alt_opt) { flags |= kCGEventFlagMaskAlternate; }
       if (mods.command) { flags |= kCGEventFlagMaskCommand; }
