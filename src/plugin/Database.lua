@@ -840,7 +840,40 @@ local DataBase = {
   {Command='LocalPreset14',Type='button',Translation=locadjpre..' 14',Group=locadjpre,Explanation='Use preset 14 for localized adjustments.'},
   {Command='LocalPreset15',Type='button',Translation=locadjpre..' 15',Group=locadjpre,Explanation='Use preset 15 for localized adjustments.'},
   {Command='LocalPreset16',Type='button',Translation=locadjpre..' 16',Group=locadjpre,Explanation='Use preset 16 for localized adjustments.'},
-
+  {Command='LocalPreset17',Type='button',Translation=locadjpre..' 17',Group=locadjpre,Explanation='Use preset 17 for localized adjustments.'},
+  {Command='LocalPreset18',Type='button',Translation=locadjpre..' 18',Group=locadjpre,Explanation='Use preset 18 for localized adjustments.'},
+  {Command='LocalPreset19',Type='button',Translation=locadjpre..' 19',Group=locadjpre,Explanation='Use preset 19 for localized adjustments.'},
+  {Command='LocalPreset20',Type='button',Translation=locadjpre..' 20',Group=locadjpre,Explanation='Use preset 20 for localized adjustments.'},
+  {Command='LocalPreset21',Type='button',Translation=locadjpre..' 21',Group=locadjpre,Explanation='Use preset 21 for localized adjustments.'},
+  {Command='LocalPreset22',Type='button',Translation=locadjpre..' 22',Group=locadjpre,Explanation='Use preset 22 for localized adjustments.'},
+  {Command='LocalPreset23',Type='button',Translation=locadjpre..' 23',Group=locadjpre,Explanation='Use preset 23 for localized adjustments.'},
+  {Command='LocalPreset24',Type='button',Translation=locadjpre..' 24',Group=locadjpre,Explanation='Use preset 24 for localized adjustments.'},
+  {Command='LocalPreset25',Type='button',Translation=locadjpre..' 25',Group=locadjpre,Explanation='Use preset 25 for localized adjustments.'},
+  {Command='LocalPreset26',Type='button',Translation=locadjpre..' 26',Group=locadjpre,Explanation='Use preset 26 for localized adjustments.'},
+  {Command='LocalPreset27',Type='button',Translation=locadjpre..' 27',Group=locadjpre,Explanation='Use preset 27 for localized adjustments.'},
+  {Command='LocalPreset28',Type='button',Translation=locadjpre..' 28',Group=locadjpre,Explanation='Use preset 28 for localized adjustments.'},
+  {Command='LocalPreset29',Type='button',Translation=locadjpre..' 29',Group=locadjpre,Explanation='Use preset 29 for localized adjustments.'},
+  {Command='LocalPreset30',Type='button',Translation=locadjpre..' 30',Group=locadjpre,Explanation='Use preset 30 for localized adjustments.'},
+  {Command='LocalPreset31',Type='button',Translation=locadjpre..' 31',Group=locadjpre,Explanation='Use preset 31 for localized adjustments.'},
+  {Command='LocalPreset32',Type='button',Translation=locadjpre..' 32',Group=locadjpre,Explanation='Use preset 32 for localized adjustments.'},
+  {Command='LocalPreset33',Type='button',Translation=locadjpre..' 33',Group=locadjpre,Explanation='Use preset 33 for localized adjustments.'},
+  {Command='LocalPreset34',Type='button',Translation=locadjpre..' 34',Group=locadjpre,Explanation='Use preset 34 for localized adjustments.'},
+  {Command='LocalPreset35',Type='button',Translation=locadjpre..' 35',Group=locadjpre,Explanation='Use preset 35 for localized adjustments.'},
+  {Command='LocalPreset36',Type='button',Translation=locadjpre..' 36',Group=locadjpre,Explanation='Use preset 36 for localized adjustments.'},
+  {Command='LocalPreset37',Type='button',Translation=locadjpre..' 37',Group=locadjpre,Explanation='Use preset 37 for localized adjustments.'},
+  {Command='LocalPreset38',Type='button',Translation=locadjpre..' 38',Group=locadjpre,Explanation='Use preset 38 for localized adjustments.'},
+  {Command='LocalPreset39',Type='button',Translation=locadjpre..' 39',Group=locadjpre,Explanation='Use preset 39 for localized adjustments.'},
+  {Command='LocalPreset40',Type='button',Translation=locadjpre..' 40',Group=locadjpre,Explanation='Use preset 40 for localized adjustments.'},
+  {Command='LocalPreset41',Type='button',Translation=locadjpre..' 41',Group=locadjpre,Explanation='Use preset 41 for localized adjustments.'},
+  {Command='LocalPreset42',Type='button',Translation=locadjpre..' 42',Group=locadjpre,Explanation='Use preset 42 for localized adjustments.'},
+  {Command='LocalPreset43',Type='button',Translation=locadjpre..' 43',Group=locadjpre,Explanation='Use preset 43 for localized adjustments.'},
+  {Command='LocalPreset44',Type='button',Translation=locadjpre..' 44',Group=locadjpre,Explanation='Use preset 44 for localized adjustments.'},
+  {Command='LocalPreset45',Type='button',Translation=locadjpre..' 45',Group=locadjpre,Explanation='Use preset 45 for localized adjustments.'},
+  {Command='LocalPreset46',Type='button',Translation=locadjpre..' 46',Group=locadjpre,Explanation='Use preset 46 for localized adjustments.'},
+  {Command='LocalPreset47',Type='button',Translation=locadjpre..' 47',Group=locadjpre,Explanation='Use preset 47 for localized adjustments.'},
+  {Command='LocalPreset48',Type='button',Translation=locadjpre..' 48',Group=locadjpre,Explanation='Use preset 48 for localized adjustments.'},
+  {Command='LocalPreset49',Type='button',Translation=locadjpre..' 49',Group=locadjpre,Explanation='Use preset 49 for localized adjustments.'},
+  {Command='LocalPreset50',Type='button',Translation=locadjpre..' 50',Group=locadjpre,Explanation='Use preset 50 for localized adjustments.'},
   --
   -- Misc
   --
@@ -976,7 +1009,7 @@ local function WriteAppTrans(language)
     </all_commands>
     <repeats size="dynamic">
 ]=])
-   local i = 0
+  local i = 0
   for k,v in pairs(repeats) do
     file:write('      <value'.. i ..'>\n        <key>'..k..
       '</key>\n        <value>\n          <first xml:space="preserve">'..
