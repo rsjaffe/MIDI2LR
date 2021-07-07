@@ -49,10 +49,10 @@ void MidiReceiver::Stop()
 {
    for (const auto& dev : input_devices_) {
       dev->stop();
-      rsj::Log(fmt::format(FMT_STRING("Stopped input device {}."), dev->getName().toStdString()));
+      rsj::Log(fmt::format("Stopped input device {}.", dev->getName().toStdString()));
    }
    if (const auto remaining {messages_.clear_count_push({kTerminate, nullptr})}) {
-      rsj::Log(fmt::format(FMT_STRING("{} left in queue in MidiReceiver StopRunning."), remaining));
+      rsj::Log(fmt::format("{} left in queue in MidiReceiver StopRunning.", remaining));
    }
 }
 
@@ -61,8 +61,7 @@ void MidiReceiver::RescanDevices()
    try {
       for (const auto& dev : input_devices_) {
          dev->stop();
-         rsj::Log(
-             fmt::format(FMT_STRING("Stopped input device {}."), dev->getName().toStdString()));
+         rsj::Log(fmt::format("Stopped input device {}.", dev->getName().toStdString()));
       }
       input_devices_.clear();
       rsj::Log("Cleared input devices.");
@@ -83,13 +82,13 @@ void MidiReceiver::TryToOpen()
          if (open_device) {
             if (devices_.EnabledOrNew(open_device->getDeviceInfo(), "input")) {
                open_device->start();
-               rsj::Log(fmt::format(
-                   FMT_STRING("Opened input device {}."), open_device->getName().toStdString()));
+               rsj::Log(
+                   fmt::format("Opened input device {}.", open_device->getName().toStdString()));
                input_devices_.push_back(std::move(open_device));
             }
             else {
-               rsj::Log(fmt::format(
-                   FMT_STRING("Ignored input device {}."), open_device->getName().toStdString()));
+               rsj::Log(
+                   fmt::format("Ignored input device {}.", open_device->getName().toStdString()));
             }
          }
       }

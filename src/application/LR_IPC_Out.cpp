@@ -84,7 +84,7 @@ void LrIpcOut::Stop()
    thread_should_exit_.store(true, std::memory_order_release);
    /* clear output queue before port closed */
    if (const auto m {command_.clear_count_emplace(kTerminate)}) {
-      rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcOut destructor."), m));
+      rsj::Log(fmt::format("{} left in queue in LrIpcOut destructor.", m));
    }
    {
       std::scoped_lock lk(callback_mtx_);
@@ -103,13 +103,11 @@ void LrIpcOut::Stop()
        * shutdown() before closing the socket. */
       socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
       if (ec) {
-         rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket shutdown error {}."), ec.message()));
+         rsj::Log(fmt::format("LR_IPC_Out socket shutdown error {}.", ec.message()));
          ec.clear();
       }
       socket_.close(ec);
-      if (ec) {
-         rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec.message()));
-      }
+      if (ec) { rsj::Log(fmt::format("LR_IPC_Out socket close error {}.", ec.message())); }
    }
 }
 
@@ -131,13 +129,11 @@ void LrIpcOut::Connect()
                 SendOut();
              }
              else {
-                rsj::Log(
-                    fmt::format(FMT_STRING("LR_IPC_Out did not connect. {}."), error.message()));
+                rsj::Log(fmt::format("LR_IPC_Out did not connect. {}.", error.message()));
                 asio::error_code ec2;
                 socket_.close(ec2);
                 if (ec2) {
-                   rsj::Log(
-                       fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec2.message()));
+                   rsj::Log(fmt::format("LR_IPC_Out socket close error {}.", ec2.message()));
                 }
              }
           });
@@ -196,7 +192,7 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
                const auto wrap {
                    std::find(wrap_.begin(), wrap_.end(), command_to_send) != wrap_.end()};
                const auto computed_value {controls_model_.ControllerToPlugin(mm, wrap)};
-               SendCommand(fmt::format(FMT_STRING("{} {}\n"), command_to_send, computed_value));
+               SendCommand(fmt::format("{} {}\n", command_to_send, computed_value));
             }
          }
       }
@@ -239,7 +235,7 @@ void LrIpcOut::SendOut()
                 }
                 cv_.notify_one();
 #endif
-                rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out Write: {}."), error.message()));
+                rsj::Log(fmt::format("LR_IPC_Out Write: {}.", error.message()));
              }
           });
    }

@@ -87,9 +87,9 @@ CommandSet::Impl::Impl()
          const auto iarchive {std::make_unique<cereal::XMLInputArchive>(infile)};
          (*iarchive)(*this);
 #ifdef MIDI2LR_FILESYSTEM_AVAILABLE
-         rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p.string()));
+         rsj::Log(fmt::format("MenuTrans.xml archive loaded from {}.", p.string()));
 #else
-         rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p));
+         rsj::Log(fmt::format("MenuTrans.xml archive loaded from {}.", p));
 #endif
       }
       else {
@@ -120,7 +120,7 @@ size_t CommandSet::CommandTextIndex(const std::string& command) const
    try {
       const auto found {cmd_idx_.find(command)};
       if (found == cmd_idx_.end()) {
-         rsj::Log(fmt::format(FMT_STRING("Command not found in CommandTextIndex: {}."), command));
+         rsj::Log(fmt::format("Command not found in CommandTextIndex: {}.", command));
          return 0;
       }
       return found->second;
