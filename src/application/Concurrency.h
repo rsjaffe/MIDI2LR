@@ -210,10 +210,8 @@ namespace rsj {
           std::scoped_lock(std::declval<Mutex>())))
       { /*https://devblogs.microsoft.com/oldnewthing/20201112-00/?p=104444 */
          Container trash {};
-         {
-            auto lock {std::scoped_lock(mutex_)};
-            std::swap(trash, queue_);
-         }
+         auto lock {std::scoped_lock(mutex_)};
+         std::swap(trash, queue_);
       }
       [[nodiscard]] size_type
       clear_count() noexcept(noexcept(std::declval<Container>().clear()) && noexcept(

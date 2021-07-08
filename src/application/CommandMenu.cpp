@@ -66,7 +66,6 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
          case rsj::MessageType::kPgmChange:
          case rsj::MessageType::kSystem:
             break; /* do nothing for other types of controllers */
-            ;
          }
       }
       else {
