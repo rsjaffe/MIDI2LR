@@ -69,10 +69,10 @@ extern "C" {
 #define MIDI2LR_FPU_SETCW(fpcr) __asm__ __volatile__("msr fpcr, %0" : : "r"(fpcr))
 #define MIDI2LR_FAST_FLOATS                                                                        \
    {                                                                                               \
-      uint64_t status {};                                                                          \
-      MIDI2LR_FPU_GETCW(status);                                                                   \
-      status |= (1 << 24) | (1 << 19); /* FZ flag, FZ16 flag; flush denormals to zero  */          \
-      MIDI2LR_FPU_SETCW(status);                                                                   \
+      uint64_t eE2Hsb4v {}; /* random name to avoid shadowing warnings */                          \
+      MIDI2LR_FPU_GETCW(eE2Hsb4v);                                                                 \
+      eE2Hsb4v |= (1 << 24) | (1 << 19); /* FZ flag, FZ16 flag; flush denormals to zero  */        \
+      MIDI2LR_FPU_SETCW(eE2Hsb4v);                                                                 \
    }                                                                                               \
    static_assert(true, "require semi-colon after macro with this assert")
 #endif
