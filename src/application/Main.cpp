@@ -16,6 +16,7 @@
 
 #include <algorithm>
 #include <exception>
+#include <filesystem>
 #include <fstream>
 #include <future>
 #include <memory>
@@ -51,22 +52,7 @@
 #include <condition_variable>
 #endif
 
-#ifndef _WIN32
-#include <AvailabilityMacros.h>
-#if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
-    && defined(__cpp_lib_filesystem)
-#define MIDI2LR_FILESYSTEM_AVAILABLE
-#endif
-#else
-#ifdef __cpp_lib_filesystem
-#define MIDI2LR_FILESYSTEM_AVAILABLE
-#endif
-#endif
-
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
-#include <filesystem>
 namespace fs = std::filesystem;
-#endif
 
 #ifdef _WIN32
 #include <array>
@@ -367,22 +353,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    void SaveControlsModel() const
    {
       try {
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
          const fs::path p {rsj::AppDataFilePath(kSettingsFileX)};
-#else
-         const auto p {rsj::AppDataFilePath(kSettingsFileX)};
-#endif
          std::ofstream outfile {p, std::ios::trunc};
          if (outfile.is_open()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto oarchive {std::make_unique<cereal::XMLOutputArchive>(outfile)};
             (*oarchive)(controls_model_);
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
             rsj::Log(fmt::format("ControlsModel archive in Main saved to {}.", p.string()));
-#else
-            rsj::Log(
-                fmt::format(MIDI2LR_UC_LITERAL("ControlsModel archive in Main saved to {}."), p));
-#endif
          }
          else {
             rsj::LogAndAlertError(
@@ -397,22 +374,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    void LoadControlsModel()
    {
       try {
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
          const fs::path px {rsj::AppDataFilePath(kSettingsFileX)};
-#else
-         const auto px {rsj::AppDataFilePath(kSettingsFileX)};
-#endif
          std::ifstream in_file {px};
          if (in_file.is_open() && !in_file.eof()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto iarchive {std::make_unique<cereal::XMLInputArchive>(in_file)};
             (*iarchive)(controls_model_);
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
             rsj::Log(fmt::format("ControlsModel archive in Main loaded from {}.", px.string()));
-#else
-            rsj::Log(fmt::format(
-                MIDI2LR_UC_LITERAL("ControlsModel archive in Main loaded from {}."), px));
-#endif
          }
       }
       catch (const std::exception& e) {
