@@ -61,17 +61,12 @@ namespace {
 MainContentComponent::MainContentComponent(const CommandSet& command_set, Profile& profile,
     ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
     MidiReceiver& midi_receiver, MidiSender& midi_sender)
-try : ResizableLayout {
-   this
-}
-, command_table_model_(command_set, profile), lr_ipc_out_ {lr_ipc_out},
-    midi_receiver_ {midi_receiver}, midi_sender_ {midi_sender}, profile_(profile),
-    profile_manager_(profile_manager), settings_manager_(settings_manager)
-{
+try : ResizableLayout{this}, command_table_model_(command_set, profile), lr_ipc_out_{lr_ipc_out},
+    midi_receiver_{midi_receiver}, midi_sender_{midi_sender}, profile_(profile),
+    profile_manager_(profile_manager), settings_manager_(settings_manager) {
    setSize(kMainWidth, kMainHeight);
 }
-catch (const std::exception& e)
-{
+catch (const std::exception& e) {
    MIDI2LR_E_RESPONSE;
    throw;
 }
