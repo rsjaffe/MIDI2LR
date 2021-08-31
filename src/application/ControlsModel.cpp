@@ -25,7 +25,7 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber, const
       const auto high_limit {cc_high_.at(controlnumber)};
       Expects(diff <= high_limit && diff >= -high_limit);
 #ifdef __cpp_lib_atomic_ref
-      std::atomic_ref cv {current_v_.at(controlnumber)};
+      const std::atomic_ref cv {current_v_.at(controlnumber)};
 #else
       auto& cv {current_v_.at(controlnumber)};
 #endif

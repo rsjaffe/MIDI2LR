@@ -33,8 +33,8 @@ try : juce
       juce::Component::centreWithSize(getWidth(), getHeight());
       juce::Component::setVisible(true);
       window_content_->Init();
-      const auto hide_sec {settings_manager.GetAutoHideTime()};
-      if (hide_sec) { /* don't start timer if time is zero */
+      if (const auto hide_sec {settings_manager.GetAutoHideTime()}) { /* don't start timer if time
+                                                                         is zero */
          juce::Timer::startTimer(1000 * hide_sec);
       }
    }

@@ -109,8 +109,7 @@ void MidiSender::InitDevices()
    try {
       const auto available_devices {juce::MidiOutput::getAvailableDevices()};
       for (const auto& device : available_devices) {
-         auto open_device {juce::MidiOutput::openDevice(device.identifier)};
-         if (open_device) {
+         if (auto open_device {juce::MidiOutput::openDevice(device.identifier)}) {
             const auto devname {open_device->getName().toStdString()};
             if constexpr (MSWindows) {
                if (devname != "Microsoft GS Wavetable Synth"

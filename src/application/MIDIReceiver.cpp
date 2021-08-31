@@ -78,8 +78,7 @@ void MidiReceiver::TryToOpen()
    try {
       const auto available_devices {juce::MidiInput::getAvailableDevices()};
       for (const auto& device : available_devices) {
-         auto open_device {juce::MidiInput::openDevice(device.identifier, this)};
-         if (open_device) {
+         if (auto open_device {juce::MidiInput::openDevice(device.identifier, this)}) {
             if (devices_.EnabledOrNew(open_device->getDeviceInfo(), "input")) {
                open_device->start();
                rsj::Log(

@@ -133,7 +133,7 @@ void rsj::Log(const juce::String& info, const std::source_location& location) no
                                   + location.file_name() + ":" + location.line() + " " + info);
       }
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 
@@ -146,7 +146,7 @@ void rsj::Log(gsl::czstring<> info, const std::source_location& location) noexce
                                   + juce::String::fromUTF8(info));
       }
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 
@@ -158,7 +158,7 @@ void rsj::Log(gsl::cwzstring<> info, const std::source_location& location) noexc
                                   + location.file_name() + ":" + location.line() + " " + info);
       }
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 
@@ -174,7 +174,7 @@ void rsj::LogAndAlertError(
       }
       rsj::Log(error_text, location);
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 
@@ -190,7 +190,7 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
       }
       rsj::Log(error_text, location);
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 
@@ -206,7 +206,7 @@ void rsj::LogAndAlertError(
       }
       rsj::Log(error_text, location);
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 void rsj::ExceptionResponse(const std::exception& e, const std::source_location& location) noexcept
@@ -216,7 +216,7 @@ void rsj::ExceptionResponse(const std::exception& e, const std::source_location&
       const auto error_text {std::string("Exception ") + e.what()};
       rsj::LogAndAlertError(alert_text, error_text, location);
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 #else
@@ -326,7 +326,7 @@ void rsj::ExceptionResponse(
       const auto error_text {fmt::format("Exception {} {}::{}.", e.what(), id, fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 #endif

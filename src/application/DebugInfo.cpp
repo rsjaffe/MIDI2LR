@@ -194,7 +194,7 @@ DebugInfo::DebugInfo(std::string_view profile_directory) noexcept
          info_.emplace_back(kErr);
          rsj::Log(kErr);
       }
-      catch (...) { //-V565
+      catch (...) { //-V565 //-V5002
       }
    }
 }

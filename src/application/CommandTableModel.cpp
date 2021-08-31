@@ -124,7 +124,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, cons
    try {
       if (column_id == 2) /* LR command column */
       {
-         auto command_select {dynamic_cast<CommandMenu*>(existing_component)};
+         const auto command_select {dynamic_cast<CommandMenu*>(existing_component)};
          if (command_select == nullptr) {
             /* create a new command menu, delete old one if it exists */
             delete existing_component; // NOLINT(cppcoreguidelines-owning-memory)

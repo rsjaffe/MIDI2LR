@@ -94,8 +94,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             main_menu.addSubMenu(
                 command_set_.GetMenus().at(submenu_number++), sub_menu, true, nullptr, tick_menu);
          }
-         const auto result {gsl::narrow_cast<size_t>(main_menu.show())};
-         if (result) {
+         if (const auto result {gsl::narrow_cast<size_t>(main_menu.show())}) {
             /* user chose a different command, remove previous command mapping associated to this
              * menu */
             if (selected_item_ < std::numeric_limits<decltype(selected_item_)>::max()) {

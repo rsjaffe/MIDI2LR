@@ -63,7 +63,8 @@ Devices::Devices()
 
    if (data_list_) {
       num_rows_ = data_list_->getNumChildElements();
-      for (gsl::not_null<const juce::XmlElement*> data_element : data_list_->getChildIterator()) {
+      for (const gsl::not_null<const juce::XmlElement*> data_element :
+          data_list_->getChildIterator()) {
          device_listing_.emplace(DevInfo {data_element->getStringAttribute("devicename"),
                                      data_element->getStringAttribute("systemid"),
                                      data_element->getStringAttribute("inputoutput")},
@@ -96,8 +97,7 @@ bool Devices::Add(const juce::MidiDeviceInfo& info, const juce::String& io)
    try {
       const auto [it, success] {device_listing_.try_emplace({info, io}, true)};
       if (success) {
-         auto new_element {data_list_->createNewChildElement("item")};
-         if (new_element) {
+         if (auto new_element {data_list_->createNewChildElement("item")}) {
             new_element->setAttribute("devicename", info.name);
             new_element->setAttribute("systemid", info.identifier);
             new_element->setAttribute("inputoutput", io);

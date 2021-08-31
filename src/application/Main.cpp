@@ -140,7 +140,7 @@ namespace {
             rsj::Log("Terminate called, no exception available.");
          }
       }
-      catch (...) { //-V565
+      catch (...) { //-V565 //-V5002
       }
       std::_Exit(EXIT_FAILURE);
    }
@@ -271,7 +271,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                   catch (const std::exception& e) {
                      MIDI2LR_E_RESPONSE; /* and continue, so ready flag can be set */
                   }
-                  catch (...) { //-V565
+                  catch (...) { //-V565 //-V5002
                   }
 #ifdef __cpp_lib_semaphore
                   ready_sem.release();
