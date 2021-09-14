@@ -17,7 +17,7 @@
 
 #include <cstring>
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #include <fmt/format.h>
 
 #include <juce_core/juce_core.h>
