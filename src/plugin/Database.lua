@@ -1085,7 +1085,7 @@ local function WriteAppTrans(language)
     if v.Wraps then
       wraps[#wraps+1]=v.Command
     end
-    if v.Repeats and type(v.Repeats == 'table') then
+    if v.Repeats and (type(v.Repeats) == 'table') then
       repeats[v.Command] = v.Repeats
     end
   end
