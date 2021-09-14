@@ -27,7 +27,7 @@ local DialogStartedSuccessfully = false
 local KeywordList
 local ListReady = false
 local NotifyFinished = false
-local numseries = 16 -- number of keywords allowed
+local numseries = 64 -- number of keywords allowed
 
 local function GetKeywordChildren(Keyword, Name)
   local KeywordChildren = Keyword:getChildren()
@@ -110,7 +110,7 @@ local function ToggleKeyword(Keyword)
 end
 
 local function StartDialog(obstable,f)
-  local group_rows, group_cols = 4,4 -- row X col must equal numseries
+  local group_rows, group_cols = 4,16-- row X col must equal numseries
   if ListReady then
     DialogStartedSuccessfully = true
     for i = 1,numseries do
