@@ -25,6 +25,13 @@
 #include "Devices.h"
 #include "Misc.h"
 
+#ifdef _WIN32
+extern "C" {
+   __declspec(dllimport) unsigned long __stdcall SetThreadExecutionState(
+       _In_ unsigned long esFlags);
+}
+#endif
+
 namespace {
    constexpr rsj::MidiMessage kTerminate {rsj::MessageType::kCc, 129, 0, 0}; /* impossible */
 }
@@ -131,6 +138,9 @@ void MidiReceiver::DispatchMessages()
       do {
          const auto [message, device] {messages_.pop()};
          if (message == kTerminate) { return; }
+#ifdef _WIN32
+         SetThreadExecutionState(0x00000002UL | 0x00000001UL);
+#endif
          switch (message.message_type_byte) {
          case rsj::MessageType::kCc:
             if (const auto result {filters_[device](message)}; result.is_nrpn) {
