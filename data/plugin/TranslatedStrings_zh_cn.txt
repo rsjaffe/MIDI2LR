@@ -1,4 +1,4 @@
-"$$$/MIDI2LR/About/about=使用方法：连接MIDI控制器，打开MIDI2LR，就可以啦！详情请参考 https://github.com/rsjaffe/MIDI2LR/wiki"
+﻿"$$$/MIDI2LR/About/about=使用方法：连接MIDI控制器，打开MIDI2LR，就可以啦！详情请参考 https://github.com/rsjaffe/MIDI2LR/wiki"
 "$$$/MIDI2LR/Database/Customcameraprofile=自定义相机配置文件"
 "$$$/MIDI2LR/Database/Show1=显示 ^1"
 "$$$/MIDI2LR/Dialog/InvalidKey=值必须是单个字符或拼写出F键（F1-F16）或：apostrophe，backslash，backspace（在MacOS中代表向左删除），cursor down，cursor left，cursor right，cursor up，delete（在MacOS中代表向右删除），end，escape ，home，page down，page up，return，space，tab或numpad 0（通过numpad 9），numpad add（或decimal，divide，multiply，subtract）。"
