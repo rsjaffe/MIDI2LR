@@ -2,8 +2,8 @@
 Предпосылки
 =============
 
-- Lightroom классика 10+
-- Windows 10 или MacOS 10.14+
+- Lightroom классика 11+
+- Windows 10 или MacOS 10.15+
 - USB MIDI-контроллер (например: Korg nanoKONTROL и т. Д.)
 
 =====

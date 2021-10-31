@@ -94,7 +94,7 @@ end
 
 local function ApplyLocalPreset(LocalPresetFilename)  --LocalPresetName eg: 'Burn (Darken).lrtemplate'
   local LocalPresetName = LrPathUtils.removeExtension(LrPathUtils.leafName(LocalPresetFilename))
-  if LrApplicationView.getCurrentModuleName() == 'develop' and ( LrDevelopController.getSelectedTool() == 'gradient' or LrDevelopController.getSelectedTool() == 'circularGradient' or LrDevelopController.getSelectedTool() == 'localized' ) then
+  if LrApplicationView.getCurrentModuleName() == 'develop' and LrDevelopController.getSelectedTool() == 'masking' then
     if LocalPresetFilename == '' or LocalPresetFilename == nil then
       return
     end

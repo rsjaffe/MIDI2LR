@@ -2,8 +2,8 @@
 förutsättningar
 =============
 
-- Lightroom klassiker 10+
-- Windows 10 eller MacOS 10.14+
+- Lightroom klassiker 11+
+- Windows 10 eller MacOS 10.15+
 - En USB MIDI-controller (t.ex.: Korg nanoKONTROL, etc.)
 
 =====

@@ -67,7 +67,7 @@ local LatestPVSupported = 5 -- used for update PV to latest and for limits code 
 --local viewModes = LOC('$$$/AgDevelop/Toolbar/ViewModesTool=View Modes')
 local P1and2 = 'PV 1'..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..'PV 2'
 local P2and3plus = 'PV 2'..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..'PV 3+'
-local brush = LOC('$$$/TouchWorkspace/Adjustments/Local/Brush=Brush')
+local brush = LOC('$$$/AgDevelop/Menu/View/AdjustmentBrush=Brush')
 local developPreset = LOC('$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Single=Develop Preset')
 local dgh = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GreenDefringeHueLo=Defringe Green Hue')
 local dph = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PurpleDefringeHueLo=Defringe Purple Hue')
@@ -78,7 +78,7 @@ local keyexp = '. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wi
 local keyword = LOC('$$$/AgLibrary/Filter/BrowserCriteria/Keyword=Keyword')
 local keywordtoggle = LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')
 local larger = LOC('$$$/AgEmail/FontSize/larger=larger')
-local locadj = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments')
+local locadj = LOC('$$$/AgDevelop/Setting/LocalAdjustment=Local Adjustments')
 local percor = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction')
 local primaryDisplay = LOC('$$$/AgPhotoBin/Tooltip/PrimaryViewMode=Primary Display')
 local profile = LOC('$$$/AgDevelop/CameraRawPanel/Profile=Profile:')
@@ -115,7 +115,8 @@ local effects = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effect
 local calibration = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Calibration=Calibration')
 local developPresets = LOC('$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Plural=Develop Presets')
 local keywords = LOC('$$$/AgLibrary/Filter/BrowserCriteria/Keywords=Keywords')
-local localizedAdjustments = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments')
+local mask = LOC('$$$/AgDevelop/LoupeView/Tool/MaskGroupTooltip=Masking')
+local localizedAdjustments = LOC('$$$/AgDevelop/Setting/LocalAdjustment=Local Adjustments')
 local localadjresets = LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj)
 --local localpresets = locadjpre
 local crop = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')
@@ -861,21 +862,61 @@ local DataBase = {
   {Command='Keyword63Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','63'),Group=keywordtoggle,Explanation='Toggle keyword 63 in each of the selected photos.'},
   {Command='Keyword64Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','64'),Group=keywordtoggle,Explanation='Toggle keyword 64 in each of the selected photos.'},
 
+--
+--develop: masks
+--
+  {Command='Mask',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',mask),Group=mask,Explanation='Select Mask mode in Develop Module. Repeated press toggles Loupe View.'},
+  {Command='MaskEnable',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleMaskgroupBasedCorrections=Toggle Mask'),Group=mask,Explanation='Enable or disable mask-based corrections.'},
+  {Command='MaskReset',Type='button',Translation=LOC('$$$/CRaw/Masking/DeleteAllMasks=Delete all masks'),Group=mask,Explanation=''},
+  {Command='MaskPrevious',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/PreviousMaskGroup=Previous mask group'),Group=mask,Explanation='Select previous mask group.'},
+  {Command='MaskNext',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/NextMaskGroup=Next mask group'),Group=mask,Explanation='Select next mask group.'},
+  {Command='MaskPreviousTool',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/PreviousMaskTool=Previous mask tool'),Group=mask,Explanation='Select next mask tool within a mask group.'},
+  {Command='MaskNextTool',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/NextMaskTool=Next mask tool'),Group=mask,Explanation='Select previous mask tool within a mask group.'},
+  {Command='MaskDelete',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/DeleteMaskGroup=Delete mask group'),Group=mask,Explanation='Delete the selected mask group.'},
+  {Command='MaskDeleteTool',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/DeleteMaskTool=Delete mask tool'),Group=mask,Explanation='Delete the selected individual mask tool within the current group.'},
+  {Command='MaskInvertTool',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/ToggleInvert=Toggle invert for selected tool'),Group=mask,Explanation=''},
+  {Command='MaskHide',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/ToggleMaskGroupVisibility=Toggle visibility of the mask group'),Group=mask,Explanation='Show/hide the effect of selected mask group.'},
+  {Command='MaskHideTool',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/ToggleMaskToolVisibility=Toggle mask tool visibility'),Group=mask,Explanation='Show/hide the effect of selected individual mask tool within the current group.'},
+  {Command='MaskNewBrush',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/Brush=brush'),Group=mask,Explanation=''},
+  {Command='MaskNewGrad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/Gradient=gradient'),Group=mask,Explanation=''},
+  {Command='MaskNewRad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/CircularGradient=radial gradient'),Group=mask,Explanation=''},
+  {Command='MaskNewColor',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/ColorRange=color range'),Group=mask,Explanation=''},
+  {Command='MaskNewLum',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/LuminanceRange=luminance range'),Group=mask,Explanation=''},
+  {Command='MaskNewDepth',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/DepthRange=depth range'),Group=mask,Explanation=''},
+  {Command='MaskNewSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
+  {Command='MaskNewSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
+  {Command='MaskAddBrush',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/Brush=brush'),Group=mask,Explanation=''},
+  {Command='MaskAddGrad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/Gradient=gradient'),Group=mask,Explanation=''},
+  {Command='MaskAddRad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/CircularGradient=radial gradient'),Group=mask,Explanation=''},
+  {Command='MaskAddColor',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/ColorRange=color range'),Group=mask,Explanation=''},
+  {Command='MaskAddLum',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/LuminanceRange=luminance range'),Group=mask,Explanation=''},
+  {Command='MaskAddDepth',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/DepthRange=depth range'),Group=mask,Explanation=''},
+  {Command='MaskAddSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
+  {Command='MaskAddSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
+  {Command='MaskSubBrush',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/Brush=brush'),Group=mask,Explanation=''},
+  {Command='MaskSubGrad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/Gradient=gradient'),Group=mask,Explanation=''},
+  {Command='MaskSubRad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/CircularGradient=radial gradient'),Group=mask,Explanation=''},
+  {Command='MaskSubColor',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/ColorRange=color range'),Group=mask,Explanation=''},
+  {Command='MaskSubLum',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/LuminanceRange=luminance range'),Group=mask,Explanation=''},
+  {Command='MaskSubDepth',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/DepthRange=depth range'),Group=mask,Explanation=''},
+  {Command='MaskSubSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
+  {Command='MaskSubSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
+  {Command='MaskIntBrush',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/Brush=brush'),Group=mask,Explanation=''},
+  {Command='MaskIntGrad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/Gradient=gradient'),Group=mask,Explanation=''},
+  {Command='MaskIntRad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/CircularGradient=radial gradient'),Group=mask,Explanation=''},
+  {Command='MaskIntColor',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/ColorRange=color range'),Group=mask,Explanation=''},
+  {Command='MaskIntLum',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/LuminanceRange=luminance range'),Group=mask,Explanation=''},
+  {Command='MaskIntDepth',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/DepthRange=depth range'),Group=mask,Explanation=''},
+  {Command='MaskIntSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
+  {Command='MaskIntSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
 
 --
 --develop: localized adjustments
 --
-  {Command='GraduatedFilter',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters')),Group=localizedAdjustments,Explanation='Select Graduated Filter mode in Develop Module. Repeated press toggles Loupe View.'},
-  {Command='RadialFilter',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters')),Group=localizedAdjustments,Explanation='Select Radial Filter View mode in Develop Module. Repeated press toggles Loupe View.'},
   {Command='RedEye',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction')),Group=localizedAdjustments,Explanation='Select Red Eye mode in Develop Module. Repeated press toggles Loupe View.'},
   {Command='SpotRemoval',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal')),Group=localizedAdjustments,Explanation='Select Spot Removal mode in Develop Module. Repeated press toggles Loupe View.'},
-  {Command='AdjustmentBrush',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments')),Group=localizedAdjustments,Explanation='Select Adjustment Brush mode in Develop Module. Repeated press toggles Loupe View.'},
-  {Command='ShowMaskOverlay',Type='button',Translation=LOC('$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Show Mask Overlay'),Group=localizedAdjustments,Explanation='Sends the keystroke <kbd>o</kbd> to Lightroom. Show or hide the mask overlay.'},
-  {Command='ToggleOverlay',type='button',Translation=locadj..' '..LOC('$$$/MIDI2LR/ShortCuts/ShowHide1=Show/hide ^1',LOC('$$$/AgDevelop/Menu/View/AdjustmentMaskOverlay=Correction mask overlay')),Group=localizedAdjustments,Explanation='Toggles the localized adjustments mask overlay. Use only when any of the local adjustments filter is active.'},
+  {Command='ToggleOverlay',type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/ToggleOverlay=Toggle Mask Overlay'),Group=localizedAdjustments,Explanation='Toggles the localized adjustments mask overlay. Use only when any of the local adjustments filter is active.'},
   {Command='CycleMaskOverlayColor',Type='button',Translation=LOC('$$$/AgDevelop/Menu/View/AdjustmentBrushOverlay/CycleOverlay=Overlay Color'):gsub('%(%&%a%)',''):gsub('%&',''),Group=localizedAdjustments,Explanation='Sends the keystroke <kbd>\226\135\167 Shift</kbd>+<kbd>o</kbd> to Lightroom. Change Mask Overlay Color.'},
-  {Command='EnableCircularGradientBasedCorrections',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleCircularGradientBasedCorrections=Radial filter enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable radial filter.'},
-  {Command='EnableGradientBasedCorrections',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleGradientBasedCorrections=Graduated filter enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable graduated filter.'},
-  {Command='EnablePaintBasedCorrections',Type='button',Translation=LOC('$$$/AgDevelop/Settings/TogglePaintBasedCorrections=Brush adjustments enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable brush adjustments.'},
   {Command='EnableRedEye',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleRedEye=Red-Eye enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable red eye correction.'},
   {Command='EnableRetouch',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleSpotRemoval=Spot removal enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable spot removal.'},
   {Command='ChangeBrushSize',Type='repeat',Translation=brush..' — '..size,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Change adjustment brush size. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size.'..repeatexp,Repeats={'BrushSizeLarger','BrushSizeSmaller'}},
@@ -903,9 +944,6 @@ local DataBase = {
   {Command='local_Defringe',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')..' (PV 3+)',PV3=locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe'),Group=localizedAdjustments,Explanation='Adjust Defringe for the currently active tool: Brush, Radial Filter, or Graduated Filter.'},
   {Command='local_ToningLuminance',Type='parameter',Translation=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)',PV2=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance'),PV3=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)',Group=localizedAdjustments,Explanation='Adjust Toning Luminance for the currently active tool: Brush, Radial Filter, or Graduated Filter.'},
   --local adjustment resets
-  {Command='ResetCircGrad',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetRadialFilters=Reset Radial Filters'),Group=localadjresets,Explanation='Delete radial filter.'},
-  {Command='ResetGradient',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetGraduatedFilters=Reset Graduated Filters'),Group=localadjresets,Explanation='Delete graduated filter.'},
-  {Command='ResetBrushing',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetBrushing=Reset Brush Corrections'),Group=localadjresets,Explanation='Delete brush adjustments.'},
   {Command='ResetRedeye',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetRedeye=Reset Red-Eye'),Group=localadjresets,Explanation='Delete red eye correction.'},
   {Command='ResetSpotRem',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetSpotRemoval=Reset Spot Removal'),Group=localadjresets,Explanation='Delete spot removal.'},
   {Command='Resetlocal_Temperature',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Temperature=Temp.')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Temperature=Temp.')),Group=localadjresets,Explanation='Reset to default.'},
@@ -926,7 +964,9 @@ local DataBase = {
   {Command='Resetlocal_Moire',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Defringe',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_ToningLuminance',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)'),PV2=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminanz')),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminanz')..' (PV 2)'),Group=localadjresets,Explanation='Reset to default.'},
-  --local adjustment presets
+--
+--local adjustment presets
+--
   {Command='LocalPreset1',Type='button',Translation=locadjpre..' 1',Group=locadjpre,Explanation='Use preset 1 for localized adjustments.'},
   {Command='LocalPreset2',Type='button',Translation=locadjpre..' 2',Group=locadjpre,Explanation='Use preset 2 for localized adjustments.'},
   {Command='LocalPreset3',Type='button',Translation=locadjpre..' 3',Group=locadjpre,Explanation='Use preset 3 for localized adjustments.'},

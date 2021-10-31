@@ -1,12 +1,18 @@
 #!/bin/bash
-echo "This script identifies translation strings in the lua files that are not
+echo "
+
+This script identifies translation strings in the lua files that are not
 matched by translation strings in Lightroom. Strings should not show up in the
 output. Those that do are evidence that Lightroom has removed the translation
-and a new translation is needed. For this to run properly, you must copy
-TranslatedStrings_Lr_de_DE.txt from the Adobe/Adobe Lightroom Classic/
-Resources/de directory into this directory. Results will be in unmatched.txt."
+and a new translation is needed. Results will be in unmatched.txt."
 if [[ ! -f TranslatedStrings_Lr_de_DE.txt ]] ; then
-    echo 'File "TranslatedStrings_Lr_de_DE.txt" is not there, aborting.'
+    echo -e '
+
+For this to run properly, you must copy
+TranslatedStrings_Lr_de_DE.txt from the 
+Adobe/Adobe Lightroom Classic/Resources/de 
+directory into this directory.
+\e[1;31mFile "TranslatedStrings_Lr_de_DE.txt" not found\e[0m, aborting.'
     exit
 fi
 grep -Poh '\$\$\$/(?!MIDI2LR)[^=]*=' ../src/plugin/*.lua | sort | uniq > matches.txt
