@@ -67,7 +67,7 @@ local LatestPVSupported = 5 -- used for update PV to latest and for limits code 
 --local viewModes = LOC('$$$/AgDevelop/Toolbar/ViewModesTool=View Modes')
 local P1and2 = 'PV 1'..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..'PV 2'
 local P2and3plus = 'PV 2'..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..'PV 3+'
-local brush = LOC('$$$/TouchWorkspace/Adjustments/Local/Brush=Brush')
+local brush = LOC('$$$/AgDevelop/Menu/View/AdjustmentBrush=Brush')
 local developPreset = LOC('$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Single=Develop Preset')
 local dgh = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GreenDefringeHueLo=Defringe Green Hue')
 local dph = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PurpleDefringeHueLo=Defringe Purple Hue')
@@ -76,8 +76,9 @@ local filtexp = '. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki
 local key = LOC('$$$/MIDI2LR/Shortcuts/Key=Key')
 local keyexp = '. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information.'
 local keyword = LOC('$$$/AgLibrary/Filter/BrowserCriteria/Keyword=Keyword')
+local keywordtoggle = LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')
 local larger = LOC('$$$/AgEmail/FontSize/larger=larger')
-local locadj = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments')
+local locadj = LOC('$$$/AgDevelop/Setting/LocalAdjustment=Local Adjustments')
 local percor = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction')
 local primaryDisplay = LOC('$$$/AgPhotoBin/Tooltip/PrimaryViewMode=Primary Display')
 local profile = LOC('$$$/AgDevelop/CameraRawPanel/Profile=Profile:')
@@ -114,7 +115,8 @@ local effects = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effect
 local calibration = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Calibration=Calibration')
 local developPresets = LOC('$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Plural=Develop Presets')
 local keywords = LOC('$$$/AgLibrary/Filter/BrowserCriteria/Keywords=Keywords')
-local localizedAdjustments = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments')
+local mask = LOC('$$$/AgDevelop/LoupeView/Tool/MaskGroupTooltip=Masking')
+local localizedAdjustments = LOC('$$$/AgDevelop/Setting/LocalAdjustment=Local Adjustments')
 local localadjresets = LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj)
 --local localpresets = locadjpre
 local crop = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')
@@ -742,37 +744,179 @@ local DataBase = {
   {Command='Keyword14',Type='button',Translation=keyword..' 14',Group=keywords,Explanation='Apply keyword 14 to all selected photos.'},
   {Command='Keyword15',Type='button',Translation=keyword..' 15',Group=keywords,Explanation='Apply keyword 15 to all selected photos.'},
   {Command='Keyword16',Type='button',Translation=keyword..' 16',Group=keywords,Explanation='Apply keyword 16 to all selected photos.'},
-  {Command='Keyword1Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 1',Group=keywords,Explanation='Toggle keyword 1 in each of the selected photos.'},
-  {Command='Keyword2Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 2',Group=keywords,Explanation='Toggle keyword 2 in each of the selected photos.'},
-  {Command='Keyword3Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 3',Group=keywords,Explanation='Toggle keyword 3 in each of the selected photos.'},
-  {Command='Keyword4Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 4',Group=keywords,Explanation='Toggle keyword 4 in each of the selected photos.'},
-  {Command='Keyword5Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 5',Group=keywords,Explanation='Toggle keyword 5 in each of the selected photos.'},
-  {Command='Keyword6Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 6',Group=keywords,Explanation='Toggle keyword 6 in each of the selected photos.'},
-  {Command='Keyword7Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 7',Group=keywords,Explanation='Toggle keyword 7 in each of the selected photos.'},
-  {Command='Keyword8Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 8',Group=keywords,Explanation='Toggle keyword 8 in each of the selected photos.'},
-  {Command='Keyword9Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 9',Group=keywords,Explanation='Toggle keyword 9 in each of the selected photos.'},
-  {Command='Keyword10Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 10',Group=keywords,Explanation='Toggle keyword 10 in each of the selected photos.'},
-  {Command='Keyword11Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 11',Group=keywords,Explanation='Toggle keyword 11 in each of the selected photos.'},
-  {Command='Keyword12Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 12',Group=keywords,Explanation='Toggle keyword 12 in each of the selected photos.'},
-  {Command='Keyword13Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 13',Group=keywords,Explanation='Toggle keyword 13 in each of the selected photos.'},
-  {Command='Keyword14Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 14',Group=keywords,Explanation='Toggle keyword 14 in each of the selected photos.'},
-  {Command='Keyword15Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 15',Group=keywords,Explanation='Toggle keyword 15 in each of the selected photos.'},
-  {Command='Keyword16Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword')..' 16',Group=keywords,Explanation='Toggle keyword 16 in each of the selected photos.'},
+  {Command='Keyword17',Type='button',Translation=keyword..' 17',Group=keywords,Explanation='Apply keyword 17 to all selected photos.'},
+  {Command='Keyword18',Type='button',Translation=keyword..' 18',Group=keywords,Explanation='Apply keyword 18 to all selected photos.'},
+  {Command='Keyword19',Type='button',Translation=keyword..' 19',Group=keywords,Explanation='Apply keyword 19 to all selected photos.'},
+  {Command='Keyword20',Type='button',Translation=keyword..' 20',Group=keywords,Explanation='Apply keyword 20 to all selected photos.'},
+  {Command='Keyword21',Type='button',Translation=keyword..' 21',Group=keywords,Explanation='Apply keyword 21 to all selected photos.'},
+  {Command='Keyword22',Type='button',Translation=keyword..' 22',Group=keywords,Explanation='Apply keyword 22 to all selected photos.'},
+  {Command='Keyword23',Type='button',Translation=keyword..' 23',Group=keywords,Explanation='Apply keyword 23 to all selected photos.'},
+  {Command='Keyword24',Type='button',Translation=keyword..' 24',Group=keywords,Explanation='Apply keyword 24 to all selected photos.'},
+  {Command='Keyword25',Type='button',Translation=keyword..' 25',Group=keywords,Explanation='Apply keyword 25 to all selected photos.'},
+  {Command='Keyword26',Type='button',Translation=keyword..' 26',Group=keywords,Explanation='Apply keyword 26 to all selected photos.'},
+  {Command='Keyword27',Type='button',Translation=keyword..' 27',Group=keywords,Explanation='Apply keyword 27 to all selected photos.'},
+  {Command='Keyword28',Type='button',Translation=keyword..' 28',Group=keywords,Explanation='Apply keyword 28 to all selected photos.'},
+  {Command='Keyword29',Type='button',Translation=keyword..' 29',Group=keywords,Explanation='Apply keyword 29 to all selected photos.'},
+  {Command='Keyword30',Type='button',Translation=keyword..' 30',Group=keywords,Explanation='Apply keyword 30 to all selected photos.'},
+  {Command='Keyword31',Type='button',Translation=keyword..' 31',Group=keywords,Explanation='Apply keyword 31 to all selected photos.'},
+  {Command='Keyword32',Type='button',Translation=keyword..' 32',Group=keywords,Explanation='Apply keyword 32 to all selected photos.'},
+  {Command='Keyword33',Type='button',Translation=keyword..' 33',Group=keywords,Explanation='Apply keyword 33 to all selected photos.'},
+  {Command='Keyword34',Type='button',Translation=keyword..' 34',Group=keywords,Explanation='Apply keyword 34 to all selected photos.'},
+  {Command='Keyword35',Type='button',Translation=keyword..' 35',Group=keywords,Explanation='Apply keyword 35 to all selected photos.'},
+  {Command='Keyword36',Type='button',Translation=keyword..' 36',Group=keywords,Explanation='Apply keyword 36 to all selected photos.'},
+  {Command='Keyword37',Type='button',Translation=keyword..' 37',Group=keywords,Explanation='Apply keyword 37 to all selected photos.'},
+  {Command='Keyword38',Type='button',Translation=keyword..' 38',Group=keywords,Explanation='Apply keyword 38 to all selected photos.'},
+  {Command='Keyword39',Type='button',Translation=keyword..' 39',Group=keywords,Explanation='Apply keyword 39 to all selected photos.'},
+  {Command='Keyword40',Type='button',Translation=keyword..' 40',Group=keywords,Explanation='Apply keyword 40 to all selected photos.'},
+  {Command='Keyword41',Type='button',Translation=keyword..' 41',Group=keywords,Explanation='Apply keyword 41 to all selected photos.'},
+  {Command='Keyword42',Type='button',Translation=keyword..' 42',Group=keywords,Explanation='Apply keyword 42 to all selected photos.'},
+  {Command='Keyword43',Type='button',Translation=keyword..' 43',Group=keywords,Explanation='Apply keyword 43 to all selected photos.'},
+  {Command='Keyword44',Type='button',Translation=keyword..' 44',Group=keywords,Explanation='Apply keyword 44 to all selected photos.'},
+  {Command='Keyword45',Type='button',Translation=keyword..' 45',Group=keywords,Explanation='Apply keyword 45 to all selected photos.'},
+  {Command='Keyword46',Type='button',Translation=keyword..' 46',Group=keywords,Explanation='Apply keyword 46 to all selected photos.'},
+  {Command='Keyword47',Type='button',Translation=keyword..' 47',Group=keywords,Explanation='Apply keyword 47 to all selected photos.'},
+  {Command='Keyword48',Type='button',Translation=keyword..' 48',Group=keywords,Explanation='Apply keyword 48 to all selected photos.'},
+  {Command='Keyword49',Type='button',Translation=keyword..' 49',Group=keywords,Explanation='Apply keyword 49 to all selected photos.'},
+  {Command='Keyword50',Type='button',Translation=keyword..' 50',Group=keywords,Explanation='Apply keyword 50 to all selected photos.'},
+  {Command='Keyword51',Type='button',Translation=keyword..' 51',Group=keywords,Explanation='Apply keyword 51 to all selected photos.'},
+  {Command='Keyword52',Type='button',Translation=keyword..' 52',Group=keywords,Explanation='Apply keyword 52 to all selected photos.'},
+  {Command='Keyword53',Type='button',Translation=keyword..' 53',Group=keywords,Explanation='Apply keyword 53 to all selected photos.'},
+  {Command='Keyword54',Type='button',Translation=keyword..' 54',Group=keywords,Explanation='Apply keyword 54 to all selected photos.'},
+  {Command='Keyword55',Type='button',Translation=keyword..' 55',Group=keywords,Explanation='Apply keyword 55 to all selected photos.'},
+  {Command='Keyword56',Type='button',Translation=keyword..' 56',Group=keywords,Explanation='Apply keyword 56 to all selected photos.'},
+  {Command='Keyword57',Type='button',Translation=keyword..' 57',Group=keywords,Explanation='Apply keyword 57 to all selected photos.'},
+  {Command='Keyword58',Type='button',Translation=keyword..' 58',Group=keywords,Explanation='Apply keyword 58 to all selected photos.'},
+  {Command='Keyword59',Type='button',Translation=keyword..' 59',Group=keywords,Explanation='Apply keyword 59 to all selected photos.'},
+  {Command='Keyword60',Type='button',Translation=keyword..' 60',Group=keywords,Explanation='Apply keyword 60 to all selected photos.'},
+  {Command='Keyword61',Type='button',Translation=keyword..' 61',Group=keywords,Explanation='Apply keyword 61 to all selected photos.'},
+  {Command='Keyword62',Type='button',Translation=keyword..' 62',Group=keywords,Explanation='Apply keyword 62 to all selected photos.'},
+  {Command='Keyword63',Type='button',Translation=keyword..' 63',Group=keywords,Explanation='Apply keyword 63 to all selected photos.'},
+  {Command='Keyword64',Type='button',Translation=keyword..' 64',Group=keywords,Explanation='Apply keyword 64 to all selected photos.'},
+
+--
+--toggle keywords
+--
+
+  {Command='Keyword1Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','1'),Group=keywordtoggle,Explanation='Toggle keyword 1 in each of the selected photos.'},
+  {Command='Keyword2Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','2'),Group=keywordtoggle,Explanation='Toggle keyword 2 in each of the selected photos.'},
+  {Command='Keyword3Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','3'),Group=keywordtoggle,Explanation='Toggle keyword 3 in each of the selected photos.'},
+  {Command='Keyword4Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','4'),Group=keywordtoggle,Explanation='Toggle keyword 4 in each of the selected photos.'},
+  {Command='Keyword5Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','5'),Group=keywordtoggle,Explanation='Toggle keyword 5 in each of the selected photos.'},
+  {Command='Keyword6Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','6'),Group=keywordtoggle,Explanation='Toggle keyword 6 in each of the selected photos.'},
+  {Command='Keyword7Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','7'),Group=keywordtoggle,Explanation='Toggle keyword 7 in each of the selected photos.'},
+  {Command='Keyword8Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','8'),Group=keywordtoggle,Explanation='Toggle keyword 8 in each of the selected photos.'},
+  {Command='Keyword9Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','9'),Group=keywordtoggle,Explanation='Toggle keyword 9 in each of the selected photos.'},
+  {Command='Keyword10Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','10'),Group=keywordtoggle,Explanation='Toggle keyword 10 in each of the selected photos.'},
+  {Command='Keyword11Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','11'),Group=keywordtoggle,Explanation='Toggle keyword 11 in each of the selected photos.'},
+  {Command='Keyword12Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','12'),Group=keywordtoggle,Explanation='Toggle keyword 12 in each of the selected photos.'},
+  {Command='Keyword13Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','13'),Group=keywordtoggle,Explanation='Toggle keyword 13 in each of the selected photos.'},
+  {Command='Keyword14Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','14'),Group=keywordtoggle,Explanation='Toggle keyword 14 in each of the selected photos.'},
+  {Command='Keyword15Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','15'),Group=keywordtoggle,Explanation='Toggle keyword 15 in each of the selected photos.'},
+  {Command='Keyword16Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','16'),Group=keywordtoggle,Explanation='Toggle keyword 16 in each of the selected photos.'},
+  {Command='Keyword17Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','17'),Group=keywordtoggle,Explanation='Toggle keyword 17 in each of the selected photos.'},
+  {Command='Keyword18Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','18'),Group=keywordtoggle,Explanation='Toggle keyword 18 in each of the selected photos.'},
+  {Command='Keyword19Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','19'),Group=keywordtoggle,Explanation='Toggle keyword 19 in each of the selected photos.'},
+  {Command='Keyword20Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','20'),Group=keywordtoggle,Explanation='Toggle keyword 20 in each of the selected photos.'},
+  {Command='Keyword21Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','21'),Group=keywordtoggle,Explanation='Toggle keyword 21 in each of the selected photos.'},
+  {Command='Keyword22Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','22'),Group=keywordtoggle,Explanation='Toggle keyword 22 in each of the selected photos.'},
+  {Command='Keyword23Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','23'),Group=keywordtoggle,Explanation='Toggle keyword 23 in each of the selected photos.'},
+  {Command='Keyword24Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','24'),Group=keywordtoggle,Explanation='Toggle keyword 24 in each of the selected photos.'},
+  {Command='Keyword25Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','25'),Group=keywordtoggle,Explanation='Toggle keyword 25 in each of the selected photos.'},
+  {Command='Keyword26Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','26'),Group=keywordtoggle,Explanation='Toggle keyword 26 in each of the selected photos.'},
+  {Command='Keyword27Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','27'),Group=keywordtoggle,Explanation='Toggle keyword 27 in each of the selected photos.'},
+  {Command='Keyword28Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','28'),Group=keywordtoggle,Explanation='Toggle keyword 28 in each of the selected photos.'},
+  {Command='Keyword29Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','29'),Group=keywordtoggle,Explanation='Toggle keyword 29 in each of the selected photos.'},
+  {Command='Keyword30Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','30'),Group=keywordtoggle,Explanation='Toggle keyword 30 in each of the selected photos.'},
+  {Command='Keyword31Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','31'),Group=keywordtoggle,Explanation='Toggle keyword 31 in each of the selected photos.'},
+  {Command='Keyword32Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','32'),Group=keywordtoggle,Explanation='Toggle keyword 32 in each of the selected photos.'},
+  {Command='Keyword33Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','33'),Group=keywordtoggle,Explanation='Toggle keyword 33 in each of the selected photos.'},
+  {Command='Keyword34Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','34'),Group=keywordtoggle,Explanation='Toggle keyword 34 in each of the selected photos.'},
+  {Command='Keyword35Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','35'),Group=keywordtoggle,Explanation='Toggle keyword 35 in each of the selected photos.'},
+  {Command='Keyword36Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','36'),Group=keywordtoggle,Explanation='Toggle keyword 36 in each of the selected photos.'},
+  {Command='Keyword37Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','37'),Group=keywordtoggle,Explanation='Toggle keyword 37 in each of the selected photos.'},
+  {Command='Keyword38Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','38'),Group=keywordtoggle,Explanation='Toggle keyword 38 in each of the selected photos.'},
+  {Command='Keyword39Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','39'),Group=keywordtoggle,Explanation='Toggle keyword 39 in each of the selected photos.'},
+  {Command='Keyword40Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','40'),Group=keywordtoggle,Explanation='Toggle keyword 40 in each of the selected photos.'},
+  {Command='Keyword41Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','41'),Group=keywordtoggle,Explanation='Toggle keyword 41 in each of the selected photos.'},
+  {Command='Keyword42Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','42'),Group=keywordtoggle,Explanation='Toggle keyword 42 in each of the selected photos.'},
+  {Command='Keyword43Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','43'),Group=keywordtoggle,Explanation='Toggle keyword 43 in each of the selected photos.'},
+  {Command='Keyword44Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','44'),Group=keywordtoggle,Explanation='Toggle keyword 44 in each of the selected photos.'},
+  {Command='Keyword45Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','45'),Group=keywordtoggle,Explanation='Toggle keyword 45 in each of the selected photos.'},
+  {Command='Keyword46Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','46'),Group=keywordtoggle,Explanation='Toggle keyword 46 in each of the selected photos.'},
+  {Command='Keyword47Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','47'),Group=keywordtoggle,Explanation='Toggle keyword 47 in each of the selected photos.'},
+  {Command='Keyword48Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','48'),Group=keywordtoggle,Explanation='Toggle keyword 48 in each of the selected photos.'},
+  {Command='Keyword49Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','49'),Group=keywordtoggle,Explanation='Toggle keyword 49 in each of the selected photos.'},
+  {Command='Keyword50Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','50'),Group=keywordtoggle,Explanation='Toggle keyword 50 in each of the selected photos.'},
+  {Command='Keyword51Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','51'),Group=keywordtoggle,Explanation='Toggle keyword 51 in each of the selected photos.'},
+  {Command='Keyword52Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','52'),Group=keywordtoggle,Explanation='Toggle keyword 52 in each of the selected photos.'},
+  {Command='Keyword53Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','53'),Group=keywordtoggle,Explanation='Toggle keyword 53 in each of the selected photos.'},
+  {Command='Keyword54Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','54'),Group=keywordtoggle,Explanation='Toggle keyword 54 in each of the selected photos.'},
+  {Command='Keyword55Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','55'),Group=keywordtoggle,Explanation='Toggle keyword 55 in each of the selected photos.'},
+  {Command='Keyword56Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','56'),Group=keywordtoggle,Explanation='Toggle keyword 56 in each of the selected photos.'},
+  {Command='Keyword57Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','57'),Group=keywordtoggle,Explanation='Toggle keyword 57 in each of the selected photos.'},
+  {Command='Keyword58Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','58'),Group=keywordtoggle,Explanation='Toggle keyword 58 in each of the selected photos.'},
+  {Command='Keyword59Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','59'),Group=keywordtoggle,Explanation='Toggle keyword 59 in each of the selected photos.'},
+  {Command='Keyword60Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','60'),Group=keywordtoggle,Explanation='Toggle keyword 60 in each of the selected photos.'},
+  {Command='Keyword61Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','61'),Group=keywordtoggle,Explanation='Toggle keyword 61 in each of the selected photos.'},
+  {Command='Keyword62Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','62'),Group=keywordtoggle,Explanation='Toggle keyword 62 in each of the selected photos.'},
+  {Command='Keyword63Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','63'),Group=keywordtoggle,Explanation='Toggle keyword 63 in each of the selected photos.'},
+  {Command='Keyword64Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','64'),Group=keywordtoggle,Explanation='Toggle keyword 64 in each of the selected photos.'},
+
+--
+--develop: masks
+--
+  {Command='Mask',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',mask),Group=mask,Explanation='Select Mask mode in Develop Module. Repeated press toggles Loupe View.'},
+  {Command='MaskEnable',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleMaskgroupBasedCorrections=Toggle Mask'),Group=mask,Explanation='Enable or disable mask-based corrections.'},
+  {Command='MaskReset',Type='button',Translation=LOC('$$$/CRaw/Masking/DeleteAllMasks=Delete all masks'),Group=mask,Explanation=''},
+  {Command='MaskPrevious',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/PreviousMaskGroup=Previous mask group'),Group=mask,Explanation='Select previous mask group.'},
+  {Command='MaskNext',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/NextMaskGroup=Next mask group'),Group=mask,Explanation='Select next mask group.'},
+  {Command='MaskPreviousTool',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/PreviousMaskTool=Previous mask tool'),Group=mask,Explanation='Select next mask tool within a mask group.'},
+  {Command='MaskNextTool',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/NextMaskTool=Next mask tool'),Group=mask,Explanation='Select previous mask tool within a mask group.'},
+  {Command='MaskDelete',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/DeleteMaskGroup=Delete mask group'),Group=mask,Explanation='Delete the selected mask group.'},
+  {Command='MaskDeleteTool',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/DeleteMaskTool=Delete mask tool'),Group=mask,Explanation='Delete the selected individual mask tool within the current group.'},
+  {Command='MaskInvertTool',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/ToggleInvert=Toggle invert for selected tool'),Group=mask,Explanation=''},
+  {Command='MaskHide',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/ToggleMaskGroupVisibility=Toggle visibility of the mask group'),Group=mask,Explanation='Show/hide the effect of selected mask group.'},
+  {Command='MaskHideTool',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/ToggleMaskToolVisibility=Toggle mask tool visibility'),Group=mask,Explanation='Show/hide the effect of selected individual mask tool within the current group.'},
+  {Command='MaskNewBrush',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/Brush=brush'),Group=mask,Explanation=''},
+  {Command='MaskNewGrad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/Gradient=gradient'),Group=mask,Explanation=''},
+  {Command='MaskNewRad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/CircularGradient=radial gradient'),Group=mask,Explanation=''},
+  {Command='MaskNewColor',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/ColorRange=color range'),Group=mask,Explanation=''},
+  {Command='MaskNewLum',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/LuminanceRange=luminance range'),Group=mask,Explanation=''},
+  {Command='MaskNewDepth',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/DepthRange=depth range'),Group=mask,Explanation=''},
+  {Command='MaskNewSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
+  {Command='MaskNewSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
+  {Command='MaskAddBrush',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/Brush=brush'),Group=mask,Explanation=''},
+  {Command='MaskAddGrad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/Gradient=gradient'),Group=mask,Explanation=''},
+  {Command='MaskAddRad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/CircularGradient=radial gradient'),Group=mask,Explanation=''},
+  {Command='MaskAddColor',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/ColorRange=color range'),Group=mask,Explanation=''},
+  {Command='MaskAddLum',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/LuminanceRange=luminance range'),Group=mask,Explanation=''},
+  {Command='MaskAddDepth',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/DepthRange=depth range'),Group=mask,Explanation=''},
+  {Command='MaskAddSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
+  {Command='MaskAddSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
+  {Command='MaskSubBrush',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/Brush=brush'),Group=mask,Explanation=''},
+  {Command='MaskSubGrad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/Gradient=gradient'),Group=mask,Explanation=''},
+  {Command='MaskSubRad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/CircularGradient=radial gradient'),Group=mask,Explanation=''},
+  {Command='MaskSubColor',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/ColorRange=color range'),Group=mask,Explanation=''},
+  {Command='MaskSubLum',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/LuminanceRange=luminance range'),Group=mask,Explanation=''},
+  {Command='MaskSubDepth',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/DepthRange=depth range'),Group=mask,Explanation=''},
+  {Command='MaskSubSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
+  {Command='MaskSubSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
+  {Command='MaskIntBrush',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/Brush=brush'),Group=mask,Explanation=''},
+  {Command='MaskIntGrad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/Gradient=gradient'),Group=mask,Explanation=''},
+  {Command='MaskIntRad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/CircularGradient=radial gradient'),Group=mask,Explanation=''},
+  {Command='MaskIntColor',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/ColorRange=color range'),Group=mask,Explanation=''},
+  {Command='MaskIntLum',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/LuminanceRange=luminance range'),Group=mask,Explanation=''},
+  {Command='MaskIntDepth',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/DepthRange=depth range'),Group=mask,Explanation=''},
+  {Command='MaskIntSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
+  {Command='MaskIntSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
 
 --
 --develop: localized adjustments
 --
-  {Command='GraduatedFilter',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters')),Group=localizedAdjustments,Explanation='Select Graduated Filter mode in Develop Module. Repeated press toggles Loupe View.'},
-  {Command='RadialFilter',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters')),Group=localizedAdjustments,Explanation='Select Radial Filter View mode in Develop Module. Repeated press toggles Loupe View.'},
   {Command='RedEye',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction')),Group=localizedAdjustments,Explanation='Select Red Eye mode in Develop Module. Repeated press toggles Loupe View.'},
   {Command='SpotRemoval',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal')),Group=localizedAdjustments,Explanation='Select Spot Removal mode in Develop Module. Repeated press toggles Loupe View.'},
-  {Command='AdjustmentBrush',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments')),Group=localizedAdjustments,Explanation='Select Adjustment Brush mode in Develop Module. Repeated press toggles Loupe View.'},
-  {Command='ShowMaskOverlay',Type='button',Translation=LOC('$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Show Mask Overlay'),Group=localizedAdjustments,Explanation='Sends the keystroke <kbd>o</kbd> to Lightroom. Show or hide the mask overlay.'},
-  {Command='ToggleOverlay',type='button',Translation=locadj..' '..LOC('$$$/MIDI2LR/ShortCuts/ShowHide1=Show/hide ^1',LOC('$$$/AgDevelop/Menu/View/AdjustmentMaskOverlay=Correction mask overlay')),Group=localizedAdjustments,Explanation='Toggles the localized adjustments mask overlay. Use only when any of the local adjustments filter is active.'},
+  {Command='ToggleOverlay',type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/ToggleOverlay=Toggle Mask Overlay'),Group=localizedAdjustments,Explanation='Toggles the localized adjustments mask overlay. Use only when any of the local adjustments filter is active.'},
   {Command='CycleMaskOverlayColor',Type='button',Translation=LOC('$$$/AgDevelop/Menu/View/AdjustmentBrushOverlay/CycleOverlay=Overlay Color'):gsub('%(%&%a%)',''):gsub('%&',''),Group=localizedAdjustments,Explanation='Sends the keystroke <kbd>\226\135\167 Shift</kbd>+<kbd>o</kbd> to Lightroom. Change Mask Overlay Color.'},
-  {Command='EnableCircularGradientBasedCorrections',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleCircularGradientBasedCorrections=Radial filter enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable radial filter.'},
-  {Command='EnableGradientBasedCorrections',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleGradientBasedCorrections=Graduated filter enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable graduated filter.'},
-  {Command='EnablePaintBasedCorrections',Type='button',Translation=LOC('$$$/AgDevelop/Settings/TogglePaintBasedCorrections=Brush adjustments enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable brush adjustments.'},
   {Command='EnableRedEye',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleRedEye=Red-Eye enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable red eye correction.'},
   {Command='EnableRetouch',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleSpotRemoval=Spot removal enable/disable'),Group=localizedAdjustments,Explanation='Enable or disable spot removal.'},
   {Command='ChangeBrushSize',Type='repeat',Translation=brush..' — '..size,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Change adjustment brush size. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size.'..repeatexp,Repeats={'BrushSizeLarger','BrushSizeSmaller'}},
@@ -800,9 +944,6 @@ local DataBase = {
   {Command='local_Defringe',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')..' (PV 3+)',PV3=locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe'),Group=localizedAdjustments,Explanation='Adjust Defringe for the currently active tool: Brush, Radial Filter, or Graduated Filter.'},
   {Command='local_ToningLuminance',Type='parameter',Translation=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)',PV2=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance'),PV3=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)',Group=localizedAdjustments,Explanation='Adjust Toning Luminance for the currently active tool: Brush, Radial Filter, or Graduated Filter.'},
   --local adjustment resets
-  {Command='ResetCircGrad',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetRadialFilters=Reset Radial Filters'),Group=localadjresets,Explanation='Delete radial filter.'},
-  {Command='ResetGradient',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetGraduatedFilters=Reset Graduated Filters'),Group=localadjresets,Explanation='Delete graduated filter.'},
-  {Command='ResetBrushing',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetBrushing=Reset Brush Corrections'),Group=localadjresets,Explanation='Delete brush adjustments.'},
   {Command='ResetRedeye',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetRedeye=Reset Red-Eye'),Group=localadjresets,Explanation='Delete red eye correction.'},
   {Command='ResetSpotRem',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetSpotRemoval=Reset Spot Removal'),Group=localadjresets,Explanation='Delete spot removal.'},
   {Command='Resetlocal_Temperature',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Temperature=Temp.')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Temperature=Temp.')),Group=localadjresets,Explanation='Reset to default.'},
@@ -819,11 +960,13 @@ local DataBase = {
   {Command='Resetlocal_Hue',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Hue=Hue')..' (PV 5+)'),PV5=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Hue=Hue')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Saturation',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Saturation=Saturation')..' ('..P2and3plus..')'),PV2=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Saturation=Saturation')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Sharpness',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Sharpness=Sharpness')..' ('..P2and3plus..')'),PV2=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Sharpness=Sharpness')),Group=localadjresets,Explanation='Reset to default.'},
-  {Command='Resetlocal_LuminanceNoise',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/LuminanceNoiseReduction=Luminence Noise Reduction')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/LuminanceNoiseReduction=Luminence Noise Reduction')),Group=localadjresets,Explanation='Reset to default.'},
+  {Command='Resetlocal_LuminanceNoise',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/LuminanceNoiseReduction=Luminance Noise Reduction')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/LuminanceNoiseReduction=Luminence Noise Reduction')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Moire',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Defringe',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_ToningLuminance',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)'),PV2=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminanz')),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminanz')..' (PV 2)'),Group=localadjresets,Explanation='Reset to default.'},
-  --local adjustment presets
+--
+--local adjustment presets
+--
   {Command='LocalPreset1',Type='button',Translation=locadjpre..' 1',Group=locadjpre,Explanation='Use preset 1 for localized adjustments.'},
   {Command='LocalPreset2',Type='button',Translation=locadjpre..' 2',Group=locadjpre,Explanation='Use preset 2 for localized adjustments.'},
   {Command='LocalPreset3',Type='button',Translation=locadjpre..' 3',Group=locadjpre,Explanation='Use preset 3 for localized adjustments.'},
@@ -840,7 +983,40 @@ local DataBase = {
   {Command='LocalPreset14',Type='button',Translation=locadjpre..' 14',Group=locadjpre,Explanation='Use preset 14 for localized adjustments.'},
   {Command='LocalPreset15',Type='button',Translation=locadjpre..' 15',Group=locadjpre,Explanation='Use preset 15 for localized adjustments.'},
   {Command='LocalPreset16',Type='button',Translation=locadjpre..' 16',Group=locadjpre,Explanation='Use preset 16 for localized adjustments.'},
-
+  {Command='LocalPreset17',Type='button',Translation=locadjpre..' 17',Group=locadjpre,Explanation='Use preset 17 for localized adjustments.'},
+  {Command='LocalPreset18',Type='button',Translation=locadjpre..' 18',Group=locadjpre,Explanation='Use preset 18 for localized adjustments.'},
+  {Command='LocalPreset19',Type='button',Translation=locadjpre..' 19',Group=locadjpre,Explanation='Use preset 19 for localized adjustments.'},
+  {Command='LocalPreset20',Type='button',Translation=locadjpre..' 20',Group=locadjpre,Explanation='Use preset 20 for localized adjustments.'},
+  {Command='LocalPreset21',Type='button',Translation=locadjpre..' 21',Group=locadjpre,Explanation='Use preset 21 for localized adjustments.'},
+  {Command='LocalPreset22',Type='button',Translation=locadjpre..' 22',Group=locadjpre,Explanation='Use preset 22 for localized adjustments.'},
+  {Command='LocalPreset23',Type='button',Translation=locadjpre..' 23',Group=locadjpre,Explanation='Use preset 23 for localized adjustments.'},
+  {Command='LocalPreset24',Type='button',Translation=locadjpre..' 24',Group=locadjpre,Explanation='Use preset 24 for localized adjustments.'},
+  {Command='LocalPreset25',Type='button',Translation=locadjpre..' 25',Group=locadjpre,Explanation='Use preset 25 for localized adjustments.'},
+  {Command='LocalPreset26',Type='button',Translation=locadjpre..' 26',Group=locadjpre,Explanation='Use preset 26 for localized adjustments.'},
+  {Command='LocalPreset27',Type='button',Translation=locadjpre..' 27',Group=locadjpre,Explanation='Use preset 27 for localized adjustments.'},
+  {Command='LocalPreset28',Type='button',Translation=locadjpre..' 28',Group=locadjpre,Explanation='Use preset 28 for localized adjustments.'},
+  {Command='LocalPreset29',Type='button',Translation=locadjpre..' 29',Group=locadjpre,Explanation='Use preset 29 for localized adjustments.'},
+  {Command='LocalPreset30',Type='button',Translation=locadjpre..' 30',Group=locadjpre,Explanation='Use preset 30 for localized adjustments.'},
+  {Command='LocalPreset31',Type='button',Translation=locadjpre..' 31',Group=locadjpre,Explanation='Use preset 31 for localized adjustments.'},
+  {Command='LocalPreset32',Type='button',Translation=locadjpre..' 32',Group=locadjpre,Explanation='Use preset 32 for localized adjustments.'},
+  {Command='LocalPreset33',Type='button',Translation=locadjpre..' 33',Group=locadjpre,Explanation='Use preset 33 for localized adjustments.'},
+  {Command='LocalPreset34',Type='button',Translation=locadjpre..' 34',Group=locadjpre,Explanation='Use preset 34 for localized adjustments.'},
+  {Command='LocalPreset35',Type='button',Translation=locadjpre..' 35',Group=locadjpre,Explanation='Use preset 35 for localized adjustments.'},
+  {Command='LocalPreset36',Type='button',Translation=locadjpre..' 36',Group=locadjpre,Explanation='Use preset 36 for localized adjustments.'},
+  {Command='LocalPreset37',Type='button',Translation=locadjpre..' 37',Group=locadjpre,Explanation='Use preset 37 for localized adjustments.'},
+  {Command='LocalPreset38',Type='button',Translation=locadjpre..' 38',Group=locadjpre,Explanation='Use preset 38 for localized adjustments.'},
+  {Command='LocalPreset39',Type='button',Translation=locadjpre..' 39',Group=locadjpre,Explanation='Use preset 39 for localized adjustments.'},
+  {Command='LocalPreset40',Type='button',Translation=locadjpre..' 40',Group=locadjpre,Explanation='Use preset 40 for localized adjustments.'},
+  {Command='LocalPreset41',Type='button',Translation=locadjpre..' 41',Group=locadjpre,Explanation='Use preset 41 for localized adjustments.'},
+  {Command='LocalPreset42',Type='button',Translation=locadjpre..' 42',Group=locadjpre,Explanation='Use preset 42 for localized adjustments.'},
+  {Command='LocalPreset43',Type='button',Translation=locadjpre..' 43',Group=locadjpre,Explanation='Use preset 43 for localized adjustments.'},
+  {Command='LocalPreset44',Type='button',Translation=locadjpre..' 44',Group=locadjpre,Explanation='Use preset 44 for localized adjustments.'},
+  {Command='LocalPreset45',Type='button',Translation=locadjpre..' 45',Group=locadjpre,Explanation='Use preset 45 for localized adjustments.'},
+  {Command='LocalPreset46',Type='button',Translation=locadjpre..' 46',Group=locadjpre,Explanation='Use preset 46 for localized adjustments.'},
+  {Command='LocalPreset47',Type='button',Translation=locadjpre..' 47',Group=locadjpre,Explanation='Use preset 47 for localized adjustments.'},
+  {Command='LocalPreset48',Type='button',Translation=locadjpre..' 48',Group=locadjpre,Explanation='Use preset 48 for localized adjustments.'},
+  {Command='LocalPreset49',Type='button',Translation=locadjpre..' 49',Group=locadjpre,Explanation='Use preset 49 for localized adjustments.'},
+  {Command='LocalPreset50',Type='button',Translation=locadjpre..' 50',Group=locadjpre,Explanation='Use preset 50 for localized adjustments.'},
   --
   -- Misc
   --
@@ -949,7 +1125,7 @@ local function WriteAppTrans(language)
     if v.Wraps then
       wraps[#wraps+1]=v.Command
     end
-    if v.Repeats and type(v.Repeats == 'table') then
+    if v.Repeats and (type(v.Repeats) == 'table') then
       repeats[v.Command] = v.Repeats
     end
   end
@@ -976,7 +1152,7 @@ local function WriteAppTrans(language)
     </all_commands>
     <repeats size="dynamic">
 ]=])
-   local i = 0
+  local i = 0
   for k,v in pairs(repeats) do
     file:write('      <value'.. i ..'>\n        <key>'..k..
       '</key>\n        <value>\n          <first xml:space="preserve">'..

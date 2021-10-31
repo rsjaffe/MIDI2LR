@@ -20,22 +20,34 @@
   ==============================================================================
 */
 
-#if JUCE_PROJUCER_LIVE_BUILD && (defined (__APPLE_CPP__) || defined(__APPLE_CC__))
+namespace juce
+{
 
- // This hack is a workaround for a bug (?) in Apple's 10.11 SDK headers
- // which cause some configurations of Clang to throw out a spurious error..
- #include <CoreFoundation/CFAvailability.h>
- #undef CF_OPTIONS
- #define CF_OPTIONS(_type, _name) _type _name; enum
+/** Some helper methods for checking a callable object before invoking with
+    the specified arguments.
 
- // This is a workaround for the Xcode 9 version of NSUUID.h causing some errors
- // in the live-build engine.
- #define _Nullable
- #define _Nonnull
+    If the object is a std::function it will check for nullptr before
+    calling. For a callable object it will invoke the function call operator.
 
- // A workaround for compiling the 10.15 headers with an older compiler version
- #undef API_UNAVAILABLE_BEGIN
- #define API_UNAVAILABLE_BEGIN(...)
- #undef API_UNAVAILABLE_END
- #define API_UNAVAILABLE_END
-#endif
+    @tags{Core}
+*/
+struct NullCheckedInvocation
+{
+    template <typename... Signature, typename... Args>
+    static void invoke (std::function<Signature...>&& fn, Args&&... args)
+    {
+        if (fn != nullptr)
+            fn (std::forward<Args> (args)...);
+    }
+
+    template <typename Callable, typename... Args>
+    static void invoke (Callable&& fn, Args&&... args)
+    {
+        fn (std::forward<Args> (args)...);
+    }
+
+    template <typename... Args>
+    static void invoke (std::nullptr_t, Args&&...) {}
+};
+
+} // namespace juce

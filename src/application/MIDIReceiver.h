@@ -29,7 +29,7 @@
 class Devices;
 
 #ifndef _MSC_VER
-#define _In_
+#define _In_ //-V3547
 #endif
 
 class MidiReceiver final : juce::MidiInputCallback {
@@ -47,22 +47,27 @@ class MidiReceiver final : juce::MidiInputCallback {
    template<class T>
    void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(const rsj::MidiMessage&))
    {
-      if (object && mf)
+      if (object && mf) {
          callbacks_.emplace_back([=](const rsj::MidiMessage& a) { (object->*mf)(a); });
+      }
    }
 
  private:
    void DispatchMessages();
-   void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
+   void handleIncomingMidiMessage(
+       juce::MidiInput* device, const juce::MidiMessage& message) override
+   {
+      messages_.push({rsj::MidiMessage(message), device});
+   }
    void InitDevices();
    void TryToOpen(); /* inner code for InitDevices */
 
    Devices& devices_;
-   rsj::ConcurrentQueue<rsj::MidiMessage> messages_;
-   std::future<void> dispatch_messages_future_;
+   rsj::ConcurrentQueue<std::pair<rsj::MidiMessage, juce::MidiInput*>> messages_;
    std::map<juce::MidiInput*, NrpnFilter> filters_ {};
    std::vector<std::function<void(const rsj::MidiMessage&)>> callbacks_;
    std::vector<std::unique_ptr<juce::MidiInput>> input_devices_;
+   std::future<void> dispatch_messages_future_; /* destroy this before callbacks_ */
 };
 
 #endif

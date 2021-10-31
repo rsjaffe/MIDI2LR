@@ -18,6 +18,8 @@
 #include <algorithm>
 #include <cctype>
 
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include <ww898/utf_converters.hpp>
 
 #include <juce_events/juce_events.h>
@@ -44,9 +46,9 @@ void rsj::LabelThread(gsl::cwzstring<> threadname)
 void rsj::LabelThread(gsl::czstring<> threadname)
 {
    auto result {pthread_setname_np(threadname)};
-   if (result)
-      rsj::Log(
-          fmt::format(FMT_STRING("Label thread {} failed with {} error."), threadname, result));
+   if (result) {
+      rsj::Log(fmt::format("Label thread {} failed with {} error.", threadname, result));
+   }
 }
 #endif
 /*****************************************************************************/
@@ -66,16 +68,20 @@ namespace {
       result.reserve(in.size() * 3 / 2); /* midway between max and min final size */
       for (const auto a : in) {
          if (rsj::cmp_less(rsj::CharToInt(a), ascii_map.size())
-             && rsj::cmp_greater_equal(rsj::CharToInt(a), 0))
+             && rsj::cmp_greater_equal(rsj::CharToInt(a), 0)) {
 #pragma warning(suppress : 26446 26482) /* false alarm, range checked by if statement */
             // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
             result.append(ascii_map[gsl::narrow_cast<size_t>(a)]);
-         else if (rsj::cmp_equal(rsj::CharToInt(a), 127))
+         }
+         else if (rsj::cmp_equal(rsj::CharToInt(a), 127)) {
             result.append("\\x7F");
-         else if (a == '\\')
+         }
+         else if (a == '\\') {
             result.append("\\\\");
-         else
+         }
+         else {
             result.push_back(a);
+         }
       }
       return result;
    }
@@ -105,18 +111,15 @@ namespace {
 void rsj::Trim(::std::string_view& value) noexcept
 {
    const auto first_not {value.find_first_not_of(" \t\n")};
-   if (first_not != ::std::string_view::npos)
-      value.remove_prefix(first_not);
+   if (first_not != ::std::string_view::npos) { value.remove_prefix(first_not); }
    const auto last_not {value.find_last_not_of(" \t\n")};
-   if (last_not != ::std::string_view::npos)
-      value.remove_suffix(value.size() - last_not - 1);
+   if (last_not != ::std::string_view::npos) { value.remove_suffix(value.size() - last_not - 1); }
 }
 
 void rsj::TrimL(::std::string_view& value) noexcept
 {
    const auto first_not {value.find_first_not_of(" \t\n")};
-   if (first_not != ::std::string_view::npos)
-      value.remove_prefix(first_not);
+   if (first_not != ::std::string_view::npos) { value.remove_prefix(first_not); }
 }
 /*****************************************************************************/
 /**************Error Logging**************************************************/
@@ -125,34 +128,37 @@ void rsj::TrimL(::std::string_view& value) noexcept
 void rsj::Log(const juce::String& info, const std::source_location& location) noexcept
 {
    try {
-      if (juce::Logger::getCurrentLogger())
+      if (juce::Logger::getCurrentLogger()) {
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ":"
                                   + location.file_name() + ":" + location.line() + " " + info);
+      }
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 
 void rsj::Log(gsl::czstring<> info, const std::source_location& location) noexcept
 {
    try {
-      if (juce::Logger::getCurrentLogger())
+      if (juce::Logger::getCurrentLogger()) {
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ":"
                                   + location.file_name() + ":" + location.line() + " "
-                                  + juce::String(juce::CharPointer_UTF8(info)));
+                                  + juce::String::fromUTF8(info));
+      }
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 
 void rsj::Log(gsl::cwzstring<> info, const std::source_location& location) noexcept
 {
    try {
-      if (juce::Logger::getCurrentLogger())
+      if (juce::Logger::getCurrentLogger()) {
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ":"
                                   + location.file_name() + ":" + location.line() + " " + info);
+      }
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 
@@ -168,7 +174,7 @@ void rsj::LogAndAlertError(
       }
       rsj::Log(error_text, location);
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 
@@ -184,7 +190,7 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
       }
       rsj::Log(error_text, location);
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 
@@ -200,25 +206,26 @@ void rsj::LogAndAlertError(
       }
       rsj::Log(error_text, location);
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 void rsj::ExceptionResponse(const std::exception& e, const std::source_location& location) noexcept
 {
    try {
-      const auto alert_text {juce::translate("Exception ").toStdString() + " " e.what())};
+      const auto alert_text {juce::translate("Exception ").toStdString() + e.what()};
       const auto error_text {std::string("Exception ") + e.what()};
       rsj::LogAndAlertError(alert_text, error_text, location);
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 #else
 void rsj::Log(const juce::String& info) noexcept
 {
    try {
-      if (juce::Logger::getCurrentLogger())
+      if (juce::Logger::getCurrentLogger()) {
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": " + info);
+      }
    }
    catch (...) { //-V565
    }
@@ -227,9 +234,10 @@ void rsj::Log(const juce::String& info) noexcept
 void rsj::Log(gsl::czstring<> info) noexcept
 {
    try {
-      if (juce::Logger::getCurrentLogger())
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": "
-                                  + juce::String(juce::CharPointer_UTF8(info)));
+      if (juce::Logger::getCurrentLogger()) {
+         juce::Logger::writeToLog(
+             juce::Time::getCurrentTime().toISO8601(true) + ": " + juce::String::fromUTF8(info));
+      }
    }
    catch (...) { //-V565
    }
@@ -238,8 +246,9 @@ void rsj::Log(gsl::czstring<> info) noexcept
 void rsj::Log(gsl::cwzstring<> info) noexcept
 {
    try {
-      if (juce::Logger::getCurrentLogger())
+      if (juce::Logger::getCurrentLogger()) {
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": " + info);
+      }
    }
    catch (...) { //-V565
    }
@@ -299,7 +308,7 @@ void rsj::ExceptionResponse(
    try {
       const auto alert_text {
           fmt::format(juce::translate("Exception ").toStdString() + "{} {}.", e.what(), fu)};
-      const auto error_text {fmt::format(FMT_STRING("Exception {} {}."), e.what(), fu)};
+      const auto error_text {fmt::format("Exception {} {}.", e.what(), fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
    catch (...) { //-V565
@@ -314,10 +323,10 @@ void rsj::ExceptionResponse(
    try {
       const auto alert_text {fmt::format(
           juce::translate("Exception ").toStdString() + "{} {}::{}.", e.what(), id, fu)};
-      const auto error_text {fmt::format(FMT_STRING("Exception {} {}::{}."), e.what(), id, fu)};
+      const auto error_text {fmt::format("Exception {} {}::{}.", e.what(), id, fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002
    }
 }
 #endif
@@ -330,8 +339,9 @@ void rsj::ExceptionResponse(
 std::wstring rsj::AppDataFilePath(std::wstring_view file_name)
 {
    wil::unique_cotaskmem_string pathptr {nullptr};
-   if (SUCCEEDED_LOG(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathptr)))
-      return std::wstring(pathptr.get()) + L"\\MIDI2LR\\" + std::wstring(file_name);
+   if (SUCCEEDED_LOG(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathptr))) {
+      return fmt::format(L"{}\\MIDI2LR\\{}", pathptr.get(), file_name);
+   }
    return std::wstring(file_name);
 }
 

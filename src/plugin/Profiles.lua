@@ -238,20 +238,8 @@ local function StartDialog(obstable,f)
           },
           f:row {
             font='<system>',
-            f:static_text{title = ProfileTypes.gradient.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profilegradient'), width = LrView.share('profile_value'),
-              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },
-          f:row {
-            font='<system>',
-            f:static_text{title = ProfileTypes.circularGradient.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('ProfilecircularGradient'), width = LrView.share('profile_value'),
-              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },
-          f:row {
-            font='<system>',
-            f:static_text{title = ProfileTypes.localized.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profilelocalized'), width = LrView.share('profile_value'),
+            f:static_text{title = ProfileTypes.masking.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profilemasking'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },
           f:spacer{height = f:control_spacing() * 4,},

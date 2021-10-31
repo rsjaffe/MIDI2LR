@@ -48,12 +48,13 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
          if (juce::ListBox::getSelectedRow() != -1) {
             const auto last {
                 juce::ListBox::getSelectedRow() == juce::TableListBox::getNumRows() - 1};
-            if (const auto ptr {dynamic_cast<CommandTableModel*>(juce::TableListBox::getModel())})
+            if (const auto ptr {dynamic_cast<CommandTableModel*>(juce::TableListBox::getModel())}) {
                ptr->RemoveRow(gsl::narrow_cast<size_t>(juce::ListBox::getSelectedRow()));
+            }
             juce::ListBox::updateContent();
-            if (last)
-               /* keep selection at the end */
+            if (last) { /* keep selection at the end */
                juce::ListBox::selectRow(getNumRows() - 1);
+            }
             return true;
          }
          return false;

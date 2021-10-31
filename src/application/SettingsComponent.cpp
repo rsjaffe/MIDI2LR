@@ -19,6 +19,7 @@
 #include <exception>
 
 #include <fmt/format.h>
+#include <gsl/gsl>
 
 #include "Misc.h"
 #include "SettingsManager.h"
@@ -42,7 +43,7 @@ void SettingsComponent::Init()
       pickup_group_.setBounds(0, 0, kSettingsWidth, 100);
       addToLayout(&pickup_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(pickup_group_);
-      pickup_label_.setFont(juce::Font {16.f, juce::Font::bold});
+      pickup_label_.setFont(juce::Font {16.F, juce::Font::bold});
       pickup_label_.setText(juce::translate("Disabling the pickup mode may be better for "
                                             "touchscreen interfaces and may solve issues with "
                                             "Lightroom not picking up fast fader/knob movements"),
@@ -81,8 +82,7 @@ void SettingsComponent::Init()
          if (chooser.browseForDirectory()) {
             const auto profile_location {chooser.getResult().getFullPathName()};
             settings_manager_.SetProfileDirectory(profile_location);
-            rsj::Log(fmt::format(
-                FMT_STRING("Profile location set to {}."), profile_location.toStdString()));
+            rsj::Log(fmt::format("Profile location set to {}.", profile_location.toStdString()));
             profile_location_label_.setText(
                 profile_location, juce::NotificationType::dontSendNotification);
          }
@@ -102,28 +102,29 @@ void SettingsComponent::Init()
       addToLayout(&autohide_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(autohide_group_);
 
-      autohide_explain_label_.setFont(juce::Font {16.f, juce::Font::bold});
+      autohide_explain_label_.setFont(juce::Font {16.F, juce::Font::bold});
       autohide_explain_label_.setText(juce::translate("Autohide the plugin window in x seconds, "
                                                       "select 0 for disabling autohide"),
           juce::NotificationType::dontSendNotification);
       autohide_explain_label_.setBounds(kSettingsLeft, 215, kSettingsWidth - 2 * kSettingsLeft, 50);
       addToLayout(&autohide_explain_label_, anchorMidLeft, anchorMidRight);
       autohide_explain_label_.setEditable(false);
-      autohide_explain_label_.setFont(juce::Font {16.f, juce::Font::bold});
+      autohide_explain_label_.setFont(juce::Font {16.F, juce::Font::bold});
       autohide_explain_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
       addAndMakeVisible(autohide_explain_label_);
 
       autohide_setting_.setBounds(kSettingsLeft, 245, kSettingsWidth - 2 * kSettingsLeft, 50);
-      autohide_setting_.setRange(0, 10, 1);
-      autohide_setting_.setValue(
-          settings_manager_.GetAutoHideTime(), juce::NotificationType::dontSendNotification);
+      autohide_setting_.setRange(0., 10., 1.);
+      autohide_setting_.setValue(static_cast<double>(settings_manager_.GetAutoHideTime()),
+          juce::NotificationType::dontSendNotification);
 
       addToLayout(&autohide_setting_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(autohide_setting_);
       autohide_setting_.onValueChange = [this] {
-         settings_manager_.SetAutoHideTime(std::lrint(autohide_setting_.getValue()));
-         rsj::Log(fmt::format(
-             FMT_STRING("Autohide time set to {} seconds."), settings_manager_.GetAutoHideTime()));
+         settings_manager_.SetAutoHideTime(
+             gsl::narrow<int>(std::lrint(autohide_setting_.getValue())));
+         rsj::Log(
+             fmt::format("Autohide time set to {} seconds.", settings_manager_.GetAutoHideTime()));
       };
       /* turn it on */
       activateLayout();

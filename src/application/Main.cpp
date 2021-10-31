@@ -16,34 +16,16 @@
 
 #include <algorithm>
 #include <exception>
+#include <filesystem>
 #include <fstream>
 #include <future>
 #include <memory>
 #include <mutex>
 #include <version>
-#ifdef __cpp_lib_atomic_wait
-#include <atomic>
-#else
-#include <condition_variable>
-#endif
-#ifndef _WIN32
-#include <AvailabilityMacros.h>
-#if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
-    && defined(__cpp_lib_filesystem)
-#define MIDI2LR_FILESYSTEM_AVAILABLE
-#endif
-#else
-#ifdef __cpp_lib_filesystem
-#define MIDI2LR_FILESYSTEM_AVAILABLE
-#endif
-#endif
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
-#include <filesystem>
-namespace fs = std::filesystem;
-#endif
 
-#include <asio.hpp>
+#include <asio/asio.hpp>
 #include <cereal/archives/xml.hpp>
+#include <dry-comparisons/dry-comparisons.hpp>
 #include <fmt/format.h>
 
 #include <JuceHeader.h>
@@ -63,6 +45,15 @@ namespace fs = std::filesystem;
 #include "ProfileManager.h"
 #include "SettingsManager.h"
 #include "VersionChecker.h"
+
+#ifdef __cpp_lib_semaphore
+#include <semaphore>
+#else
+#include <condition_variable>
+#endif
+
+namespace fs = std::filesystem;
+
 #ifdef _WIN32
 #include <array>
 
@@ -84,7 +75,7 @@ namespace {
       LookAndFeelMIDI2LR& operator=(LookAndFeelMIDI2LR&& s) = delete;
       juce::Font getTextButtonFont(juce::TextButton&, const int button_height) override
       {
-         return juce::Font(std::min(16.0f, static_cast<float>(button_height) * 0.7f));
+         return juce::Font(std::min(16.0F, static_cast<float>(button_height) * 0.7F));
       }
    };
 
@@ -139,16 +130,17 @@ namespace {
                std::rethrow_exception(exc);
             }
             catch (const std::exception& e) {
-               rsj::Log(fmt::format(FMT_STRING("Terminate called, exception {}."), e.what()));
+               rsj::Log(fmt::format("Terminate called, exception {}.", e.what()));
             }
             catch (...) {
                rsj::Log("Terminate called, unknown exception type.");
             }
          }
-         else
+         else {
             rsj::Log("Terminate called, no exception available.");
+         }
       }
-      catch (...) { //-V565
+      catch (...) { //-V565 //-V5002
       }
       std::_Exit(EXIT_FAILURE);
    }
@@ -190,20 +182,18 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             io_thread0_ = std::async(std::launch::async, [this] {
                rsj::LabelThread(MIDI2LR_UC_LITERAL("io_thread0_"));
                MIDI2LR_FAST_FLOATS;
-               if constexpr (kNdebug)
-                  io_context_.run();
-               else
-                  rsj::Log(
-                      fmt::format(FMT_STRING("io_thread0_ ran {} handlers."), io_context_.run()));
+               if constexpr (kNdebug) { io_context_.run(); }
+               else {
+                  rsj::Log(fmt::format("io_thread0_ ran {} handlers.", io_context_.run()));
+               }
             });
             io_thread1_ = std::async(std::launch::async, [this] {
                rsj::LabelThread(MIDI2LR_UC_LITERAL("io_thread1_"));
                MIDI2LR_FAST_FLOATS;
-               if constexpr (kNdebug)
-                  io_context_.run();
-               else
-                  rsj::Log(
-                      fmt::format(FMT_STRING("io_thread1_ ran {} handlers."), io_context_.run()));
+               if constexpr (kNdebug) { io_context_.run(); }
+               else {
+                  rsj::Log(fmt::format("io_thread1_ ran {} handlers.", io_context_.run()));
+               }
             });
             CCoptions::LinkToControlsModel(&controls_model_);
             PWoptions::LinkToControlsModel(&controls_model_);
@@ -247,7 +237,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       midi_receiver_.Stop();
       lr_ipc_in_.Stop();
       lr_ipc_out_.Stop();
-      work_ = asio::any_io_executor(); // Allow run() to exit
       version_checker_.Stop();
       DefaultProfileSave();
       SaveControlsModel();
@@ -262,8 +251,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          static std::once_flag of; /* function might be called twice during LR shutdown */
          std::call_once(of, [this] {
             if (profile_.ProfileUnsaved() && main_window_) {
-#ifdef __cpp_lib_atomic_wait
-               std::atomic<bool> ready {false};
+#ifdef __cpp_lib_semaphore
+               std::binary_semaphore ready_sem(1);
 #else
                std::condition_variable cv;
                std::mutex m;
@@ -277,19 +266,17 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                          juce::translate("Profile changed. Do you want to save your changes? If "
                                          "you continue without saving, your changes will be "
                                          "lost."))};
-                     if (result)
-                        main_window_->SaveProfile();
+                     if (result) { main_window_->SaveProfile(); }
                   }
                   catch (const std::exception& e) {
                      MIDI2LR_E_RESPONSE; /* and continue, so ready flag can be set */
                   }
-                  catch (...) {
+                  catch (...) { //-V565 //-V5002
                   }
-#ifdef __cpp_lib_atomic_wait
-                  ready = true;
-                  ready.notify_one();
+#ifdef __cpp_lib_semaphore
+                  ready_sem.release();
                });
-               ready.wait(true);
+               ready_sem.acquire();
 #else
                   {
                      std::unique_lock<std::mutex> lk {m};
@@ -312,8 +299,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
    void anotherInstanceStarted(const juce::String& command_line) override
    {
-      if (command_line == kShutDownString)
-         systemRequestedQuit();
+      if (command_line == kShutDownString) { systemRequestedQuit(); }
    }
 
    [[noreturn]] void unhandledException(
@@ -329,16 +315,15 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                              + " {}, {} line {}. Total uncaught {}."};
             rsj::LogAndAlertError(fmt::format(msgt, e->what(), source_filename.toStdString(),
                                       line_number, std::uncaught_exceptions()),
-                fmt::format(FMT_STRING("Unhandled exception {}, {} line {}. Total uncaught {}."),
-                    e->what(), source_filename.toStdString(), line_number,
-                    std::uncaught_exceptions()));
+                fmt::format("Unhandled exception {}, {} line {}. Total uncaught {}.", e->what(),
+                    source_filename.toStdString(), line_number, std::uncaught_exceptions()));
          }
          else {
             const auto msgt {juce::translate("unhandled exception").toStdString()
                              + " {} line {}. Total uncaught {}."};
             rsj::LogAndAlertError(fmt::format(msgt, source_filename.toStdString(), line_number,
                                       std::uncaught_exceptions()),
-                fmt::format(FMT_STRING("Unhandled exception {} line {}. Total uncaught {}."),
+                fmt::format("Unhandled exception {} line {}. Total uncaught {}.",
                     source_filename.toStdString(), line_number, std::uncaught_exceptions()));
          }
       }
@@ -357,8 +342,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          const auto file_name {rsj::AppDataFilePath(kDefaultsFile)};
          const auto profile_file {juce::File(file_name.data())};
          profile_.ToXmlFile(profile_file);
-         rsj::Log(fmt::format(FMT_STRING("Default profile saved to {}."),
-             profile_file.getFullPathName().toStdString()));
+         rsj::Log(fmt::format(
+             "Default profile saved to {}.", profile_file.getFullPathName().toStdString()));
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;
@@ -368,27 +353,18 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    void SaveControlsModel() const
    {
       try {
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
          const fs::path p {rsj::AppDataFilePath(kSettingsFileX)};
-#else
-         const auto p {rsj::AppDataFilePath(kSettingsFileX)};
-#endif
          std::ofstream outfile {p, std::ios::trunc};
          if (outfile.is_open()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto oarchive {std::make_unique<cereal::XMLOutputArchive>(outfile)};
             (*oarchive)(controls_model_);
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
-            rsj::Log(
-                fmt::format(FMT_STRING("ControlsModel archive in Main saved to {}."), p.string()));
-#else
-            rsj::Log(fmt::format(
-                FMT_STRING(MIDI2LR_UC_LITERAL("ControlsModel archive in Main saved to {}.")), p));
-#endif
+            rsj::Log(fmt::format("ControlsModel archive in Main saved to {}.", p.string()));
          }
-         else
+         else {
             rsj::LogAndAlertError(
                 juce::translate("Unable to save settings.xml"), "Unable to save settings.xml");
+         }
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;
@@ -398,24 +374,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    void LoadControlsModel()
    {
       try {
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
          const fs::path px {rsj::AppDataFilePath(kSettingsFileX)};
-#else
-         const auto px {rsj::AppDataFilePath(kSettingsFileX)};
-#endif
          std::ifstream in_file {px};
          if (in_file.is_open() && !in_file.eof()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto iarchive {std::make_unique<cereal::XMLInputArchive>(in_file)};
             (*iarchive)(controls_model_);
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
-            rsj::Log(fmt::format(
-                FMT_STRING("ControlsModel archive in Main loaded from {}."), px.string()));
-#else
-            rsj::Log(fmt::format(
-                FMT_STRING(MIDI2LR_UC_LITERAL("ControlsModel archive in Main loaded from {}.")),
-                px));
-#endif
+            rsj::Log(fmt::format("ControlsModel archive in Main loaded from {}.", px.string()));
          }
       }
       catch (const std::exception& e) {
@@ -445,14 +410,16 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          const auto& lang {command_set_.GetLanguage()};
          juce::String font1_name;
          juce::String font2_name;
-         if (lang == "ko")
-            font1_name = "NotoSansKR-Regular.otf";
-         else if (lang == "zh_TW" || lang == "zh_tw")
+         if (lang == "ko") { font1_name = "NotoSansKR-Regular.otf"; }
+         else if (rollbear::any_of("zh_TW", "zh_tw") == lang) {
             font1_name = "NotoSansTC-Regular.otf";
-         else if (lang == "zh_CN" || lang == "zh_cn")
+         }
+         else if (rollbear::any_of("zh_CN", "zh_cn") == lang) {
             font1_name = "NotoSansSC-Regular.otf";
-         else if (lang == "ja")
+         }
+         else if (lang == "ja") {
             font1_name = "NotoSansJP-Regular.otf";
+         }
          else {
             font1_name = "NotoSans-Regular-Plus-Thai.ttf";
             font2_name = "NotoSans-Bold-plus-Thai.ttf";
@@ -460,21 +427,23 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          juce::MemoryBlock font_data {};
          auto font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
                               .getSiblingFile(font1_name);
-         if (font_file.loadFileAsData(font_data))
+         if (font_file.loadFileAsData(font_data)) {
             juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
                 juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize()));
-         else
-            rsj::Log(fmt::format(
-                FMT_STRING("Unable to load primary font file {}."), font1_name.toStdString()));
+         }
+         else {
+            rsj::Log(fmt::format("Unable to load primary font file {}.", font1_name.toStdString()));
+         }
          if (font2_name.isNotEmpty()) {
             font_data.reset();
             font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
                             .getSiblingFile(font2_name);
-            if (font_file.loadFileAsData(font_data))
+            if (font_file.loadFileAsData(font_data)) {
                juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize());
-            else
-               rsj::Log(fmt::format(
-                   FMT_STRING("Unable to load bold font file {}."), font2_name.toStdString()));
+            }
+            else {
+               rsj::Log(fmt::format("Unable to load bold font file {}.", font2_name.toStdString()));
+            }
          }
       }
       catch (const std::exception& e) {
@@ -490,7 +459,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    std::future<void> io_thread0_;
    std::future<void> io_thread1_;
    asio::io_context io_context_ {};
-   asio::any_io_executor work_ {
+   [[maybe_unused]] asio::any_io_executor work_ {
        asio::require(io_context_.get_executor(), asio::execution::outstanding_work.tracked)};
    Devices devices_ {};
    const CommandSet command_set_ {};
@@ -503,7 +472,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    ProfileManager profile_manager_ {controls_model_, profile_, lr_ipc_out_, midi_receiver_};
    LrIpcIn lr_ipc_in_ {controls_model_, profile_manager_, profile_, midi_sender_, io_context_};
    SettingsManager settings_manager_ {profile_manager_, lr_ipc_out_};
-   [[maybe_unused]] const LookAndFeelMIDI2LR look_feel_;
+   [[maybe_unused]] const LookAndFeelMIDI2LR dummy1_;
    std::unique_ptr<MainWindow> main_window_ {nullptr};
    VersionChecker version_checker_ {settings_manager_};
 };

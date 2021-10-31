@@ -13,7 +13,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ---------------------------------------------------------------------------------------]]
 
 --Values from a local preset with all sliders set to maximum values
@@ -94,7 +94,7 @@ end
 
 local function ApplyLocalPreset(LocalPresetFilename)  --LocalPresetName eg: 'Burn (Darken).lrtemplate'
   local LocalPresetName = LrPathUtils.removeExtension(LrPathUtils.leafName(LocalPresetFilename))
-  if LrApplicationView.getCurrentModuleName() == 'develop' and ( LrDevelopController.getSelectedTool() == 'gradient' or LrDevelopController.getSelectedTool() == 'circularGradient' or LrDevelopController.getSelectedTool() == 'localized' ) then
+  if LrApplicationView.getCurrentModuleName() == 'develop' and LrDevelopController.getSelectedTool() == 'masking' then
     if LocalPresetFilename == '' or LocalPresetFilename == nil then
       return
     end
@@ -133,7 +133,7 @@ local function ApplyLocalPreset(LocalPresetFilename)  --LocalPresetName eg: 'Bur
   end
 end
 
-local numseries = 16 -- number of presets allowed
+local numseries = 50 -- number of presets allowed
 
 local function StartDialog(obstable,f)
   local PresetFileNames = GetPresetFilenames()
@@ -141,7 +141,8 @@ local function StartDialog(obstable,f)
     obstable['LocalPresets'..i] = ProgramPreferences.LocalPresets[i]
   end
   local dlgrows = {}
-  for i=1, numseries do
+  local numdiv2 = numseries / 2
+  for i=1, numdiv2 do
     dlgrows[i] = f:row{
       bind_to_object = obstable, -- default bound table
       f:static_text{title = LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." "..i,
@@ -152,7 +153,19 @@ local function StartDialog(obstable,f)
       }
     }
   end
-  return f:column(dlgrows)
+  local dlgrows1 = {}
+    for i=numdiv2 + 1, numseries do
+    dlgrows1[i - numdiv2] = f:row{
+      bind_to_object = obstable, -- default bound table
+      f:static_text{title = LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." "..i,
+        width = LrView.share('local_presets_label')},
+      f:popup_menu{
+        items = PresetFileNames,
+        value = LrView.bind('LocalPresets'..i)
+      }
+    }
+  end
+  return f:row{f:column(dlgrows),f:column(dlgrows1)}
 end
 
 local function EndDialog(obstable, status)

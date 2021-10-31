@@ -35,8 +35,9 @@ class CommandMenu final : public TextButtonAligned {
    void SetSelectedItem(size_t index)
    {
       selected_item_ = index;
-      if (index - 1 < command_set_.CommandAbbrevSize())
+      if (index - 1 < command_set_.CommandAbbrevSize()) {
          setButtonText(command_set_.CommandLabelAt(index - 1));
+      }
    }
 
  private:

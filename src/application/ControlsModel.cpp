@@ -19,32 +19,37 @@
 #include <cmath>
 #include <stdexcept>
 
-#include "MidiUtilities.h"
-#include "Misc.h"
-
-double ChannelModel::OffsetResult(const int diff, const int controlnumber, bool const wrap)
+double ChannelModel::OffsetResult(const int diff, const int controlnumber, const bool wrap)
 {
    try {
       const auto high_limit {cc_high_.at(controlnumber)};
       Expects(diff <= high_limit && diff >= -high_limit);
-      auto cached_v {current_v_.at(controlnumber).load(std::memory_order_acquire)};
+#ifdef __cpp_lib_atomic_ref
+      const std::atomic_ref cv {current_v_.at(controlnumber)};
+#else
+      auto& cv {current_v_.at(controlnumber)};
+#endif
+      auto old_v {cv.load(std::memory_order_acquire)};
       int new_v {};
       if (wrap) {
-         new_v = cached_v + diff;
-         if (new_v > high_limit)
-            new_v -= high_limit;
-         else if (new_v < 0)
-            new_v += high_limit;
+         do {
+            new_v = old_v + diff;
+            if (new_v > high_limit) { new_v -= high_limit; }
+            else if (new_v < 0) {
+               new_v += high_limit;
+            }
+            else { /* no action needed */
+            }
+         } while (!cv.compare_exchange_weak(
+             old_v, new_v, std::memory_order_release, std::memory_order_acquire));
       }
-      else
-         [[likely]] new_v = std::clamp(cached_v + diff, 0, high_limit);
-      if (current_v_.at(controlnumber)
-              .compare_exchange_strong(
-                  cached_v, new_v, std::memory_order_release, std::memory_order_acquire))
-         return static_cast<double>(new_v) / static_cast<double>(high_limit);
-      /* someone else got to change the value first, use theirs to be consistent � cached_v updated
-       * by exchange */
-      return static_cast<double>(cached_v) / static_cast<double>(high_limit);
+      else [[likely]] {
+         do {
+            new_v = std::clamp(old_v + diff, 0, high_limit);
+         } while (!cv.compare_exchange_weak(
+             old_v, new_v, std::memory_order_release, std::memory_order_acquire));
+      }
+      return static_cast<double>(new_v) / static_cast<double>(high_limit);
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -75,25 +80,30 @@ double ChannelModel::ControllerToPlugin(
       case rsj::MessageType::kCc:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute:
+#ifdef __cpp_lib_atomic_ref
+            std::atomic_ref(current_v_.at(controlnumber)).store(value, std::memory_order_release);
+#else
             current_v_.at(controlnumber).store(value, std::memory_order_release);
+#endif
 #pragma warning(suppress : 26451) /* int subtraction won't overflow 4 bytes here */
             return static_cast<double>(value - cc_low_.at(controlnumber))
                    / static_cast<double>(cc_high_.at(controlnumber) - cc_low_.at(controlnumber));
          case rsj::CCmethod::kBinaryOffset:
-            if (IsNrpn(controlnumber))
-               return OffsetResult(value - kBit14, controlnumber, wrap);
+            if (IsNrpn(controlnumber)) { return OffsetResult(value - kBit14, controlnumber, wrap); }
             return OffsetResult(value - kBit7, controlnumber, wrap);
          case rsj::CCmethod::kSignMagnitude:
-            if (IsNrpn(controlnumber))
+            if (IsNrpn(controlnumber)) {
                return OffsetResult(
                    value & kBit14 ? -(value & kLow13Bits) : value, controlnumber, wrap);
+            }
             return OffsetResult(value & kBit7 ? -(value & kLow6Bits) : value, controlnumber, wrap);
          case rsj::CCmethod::kTwosComplement:
             /* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
              * flip twos comp and subtract--independent of processor architecture */
-            if (IsNrpn(controlnumber))
+            if (IsNrpn(controlnumber)) {
                return OffsetResult(
                    value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value, controlnumber, wrap);
+            }
             return OffsetResult(
                 value & kBit7 ? -((value ^ kMaxMidi) + 1) : value, controlnumber, wrap);
          }
@@ -106,13 +116,13 @@ double ChannelModel::ControllerToPlugin(
       case rsj::MessageType::kKeyPressure:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::logic_error(fmt::format(
+         throw std::invalid_argument(fmt::format(
              FMT_STRING("ChannelModel::ControllerToPlugin unexpected control type. Controltype {}, "
                         "controlnumber {}, value {}, wrap {}."),
              controltype, controlnumber, value, wrap));
       }
-      throw std::logic_error(
-          fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
+      throw std::domain_error(
+          fmt::format(FMT_STRING("Undefined control type in ChannelModel::PluginToController. "
                                  "Control type {}."),
               controltype));
    }
@@ -136,7 +146,11 @@ int ChannelModel::SetToCenter(const rsj::MessageType controltype, const int cont
       case rsj::MessageType::kCc:
          if (cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute) {
             retval = CenterCc(controlnumber);
+#ifdef __cpp_lib_atomic_ref
+            std::atomic_ref(current_v_.at(controlnumber)).store(retval, std::memory_order_release);
+#else
             current_v_.at(controlnumber).store(retval, std::memory_order_release);
+#endif
          }
          break;
       case rsj::MessageType::kChanPressure:
@@ -170,26 +184,30 @@ int ChannelModel::MeasureChange(
       /* note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7
        * bits, high bits are shifted one right when placed into int. */
       switch (controltype) {
-      case rsj::MessageType::kPw: {
+      case rsj::MessageType::kPw:
          return value - pitch_wheel_current_.exchange(value, std::memory_order_acq_rel);
-      }
       case rsj::MessageType::kCc:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute:
+#ifdef __cpp_lib_atomic_ref
+            return value
+                   - std::atomic_ref(current_v_.at(controlnumber))
+                         .exchange(value, std::memory_order_acq_rel);
+#else
             return value - current_v_.at(controlnumber).exchange(value, std::memory_order_acq_rel);
+#endif
          case rsj::CCmethod::kBinaryOffset:
-            if (IsNrpn(controlnumber))
-               return value - kBit14;
+            if (IsNrpn(controlnumber)) { return value - kBit14; }
             return value - kBit7;
          case rsj::CCmethod::kSignMagnitude:
-            if (IsNrpn(controlnumber))
-               return value & kBit14 ? -(value & kLow13Bits) : value;
+            if (IsNrpn(controlnumber)) { return value & kBit14 ? -(value & kLow13Bits) : value; }
             return value & kBit7 ? -(value & kLow6Bits) : value;
          case rsj::CCmethod::kTwosComplement:
             /* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
              * flip twos comp and subtract--independent of processor architecture */
-            if (IsNrpn(controlnumber))
+            if (IsNrpn(controlnumber)) {
                return value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value;
+            }
             return value & kBit7 ? -((value ^ kMaxMidi) + 1) : value;
          }
       case rsj::MessageType::kNoteOff:
@@ -199,13 +217,13 @@ int ChannelModel::MeasureChange(
       case rsj::MessageType::kKeyPressure:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::logic_error(
+         throw std::invalid_argument(
              fmt::format(FMT_STRING("ChannelModel::MeasureChange unexpected control type. "
                                     "Controltype {}, controlnumber {}, value {}."),
                  controltype, controlnumber, value));
       }
-      throw std::logic_error(
-          fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
+      throw std::domain_error(
+          fmt::format(FMT_STRING("Undefined control type in ChannelModel::PluginToController. "
                                  "Control type {}."),
               controltype));
    }
@@ -223,24 +241,32 @@ int ChannelModel::PluginToController(
    try {
       /* value effectively clamped to 0-1 by clamp calls below */
       switch (controltype) {
-      case rsj::MessageType::kPw: {
-         /* TODO(C26451): int subtraction: can it overflow? */
-         const auto newv {
-             std::clamp(gsl::narrow<int>(std::lrint(value * (pitch_wheel_max_ - pitch_wheel_min_)))
-                            + pitch_wheel_min_,
-                 pitch_wheel_min_, pitch_wheel_max_)};
-         pitch_wheel_current_.store(newv, std::memory_order_release);
-         return newv;
-      }
-      case rsj::MessageType::kCc: {
-         /* TODO(C26451): int subtraction: can it overflow? */
-         const auto clow {cc_low_.at(controlnumber)};
-         const auto chigh {cc_high_.at(controlnumber)};
-         const auto newv {
-             std::clamp(gsl::narrow<int>(std::lrint(value * (chigh - clow))) + clow, clow, chigh)};
-         current_v_.at(controlnumber).store(newv, std::memory_order_release);
-         return newv;
-      }
+      case rsj::MessageType::kPw:
+         {
+            /* TODO(C26451): int subtraction: can it overflow? */
+            const auto newv {
+                std::clamp(gsl::narrow<int>(std::lrint(
+                               value * static_cast<double>(pitch_wheel_max_ - pitch_wheel_min_)))
+                               + pitch_wheel_min_,
+                    pitch_wheel_min_, pitch_wheel_max_)};
+            pitch_wheel_current_.store(newv, std::memory_order_release);
+            return newv;
+         }
+      case rsj::MessageType::kCc:
+         {
+            /* TODO(C26451): int subtraction: can it overflow? */
+            const auto clow {cc_low_.at(controlnumber)};
+            const auto chigh {cc_high_.at(controlnumber)};
+            const auto newv {std::clamp(
+                gsl::narrow<int>(std::lrint(value * static_cast<double>(chigh - clow))) + clow,
+                clow, chigh)};
+#ifdef __cpp_lib_atomic_ref
+            std::atomic_ref(current_v_.at(controlnumber)).store(newv, std::memory_order_release);
+#else
+            current_v_.at(controlnumber).store(newv, std::memory_order_release);
+#endif
+            return newv;
+         }
       case rsj::MessageType::kNoteOn:
          return kMaxMidi;
       case rsj::MessageType::kChanPressure:
@@ -248,13 +274,13 @@ int ChannelModel::PluginToController(
       case rsj::MessageType::kNoteOff:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::logic_error(
+         throw std::invalid_argument(
              fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
                                     "Control type {}."),
                  controltype));
       }
-      throw std::logic_error(
-          fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
+      throw std::domain_error(
+          fmt::format(FMT_STRING("Undefined control type in ChannelModel::PluginToController. "
                                  "Control type {}."),
               controltype));
    }
@@ -299,14 +325,20 @@ void ChannelModel::SetCcMax(const int controlnumber, const int value)
 {
    try {
       Expects(value <= kMaxNrpn && value >= 0);
-      if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
+      if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute) {
          cc_high_.at(controlnumber) = value < 0 ? 1000 : value;
+      }
       else {
          const auto max {IsNrpn(controlnumber) ? kMaxNrpn : kMaxMidi};
          cc_high_.at(controlnumber) =
              value <= cc_low_.at(controlnumber) || value > max ? max : value;
       }
+#ifdef __cpp_lib_atomic_ref
+      std::atomic_ref(current_v_.at(controlnumber))
+          .store(CenterCc(controlnumber), std::memory_order_release);
+#else
       current_v_.at(controlnumber).store(CenterCc(controlnumber), std::memory_order_release);
+#endif
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -317,11 +349,18 @@ void ChannelModel::SetCcMax(const int controlnumber, const int value)
 void ChannelModel::SetCcMin(const int controlnumber, const int value)
 {
    try {
-      if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
+      if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute) {
          cc_low_.at(controlnumber) = 0;
-      else
+      }
+      else {
          cc_low_.at(controlnumber) = value < 0 || value >= cc_high_.at(controlnumber) ? 0 : value;
+      }
+#ifdef __cpp_lib_atomic_ref
+      std::atomic_ref(current_v_.at(controlnumber))
+          .store(CenterCc(controlnumber), std::memory_order_release);
+#else
       current_v_.at(controlnumber).store(CenterCc(controlnumber), std::memory_order_release);
+#endif
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -345,14 +384,18 @@ void ChannelModel::ActiveToSaved() const
 {
    try {
       settings_to_save_.clear();
-      for (auto i {0}; i <= kMaxMidi; ++i)
+      for (auto i {0}; i <= kMaxMidi; ++i) {
          if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxMidi
-             || cc_low_.at(i) != 0)
+             || cc_low_.at(i) != 0) {
             settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
-      for (auto i {kMaxMidi + 1}; i <= kMaxNrpn; ++i)
+         }
+      }
+      for (auto i {kMaxMidi + 1}; i <= kMaxNrpn; ++i) {
          if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxNrpn
-             || cc_low_.at(i) != 0)
+             || cc_low_.at(i) != 0) {
             settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
+         }
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -363,16 +406,22 @@ void ChannelModel::ActiveToSaved() const
 void ChannelModel::CcDefaults()
 {
    try {
-      /* atomics relaxed as this does not occur concurrently with other actions */
       cc_low_.fill(0);
-      /* XCode throws linker error when use ChannelModel::kMaxNRPN here */
-      cc_high_.fill(0x3FFF);
+      cc_high_.fill(kMaxNrpn);
       cc_method_.fill(rsj::CCmethod::kAbsolute);
-      for (auto&& a : current_v_) a.store(kMaxNrpnHalf, std::memory_order_relaxed);
+#ifdef __cpp_lib_atomic_ref
+      current_v_.fill(kMaxNrpnHalf);
+      for (size_t a {0}; a <= kMaxMidi; ++a) {
+         cc_high_.at(a) = kMaxMidi;
+         current_v_.at(a) = kMaxMidiHalf;
+      }
+#else
+      for (auto&& a : current_v_) { a.store(kMaxNrpnHalf, std::memory_order_relaxed); }
       for (size_t a {0}; a <= kMaxMidi; ++a) {
          cc_high_.at(a) = kMaxMidi;
          current_v_.at(a).store(kMaxMidiHalf, std::memory_order_relaxed);
       }
+#endif
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -384,8 +433,9 @@ void ChannelModel::SavedToActive()
 {
    try {
       CcDefaults();
-      for (const auto& set : settings_to_save_)
+      for (const auto& set : settings_to_save_) {
          SetCc(set.control_number, set.low, set.high, set.method);
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

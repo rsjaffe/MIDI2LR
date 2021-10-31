@@ -46,8 +46,7 @@ namespace rsj {
    template<typename T> struct CFDeleter {
       void operator()(T* p)
       {
-         if (p)
-            ::CFRelease(p);
+         if (p) { ::CFRelease(p); }
       }
    };
 

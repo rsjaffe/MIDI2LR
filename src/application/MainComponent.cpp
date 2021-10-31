@@ -61,17 +61,12 @@ namespace {
 MainContentComponent::MainContentComponent(const CommandSet& command_set, Profile& profile,
     ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
     MidiReceiver& midi_receiver, MidiSender& midi_sender)
-try : ResizableLayout {
-   this
-}
-, command_table_model_(command_set, profile), lr_ipc_out_ {lr_ipc_out},
-    midi_receiver_ {midi_receiver}, midi_sender_ {midi_sender}, profile_(profile),
-    profile_manager_(profile_manager), settings_manager_(settings_manager)
-{
+try : ResizableLayout{this}, command_table_model_(command_set, profile), lr_ipc_out_{lr_ipc_out},
+    midi_receiver_{midi_receiver}, midi_sender_{midi_sender}, profile_(profile),
+    profile_manager_(profile_manager), settings_manager_(settings_manager) {
    setSize(kMainWidth, kMainHeight);
 }
-catch (const std::exception& e)
-{
+catch (const std::exception& e) {
    MIDI2LR_E_RESPONSE;
    throw;
 }
@@ -90,7 +85,7 @@ void MainContentComponent::Init()
 
       /* Main title */
       StandardLabelSettings(title_label_);
-      title_label_.setFont(juce::Font {36.f, juce::Font::bold});
+      title_label_.setFont(juce::Font {36.F, juce::Font::bold});
       title_label_.setComponentEffect(&title_shadow_);
       title_label_.setBounds(kMainLeft, 10, kFullWidth, 30);
       addToLayout(&title_label_, anchorMidLeft, anchorMidRight);
@@ -121,32 +116,32 @@ void MainContentComponent::Init()
                 juce::translate("MIDI2LR profiles"),
                 juce::translate("Profile changed. Do you want to save your changes? If you "
                                 "continue without saving, your changes will be lost."))};
-            if (result)
-               SaveProfile();
+            if (result) { SaveProfile(); }
          }
          juce::File profile_directory {settings_manager_.GetProfileDirectory()};
          const auto directory_saved {profile_directory.exists()};
-         if (!directory_saved)
-            [[unlikely]] profile_directory =
-                juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+         if (!directory_saved) [[unlikely]] {
+            profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+         }
          juce::FileChooser chooser {
              juce::translate("Open profile"), profile_directory, "*.xml", true};
          if (chooser.browseForFileToOpen()) {
             if (const auto parsed {juce::parseXML(chooser.getResult())}) {
                const auto new_profile {chooser.getResult()};
-               lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToFullPath {}\n"),
-                   new_profile.getFullPathName().toStdString()));
+               lr_ipc_out_.SendCommand(fmt::format(
+                   "ChangedToFullPath {}\n", new_profile.getFullPathName().toStdString()));
                profile_name_label_.setText(
                    new_profile.getFileName(), juce::NotificationType::dontSendNotification);
                profile_.FromXml(parsed.get());
                command_table_.updateContent();
                command_table_.repaint();
-               if (!directory_saved) /* haven't saved a directory yet */
-                  [[unlikely]] settings_manager_.SetProfileDirectory(
+               if (!directory_saved) [[unlikely]] { /* haven't saved a directory yet */
+                  settings_manager_.SetProfileDirectory(
                       new_profile.getParentDirectory().getFullPathName());
+               }
             }
             else {
-               rsj::Log(fmt::format(FMT_STRING("Unable to load profile {}."),
+               rsj::Log(fmt::format("Unable to load profile {}.",
                    chooser.getResult().getFullPathName().toStdString()));
             }
          }
@@ -254,11 +249,10 @@ void MainContentComponent::Init()
       }
       else {
          const auto last_prof {settings_manager_.GetDefaultProfile()};
-         if (last_prof != juce::String())
-            profile_manager_.SwitchToProfile(last_prof);
-         else
-            /* otherwise use the last profile from the profile directory */
+         if (last_prof != juce::String()) { profile_manager_.SwitchToProfile(last_prof); }
+         else { /* otherwise use the last profile from the profile directory */
             profile_manager_.SwitchToProfile(0);
+         }
       }
 
       /* turn it on */
@@ -273,8 +267,9 @@ void MainContentComponent::Init()
 void MainContentComponent::SaveProfile() const
 {
    juce::File profile_directory {settings_manager_.GetProfileDirectory()};
-   if (!profile_directory.exists())
+   if (!profile_directory.exists()) {
       profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+   }
    juce::FileChooser chooser {juce::translate("Save profile"), profile_directory, "*.xml", true};
    if (chooser.browseForFileToSave(true)) {
       const auto selected_file {chooser.getResult().withFileExtension("xml")};
@@ -299,8 +294,8 @@ void MainContentComponent::MidiCmdCallback(const rsj::MidiMessage& mm)
       /* Display the MIDI parameters and add/highlight row in table corresponding to the message msg
        * is 1-based for channel, which display expects */
       const rsj::MidiMessageId msg {mm};
-      last_command_ = fmt::format(FMT_STRING("{}: {}{} [{}]"), msg.channel, mm.message_type_byte,
-          msg.control_number, mm.value);
+      last_command_ = fmt::format(
+          "{}: {}{} [{}]", msg.channel, mm.message_type_byte, msg.control_number, mm.value);
       profile_.AddRowUnmapped(msg);
       row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
       triggerAsyncUpdate();
@@ -342,8 +337,8 @@ void MainContentComponent::LrIpcOutCallback(const bool connected, const bool sen
 
 #pragma warning(suppress : 26461) /* must not change function signature, used as callback */
 void MainContentComponent::ProfileChanged(
-    juce::XmlElement* xml_element, const juce::String& file_name)
-{ //-V2009 overridden method
+    juce::XmlElement* xml_element, const juce::String& file_name) //-V3536
+{                                                                 //-V2009 overridden method
    try {
       {
          const juce::MessageManagerLock mm_lock;
@@ -364,7 +359,7 @@ void MainContentComponent::ProfileChanged(
 void MainContentComponent::StandardLabelSettings(juce::Label& label_to_set)
 {
    try {
-      label_to_set.setFont(juce::Font {16.f, juce::Font::bold});
+      label_to_set.setFont(juce::Font {16.F, juce::Font::bold});
       label_to_set.setEditable(false);
       label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
    }

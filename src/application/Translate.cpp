@@ -49,8 +49,9 @@ void rsj::Translate(const std::string& lg)
          /* take ownership of ls */
          juce::LocalisedStrings::setCurrentMappings(ls.release());
       }
-      else
+      else {
          juce::LocalisedStrings::setCurrentMappings(nullptr);
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE_F;

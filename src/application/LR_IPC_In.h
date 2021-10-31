@@ -18,14 +18,23 @@
 #include <atomic>
 #include <future>
 #include <string>
+#include <version>
 
-#include <asio.hpp>
+#include <asio/asio.hpp>
 
 #include "Concurrency.h"
 class ControlsModel;
 class MidiSender;
 class Profile;
 class ProfileManager;
+
+#ifdef __cpp_lib_semaphore
+#include <semaphore>
+#else
+#include <condition_variable>
+#include <mutex>
+#endif
+
 class LrIpcIn {
  public:
    LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const Profile& profile,
@@ -52,6 +61,13 @@ class LrIpcIn {
    rsj::ConcurrentQueue<std::string> line_;
    std::atomic<bool> thread_should_exit_ {false};
    std::future<void> process_line_future_;
+#ifdef __cpp_lib_semaphore
+   std::binary_semaphore read_running_ {1};
+#else
+   bool read_running_ {false};
+   mutable std::mutex mtx_;
+   std::condition_variable cv_;
+#endif
 };
 
 #endif

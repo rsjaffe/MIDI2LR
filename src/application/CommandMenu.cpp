@@ -20,19 +20,16 @@
 #include <gsl/gsl>
 
 #include "CCoptions.h"
-#include "CommandSet.h"
 #include "Misc.h"
 #include "PWoptions.h"
 #include "Profile.h"
 
 CommandMenu::CommandMenu(
     rsj::MidiMessageId message, const CommandSet& command_set, Profile& profile)
-try : TextButtonAligned {
-   CommandSet::UnassignedTranslated()
+try : TextButtonAligned{CommandSet::UnassignedTranslated()}, command_set_(command_set),
+    profile_(profile), message_{message} {
 }
-, command_set_(command_set), profile_(profile), message_ {message} {}
-catch (const std::exception& e)
-{
+catch (const std::exception& e) {
    MIDI2LR_E_RESPONSE;
    throw;
 }
@@ -42,29 +39,31 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
    try {
       if (modifiers.isPopupMenu()) {
          switch (message_.msg_id_type) {
-         case rsj::MessageType::kCc: {
-            CCoptions ccopt;
-            /* convert 1-based to 0-based */
-            ccopt.BindToControl(message_.channel - 1, message_.control_number);
-            juce::DialogWindow::showModalDialog(
-                juce::translate("Adjust CC dialog"), &ccopt, nullptr, juce::Colours::white, true);
-            break;
-         }
-         case rsj::MessageType::kPw: {
-            PWoptions pwopt;
-            /* convert 1-based to 0 based */
-            pwopt.BindToControl(message_.channel - 1);
-            juce::DialogWindow::showModalDialog(
-                juce::translate("Adjust PW dialog"), &pwopt, nullptr, juce::Colours::white, true);
-            break;
-         }
+         case rsj::MessageType::kCc:
+            {
+               CCoptions ccopt;
+               /* convert 1-based to 0-based */
+               ccopt.BindToControl(message_.channel - 1, message_.control_number);
+               juce::DialogWindow::showModalDialog(juce::translate("Adjust CC dialog"), &ccopt,
+                   nullptr, juce::Colours::white, true);
+               break;
+            }
+         case rsj::MessageType::kPw:
+            {
+               PWoptions pwopt;
+               /* convert 1-based to 0 based */
+               pwopt.BindToControl(message_.channel - 1);
+               juce::DialogWindow::showModalDialog(juce::translate("Adjust PW dialog"), &pwopt,
+                   nullptr, juce::Colours::white, true);
+               break;
+            }
          case rsj::MessageType::kChanPressure:
          case rsj::MessageType::kKeyPressure:
          case rsj::MessageType::kNoteOff:
          case rsj::MessageType::kNoteOn:
          case rsj::MessageType::kPgmChange:
          case rsj::MessageType::kSystem:
-             /* do nothing for other types of controllers */;
+            break; /* do nothing for other types of controllers */
          }
       }
       else {
@@ -87,21 +86,23 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
                   sub_menu.addColouredItem(
                       gsl::narrow_cast<int>(index), command, juce::Colours::red, true, tick_item);
                }
-               else
+               else {
                   sub_menu.addItem(gsl::narrow_cast<int>(index), command, true, false);
+               }
                index++;
             }
             main_menu.addSubMenu(
                 command_set_.GetMenus().at(submenu_number++), sub_menu, true, nullptr, tick_menu);
          }
-         const auto result {gsl::narrow_cast<size_t>(main_menu.show())};
-         if (result) {
+         if (const auto result {gsl::narrow_cast<size_t>(main_menu.show())}) {
             /* user chose a different command, remove previous command mapping associated to this
              * menu */
-            if (selected_item_ < std::numeric_limits<decltype(selected_item_)>::max())
+            if (selected_item_ < std::numeric_limits<decltype(selected_item_)>::max()) {
                profile_.RemoveMessage(message_);
-            if (result - 1 < command_set_.CommandAbbrevSize())
+            }
+            if (result - 1 < command_set_.CommandAbbrevSize()) {
                juce::Button::setButtonText(command_set_.CommandLabelAt(result - 1));
+            }
             selected_item_ = result;
             /* Map the selected command to the CC */
             profile_.AddCommandForMessage(result - 1, message_);

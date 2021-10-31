@@ -17,12 +17,20 @@
 
 #include <chrono>
 #include <exception>
+#include <thread>
 #include <utility>
 
 #include <fmt/format.h>
 
 #include "Devices.h"
 #include "Misc.h"
+
+#ifdef _WIN32
+extern "C" {
+   __declspec(dllimport) unsigned long __stdcall SetThreadExecutionState(
+       _In_ unsigned long esFlags);
+}
+#endif
 
 namespace {
    constexpr rsj::MidiMessage kTerminate {rsj::MessageType::kCc, 129, 0, 0}; /* impossible */
@@ -48,49 +56,10 @@ void MidiReceiver::Stop()
 {
    for (const auto& dev : input_devices_) {
       dev->stop();
-      rsj::Log(fmt::format(FMT_STRING("Stopped input device {}."), dev->getName().toStdString()));
+      rsj::Log(fmt::format("Stopped input device {}.", dev->getName().toStdString()));
    }
-   if (const auto remaining {messages_.clear_count_push(kTerminate)})
-      rsj::Log(fmt::format(FMT_STRING("{} left in queue in MidiReceiver StopRunning."), remaining));
-   callbacks_.clear(); /* after queue emptied */
-}
-
-void MidiReceiver::handleIncomingMidiMessage(
-    juce::MidiInput* device, const juce::MidiMessage& message)
-{
-   /* reentrant ok. NRPN filter contains mutex in case of concurrency. This procedure is in
-    * near-real-time, so must return quickly. will place message in multithreaded queue and let
-    * separate process handle the messages */
-   try {
-      const rsj::MidiMessage mess {message};
-      switch (mess.message_type_byte) {
-      case rsj::MessageType::kCc: {
-         const auto result {filters_[device](mess)};
-         if (result.is_nrpn) {
-            /* send when complete */
-            if (result.is_ready)
-               messages_.emplace(rsj::MessageType::kCc, mess.channel, result.control, result.value);
-            /* finished with nrpn piece */
-            break;
-         }
-      }
-         /* if not nrpn, handle like other messages */
-         [[fallthrough]];
-      case rsj::MessageType::kNoteOn:
-      case rsj::MessageType::kPw:
-         messages_.push(mess);
-         break;
-      case rsj::MessageType::kChanPressure:
-      case rsj::MessageType::kKeyPressure:
-      case rsj::MessageType::kNoteOff:
-      case rsj::MessageType::kPgmChange:
-      case rsj::MessageType::kSystem:
-          /* no action if other type of MIDI message */;
-      }
-   }
-   catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
-      throw;
+   if (const auto remaining {messages_.clear_count_push({kTerminate, nullptr})}) {
+      rsj::Log(fmt::format("{} left in queue in MidiReceiver StopRunning.", remaining));
    }
 }
 
@@ -99,8 +68,7 @@ void MidiReceiver::RescanDevices()
    try {
       for (const auto& dev : input_devices_) {
          dev->stop();
-         rsj::Log(
-             fmt::format(FMT_STRING("Stopped input device {}."), dev->getName().toStdString()));
+         rsj::Log(fmt::format("Stopped input device {}.", dev->getName().toStdString()));
       }
       input_devices_.clear();
       rsj::Log("Cleared input devices.");
@@ -117,17 +85,17 @@ void MidiReceiver::TryToOpen()
    try {
       const auto available_devices {juce::MidiInput::getAvailableDevices()};
       for (const auto& device : available_devices) {
-         auto open_device {juce::MidiInput::openDevice(device.identifier, this)};
-         if (open_device) {
+         if (auto open_device {juce::MidiInput::openDevice(device.identifier, this)}) {
             if (devices_.EnabledOrNew(open_device->getDeviceInfo(), "input")) {
                open_device->start();
-               rsj::Log(fmt::format(
-                   FMT_STRING("Opened input device {}."), open_device->getName().toStdString()));
-               input_devices_.emplace_back(std::move(open_device));
+               rsj::Log(
+                   fmt::format("Opened input device {}.", open_device->getName().toStdString()));
+               input_devices_.push_back(std::move(open_device));
             }
-            else
-               rsj::Log(fmt::format(
-                   FMT_STRING("Ignored input device {}."), open_device->getName().toStdString()));
+            else {
+               rsj::Log(
+                   fmt::format("Ignored input device {}.", open_device->getName().toStdString()));
+            }
          }
       }
    }
@@ -146,12 +114,14 @@ void MidiReceiver::InitDevices()
       if (input_devices_.empty()) /* encountering errors first try on MacOS */
       {
          rsj::Log("Retrying to open input devices.");
-         rsj::SleepTimedLogged("Open input devices", 20ms);
+         std::this_thread::sleep_for(20ms);
+         rsj::Log("20ms sleep for open input devices.");
          TryToOpen();
          if (input_devices_.empty()) /* encountering errors second try on MacOS */
          {
             rsj::Log("Retrying second time to open input devices.");
-            rsj::SleepTimedLogged("Open input devices", 80ms);
+            std::this_thread::sleep_for(80ms);
+            rsj::Log("80ms sleep for open input devices.");
             TryToOpen();
          }
       }
@@ -166,13 +136,39 @@ void MidiReceiver::DispatchMessages()
 {
    try {
       do {
-         const auto message_copy {messages_.pop()};
-         if (message_copy == kTerminate)
-            return;
-         for (const auto& cb : callbacks_)
-#pragma warning(suppress : 26489)
-            /* false warning, checked for existence before adding to callbacks_ */
-            cb(message_copy);
+         const auto [message, device] {messages_.pop()};
+         if (message == kTerminate) { return; }
+#ifdef _WIN32
+         SetThreadExecutionState(0x00000002UL | 0x00000001UL);
+#endif
+         switch (message.message_type_byte) {
+         case rsj::MessageType::kCc:
+            if (const auto result {filters_[device](message)}; result.is_nrpn) {
+               if (result.is_ready) {
+                  const rsj::MidiMessage nrpn_message {
+                      rsj::MessageType::kCc, message.channel, result.control, result.value};
+                  for (const auto& cb : callbacks_) {
+#pragma warning(suppress : 26489) /* checked for existence before adding to callbacks_ */
+                     cb(nrpn_message);
+                  }
+               }
+               break;
+            }
+            [[fallthrough]]; /* if not nrpn, handle like other messages */
+         case rsj::MessageType::kNoteOn:
+         case rsj::MessageType::kPw:
+            for (const auto& cb : callbacks_) {
+#pragma warning(suppress : 26489) /* checked for existence before adding to callbacks_ */
+               cb(message);
+            }
+            break;
+         case rsj::MessageType::kChanPressure:
+         case rsj::MessageType::kKeyPressure:
+         case rsj::MessageType::kNoteOff:
+         case rsj::MessageType::kPgmChange:
+         case rsj::MessageType::kSystem:
+            break; /* no action if other type of MIDI message */
+         }
       } while (true);
    }
    catch (const std::exception& e) {

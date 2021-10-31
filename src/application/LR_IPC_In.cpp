@@ -74,16 +74,22 @@ void LrIpcIn::Stop()
           * shutdown() before closing the socket. */
          socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
          if (ec) {
-            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket shutdown error {}."), ec.message()));
+            rsj::Log(fmt::format("LR_IPC_In socket shutdown error {}.", ec.message()));
             ec.clear();
          }
          socket_.close(ec);
-         if (ec)
-            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message()));
+         if (ec) { rsj::Log(fmt::format("LR_IPC_In socket close error {}.", ec.message())); }
       }
+#ifdef __cpp_lib_semaphore
+      read_running_.acquire();
+#else
+      auto lock {std::unique_lock(mtx_)};
+      cv_.wait(lock, [this] { return !read_running_; });
+#endif
       /* clear input queue after port closed */
-      if (const auto m {line_.clear_count_emplace(kTerminate)})
-         rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcIn destructor."), m));
+      if (const auto m {line_.clear_count_emplace(kTerminate)}) {
+         rsj::Log(fmt::format("{} left in queue in LrIpcIn destructor.", m));
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -98,16 +104,23 @@ void LrIpcIn::Connect()
           [this](const asio::error_code& error) {
              if (!error) {
                 rsj::Log("Socket connected in LR_IPC_In.");
+#ifdef __cpp_lib_semaphore
+                read_running_.acquire();
+#else
+                {
+                   auto lock {std::scoped_lock(mtx_)};
+                   read_running_ = true;
+                }
+#endif
                 Read();
              }
              else {
-                rsj::Log(
-                    fmt::format(FMT_STRING("LR_IPC_In did not connect. {}."), error.message()));
+                rsj::Log(fmt::format("LR_IPC_In did not connect. {}.", error.message()));
                 asio::error_code ec2;
                 socket_.close(ec2);
-                if (ec2)
-                   rsj::Log(
-                       fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec2.message()));
+                if (ec2) {
+                   rsj::Log(fmt::format("LR_IPC_In socket close error {}.", ec2.message()));
+                }
              }
           });
    }
@@ -134,8 +147,7 @@ void LrIpcIn::ProcessLine()
    try {
       do {
          const auto line_copy {line_.pop()};
-         if (line_copy == kTerminate)
-            return;
+         if (line_copy == kTerminate) { return; }
          auto [command_view, value_view] {SplitLine(line_copy)};
          const auto command {std::string(command_view)};
          if (command == "TerminateApplication") {
@@ -143,15 +155,14 @@ void LrIpcIn::ProcessLine()
             return;
          }
          if (value_view.empty()) {
-            rsj::Log(fmt::format(
-                FMT_STRING("No value attached to message. Message from plugin was \"{}\"."),
+            rsj::Log(fmt::format("No value attached to message. Message from plugin was \"{}\".",
                 rsj::ReplaceInvisibleChars(line_copy)));
          }
          else if (command == "SwitchProfile") {
             profile_manager_.SwitchToProfile(std::string(value_view));
          }
          else if (command == "Log") {
-            rsj::Log(fmt::format(FMT_STRING("Plugin: {}."), value_view));
+            rsj::Log(fmt::format("Plugin: {}.", value_view));
          }
          else if (command == "SendKey") {
             const auto modifiers {std::stoi(std::string(value_view))};
@@ -162,12 +173,12 @@ void LrIpcIn::ProcessLine()
                if (!value_view.empty()) {
                   rsj::SendKeyDownUp(
                       std::string(value_view), rsj::ActiveModifiers::FromMidi2LR(modifiers));
-                  continue; /* skip logandalert error */
+                  continue; /* skip log and alert error */
                }
             }
-            rsj::LogAndAlertError(fmt::format(
-                FMT_STRING("SendKey couldn't identify keystroke. Message from plugin was \"{}\"."),
-                rsj::ReplaceInvisibleChars(line_copy)));
+            rsj::LogAndAlertError(
+                fmt::format("SendKey couldn't identify keystroke. Message from plugin was \"{}\".",
+                    rsj::ReplaceInvisibleChars(line_copy)));
          }
          else { /* send associated messages to MIDI OUT devices */
             const auto original_value {std::stod(std::string(value_view))};
@@ -175,8 +186,9 @@ void LrIpcIn::ProcessLine()
                /* following needs to run for all controls: sets saved value */
                const auto value {controls_model_.PluginToController(msg, original_value)};
                if (msg.msg_id_type != rsj::MessageType::kCc
-                   || controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute)
+                   || controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute) {
                   midi_sender_.Send(msg, value);
+               }
             }
          }
       } while (true);
@@ -193,30 +205,60 @@ void LrIpcIn::Read()
       if (!thread_should_exit_.load(std::memory_order_acquire)) {
          asio::async_read_until(socket_, streambuf_, '\n',
              [this](const asio::error_code& error, const std::size_t bytes_transferred) {
-                if (!error)
-                   [[likely]]
-                   {
-                      if (!bytes_transferred)
-                         [[unlikely]] std::this_thread::sleep_for(kEmptyWait);
-                      else {
-                         std::string command {buffers_begin(streambuf_.data()),
-                             buffers_begin(streambuf_.data()) + bytes_transferred};
-                         if (command == "TerminateApplication 1\n")
-                            thread_should_exit_.store(true, std::memory_order_release);
-                         line_.push(std::move(command));
-                         streambuf_.consume(bytes_transferred);
-                      }
-                      Read();
+                if (!error) [[likely]] {
+                   if (bytes_transferred == 0) [[unlikely]] {
+                      std::this_thread::sleep_for(kEmptyWait);
                    }
+                   else {
+                      std::string command {buffers_begin(streambuf_.data()),
+                          buffers_begin(streambuf_.data()) + bytes_transferred};
+                      if (command == "TerminateApplication 1\n") {
+                         thread_should_exit_.store(true, std::memory_order_release);
+                      }
+                      line_.push(std::move(command));
+                      streambuf_.consume(bytes_transferred);
+                   }
+                   Read();
+                }
                 else {
-                   rsj::Log(fmt::format(FMT_STRING("LR_IPC_In Read error: {}."), error.message()));
-                   if (error == asio::error::misc_errors::eof) /* LR closed socket */
+                   rsj::Log(fmt::format("LR_IPC_In Read error: {}.", error.message()));
+#ifdef __cpp_lib_semaphore
+                   read_running_.release();
+#else
+                   {
+                      auto lock {std::scoped_lock(mtx_)};
+                      read_running_ = false;
+                   }
+                   cv_.notify_one();
+#endif
+                   if (error == asio::error::misc_errors::eof) { /* LR closed socket */
                       juce::JUCEApplication::getInstance()->systemRequestedQuit();
+                   }
                 }
              });
       }
+      else {
+#ifdef __cpp_lib_semaphore
+         read_running_.release();
+#else
+         {
+            auto lock {std::scoped_lock(mtx_)};
+            read_running_ = false;
+         }
+         cv_.notify_one();
+#endif
+      }
    }
    catch (const std::exception& e) {
+#ifdef __cpp_lib_semaphore
+      read_running_.release();
+#else
+      {
+         auto lock {std::scoped_lock(mtx_)};
+         read_running_ = false;
+      }
+      cv_.notify_one();
+#endif
       MIDI2LR_E_RESPONSE;
       throw;
    }

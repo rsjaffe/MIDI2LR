@@ -3,5 +3,5 @@ midi.instructions=联机帮助
 midi.donate.exp=打开一个带有PayPal表单的Web浏览器，您可以在其中捐款以支持${project.fullName}的进一步开发。
 midi.donate=捐赠以支持项目开发
 midi.install.win=${project.fullName} 只能安装于 Microsoft Windows 10 或更高版本的 64 位版。
-midi.install.mac=需要 MacOS Mojave 10.14 或更高版本。
+midi.install.mac=需要 MacOS Catalina 10.15 或更高版本。
 midi.ports=${project.fullName}需要端口58763和58764才能与Lightroom通信。 这些端口中至少有一个当前不可用。 如果您现在正在运行${project.fullName}，请忽略此消息。 否则，您将必须确定是什么阻塞了这些端口，以使${project.fullName}正常运行。

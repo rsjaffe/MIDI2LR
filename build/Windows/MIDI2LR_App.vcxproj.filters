@@ -97,6 +97,12 @@
     <ClCompile Include="..\..\src\application\SendKeys.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\application\SendKeysMac.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\application\SendKeysWin.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\application\SettingsComponent.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>

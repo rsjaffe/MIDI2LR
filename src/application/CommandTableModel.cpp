@@ -40,7 +40,7 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
     * less than getNumRows(). */
    try {
       g.setColour(juce::Colours::black);
-      g.setFont(std::min(16.0f, static_cast<float>(height) * 0.7f));
+      g.setFont(std::min(16.0F, static_cast<float>(height) * 0.7F));
       if (column_id == 1) {
          /* write the MIDI message in the MIDI command column */
          if (rsj::cmp_less_equal(profile_.Size(), row_number)) {
@@ -56,28 +56,25 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
                 const auto cmd {profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))};
                 cmd.msg_id_type) {
             case rsj::MessageType::kNoteOn:
-               format_str =
-                   fmt::format(FMT_STRING("{} | Note : {}"), cmd.channel, cmd.control_number);
+               format_str = fmt::format("{} | Note : {}", cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::kNoteOff:
-               format_str =
-                   fmt::format(FMT_STRING("{} | Note Off: {}"), cmd.channel, cmd.control_number);
+               format_str = fmt::format("{} | Note Off: {}", cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::kCc:
-               format_str = fmt::format(FMT_STRING("{} | CC: {}"), cmd.channel, cmd.control_number);
+               format_str = fmt::format("{} | CC: {}", cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::kPw:
-               format_str = fmt::format(FMT_STRING("{} | Pitch Bend"), cmd.channel);
+               format_str = fmt::format("{} | Pitch Bend", cmd.channel);
                break;
             case rsj::MessageType::kKeyPressure:
-               format_str = fmt::format(
-                   FMT_STRING("{} | Key Pressure: {}"), cmd.channel, cmd.control_number);
+               format_str = fmt::format("{} | Key Pressure: {}", cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::kChanPressure:
-               format_str = fmt::format(FMT_STRING("{} | Channel Pressure"), cmd.channel);
+               format_str = fmt::format("{} | Channel Pressure", cmd.channel);
                break;
             case rsj::MessageType::kPgmChange:
-               format_str = fmt::format(FMT_STRING("{} | Program Change"), cmd.channel);
+               format_str = fmt::format("{} | Program Change", cmd.channel);
                break;
             case rsj::MessageType::kSystem:
                break;
@@ -100,8 +97,7 @@ void CommandTableModel::paintRowBackground(
     * and height parameters. Note that the rowNumber value may be greater than the number of rows in
     * your list, so be careful that you don't assume it's less than getNumRows(). */
    try {
-      if (row_is_selected)
-         g.fillAll(juce::Colours::lightblue);
+      if (row_is_selected) { g.fillAll(juce::Colours::lightblue); }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -128,7 +124,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, cons
    try {
       if (column_id == 2) /* LR command column */
       {
-         auto command_select {dynamic_cast<CommandMenu*>(existing_component)};
+         const auto command_select {dynamic_cast<CommandMenu*>(existing_component)};
          if (command_select == nullptr) {
             /* create a new command menu, delete old one if it exists */
             delete existing_component; // NOLINT(cppcoreguidelines-owning-memory)

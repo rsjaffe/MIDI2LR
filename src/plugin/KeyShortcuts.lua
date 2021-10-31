@@ -4,7 +4,7 @@ KeyShortcuts.lua
 
 Returns MIDI2LR key code for a given shortcut. Uses locale-specific shortcuts.
 Use the returned table, e.g., KeyCode.BrushDecreaseKey is "[" in English.
- 
+
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
@@ -16,7 +16,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 --[[----------------------------------------------------------------------------
@@ -33,13 +33,12 @@ local Modifiers = {
 
 --functions using KeyCode must get it right
 --errors in spelling can cause crashes (e.g., BrushIncrease instead of BrushIncreaseKey)
-local KeyCode = { 
+local KeyCode = {
   BrushDecreaseKey               = '0 '..LOC("$$$/AgDevelop/Localized/BrushDecreaseKey=["),
   BrushIncreaseKey               = '0 '..LOC("$$$/AgDevelop/Localized/BrushIncreaseKey=]"),
   CycleAdjustmentBrushOverlayKey = "4 o",
   FeatherDecreaseKey             = '0 '..LOC("$$$/AgDevelop/Localized/BrushDecreaseKeyShifted={"),
   FeatherIncreaseKey             = '0 '..LOC("$$$/AgDevelop/Localized/BrushIncreaseKeyShifted=}"),
-  ShowAdjustmentBrushOverlayKey  = "0 o",
   SliderDecreaseKey              = '0 '..LOC("$$$/AgDevelop/KBSC/decrementTargetAdjustmentValue=-"),
   SliderIncreaseKey              = '0 '..LOC("$$$/AgDevelop/KBSC/incrementTargetAdjustmentValue=="),
   ToggleFlagKey                  = '0 '..LOC("$$$/AgLibrary/Menu/ToggleFlag/Key=`"),

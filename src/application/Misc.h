@@ -17,13 +17,16 @@
  */
 //-V813_MINSIZE=13 /* warn if passing structure by value > 12 bytes (3*sizeof(int)) */
 
-#include <chrono>
 #include <exception>
 #include <limits>
 #include <string>
 #include <string_view>
-#include <thread> /* sleep_for */
 #include <version>
+
+#include <gsl/gsl>
+
+#include <juce_core/juce_core.h>
+
 #ifdef __cpp_lib_source_location
 #include <source_location>
 #endif
@@ -32,12 +35,6 @@
 #else
 #include <type_traits>
 #endif
-
-#include <fmt/chrono.h>
-#include <fmt/format.h>
-#include <gsl/gsl>
-
-#include <juce_core/juce_core.h>
 
 #ifdef NDEBUG /* asserts disabled */
 constexpr bool kNdebug {true};
@@ -62,17 +59,20 @@ constexpr auto MacOS {true};
 #endif
 
 #ifndef __ARM_ARCH
-#include <xmmintrin.h> /* needed for XCode, no harm for MSVS */
-#define MIDI2LR_FAST_FLOATS _mm_setcsr(_mm_getcsr() | 0x8040)
+extern "C" {
+   extern unsigned int _mm_getcsr();
+   extern void _mm_setcsr(unsigned int);
+}
+#define MIDI2LR_FAST_FLOATS _mm_setcsr(_mm_getcsr() | 0x8040U)
 #else
 #define MIDI2LR_FPU_GETCW(fpcr) __asm__ __volatile__("mrs %0, fpcr" : "=r"(fpcr))
 #define MIDI2LR_FPU_SETCW(fpcr) __asm__ __volatile__("msr fpcr, %0" : : "r"(fpcr))
 #define MIDI2LR_FAST_FLOATS                                                                        \
    {                                                                                               \
-      uint64_t status {};                                                                          \
-      MIDI2LR_FPU_GETCW(status);                                                                   \
-      status |= (1 << 24) | (1 << 19); /* FZ flag, FZ16 flag; flush denormals to zero  */          \
-      MIDI2LR_FPU_SETCW(status);                                                                   \
+      uint64_t eE2Hsb4v {}; /* random name to avoid shadowing warnings */                          \
+      MIDI2LR_FPU_GETCW(eE2Hsb4v);                                                                 \
+      eE2Hsb4v |= (1 << 24) | (1 << 19); /* FZ flag, FZ16 flag; flush denormals to zero  */        \
+      MIDI2LR_FPU_SETCW(eE2Hsb4v);                                                                 \
    }                                                                                               \
    static_assert(true, "require semi-colon after macro with this assert")
 #endif
@@ -148,26 +148,6 @@ namespace rsj {
    [[nodiscard]] std::string AppDataFilePath(const std::string& file_name);
    [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);
 #endif
-   /*****************************************************************************/
-   /*******************Sleep Timed and Logged************************************/
-   /*****************************************************************************/
-   template<class Rep, class Period>
-   [[nodiscard]] auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) //-V801
-   {
-      const auto start {std::chrono::steady_clock::now()};
-      std::this_thread::sleep_for(sleep_duration);
-      const auto end {std::chrono::steady_clock::now()};
-      const std::chrono::duration<double, Period> elapsed {end - start};
-      return elapsed;
-   }
-
-   template<class Rep, class Period>
-   void SleepTimedLogged(
-       std::string_view msg_prefix, const std::chrono::duration<Rep, Period> sleep_duration) //-V801
-   {
-      rsj::Log(fmt::format(
-          FMT_STRING("{} thread slept for {}."), msg_prefix, SleepTimed(sleep_duration)));
-   }
 /*****************************************************************************/
 /**************Safe Integer Comparisons***************************************/
 /*****************************************************************************/
@@ -196,9 +176,7 @@ namespace rsj {
    {
       static_assert(IsStandardInteger<S> && IsStandardInteger<T>,
           "The integer comparison functions only accept standard and extended integer types.");
-      if constexpr (std::is_signed_v<S> == std::is_signed_v<T>) {
-         return left == right;
-      }
+      if constexpr (std::is_signed_v<S> == std::is_signed_v<T>) { return left == right; }
       else if constexpr (std::is_signed_v<T>) {
          return left == static_cast<std::make_unsigned_t<T>>(right) && right >= 0;
       }
@@ -218,9 +196,7 @@ namespace rsj {
    {
       static_assert(IsStandardInteger<S> && IsStandardInteger<T>,
           "The integer comparison functions only accept standard and extended integer types.");
-      if constexpr (std::is_signed_v<S> == std::is_signed_v<T>) {
-         return left < right;
-      }
+      if constexpr (std::is_signed_v<S> == std::is_signed_v<T>) { return left < right; }
       else if constexpr (std::is_signed_v<T>) {
          return right > 0 && left < static_cast<std::make_unsigned_t<T>>(right);
       }
@@ -247,12 +223,13 @@ namespace rsj {
       return !cmp_less(left, right);
    }
 #endif
+   template<class T> auto CharToInt(T t) = delete;
    [[nodiscard]] constexpr auto CharToInt(const char in) noexcept
    {
-      if constexpr (std::numeric_limits<char>::is_signed)
-         return static_cast<int>(in);
-      else
+      if constexpr (std::numeric_limits<char>::is_signed) { return static_cast<int>(in); }
+      else {
          return static_cast<unsigned int>(in);
+      }
    }
 } // namespace rsj
 

@@ -45,19 +45,19 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
    try {
       if (id.msg_id_type == rsj::MessageType::kPw) {
          const auto msg {juce::MidiMessage::pitchWheel(id.channel, value)};
-         for (const auto& dev : output_devices_) dev->sendMessageNow(msg);
+         for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
       }
       else if (id.msg_id_type == rsj::MessageType::kNoteOn) {
          const auto msg {juce::MidiMessage::noteOn(
              id.channel, id.control_number, gsl::narrow_cast<juce::uint8>(value))};
-         for (const auto& dev : output_devices_) dev->sendMessageNow(msg);
+         for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
       }
       else if (id.msg_id_type == rsj::MessageType::kCc) {
-         if (id.control_number < 128) {
+         if (id.control_number < 128 && value < 128) {
             /* regular message */
             const auto msg {
                 juce::MidiMessage::controllerEvent(id.channel, id.control_number, value)};
-            for (const auto& dev : output_devices_) dev->sendMessageNow(msg);
+            for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
          }
          else {
             /* NRPN */
@@ -109,25 +109,26 @@ void MidiSender::InitDevices()
    try {
       const auto available_devices {juce::MidiOutput::getAvailableDevices()};
       for (const auto& device : available_devices) {
-         auto open_device {juce::MidiOutput::openDevice(device.identifier)};
-         if (open_device) {
+         if (auto open_device {juce::MidiOutput::openDevice(device.identifier)}) {
             const auto devname {open_device->getName().toStdString()};
             if constexpr (MSWindows) {
                if (devname != "Microsoft GS Wavetable Synth"
                    && devices_.EnabledOrNew(open_device->getDeviceInfo(), "output")) {
-                  rsj::Log(fmt::format(FMT_STRING("Opened output device {}."), devname));
-                  output_devices_.emplace_back(std::move(open_device));
+                  rsj::Log(fmt::format("Opened output device {}.", devname));
+                  output_devices_.push_back(std::move(open_device));
                }
-               else
-                  rsj::Log(fmt::format(FMT_STRING("Ignored output device {}."), devname));
+               else {
+                  rsj::Log(fmt::format("Ignored output device {}.", devname));
+               }
             }
             else {
                if (devices_.EnabledOrNew(open_device->getDeviceInfo(), "output")) {
-                  rsj::Log(fmt::format(FMT_STRING("Opened output device {}."), devname));
-                  output_devices_.emplace_back(std::move(open_device));
+                  rsj::Log(fmt::format("Opened output device {}.", devname));
+                  output_devices_.push_back(std::move(open_device));
                }
-               else
-                  rsj::Log(fmt::format(FMT_STRING("Ignored output device {}."), devname));
+               else {
+                  rsj::Log(fmt::format("Ignored output device {}.", devname));
+               }
             }
          }
       } /* devices that are skipped have their pointers deleted and are automatically closed*/

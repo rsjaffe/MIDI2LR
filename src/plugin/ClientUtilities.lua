@@ -33,17 +33,18 @@ local LrTasks             = import 'LrTasks'
 --modules may be library develop map book slideshow print web
 local needsModule = {
   [LrDevelopController.addAdjustmentChangeObserver]    = {module = 'develop', photoSelected = false },
+  [LrDevelopController.addToCurrentMask]               = {module = 'develop', photoSelected = true },
+  [LrDevelopController.createNewMask]                  = {module = 'develop', photoSelected = true },
   [LrDevelopController.decrement]                      = {module = 'develop', photoSelected = true },
   [LrDevelopController.getProcessVersion]              = {module = 'develop', photoSelected = true },
   [LrDevelopController.getRange]                       = {module = 'develop', photoSelected = true },
   [LrDevelopController.getSelectedTool]                = {module = 'develop', photoSelected = false },
   [LrDevelopController.getValue]                       = {module = 'develop', photoSelected = true },
   [LrDevelopController.increment]                      = {module = 'develop', photoSelected = true },
+  [LrDevelopController.intersectWithCurrentMask]       = {module = 'develop', photoSelected = true },
   [LrDevelopController.resetAllDevelopAdjustments]     = {module = 'develop', photoSelected = true },
-  [LrDevelopController.resetBrushing]                  = {module = 'develop', photoSelected = true },
-  [LrDevelopController.resetCircularGradient]          = {module = 'develop', photoSelected = true },
   [LrDevelopController.resetCrop]                      = {module = 'develop', photoSelected = true },
-  [LrDevelopController.resetGradient]                  = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetMasking]                   = {module = 'develop', photoSelected = true },
   [LrDevelopController.resetRedeye]                    = {module = 'develop', photoSelected = true },
   [LrDevelopController.resetSpotRemoval]               = {module = 'develop', photoSelected = true },
   [LrDevelopController.resetToDefault]                 = {module = 'develop', photoSelected = true },
@@ -59,6 +60,7 @@ local needsModule = {
   [LrDevelopController.showClipping]                   = {module = 'develop', photoSelected = false},
   [LrDevelopController.startTracking]                  = {module = 'develop', photoSelected = false },
   [LrDevelopController.stopTracking]                   = {module = 'develop', photoSelected = false },
+  [LrDevelopController.subtractFromCurrentMask]        = {module = 'develop', photoSelected = true },
 }
 
 local _needsModule = {
@@ -445,10 +447,9 @@ local function fToggleTool(param)
 end
 
 local ftt1_functionList = {
-  gradient = LrDevelopController.goToDevelopGraduatedFilter,
-  circularGradient = LrDevelopController.goToDevelopRadialFilter,
-  dust = LrDevelopController.goToSpotRemoval,
+  masking = LrDevelopController.goToMasking,
 }
+
 local function fToggleTool1(param) --for new version toggle tool
   return function()
     if LrApplicationView.getCurrentModuleName() == 'develop' and

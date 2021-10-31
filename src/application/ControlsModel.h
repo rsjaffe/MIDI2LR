@@ -53,13 +53,15 @@ namespace rsj {
          case 1:
             archive(control_number, high, low, method);
             break;
-         default: {
-            constexpr auto msg {
-                "The file, 'settings.xml', is marked as a version not supported by the current "
-                "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."};
-            rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                fmt::format(msg, version));
-         }
+         default:
+            {
+               constexpr auto msg {
+                   "The file, 'settings.xml', is marked as a version not supported by the current "
+                   "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."};
+               rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
+                   fmt::format(msg, version));
+            }
+            break;
          }
       }
 
@@ -70,51 +72,55 @@ namespace rsj {
       {
          try {
             switch (version) {
-            case 1: {
-               std::string methodstr {"undefined"};
-               switch (method) {
-               case CCmethod::kAbsolute:
-                  methodstr = "Absolute";
-                  break;
-               case CCmethod::kBinaryOffset:
-                  methodstr = "BinaryOffset";
-                  break;
-               case CCmethod::kSignMagnitude:
-                  methodstr = "SignMagnitude";
-                  break;
-               case CCmethod::kTwosComplement:
-                  methodstr = "TwosComplement";
-                  break;
-               default:
-                  /* leave "undefined" */
+            case 1:
+               {
+                  std::string methodstr {"undefined"};
+                  switch (method) {
+                  case CCmethod::kAbsolute:
+                     methodstr = "Absolute";
+                     break;
+                  case CCmethod::kBinaryOffset:
+                     methodstr = "BinaryOffset";
+                     break;
+                  case CCmethod::kSignMagnitude:
+                     methodstr = "SignMagnitude";
+                     break;
+                  case CCmethod::kTwosComplement:
+                     methodstr = "TwosComplement";
+                     break;
+                  default:
+                     /* leave "undefined" */
+                     break;
+                  }
+                  archive(cereal::make_nvp("CC", control_number), CEREAL_NVP(high), CEREAL_NVP(low),
+                      cereal::make_nvp("method", methodstr));
+                  switch (methodstr.front()) {
+                  case 'B':
+                     method = CCmethod::kBinaryOffset;
+                     break;
+                  case 'S':
+                     method = CCmethod::kSignMagnitude;
+                     break;
+                  case 'T':
+                     method = CCmethod::kTwosComplement;
+                     break;
+                  case 'A':
+                  default:
+                     method = CCmethod::kAbsolute;
+                     break;
+                  }
                   break;
                }
-               archive(cereal::make_nvp("CC", control_number), CEREAL_NVP(high), CEREAL_NVP(low),
-                   cereal::make_nvp("method", methodstr));
-               switch (methodstr.front()) {
-               case 'B':
-                  method = CCmethod::kBinaryOffset;
-                  break;
-               case 'S':
-                  method = CCmethod::kSignMagnitude;
-                  break;
-               case 'T':
-                  method = CCmethod::kTwosComplement;
-                  break;
-               case 'A':
-               default:
-                  method = CCmethod::kAbsolute;
-                  break;
+            default:
+               {
+                  constexpr auto msg {
+                      "The file, 'settings.xml', is marked as a version not supported by the "
+                      "current "
+                      "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."};
+                  rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
+                      fmt::format(msg, version));
                }
                break;
-            }
-            default: {
-               constexpr auto msg {
-                   "The file, 'settings.xml', is marked as a version not supported by the current "
-                   "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."};
-               rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                   fmt::format(msg, version));
-            }
             }
          }
          catch (const std::exception& e) {
@@ -196,7 +202,11 @@ class ChannelModel {
    std::array<rsj::CCmethod, kMaxControls> cc_method_ {};
    std::array<int, kMaxControls> cc_high_ {};
    std::array<int, kMaxControls> cc_low_ {};
+#ifdef __cpp_lib_atomic_ref
+   std::array<int, kMaxControls> current_v_ {};
+#else
    std::array<std::atomic<int>, kMaxControls> current_v_ {};
+#endif
 };
 
 class ControlsModel {
@@ -290,8 +300,7 @@ class ControlsModel {
    friend class cereal::access;
    template<class Archive> void serialize(Archive& archive, uint32_t const version)
    {
-      if (version == 1)
-         archive(all_controls_);
+      if (version == 1) { archive(all_controls_); }
    }
    std::array<ChannelModel, 16> all_controls_;
 };
@@ -312,13 +321,15 @@ template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const
              cereal::make_nvp("PWmin", pitch_wheel_min_));
          SavedToActive();
          break;
-      default: {
-         constexpr auto msg {
-             "The file, 'settings.xml', is marked as a version not supported by the current "
-             "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
-         rsj::LogAndAlertError(
-             fmt::format(juce::translate(msg).toStdString(), version), fmt::format(msg, version));
-      }
+      default:
+         {
+            constexpr auto msg {
+                "The file, 'settings.xml', is marked as a version not supported by the current "
+                "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
+            rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
+                fmt::format(msg, version));
+         }
+         break;
       }
    }
    catch (const std::exception& e) {
@@ -343,13 +354,15 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
          archive(settings_to_save_, cereal::make_nvp("PWmax", pitch_wheel_max_),
              cereal::make_nvp("PWmin", pitch_wheel_min_));
          break;
-      default: {
-         constexpr auto msg {
-             "The file, 'settings.xml', is marked as a version not supported by the current "
-             "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
-         rsj::LogAndAlertError(
-             fmt::format(juce::translate(msg).toStdString(), version), fmt::format(msg, version));
-      }
+      default:
+         {
+            constexpr auto msg {
+                "The file, 'settings.xml', is marked as a version not supported by the current "
+                "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
+            rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
+                fmt::format(msg, version));
+         }
+         break;
       }
    }
    catch (const std::exception& e) {

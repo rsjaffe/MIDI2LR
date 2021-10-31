@@ -17,12 +17,14 @@
  */
 #include <atomic>
 #include <functional>
+#include <mutex>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <version>
 
-#include <asio.hpp>
+#include <asio/asio.hpp>
 
 #include "Concurrency.h"
 #include "MidiUtilities.h"
@@ -31,8 +33,15 @@ class ControlsModel;
 class MidiReceiver;
 class MidiSender;
 class Profile;
+
+#ifdef __cpp_lib_semaphore
+#include <semaphore>
+#else
+#include <condition_variable>
+#endif
+
 #ifndef _MSC_VER
-#define _In_
+#define _In_ //-V3547
 #endif
 
 class LrIpcOut {
@@ -47,18 +56,18 @@ class LrIpcOut {
 
    template<class T> void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(bool, bool))
    {
-      if (object && mf)
+      if (object && mf) {
+         std::scoped_lock lk(callback_mtx_);
          callbacks_.emplace_back([=](bool a, bool b) { (object->*mf)(a, b); });
+      }
    }
    void SendCommand(std::string&& command)
    {
-      if (!sending_stopped_)
-         command_.push(std::move(command));
+      if (!sending_stopped_) { command_.push(std::move(command)); }
    }
    void SendCommand(const std::string& command)
    {
-      if (!sending_stopped_)
-         command_.push(command);
+      if (!sending_stopped_) { command_.push(command); }
    }
    void SendingRestart();
    void SendingStop();
@@ -73,16 +82,24 @@ class LrIpcOut {
    void SetRecenter(rsj::MidiMessageId mm);
    asio::ip::tcp::socket socket_;
    asio::steady_timer recenter_timer_;
+   bool connected_ {false};
    bool sending_stopped_ {false};
    const MidiSender& midi_sender_;
    const Profile& profile_;
    const std::unordered_map<std::string, std::pair<std::string, std::string>>& repeat_cmd_;
    const std::vector<std::string>& wrap_;
    ControlsModel& controls_model_;
+   mutable std::mutex callback_mtx_;
    rsj::ConcurrentQueue<std::string> command_;
-   std::atomic<bool> connected_ {false};
    std::atomic<bool> thread_should_exit_ {false};
    std::vector<std::function<void(bool, bool)>> callbacks_ {};
+#ifdef __cpp_lib_semaphore
+   std::binary_semaphore sendout_running_ {1};
+#else
+   bool sendout_running_ {false};
+   mutable std::mutex mtx_;
+   std::condition_variable cv_;
+#endif
 };
 
 #endif

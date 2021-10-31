@@ -33,10 +33,10 @@ try : juce
       juce::Component::centreWithSize(getWidth(), getHeight());
       juce::Component::setVisible(true);
       window_content_->Init();
-      const auto hide_sec {settings_manager.GetAutoHideTime()};
-      if (hide_sec)
-         /* don't start timer if time is zero */
+      if (const auto hide_sec {settings_manager.GetAutoHideTime()}) { /* don't start timer if time
+                                                                         is zero */
          juce::Timer::startTimer(1000 * hide_sec);
+      }
    }
 catch (const std::exception& e) {
    MIDI2LR_E_RESPONSE;
@@ -47,8 +47,7 @@ void MainWindow::timerCallback()
 {
    try {
       juce::Timer::stopTimer();
-      if (!juce::ResizableWindow::isMinimised())
-         juce::DocumentWindow::minimiseButtonPressed();
+      if (!juce::ResizableWindow::isMinimised()) { juce::DocumentWindow::minimiseButtonPressed(); }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

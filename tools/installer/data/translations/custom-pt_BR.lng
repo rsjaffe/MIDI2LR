@@ -3,5 +3,5 @@ midi.instructions=Ajuda Online
 midi.donate.exp=Abre um navegador da web com um formulário do PayPal, onde você pode fazer uma doação para apoiar o desenvolvimento de ${project.fullName}.
 midi.donate=Doar para apoiar o desenvolvimento de projetos
 midi.install.win=${project.fullName} só pode ser instalado na versão de 64 bits do Microsoft Windows 10 ou posterior.
-midi.install.mac=Requer o MacOS Mojave 10.14 ou posterior.
+midi.install.mac=Requer o MacOS Catalina 10.15 ou posterior.
 midi.ports=O ${project.fullName} requer as portas 58763 e 58764 para se comunicar com o Lightroom. Pelo menos uma dessas portas está indisponível no momento. Se você estiver executando ${project.fullName} agora, ignore esta mensagem. Caso contrário, você terá que identificar o que está bloqueando essas portas para permitir que o ${project.fullName} funcione corretamente.

@@ -16,41 +16,28 @@
 #include "CommandSet.h"
 
 #include <exception>
+#include <filesystem>
 #include <fstream>
 #include <memory>
 #include <utility>
 #include <version>
-#ifndef _WIN32
-#include <AvailabilityMacros.h>
-#if defined(MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15     \
-    && defined(__cpp_lib_filesystem)
-#define MIDI2LR_FILESYSTEM_AVAILABLE
-#endif
-#else
-#ifdef __cpp_lib_filesystem
-#define MIDI2LR_FILESYSTEM_AVAILABLE
-#endif
-#endif
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
-#include <filesystem>
-namespace fs = std::filesystem;
-#endif
 
 #include <cereal/archives/xml.hpp>
 #include <cereal/types/string.hpp> /*ReSharper false alarm*/
 #include <cereal/types/unordered_map.hpp>
 #include <cereal/types/vector.hpp> /*ReSharper false alarm*/
-#include <fmt/format.h>
 
 #include "Translate.h"
+
+namespace fs = std::filesystem;
 
 CommandSet::CommandSet() : m_impl_(MakeImpl())
 {
    /* manually insert unmapped at first position */
    try {
       rsj::Translate(m_impl_.language_); /* so UnassignedTranslated translated properly */
-      cmd_by_number_.emplace_back(kUnassigned);
-      cmd_label_by_number_.emplace_back(UnassignedTranslated());
+      cmd_by_number_.push_back(kUnassigned);
+      cmd_label_by_number_.push_back(UnassignedTranslated());
       cmd_idx_[kUnassigned] = 0;
       size_t idx = 1;
       for (const auto& [cmd_group, cmd_abbrev_label] : m_impl_.allcommands_) {
@@ -60,10 +47,10 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
             cmd_by_number_.push_back(cmd_abbrev);
             cmd_label_by_number_.push_back(group_colon + cmd_label);
             cmd_idx_[cmd_abbrev] = idx++;
-            menu_items_temp.emplace_back(cmd_label);
+            menu_items_temp.push_back(cmd_label);
          }
-         menus_.emplace_back(cmd_group);
-         menu_entries_.emplace_back(std::move(menu_items_temp));
+         menus_.push_back(cmd_group);
+         menu_entries_.push_back(std::move(menu_items_temp));
       }
    }
    catch (const std::exception& e) {
@@ -75,25 +62,18 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
 CommandSet::Impl::Impl()
 {
    try {
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
       const fs::path p {rsj::AppDataFilePath(MIDI2LR_UC_LITERAL("MenuTrans.xml"))};
-#else
-      const auto p {rsj::AppDataFilePath(MIDI2LR_UC_LITERAL("MenuTrans.xml"))};
-#endif
       std::ifstream infile {p};
       if (infile.is_open()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
          const auto iarchive {std::make_unique<cereal::XMLInputArchive>(infile)};
          (*iarchive)(*this);
-#ifdef MIDI2LR_FILESYSTEM_AVAILABLE
-         rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p.string()));
-#else
-         rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p));
-#endif
+         rsj::Log(fmt::format("MenuTrans.xml archive loaded from {}.", p.string()));
       }
-      else
+      else {
          rsj::LogAndAlertError(
              juce::translate("Unable to load MenuTrans.xml."), "Unable to load MenuTrans.xml.");
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -118,7 +98,7 @@ size_t CommandSet::CommandTextIndex(const std::string& command) const
    try {
       const auto found {cmd_idx_.find(command)};
       if (found == cmd_idx_.end()) {
-         rsj::Log(fmt::format(FMT_STRING("Command not found in CommandTextIndex: {}."), command));
+         rsj::Log(fmt::format("Command not found in CommandTextIndex: {}.", command));
          return 0;
       }
       return found->second;
