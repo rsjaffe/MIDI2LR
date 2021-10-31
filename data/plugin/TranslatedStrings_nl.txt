@@ -1,4 +1,4 @@
-"$$$/MIDI2LR/About/about=Instructies; sluit een MIDI controller aan, start MIDI2LR, en begin met bewerken! Zie https://github.com/rsjaffe/MIDI2LR/wiki voor meer gegevens."
+﻿"$$$/MIDI2LR/About/about=Instructies; sluit een MIDI controller aan, start MIDI2LR, en begin met bewerken! Zie https://github.com/rsjaffe/MIDI2LR/wiki voor meer gegevens."
 "$$$/MIDI2LR/Database/Customcameraprofile=Aangepast cameraprofiel"
 "$$$/MIDI2LR/Database/Show1=^1 Weergeven"
 "$$$/MIDI2LR/Dialog/InvalidKey=De waarde moet één teken zijn of een F-toets (F1-F16) of: apostrophe, backslash, backspace (in MacOS staat voor verwijderen naar links), cursor down, cursor left, cursor right, cursor up, delete (in MacOS staat voor verwijderen naar rechts), end, escape , home, page down, page up, return, space, tab of numpad 0 (via numpad 9), numpad add (of decimal, divide, multiply, subtract)."

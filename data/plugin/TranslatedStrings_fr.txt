@@ -1,4 +1,4 @@
-"$$$/MIDI2LR/About/about=Mode d'emploi : connecter un contrôleur MIDI, lancer MIDI2LR, et commencer à éditer ! Voir https://github.com/rsjaffe/MIDI2LR/wiki pour plus d'aide."
+﻿"$$$/MIDI2LR/About/about=Mode d'emploi : connecter un contrôleur MIDI, lancer MIDI2LR, et commencer à éditer ! Voir https://github.com/rsjaffe/MIDI2LR/wiki pour plus d'aide."
 "$$$/MIDI2LR/Database/Customcameraprofile=Profil de caméra personnalisé"
 "$$$/MIDI2LR/Database/Show1=Afficher ^1"
 "$$$/MIDI2LR/Dialog/InvalidKey=La valeur doit être un caractère unique ou épeler une touche F (F1-F16) ou : apostrophe, backslash, backspace (sous MacOS représente supprimer vers la gauche), cursor down, cursor left, cursor right, cursor up, delete (sous MacOS représente la suppression vers la droite), end, escape, home, page down, page up, return, space, tab ou numpad 0 (à numpad 9), numpad add (ou decimal, divide, multiply, subtract)."
