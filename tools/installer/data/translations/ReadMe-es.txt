@@ -34,7 +34,7 @@ Actualización desde una versión anterior
 Problemas / Preguntas frecuentes
 ===================================
 
-Primero vea las preguntas frecuentes en https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues. Si aún tiene preguntas, publíquelas en https://groups.google.com/forum/#!forum/midi2lr.
+Primero vea las preguntas frecuentes en https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues. Si aún tiene preguntas, publíquelas en https://github.com/rsjaffe/MIDI2LR/discussions.
 
 =========
 Registro de cambios

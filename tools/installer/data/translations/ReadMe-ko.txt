@@ -34,7 +34,7 @@
 문제 / 자주 묻는 질문
 ====================================
 
-먼저 https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues에서 FAQ를 참조하십시오. 여전히 궁금한 점이 있으면 https://groups.google.com/forum/#!forum/midi2lr에 게시하십시오.
+먼저 https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues에서 FAQ를 참조하십시오. 여전히 궁금한 점이 있으면 https://github.com/rsjaffe/MIDI2LR/discussions에 게시하십시오.
 
 =========
 변경 로그

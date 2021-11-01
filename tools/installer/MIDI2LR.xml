@@ -456,7 +456,7 @@
     <osxUninstallerApplicationBundleIcon>../../build/MacOS/Icon.icns</osxUninstallerApplicationBundleIcon>
     <outputDirectory>../..</outputDirectory>
     <productDisplayIcon>../../build/Windows/icon.ico</productDisplayIcon>
-    <productUrlHelpLink>https://groups.google.com/forum/#!forum/midi2lr</productUrlHelpLink>
+    <productUrlHelpLink>https://github.com/rsjaffe/MIDI2LR/discussions</productUrlHelpLink>
     <productUrlInfoAbout>https://rsjaffe.github.io/MIDI2LR/</productUrlInfoAbout>
     <readmeFileEncoding>utf-8</readmeFileEncoding>
     <saveRelativePaths>1</saveRelativePaths>

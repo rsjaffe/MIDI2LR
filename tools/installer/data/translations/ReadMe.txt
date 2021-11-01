@@ -34,7 +34,7 @@ Updating From A Previous Version
 Problems/Frequently Asked Questions
 ===================================
 
-First see the FAQ at https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues. If you still have questions, post them at https://groups.google.com/forum/#!forum/midi2lr.
+First see the FAQ at https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues. If you still have questions, post them at https://github.com/rsjaffe/MIDI2LR/discussions.
 
 =========
 Changelog
