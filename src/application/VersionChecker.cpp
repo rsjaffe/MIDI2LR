@@ -30,6 +30,7 @@ namespace {
    [[nodiscard]] std::string IntToVersion(unsigned int vers)
    {
       static_assert(std::is_unsigned_v<decltype(vers)>, "Avoid sign extension");
+      static_assert(sizeof vers >= 4, "At least 4 bytes");
       const auto major {vers >> 24 & 0xFFU};
       const auto minor {vers >> 16 & 0xFFU};
       const auto rev {vers >> 8 & 0xFFU};

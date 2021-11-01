@@ -28,6 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 	exposure = 0,
 	exposure2012 = 1,
 	highlights2012 = 1,
+  hue = 1,
 	luminanceNoise = 1,
 	moire = 1,
 	saturation = 1,
@@ -36,9 +37,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 	temperature = 1,
   texture = 1,
 	tint = 1,
-	toningHue = 240,
+	toningHue = 327,
 	toningLuminance = 0,
-	toningSaturation = 0,
+	toningSaturation = 1,
 	whites2012 = 1,
 --]]
 
@@ -74,7 +75,7 @@ local localPresetMap = {
   texture = "local_Texture",
   tint = "local_Tint",
   toningHue = "", --"local_ToningHue" doesn't exsist
-  toningLuminance = "local_ToningLuminance",
+  toningLuminance = "", -- "local_ToningLuminance" doesn't exist
   toningSaturation = "", --"local_ToningSaturation" doesn't exsist
   whites2012 = "local_Whites"
 }
