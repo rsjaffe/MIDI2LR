@@ -141,8 +141,7 @@ local wfep_action = {
 }
 -- equivalent to "LrApplication.activeCatalog():getTargetPhoto():rotateLeft()", e.g., with target checking
 local function wrapForEachPhoto(F) --note lightroom applies this to all selected photos. no need to get all selected
-  local SelectedAction = wfep_action
-  [F]
+  local SelectedAction = wfep_action[F]
   return function()
     local LrCat = LrApplication.activeCatalog()
     local TargetPhoto  = LrCat:getTargetPhoto()
@@ -833,6 +832,22 @@ local function RatioCrop(param, value, UpdateParam)
   end
 end
 
+local function quickDevAdjust(par,val,cmd) --note lightroom applies this to all selected photos. no need to get all selected
+  return function()
+    LrTasks.startAsyncTask(
+      function()
+        local TargetPhoto  = LrApplication.activeCatalog():getTargetPhoto()
+        if TargetPhoto then
+          TargetPhoto:quickDevelopAdjustImage(par,val)
+          if ProgramPreferences.ClientShowBezelOnChange then
+            LrDialogs.showBezel(Database.CmdTrans[cmd][1])
+          end
+        end
+      end
+    )
+  end
+end
+
 return {
   ApplySettings = ApplySettings,
   FullRefresh = FullRefresh,
@@ -864,6 +879,7 @@ return {
   fToggleTFasync = fToggleTFasync,
   fToggleTool = fToggleTool,
   fToggleTool1 = fToggleTool1,
+  quickDevAdjust = quickDevAdjust,
   showBezel = showBezel,
   wrapFOM = wrapFOM,
   wrapForEachPhoto = wrapForEachPhoto,
