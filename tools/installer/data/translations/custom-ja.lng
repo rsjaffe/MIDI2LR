@@ -1,7 +1,7 @@
-midi.instructions.exp=マニュアルを表示するWebブラウザーを開きます。 ${project.fullName}で使用できる多くのオプションと設定があるので、マニュアルをブックマークしてください。
-midi.instructions=オンライン ヘルプ
+﻿midi.donate=プロジェクト開発をサポートするための寄付をお願いします
 midi.donate.exp=PayPalフォームでWebブラウザーを開き、${project.fullName}のさらなる開発を支援するための寄付を行うことができます。
-midi.donate=プロジェクト開発をサポートするための寄付をお願いします
-midi.install.win=${project.fullName} をインストールできるのは、64 ビット版の Microsoft Windows 10 以降です
 midi.install.mac=MacOS Catalina 10.15 以降が必要です。
+midi.install.win=${project.fullName} をインストールできるのは、64 ビット版の Microsoft Windows 10 以降です
+midi.instructions=オンライン ヘルプ
+midi.instructions.exp=マニュアルを表示するWebブラウザーを開きます。 ${project.fullName}で使用できる多くのオプションと設定があるので、マニュアルをブックマークしてください。
 midi.ports=${project.fullName}では、Lightroomと通信するためにポート58763と58764が必要です。 これらのポートの少なくとも1つは現在利用できません。 現在${project.fullName}を実行している場合は、このメッセージを無視してください。 それ以外の場合は、${project.fullName}が正しく機能するように、これらのポートをブロックしているものを特定する必要があります。
