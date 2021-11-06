@@ -1199,7 +1199,7 @@ local function WriteAppTrans(language)
   file:write([=[
     </repeats>
     <wraps size="dynamic">
-   ]=])
+]=])
   for j,v in ipairs(wraps) do
     file:write('      <value'.. j-1 ..'>'..v..'</value'.. j-1 ..'>\n')
   end
