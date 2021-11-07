@@ -34,7 +34,7 @@ Uppdatering från en tidigare version
 Problem / Vanliga frågor
 ===================================
 
-Se först FAQ på https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues. Om du fortfarande har frågor kan du posta dem på https://groups.google.com/forum/#!forum/midi2lr.
+Se först FAQ på https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues. Om du fortfarande har frågor kan du posta dem på https://github.com/rsjaffe/MIDI2LR/discussions.
 
 =========
 Ändringslogg

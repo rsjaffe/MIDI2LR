@@ -34,7 +34,7 @@
 问题/常见问题
 ==================================
 
-首先，请参阅https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues中的FAQ。如果仍有问题，请将其发布在https://groups.google.com/forum/#!forum/midi2lr。
+首先，请参阅https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues中的FAQ。如果仍有问题，请将其发布在https://github.com/rsjaffe/MIDI2LR/discussions。
 
 =========
 变更日志

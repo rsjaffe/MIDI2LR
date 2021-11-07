@@ -4,7 +4,7 @@ You can enable them by double-clicking on the EnableUserDumps.reg file in this d
 
 If you want to edit the registry yourself, follow the instructions at https://msdn.microsoft.com/en-us/library/windows/desktop/bb787181(v=vs.85).aspx.
 
-In either event, contact me at https://groups.google.com/forum/#!forum/midi2lr, tell me what version of MIDI2LR you got the dump from, and post the file somewhere (like a file-sharing service) where I can download it.
+In either event, contact me at https://github.com/rsjaffe/MIDI2LR/discussions, tell me what version of MIDI2LR you got the dump from, and post the file somewhere (like a file-sharing service) where I can download it.
 
 Thank you for your help!
 

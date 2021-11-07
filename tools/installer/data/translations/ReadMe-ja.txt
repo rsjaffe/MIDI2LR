@@ -34,7 +34,7 @@
 問題/よくある質問
 ===================================
 
-まず、https：//github.com/rsjaffe/MIDI2LR/wiki#faqknown-issuesのFAQを参照してください。それでも質問がある場合は、https：//groups.google.com/forum/#！forum / midi2lrに投稿してください。
+まず、https：//github.com/rsjaffe/MIDI2LR/wiki#faqknown-issuesのFAQを参照してください。それでも質問がある場合は、https://github.com/rsjaffe/MIDI2LR/discussionsに投稿してください。
 
 =========
 変更ログ

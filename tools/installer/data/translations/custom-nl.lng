@@ -1,7 +1,7 @@
-midi.instructions.exp=Opent een webbrowser met de handleiding. Maak een bladwijzer van de handleiding, want er zijn veel opties en instellingen die u in ${project.fullName} kunt gebruiken.
-midi.instructions=Online-Help
+﻿midi.donate=Doneren om projectontwikkeling te steunen
 midi.donate.exp=Opent een webbrowser met een PayPal-formulier waarin u een donatie kunt doen ter ondersteuning van verdere ${project.fullName}-ontwikkeling.
-midi.donate=Doneren om projectontwikkeling te steunen
-midi.install.win=${project.fullName} kan alleen worden geïnstalleerd op een 64-bits versie van Microsoft Windows 10 of hoger.
 midi.install.mac=MacOS Catalina 10.15 of later is vereist.
+midi.install.win=${project.fullName} kan alleen worden geïnstalleerd op een 64-bits versie van Microsoft Windows 10 of hoger.
+midi.instructions=Online-Help
+midi.instructions.exp=Opent een webbrowser met de handleiding. Maak een bladwijzer van de handleiding, want er zijn veel opties en instellingen die u in ${project.fullName} kunt gebruiken.
 midi.ports=${project.fullName} vereist poorten 58763 en 58764 om te communiceren met Lightroom. Ten minste één van deze poorten is momenteel niet beschikbaar. Als u op dit moment ${project.fullName} gebruikt, negeert u dit bericht. Anders zul je moeten identificeren wat die poorten blokkeert om ervoor te zorgen dat ${project.fullName} correct werkt.

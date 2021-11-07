@@ -34,7 +34,7 @@
 Проблемы / Часто задаваемые вопросы
 ===================================
 
-Сначала посмотрите FAQ по адресу https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues. Если у вас остались вопросы, отправьте их по адресу https://groups.google.com/forum/#!forum/midi2lr.
+Сначала посмотрите FAQ по адресу https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues. Если у вас остались вопросы, отправьте их по адресу https://github.com/rsjaffe/MIDI2LR/discussions.
 
 =========
 Изменения

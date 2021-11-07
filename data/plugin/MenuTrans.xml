@@ -615,77 +615,221 @@
         <first>Quick develop</first>
         <second size="dynamic">
             <value0>
-              <first>QuickDevWBAuto</first>
-              <second>Quick develop White Balance Auto</second>
+              <first>QuickDevExpLarge</first>
+              <second>Quick develop Increase exposure 1 stop</second>
             </value0>
             <value1>
-              <first>QuickDevWBDaylight</first>
-              <second>Quick develop White Balance Daylight</second>
+              <first>QuickDevExpLargeDec</first>
+              <second>Quick develop Decrease exposure 1 stop</second>
             </value1>
             <value2>
-              <first>QuickDevWBCloudy</first>
-              <second>Quick develop White Balance Cloudy</second>
+              <first>QuickDevExpSmall</first>
+              <second>Quick develop Increase exposure 1/3 stop</second>
             </value2>
             <value3>
-              <first>QuickDevWBShade</first>
-              <second>Quick develop White Balance Shade</second>
+              <first>QuickDevExpSmallDec</first>
+              <second>Quick develop Decrease exposure 1/3 stop</second>
             </value3>
             <value4>
-              <first>QuickDevWBTungsten</first>
-              <second>Quick develop White Balance Tungsten</second>
+              <first>QuickDevContrastLarge</first>
+              <second>Quick develop Increase contrast 20</second>
             </value4>
             <value5>
-              <first>QuickDevWBFluorescent</first>
-              <second>Quick develop White Balance Fluorescent</second>
+              <first>QuickDevContrastLargeDec</first>
+              <second>Quick develop Decrease contrast -20</second>
             </value5>
             <value6>
-              <first>QuickDevWBFlash</first>
-              <second>Quick develop White Balance Flash</second>
+              <first>QuickDevContrastSmall</first>
+              <second>Quick develop Increase contrast 5</second>
             </value6>
             <value7>
-              <first>SetTreatmentBW</first>
-              <second>Quick develop Set treatment B&amp;W</second>
+              <first>QuickDevContrastSmallDec</first>
+              <second>Quick develop Decrease contrast -5</second>
             </value7>
             <value8>
-              <first>SetTreatmentColor</first>
-              <second>Quick develop Set treatment Color</second>
+              <first>QuickDevHighlightsLarge</first>
+              <second>Quick develop Increase highlights 20</second>
             </value8>
             <value9>
-              <first>QuickDevCropAspectOriginal</first>
-              <second>Quick develop Set crop ratio: Original</second>
+              <first>QuickDevHighlightsLargeDec</first>
+              <second>Quick develop Decrease highlights -20</second>
             </value9>
             <value10>
-              <first>QuickDevCropAspectAsShot</first>
-              <second>Quick develop Set crop ratio: As shot</second>
+              <first>QuickDevHighlightsSmall</first>
+              <second>Quick develop Increase highlights 5</second>
             </value10>
             <value11>
-              <first>QuickDevCropAspect1x1</first>
-              <second>Quick develop Set crop ratio: 1 x 1</second>
+              <first>QuickDevHighlightsSmallDec</first>
+              <second>Quick develop Decrease highlights -5</second>
             </value11>
             <value12>
-              <first>QuickDevCropAspect2x3</first>
-              <second>Quick develop Set crop ratio: 2 x 3</second>
+              <first>QuickDevShadowsLarge</first>
+              <second>Quick develop Decrease shadows 20</second>
             </value12>
             <value13>
-              <first>QuickDevCropAspect3x4</first>
-              <second>Quick develop Set crop ratio: 3 x 4</second>
+              <first>QuickDevShadowsLargeDec</first>
+              <second>Quick develop Increase shadows -20</second>
             </value13>
             <value14>
-              <first>QuickDevCropAspect4x5</first>
-              <second>Quick develop Set crop ratio: 4 x 5</second>
+              <first>QuickDevShadowsSmall</first>
+              <second>Quick develop Decrease shadows 5</second>
             </value14>
             <value15>
-              <first>QuickDevCropAspect5x7</first>
-              <second>Quick develop Set crop ratio: 5 x 7</second>
+              <first>QuickDevShadowsSmallDec</first>
+              <second>Quick develop Increase shadows -5</second>
             </value15>
             <value16>
-              <first>QuickDevCropAspect85x11</first>
-              <second>Quick develop Set crop ratio: 8.5 x 11</second>
+              <first>QuickDevWhitesLarge</first>
+              <second>Quick develop Increase white clipping 20</second>
             </value16>
             <value17>
+              <first>QuickDevWhitesLargeDec</first>
+              <second>Quick develop Decrease white clipping -20</second>
+            </value17>
+            <value18>
+              <first>QuickDevWhitesSmall</first>
+              <second>Quick develop Increase white clipping 5</second>
+            </value18>
+            <value19>
+              <first>QuickDevWhitesSmallDec</first>
+              <second>Quick develop Decrease white clipping -5</second>
+            </value19>
+            <value20>
+              <first>QuickDevBlacksLarge</first>
+              <second>Quick develop Decrease black clipping 20</second>
+            </value20>
+            <value21>
+              <first>QuickDevBlacksLargeDec</first>
+              <second>Quick develop Increase black clipping -20</second>
+            </value21>
+            <value22>
+              <first>QuickDevBlacksSmall</first>
+              <second>Quick develop Decrease black clipping 5</second>
+            </value22>
+            <value23>
+              <first>QuickDevBlacksSmallDec</first>
+              <second>Quick develop Increase black clipping -5</second>
+            </value23>
+            <value24>
+              <first>QuickDevClarityLarge</first>
+              <second>Quick develop Increase clarity 20</second>
+            </value24>
+            <value25>
+              <first>QuickDevClarityLargeDec</first>
+              <second>Quick develop Decrease clarity -20</second>
+            </value25>
+            <value26>
+              <first>QuickDevClaritySmall</first>
+              <second>Quick develop Increase clarity 5</second>
+            </value26>
+            <value27>
+              <first>QuickDevClaritySmallDec</first>
+              <second>Quick develop Decrease clarity -5</second>
+            </value27>
+            <value28>
+              <first>QuickDevVibranceLarge</first>
+              <second>Quick develop Increase vibrance 20</second>
+            </value28>
+            <value29>
+              <first>QuickDevVibranceLargeDec</first>
+              <second>Quick develop Decrease vibrance -20</second>
+            </value29>
+            <value30>
+              <first>QuickDevVibranceSmall</first>
+              <second>Quick develop Increase vibrance 5</second>
+            </value30>
+            <value31>
+              <first>QuickDevVibranceSmallDec</first>
+              <second>Quick develop Decrease vibrance -5</second>
+            </value31>
+            <value32>
+              <first>QuickDevSatLarge</first>
+              <second>Quick develop Increase Saturation: 20</second>
+            </value32>
+            <value33>
+              <first>QuickDevSatLargeDec</first>
+              <second>Quick develop Decrease Saturation: -20</second>
+            </value33>
+            <value34>
+              <first>QuickDevSatSmall</first>
+              <second>Quick develop Increase Saturation: 5</second>
+            </value34>
+            <value35>
+              <first>QuickDevSatSmallDec</first>
+              <second>Quick develop Decrease Saturation: -5</second>
+            </value35>
+            <value36>
+              <first>QuickDevWBAuto</first>
+              <second>Quick develop White Balance Auto</second>
+            </value36>
+            <value37>
+              <first>QuickDevWBDaylight</first>
+              <second>Quick develop White Balance Daylight</second>
+            </value37>
+            <value38>
+              <first>QuickDevWBCloudy</first>
+              <second>Quick develop White Balance Cloudy</second>
+            </value38>
+            <value39>
+              <first>QuickDevWBShade</first>
+              <second>Quick develop White Balance Shade</second>
+            </value39>
+            <value40>
+              <first>QuickDevWBTungsten</first>
+              <second>Quick develop White Balance Tungsten</second>
+            </value40>
+            <value41>
+              <first>QuickDevWBFluorescent</first>
+              <second>Quick develop White Balance Fluorescent</second>
+            </value41>
+            <value42>
+              <first>QuickDevWBFlash</first>
+              <second>Quick develop White Balance Flash</second>
+            </value42>
+            <value43>
+              <first>SetTreatmentBW</first>
+              <second>Quick develop Set treatment B&amp;W</second>
+            </value43>
+            <value44>
+              <first>SetTreatmentColor</first>
+              <second>Quick develop Set treatment Color</second>
+            </value44>
+            <value45>
+              <first>QuickDevCropAspectOriginal</first>
+              <second>Quick develop Set crop ratio: Original</second>
+            </value45>
+            <value46>
+              <first>QuickDevCropAspectAsShot</first>
+              <second>Quick develop Set crop ratio: As shot</second>
+            </value46>
+            <value47>
+              <first>QuickDevCropAspect1x1</first>
+              <second>Quick develop Set crop ratio: 1 x 1</second>
+            </value47>
+            <value48>
+              <first>QuickDevCropAspect2x3</first>
+              <second>Quick develop Set crop ratio: 2 x 3</second>
+            </value48>
+            <value49>
+              <first>QuickDevCropAspect3x4</first>
+              <second>Quick develop Set crop ratio: 3 x 4</second>
+            </value49>
+            <value50>
+              <first>QuickDevCropAspect4x5</first>
+              <second>Quick develop Set crop ratio: 4 x 5</second>
+            </value50>
+            <value51>
+              <first>QuickDevCropAspect5x7</first>
+              <second>Quick develop Set crop ratio: 5 x 7</second>
+            </value51>
+            <value52>
+              <first>QuickDevCropAspect85x11</first>
+              <second>Quick develop Set crop ratio: 8.5 x 11</second>
+            </value52>
+            <value53>
               <first>QuickDevCropAspect9x16</first>
               <second>Quick develop Set crop ratio: 9 x 16</second>
-            </value17>
+            </value53>
         </second>
       </value7>
       <value8>
@@ -2380,322 +2524,852 @@
               <second>Keyword 16</second>
             </value15>
             <value16>
-              <first>Keyword1Toggle</first>
-              <second>Toggle Keyword 1</second>
+              <first>Keyword17</first>
+              <second>Keyword 17</second>
             </value16>
             <value17>
-              <first>Keyword2Toggle</first>
-              <second>Toggle Keyword 2</second>
+              <first>Keyword18</first>
+              <second>Keyword 18</second>
             </value17>
             <value18>
-              <first>Keyword3Toggle</first>
-              <second>Toggle Keyword 3</second>
+              <first>Keyword19</first>
+              <second>Keyword 19</second>
             </value18>
             <value19>
-              <first>Keyword4Toggle</first>
-              <second>Toggle Keyword 4</second>
+              <first>Keyword20</first>
+              <second>Keyword 20</second>
             </value19>
             <value20>
-              <first>Keyword5Toggle</first>
-              <second>Toggle Keyword 5</second>
+              <first>Keyword21</first>
+              <second>Keyword 21</second>
             </value20>
             <value21>
-              <first>Keyword6Toggle</first>
-              <second>Toggle Keyword 6</second>
+              <first>Keyword22</first>
+              <second>Keyword 22</second>
             </value21>
             <value22>
-              <first>Keyword7Toggle</first>
-              <second>Toggle Keyword 7</second>
+              <first>Keyword23</first>
+              <second>Keyword 23</second>
             </value22>
             <value23>
-              <first>Keyword8Toggle</first>
-              <second>Toggle Keyword 8</second>
+              <first>Keyword24</first>
+              <second>Keyword 24</second>
             </value23>
             <value24>
-              <first>Keyword9Toggle</first>
-              <second>Toggle Keyword 9</second>
+              <first>Keyword25</first>
+              <second>Keyword 25</second>
             </value24>
             <value25>
-              <first>Keyword10Toggle</first>
-              <second>Toggle Keyword 10</second>
+              <first>Keyword26</first>
+              <second>Keyword 26</second>
             </value25>
             <value26>
-              <first>Keyword11Toggle</first>
-              <second>Toggle Keyword 11</second>
+              <first>Keyword27</first>
+              <second>Keyword 27</second>
             </value26>
             <value27>
-              <first>Keyword12Toggle</first>
-              <second>Toggle Keyword 12</second>
+              <first>Keyword28</first>
+              <second>Keyword 28</second>
             </value27>
             <value28>
-              <first>Keyword13Toggle</first>
-              <second>Toggle Keyword 13</second>
+              <first>Keyword29</first>
+              <second>Keyword 29</second>
             </value28>
             <value29>
-              <first>Keyword14Toggle</first>
-              <second>Toggle Keyword 14</second>
+              <first>Keyword30</first>
+              <second>Keyword 30</second>
             </value29>
             <value30>
-              <first>Keyword15Toggle</first>
-              <second>Toggle Keyword 15</second>
+              <first>Keyword31</first>
+              <second>Keyword 31</second>
             </value30>
             <value31>
-              <first>Keyword16Toggle</first>
-              <second>Toggle Keyword 16</second>
+              <first>Keyword32</first>
+              <second>Keyword 32</second>
             </value31>
+            <value32>
+              <first>Keyword33</first>
+              <second>Keyword 33</second>
+            </value32>
+            <value33>
+              <first>Keyword34</first>
+              <second>Keyword 34</second>
+            </value33>
+            <value34>
+              <first>Keyword35</first>
+              <second>Keyword 35</second>
+            </value34>
+            <value35>
+              <first>Keyword36</first>
+              <second>Keyword 36</second>
+            </value35>
+            <value36>
+              <first>Keyword37</first>
+              <second>Keyword 37</second>
+            </value36>
+            <value37>
+              <first>Keyword38</first>
+              <second>Keyword 38</second>
+            </value37>
+            <value38>
+              <first>Keyword39</first>
+              <second>Keyword 39</second>
+            </value38>
+            <value39>
+              <first>Keyword40</first>
+              <second>Keyword 40</second>
+            </value39>
+            <value40>
+              <first>Keyword41</first>
+              <second>Keyword 41</second>
+            </value40>
+            <value41>
+              <first>Keyword42</first>
+              <second>Keyword 42</second>
+            </value41>
+            <value42>
+              <first>Keyword43</first>
+              <second>Keyword 43</second>
+            </value42>
+            <value43>
+              <first>Keyword44</first>
+              <second>Keyword 44</second>
+            </value43>
+            <value44>
+              <first>Keyword45</first>
+              <second>Keyword 45</second>
+            </value44>
+            <value45>
+              <first>Keyword46</first>
+              <second>Keyword 46</second>
+            </value45>
+            <value46>
+              <first>Keyword47</first>
+              <second>Keyword 47</second>
+            </value46>
+            <value47>
+              <first>Keyword48</first>
+              <second>Keyword 48</second>
+            </value47>
+            <value48>
+              <first>Keyword49</first>
+              <second>Keyword 49</second>
+            </value48>
+            <value49>
+              <first>Keyword50</first>
+              <second>Keyword 50</second>
+            </value49>
+            <value50>
+              <first>Keyword51</first>
+              <second>Keyword 51</second>
+            </value50>
+            <value51>
+              <first>Keyword52</first>
+              <second>Keyword 52</second>
+            </value51>
+            <value52>
+              <first>Keyword53</first>
+              <second>Keyword 53</second>
+            </value52>
+            <value53>
+              <first>Keyword54</first>
+              <second>Keyword 54</second>
+            </value53>
+            <value54>
+              <first>Keyword55</first>
+              <second>Keyword 55</second>
+            </value54>
+            <value55>
+              <first>Keyword56</first>
+              <second>Keyword 56</second>
+            </value55>
+            <value56>
+              <first>Keyword57</first>
+              <second>Keyword 57</second>
+            </value56>
+            <value57>
+              <first>Keyword58</first>
+              <second>Keyword 58</second>
+            </value57>
+            <value58>
+              <first>Keyword59</first>
+              <second>Keyword 59</second>
+            </value58>
+            <value59>
+              <first>Keyword60</first>
+              <second>Keyword 60</second>
+            </value59>
+            <value60>
+              <first>Keyword61</first>
+              <second>Keyword 61</second>
+            </value60>
+            <value61>
+              <first>Keyword62</first>
+              <second>Keyword 62</second>
+            </value61>
+            <value62>
+              <first>Keyword63</first>
+              <second>Keyword 63</second>
+            </value62>
+            <value63>
+              <first>Keyword64</first>
+              <second>Keyword 64</second>
+            </value63>
         </second>
       </value20>
       <value21>
-        <first>Local Adjustments</first>
+        <first>Toggle Keyword</first>
         <second size="dynamic">
             <value0>
-              <first>GraduatedFilter</first>
-              <second>Show Graduated Filters</second>
+              <first>Keyword1Toggle</first>
+              <second>Toggle Keyword 1</second>
             </value0>
             <value1>
-              <first>RadialFilter</first>
-              <second>Show Radial Filters</second>
+              <first>Keyword2Toggle</first>
+              <second>Toggle Keyword 2</second>
             </value1>
             <value2>
-              <first>RedEye</first>
-              <second>Show Red-Eye Correction</second>
+              <first>Keyword3Toggle</first>
+              <second>Toggle Keyword 3</second>
             </value2>
             <value3>
-              <first>SpotRemoval</first>
-              <second>Show Spot Removal</second>
+              <first>Keyword4Toggle</first>
+              <second>Toggle Keyword 4</second>
             </value3>
             <value4>
-              <first>AdjustmentBrush</first>
-              <second>Show Brush Adjustments</second>
+              <first>Keyword5Toggle</first>
+              <second>Toggle Keyword 5</second>
             </value4>
             <value5>
-              <first>ShowMaskOverlay</first>
-              <second>Show Mask Overlay</second>
+              <first>Keyword6Toggle</first>
+              <second>Toggle Keyword 6</second>
             </value5>
             <value6>
-              <first>ToggleOverlay</first>
-              <second>Local Adjustments Show/hide Correction mask overlay</second>
+              <first>Keyword7Toggle</first>
+              <second>Toggle Keyword 7</second>
             </value6>
             <value7>
-              <first>CycleMaskOverlayColor</first>
-              <second>Overlay Color</second>
+              <first>Keyword8Toggle</first>
+              <second>Toggle Keyword 8</second>
             </value7>
             <value8>
-              <first>EnableCircularGradientBasedCorrections</first>
-              <second>Radial filter enable/disable</second>
+              <first>Keyword9Toggle</first>
+              <second>Toggle Keyword 9</second>
             </value8>
             <value9>
-              <first>EnableGradientBasedCorrections</first>
-              <second>Graduated filter enable/disable</second>
+              <first>Keyword10Toggle</first>
+              <second>Toggle Keyword 10</second>
             </value9>
             <value10>
-              <first>EnablePaintBasedCorrections</first>
-              <second>Brush adjustments enable/disable</second>
+              <first>Keyword11Toggle</first>
+              <second>Toggle Keyword 11</second>
             </value10>
             <value11>
-              <first>EnableRedEye</first>
-              <second>Red-Eye enable/disable</second>
+              <first>Keyword12Toggle</first>
+              <second>Toggle Keyword 12</second>
             </value11>
             <value12>
-              <first>EnableRetouch</first>
-              <second>Spot removal enable/disable</second>
+              <first>Keyword13Toggle</first>
+              <second>Toggle Keyword 13</second>
             </value12>
             <value13>
-              <first>ChangeBrushSize</first>
-              <second>Brush — Size</second>
+              <first>Keyword14Toggle</first>
+              <second>Toggle Keyword 14</second>
             </value13>
             <value14>
-              <first>BrushSizeSmaller</first>
-              <second>Brush — Size — smaller</second>
+              <first>Keyword15Toggle</first>
+              <second>Toggle Keyword 15</second>
             </value14>
             <value15>
-              <first>BrushSizeLarger</first>
-              <second>Brush — Size — larger</second>
+              <first>Keyword16Toggle</first>
+              <second>Toggle Keyword 16</second>
             </value15>
             <value16>
-              <first>ChangeFeatherSize</first>
-              <second>Brush — Feather</second>
+              <first>Keyword17Toggle</first>
+              <second>Toggle Keyword 17</second>
             </value16>
             <value17>
-              <first>BrushFeatherSmaller</first>
-              <second>Brush — Feather — smaller</second>
+              <first>Keyword18Toggle</first>
+              <second>Toggle Keyword 18</second>
             </value17>
             <value18>
-              <first>BrushFeatherLarger</first>
-              <second>Brush — Feather — larger</second>
+              <first>Keyword19Toggle</first>
+              <second>Toggle Keyword 19</second>
             </value18>
             <value19>
-              <first>local_Temperature</first>
-              <second>Local Adjustments Temp. (PV 3+)</second>
+              <first>Keyword20Toggle</first>
+              <second>Toggle Keyword 20</second>
             </value19>
             <value20>
-              <first>local_Tint</first>
-              <second>Local Adjustments Tint (PV 3+)</second>
+              <first>Keyword21Toggle</first>
+              <second>Toggle Keyword 21</second>
             </value20>
             <value21>
-              <first>local_Exposure</first>
-              <second>Local Adjustments Exposure (PV 2 and PV 3+)</second>
+              <first>Keyword22Toggle</first>
+              <second>Toggle Keyword 22</second>
             </value21>
             <value22>
-              <first>local_Contrast</first>
-              <second>Local Adjustments Contrast (PV 2 and PV 3+)</second>
+              <first>Keyword23Toggle</first>
+              <second>Toggle Keyword 23</second>
             </value22>
             <value23>
-              <first>local_Highlights</first>
-              <second>Local Adjustments Highlights (PV 3+)</second>
+              <first>Keyword24Toggle</first>
+              <second>Toggle Keyword 24</second>
             </value23>
             <value24>
-              <first>local_Shadows</first>
-              <second>Local Adjustments Shadows (PV 3+)</second>
+              <first>Keyword25Toggle</first>
+              <second>Toggle Keyword 25</second>
             </value24>
             <value25>
-              <first>local_Whites2012</first>
-              <second>Local Adjustments Whites (PV 3+)</second>
+              <first>Keyword26Toggle</first>
+              <second>Toggle Keyword 26</second>
             </value25>
             <value26>
-              <first>local_Blacks2012</first>
-              <second>Local Adjustments Blacks (PV 3+)</second>
+              <first>Keyword27Toggle</first>
+              <second>Toggle Keyword 27</second>
             </value26>
             <value27>
-              <first>local_Texture</first>
-              <second>Local Adjustments Texture</second>
+              <first>Keyword28Toggle</first>
+              <second>Toggle Keyword 28</second>
             </value27>
             <value28>
-              <first>local_Clarity</first>
-              <second>Local Adjustments Clarity (PV 2 and PV 3+)</second>
+              <first>Keyword29Toggle</first>
+              <second>Toggle Keyword 29</second>
             </value28>
             <value29>
-              <first>local_Dehaze</first>
-              <second>Local Adjustments Dehaze (PV 3+)</second>
+              <first>Keyword30Toggle</first>
+              <second>Toggle Keyword 30</second>
             </value29>
             <value30>
-              <first>local_Hue</first>
-              <second>Local Adjustments Hue (PV 5+)</second>
+              <first>Keyword31Toggle</first>
+              <second>Toggle Keyword 31</second>
             </value30>
             <value31>
-              <first>local_Saturation</first>
-              <second>Local Adjustments Saturation (PV 2 and PV 3+)</second>
+              <first>Keyword32Toggle</first>
+              <second>Toggle Keyword 32</second>
             </value31>
             <value32>
-              <first>local_Sharpness</first>
-              <second>Local Adjustments Sharpness (PV 2 and PV 3+)</second>
+              <first>Keyword33Toggle</first>
+              <second>Toggle Keyword 33</second>
             </value32>
             <value33>
-              <first>local_LuminanceNoise</first>
-              <second>Local Adjustments Luminance Noise Reduction (PV 3+)</second>
+              <first>Keyword34Toggle</first>
+              <second>Toggle Keyword 34</second>
             </value33>
             <value34>
-              <first>local_Moire</first>
-              <second>Local Adjustments Moire (PV 3+)</second>
+              <first>Keyword35Toggle</first>
+              <second>Toggle Keyword 35</second>
             </value34>
             <value35>
-              <first>local_Defringe</first>
-              <second>Local Adjustments Defringe (PV 3+)</second>
+              <first>Keyword36Toggle</first>
+              <second>Toggle Keyword 36</second>
             </value35>
             <value36>
-              <first>local_ToningLuminance</first>
-              <second>Local Adjustments Luminance (PV 2)</second>
+              <first>Keyword37Toggle</first>
+              <second>Toggle Keyword 37</second>
             </value36>
+            <value37>
+              <first>Keyword38Toggle</first>
+              <second>Toggle Keyword 38</second>
+            </value37>
+            <value38>
+              <first>Keyword39Toggle</first>
+              <second>Toggle Keyword 39</second>
+            </value38>
+            <value39>
+              <first>Keyword40Toggle</first>
+              <second>Toggle Keyword 40</second>
+            </value39>
+            <value40>
+              <first>Keyword41Toggle</first>
+              <second>Toggle Keyword 41</second>
+            </value40>
+            <value41>
+              <first>Keyword42Toggle</first>
+              <second>Toggle Keyword 42</second>
+            </value41>
+            <value42>
+              <first>Keyword43Toggle</first>
+              <second>Toggle Keyword 43</second>
+            </value42>
+            <value43>
+              <first>Keyword44Toggle</first>
+              <second>Toggle Keyword 44</second>
+            </value43>
+            <value44>
+              <first>Keyword45Toggle</first>
+              <second>Toggle Keyword 45</second>
+            </value44>
+            <value45>
+              <first>Keyword46Toggle</first>
+              <second>Toggle Keyword 46</second>
+            </value45>
+            <value46>
+              <first>Keyword47Toggle</first>
+              <second>Toggle Keyword 47</second>
+            </value46>
+            <value47>
+              <first>Keyword48Toggle</first>
+              <second>Toggle Keyword 48</second>
+            </value47>
+            <value48>
+              <first>Keyword49Toggle</first>
+              <second>Toggle Keyword 49</second>
+            </value48>
+            <value49>
+              <first>Keyword50Toggle</first>
+              <second>Toggle Keyword 50</second>
+            </value49>
+            <value50>
+              <first>Keyword51Toggle</first>
+              <second>Toggle Keyword 51</second>
+            </value50>
+            <value51>
+              <first>Keyword52Toggle</first>
+              <second>Toggle Keyword 52</second>
+            </value51>
+            <value52>
+              <first>Keyword53Toggle</first>
+              <second>Toggle Keyword 53</second>
+            </value52>
+            <value53>
+              <first>Keyword54Toggle</first>
+              <second>Toggle Keyword 54</second>
+            </value53>
+            <value54>
+              <first>Keyword55Toggle</first>
+              <second>Toggle Keyword 55</second>
+            </value54>
+            <value55>
+              <first>Keyword56Toggle</first>
+              <second>Toggle Keyword 56</second>
+            </value55>
+            <value56>
+              <first>Keyword57Toggle</first>
+              <second>Toggle Keyword 57</second>
+            </value56>
+            <value57>
+              <first>Keyword58Toggle</first>
+              <second>Toggle Keyword 58</second>
+            </value57>
+            <value58>
+              <first>Keyword59Toggle</first>
+              <second>Toggle Keyword 59</second>
+            </value58>
+            <value59>
+              <first>Keyword60Toggle</first>
+              <second>Toggle Keyword 60</second>
+            </value59>
+            <value60>
+              <first>Keyword61Toggle</first>
+              <second>Toggle Keyword 61</second>
+            </value60>
+            <value61>
+              <first>Keyword62Toggle</first>
+              <second>Toggle Keyword 62</second>
+            </value61>
+            <value62>
+              <first>Keyword63Toggle</first>
+              <second>Toggle Keyword 63</second>
+            </value62>
+            <value63>
+              <first>Keyword64Toggle</first>
+              <second>Toggle Keyword 64</second>
+            </value63>
         </second>
       </value21>
       <value22>
-        <first>Reset Local Adjustments</first>
+        <first>Masking</first>
         <second size="dynamic">
             <value0>
-              <first>ResetCircGrad</first>
-              <second>Reset Radial Filters</second>
+              <first>Mask</first>
+              <second>Show Masking</second>
             </value0>
             <value1>
-              <first>ResetGradient</first>
-              <second>Reset Graduated Filters</second>
+              <first>MaskEnable</first>
+              <second>Toggle Mask</second>
             </value1>
             <value2>
-              <first>ResetBrushing</first>
-              <second>Reset Brush Corrections</second>
+              <first>MaskReset</first>
+              <second>Delete all masks</second>
             </value2>
             <value3>
-              <first>ResetRedeye</first>
-              <second>Reset Red-Eye</second>
+              <first>MaskPrevious</first>
+              <second>Previous mask group</second>
             </value3>
             <value4>
-              <first>ResetSpotRem</first>
-              <second>Reset Spot Removal</second>
+              <first>MaskNext</first>
+              <second>Next mask group</second>
             </value4>
             <value5>
-              <first>Resetlocal_Temperature</first>
-              <second>Reset Local Adjustments Temp. (PV 3+)</second>
+              <first>MaskPreviousTool</first>
+              <second>Previous mask tool</second>
             </value5>
             <value6>
-              <first>Resetlocal_Tint</first>
-              <second>Reset Local Adjustments Tint (PV 3+)</second>
+              <first>MaskNextTool</first>
+              <second>Next mask tool</second>
             </value6>
             <value7>
-              <first>Resetlocal_Exposure</first>
-              <second>Reset Local Adjustments Exposure (PV 2 and PV 3+)</second>
+              <first>MaskDelete</first>
+              <second>Delete mask group</second>
             </value7>
             <value8>
-              <first>Resetlocal_Contrast</first>
-              <second>Reset Local Adjustments Contrast (PV 2 and PV 3+)</second>
+              <first>MaskDeleteTool</first>
+              <second>Delete tool</second>
             </value8>
             <value9>
-              <first>Resetlocal_Highlights</first>
-              <second>Reset Local Adjustments Highlights (PV 3+)</second>
+              <first>MaskInvertTool</first>
+              <second>Toggle invert for selected tool</second>
             </value9>
             <value10>
-              <first>Resetlocal_Shadows</first>
-              <second>Reset Local Adjustments Shadows (PV 3+)</second>
+              <first>MaskHide</first>
+              <second>Show/hide mask group</second>
             </value10>
             <value11>
-              <first>Resetlocal_Whites2012</first>
-              <second>Reset Local Adjustments Whites (PV 3+)</second>
+              <first>MaskHideTool</first>
+              <second>Show/hide tool</second>
             </value11>
             <value12>
-              <first>Resetlocal_Blacks2012</first>
-              <second>Reset Local Adjustments Blacks (PV 3+)</second>
+              <first>MaskNewBrush</first>
+              <second>New brush</second>
             </value12>
             <value13>
-              <first>Resetlocal_Texture</first>
-              <second>Reset Local Adjustments Texture</second>
+              <first>MaskNewGrad</first>
+              <second>New gradient</second>
             </value13>
             <value14>
-              <first>Resetlocal_Clarity</first>
-              <second>Reset Local Adjustments Clarity (PV 2 and PV 3+)</second>
+              <first>MaskNewRad</first>
+              <second>New radial gradient</second>
             </value14>
             <value15>
-              <first>Resetlocal_Dehaze</first>
-              <second>Reset Local Adjustments Dehaze (PV 3+)</second>
+              <first>MaskNewColor</first>
+              <second>New color range</second>
             </value15>
             <value16>
-              <first>Resetlocal_Hue</first>
-              <second>Reset Local Adjustments Hue (PV 5+)</second>
+              <first>MaskNewLum</first>
+              <second>New luminance range</second>
             </value16>
             <value17>
-              <first>Resetlocal_Saturation</first>
-              <second>Reset Local Adjustments Saturation (PV 2 and PV 3+)</second>
+              <first>MaskNewDepth</first>
+              <second>New depth range</second>
             </value17>
             <value18>
-              <first>Resetlocal_Sharpness</first>
-              <second>Reset Local Adjustments Sharpness (PV 2 and PV 3+)</second>
+              <first>MaskNewSubject</first>
+              <second>New subject</second>
             </value18>
             <value19>
-              <first>Resetlocal_LuminanceNoise</first>
-              <second>Reset Local Adjustments Luminence Noise Reduction (PV 3+)</second>
+              <first>MaskNewSky</first>
+              <second>New sky</second>
             </value19>
             <value20>
-              <first>Resetlocal_Moire</first>
-              <second>Reset Local Adjustments Moire (PV 3+)</second>
+              <first>MaskAddBrush</first>
+              <second>Add brush to the mask</second>
             </value20>
             <value21>
-              <first>Resetlocal_Defringe</first>
-              <second>Reset Local Adjustments Defringe (PV 3+)</second>
+              <first>MaskAddGrad</first>
+              <second>Add gradient to the mask</second>
             </value21>
             <value22>
-              <first>Resetlocal_ToningLuminance</first>
-              <second>Reset Local Adjustments Luminance (PV 2)</second>
+              <first>MaskAddRad</first>
+              <second>Add radial gradient to the mask</second>
             </value22>
+            <value23>
+              <first>MaskAddColor</first>
+              <second>Add color range to the mask</second>
+            </value23>
+            <value24>
+              <first>MaskAddLum</first>
+              <second>Add luminance range to the mask</second>
+            </value24>
+            <value25>
+              <first>MaskAddDepth</first>
+              <second>Add depth range to the mask</second>
+            </value25>
+            <value26>
+              <first>MaskAddSubject</first>
+              <second>Add subject to the mask</second>
+            </value26>
+            <value27>
+              <first>MaskAddSky</first>
+              <second>Add sky to the mask</second>
+            </value27>
+            <value28>
+              <first>MaskSubBrush</first>
+              <second>Subtract from mask... brush</second>
+            </value28>
+            <value29>
+              <first>MaskSubGrad</first>
+              <second>Subtract from mask... gradient</second>
+            </value29>
+            <value30>
+              <first>MaskSubRad</first>
+              <second>Subtract from mask... radial gradient</second>
+            </value30>
+            <value31>
+              <first>MaskSubColor</first>
+              <second>Subtract from mask... color range</second>
+            </value31>
+            <value32>
+              <first>MaskSubLum</first>
+              <second>Subtract from mask... luminance range</second>
+            </value32>
+            <value33>
+              <first>MaskSubDepth</first>
+              <second>Subtract from mask... depth range</second>
+            </value33>
+            <value34>
+              <first>MaskSubSubject</first>
+              <second>Subtract from mask... subject</second>
+            </value34>
+            <value35>
+              <first>MaskSubSky</first>
+              <second>Subtract from mask... sky</second>
+            </value35>
+            <value36>
+              <first>MaskIntBrush</first>
+              <second>Intersect with mask... brush</second>
+            </value36>
+            <value37>
+              <first>MaskIntGrad</first>
+              <second>Intersect with mask... gradient</second>
+            </value37>
+            <value38>
+              <first>MaskIntRad</first>
+              <second>Intersect with mask... radial gradient</second>
+            </value38>
+            <value39>
+              <first>MaskIntColor</first>
+              <second>Intersect with mask... color range</second>
+            </value39>
+            <value40>
+              <first>MaskIntLum</first>
+              <second>Intersect with mask... luminance range</second>
+            </value40>
+            <value41>
+              <first>MaskIntDepth</first>
+              <second>Intersect with mask... depth range</second>
+            </value41>
+            <value42>
+              <first>MaskIntSubject</first>
+              <second>Intersect with mask... subject</second>
+            </value42>
+            <value43>
+              <first>MaskIntSky</first>
+              <second>Intersect with mask... sky</second>
+            </value43>
         </second>
       </value22>
       <value23>
+        <first>Local Adjustments</first>
+        <second size="dynamic">
+            <value0>
+              <first>RedEye</first>
+              <second>Show Red-Eye Correction</second>
+            </value0>
+            <value1>
+              <first>SpotRemoval</first>
+              <second>Show Spot Removal</second>
+            </value1>
+            <value2>
+              <first>ToggleOverlay</first>
+              <second>Toggle Mask Overlay</second>
+            </value2>
+            <value3>
+              <first>CycleMaskOverlayColor</first>
+              <second>Overlay Color</second>
+            </value3>
+            <value4>
+              <first>EnableRedEye</first>
+              <second>Red-Eye enable/disable</second>
+            </value4>
+            <value5>
+              <first>EnableRetouch</first>
+              <second>Spot removal enable/disable</second>
+            </value5>
+            <value6>
+              <first>ChangeBrushSize</first>
+              <second>Brush — Size</second>
+            </value6>
+            <value7>
+              <first>BrushSizeSmaller</first>
+              <second>Brush — Size — smaller</second>
+            </value7>
+            <value8>
+              <first>BrushSizeLarger</first>
+              <second>Brush — Size — larger</second>
+            </value8>
+            <value9>
+              <first>ChangeFeatherSize</first>
+              <second>Brush — Feather</second>
+            </value9>
+            <value10>
+              <first>BrushFeatherSmaller</first>
+              <second>Brush — Feather — smaller</second>
+            </value10>
+            <value11>
+              <first>BrushFeatherLarger</first>
+              <second>Brush — Feather — larger</second>
+            </value11>
+            <value12>
+              <first>local_Temperature</first>
+              <second>Local Adjustments Temp. (PV 3+)</second>
+            </value12>
+            <value13>
+              <first>local_Tint</first>
+              <second>Local Adjustments Tint (PV 3+)</second>
+            </value13>
+            <value14>
+              <first>local_Exposure</first>
+              <second>Local Adjustments Exposure (PV 2 and PV 3+)</second>
+            </value14>
+            <value15>
+              <first>local_Contrast</first>
+              <second>Local Adjustments Contrast (PV 2 and PV 3+)</second>
+            </value15>
+            <value16>
+              <first>local_Highlights</first>
+              <second>Local Adjustments Highlights (PV 3+)</second>
+            </value16>
+            <value17>
+              <first>local_Shadows</first>
+              <second>Local Adjustments Shadows (PV 3+)</second>
+            </value17>
+            <value18>
+              <first>local_Whites2012</first>
+              <second>Local Adjustments Whites (PV 3+)</second>
+            </value18>
+            <value19>
+              <first>local_Blacks2012</first>
+              <second>Local Adjustments Blacks (PV 3+)</second>
+            </value19>
+            <value20>
+              <first>local_Texture</first>
+              <second>Local Adjustments Texture</second>
+            </value20>
+            <value21>
+              <first>local_Clarity</first>
+              <second>Local Adjustments Clarity (PV 2 and PV 3+)</second>
+            </value21>
+            <value22>
+              <first>local_Dehaze</first>
+              <second>Local Adjustments Dehaze (PV 3+)</second>
+            </value22>
+            <value23>
+              <first>local_Hue</first>
+              <second>Local Adjustments Hue (PV 5+)</second>
+            </value23>
+            <value24>
+              <first>local_Saturation</first>
+              <second>Local Adjustments Saturation (PV 2 and PV 3+)</second>
+            </value24>
+            <value25>
+              <first>local_Sharpness</first>
+              <second>Local Adjustments Sharpness (PV 2 and PV 3+)</second>
+            </value25>
+            <value26>
+              <first>local_LuminanceNoise</first>
+              <second>Local Adjustments Luminance Noise Reduction (PV 3+)</second>
+            </value26>
+            <value27>
+              <first>local_Moire</first>
+              <second>Local Adjustments Moire (PV 3+)</second>
+            </value27>
+            <value28>
+              <first>local_Defringe</first>
+              <second>Local Adjustments Defringe (PV 3+)</second>
+            </value28>
+            <value29>
+              <first>local_ToningLuminance</first>
+              <second>Local Adjustments Luminance (PV 2)</second>
+            </value29>
+        </second>
+      </value23>
+      <value24>
+        <first>Reset Local Adjustments</first>
+        <second size="dynamic">
+            <value0>
+              <first>ResetRedeye</first>
+              <second>Reset Red-Eye</second>
+            </value0>
+            <value1>
+              <first>ResetSpotRem</first>
+              <second>Reset Spot Removal</second>
+            </value1>
+            <value2>
+              <first>Resetlocal_Temperature</first>
+              <second>Reset Local Adjustments Temp. (PV 3+)</second>
+            </value2>
+            <value3>
+              <first>Resetlocal_Tint</first>
+              <second>Reset Local Adjustments Tint (PV 3+)</second>
+            </value3>
+            <value4>
+              <first>Resetlocal_Exposure</first>
+              <second>Reset Local Adjustments Exposure (PV 2 and PV 3+)</second>
+            </value4>
+            <value5>
+              <first>Resetlocal_Contrast</first>
+              <second>Reset Local Adjustments Contrast (PV 2 and PV 3+)</second>
+            </value5>
+            <value6>
+              <first>Resetlocal_Highlights</first>
+              <second>Reset Local Adjustments Highlights (PV 3+)</second>
+            </value6>
+            <value7>
+              <first>Resetlocal_Shadows</first>
+              <second>Reset Local Adjustments Shadows (PV 3+)</second>
+            </value7>
+            <value8>
+              <first>Resetlocal_Whites2012</first>
+              <second>Reset Local Adjustments Whites (PV 3+)</second>
+            </value8>
+            <value9>
+              <first>Resetlocal_Blacks2012</first>
+              <second>Reset Local Adjustments Blacks (PV 3+)</second>
+            </value9>
+            <value10>
+              <first>Resetlocal_Texture</first>
+              <second>Reset Local Adjustments Texture</second>
+            </value10>
+            <value11>
+              <first>Resetlocal_Clarity</first>
+              <second>Reset Local Adjustments Clarity (PV 2 and PV 3+)</second>
+            </value11>
+            <value12>
+              <first>Resetlocal_Dehaze</first>
+              <second>Reset Local Adjustments Dehaze (PV 3+)</second>
+            </value12>
+            <value13>
+              <first>Resetlocal_Hue</first>
+              <second>Reset Local Adjustments Hue (PV 5+)</second>
+            </value13>
+            <value14>
+              <first>Resetlocal_Saturation</first>
+              <second>Reset Local Adjustments Saturation (PV 2 and PV 3+)</second>
+            </value14>
+            <value15>
+              <first>Resetlocal_Sharpness</first>
+              <second>Reset Local Adjustments Sharpness (PV 2 and PV 3+)</second>
+            </value15>
+            <value16>
+              <first>Resetlocal_LuminanceNoise</first>
+              <second>Reset Local Adjustments Luminance Noise Reduction (PV 3+)</second>
+            </value16>
+            <value17>
+              <first>Resetlocal_Moire</first>
+              <second>Reset Local Adjustments Moire (PV 3+)</second>
+            </value17>
+            <value18>
+              <first>Resetlocal_Defringe</first>
+              <second>Reset Local Adjustments Defringe (PV 3+)</second>
+            </value18>
+            <value19>
+              <first>Resetlocal_ToningLuminance</first>
+              <second>Reset Local Adjustments Luminance (PV 2)</second>
+            </value19>
+        </second>
+      </value24>
+      <value25>
         <first>Local adjustments presets</first>
         <second size="dynamic">
             <value0>
@@ -2762,9 +3436,145 @@
               <first>LocalPreset16</first>
               <second>Local adjustments presets 16</second>
             </value15>
+            <value16>
+              <first>LocalPreset17</first>
+              <second>Local adjustments presets 17</second>
+            </value16>
+            <value17>
+              <first>LocalPreset18</first>
+              <second>Local adjustments presets 18</second>
+            </value17>
+            <value18>
+              <first>LocalPreset19</first>
+              <second>Local adjustments presets 19</second>
+            </value18>
+            <value19>
+              <first>LocalPreset20</first>
+              <second>Local adjustments presets 20</second>
+            </value19>
+            <value20>
+              <first>LocalPreset21</first>
+              <second>Local adjustments presets 21</second>
+            </value20>
+            <value21>
+              <first>LocalPreset22</first>
+              <second>Local adjustments presets 22</second>
+            </value21>
+            <value22>
+              <first>LocalPreset23</first>
+              <second>Local adjustments presets 23</second>
+            </value22>
+            <value23>
+              <first>LocalPreset24</first>
+              <second>Local adjustments presets 24</second>
+            </value23>
+            <value24>
+              <first>LocalPreset25</first>
+              <second>Local adjustments presets 25</second>
+            </value24>
+            <value25>
+              <first>LocalPreset26</first>
+              <second>Local adjustments presets 26</second>
+            </value25>
+            <value26>
+              <first>LocalPreset27</first>
+              <second>Local adjustments presets 27</second>
+            </value26>
+            <value27>
+              <first>LocalPreset28</first>
+              <second>Local adjustments presets 28</second>
+            </value27>
+            <value28>
+              <first>LocalPreset29</first>
+              <second>Local adjustments presets 29</second>
+            </value28>
+            <value29>
+              <first>LocalPreset30</first>
+              <second>Local adjustments presets 30</second>
+            </value29>
+            <value30>
+              <first>LocalPreset31</first>
+              <second>Local adjustments presets 31</second>
+            </value30>
+            <value31>
+              <first>LocalPreset32</first>
+              <second>Local adjustments presets 32</second>
+            </value31>
+            <value32>
+              <first>LocalPreset33</first>
+              <second>Local adjustments presets 33</second>
+            </value32>
+            <value33>
+              <first>LocalPreset34</first>
+              <second>Local adjustments presets 34</second>
+            </value33>
+            <value34>
+              <first>LocalPreset35</first>
+              <second>Local adjustments presets 35</second>
+            </value34>
+            <value35>
+              <first>LocalPreset36</first>
+              <second>Local adjustments presets 36</second>
+            </value35>
+            <value36>
+              <first>LocalPreset37</first>
+              <second>Local adjustments presets 37</second>
+            </value36>
+            <value37>
+              <first>LocalPreset38</first>
+              <second>Local adjustments presets 38</second>
+            </value37>
+            <value38>
+              <first>LocalPreset39</first>
+              <second>Local adjustments presets 39</second>
+            </value38>
+            <value39>
+              <first>LocalPreset40</first>
+              <second>Local adjustments presets 40</second>
+            </value39>
+            <value40>
+              <first>LocalPreset41</first>
+              <second>Local adjustments presets 41</second>
+            </value40>
+            <value41>
+              <first>LocalPreset42</first>
+              <second>Local adjustments presets 42</second>
+            </value41>
+            <value42>
+              <first>LocalPreset43</first>
+              <second>Local adjustments presets 43</second>
+            </value42>
+            <value43>
+              <first>LocalPreset44</first>
+              <second>Local adjustments presets 44</second>
+            </value43>
+            <value44>
+              <first>LocalPreset45</first>
+              <second>Local adjustments presets 45</second>
+            </value44>
+            <value45>
+              <first>LocalPreset46</first>
+              <second>Local adjustments presets 46</second>
+            </value45>
+            <value46>
+              <first>LocalPreset47</first>
+              <second>Local adjustments presets 47</second>
+            </value46>
+            <value47>
+              <first>LocalPreset48</first>
+              <second>Local adjustments presets 48</second>
+            </value47>
+            <value48>
+              <first>LocalPreset49</first>
+              <second>Local adjustments presets 49</second>
+            </value48>
+            <value49>
+              <first>LocalPreset50</first>
+              <second>Local adjustments presets 50</second>
+            </value49>
         </second>
-      </value23>
-      <value24>
+      </value25>
+      <value26>
         <first>Crop</first>
         <second size="dynamic">
             <value0>
@@ -2832,8 +3642,8 @@
               <second>Show Crop</second>
             </value15>
         </second>
-      </value24>
-      <value25>
+      </value26>
+      <value27>
         <first>Select Tools, Modules and Panels</first>
         <second size="dynamic">
             <value0>
@@ -2861,8 +3671,8 @@
               <second>Show Web</second>
             </value5>
         </second>
-      </value25>
-      <value26>
+      </value27>
+      <value28>
         <first>Secondary Display</first>
         <second size="dynamic">
             <value0>
@@ -2898,8 +3708,8 @@
               <second>Secondary Display Show</second>
             </value7>
         </second>
-      </value26>
-      <value27>
+      </value28>
+      <value29>
         <first>Profiles</first>
         <second size="dynamic">
             <value0>
@@ -3015,10 +3825,10 @@
               <second>Next Profile</second>
             </value27>
         </second>
-      </value27>
+      </value29>
     </all_commands>
     <repeats size="dynamic">
-         <value0>
+      <value0>
         <key>Key2Key1</key>
         <value>
           <first xml:space="preserve">Key2 1

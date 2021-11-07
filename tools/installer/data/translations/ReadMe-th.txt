@@ -34,7 +34,7 @@
 ปัญหา / คำถามที่พบบ่อย
 ===================================
 
-อันดับแรกดูคำถามที่พบบ่อยที่ https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues หากคุณยังมีคำถามให้โพสต์ไว้ที่ https://groups.google.com/forum/#!forum/midi2lr
+อันดับแรกดูคำถามที่พบบ่อยที่ https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues หากคุณยังมีคำถามให้โพสต์ไว้ที่ https://github.com/rsjaffe/MIDI2LR/discussions
 
 =========
 การเปลี่ยนแปลง

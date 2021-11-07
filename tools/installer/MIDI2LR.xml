@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>5.0.0.2</version>
+    <version>5.1.0.0</version>
     <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>data/translations/ReadMe.txt</readmeFile>
     <licenseFile>../../LICENSE.txt</licenseFile>
@@ -456,7 +456,7 @@
     <osxUninstallerApplicationBundleIcon>../../build/MacOS/Icon.icns</osxUninstallerApplicationBundleIcon>
     <outputDirectory>../..</outputDirectory>
     <productDisplayIcon>../../build/Windows/icon.ico</productDisplayIcon>
-    <productUrlHelpLink>https://groups.google.com/forum/#!forum/midi2lr</productUrlHelpLink>
+    <productUrlHelpLink>https://github.com/rsjaffe/MIDI2LR/discussions</productUrlHelpLink>
     <productUrlInfoAbout>https://rsjaffe.github.io/MIDI2LR/</productUrlInfoAbout>
     <readmeFileEncoding>utf-8</readmeFileEncoding>
     <saveRelativePaths>1</saveRelativePaths>
