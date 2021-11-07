@@ -446,7 +446,7 @@ local function fToggleTool(param)
 end
 
 local ftt1_functionList = {
-  masking = LrDevelopController.goToMasking,
+  dust = LrDevelopController.goToSpotRemoval,
 }
 
 local function fToggleTool1(param) --for new version toggle tool
