@@ -8,6 +8,7 @@
 "$$$/MIDI2LR/Help/OnlineHelp=online-&Help"
 "$$$/MIDI2LR/Help/Support=&Ondersteuning"
 "$$$/MIDI2LR/Info/BuildFiles=Build bestanden (alleen voor developers)"
+"$$$/MIDI2LR/Info/DeleteSettings=Instellingen verwijderen"
 "$$$/MIDI2LR/Keys/Shortcut=Snelkoppeling"
 "$$$/MIDI2LR/Keyword/Toggle=Trefwoord in-/uitschakelen"
 "$$$/MIDI2LR/Keyword/Toggle1=Trefwoord in-/uitschakelen ^1"

@@ -106,6 +106,9 @@
                             <origin>../../src/plugin/Preferences.lua</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>../../src/plugin/PrefReset.lua</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>../../src/plugin/Presets.lua</origin>
                         </distributionFile>
                         <distributionFile>

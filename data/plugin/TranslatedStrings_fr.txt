@@ -8,6 +8,7 @@
 "$$$/MIDI2LR/Help/OnlineHelp=&Aide en ligne"
 "$$$/MIDI2LR/Help/Support=&Support"
 "$$$/MIDI2LR/Info/BuildFiles=Générer les fichiers (pour développeur seulement)"
+"$$$/MIDI2LR/Info/DeleteSettings=Supprimer les paramètres"
 "$$$/MIDI2LR/Keys/Shortcut=Raccourci"
 "$$$/MIDI2LR/Keyword/Toggle=Activer/Désactiver mot-clé"
 "$$$/MIDI2LR/Keyword/Toggle1=Afficher/Masquer le mot-clé ^1"

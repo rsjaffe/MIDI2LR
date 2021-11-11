@@ -8,6 +8,7 @@
 "$$$/MIDI2LR/Help/OnlineHelp=&Ajuda online"
 "$$$/MIDI2LR/Help/Support=&Suporte"
 "$$$/MIDI2LR/Info/BuildFiles=Compilar arquivos (apenas para desenvolvedores)"
+"$$$/MIDI2LR/Info/DeleteSettings=Excluir configurações"
 "$$$/MIDI2LR/Keys/Shortcut=Atalho"
 "$$$/MIDI2LR/Keyword/Toggle=Alternar palavra-chavre"
 "$$$/MIDI2LR/Keyword/Toggle1=Alternar palavra-chave ^1"

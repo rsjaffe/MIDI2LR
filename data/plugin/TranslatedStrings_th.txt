@@ -8,6 +8,7 @@
 "$$$/MIDI2LR/Help/OnlineHelp=วิธีใช้ทางออนไลน์"
 "$$$/MIDI2LR/Help/Support=สนับสนุน"
 "$$$/MIDI2LR/Info/BuildFiles=สร้างไฟล์ (ใช้สำหรับการพัฒนาเท่านั้น)"
+"$$$/MIDI2LR/Info/DeleteSettings=ลบการตั้งค่า"
 "$$$/MIDI2LR/Keys/Shortcut=แป้นพิมพ์ลัด"
 "$$$/MIDI2LR/Keyword/Toggle=สลับทางคำหลัก"
 "$$$/MIDI2LR/Keyword/Toggle1=สลับคำหลัก ^1"
