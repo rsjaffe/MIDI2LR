@@ -456,9 +456,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
     * pointer created by createDefaultAppLogger */
    /* forcing assignment to static early in construction */
    [[maybe_unused]] const SetLogger dummy_ {};
+   asio::io_context io_context_ {};
    std::future<void> io_thread0_;
    std::future<void> io_thread1_;
-   asio::io_context io_context_ {};
    [[maybe_unused]] asio::any_io_executor work_ {
        asio::require(io_context_.get_executor(), asio::execution::outstanding_work.tracked)};
    Devices devices_ {};
