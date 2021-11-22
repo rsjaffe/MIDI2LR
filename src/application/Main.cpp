@@ -422,7 +422,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
          else {
             font1_name = "NotoSans-Regular-Plus-Thai.ttf";
-            font2_name = "NotoSans-Bold-plus-Thai.ttf";
+            font2_name = "NotoSans-Bold-Plus-Thai.ttf";
          }
          juce::MemoryBlock font_data {};
          auto font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)

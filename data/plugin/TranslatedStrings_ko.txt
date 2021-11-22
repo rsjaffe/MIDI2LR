@@ -8,6 +8,7 @@
 "$$$/MIDI2LR/Help/OnlineHelp=온라인 도움말(&O)"
 "$$$/MIDI2LR/Help/Support=지원(&S)"
 "$$$/MIDI2LR/Info/BuildFiles=파일 만들기 (개발용)"
+"$$$/MIDI2LR/Info/DeleteSettings=설정 삭제"
 "$$$/MIDI2LR/Keys/Shortcut=바로 가기"
 "$$$/MIDI2LR/Keyword/Toggle=키워드 켜기/끄기"
 "$$$/MIDI2LR/Keyword/Toggle1=키워드 ^1 켜기/끄기"

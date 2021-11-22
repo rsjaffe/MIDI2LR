@@ -848,6 +848,21 @@ local function quickDevAdjust(par,val,cmd) --note lightroom applies this to all 
   end
 end
 
+local function quickDevAdjustWB(par,val,cmd) --note lightroom applies this to all selected photos. no need to get all selected
+  return function()
+    LrTasks.startAsyncTask(
+      function()
+        local TargetPhoto  = LrApplication.activeCatalog():getTargetPhoto()
+        if TargetPhoto then
+          TargetPhoto:quickDevelopAdjustWhiteBalance(par,val)
+          if ProgramPreferences.ClientShowBezelOnChange then
+            LrDialogs.showBezel(Database.CmdTrans[cmd][1])
+          end
+        end
+      end
+    )
+  end
+end
 return {
   ApplySettings = ApplySettings,
   FullRefresh = FullRefresh,
@@ -880,6 +895,7 @@ return {
   fToggleTool = fToggleTool,
   fToggleTool1 = fToggleTool1,
   quickDevAdjust = quickDevAdjust,
+  quickDevAdjustWB = quickDevAdjustWB,
   showBezel = showBezel,
   wrapFOM = wrapFOM,
   wrapForEachPhoto = wrapForEachPhoto,

@@ -8,6 +8,7 @@
 "$$$/MIDI2LR/Help/OnlineHelp=線上說明(&O)"
 "$$$/MIDI2LR/Help/Support=支援(&S)"
 "$$$/MIDI2LR/Info/BuildFiles=生成文件（僅供開發模式使用）"
+"$$$/MIDI2LR/Info/DeleteSettings=刪除設定"
 "$$$/MIDI2LR/Keys/Shortcut=捷徑"
 "$$$/MIDI2LR/Keyword/Toggle=切換關鍵字"
 "$$$/MIDI2LR/Keyword/Toggle1=切換關鍵字 ^1"

@@ -8,6 +8,7 @@
 "$$$/MIDI2LR/Help/OnlineHelp=オンライン ヘルプ(&O)"
 "$$$/MIDI2LR/Help/Support=サポート(&S)"
 "$$$/MIDI2LR/Info/BuildFiles=ビルドファイル（開発専用）"
+"$$$/MIDI2LR/Info/DeleteSettings=設定を削除"
 "$$$/MIDI2LR/Keys/Shortcut=ショートカット"
 "$$$/MIDI2LR/Keyword/Toggle=キーワードの切り替え"
 "$$$/MIDI2LR/Keyword/Toggle1=キーワード ^1 を切り替え"

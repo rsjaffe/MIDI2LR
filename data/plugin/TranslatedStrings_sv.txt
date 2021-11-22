@@ -8,6 +8,7 @@
 "$$$/MIDI2LR/Help/OnlineHelp=Direkt&hjälp"
 "$$$/MIDI2LR/Help/Support=&Support"
 "$$$/MIDI2LR/Info/BuildFiles=Byggfiler (endast för utvecklare)"
+"$$$/MIDI2LR/Info/DeleteSettings=Ta bort inställningar"
 "$$$/MIDI2LR/Keys/Shortcut=Genväg"
 "$$$/MIDI2LR/Keyword/Toggle=Växla nyckelord (av/på)"
 "$$$/MIDI2LR/Keyword/Toggle1=Växla nyckelord ^1"

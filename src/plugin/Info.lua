@@ -61,6 +61,10 @@ return {
       file = "OnlineHelp.lua",
     },
     {
+      title = LOC("$$$/MIDI2LR/Info/DeleteSettings=Delete settings"),
+      file = "PrefReset.lua",
+    },
+    {
       title = LOC("$$$/MIDI2LR/Info/BuildFiles=Build files (development use only)"),
       file = "Build.lua"
     },
@@ -87,5 +91,5 @@ return {
       file = "About.lua",
     },
   },
-  VERSION = { major=5, minor=1, revision=1, build=0}
+  VERSION = { major=5, minor=2, revision=0, build=0}
 }

@@ -279,42 +279,61 @@ local DataBase = {
   {Command='FullRefresh',Type='button',Translation=LOC('$$$/AgLibrary/ViewBar/Sort/RefreshMode/Manual=Manual Update'),Group=photos,Explanation='Force an update of all develop settings in MIDI controller, even if MIDI2LR believes MIDI controller is up to date. Useful if controller out of sync with Lightroom (e.g., with layer changes).'},
   {Command='CloseApp',Type='button',Translation=LOC('$$$/AgPluginManager/Status/HttpServer/StopServer=Stop Server'),Group=photos,Explanation='Closes the MIDI2LR application.'},
   --quick develop
+  {Command='QuickDevTempLarge',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=Increase ^1: ^2',LOC('$$$/AgCameraRawUI/Temp=Temperature'),'20'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Temperature by 20 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevTempLargeDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=Decrease ^1: ^2',LOC('$$$/AgCameraRawUI/Temp=Temperature'),'-20'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Temperature by -20 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevTempSmall',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=Increase ^1: ^2',LOC('$$$/AgCameraRawUI/Temp=Temperature'),'5'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Temperature by 5 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevTempSmalDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=Decrease ^1: ^2',LOC('$$$/AgCameraRawUI/Temp=Temperature'),'-5'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Temperature by -5 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevTempAdj',Type='repeat',Translation=quickdev..' '..LOC('$$$/AgCameraRawUI/Temp=Temperature'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, turning knob clockwise increases Temperature, counterclockwise decreases Temperature for all selected photos. Works in Library and Develop modules.'..repeatexp,Repeats={'QuickDevTempSmall','QuickDevTempSmalDec'}},
+  {Command='QuickDevTintLarge',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=Increase ^1: ^2',LOC('$$$/AgCameraRawUI/Tint=Tint'),'20'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Tint by 20 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevTintLargeDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=Decrease ^1: ^2',LOC('$$$/AgCameraRawUI/Tint=Tint'),'-20'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Tint by -20 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevTintSmall',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=Increase ^1: ^2',LOC('$$$/AgCameraRawUI/Tint=Tint'),'5'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Tint by 5 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevTintSmallDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=Decrease ^1: ^2',LOC('$$$/AgCameraRawUI/Tint=Tint'),'-5'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Tint by -5 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevTintAdj',Type='repeat',Translation=quickdev..' '..LOC('$$$/AgCameraRawUI/Tint=Tint'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, turning knob clockwise increases Tint, counterclockwise decreases Tint for all selected photos. Works in Library and Develop modules.'..repeatexp,Repeats={'QuickDevTintSmall','QuickDevTintSmallDec'}},
   {Command='QuickDevExpLarge',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseExposureLg=Increase exposure 1 stop'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Exposure by 1 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevExpLargeDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseExposureLg=Decrease exposure 1 stop'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Exposure by -1 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevExpSmall',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseExposureSm=Increase exposure 1/3 stop'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Exposure by 0.33 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevExpSmallDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseExposureSm=Decrease exposure 1/3 stop'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Exposure by -0.33 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevExpAdj',Type='repeat',Translation=quickdev..' '..LOC('$$$/AgCameraRawUI/Exposure=Exposure'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, turning knob clockwise increases Exposure, counterclockwise decreases Exposure for all selected photos. Works in Library and Develop modules.'..repeatexp,Repeats={'QuickDevExpSmall','QuickDevExpSmallDec'}},
   {Command='QuickDevContrastLarge',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseContrast=Increase contrast')..' 20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Contrast by 20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevContrastLargeDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseContrast=Decrease contrast')..' -20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Contrast by -20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevContrastSmall',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseContrast=Increase contrast')..' 5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Contrast by 5 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevContrastSmallDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseContrast=Decrease contrast')..' -5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Contrast by -5 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevContrastAdj',Type='repeat',Translation=quickdev..' '..LOC('$$$/AgCameraRawUI/Contrast=Contrast'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, turning knob clockwise increases Contrast, counterclockwise decreases Contrast for all selected photos. Works in Library and Develop modules.'..repeatexp,Repeats={'QuickDevContrastSmall','QuickDevContrastSmallDec'}},
   {Command='QuickDevHighlightsLarge',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseHighlights=Increase highlights')..' 20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Highlights by 20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevHighlightsLargeDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseHighlights=Decrease highlights')..' -20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Highlights by -20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevHighlightsSmall',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseHighlights=Increase highlights')..' 5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Highlights by 5 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevHighlightsSmallDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseHighlights=Decrease highlights')..' -5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Highlights by -5 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevHighlightsAdj',Type='repeat',Translation=quickdev..' '..LOC('$$$/AgCameraRawUI/Highlights=Highlights'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, turning knob clockwise increases Highlights, counterclockwise decreases Highlights for all selected photos. Works in Library and Develop modules.'..repeatexp,Repeats={'QuickDevHighlightsSmall','QuickDevHighlightsSmallDec'}},
   {Command='QuickDevShadowsLarge',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseShadows=Decrease shadows')..' 20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Shadows by 20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevShadowsLargeDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseShadows=Increase shadows')..' -20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Shadows by -20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevShadowsSmall',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseShadows=Decrease shadows')..' 5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Shadows by 5 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevShadowsSmallDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseShadows=Increase shadows')..' -5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Shadows by -5 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevShadowsAdj',Type='repeat',Translation=quickdev..' '..LOC('$$$/AgCameraRawUI/Shadows=Shadows'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, turning knob clockwise increases Shadows, counterclockwise decreases Shadows for all selected photos. Works in Library and Develop modules.'..repeatexp,Repeats={'QuickDevShadowsSmall','QuickDevShadowsSmallDec'}},
   {Command='QuickDevWhitesLarge',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseWhiteClipping=Increase white clipping')..' 20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Whites by 20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevWhitesLargeDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseWhiteClipping=Decrease white clipping')..' -20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Whites by -20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevWhitesSmall',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseWhiteClipping=Increase white clipping')..' 5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Whites by 5 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevWhitesSmallDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseWhiteClipping=Decrease white clipping')..' -5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Whites by -5 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevWhitesAdj',Type='repeat',Translation=quickdev..' '..LOC('$$$/AgCameraRawUI/Whites=Whites'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, turning knob clockwise increases Whites, counterclockwise decreases Whites for all selected photos. Works in Library and Develop modules.'..repeatexp,Repeats={'QuickDevWhitesSmall','QuickDevWhitesSmallDec'}},
   {Command='QuickDevBlacksLarge',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseBlackClipping=Decrease black clipping')..' 20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Blacks by 20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevBlacksLargeDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseBlackClipping=Increase black clipping')..' -20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Blacks by -20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevBlacksSmall',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseBlackClipping=Decrease black clipping')..' 5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Blacks by 5 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevBlacksSmallDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseBlackClipping=Increase black clipping')..' -5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Blacks by -5 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevBlacksAdj',Type='repeat',Translation=quickdev..' '..LOC('$$$/AgCameraRawUI/Blacks=Blacks'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, turning knob clockwise increases Blacks, counterclockwise decreases Blacks for all selected photos. Works in Library and Develop modules.'..repeatexp,Repeats={'QuickDevBlacksSmall','QuickDevBlacksSmallDec'}},
   {Command='QuickDevClarityLarge',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseClarity=Increase clarity')..' 20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Clarity by 20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevClarityLargeDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseClarity=Decrease clarity')..' -20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Clarity by -20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevClaritySmall',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseClarity=Increase clarity')..' 5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Clarity by 5 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevClaritySmallDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseClarity=Decrease clarity')..' -5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Clarity by -5 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevClarityAdj',Type='repeat',Translation=quickdev..' '..LOC('$$$/AgCameraRawUI/Clarity=Clarity'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, turning knob clockwise increases Clarity, counterclockwise decreases Clarity for all selected photos. Works in Library and Develop modules.'..repeatexp,Repeats={'QuickDevClaritySmall','QuickDevClaritySmallDec'}},
   {Command='QuickDevVibranceLarge',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseVibrance=Increase vibrance')..' 20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Vibrance by 20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevVibranceLargeDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseVibrance=Decrease vibrance')..' -20',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Vibrance by -20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevVibranceSmall',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/IncreaseVibrance=Increase vibrance')..' 5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Vibrance by 5 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevVibranceSmallDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgLibrary/MiniDevelop/DecreaseVibrance=Decrease vibrance')..' -5',Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Vibrance by -5 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevVibranceAdj',Type='repeat',Translation=quickdev..' '..LOC('$$$/AgCameraRawUI/Vibrance=Vibrance'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, turning knob clockwise increases Vibrance, counterclockwise decreases Vibrance for all selected photos. Works in Library and Develop modules.'..repeatexp,Repeats={'QuickDevVibranceSmall','QuickDevVibranceSmallDec'}},
   {Command='QuickDevSatLarge',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=Increase ^1: ^2',LOC('$$$/AgCameraRawUI/Saturation=Saturation'),'20'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Saturation by 20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevSatLargeDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=Decrease ^1: ^2',LOC('$$$/AgCameraRawUI/Saturation=Saturation'),'-20'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Saturation by -20 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevSatSmall',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=Increase ^1: ^2',LOC('$$$/AgCameraRawUI/Saturation=Saturation'),'5'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Saturation by 5 for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevSatSmallDec',Type='button',Translation=quickdev..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=Decrease ^1: ^2',LOC('$$$/AgCameraRawUI/Saturation=Saturation'),'-5'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, adjusts Saturation by -5 for all selected photos. Works in Library and Develop modules.'},
+  {Command='QuickDevSatAdj',Type='repeat',Translation=quickdev..' '..LOC('$$$/AgCameraRawUI/Saturation=Saturation'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, turning knob clockwise increases Saturation, counterclockwise decreases Saturation for all selected photos. Works in Library and Develop modules.'..repeatexp,Repeats={'QuickDevSatSmall','QuickDevSatSmallDec'}},
   {Command='QuickDevWBAuto',Type='button',Translation=quickdev..' '..whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Auto=Auto'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets auto white balance for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevWBDaylight',Type='button',Translation=quickdev..' '..whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Daylight=Daylight'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets daylight white balance for all selected photos. Works in Library and Develop modules.'},
   {Command='QuickDevWBCloudy',Type='button',Translation=quickdev..' '..whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Cloudy=Cloudy'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets cloudy white balance for all selected photos. Works in Library and Develop modules.'},
@@ -405,9 +424,9 @@ local DataBase = {
   {Command='ResetDehaze',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawUI/DehazeAmount=Dehaze Amount')),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
   {Command='ResetVibrance',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawUI/Vibrance=Vibrance')),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
   {Command='ResetSaturation',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawUI/Saturation=Saturation')),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
---
---develop: tone curve panel
---
+  --
+  --develop: tone curve panel
+  --
   {Command='RevealPanelTone',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',toneCurve),Group=toneCurve,Explanation='Open Tone Curve Panel in Develop Module.'},
   {Command='EnableToneCurve',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleToneCurve=Tone curve enable/disable'),Group=toneCurve,Explanation='Enable or disable tone curve..',Panel='tonePanel'},
   {Command='ParametricDarks',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneDarks=Dark Tones'),Group=toneCurve,Explanation='Adjust darks.',Panel='tonePanel'},
@@ -427,9 +446,9 @@ local DataBase = {
   {Command='PointCurveLinear',Type='button',Translation=toneCurve..' '..LOC('$$$/CRaw/ToneCurvePreset/Linear=Linear'),Group=toneCurve,Explanation='Linear Point Curve.',Panel='tonePanel'},
   {Command='PointCurveMediumContrast',Type='button',Translation=toneCurve..' '..LOC('$$$/CRaw/ToneCurvePreset/MediumContrast=Medium Contrast'),Group=toneCurve,Explanation='Medium Contrast Point Curve.',Panel='tonePanel'},
   {Command='PointCurveStrongContrast',Type='button',Translation=toneCurve..' '..LOC('$$$/CRaw/ToneCurvePreset/StrongContrast=Strong Contrast'),Group=toneCurve,Explanation='Strong Contrast Point Curve.',Panel='tonePanel'},
---
---develop: mixer panel
---
+  --
+  --develop: mixer panel
+  --
   {Command='RevealPanelMixer',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',colorAdjustments),Group=colorAdjustments,Explanation='Open Mixer Panel in Develop Module.'},
   {Command='EnableColorAdjustments',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleColorAdjustments=Color adjustments enable/disable'),Group=colorAdjustments,Explanation='Enable or disable color adjustments.',Panel='mixerPanel'},
   {Command='SaturationAdjustmentRed',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentRed=Saturation Adjustment Red'),Group=colorAdjustments,Explanation='Changes the color vividness or purity of the color.',Panel='mixerPanel'},
@@ -503,9 +522,9 @@ local DataBase = {
   {Command='ResetGrayMixerPurple',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrayMixerPurple=Gray Mixer Purple')),Group=resetColorAdjustments,Explanation='Reset to default.',Panel='mixerPanel'},
   {Command='ResetGrayMixerMagenta',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrayMixerMagenta=Gray Mixer Magenta')),Group=resetColorAdjustments,Explanation='Reset to default.',Panel='mixerPanel'},
   {Command='ResetAllGrayMixer',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgDevelop/Setting/BlackAndWhiteMix=Gray Mixer')),Group=resetColorAdjustments,Explanation='Reset to default.',Panel='mixerPanel'},
---
---develop: color grading panel
---
+  --
+  --develop: color grading panel
+  --
   {Command='RevealPanelColorGrading',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',colorGrading),Group=colorGrading,Explanation='Open Color Grading Panel in Develop Module.'},
   {Command='EnableColorGrading',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleColorGrading=Color grading enable/disable'),Group=colorGrading,Explanation='Enable or disable color grading.',Panel='colorGradingPanel'},
   {Command='ColorGradeBlending',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeBlending=Color Blending'),Group=colorGrading,Explanation='Color grading blending changes the transition between each range: highlight, midtone, shadow. More blending gives a broader transition. The legacy Split Toning panel used a blending value of 100.',Panel='colorGradingPanel'},
@@ -546,9 +565,9 @@ local DataBase = {
   {Command='ResetSplitToningShadowHue',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowHue=Shadow Hue')),Group=colorGrading,Explanation='Reset color grading shadow hue to default.',Panel='colorGradingPanel'},
   {Command='ResetColorGradeShadowLum',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorGradeShadowLum=Shadow Luminance')),Group=colorGrading,Explanation='Reset color grading shadow luminance to default.',Panel='colorGradingPanel'},
   {Command='ResetSplitToningShadowSaturation',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowSaturation=Shadow Saturation')),Group=colorGrading,Explanation='Reset color grading shadow saturation to default.',Panel='colorGradingPanel'},
---
---develop: detail panel
---
+  --
+  --develop: detail panel
+  --
   {Command='RevealPanelDetail',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',detail),Group=detail,Explanation='Open Detail Panel in Develop Module.'},
   {Command='EnableDetail',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleDetail=Detail enable/disable'),Group=detail,Explanation='Enable or disable noise reduction and sharpening.',Panel='detailPanel'},
   {Command='Sharpness',Type='parameter',Translation=LOC('$$$/AgDevelop/Localized/Sharpness=Sharpness'),Group=detail,Explanation='Adjusts edge definition. Increase the Amount value to increase sharpening. A value of zero (0) turns off sharpening. In general, set Amount to a lower value for cleaner images. The adjustment locates pixels that differ from surrounding pixels based on the threshold you specify and increases the pixels\226\128\153 contrast by the amount you specify.',Panel='detailPanel'},
@@ -571,9 +590,9 @@ local DataBase = {
   {Command='ResetColorNoiseReduction',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorNoiseReduction=Color Noise Reduction')),Group=detail,Explanation='Reset to default.',Panel='detailPanel'},
   {Command='ResetColorNoiseReductionDetail',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorNoiseReductionDetail=Color Noise Reduction Detail')),Group=detail,Explanation='Reset to default.',Panel='detailPanel'},
   {Command='ResetColorNoiseReductionSmoothness',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorNoiseReductionSmoothness=Color Noise Reduction Smoothness')),Group=detail,Explanation='Reset to default.',Panel='detailPanel'},
---
---develop: lens corrections panel
---
+  --
+  --develop: lens corrections panel
+  --
   {Command='RevealPanelLens',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',lensCorrections),Group=lensCorrections,Explanation='Open Lens Corrections Panel in Develop Module.'},
   {Command='EnableLensCorrections',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleLensCorrections=Lens corrections enable/disable'),Group=lensCorrections,Explanation='Enable or disable all lens corrections.',Panel='lensCorrectionsPanel'},
   {Command='LensProfileEnable',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileEnable=Toggle Profile Corrections'),Group=lensCorrections,Explanation='Enable or disable lens profile correction.',Panel='lensCorrectionsPanel'},
@@ -603,9 +622,9 @@ local DataBase = {
   {Command='ResetLensManualDistortionAmount',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensManualDistortionAmount=Lens Manual Distortion Amount')),Group=lensCorrections,Explanation='Reset to default.',Panel='lensCorrectionsPanel'},
   {Command='ResetVignetteAmount',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/VignetteAmount=Vignette Amount')),Group=lensCorrections,Explanation='Reset to default.',Panel='lensCorrectionsPanel'},
   {Command='ResetVignetteMidpoint',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/VignetteMidpoint=Vignette Midpoint')),Group=lensCorrections,Explanation='Reset to default.',Panel='lensCorrectionsPanel'},
---
---develop: transform panel menu
---
+  --
+  --develop: transform panel menu
+  --
   {Command='RevealPanelTransform',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',transform),Group=transform,Explanation='Open Transform Panel in Develop Module.'},
   {Command='EnableTransform',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleTransform=Transform enable/disable'),Group=transform,Explanation='Enable or disable all transforms.',Panel='transformPanel'},
   {Command='UprightOff',Type='button',Translation=percor..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueOff=Off'),Group=transform,Explanation='Upright mode off.',Panel='transformPanel'},
@@ -630,9 +649,9 @@ local DataBase = {
   {Command='ResetPerspectiveAspect',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveAspect=Perspective Aspect')),Group=transform,Explanation='Reset to default.',Panel='transformPanel'},
   {Command='ResetPerspectiveX',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveX=Perspective X')),Group=transform,Explanation='Reset to default.',Panel='transformPanel'},
   {Command='ResetPerspectiveY',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveY=Perspective Y')),Group=transform,Explanation='Reset to default.',Panel='transformPanel'},
---
---develop: effects panel
---
+  --
+  --develop: effects panel
+  --
   {Command='RevealPanelEffects',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',effects),Group=effects,Explanation='Open Effects Panel in Develop Module.'},
   {Command='EnableEffects',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleEffects=Effects enable/disable'),Group=effects,Explanation='Enable or disable effects.',Panel='effectsPanel'},
   {Command='PostCropVignetteAmount',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteAmount=Post Crop Vignette Amount'),Group=effects,Explanation='Negative values darken the corners of the photo. Positive values lighten the corners.',Panel='effectsPanel'},
@@ -656,9 +675,9 @@ local DataBase = {
   {Command='ResetGrainAmount',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrainAmount=Grain Amount')),Group=effects,Explanation='Reset to default.',Panel='effectsPanel'},
   {Command='ResetGrainSize',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrainSize=Grain Size')),Group=effects,Explanation='Reset to default.',Panel='effectsPanel'},
   {Command='ResetGrainFrequency',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrainRoughness=Grain Roughness')),Group=effects,Explanation='Reset to default.',Panel='effectsPanel'},
---
---develop: calibration panel
---
+  --
+  --develop: calibration panel
+  --
   {Command='RevealPanelCalibrate',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',calibration),Group=calibration,Explanation='Open Camera Calibration Panel in Develop Module.'},
   {Command='EnableCalibration',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleCalibration=Calibration enable/disable'),Group=calibration,Explanation='Enable or disable custom camera calibration.',Panel='calibratePanel'},
   {Command='ProfileAmount',Type='variable',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ProfileAmount=Profile amount'),Group=calibration,Explanation='Varies amount of custom calibration applied. **Note**: The MIDI controller does not get updated when the value is changed directly in Lightroom, either by using a mouse or when changing images. Pickup mode does not affect behavior of this adjustment. Also, Lightroom may complain of being unable to update the value if too many changes occur in a short period of time. Just dismiss those warnings and continue.', Panel='calibratePanel'},
@@ -829,9 +848,9 @@ local DataBase = {
   {Command='Keyword63',Type='button',Translation=keyword..' 63',Group=keywords,Explanation='Apply keyword 63 to all selected photos.'},
   {Command='Keyword64',Type='button',Translation=keyword..' 64',Group=keywords,Explanation='Apply keyword 64 to all selected photos.'},
 
---
---toggle keywords
---
+  --
+  --toggle keywords
+  --
 
   {Command='Keyword1Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','1'),Group=keywordtoggle,Explanation='Toggle keyword 1 in each of the selected photos.'},
   {Command='Keyword2Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','2'),Group=keywordtoggle,Explanation='Toggle keyword 2 in each of the selected photos.'},
@@ -898,9 +917,9 @@ local DataBase = {
   {Command='Keyword63Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','63'),Group=keywordtoggle,Explanation='Toggle keyword 63 in each of the selected photos.'},
   {Command='Keyword64Toggle',Type='button',Translation=LOC('$$$/MIDI2LR/Keyword/Toggle1=Toggle Keyword ^1','64'),Group=keywordtoggle,Explanation='Toggle keyword 64 in each of the selected photos.'},
 
---
---develop: masks
---
+  --
+  --develop: masks
+  --
   {Command='Mask',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',mask),Group=mask,Explanation='Select Mask mode in Develop Module. Repeated press toggles Loupe View.'},
   {Command='MaskEnable',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleMaskgroupBasedCorrections=Toggle Mask'),Group=mask,Explanation='Enable or disable mask-based corrections.'},
   {Command='MaskReset',Type='button',Translation=LOC('$$$/CRaw/Masking/DeleteAllMasks=Delete all masks'),Group=mask,Explanation=''},
@@ -946,9 +965,9 @@ local DataBase = {
   {Command='MaskIntSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
   {Command='MaskIntSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
 
---
---develop: localized adjustments
---
+  --
+  --develop: localized adjustments
+  --
   {Command='RedEye',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction')),Group=localizedAdjustments,Explanation='Select Red Eye mode in Develop Module. Repeated press toggles Loupe View.'},
   {Command='SpotRemoval',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal')),Group=localizedAdjustments,Explanation='Select Spot Removal mode in Develop Module. Repeated press toggles Loupe View.'},
   {Command='ToggleOverlay',type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/ToggleOverlay=Toggle Mask Overlay'),Group=localizedAdjustments,Explanation='Toggles the localized adjustments mask overlay. Use only when any of the local adjustments filter is active.'},
@@ -1000,9 +1019,9 @@ local DataBase = {
   {Command='Resetlocal_Moire',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Defringe',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')..' (PV 3+)'),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_ToningLuminance',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)'),PV2=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminanz')),PV3=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminanz')..' (PV 2)'),Group=localadjresets,Explanation='Reset to default.'},
---
---local adjustment presets
---
+  --
+  --local adjustment presets
+  --
   {Command='LocalPreset1',Type='button',Translation=locadjpre..' 1',Group=locadjpre,Explanation='Use preset 1 for localized adjustments.'},
   {Command='LocalPreset2',Type='button',Translation=locadjpre..' 2',Group=locadjpre,Explanation='Use preset 2 for localized adjustments.'},
   {Command='LocalPreset3',Type='button',Translation=locadjpre..' 3',Group=locadjpre,Explanation='Use preset 3 for localized adjustments.'},

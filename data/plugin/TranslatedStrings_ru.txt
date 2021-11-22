@@ -8,6 +8,7 @@
 "$$$/MIDI2LR/Help/OnlineHelp=Справка в Интернете"
 "$$$/MIDI2LR/Help/Support=Поддержка"
 "$$$/MIDI2LR/Info/BuildFiles=Файлы сборки (только для разработки)"
+"$$$/MIDI2LR/Info/DeleteSettings=Удалить параметры"
 "$$$/MIDI2LR/Keys/Shortcut=сочетание клавиш"
 "$$$/MIDI2LR/Keyword/Toggle=Переключить ключевое слово"
 "$$$/MIDI2LR/Keyword/Toggle1=Переключение ключевого слова ^1"
