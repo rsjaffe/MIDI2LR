@@ -38,8 +38,15 @@ Devices::Devices()
 {
    try {
       /* open file with xml list of devices */
-      const auto source {GetSource(MIDI2LR_UC_LITERAL("DisabledControllers.xml"))};
-      if (source.exists()) { device_xml_ = juce::parseXML(source); }
+      auto source {GetSource(MIDI2LR_UC_LITERAL("Controllers.xml"))};
+      if (source.existsAsFile()) { device_xml_ = juce::parseXML(source); }
+      else {
+         source = GetSource(MIDI2LR_UC_LITERAL("DisabledControllers.xml"));
+         if (source.existsAsFile()) {
+            device_xml_ = juce::parseXML(source);
+            (void) source.deleteFile(); //don't want to use name again
+         }
+      }
    }
    catch (const std::exception& e) { /* log and carry on */
       MIDI2LR_E_RESPONSE;
@@ -80,7 +87,7 @@ Devices::~Devices()
 {
    try {
       /* open file with xml list of devices */
-      const auto source {GetSource(MIDI2LR_UC_LITERAL("DisabledControllers.xml"))};
+      const auto source {GetSource(MIDI2LR_UC_LITERAL("Controllers.xml"))};
       // ReSharper disable once CppExpressionWithoutSideEffects
       device_xml_->writeTo(source);
    }
