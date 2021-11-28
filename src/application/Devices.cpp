@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <exception>
+#include <tuple>
 #include <type_traits>
 
 #include <gsl/gsl>
@@ -44,7 +45,7 @@ Devices::Devices()
          source = GetSource(MIDI2LR_UC_LITERAL("DisabledControllers.xml"));
          if (source.existsAsFile()) {
             device_xml_ = juce::parseXML(source);
-            (void) source.deleteFile(); //don't want to use name again
+            std::ignore = source.deleteFile(); // don't want to use name again
          }
       }
    }

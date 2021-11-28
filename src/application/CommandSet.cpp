@@ -96,9 +96,12 @@ const CommandSet::Impl& CommandSet::MakeImpl() const
 size_t CommandSet::CommandTextIndex(const std::string& command) const
 {
    try {
+      using namespace std::string_literals;
       const auto found {cmd_idx_.find(command)};
       if (found == cmd_idx_.end()) {
-         rsj::Log(fmt::format("Command not found in CommandTextIndex: {}.", command));
+         if (command != "Unmapped"s) { /*Old version of Unassigned*/
+            rsj::Log(fmt::format("Command not found in CommandTextIndex: {}.", command));
+         }
          return 0;
       }
       return found->second;
