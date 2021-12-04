@@ -87,9 +87,13 @@ namespace {
 #ifdef _WIN32
          try {
             wil::SetResultLoggingCallback([](wil::FailureInfo const& failure) noexcept {
-               std::array<wchar_t, 2048> debug_string {};
-               wil::GetFailureLogString(debug_string.data(), debug_string.size(), failure);
-               rsj::Log(debug_string.data());
+               std::array<wchar_t, 2048> dbg {};
+               if (SUCCEEDED(wil::GetFailureLogString(dbg.data(), dbg.size(), failure))) {
+                  rsj::Log(dbg.data());
+               }
+               else {
+                  rsj::Log(L"Call to wil::GetFailureLogString failed.");
+               }
             });
          }
          catch (const std::exception& e) {
