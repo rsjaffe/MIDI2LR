@@ -22,6 +22,7 @@
 #include <utility>
 
 #include <fmt/format.h>
+#include <gsl/gsl>
 
 #include <juce_audio_devices/juce_audio_devices.h> //ReSharper false alarm
 #include <juce_gui_basics/juce_gui_basics.h>
@@ -211,7 +212,8 @@ void LrIpcIn::Read()
                    }
                    else {
                       std::string command {buffers_begin(streambuf_.data()),
-                          buffers_begin(streambuf_.data()) + bytes_transferred};
+                          buffers_begin(streambuf_.data())
+                              + gsl::narrow<std::ptrdiff_t>(bytes_transferred)};
                       if (command == "TerminateApplication 1\n") {
                          thread_should_exit_.store(true, std::memory_order_release);
                       }

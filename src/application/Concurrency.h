@@ -206,22 +206,21 @@ namespace rsj {
          }
          condition_.notify_all();
       }
-      void clear() noexcept(
-          std::is_nothrow_default_constructible_v<Container> && 
-          std::is_nothrow_destructible_v<Container>&&
-          std::is_nothrow_swappable_v<Container>&&
-          noexcept(std::scoped_lock(std::declval<Mutex>())))
+      void clear() noexcept(std::is_nothrow_default_constructible_v<Container>&&
+              std::is_nothrow_destructible_v<Container>&&
+                  std::is_nothrow_swappable_v<Container>&& noexcept(
+                      std::scoped_lock(std::declval<Mutex>())))
       { /*https://devblogs.microsoft.com/oldnewthing/20201112-00/?p=104444 */
          Container trash {};
          auto lock {std::scoped_lock(mutex_)};
          std::swap(trash, queue_);
       }
       [[nodiscard]] size_type clear_count() noexcept(
-          std::is_nothrow_default_constructible_v<Container> && 
-          std::is_nothrow_destructible_v<Container> &&
-          std::is_nothrow_swappable_v<Container> &&
-          noexcept(std::declval<Container>().size()) && 
-          noexcept(std::scoped_lock(std::declval<Mutex>())))
+          std::is_nothrow_default_constructible_v<Container>&&
+              std::is_nothrow_destructible_v<Container>&&
+                  std::is_nothrow_swappable_v<Container>&& noexcept(
+                      std::declval<Container>()
+                          .size()) && noexcept(std::scoped_lock(std::declval<Mutex>())))
       {
          Container trash {};
          {
