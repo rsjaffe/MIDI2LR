@@ -88,9 +88,6 @@ namespace rsj {
                   case CCmethod::kTwosComplement:
                      methodstr = "TwosComplement";
                      break;
-                  default:
-                     /* leave "undefined" */
-                     break;
                   }
                   archive(cereal::make_nvp("CC", control_number), CEREAL_NVP(high), CEREAL_NVP(low),
                       cereal::make_nvp("method", methodstr));

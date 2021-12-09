@@ -170,7 +170,8 @@ void Profile::RemoveRow(const size_t row)
       auto guard {std::unique_lock {mutex_}};
       const auto msg {GetMessageForNumberI(row)};
       command_string_map_.erase(message_map_.at(msg));
-      command_table_.erase(command_table_.cbegin() + row);
+      command_table_.erase(
+          command_table_.cbegin() + gsl::narrow<decltype(command_table_)::difference_type>(row));
       message_map_.erase(msg);
       profile_unsaved_ = true;
    }

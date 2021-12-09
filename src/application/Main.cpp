@@ -75,7 +75,7 @@ namespace {
       LookAndFeelMIDI2LR& operator=(LookAndFeelMIDI2LR&& s) = delete;
       juce::Font getTextButtonFont(juce::TextButton&, const int button_height) override
       {
-         return juce::Font(std::min(16.0F, static_cast<float>(button_height) * 0.7F));
+         return {std::min(16.0F, static_cast<float>(button_height) * 0.7F)};
       }
    };
 
@@ -108,7 +108,12 @@ namespace {
       ~SetLogger()
       {
 #ifdef _WIN32
-         wil::SetResultLoggingCallback(nullptr);
+         try {
+            wil::SetResultLoggingCallback(nullptr);
+         }
+         catch (...) {
+            rsj::Log("Unable to reset wil logging callback.");
+         }
 #endif
          juce::Logger::setCurrentLogger(nullptr);
       }
@@ -124,8 +129,8 @@ namespace {
 
    [[noreturn]] void OnTerminate() noexcept
    {
-      static std::mutex terminate_mutex;
       try {
+         static std::mutex terminate_mutex;
          auto lock {std::scoped_lock(terminate_mutex)};
          if (const auto exc {std::current_exception()}) {
             /* we have an exception */
@@ -263,7 +268,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                bool ready {false};
 #endif
 
-               juce::MessageManager::callAsync([&]() {
+               juce::MessageManager::callAsync([&] {
                   try {
                      const auto result {juce::NativeMessageBox::showYesNoBox(
                          juce::AlertWindow::WarningIcon, juce::translate("MIDI2LR profiles"),
