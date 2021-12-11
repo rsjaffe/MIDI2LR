@@ -122,22 +122,22 @@
         <MODULEPATH id="juce_audio_devices" path="external/JuceLibraryCode/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2019 targetFolder="build/Windows" smallIcon="WdgQGt" bigIcon="WdgQGt"
-            extraDefs="_WIN32_WINNT=0x0A000007;WINVER=0x0A000007;NOMINMAX;WIN32_LEAN_AND_MEAN;JUCE_MODAL_LOOPS_PERMITTED=1">
+    <VS2022 targetFolder="build/Windows" extraDefs="_WIN32_WINNT=0x0A000007;WINVER=0x0A000007;NOMINMAX;WIN32_LEAN_AND_MEAN;JUCE_MODAL_LOOPS_PERMITTED=1"
+            smallIcon="WdgQGt" bigIcon="WdgQGt">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" isDebug="1"/>
-        <CONFIGURATION name="Release" useRuntimeLibDLL="0"/>
+        <CONFIGURATION isDebug="1" name="Debug"/>
+        <CONFIGURATION isDebug="0" name="Release" useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_gui_basics" path="external\JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_graphics" path="external\JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_events" path="external\JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_data_structures" path="external\JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_core" path="external\JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_audio_devices" path="external\JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_audio_basics" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_gui_basics"/>
+        <MODULEPATH id="juce_graphics"/>
+        <MODULEPATH id="juce_events"/>
+        <MODULEPATH id="juce_data_structures"/>
+        <MODULEPATH id="juce_core"/>
+        <MODULEPATH id="juce_audio_devices"/>
+        <MODULEPATH id="juce_audio_basics"/>
       </MODULEPATHS>
-    </VS2019>
+    </VS2022>
   </EXPORTFORMATS>
   <MODULES>
     <MODULES id="juce_audio_basics" showAllCode="0" useLocalCopy="1"/>

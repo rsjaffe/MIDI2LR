@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="MIDI2LR\Source\Icon">
       <UniqueIdentifier>{2AFD23E6-68D5-9245-9CAD-FBED51B35B63}</UniqueIdentifier>
