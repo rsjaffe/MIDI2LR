@@ -610,7 +610,9 @@ void CoreGraphicsContext::setFont (const Font& newFont)
         state->fontRef = nullptr;
         state->font = newFont;
 
-        if (auto osxTypeface = dynamic_cast<OSXTypeface*> (state->font.getTypeface()))
+        auto typeface = state->font.getTypefacePtr();
+
+        if (auto osxTypeface = dynamic_cast<OSXTypeface*> (typeface.get()))
         {
             state->fontRef = osxTypeface->fontRef;
             CGContextSetFont (context.get(), state->fontRef);
@@ -667,7 +669,7 @@ void CoreGraphicsContext::drawGlyph (int glyphNumber, const AffineTransform& tra
     {
         Path p;
         auto& f = state->font;
-        f.getTypeface()->getOutlineForGlyph (glyphNumber, p);
+        f.getTypefacePtr()->getOutlineForGlyph (glyphNumber, p);
 
         fillPath (p, AffineTransform::scale (f.getHeight() * f.getHorizontalScale(), f.getHeight())
                                      .followedBy (transform));
@@ -927,8 +929,11 @@ CGContextRef juce_getImageContext (const Image& image)
 #endif
 
 #if JUCE_MAC
- NSImage* imageToNSImage (const Image& image, float scaleFactor)
+ NSImage* imageToNSImage (const ScaledImage& scaled)
  {
+     const auto image = scaled.getImage();
+     const auto scaleFactor = scaled.getScale();
+
      JUCE_AUTORELEASEPOOL
      {
          NSImage* im = [[NSImage alloc] init];
