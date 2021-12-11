@@ -51,6 +51,11 @@
 #else
 #include <condition_variable>
 #endif
+/*weird xcode error for semaphore in this file only with cpp20: release has been explicitly marked unavailable here*/
+#ifndef _WIN32
+#include <condition_variable>
+#undef __cpp_lib_semaphore
+#endif
 
 namespace fs = std::filesystem;
 
