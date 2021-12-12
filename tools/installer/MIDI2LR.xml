@@ -187,7 +187,7 @@
                             <origin>../../data/application/fonts/NotoSans-Regular-Plus-Thai.ttf</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../../data/application/fonts/NotoSans-Bold-plus-Thai.ttf</origin>
+                            <origin>../../data/application/fonts/NotoSans-Bold-Plus-Thai.ttf</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../../data/application/fonts/NotoSansJP-Regular.otf</origin>
@@ -444,7 +444,7 @@
             <path>${installdir}/MIDI2LR.lrplugin/CustomProfiles.lua</path>
         </deleteFile>
     </postInstallationActionList>
-    <allowedLanguages>en es_AR pt_BR nl fr de it ja ko pt ru zh_CN es sv th zh_TW</allowedLanguages>
+    <allowedLanguages>en pt_BR nl fr de it ja ko pt ru zh_CN es sv th zh_TW</allowedLanguages>
     <compressPackedFiles>1</compressPackedFiles>
     <compressionAlgorithm>lzham-ultra</compressionAlgorithm>
     <createOsxBundleDmg>1</createOsxBundleDmg>
@@ -483,11 +483,6 @@
         </language>
         <language>
             <code>es</code>
-            <encoding>utf-8</encoding>
-            <file>data/translations/custom-es.lng</file>
-        </language>
-        <language>
-            <code>es_AR</code>
             <encoding>utf-8</encoding>
             <file>data/translations/custom-es.lng</file>
         </language>
@@ -591,11 +586,6 @@
         </readmeFile>
         <readmeFile>
             <code>es</code>
-            <encoding>utf-8</encoding>
-            <file>data/translations/ReadMe-es.txt</file>
-        </readmeFile>
-        <readmeFile>
-            <code>es_AR</code>
             <encoding>utf-8</encoding>
             <file>data/translations/ReadMe-es.txt</file>
         </readmeFile>
