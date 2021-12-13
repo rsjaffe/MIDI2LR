@@ -47,7 +47,8 @@ namespace {
       if (length) {
          /* check for issues with extra-long window titles and log them */
          if (rsj::cmp_greater_equal(length + 1, buffer.size())) {
-            rsj::Log(fmt::format(L"EnumWindowsProc window text length > {}, truncated text is {}.",
+            rsj::Log(fmt::format(
+                FMT_STRING(L"EnumWindowsProc window text length > {}, truncated text is {}."),
                 buffer.size(), buffer.data())
                          .data());
          } /* try to find Lightroom Classic. Use Lightroom as fallback */
@@ -186,8 +187,8 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods
           "Exception in key sending function for key: \"{}\". Exception: {}.", key, e.what()));
    }
    catch (...) {
-      rsj::LogAndAlertError(
-          fmt::format("Non-standard exception in key sending function for key: \"{}\".", key));
+      rsj::LogAndAlertError(fmt::format(
+          FMT_STRING("Non-standard exception in key sending function for key: \"{}\"."), key));
    }
 }
 #pragma warning(pop)

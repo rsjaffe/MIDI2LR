@@ -75,11 +75,11 @@ void LrIpcIn::Stop()
           * shutdown() before closing the socket. */
          socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
          if (ec) {
-            rsj::Log(fmt::format("LR_IPC_In socket shutdown error {}.", ec.message()));
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket shutdown error {}."), ec.message()));
             ec.clear();
          }
          socket_.close(ec);
-         if (ec) { rsj::Log(fmt::format("LR_IPC_In socket close error {}.", ec.message())); }
+         if (ec) { rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message())); }
       }
 #ifdef __cpp_lib_semaphore
       read_running_.acquire();
@@ -89,7 +89,7 @@ void LrIpcIn::Stop()
 #endif
       /* clear input queue after port closed */
       if (const auto m {line_.clear_count_emplace(kTerminate)}) {
-         rsj::Log(fmt::format("{} left in queue in LrIpcIn destructor.", m));
+         rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcIn destructor."), m));
       }
    }
    catch (const std::exception& e) {
@@ -116,11 +116,11 @@ void LrIpcIn::Connect()
                 Read();
              }
              else {
-                rsj::Log(fmt::format("LR_IPC_In did not connect. {}.", error.message()));
+                rsj::Log(fmt::format(FMT_STRING("LR_IPC_In did not connect. {}."), error.message()));
                 asio::error_code ec2;
                 socket_.close(ec2);
                 if (ec2) {
-                   rsj::Log(fmt::format("LR_IPC_In socket close error {}.", ec2.message()));
+                   rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec2.message()));
                 }
              }
           });
@@ -156,14 +156,14 @@ void LrIpcIn::ProcessLine()
             return;
          }
          if (value_view.empty()) {
-            rsj::Log(fmt::format("No value attached to message. Message from plugin was \"{}\".",
+            rsj::Log(fmt::format(FMT_STRING("No value attached to message. Message from plugin was \"{}\"."),
                 rsj::ReplaceInvisibleChars(line_copy)));
          }
          else if (command == "SwitchProfile") {
             profile_manager_.SwitchToProfile(std::string(value_view));
          }
          else if (command == "Log") {
-            rsj::Log(fmt::format("Plugin: {}.", value_view));
+            rsj::Log(fmt::format(FMT_STRING("Plugin: {}."), value_view));
          }
          else if (command == "SendKey") {
             const auto modifiers {std::stoi(std::string(value_view))};
@@ -178,7 +178,7 @@ void LrIpcIn::ProcessLine()
                }
             }
             rsj::LogAndAlertError(
-                fmt::format("SendKey couldn't identify keystroke. Message from plugin was \"{}\".",
+                fmt::format(FMT_STRING("SendKey couldn't identify keystroke. Message from plugin was \"{}\"."),
                     rsj::ReplaceInvisibleChars(line_copy)));
          }
          else { /* send associated messages to MIDI OUT devices */
@@ -223,7 +223,7 @@ void LrIpcIn::Read()
                    Read();
                 }
                 else {
-                   rsj::Log(fmt::format("LR_IPC_In Read error: {}.", error.message()));
+                   rsj::Log(fmt::format(FMT_STRING("LR_IPC_In Read error: {}."), error.message()));
 #ifdef __cpp_lib_semaphore
                    read_running_.release();
 #else

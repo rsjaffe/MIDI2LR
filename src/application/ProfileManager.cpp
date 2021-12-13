@@ -75,10 +75,11 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
       if (profile_file.exists()) {
          if (const auto parsed {juce::parseXML(profile_file)}) {
             for (const auto& cb : callbacks_) { cb(parsed.get(), profile); }
-            lr_ipc_out_.SendCommand(fmt::format("ChangedToDirectory {}\n",
+            lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToDirectory {}\n"),
                 juce::File::addTrailingSeparator(profile_location_.getFullPathName())
                     .toStdString()));
-            lr_ipc_out_.SendCommand(fmt::format("ChangedToFile {}\n", profile.toStdString()));
+            lr_ipc_out_.SendCommand(
+                fmt::format(FMT_STRING("ChangedToFile {}\n"), profile.toStdString()));
          }
       }
    }
@@ -160,7 +161,7 @@ void ProfileManager::ConnectionCallback(const bool connected, const bool blocked
 {
    try {
       if (connected && !blocked) {
-         lr_ipc_out_.SendCommand(fmt::format("ChangedToDirectory {}\n",
+         lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToDirectory {}\n"),
              juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString()));
       }
    }

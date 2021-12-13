@@ -47,7 +47,8 @@ void rsj::LabelThread(gsl::czstring<> threadname)
 {
    auto result {pthread_setname_np(threadname)};
    if (result) {
-      rsj::Log(fmt::format("Label thread {} failed with {} error.", threadname, result));
+      rsj::Log(
+          fmt::format(FMT_STRING("Label thread {} failed with {} error."), threadname, result));
    }
 }
 #endif
@@ -308,7 +309,7 @@ void rsj::ExceptionResponse(
    try {
       const auto alert_text {
           fmt::format(juce::translate("Exception ").toStdString() + "{} {}.", e.what(), fu)};
-      const auto error_text {fmt::format("Exception {} {}.", e.what(), fu)};
+      const auto error_text {fmt::format(FMT_STRING("Exception {} {}."), e.what(), fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
    catch (...) { //-V565
@@ -323,7 +324,7 @@ void rsj::ExceptionResponse(
    try {
       const auto alert_text {fmt::format(
           juce::translate("Exception ").toStdString() + "{} {}::{}.", e.what(), id, fu)};
-      const auto error_text {fmt::format("Exception {} {}::{}.", e.what(), id, fu)};
+      const auto error_text {fmt::format(FMT_STRING("Exception {} {}::{}."), e.what(), id, fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
    catch (...) { //-V565 //-V5002
@@ -340,7 +341,7 @@ std::wstring rsj::AppDataFilePath(std::wstring_view file_name)
 {
    wil::unique_cotaskmem_string pathptr {nullptr};
    if (SUCCEEDED_LOG(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathptr))) {
-      return fmt::format(L"{}\\MIDI2LR\\{}", pathptr.get(), file_name);
+      return fmt::format(FMT_STRING(L"{}\\MIDI2LR\\{}"), pathptr.get(), file_name);
    }
    return std::wstring(file_name);
 }

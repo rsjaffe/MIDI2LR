@@ -165,6 +165,6 @@ std::unordered_map<UniChar, rsj::KeyData> rsj::GetKeyMap()
       rsj::Log("20ms sleep for message queue waiting for FillInMessageLoop to run.");
    }
    rsj::Log(fmt::format(
-       "Making KeyMap. Keyboard type {}. KeyMap is {}.", GetKeyboardLayout(), FillInSucceeded()));
+       FMT_STRING("Making KeyMap. Keyboard type {}. KeyMap is {}."), GetKeyboardLayout(), FillInSucceeded()));
    return InternalKeyMap();
 }

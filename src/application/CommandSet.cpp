@@ -68,7 +68,7 @@ CommandSet::Impl::Impl()
 #pragma warning(suppress : 26414) /* too large to construct on stack */
          const auto iarchive {std::make_unique<cereal::XMLInputArchive>(infile)};
          (*iarchive)(*this);
-         rsj::Log(fmt::format("MenuTrans.xml archive loaded from {}.", p.string()));
+         rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p.string()));
       }
       else {
          rsj::LogAndAlertError(
@@ -100,7 +100,7 @@ size_t CommandSet::CommandTextIndex(const std::string& command) const
       const auto found {cmd_idx_.find(command)};
       if (found == cmd_idx_.end()) {
          if (command != "Unmapped"s) { /*Old version of Unassigned*/
-            rsj::Log(fmt::format("Command not found in CommandTextIndex: {}.", command));
+            rsj::Log(fmt::format(FMT_STRING("Command not found in CommandTextIndex: {}."), command));
          }
          return 0;
       }

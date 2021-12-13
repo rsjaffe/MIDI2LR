@@ -35,7 +35,7 @@ namespace {
       const auto minor {vers >> 16 & 0xFFU};
       const auto rev {vers >> 8 & 0xFFU};
       const auto build {vers & 0xFFU};
-      return fmt::format("{}.{}.{}.{}", major, minor, rev, build);
+      return fmt::format(FMT_STRING("{}.{}.{}.{}"), major, minor, rev, build);
    }
 } // namespace
 
@@ -97,7 +97,8 @@ void VersionChecker::Run() noexcept
             last_checked = std::min(new_version_, ProjectInfo::versionNumber);
             settings_manager_.SetLastVersionFound(last_checked);
          }
-         rsj::Log(fmt::format("Version available {}, version last checked {}, current version {}.",
+         rsj::Log(fmt::format(
+             FMT_STRING("Version available {}, version last checked {}, current version {}."),
              IntToVersion(new_version_), IntToVersion(last_checked),
              IntToVersion(ProjectInfo::versionNumber)));
          if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked
