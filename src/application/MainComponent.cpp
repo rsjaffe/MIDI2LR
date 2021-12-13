@@ -128,8 +128,8 @@ void MainContentComponent::Init()
          if (chooser.browseForFileToOpen()) {
             if (const auto parsed {juce::parseXML(chooser.getResult())}) {
                const auto new_profile {chooser.getResult()};
-               lr_ipc_out_.SendCommand(fmt::format(
-                   "ChangedToFullPath {}\n", new_profile.getFullPathName().toStdString()));
+               lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToFullPath {}\n"),
+                   new_profile.getFullPathName().toStdString()));
                profile_name_label_.setText(
                    new_profile.getFileName(), juce::NotificationType::dontSendNotification);
                profile_.FromXml(parsed.get());
@@ -141,7 +141,7 @@ void MainContentComponent::Init()
                }
             }
             else {
-               rsj::Log(fmt::format("Unable to load profile {}.",
+               rsj::Log(fmt::format(FMT_STRING("Unable to load profile {}."),
                    chooser.getResult().getFullPathName().toStdString()));
             }
          }
@@ -294,8 +294,8 @@ void MainContentComponent::MidiCmdCallback(const rsj::MidiMessage& mm)
       /* Display the MIDI parameters and add/highlight row in table corresponding to the message msg
        * is 1-based for channel, which display expects */
       const rsj::MidiMessageId msg {mm};
-      last_command_ = fmt::format(
-          "{}: {}{} [{}]", msg.channel, mm.message_type_byte, msg.control_number, mm.value);
+      last_command_ = fmt::format(FMT_STRING("{}: {}{} [{}]"), msg.channel, mm.message_type_byte,
+          msg.control_number, mm.value);
       profile_.AddRowUnmapped(msg);
       row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
       triggerAsyncUpdate();

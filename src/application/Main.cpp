@@ -51,7 +51,8 @@
 #else
 #include <condition_variable>
 #endif
-/*weird xcode error for semaphore in this file only with cpp20: release has been explicitly marked unavailable here*/
+/*weird xcode error for semaphore in this file only with cpp20: release has been explicitly marked
+ * unavailable here*/
 #ifndef _WIN32
 #include <condition_variable>
 #undef __cpp_lib_semaphore
@@ -144,7 +145,7 @@ namespace {
                std::rethrow_exception(exc);
             }
             catch (const std::exception& e) {
-               rsj::Log(fmt::format("Terminate called, exception {}.", e.what()));
+               rsj::Log(fmt::format(FMT_STRING("Terminate called, exception {}."), e.what()));
             }
             catch (...) {
                rsj::Log("Terminate called, unknown exception type.");
@@ -198,7 +199,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                MIDI2LR_FAST_FLOATS;
                if constexpr (kNdebug) { io_context_.run(); }
                else {
-                  rsj::Log(fmt::format("io_thread0_ ran {} handlers.", io_context_.run()));
+                  rsj::Log(
+                      fmt::format(FMT_STRING("io_thread0_ ran {} handlers."), io_context_.run()));
                }
             });
             io_thread1_ = std::async(std::launch::async, [this] {
@@ -206,7 +208,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                MIDI2LR_FAST_FLOATS;
                if constexpr (kNdebug) { io_context_.run(); }
                else {
-                  rsj::Log(fmt::format("io_thread1_ ran {} handlers.", io_context_.run()));
+                  rsj::Log(
+                      fmt::format(FMT_STRING("io_thread1_ ran {} handlers."), io_context_.run()));
                }
             });
             CCoptions::LinkToControlsModel(&controls_model_);
@@ -329,15 +332,16 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                              + " {}, {} line {}. Total uncaught {}."};
             rsj::LogAndAlertError(fmt::format(msgt, e->what(), source_filename.toStdString(),
                                       line_number, std::uncaught_exceptions()),
-                fmt::format("Unhandled exception {}, {} line {}. Total uncaught {}.", e->what(),
-                    source_filename.toStdString(), line_number, std::uncaught_exceptions()));
+                fmt::format(FMT_STRING("Unhandled exception {}, {} line {}. Total uncaught {}."),
+                    e->what(), source_filename.toStdString(), line_number,
+                    std::uncaught_exceptions()));
          }
          else {
             const auto msgt {juce::translate("unhandled exception").toStdString()
                              + " {} line {}. Total uncaught {}."};
             rsj::LogAndAlertError(fmt::format(msgt, source_filename.toStdString(), line_number,
                                       std::uncaught_exceptions()),
-                fmt::format("Unhandled exception {} line {}. Total uncaught {}.",
+                fmt::format(FMT_STRING("Unhandled exception {} line {}. Total uncaught {}."),
                     source_filename.toStdString(), line_number, std::uncaught_exceptions()));
          }
       }
@@ -356,8 +360,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          const auto file_name {rsj::AppDataFilePath(kDefaultsFile)};
          const auto profile_file {juce::File(file_name.data())};
          profile_.ToXmlFile(profile_file);
-         rsj::Log(fmt::format(
-             "Default profile saved to {}.", profile_file.getFullPathName().toStdString()));
+         rsj::Log(fmt::format(FMT_STRING("Default profile saved to {}."),
+             profile_file.getFullPathName().toStdString()));
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;
@@ -373,7 +377,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto oarchive {std::make_unique<cereal::XMLOutputArchive>(outfile)};
             (*oarchive)(controls_model_);
-            rsj::Log(fmt::format("ControlsModel archive in Main saved to {}.", p.string()));
+            rsj::Log(
+                fmt::format(FMT_STRING("ControlsModel archive in Main saved to {}."), p.string()));
          }
          else {
             rsj::LogAndAlertError(
@@ -394,7 +399,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto iarchive {std::make_unique<cereal::XMLInputArchive>(in_file)};
             (*iarchive)(controls_model_);
-            rsj::Log(fmt::format("ControlsModel archive in Main loaded from {}.", px.string()));
+            rsj::Log(fmt::format(
+                FMT_STRING("ControlsModel archive in Main loaded from {}."), px.string()));
          }
       }
       catch (const std::exception& e) {
@@ -446,7 +452,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                 juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize()));
          }
          else {
-            rsj::Log(fmt::format("Unable to load primary font file {}.", font1_name.toStdString()));
+            rsj::Log(fmt::format(
+                FMT_STRING("Unable to load primary font file {}."), font1_name.toStdString()));
          }
          if (font2_name.isNotEmpty()) {
             font_data.reset();
@@ -456,7 +463,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize());
             }
             else {
-               rsj::Log(fmt::format("Unable to load bold font file {}.", font2_name.toStdString()));
+               rsj::Log(fmt::format(
+                   FMT_STRING("Unable to load bold font file {}."), font2_name.toStdString()));
             }
          }
       }
