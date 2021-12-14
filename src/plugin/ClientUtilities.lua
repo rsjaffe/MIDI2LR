@@ -799,12 +799,12 @@ local function RatioCrop(param, value, UpdateParam)
     UpdateParam("CropLeft",new_left,true)
   elseif param == "CropMoveVertical" then
     local new_top = (1 - (prior_c_bottom - prior_c_top)) * tonumber(value)
-    local new_bottom = new_top + prior_c_bottom - prior_c_top
+    local new_bottom = new_top - prior_c_top + prior_c_bottom
     UpdateParam("CropBottom",new_bottom,true)
     UpdateParam("CropTop", new_top)
   elseif param == "CropMoveHorizontal" then
     local new_left = (1 - (prior_c_right - prior_c_left)) * tonumber(value)
-    local new_right = new_left + prior_c_bottom - prior_c_top
+    local new_right = new_left - prior_c_left + prior_c_right
     UpdateParam("CropLeft",new_left,true)
     UpdateParam("CropRight", new_right)
   end
