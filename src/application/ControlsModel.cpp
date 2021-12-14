@@ -257,9 +257,14 @@ int ChannelModel::PluginToController(
             /* TODO(C26451): int subtraction: can it overflow? */
             const auto clow {cc_low_.at(controlnumber)};
             const auto chigh {cc_high_.at(controlnumber)};
+#ifdef _WIN32
+            const auto newv {std::clamp(
+                _cvt_dtoi_fast(value * static_cast<double>(chigh - clow)) + clow, clow, chigh)};
+#else
             const auto newv {std::clamp(
                 gsl::narrow<int>(std::lrint(value * static_cast<double>(chigh - clow))) + clow,
                 clow, chigh)};
+#endif
 #ifdef __cpp_lib_atomic_ref
             std::atomic_ref(current_v_.at(controlnumber)).store(newv, std::memory_order_release);
 #else

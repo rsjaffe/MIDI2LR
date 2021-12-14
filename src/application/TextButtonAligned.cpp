@@ -51,8 +51,11 @@ void TextButtonAligned::DrawButtonText(juce::Graphics& g, juce::TextButton& butt
 
    const auto y_indent {std::min(4, button.proportionOfHeight(0.3F))}; //-V112
    const auto corner_size {std::min(button.getHeight(), button.getWidth()) / 2};
-
+#ifdef _WIN32
+   const auto font_height {_cvt_ftoi_fast(font.getHeight() * 0.6F)};
+#else
    const auto font_height {gsl::narrow_cast<int>(std::lrint(font.getHeight() * 0.6F))};
+#endif
    const auto left_indent {
        std::min(font_height, 2 + corner_size / (button.isConnectedOnLeft() ? 4 : 2))}; //-V112
    const auto right_indent {
