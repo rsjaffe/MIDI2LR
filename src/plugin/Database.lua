@@ -698,6 +698,9 @@ local DataBase = {
   --
   --develop: develop presets
   --
+  {Command='PresetPrevious',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/PresetPrevious=Previous preset'),Group=developPresets,Explanation='Apply previous preset (in numerical order) to active photo only.'},
+  {Command='PresetNext',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/PresetNext=Next preset'),Group=developPresets,Explanation='Apply next preset (in numerical order) to active photo only.'},
+  {Command='PresetPreviousNext',Type='repeat',Translation=LOC('$$$/MIDI2LR/Menu/PresetPrevious=Previous preset')..'—'..LOC('$$$/MIDI2LR/Menu/PresetNext=Next preset'),Group=developPresets,Explanation='Turning knob clockwise applies next preset, counterclockwise, previous.'..repeatexp,Repeats={'PresetNext','PresetPrevious'}},
   {Command='Preset_1',Type='button',Translation=developPreset..' 1',Group=developPresets,Explanation='Apply preset 1 to active photo only.'},
   {Command='Preset_2',Type='button',Translation=developPreset..' 2',Group=developPresets,Explanation='Apply preset 2 to active photo only.'},
   {Command='Preset_3',Type='button',Translation=developPreset..' 3',Group=developPresets,Explanation='Apply preset 3 to active photo only.'},

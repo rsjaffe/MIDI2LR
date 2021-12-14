@@ -340,28 +340,6 @@ local function RemoveFilters()
   end
 end
 
-local function fApplyPreset(presetnumber)
-  return function()
-    local presetUuid = ProgramPreferences.Presets[presetnumber]
-    if presetUuid == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-    local preset = LrApplication.developPresetByUuid(presetUuid)
-    LrTasks.startAsyncTask ( function ()
-        LrApplication.activeCatalog():withWriteAccessDo(
-          'Apply preset '..preset:getName(),
-          function()
-            if ProgramPreferences.ClientShowBezelOnChange then
-              LrDialogs.showBezel(preset:getName())
-            end
-            LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset)
-          end,
-          { timeout = 4,
-            callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..'PastePreset.') end,
-            asynchronous = true }
-        )
-      end )
-  end
-end
-
 local function fChangePanel(panelname)
   return function()
     execFOM(LrDevelopController.revealPanel,panelname)
@@ -884,7 +862,6 @@ return {
   cg_reset_current = cg_reset_current,
   execFOM = execFOM,
   fApplyFilter = fApplyFilter,
-  fApplyPreset = fApplyPreset,
   fChangeModule = fChangeModule,
   fChangePanel = fChangePanel,
   fSimulateKeys = fSimulateKeys,

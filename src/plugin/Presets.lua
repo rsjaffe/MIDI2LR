@@ -3,7 +3,7 @@
 Presets.lua
 
 Manages develop presets for plugin
- 
+
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
@@ -15,13 +15,17 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local LrApplication = import 'LrApplication'
+local LrTasks       = import 'LrTasks'
+local LrDialogs     = import 'LrDialogs'
 local LrView        = import 'LrView'
 
 local number_of_presets = 80
+local currentpreset = 1
+local lastchange = 0
 
 local function StartDialog(obstable,f)
   --populate table with presets
@@ -73,7 +77,7 @@ local function StartDialog(obstable,f)
   for i = 1,group_cols do
     local j = math.floor((i*group_rows-1)/button_rows)+1 --to determine which list of selected presets to include
     local label = (i-1)*group_rows+1 ..'-'..i*group_rows --must have space after 1 before ..
-    tabs[i] = f:tab_view_item {title = label, 
+    tabs[i] = f:tab_view_item {title = label,
       identifier = 'tabview-'..label,
       f:row{
         f:column(grouppresets[i]),
@@ -95,7 +99,90 @@ local function EndDialog(obstable, status)
   end
 end
 
+local function ApplyPreset(presetnumber)
+  local presetUuid = ProgramPreferences.Presets[presetnumber]
+  if presetUuid == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+  currentpreset = presetnumber -- for next/prev preset
+  local preset = LrApplication.developPresetByUuid(presetUuid)
+  LrTasks.startAsyncTask ( function ()
+      LrApplication.activeCatalog():withWriteAccessDo(
+        'Apply preset '..preset:getName(),
+        function()
+          if ProgramPreferences.ClientShowBezelOnChange then
+            LrDialogs.showBezel(preset:getName())
+          end
+          LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset)
+        end,
+        { timeout = 4,
+          callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..'PastePreset.') end,
+          asynchronous = true }
+      )
+    end )
+end
+
+local function fApplyPreset(presetnumber)
+  return function()
+    local presetUuid = ProgramPreferences.Presets[presetnumber]
+    if presetUuid == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+    currentpreset = presetnumber -- for next/prev preset
+    local preset = LrApplication.developPresetByUuid(presetUuid)
+    LrTasks.startAsyncTask ( function ()
+        LrApplication.activeCatalog():withWriteAccessDo(
+          'Apply preset '..preset:getName(),
+          function()
+            if ProgramPreferences.ClientShowBezelOnChange then
+              LrDialogs.showBezel(preset:getName())
+            end
+            LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset)
+          end,
+          { timeout = 4,
+            callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..'PastePreset.') end,
+            asynchronous = true }
+        )
+      end )
+  end
+end
+
+local function NextPreset()
+  local testpreset
+  if lastchange + 0.5 > os.clock() then
+    return
+  end
+  lastchange = os.clock()
+  for i = 1, number_of_presets do
+    testpreset = currentpreset + i
+    if testpreset > number_of_presets then
+      testpreset = testpreset - number_of_presets
+    end
+    if ProgramPreferences.Presets[testpreset] then
+      ApplyPreset(testpreset)
+      break
+    end
+  end
+end
+
+local function PreviousPreset()
+  local testpreset
+    if lastchange + 0.5 > os.clock() then
+    return
+  end
+  lastchange = os.clock()
+  for i = 1, number_of_presets do
+    testpreset = currentpreset - i
+    if testpreset < 1 then
+      testpreset = testpreset + number_of_presets
+    end
+    if ProgramPreferences.Presets[testpreset] then
+      ApplyPreset(testpreset)
+      break
+    end
+  end
+end
+
 return {
-  StartDialog = StartDialog,
   EndDialog = EndDialog,
+  NextPreset = NextPreset,
+  PreviousPreset = PreviousPreset,
+  StartDialog = StartDialog,
+  fApplyPreset = fApplyPreset,
 }

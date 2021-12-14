@@ -22,6 +22,8 @@
 "$$$/MIDI2LR/Menu/ImportConfiguration=구성 가져오기(&I)"
 "$$$/MIDI2LR/Menu/NextMaskGroup=다음 마스크 그룹"
 "$$$/MIDI2LR/Menu/NextMaskTool=다음 마스크 도구"
+"$$$/MIDI2LR/Menu/PresetNext=다음 기본 설정"
+"$$$/MIDI2LR/Menu/PresetPrevious=이전 기본 설정"
 "$$$/MIDI2LR/Menu/PreviousMaskGroup=이전 마스크 그룹"
 "$$$/MIDI2LR/Menu/PreviousMaskTool=이전 마스크 도구"
 "$$$/MIDI2LR/Menu/StartApplication=응용 프로그램 시작(&S)"

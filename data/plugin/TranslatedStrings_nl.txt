@@ -22,6 +22,8 @@
 "$$$/MIDI2LR/Menu/ImportConfiguration=Configuratie &importeren"
 "$$$/MIDI2LR/Menu/NextMaskGroup=Volgende maskergroep"
 "$$$/MIDI2LR/Menu/NextMaskTool=Volgende maskertool"
+"$$$/MIDI2LR/Menu/PresetNext=Volgende voorkeursinstelling"
+"$$$/MIDI2LR/Menu/PresetPrevious=Vorige voorkeursinstelling"
 "$$$/MIDI2LR/Menu/PreviousMaskGroup=Vorige maskergroep"
 "$$$/MIDI2LR/Menu/PreviousMaskTool=Vorige maskertool"
 "$$$/MIDI2LR/Menu/StartApplication=Toepassing starten"

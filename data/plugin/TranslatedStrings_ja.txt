@@ -22,6 +22,8 @@
 "$$$/MIDI2LR/Menu/ImportConfiguration=構成のインポート(&I)"
 "$$$/MIDI2LR/Menu/NextMaskGroup=次のマスクグループ"
 "$$$/MIDI2LR/Menu/NextMaskTool=次のマスクツール"
+"$$$/MIDI2LR/Menu/PresetNext=次のプリセット"
+"$$$/MIDI2LR/Menu/PresetPrevious=前のプリセット"
 "$$$/MIDI2LR/Menu/PreviousMaskGroup=前のマスクグループ"
 "$$$/MIDI2LR/Menu/PreviousMaskTool=以前のマスクツール"
 "$$$/MIDI2LR/Menu/StartApplication=アプリケーションの起動(&S)"
