@@ -22,6 +22,8 @@
 "$$$/MIDI2LR/Menu/ImportConfiguration=นำเข้าการตั้งค่าคอนฟิก"
 "$$$/MIDI2LR/Menu/NextMaskGroup=กลุ่มหน้ากากต่อไป"
 "$$$/MIDI2LR/Menu/NextMaskTool=เครื่องมือมาสก์ถัดไป"
+"$$$/MIDI2LR/Menu/PresetNext=สถานีที่ตั้งไว้ถัดไป"
+"$$$/MIDI2LR/Menu/PresetPrevious=สถานีที่ตั้งไว้ก่อนหน้า"
 "$$$/MIDI2LR/Menu/PreviousMaskGroup=กลุ่มหน้ากากก่อนหน้า"
 "$$$/MIDI2LR/Menu/PreviousMaskTool=เครื่องมือหน้ากากก่อนหน้า"
 "$$$/MIDI2LR/Menu/StartApplication=เริ่มแอพพลิเคชั่น"

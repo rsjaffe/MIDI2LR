@@ -22,6 +22,8 @@
 "$$$/MIDI2LR/Menu/ImportConfiguration=导入配置(&I)"
 "$$$/MIDI2LR/Menu/NextMaskGroup=下一个面具组"
 "$$$/MIDI2LR/Menu/NextMaskTool=下一个遮罩工具"
+"$$$/MIDI2LR/Menu/PresetNext=下一个预置"
+"$$$/MIDI2LR/Menu/PresetPrevious=上一个预置"
 "$$$/MIDI2LR/Menu/PreviousMaskGroup=上一个面具组"
 "$$$/MIDI2LR/Menu/PreviousMaskTool=上一个遮罩工具"
 "$$$/MIDI2LR/Menu/StartApplication=启动应用程序(&S)"

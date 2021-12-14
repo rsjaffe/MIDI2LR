@@ -22,6 +22,8 @@
 "$$$/MIDI2LR/Menu/ImportConfiguration=Импорт конфигурации"
 "$$$/MIDI2LR/Menu/NextMaskGroup=Следующая группа масок"
 "$$$/MIDI2LR/Menu/NextMaskTool=Инструмент \"Следующая маска\""
+"$$$/MIDI2LR/Menu/PresetNext=Следующая заданная настройка"
+"$$$/MIDI2LR/Menu/PresetPrevious=Предыдущая заданная настройка"
 "$$$/MIDI2LR/Menu/PreviousMaskGroup=Предыдущая группа масок"
 "$$$/MIDI2LR/Menu/PreviousMaskTool=Предыдущий инструмент маски"
 "$$$/MIDI2LR/Menu/StartApplication=Запустить приложение"

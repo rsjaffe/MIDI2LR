@@ -36,5 +36,6 @@ end
 Init.UseDefaultsAll()
 Preferences.Save()
 prefs[1] = nil
+prefs = nil
 prefs = prefs
 
