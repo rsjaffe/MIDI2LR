@@ -4,7 +4,7 @@ Looking to contribute something to MIDI2LR? **Here's how you can help.**
 
 ## Reporting issues
 
-On Github, we only accept issues that are bug reports or feature requests. Bugs must be isolated and reproducible problems that we can fix within the MIDI2LR code. Lightroom bugs and questions/concerns about the MIDI2LR program may be discussed in our [MIDI2LR Group Page](https://groups.google.com/forum/#!forum/midi2lr). Please read the following guidelines before opening any issue.
+On Github issues page, we only accept issues that are bug reports or feature requests. Bugs must be isolated and reproducible problems that we can fix within the MIDI2LR code. Lightroom bugs and questions/concerns about the MIDI2LR program may be discussed in our [MIDI2LR Discussion Page](https://github.com/rsjaffe/MIDI2LR/discussions). Please read the following guidelines before opening any issue.
 
 1. **Search for existing issues.** We get duplicate issues, and you'd help us out a lot by first checking if someone else has reported the same issue. Moreover, the issue may have already been resolved with a fix available. Also check out the [*known issues* section](https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues) of the wiki.
 2. **Create an isolated and reproducible test case.** Be sure the problem exists in MIDI2LR's code with a description of the steps to replicate the bug that should be included in each bug report.
@@ -30,7 +30,7 @@ On Github, we only accept issues that are bug reports or feature requests. Bugs 
   - all_lower: Parameters, local variables, global variables, class and struct public fields, union members, namespaces.
   - all_lower_: Protected and private class and struct fields.
   - kUpperCamelCase: Enum members, global constants, other constants.
-  - ALL_UPPER: Macros.
+  - ALL_UPPER: Macros. New macro names should start with *MIDI2LR_*.
 
 ## Coding standards: Lua
 - Emulate the formatting in current files. Avoid adding code to the message loops in Client.lua unless absolutely necessary, as those changes can slow down Lightroom.
