@@ -262,7 +262,7 @@ int ChannelModel::PluginToController(
                 _cvt_dtoi_fast(value * static_cast<double>(chigh - clow)) + clow, clow, chigh)};
 #else
             const auto newv {std::clamp(
-                gsl::narrow<int>(std::lrint(value * static_cast<double>(chigh - clow))) + clow,
+                gsl::narrow_cast<int>(value * static_cast<double>(chigh - clow)) + clow,
                 clow, chigh)};
 #endif
 #ifdef __cpp_lib_atomic_ref
