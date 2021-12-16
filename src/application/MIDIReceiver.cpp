@@ -68,7 +68,8 @@ void MidiReceiver::RescanDevices()
    try {
       for (const auto& dev : input_devices_) {
          dev->stop();
-         rsj::Log(fmt::format(FMT_STRING("Stopped input device {}."), dev->getName().toStdString()));
+         rsj::Log(
+             fmt::format(FMT_STRING("Stopped input device {}."), dev->getName().toStdString()));
       }
       input_devices_.clear();
       rsj::Log("Cleared input devices.");
@@ -88,13 +89,13 @@ void MidiReceiver::TryToOpen()
          if (auto open_device {juce::MidiInput::openDevice(device.identifier, this)}) {
             if (devices_.EnabledOrNew(open_device->getDeviceInfo(), "input")) {
                open_device->start();
-               rsj::Log(
-                   fmt::format(FMT_STRING("Opened input device {}."), open_device->getName().toStdString()));
+               rsj::Log(fmt::format(
+                   FMT_STRING("Opened input device {}."), open_device->getName().toStdString()));
                input_devices_.push_back(std::move(open_device));
             }
             else {
-               rsj::Log(
-                   fmt::format(FMT_STRING("Ignored input device {}."), open_device->getName().toStdString()));
+               rsj::Log(fmt::format(
+                   FMT_STRING("Ignored input device {}."), open_device->getName().toStdString()));
             }
          }
       }
