@@ -56,10 +56,12 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
                 const auto cmd {profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))};
                 cmd.msg_id_type) {
             case rsj::MessageType::kNoteOn:
-               format_str = fmt::format(FMT_STRING("{} | Note : {}"), cmd.channel, cmd.control_number);
+               format_str =
+                   fmt::format(FMT_STRING("{} | Note : {}"), cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::kNoteOff:
-               format_str = fmt::format(FMT_STRING("{} | Note Off: {}"), cmd.channel, cmd.control_number);
+               format_str =
+                   fmt::format(FMT_STRING("{} | Note Off: {}"), cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::kCc:
                format_str = fmt::format(FMT_STRING("{} | CC: {}"), cmd.channel, cmd.control_number);
@@ -68,7 +70,8 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
                format_str = fmt::format(FMT_STRING("{} | Pitch Bend"), cmd.channel);
                break;
             case rsj::MessageType::kKeyPressure:
-               format_str = fmt::format(FMT_STRING("{} | Key Pressure: {}"), cmd.channel, cmd.control_number);
+               format_str = fmt::format(
+                   FMT_STRING("{} | Key Pressure: {}"), cmd.channel, cmd.control_number);
                break;
             case rsj::MessageType::kChanPressure:
                format_str = fmt::format(FMT_STRING("{} | Channel Pressure"), cmd.channel);

@@ -130,7 +130,7 @@ namespace {
 
     private:
       std::unique_ptr<juce::FileLogger> logger_ {juce::FileLogger::createDefaultAppLogger(
-          "MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
+          "MIDI2LR", "MIDI2LR.log", "", 32LL * 1024LL)}; //-V112
    };
 
    [[noreturn]] void OnTerminate() noexcept

@@ -79,7 +79,9 @@ void LrIpcIn::Stop()
             ec.clear();
          }
          socket_.close(ec);
-         if (ec) { rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message())); }
+         if (ec) {
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message()));
+         }
       }
 #ifdef __cpp_lib_semaphore
       read_running_.acquire();
@@ -116,11 +118,13 @@ void LrIpcIn::Connect()
                 Read();
              }
              else {
-                rsj::Log(fmt::format(FMT_STRING("LR_IPC_In did not connect. {}."), error.message()));
+                rsj::Log(
+                    fmt::format(FMT_STRING("LR_IPC_In did not connect. {}."), error.message()));
                 asio::error_code ec2;
                 socket_.close(ec2);
                 if (ec2) {
-                   rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec2.message()));
+                   rsj::Log(
+                       fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec2.message()));
                 }
              }
           });
@@ -156,7 +160,8 @@ void LrIpcIn::ProcessLine()
             return;
          }
          if (value_view.empty()) {
-            rsj::Log(fmt::format(FMT_STRING("No value attached to message. Message from plugin was \"{}\"."),
+            rsj::Log(fmt::format(
+                FMT_STRING("No value attached to message. Message from plugin was \"{}\"."),
                 rsj::ReplaceInvisibleChars(line_copy)));
          }
          else if (command == "SwitchProfile") {
@@ -177,9 +182,9 @@ void LrIpcIn::ProcessLine()
                   continue; /* skip log and alert error */
                }
             }
-            rsj::LogAndAlertError(
-                fmt::format(FMT_STRING("SendKey couldn't identify keystroke. Message from plugin was \"{}\"."),
-                    rsj::ReplaceInvisibleChars(line_copy)));
+            rsj::LogAndAlertError(fmt::format(
+                FMT_STRING("SendKey couldn't identify keystroke. Message from plugin was \"{}\"."),
+                rsj::ReplaceInvisibleChars(line_copy)));
          }
          else { /* send associated messages to MIDI OUT devices */
             const auto original_value {std::stod(std::string(value_view))};

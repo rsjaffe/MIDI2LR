@@ -244,7 +244,7 @@ class ControlsModel {
       return all_controls_.at(channel).GetCcMax(controlnumber);
    }
 
-   int GetCcMin(int channel, int controlnumber)
+   int GetCcMin(int channel, int controlnumber) const
    {
       return all_controls_.at(channel).GetCcMin(controlnumber);
    }

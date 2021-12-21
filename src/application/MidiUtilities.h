@@ -92,30 +92,28 @@ namespace rsj {
    }
 } // namespace rsj
 
-namespace fmt {
-   template<typename Char> struct formatter<rsj::MessageType, Char> {
-      template<typename ParseContext> constexpr auto parse(ParseContext& ctx)
-      { /* parsing copied from fmt's chrono.h */
-         auto it {ctx.begin()};
-         if (!it) { return ctx.end(); }
-         if (it != ctx.end() && *it == ':') { std::advance(it, 1); }
-         auto end {std::find(it, ctx.end(), '}')};
-         tm_format_.reserve(detail::to_unsigned(end - it + 1));
-         tm_format_.append(it, end);
-         tm_format_.push_back('\0');
-         return end;
-      }
+template<typename Char> struct fmt::formatter<rsj::MessageType, Char> {
+   template<typename ParseContext> constexpr auto parse(ParseContext& ctx)
+   { /* parsing copied from fmt's chrono.h */
+      auto it {ctx.begin()};
+      if (!it) { return ctx.end(); }
+      if (it != ctx.end() && *it == ':') { std::advance(it, 1); }
+      auto end {std::find(it, ctx.end(), '}')};
+      tm_format_.reserve(detail::to_unsigned(end - it + 1));
+      tm_format_.append(it, end);
+      tm_format_.push_back('\0');
+      return end;
+   }
 
-      template<typename FormatContext> auto format(const rsj::MessageType& p, FormatContext& ctx)
-      {
-         if (tm_format_[0] == 'n') { return format_to(ctx.out(), "{}", rsj::MessageTypeToName(p)); }
-         return format_to(ctx.out(), "{}", rsj::MessageTypeToLabel(p));
-      }
+   template<typename FormatContext> auto format(const rsj::MessageType& p, FormatContext& ctx)
+   {
+      if (tm_format_[0] == 'n') { return format_to(ctx.out(), "{}", rsj::MessageTypeToName(p)); }
+      return format_to(ctx.out(), "{}", rsj::MessageTypeToLabel(p));
+   }
 
-    private:
-      basic_memory_buffer<Char> tm_format_;
-   };
-} // namespace fmt
+ private:
+   basic_memory_buffer<Char> tm_format_;
+}; // namespace fmt
 
 /*****************************************************************************/
 /*************MidiMessage*****************************************************/
