@@ -116,8 +116,8 @@ void SettingsComponent::Init()
 
       autohide_setting_.setBounds(kSettingsLeft, 245, kSettingsWidth - 2 * kSettingsLeft, 50);
       autohide_setting_.setRange(0., 10., 1.);
-      autohide_setting_.setValue(static_cast<double>(settings_manager_.GetAutoHideTime()),
-          juce::NotificationType::dontSendNotification);
+      autohide_setting_.setValue(
+          settings_manager_.GetAutoHideTime(), juce::NotificationType::dontSendNotification);
 
       addToLayout(&autohide_setting_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(autohide_setting_);

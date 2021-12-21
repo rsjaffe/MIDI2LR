@@ -134,11 +134,12 @@ namespace {
                if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end()) {
                   return f->second;
                }
-               return fmt::format(FMT_STRING("KLID not in keyboard_names: 0x{}."), klid_ascii.data());
+               return fmt::format(
+                   FMT_STRING("KLID not in keyboard_names: 0x{}."), klid_ascii.data());
             }
             catch (...) {
-               auto msg {
-                   fmt::format(FMT_STRING("Exception when finding KLID name. KLID: 0x{}."), klid_ascii.data())};
+               auto msg {fmt::format(
+                   FMT_STRING("Exception when finding KLID name. KLID: 0x{}."), klid_ascii.data())};
                rsj::Log(msg);
                return msg;
             }
@@ -160,16 +161,16 @@ DebugInfo::DebugInfo(std::string_view profile_directory) noexcept
    try {
       LogAndSave(fmt::format(FMT_STRING("Application: System language {}."),
           juce::SystemStats::getDisplayLanguage().toStdString()));
-      LogAndSave(
-          fmt::format(FMT_STRING("Application: CPU {}."), juce::SystemStats::getCpuModel().toStdString()));
+      LogAndSave(fmt::format(
+          FMT_STRING("Application: CPU {}."), juce::SystemStats::getCpuModel().toStdString()));
       // ReSharper disable CppUnreachableCode
       if constexpr (kNdebug) {
-         LogAndSave(
-             fmt::format(FMT_STRING("Application: Application version {}."), ProjectInfo::versionString));
+         LogAndSave(fmt::format(
+             FMT_STRING("Application: Application version {}."), ProjectInfo::versionString));
       }
       else {
-         LogAndSave(
-             fmt::format(FMT_STRING("Application: Application version {}-debug."), ProjectInfo::versionString));
+         LogAndSave(fmt::format(
+             FMT_STRING("Application: Application version {}-debug."), ProjectInfo::versionString));
       }
       // ReSharper restore CppUnreachableCode
       LogAndSave(fmt::format(FMT_STRING("Application: Application path {}."),
@@ -185,8 +186,8 @@ DebugInfo::DebugInfo(std::string_view profile_directory) noexcept
       /* MacOS defers keyboard layout information until first keystroke sent */
       LogAndSave(fmt::format(FMT_STRING("Application: Keyboard type {}."), GetKeyboardLayout()));
 #endif
-      LogAndSave(
-          fmt::format(FMT_STRING("Juce version {}."), juce::SystemStats::getJUCEVersion().toStdString()));
+      LogAndSave(fmt::format(
+          FMT_STRING("Juce version {}."), juce::SystemStats::getJUCEVersion().toStdString()));
    }
    catch (...) {
       try {

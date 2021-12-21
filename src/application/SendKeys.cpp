@@ -16,7 +16,7 @@
 #include "SendKeys.h"
 
 namespace rsj {
-   ActiveModifiers ActiveModifiers::FromWindows(const int from) noexcept
+   constexpr ActiveModifiers ActiveModifiers::FromWindows(const int from) noexcept
    {
       /* shift coded as follows: 1: shift, 2: ctrl, 4: alt, 8: hankaku */
       ActiveModifiers am {};
@@ -27,7 +27,7 @@ namespace rsj {
       return am;
    }
 
-   ActiveModifiers ActiveModifiers::FromMidi2LR(const int from) noexcept
+   constexpr ActiveModifiers ActiveModifiers::FromMidi2LR(const int from) noexcept
    {
       ActiveModifiers am {};
       am.alt_opt = from & 1;
