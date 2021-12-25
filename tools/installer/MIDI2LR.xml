@@ -91,6 +91,9 @@
                             <origin>../../src/plugin/LocalPresets.lua</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>../../src/plugin/LogSave.lua</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>../../src/plugin/Mask.lua</origin>
                         </distributionFile>
                         <distributionFile>

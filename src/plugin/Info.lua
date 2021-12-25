@@ -90,6 +90,10 @@ return {
       title = LOC("$$$/AgWPG/Dialogs/About/Title=About"),
       file = "About.lua",
     },
+    {
+      title = LOC("$$$/AgPreferences/Sync/GenerateFullDiagnosticLog=Generate diagnostic report"),
+      file = "LogSave.lua",
+    },
   },
   VERSION = { major=5, minor=2, revision=0, build=0}
 }
