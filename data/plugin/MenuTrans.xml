@@ -615,221 +615,297 @@
         <first>Quick develop</first>
         <second size="dynamic">
             <value0>
-              <first>QuickDevExpLarge</first>
-              <second>Quick develop Increase exposure 1 stop</second>
+              <first>QuickDevTempLarge</first>
+              <second>Quick develop Increase Temperature: 20</second>
             </value0>
             <value1>
-              <first>QuickDevExpLargeDec</first>
-              <second>Quick develop Decrease exposure 1 stop</second>
+              <first>QuickDevTempLargeDec</first>
+              <second>Quick develop Decrease Temperature: -20</second>
             </value1>
             <value2>
-              <first>QuickDevExpSmall</first>
-              <second>Quick develop Increase exposure 1/3 stop</second>
+              <first>QuickDevTempSmall</first>
+              <second>Quick develop Increase Temperature: 5</second>
             </value2>
             <value3>
-              <first>QuickDevExpSmallDec</first>
-              <second>Quick develop Decrease exposure 1/3 stop</second>
+              <first>QuickDevTempSmalDec</first>
+              <second>Quick develop Decrease Temperature: -5</second>
             </value3>
             <value4>
-              <first>QuickDevContrastLarge</first>
-              <second>Quick develop Increase contrast 20</second>
+              <first>QuickDevTempAdj</first>
+              <second>Quick develop Temperature</second>
             </value4>
             <value5>
-              <first>QuickDevContrastLargeDec</first>
-              <second>Quick develop Decrease contrast -20</second>
+              <first>QuickDevTintLarge</first>
+              <second>Quick develop Increase Tint: 20</second>
             </value5>
             <value6>
-              <first>QuickDevContrastSmall</first>
-              <second>Quick develop Increase contrast 5</second>
+              <first>QuickDevTintLargeDec</first>
+              <second>Quick develop Decrease Tint: -20</second>
             </value6>
             <value7>
-              <first>QuickDevContrastSmallDec</first>
-              <second>Quick develop Decrease contrast -5</second>
+              <first>QuickDevTintSmall</first>
+              <second>Quick develop Increase Tint: 5</second>
             </value7>
             <value8>
-              <first>QuickDevHighlightsLarge</first>
-              <second>Quick develop Increase highlights 20</second>
+              <first>QuickDevTintSmallDec</first>
+              <second>Quick develop Decrease Tint: -5</second>
             </value8>
             <value9>
-              <first>QuickDevHighlightsLargeDec</first>
-              <second>Quick develop Decrease highlights -20</second>
+              <first>QuickDevTintAdj</first>
+              <second>Quick develop Tint</second>
             </value9>
             <value10>
-              <first>QuickDevHighlightsSmall</first>
-              <second>Quick develop Increase highlights 5</second>
+              <first>QuickDevExpLarge</first>
+              <second>Quick develop Increase exposure 1 stop</second>
             </value10>
             <value11>
-              <first>QuickDevHighlightsSmallDec</first>
-              <second>Quick develop Decrease highlights -5</second>
+              <first>QuickDevExpLargeDec</first>
+              <second>Quick develop Decrease exposure 1 stop</second>
             </value11>
             <value12>
-              <first>QuickDevShadowsLarge</first>
-              <second>Quick develop Decrease shadows 20</second>
+              <first>QuickDevExpSmall</first>
+              <second>Quick develop Increase exposure 1/3 stop</second>
             </value12>
             <value13>
-              <first>QuickDevShadowsLargeDec</first>
-              <second>Quick develop Increase shadows -20</second>
+              <first>QuickDevExpSmallDec</first>
+              <second>Quick develop Decrease exposure 1/3 stop</second>
             </value13>
             <value14>
-              <first>QuickDevShadowsSmall</first>
-              <second>Quick develop Decrease shadows 5</second>
+              <first>QuickDevExpAdj</first>
+              <second>Quick develop Exposure</second>
             </value14>
             <value15>
-              <first>QuickDevShadowsSmallDec</first>
-              <second>Quick develop Increase shadows -5</second>
+              <first>QuickDevContrastLarge</first>
+              <second>Quick develop Increase contrast 20</second>
             </value15>
             <value16>
-              <first>QuickDevWhitesLarge</first>
-              <second>Quick develop Increase white clipping 20</second>
+              <first>QuickDevContrastLargeDec</first>
+              <second>Quick develop Decrease contrast -20</second>
             </value16>
             <value17>
-              <first>QuickDevWhitesLargeDec</first>
-              <second>Quick develop Decrease white clipping -20</second>
+              <first>QuickDevContrastSmall</first>
+              <second>Quick develop Increase contrast 5</second>
             </value17>
             <value18>
-              <first>QuickDevWhitesSmall</first>
-              <second>Quick develop Increase white clipping 5</second>
+              <first>QuickDevContrastSmallDec</first>
+              <second>Quick develop Decrease contrast -5</second>
             </value18>
             <value19>
-              <first>QuickDevWhitesSmallDec</first>
-              <second>Quick develop Decrease white clipping -5</second>
+              <first>QuickDevContrastAdj</first>
+              <second>Quick develop Contrast</second>
             </value19>
             <value20>
-              <first>QuickDevBlacksLarge</first>
-              <second>Quick develop Decrease black clipping 20</second>
+              <first>QuickDevHighlightsLarge</first>
+              <second>Quick develop Increase highlights 20</second>
             </value20>
             <value21>
-              <first>QuickDevBlacksLargeDec</first>
-              <second>Quick develop Increase black clipping -20</second>
+              <first>QuickDevHighlightsLargeDec</first>
+              <second>Quick develop Decrease highlights -20</second>
             </value21>
             <value22>
-              <first>QuickDevBlacksSmall</first>
-              <second>Quick develop Decrease black clipping 5</second>
+              <first>QuickDevHighlightsSmall</first>
+              <second>Quick develop Increase highlights 5</second>
             </value22>
             <value23>
-              <first>QuickDevBlacksSmallDec</first>
-              <second>Quick develop Increase black clipping -5</second>
+              <first>QuickDevHighlightsSmallDec</first>
+              <second>Quick develop Decrease highlights -5</second>
             </value23>
             <value24>
-              <first>QuickDevClarityLarge</first>
-              <second>Quick develop Increase clarity 20</second>
+              <first>QuickDevHighlightsAdj</first>
+              <second>Quick develop Highlights</second>
             </value24>
             <value25>
-              <first>QuickDevClarityLargeDec</first>
-              <second>Quick develop Decrease clarity -20</second>
+              <first>QuickDevShadowsLarge</first>
+              <second>Quick develop Decrease shadows 20</second>
             </value25>
             <value26>
-              <first>QuickDevClaritySmall</first>
-              <second>Quick develop Increase clarity 5</second>
+              <first>QuickDevShadowsLargeDec</first>
+              <second>Quick develop Increase shadows -20</second>
             </value26>
             <value27>
-              <first>QuickDevClaritySmallDec</first>
-              <second>Quick develop Decrease clarity -5</second>
+              <first>QuickDevShadowsSmall</first>
+              <second>Quick develop Decrease shadows 5</second>
             </value27>
             <value28>
-              <first>QuickDevVibranceLarge</first>
-              <second>Quick develop Increase vibrance 20</second>
+              <first>QuickDevShadowsSmallDec</first>
+              <second>Quick develop Increase shadows -5</second>
             </value28>
             <value29>
-              <first>QuickDevVibranceLargeDec</first>
-              <second>Quick develop Decrease vibrance -20</second>
+              <first>QuickDevShadowsAdj</first>
+              <second>Quick develop Shadows</second>
             </value29>
             <value30>
-              <first>QuickDevVibranceSmall</first>
-              <second>Quick develop Increase vibrance 5</second>
+              <first>QuickDevWhitesLarge</first>
+              <second>Quick develop Increase white clipping 20</second>
             </value30>
             <value31>
-              <first>QuickDevVibranceSmallDec</first>
-              <second>Quick develop Decrease vibrance -5</second>
+              <first>QuickDevWhitesLargeDec</first>
+              <second>Quick develop Decrease white clipping -20</second>
             </value31>
             <value32>
-              <first>QuickDevSatLarge</first>
-              <second>Quick develop Increase Saturation: 20</second>
+              <first>QuickDevWhitesSmall</first>
+              <second>Quick develop Increase white clipping 5</second>
             </value32>
             <value33>
-              <first>QuickDevSatLargeDec</first>
-              <second>Quick develop Decrease Saturation: -20</second>
+              <first>QuickDevWhitesSmallDec</first>
+              <second>Quick develop Decrease white clipping -5</second>
             </value33>
             <value34>
-              <first>QuickDevSatSmall</first>
-              <second>Quick develop Increase Saturation: 5</second>
+              <first>QuickDevWhitesAdj</first>
+              <second>Quick develop Whites</second>
             </value34>
             <value35>
-              <first>QuickDevSatSmallDec</first>
-              <second>Quick develop Decrease Saturation: -5</second>
+              <first>QuickDevBlacksLarge</first>
+              <second>Quick develop Decrease black clipping 20</second>
             </value35>
             <value36>
-              <first>QuickDevWBAuto</first>
-              <second>Quick develop White Balance Auto</second>
+              <first>QuickDevBlacksLargeDec</first>
+              <second>Quick develop Increase black clipping -20</second>
             </value36>
             <value37>
-              <first>QuickDevWBDaylight</first>
-              <second>Quick develop White Balance Daylight</second>
+              <first>QuickDevBlacksSmall</first>
+              <second>Quick develop Decrease black clipping 5</second>
             </value37>
             <value38>
-              <first>QuickDevWBCloudy</first>
-              <second>Quick develop White Balance Cloudy</second>
+              <first>QuickDevBlacksSmallDec</first>
+              <second>Quick develop Increase black clipping -5</second>
             </value38>
             <value39>
-              <first>QuickDevWBShade</first>
-              <second>Quick develop White Balance Shade</second>
+              <first>QuickDevBlacksAdj</first>
+              <second>Quick develop Blacks</second>
             </value39>
             <value40>
-              <first>QuickDevWBTungsten</first>
-              <second>Quick develop White Balance Tungsten</second>
+              <first>QuickDevClarityLarge</first>
+              <second>Quick develop Increase clarity 20</second>
             </value40>
             <value41>
-              <first>QuickDevWBFluorescent</first>
-              <second>Quick develop White Balance Fluorescent</second>
+              <first>QuickDevClarityLargeDec</first>
+              <second>Quick develop Decrease clarity -20</second>
             </value41>
             <value42>
-              <first>QuickDevWBFlash</first>
-              <second>Quick develop White Balance Flash</second>
+              <first>QuickDevClaritySmall</first>
+              <second>Quick develop Increase clarity 5</second>
             </value42>
             <value43>
-              <first>SetTreatmentBW</first>
-              <second>Quick develop Set treatment B&amp;W</second>
+              <first>QuickDevClaritySmallDec</first>
+              <second>Quick develop Decrease clarity -5</second>
             </value43>
             <value44>
-              <first>SetTreatmentColor</first>
-              <second>Quick develop Set treatment Color</second>
+              <first>QuickDevClarityAdj</first>
+              <second>Quick develop Clarity</second>
             </value44>
             <value45>
-              <first>QuickDevCropAspectOriginal</first>
-              <second>Quick develop Set crop ratio: Original</second>
+              <first>QuickDevVibranceLarge</first>
+              <second>Quick develop Increase vibrance 20</second>
             </value45>
             <value46>
-              <first>QuickDevCropAspectAsShot</first>
-              <second>Quick develop Set crop ratio: As shot</second>
+              <first>QuickDevVibranceLargeDec</first>
+              <second>Quick develop Decrease vibrance -20</second>
             </value46>
             <value47>
-              <first>QuickDevCropAspect1x1</first>
-              <second>Quick develop Set crop ratio: 1 x 1</second>
+              <first>QuickDevVibranceSmall</first>
+              <second>Quick develop Increase vibrance 5</second>
             </value47>
             <value48>
-              <first>QuickDevCropAspect2x3</first>
-              <second>Quick develop Set crop ratio: 2 x 3</second>
+              <first>QuickDevVibranceSmallDec</first>
+              <second>Quick develop Decrease vibrance -5</second>
             </value48>
             <value49>
-              <first>QuickDevCropAspect3x4</first>
-              <second>Quick develop Set crop ratio: 3 x 4</second>
+              <first>QuickDevVibranceAdj</first>
+              <second>Quick develop Vibrance</second>
             </value49>
             <value50>
-              <first>QuickDevCropAspect4x5</first>
-              <second>Quick develop Set crop ratio: 4 x 5</second>
+              <first>QuickDevSatLarge</first>
+              <second>Quick develop Increase Saturation: 20</second>
             </value50>
             <value51>
-              <first>QuickDevCropAspect5x7</first>
-              <second>Quick develop Set crop ratio: 5 x 7</second>
+              <first>QuickDevSatLargeDec</first>
+              <second>Quick develop Decrease Saturation: -20</second>
             </value51>
             <value52>
-              <first>QuickDevCropAspect85x11</first>
-              <second>Quick develop Set crop ratio: 8.5 x 11</second>
+              <first>QuickDevSatSmall</first>
+              <second>Quick develop Increase Saturation: 5</second>
             </value52>
             <value53>
+              <first>QuickDevSatSmallDec</first>
+              <second>Quick develop Decrease Saturation: -5</second>
+            </value53>
+            <value54>
+              <first>QuickDevSatAdj</first>
+              <second>Quick develop Saturation</second>
+            </value54>
+            <value55>
+              <first>QuickDevWBAuto</first>
+              <second>Quick develop White Balance Auto</second>
+            </value55>
+            <value56>
+              <first>QuickDevWBDaylight</first>
+              <second>Quick develop White Balance Daylight</second>
+            </value56>
+            <value57>
+              <first>QuickDevWBCloudy</first>
+              <second>Quick develop White Balance Cloudy</second>
+            </value57>
+            <value58>
+              <first>QuickDevWBShade</first>
+              <second>Quick develop White Balance Shade</second>
+            </value58>
+            <value59>
+              <first>QuickDevWBTungsten</first>
+              <second>Quick develop White Balance Tungsten</second>
+            </value59>
+            <value60>
+              <first>QuickDevWBFluorescent</first>
+              <second>Quick develop White Balance Fluorescent</second>
+            </value60>
+            <value61>
+              <first>QuickDevWBFlash</first>
+              <second>Quick develop White Balance Flash</second>
+            </value61>
+            <value62>
+              <first>SetTreatmentBW</first>
+              <second>Quick develop Set treatment B&amp;W</second>
+            </value62>
+            <value63>
+              <first>SetTreatmentColor</first>
+              <second>Quick develop Set treatment Color</second>
+            </value63>
+            <value64>
+              <first>QuickDevCropAspectOriginal</first>
+              <second>Quick develop Set crop ratio: Original</second>
+            </value64>
+            <value65>
+              <first>QuickDevCropAspectAsShot</first>
+              <second>Quick develop Set crop ratio: As shot</second>
+            </value65>
+            <value66>
+              <first>QuickDevCropAspect1x1</first>
+              <second>Quick develop Set crop ratio: 1 x 1</second>
+            </value66>
+            <value67>
+              <first>QuickDevCropAspect2x3</first>
+              <second>Quick develop Set crop ratio: 2 x 3</second>
+            </value67>
+            <value68>
+              <first>QuickDevCropAspect3x4</first>
+              <second>Quick develop Set crop ratio: 3 x 4</second>
+            </value68>
+            <value69>
+              <first>QuickDevCropAspect4x5</first>
+              <second>Quick develop Set crop ratio: 4 x 5</second>
+            </value69>
+            <value70>
+              <first>QuickDevCropAspect5x7</first>
+              <second>Quick develop Set crop ratio: 5 x 7</second>
+            </value70>
+            <value71>
+              <first>QuickDevCropAspect85x11</first>
+              <second>Quick develop Set crop ratio: 8.5 x 11</second>
+            </value71>
+            <value72>
               <first>QuickDevCropAspect9x16</first>
               <second>Quick develop Set crop ratio: 9 x 16</second>
-            </value53>
+            </value72>
         </second>
       </value7>
       <value8>
@@ -1771,93 +1847,89 @@
               <second>Lens Profile Vignetting Scale</second>
             </value6>
             <value7>
-              <first>CropConstrainToWarp</first>
-              <second>Constrain to Warp</second>
-            </value7>
-            <value8>
               <first>ResetLensProfileDistortionScale</first>
               <second>Reset Lens Profile Distortion Scale</second>
-            </value8>
-            <value9>
+            </value7>
+            <value8>
               <first>ResetLensProfileChromaticAberrationScale</first>
               <second>Reset chromatic Aberration — Scale</second>
-            </value9>
-            <value10>
+            </value8>
+            <value9>
               <first>ResetLensProfileVignettingScale</first>
               <second>Reset Lens Profile Vignetting Scale</second>
-            </value10>
-            <value11>
+            </value9>
+            <value10>
               <first>DefringePurpleAmount</first>
               <second>Defringe Purple Amount</second>
-            </value11>
-            <value12>
+            </value10>
+            <value11>
               <first>DefringePurpleHueLo</first>
               <second>Defringe Purple Hue - Low</second>
-            </value12>
-            <value13>
+            </value11>
+            <value12>
               <first>DefringePurpleHueHi</first>
               <second>Defringe Purple Hue - High</second>
-            </value13>
-            <value14>
+            </value12>
+            <value13>
               <first>DefringeGreenAmount</first>
               <second>Defringe Green Amount</second>
-            </value14>
-            <value15>
+            </value13>
+            <value14>
               <first>DefringeGreenHueLo</first>
               <second>Defringe Green Hue - Low</second>
-            </value15>
-            <value16>
+            </value14>
+            <value15>
               <first>DefringeGreenHueHi</first>
               <second>Defringe Green Hue - High</second>
-            </value16>
-            <value17>
+            </value15>
+            <value16>
               <first>ResetDefringePurpleAmount</first>
               <second>Reset Defringe Purple Amount</second>
-            </value17>
-            <value18>
+            </value16>
+            <value17>
               <first>ResetDefringePurpleHueLo</first>
               <second>Reset Defringe Purple Hue - Low</second>
-            </value18>
-            <value19>
+            </value17>
+            <value18>
               <first>ResetDefringePurpleHueHi</first>
               <second>Reset Defringe Purple Hue - High</second>
-            </value19>
-            <value20>
+            </value18>
+            <value19>
               <first>ResetDefringeGreenAmount</first>
               <second>Reset Defringe Green Amount</second>
-            </value20>
-            <value21>
+            </value19>
+            <value20>
               <first>ResetDefringeGreenHueLo</first>
               <second>Reset Defringe Green Hue - Low</second>
-            </value21>
-            <value22>
+            </value20>
+            <value21>
               <first>ResetDefringeGreenHueHi</first>
               <second>Reset Defringe Green Hue - High</second>
-            </value22>
-            <value23>
+            </value21>
+            <value22>
               <first>LensManualDistortionAmount</first>
               <second>Lens Manual Distortion Amount</second>
-            </value23>
-            <value24>
+            </value22>
+            <value23>
               <first>VignetteAmount</first>
               <second>Vignette Amount</second>
-            </value24>
-            <value25>
+            </value23>
+            <value24>
               <first>VignetteMidpoint</first>
               <second>Vignette Midpoint</second>
-            </value25>
-            <value26>
+            </value24>
+            <value25>
               <first>ResetLensManualDistortionAmount</first>
               <second>Reset Lens Manual Distortion Amount</second>
-            </value26>
-            <value27>
+            </value25>
+            <value26>
               <first>ResetVignetteAmount</first>
               <second>Reset Vignette Amount</second>
-            </value27>
-            <value28>
+            </value26>
+            <value27>
               <first>ResetVignetteMidpoint</first>
               <second>Reset Vignette Midpoint</second>
-            </value28>
+            </value27>
         </second>
       </value15>
       <value16>
@@ -1896,69 +1968,73 @@
               <second>Perspective Correction Full</second>
             </value7>
             <value8>
-              <first>ResetPerspectiveUpright</first>
-              <second>Reset Upright Settings</second>
+              <first>CropConstrainToWarp</first>
+              <second>Constrain to Warp</second>
             </value8>
             <value9>
-              <first>PerspectiveVertical</first>
-              <second>Perspective Vertical</second>
+              <first>ResetPerspectiveUpright</first>
+              <second>Reset Upright Settings</second>
             </value9>
             <value10>
-              <first>PerspectiveHorizontal</first>
-              <second>Perspective Horizontal</second>
+              <first>PerspectiveVertical</first>
+              <second>Perspective Vertical</second>
             </value10>
             <value11>
-              <first>PerspectiveRotate</first>
-              <second>Perspective Rotate</second>
+              <first>PerspectiveHorizontal</first>
+              <second>Perspective Horizontal</second>
             </value11>
             <value12>
-              <first>PerspectiveScale</first>
-              <second>Perspective Scale</second>
+              <first>PerspectiveRotate</first>
+              <second>Perspective Rotate</second>
             </value12>
             <value13>
-              <first>PerspectiveAspect</first>
-              <second>Perspective Aspect</second>
+              <first>PerspectiveScale</first>
+              <second>Perspective Scale</second>
             </value13>
             <value14>
-              <first>PerspectiveX</first>
-              <second>Perspective X</second>
+              <first>PerspectiveAspect</first>
+              <second>Perspective Aspect</second>
             </value14>
             <value15>
-              <first>PerspectiveY</first>
-              <second>Perspective Y</second>
+              <first>PerspectiveX</first>
+              <second>Perspective X</second>
             </value15>
             <value16>
-              <first>ResetTransforms</first>
-              <second>Reset all transforms</second>
+              <first>PerspectiveY</first>
+              <second>Perspective Y</second>
             </value16>
             <value17>
-              <first>ResetPerspectiveVertical</first>
-              <second>Reset Perspective Vertical</second>
+              <first>ResetTransforms</first>
+              <second>Reset all transforms</second>
             </value17>
             <value18>
-              <first>ResetPerspectiveHorizontal</first>
-              <second>Reset Perspective Horizontal</second>
+              <first>ResetPerspectiveVertical</first>
+              <second>Reset Perspective Vertical</second>
             </value18>
             <value19>
-              <first>ResetPerspectiveRotate</first>
-              <second>Reset Perspective Rotate</second>
+              <first>ResetPerspectiveHorizontal</first>
+              <second>Reset Perspective Horizontal</second>
             </value19>
             <value20>
-              <first>ResetPerspectiveScale</first>
-              <second>Reset Perspective Scale</second>
+              <first>ResetPerspectiveRotate</first>
+              <second>Reset Perspective Rotate</second>
             </value20>
             <value21>
-              <first>ResetPerspectiveAspect</first>
-              <second>Reset Perspective Aspect</second>
+              <first>ResetPerspectiveScale</first>
+              <second>Reset Perspective Scale</second>
             </value21>
             <value22>
-              <first>ResetPerspectiveX</first>
-              <second>Reset Perspective X</second>
+              <first>ResetPerspectiveAspect</first>
+              <second>Reset Perspective Aspect</second>
             </value22>
             <value23>
+              <first>ResetPerspectiveX</first>
+              <second>Reset Perspective X</second>
+            </value23>
+            <value24>
               <first>ResetPerspectiveY</first>
               <second>Reset Perspective Y</second>
-            </value23>
+            </value24>
         </second>
       </value16>
       <value17>
@@ -2135,325 +2211,337 @@
         <first>Develop Presets</first>
         <second size="dynamic">
             <value0>
-              <first>Preset_1</first>
-              <second>Develop Preset 1</second>
+              <first>PresetNext</first>
+              <second>Next preset</second>
             </value0>
             <value1>
-              <first>Preset_2</first>
-              <second>Develop Preset 2</second>
+              <first>PresetPrevious</first>
+              <second>Previous preset</second>
             </value1>
             <value2>
-              <first>Preset_3</first>
-              <second>Develop Preset 3</second>
+              <first>PresetPreviousNext</first>
+              <second>Previous preset—Next preset</second>
             </value2>
             <value3>
-              <first>Preset_4</first>
-              <second>Develop Preset 4</second>
+              <first>Preset_1</first>
+              <second>Develop Preset 1</second>
             </value3>
             <value4>
-              <first>Preset_5</first>
-              <second>Develop Preset 5</second>
+              <first>Preset_2</first>
+              <second>Develop Preset 2</second>
             </value4>
             <value5>
-              <first>Preset_6</first>
-              <second>Develop Preset 6</second>
+              <first>Preset_3</first>
+              <second>Develop Preset 3</second>
             </value5>
             <value6>
-              <first>Preset_7</first>
-              <second>Develop Preset 7</second>
+              <first>Preset_4</first>
+              <second>Develop Preset 4</second>
             </value6>
             <value7>
-              <first>Preset_8</first>
-              <second>Develop Preset 8</second>
+              <first>Preset_5</first>
+              <second>Develop Preset 5</second>
             </value7>
             <value8>
-              <first>Preset_9</first>
-              <second>Develop Preset 9</second>
+              <first>Preset_6</first>
+              <second>Develop Preset 6</second>
             </value8>
             <value9>
-              <first>Preset_10</first>
-              <second>Develop Preset 10</second>
+              <first>Preset_7</first>
+              <second>Develop Preset 7</second>
             </value9>
             <value10>
-              <first>Preset_11</first>
-              <second>Develop Preset 11</second>
+              <first>Preset_8</first>
+              <second>Develop Preset 8</second>
             </value10>
             <value11>
-              <first>Preset_12</first>
-              <second>Develop Preset 12</second>
+              <first>Preset_9</first>
+              <second>Develop Preset 9</second>
             </value11>
             <value12>
-              <first>Preset_13</first>
-              <second>Develop Preset 13</second>
+              <first>Preset_10</first>
+              <second>Develop Preset 10</second>
             </value12>
             <value13>
-              <first>Preset_14</first>
-              <second>Develop Preset 14</second>
+              <first>Preset_11</first>
+              <second>Develop Preset 11</second>
             </value13>
             <value14>
-              <first>Preset_15</first>
-              <second>Develop Preset 15</second>
+              <first>Preset_12</first>
+              <second>Develop Preset 12</second>
             </value14>
             <value15>
-              <first>Preset_16</first>
-              <second>Develop Preset 16</second>
+              <first>Preset_13</first>
+              <second>Develop Preset 13</second>
             </value15>
             <value16>
-              <first>Preset_17</first>
-              <second>Develop Preset 17</second>
+              <first>Preset_14</first>
+              <second>Develop Preset 14</second>
             </value16>
             <value17>
-              <first>Preset_18</first>
-              <second>Develop Preset 18</second>
+              <first>Preset_15</first>
+              <second>Develop Preset 15</second>
             </value17>
             <value18>
-              <first>Preset_19</first>
-              <second>Develop Preset 19</second>
+              <first>Preset_16</first>
+              <second>Develop Preset 16</second>
             </value18>
             <value19>
-              <first>Preset_20</first>
-              <second>Develop Preset 20</second>
+              <first>Preset_17</first>
+              <second>Develop Preset 17</second>
             </value19>
             <value20>
-              <first>Preset_21</first>
-              <second>Develop Preset 21</second>
+              <first>Preset_18</first>
+              <second>Develop Preset 18</second>
             </value20>
             <value21>
-              <first>Preset_22</first>
-              <second>Develop Preset 22</second>
+              <first>Preset_19</first>
+              <second>Develop Preset 19</second>
             </value21>
             <value22>
-              <first>Preset_23</first>
-              <second>Develop Preset 23</second>
+              <first>Preset_20</first>
+              <second>Develop Preset 20</second>
             </value22>
             <value23>
-              <first>Preset_24</first>
-              <second>Develop Preset 24</second>
+              <first>Preset_21</first>
+              <second>Develop Preset 21</second>
             </value23>
             <value24>
-              <first>Preset_25</first>
-              <second>Develop Preset 25</second>
+              <first>Preset_22</first>
+              <second>Develop Preset 22</second>
             </value24>
             <value25>
-              <first>Preset_26</first>
-              <second>Develop Preset 26</second>
+              <first>Preset_23</first>
+              <second>Develop Preset 23</second>
             </value25>
             <value26>
-              <first>Preset_27</first>
-              <second>Develop Preset 27</second>
+              <first>Preset_24</first>
+              <second>Develop Preset 24</second>
             </value26>
             <value27>
-              <first>Preset_28</first>
-              <second>Develop Preset 28</second>
+              <first>Preset_25</first>
+              <second>Develop Preset 25</second>
             </value27>
             <value28>
-              <first>Preset_29</first>
-              <second>Develop Preset 29</second>
+              <first>Preset_26</first>
+              <second>Develop Preset 26</second>
             </value28>
             <value29>
-              <first>Preset_30</first>
-              <second>Develop Preset 30</second>
+              <first>Preset_27</first>
+              <second>Develop Preset 27</second>
             </value29>
             <value30>
-              <first>Preset_31</first>
-              <second>Develop Preset 31</second>
+              <first>Preset_28</first>
+              <second>Develop Preset 28</second>
             </value30>
             <value31>
-              <first>Preset_32</first>
-              <second>Develop Preset 32</second>
+              <first>Preset_29</first>
+              <second>Develop Preset 29</second>
             </value31>
             <value32>
-              <first>Preset_33</first>
-              <second>Develop Preset 33</second>
+              <first>Preset_30</first>
+              <second>Develop Preset 30</second>
             </value32>
             <value33>
-              <first>Preset_34</first>
-              <second>Develop Preset 34</second>
+              <first>Preset_31</first>
+              <second>Develop Preset 31</second>
             </value33>
             <value34>
-              <first>Preset_35</first>
-              <second>Develop Preset 35</second>
+              <first>Preset_32</first>
+              <second>Develop Preset 32</second>
             </value34>
             <value35>
-              <first>Preset_36</first>
-              <second>Develop Preset 36</second>
+              <first>Preset_33</first>
+              <second>Develop Preset 33</second>
             </value35>
             <value36>
-              <first>Preset_37</first>
-              <second>Develop Preset 37</second>
+              <first>Preset_34</first>
+              <second>Develop Preset 34</second>
             </value36>
             <value37>
-              <first>Preset_38</first>
-              <second>Develop Preset 38</second>
+              <first>Preset_35</first>
+              <second>Develop Preset 35</second>
             </value37>
             <value38>
-              <first>Preset_39</first>
-              <second>Develop Preset 39</second>
+              <first>Preset_36</first>
+              <second>Develop Preset 36</second>
             </value38>
             <value39>
-              <first>Preset_40</first>
-              <second>Develop Preset 40</second>
+              <first>Preset_37</first>
+              <second>Develop Preset 37</second>
             </value39>
             <value40>
-              <first>Preset_41</first>
-              <second>Develop Preset 41</second>
+              <first>Preset_38</first>
+              <second>Develop Preset 38</second>
             </value40>
             <value41>
-              <first>Preset_42</first>
-              <second>Develop Preset 42</second>
+              <first>Preset_39</first>
+              <second>Develop Preset 39</second>
             </value41>
             <value42>
-              <first>Preset_43</first>
-              <second>Develop Preset 43</second>
+              <first>Preset_40</first>
+              <second>Develop Preset 40</second>
             </value42>
             <value43>
-              <first>Preset_44</first>
-              <second>Develop Preset 44</second>
+              <first>Preset_41</first>
+              <second>Develop Preset 41</second>
             </value43>
             <value44>
-              <first>Preset_45</first>
-              <second>Develop Preset 45</second>
+              <first>Preset_42</first>
+              <second>Develop Preset 42</second>
             </value44>
             <value45>
-              <first>Preset_46</first>
-              <second>Develop Preset 46</second>
+              <first>Preset_43</first>
+              <second>Develop Preset 43</second>
             </value45>
             <value46>
-              <first>Preset_47</first>
-              <second>Develop Preset 47</second>
+              <first>Preset_44</first>
+              <second>Develop Preset 44</second>
             </value46>
             <value47>
-              <first>Preset_48</first>
-              <second>Develop Preset 48</second>
+              <first>Preset_45</first>
+              <second>Develop Preset 45</second>
             </value47>
             <value48>
-              <first>Preset_49</first>
-              <second>Develop Preset 49</second>
+              <first>Preset_46</first>
+              <second>Develop Preset 46</second>
             </value48>
             <value49>
-              <first>Preset_50</first>
-              <second>Develop Preset 50</second>
+              <first>Preset_47</first>
+              <second>Develop Preset 47</second>
             </value49>
             <value50>
-              <first>Preset_51</first>
-              <second>Develop Preset 51</second>
+              <first>Preset_48</first>
+              <second>Develop Preset 48</second>
             </value50>
             <value51>
-              <first>Preset_52</first>
-              <second>Develop Preset 52</second>
+              <first>Preset_49</first>
+              <second>Develop Preset 49</second>
             </value51>
             <value52>
-              <first>Preset_53</first>
-              <second>Develop Preset 53</second>
+              <first>Preset_50</first>
+              <second>Develop Preset 50</second>
             </value52>
             <value53>
-              <first>Preset_54</first>
-              <second>Develop Preset 54</second>
+              <first>Preset_51</first>
+              <second>Develop Preset 51</second>
             </value53>
             <value54>
-              <first>Preset_55</first>
-              <second>Develop Preset 55</second>
+              <first>Preset_52</first>
+              <second>Develop Preset 52</second>
             </value54>
             <value55>
-              <first>Preset_56</first>
-              <second>Develop Preset 56</second>
+              <first>Preset_53</first>
+              <second>Develop Preset 53</second>
             </value55>
             <value56>
-              <first>Preset_57</first>
-              <second>Develop Preset 57</second>
+              <first>Preset_54</first>
+              <second>Develop Preset 54</second>
             </value56>
             <value57>
-              <first>Preset_58</first>
-              <second>Develop Preset 58</second>
+              <first>Preset_55</first>
+              <second>Develop Preset 55</second>
             </value57>
             <value58>
-              <first>Preset_59</first>
-              <second>Develop Preset 59</second>
+              <first>Preset_56</first>
+              <second>Develop Preset 56</second>
             </value58>
             <value59>
-              <first>Preset_60</first>
-              <second>Develop Preset 60</second>
+              <first>Preset_57</first>
+              <second>Develop Preset 57</second>
             </value59>
             <value60>
-              <first>Preset_61</first>
-              <second>Develop Preset 61</second>
+              <first>Preset_58</first>
+              <second>Develop Preset 58</second>
             </value60>
             <value61>
-              <first>Preset_62</first>
-              <second>Develop Preset 62</second>
+              <first>Preset_59</first>
+              <second>Develop Preset 59</second>
             </value61>
             <value62>
-              <first>Preset_63</first>
-              <second>Develop Preset 63</second>
+              <first>Preset_60</first>
+              <second>Develop Preset 60</second>
             </value62>
             <value63>
-              <first>Preset_64</first>
-              <second>Develop Preset 64</second>
+              <first>Preset_61</first>
+              <second>Develop Preset 61</second>
             </value63>
             <value64>
-              <first>Preset_65</first>
-              <second>Develop Preset 65</second>
+              <first>Preset_62</first>
+              <second>Develop Preset 62</second>
             </value64>
             <value65>
-              <first>Preset_66</first>
-              <second>Develop Preset 66</second>
+              <first>Preset_63</first>
+              <second>Develop Preset 63</second>
             </value65>
             <value66>
-              <first>Preset_67</first>
-              <second>Develop Preset 67</second>
+              <first>Preset_64</first>
+              <second>Develop Preset 64</second>
             </value66>
             <value67>
-              <first>Preset_68</first>
-              <second>Develop Preset 68</second>
+              <first>Preset_65</first>
+              <second>Develop Preset 65</second>
             </value67>
             <value68>
-              <first>Preset_69</first>
-              <second>Develop Preset 69</second>
+              <first>Preset_66</first>
+              <second>Develop Preset 66</second>
             </value68>
             <value69>
-              <first>Preset_70</first>
-              <second>Develop Preset 70</second>
+              <first>Preset_67</first>
+              <second>Develop Preset 67</second>
             </value69>
             <value70>
-              <first>Preset_71</first>
-              <second>Develop Preset 71</second>
+              <first>Preset_68</first>
+              <second>Develop Preset 68</second>
             </value70>
             <value71>
-              <first>Preset_72</first>
-              <second>Develop Preset 72</second>
+              <first>Preset_69</first>
+              <second>Develop Preset 69</second>
             </value71>
             <value72>
-              <first>Preset_73</first>
-              <second>Develop Preset 73</second>
+              <first>Preset_70</first>
+              <second>Develop Preset 70</second>
             </value72>
             <value73>
-              <first>Preset_74</first>
-              <second>Develop Preset 74</second>
+              <first>Preset_71</first>
+              <second>Develop Preset 71</second>
             </value73>
             <value74>
-              <first>Preset_75</first>
-              <second>Develop Preset 75</second>
+              <first>Preset_72</first>
+              <second>Develop Preset 72</second>
             </value74>
             <value75>
-              <first>Preset_76</first>
-              <second>Develop Preset 76</second>
+              <first>Preset_73</first>
+              <second>Develop Preset 73</second>
             </value75>
             <value76>
-              <first>Preset_77</first>
-              <second>Develop Preset 77</second>
+              <first>Preset_74</first>
+              <second>Develop Preset 74</second>
             </value76>
             <value77>
-              <first>Preset_78</first>
-              <second>Develop Preset 78</second>
+              <first>Preset_75</first>
+              <second>Develop Preset 75</second>
             </value77>
             <value78>
-              <first>Preset_79</first>
-              <second>Develop Preset 79</second>
+              <first>Preset_76</first>
+              <second>Develop Preset 76</second>
             </value78>
             <value79>
+              <first>Preset_77</first>
+              <second>Develop Preset 77</second>
+            </value79>
+            <value80>
+              <first>Preset_78</first>
+              <second>Develop Preset 78</second>
+            </value80>
+            <value81>
+              <first>Preset_79</first>
+              <second>Develop Preset 79</second>
+            </value81>
+            <value82>
               <first>Preset_80</first>
               <second>Develop Preset 80</second>
-            </value79>
+            </value82>
         </second>
       </value19>
       <value20>
@@ -3829,24 +3917,6 @@
     </all_commands>
     <repeats size="dynamic">
       <value0>
-        <key>Key2Key1</key>
-        <value>
-          <first xml:space="preserve">Key2 1
-</first>
-          <second xml:space="preserve">Key1 1
-</second>
-        </value>
-      </value0>
-      <value1>
-        <key>ZoomInOut</key>
-        <value>
-          <first xml:space="preserve">ZoomInSmallStep 1
-</first>
-          <second xml:space="preserve">ZoomOutSmallStep 1
-</second>
-        </value>
-      </value1>
-      <value2>
         <key>Key28Key27</key>
         <value>
           <first xml:space="preserve">Key28 1
@@ -3854,17 +3924,8 @@
           <second xml:space="preserve">Key27 1
 </second>
         </value>
-      </value2>
-      <value3>
-        <key>ChangeFeatherSize</key>
-        <value>
-          <first xml:space="preserve">BrushFeatherLarger 1
-</first>
-          <second xml:space="preserve">BrushFeatherSmaller 1
-</second>
-        </value>
-      </value3>
-      <value4>
+      </value0>
+      <value1>
         <key>Key12Key11</key>
         <value>
           <first xml:space="preserve">Key12 1
@@ -3872,53 +3933,17 @@
           <second xml:space="preserve">Key11 1
 </second>
         </value>
-      </value4>
-      <value5>
-        <key>ChangeBrushSize</key>
+      </value1>
+      <value2>
+        <key>QuickDevExpAdj</key>
         <value>
-          <first xml:space="preserve">BrushSizeLarger 1
+          <first xml:space="preserve">QuickDevExpSmall 1
 </first>
-          <second xml:space="preserve">BrushSizeSmaller 1
+          <second xml:space="preserve">QuickDevExpSmallDec 1
 </second>
         </value>
-      </value5>
-      <value6>
-        <key>Key24Key23</key>
-        <value>
-          <first xml:space="preserve">Key24 1
-</first>
-          <second xml:space="preserve">Key23 1
-</second>
-        </value>
-      </value6>
-      <value7>
-        <key>RedoUndo</key>
-        <value>
-          <first xml:space="preserve">Redo 1
-</first>
-          <second xml:space="preserve">Undo 1
-</second>
-        </value>
-      </value7>
-      <value8>
-        <key>Key26Key25</key>
-        <value>
-          <first xml:space="preserve">Key26 1
-</first>
-          <second xml:space="preserve">Key25 1
-</second>
-        </value>
-      </value8>
-      <value9>
-        <key>ChangeCurrentSlider</key>
-        <value>
-          <first xml:space="preserve">SliderIncrease 1
-</first>
-          <second xml:space="preserve">SliderDecrease 1
-</second>
-        </value>
-      </value9>
-      <value10>
+      </value2>
+      <value3>
         <key>Key14Key13</key>
         <value>
           <first xml:space="preserve">Key14 1
@@ -3926,17 +3951,8 @@
           <second xml:space="preserve">Key13 1
 </second>
         </value>
-      </value10>
-      <value11>
-        <key>Key32Key31</key>
-        <value>
-          <first xml:space="preserve">Key32 1
-</first>
-          <second xml:space="preserve">Key31 1
-</second>
-        </value>
-      </value11>
-      <value12>
+      </value3>
+      <value4>
         <key>ZoomOutIn</key>
         <value>
           <first xml:space="preserve">ZoomOutSmallStep 1
@@ -3944,17 +3960,8 @@
           <second xml:space="preserve">ZoomInSmallStep 1
 </second>
         </value>
-      </value12>
-      <value13>
-        <key>IncreaseDecreaseRating</key>
-        <value>
-          <first xml:space="preserve">IncreaseRating 1
-</first>
-          <second xml:space="preserve">DecreaseRating 1
-</second>
-        </value>
-      </value13>
-      <value14>
+      </value4>
+      <value5>
         <key>Key40Key39</key>
         <value>
           <first xml:space="preserve">Key40 1
@@ -3962,26 +3969,8 @@
           <second xml:space="preserve">Key39 1
 </second>
         </value>
-      </value14>
-      <value15>
-        <key>Key6Key5</key>
-        <value>
-          <first xml:space="preserve">Key6 1
-</first>
-          <second xml:space="preserve">Key5 1
-</second>
-        </value>
-      </value15>
-      <value16>
-        <key>Key38Key37</key>
-        <value>
-          <first xml:space="preserve">Key38 1
-</first>
-          <second xml:space="preserve">Key37 1
-</second>
-        </value>
-      </value16>
-      <value17>
+      </value5>
+      <value6>
         <key>SelectRightLeft</key>
         <value>
           <first xml:space="preserve">Select1Right 1
@@ -3989,26 +3978,17 @@
           <second xml:space="preserve">Select1Left 1
 </second>
         </value>
-      </value17>
-      <value18>
-        <key>Key10Key9</key>
+      </value6>
+      <value7>
+        <key>QuickDevShadowsAdj</key>
         <value>
-          <first xml:space="preserve">Key10 1
+          <first xml:space="preserve">QuickDevShadowsSmall 1
 </first>
-          <second xml:space="preserve">Key9 1
+          <second xml:space="preserve">QuickDevShadowsSmallDec 1
 </second>
         </value>
-      </value18>
-      <value19>
-        <key>Key34Key33</key>
-        <value>
-          <first xml:space="preserve">Key34 1
-</first>
-          <second xml:space="preserve">Key33 1
-</second>
-        </value>
-      </value19>
-      <value20>
+      </value7>
+      <value8>
         <key>NextPrev</key>
         <value>
           <first xml:space="preserve">Next 1
@@ -4016,26 +3996,17 @@
           <second xml:space="preserve">Prev 1
 </second>
         </value>
-      </value20>
-      <value21>
-        <key>Key16Key15</key>
+      </value8>
+      <value9>
+        <key>QuickDevHighlightsAdj</key>
         <value>
-          <first xml:space="preserve">Key16 1
+          <first xml:space="preserve">QuickDevHighlightsSmall 1
 </first>
-          <second xml:space="preserve">Key15 1
+          <second xml:space="preserve">QuickDevHighlightsSmallDec 1
 </second>
         </value>
-      </value21>
-      <value22>
-        <key>Key36Key35</key>
-        <value>
-          <first xml:space="preserve">Key36 1
-</first>
-          <second xml:space="preserve">Key35 1
-</second>
-        </value>
-      </value22>
-      <value23>
+      </value9>
+      <value10>
         <key>Key18Key17</key>
         <value>
           <first xml:space="preserve">Key18 1
@@ -4043,26 +4014,17 @@
           <second xml:space="preserve">Key17 1
 </second>
         </value>
-      </value23>
-      <value24>
-        <key>ChangeLastDevelopParameter</key>
+      </value10>
+      <value11>
+        <key>QuickDevClarityAdj</key>
         <value>
-          <first xml:space="preserve">IncrementLastDevelopParameter 1
+          <first xml:space="preserve">QuickDevClaritySmall 1
 </first>
-          <second xml:space="preserve">DecrementLastDevelopParameter 1
+          <second xml:space="preserve">QuickDevClaritySmallDec 1
 </second>
         </value>
-      </value24>
-      <value25>
-        <key>Key30Key29</key>
-        <value>
-          <first xml:space="preserve">Key30 1
-</first>
-          <second xml:space="preserve">Key29 1
-</second>
-        </value>
-      </value25>
-      <value26>
+      </value11>
+      <value12>
         <key>Key22Key21</key>
         <value>
           <first xml:space="preserve">Key22 1
@@ -4070,26 +4032,8 @@
           <second xml:space="preserve">Key21 1
 </second>
         </value>
-      </value26>
-      <value27>
-        <key>Key8Key7</key>
-        <value>
-          <first xml:space="preserve">Key8 1
-</first>
-          <second xml:space="preserve">Key7 1
-</second>
-        </value>
-      </value27>
-      <value28>
-        <key>Key20Key19</key>
-        <value>
-          <first xml:space="preserve">Key20 1
-</first>
-          <second xml:space="preserve">Key19 1
-</second>
-        </value>
-      </value28>
-      <value29>
+      </value12>
+      <value13>
         <key>Key4Key3</key>
         <value>
           <first xml:space="preserve">Key4 1
@@ -4097,10 +4041,262 @@
           <second xml:space="preserve">Key3 1
 </second>
         </value>
+      </value13>
+      <value14>
+        <key>Key32Key31</key>
+        <value>
+          <first xml:space="preserve">Key32 1
+</first>
+          <second xml:space="preserve">Key31 1
+</second>
+        </value>
+      </value14>
+      <value15>
+        <key>ZoomInOut</key>
+        <value>
+          <first xml:space="preserve">ZoomInSmallStep 1
+</first>
+          <second xml:space="preserve">ZoomOutSmallStep 1
+</second>
+        </value>
+      </value15>
+      <value16>
+        <key>Key20Key19</key>
+        <value>
+          <first xml:space="preserve">Key20 1
+</first>
+          <second xml:space="preserve">Key19 1
+</second>
+        </value>
+      </value16>
+      <value17>
+        <key>ChangeFeatherSize</key>
+        <value>
+          <first xml:space="preserve">BrushFeatherLarger 1
+</first>
+          <second xml:space="preserve">BrushFeatherSmaller 1
+</second>
+        </value>
+      </value17>
+      <value18>
+        <key>Key24Key23</key>
+        <value>
+          <first xml:space="preserve">Key24 1
+</first>
+          <second xml:space="preserve">Key23 1
+</second>
+        </value>
+      </value18>
+      <value19>
+        <key>QuickDevTintAdj</key>
+        <value>
+          <first xml:space="preserve">QuickDevTintSmall 1
+</first>
+          <second xml:space="preserve">QuickDevTintSmallDec 1
+</second>
+        </value>
+      </value19>
+      <value20>
+        <key>Key26Key25</key>
+        <value>
+          <first xml:space="preserve">Key26 1
+</first>
+          <second xml:space="preserve">Key25 1
+</second>
+        </value>
+      </value20>
+      <value21>
+        <key>PresetPreviousNext</key>
+        <value>
+          <first xml:space="preserve">PresetNext 1
+</first>
+          <second xml:space="preserve">PresetPrevious 1
+</second>
+        </value>
+      </value21>
+      <value22>
+        <key>RedoUndo</key>
+        <value>
+          <first xml:space="preserve">Redo 1
+</first>
+          <second xml:space="preserve">Undo 1
+</second>
+        </value>
+      </value22>
+      <value23>
+        <key>ChangeCurrentSlider</key>
+        <value>
+          <first xml:space="preserve">SliderIncrease 1
+</first>
+          <second xml:space="preserve">SliderDecrease 1
+</second>
+        </value>
+      </value23>
+      <value24>
+        <key>QuickDevWhitesAdj</key>
+        <value>
+          <first xml:space="preserve">QuickDevWhitesSmall 1
+</first>
+          <second xml:space="preserve">QuickDevWhitesSmallDec 1
+</second>
+        </value>
+      </value24>
+      <value25>
+        <key>IncreaseDecreaseRating</key>
+        <value>
+          <first xml:space="preserve">IncreaseRating 1
+</first>
+          <second xml:space="preserve">DecreaseRating 1
+</second>
+        </value>
+      </value25>
+      <value26>
+        <key>ChangeLastDevelopParameter</key>
+        <value>
+          <first xml:space="preserve">IncrementLastDevelopParameter 1
+</first>
+          <second xml:space="preserve">DecrementLastDevelopParameter 1
+</second>
+        </value>
+      </value26>
+      <value27>
+        <key>Key6Key5</key>
+        <value>
+          <first xml:space="preserve">Key6 1
+</first>
+          <second xml:space="preserve">Key5 1
+</second>
+        </value>
+      </value27>
+      <value28>
+        <key>QuickDevSatAdj</key>
+        <value>
+          <first xml:space="preserve">QuickDevSatSmall 1
+</first>
+          <second xml:space="preserve">QuickDevSatSmallDec 1
+</second>
+        </value>
+      </value28>
+      <value29>
+        <key>QuickDevVibranceAdj</key>
+        <value>
+          <first xml:space="preserve">QuickDevVibranceSmall 1
+</first>
+          <second xml:space="preserve">QuickDevVibranceSmallDec 1
+</second>
+        </value>
       </value29>
+      <value30>
+        <key>Key10Key9</key>
+        <value>
+          <first xml:space="preserve">Key10 1
+</first>
+          <second xml:space="preserve">Key9 1
+</second>
+        </value>
+      </value30>
+      <value31>
+        <key>Key34Key33</key>
+        <value>
+          <first xml:space="preserve">Key34 1
+</first>
+          <second xml:space="preserve">Key33 1
+</second>
+        </value>
+      </value31>
+      <value32>
+        <key>QuickDevContrastAdj</key>
+        <value>
+          <first xml:space="preserve">QuickDevContrastSmall 1
+</first>
+          <second xml:space="preserve">QuickDevContrastSmallDec 1
+</second>
+        </value>
+      </value32>
+      <value33>
+        <key>Key16Key15</key>
+        <value>
+          <first xml:space="preserve">Key16 1
+</first>
+          <second xml:space="preserve">Key15 1
+</second>
+        </value>
+      </value33>
+      <value34>
+        <key>Key2Key1</key>
+        <value>
+          <first xml:space="preserve">Key2 1
+</first>
+          <second xml:space="preserve">Key1 1
+</second>
+        </value>
+      </value34>
+      <value35>
+        <key>Key38Key37</key>
+        <value>
+          <first xml:space="preserve">Key38 1
+</first>
+          <second xml:space="preserve">Key37 1
+</second>
+        </value>
+      </value35>
+      <value36>
+        <key>QuickDevBlacksAdj</key>
+        <value>
+          <first xml:space="preserve">QuickDevBlacksSmall 1
+</first>
+          <second xml:space="preserve">QuickDevBlacksSmallDec 1
+</second>
+        </value>
+      </value36>
+      <value37>
+        <key>Key30Key29</key>
+        <value>
+          <first xml:space="preserve">Key30 1
+</first>
+          <second xml:space="preserve">Key29 1
+</second>
+        </value>
+      </value37>
+      <value38>
+        <key>ChangeBrushSize</key>
+        <value>
+          <first xml:space="preserve">BrushSizeLarger 1
+</first>
+          <second xml:space="preserve">BrushSizeSmaller 1
+</second>
+        </value>
+      </value38>
+      <value39>
+        <key>Key8Key7</key>
+        <value>
+          <first xml:space="preserve">Key8 1
+</first>
+          <second xml:space="preserve">Key7 1
+</second>
+        </value>
+      </value39>
+      <value40>
+        <key>QuickDevTempAdj</key>
+        <value>
+          <first xml:space="preserve">QuickDevTempSmall 1
+</first>
+          <second xml:space="preserve">QuickDevTempSmalDec 1
+</second>
+        </value>
+      </value40>
+      <value41>
+        <key>Key36Key35</key>
+        <value>
+          <first xml:space="preserve">Key36 1
+</first>
+          <second xml:space="preserve">Key35 1
+</second>
+        </value>
+      </value41>
     </repeats>
     <wraps size="dynamic">
-         <value0>ColorGradeGlobalHue</value0>
+      <value0>ColorGradeGlobalHue</value0>
       <value1>SplitToningHighlightHue</value1>
       <value2>ColorGradeMidtoneHue</value2>
       <value3>SplitToningShadowHue</value3>
