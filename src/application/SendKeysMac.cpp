@@ -266,7 +266,7 @@ namespace {
        {"numpad multiply", kVK_ANSI_KeypadMultiply}, {"numpad divide", kVK_ANSI_KeypadDivide},
        {"numpad decimal", kVK_ANSI_KeypadDecimal}};
 
-   const std::unordered_map<std::string, unsigned char> kNonASCIIKeyMap {{"-", kVK_ANSI_Minus},
+   const std::unordered_map<std::string, unsigned char> kANSIKeyMap {{"-", kVK_ANSI_Minus},
        {",", kVK_ANSI_Comma}, {".", kVK_ANSI_Period}, {"/", kVK_ANSI_Slash},
        {";", kVK_ANSI_Semicolon}, {"[", kVK_ANSI_LeftBracket}, {"'", kVK_ANSI_Quote},
        {"\\", kVK_ANSI_Backslash}, {"]", kVK_ANSI_RightBracket}, {"`", kVK_ANSI_Grave},
@@ -281,8 +281,8 @@ namespace {
        {"v", kVK_ANSI_V}, {"w", kVK_ANSI_W}, {"x", kVK_ANSI_X}, {"y", kVK_ANSI_Y},
        {"z", kVK_ANSI_Z}};
 
-   const std::unordered_map<std::string, unsigned char> kNonASCIIKeyMapShifted {
-       {"_", kVK_ANSI_Minus}, {"<", kVK_ANSI_Comma}, {">", kVK_ANSI_Period}, {"?", kVK_ANSI_Slash},
+   const std::unordered_map<std::string, unsigned char> kANSIKeyMapShifted {{"_", kVK_ANSI_Minus},
+       {"<", kVK_ANSI_Comma}, {">", kVK_ANSI_Period}, {"?", kVK_ANSI_Slash},
        {":", kVK_ANSI_Semicolon}, {"{", kVK_ANSI_LeftBracket}, {"\"", kVK_ANSI_Quote},
        {"|", kVK_ANSI_Backslash}, {"}", kVK_ANSI_RightBracket}, {"~", kVK_ANSI_Grave},
        {"+", kVK_ANSI_Equal}, {")", kVK_ANSI_0}, {"!", kVK_ANSI_1}, {"@", kVK_ANSI_2},
@@ -314,12 +314,12 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods
             if (k_data.option) { flags |= kCGEventFlagMaskAlternate; }
          }
          else {
-            if (const auto mapped_key {kNonASCIIKeyMap.find(rsj::ToLower(key))};
-                mapped_key != kNonASCIIKeyMap.end()) {
-               vk = mapped_key->second;
+            if (const auto mapped_unshifted_key {kANSIKeyMap.find(rsj::ToLower(key))};
+                mapped_unshifted_key != kANSIKeyMap.end()) {
+               vk = mapped_unshifted_key->second;
             }
-            else if (const auto mapped_shifted_key {kNonASCIIKeyMapShifted.find(key)};
-                     mapped_shifted_key != kNonASCIIKeyMapShifted.end()) {
+            else if (const auto mapped_shifted_key {kANSIKeyMapShifted.find(key)};
+                     mapped_shifted_key != kANSIKeyMapShifted.end()) {
                vk = mapped_shifted_key->second;
                flags |= kCGEventFlagMaskShift;
             }
