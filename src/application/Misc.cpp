@@ -130,8 +130,10 @@ void rsj::Log(const juce::String& info, const std::source_location& location) no
 {
    try {
       if (juce::Logger::getCurrentLogger()) {
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ":"
-                                  + location.file_name() + ":" + location.line() + " " + info);
+         juce::String localname {location.file_name()};
+         localname = localname.substring(localname.lastIndexOfChar('\\') + 1);
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ' ' + localname
+                                  + '(' + juce::String(location.line()) + ") " + info);
       }
    }
    catch (...) { //-V565 //-V5002
@@ -142,8 +144,10 @@ void rsj::Log(gsl::czstring<> info, const std::source_location& location) noexce
 {
    try {
       if (juce::Logger::getCurrentLogger()) {
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ":"
-                                  + location.file_name() + ":" + location.line() + " "
+         juce::String localname {location.file_name()};
+         localname = localname.substring(localname.lastIndexOfChar('\\') + 1);
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ' ' + localname
+                                  + '(' + juce::String(location.line()) + ") "
                                   + juce::String::fromUTF8(info));
       }
    }
@@ -155,8 +159,10 @@ void rsj::Log(gsl::cwzstring<> info, const std::source_location& location) noexc
 {
    try {
       if (juce::Logger::getCurrentLogger()) {
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ":"
-                                  + location.file_name() + ":" + location.line() + " " + info);
+         juce::String localname {location.file_name()};
+         localname = localname.substring(localname.lastIndexOfChar('\\') + 1);
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ' ' + localname
+                                  + '(' + juce::String(location.line()) + ") " + info);
       }
    }
    catch (...) { //-V565 //-V5002
@@ -225,7 +231,7 @@ void rsj::Log(const juce::String& info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger()) {
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": " + info);
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + " " + info);
       }
    }
    catch (...) { //-V565
@@ -237,7 +243,7 @@ void rsj::Log(gsl::czstring<> info) noexcept
    try {
       if (juce::Logger::getCurrentLogger()) {
          juce::Logger::writeToLog(
-             juce::Time::getCurrentTime().toISO8601(true) + ": " + juce::String::fromUTF8(info));
+             juce::Time::getCurrentTime().toISO8601(true) + " " + juce::String::fromUTF8(info));
       }
    }
    catch (...) { //-V565
@@ -248,7 +254,7 @@ void rsj::Log(gsl::cwzstring<> info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger()) {
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": " + info);
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + " " + info);
       }
    }
    catch (...) { //-V565
