@@ -45,8 +45,6 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       file_array.sort();
       profiles_.clear();
       for (const auto& file : file_array) { profiles_.push_back(file.getFileName()); }
-      if (!profiles_.empty()) { SwitchToProfile(profiles_.front()); }
-      current_profile_index_ = 0;
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
