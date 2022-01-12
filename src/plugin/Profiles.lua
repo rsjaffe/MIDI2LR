@@ -79,7 +79,11 @@ local function doprofilechange(newprofile)
           if altparam == 'Direct' then
             lrvalue = LrDevelopController.getValue(param)
           else
-            lrvalue = (photoval[param] or 0) + (photoval[altparam] or 0)
+            if param == altparam then
+              lrvalue = (photoval[param] or 0)
+            else
+              lrvalue = (photoval[param] or 0) + (photoval[altparam] or 0)
+            end
           end
           if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
             local midivalue = (lrvalue-min)/(max-min)
