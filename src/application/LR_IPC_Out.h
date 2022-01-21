@@ -58,7 +58,11 @@ class LrIpcOut {
    {
       if (object && mf) {
          std::scoped_lock lk(callback_mtx_);
+#ifdef __cpp_lib_bind_front
+         callbacks_.emplace_back(std::bind_front(mf, object));
+#else
          callbacks_.emplace_back([=](bool a, bool b) { (object->*mf)(a, b); });
+#endif
       }
    }
    void SendCommand(std::string&& command)
