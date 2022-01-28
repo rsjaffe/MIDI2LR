@@ -42,10 +42,10 @@ local function doprofilechange(newprofile)
     LrDialogs.showBezel(filename)
   end
   loadedprofile = newprofile
-  if Limits.LimitsCanBeSet() then
+  if   (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and
+  (LrApplicationView.getCurrentModuleName() == 'develop') then
     -- refresh MIDI controller since mapping has changed
     LrTasks.startAsyncTask ( function ()
-        if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
         local photoval = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
         -- refresh crop values
         local val_bottom = photoval.CropBottom
