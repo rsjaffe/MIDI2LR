@@ -190,7 +190,9 @@ void Profile::RemoveUnassignedMessages()
          profile_unsaved_ = true;
          do {
             message_map_.erase(it->second);
-            std::erase(command_table_, it->second);
+            command_table_.erase(
+                std::remove(command_table_.begin(), command_table_.end(), it->second),
+                command_table_.end());
             command_string_map_.erase(it);
             it = command_string_map_.find("Unassigned");
          } while (it != command_string_map_.end());
