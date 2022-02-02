@@ -476,40 +476,62 @@ end
 
 local function FullRefresh()
   -- if this code is changed, change similar code in Profiles.lua
-  if Limits.LimitsCanBeSet() then
-    -- refresh crop values
-    local val_bottom = LrDevelopController.getValue("CropBottom")
-    MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val_bottom))
-    MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val_bottom))
-    MIDI2LR.SERVER:send(string.format('CropAll %g\n', val_bottom))
-    MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val_bottom))
-    local val_top = LrDevelopController.getValue("CropTop")
-    MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val_top))
-    MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val_top))
-    MIDI2LR.SERVER:send(string.format('CropTop %g\n', val_top))
-    local val_left = LrDevelopController.getValue("CropLeft")
-    local val_right = LrDevelopController.getValue("CropRight")
-    MIDI2LR.SERVER:send(string.format('CropLeft %g\n', val_left))
-    MIDI2LR.SERVER:send(string.format('CropRight %g\n', val_right))
-    local range_v = (1 - (val_bottom - val_top))
-    if range_v == 0.0 then
-      MIDI2LR.SERVER:send('CropMoveVertical 0\n')
-    else
-      MIDI2LR.SERVER:send(string.format('CropMoveVertical %g\n', val_top / range_v))
-    end
-    local range_h = (1 - (val_right - val_left))
-    if range_h == 0.0 then
-      MIDI2LR.SERVER:send('CropMoveHorizontal 0\n')
-    else
-      MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / range_h))
-    end
-    for param in pairs(Database.Parameters) do
-      local lrvalue = LrDevelopController.getValue(param)
-      if type(lrvalue) == 'number' then
-        MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param)))
-
+   if   (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and
+  (LrApplicationView.getCurrentModuleName() == 'develop') then
+    -- refresh MIDI controller since mapping has changed
+    LrTasks.startAsyncTask ( function ()
+        local photoval = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
+        -- refresh crop values
+        local val_bottom = photoval.CropBottom
+        MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val_bottom))
+        MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val_bottom))
+        MIDI2LR.SERVER:send(string.format('CropAll %g\n', val_bottom))
+        MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val_bottom))
+        local val_top = photoval.CropTop
+        MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val_top))
+        MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val_top))
+        MIDI2LR.SERVER:send(string.format('CropTop %g\n', val_top))
+        local val_left = photoval.CropLeft
+        local val_right = photoval.CropRight
+        MIDI2LR.SERVER:send(string.format('CropLeft %g\n', val_left))
+        MIDI2LR.SERVER:send(string.format('CropRight %g\n', val_right))
+        local range_v = (1 - (val_bottom - val_top))
+        if range_v == 0.0 then
+          MIDI2LR.SERVER:send('CropMoveVertical 0\n')
+        else
+          MIDI2LR.SERVER:send(string.format('CropMoveVertical %g\n', val_top / range_v))
+        end
+        local range_h = (1 - (val_right - val_left))
+        if range_h == 0.0 then
+          MIDI2LR.SERVER:send('CropMoveHorizontal 0\n')
+        else
+          MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / range_h))
+        end
+        for param,altparam in pairs(Database.Parameters) do
+          local min,max = Limits.GetMinMax(param)
+          local lrvalue
+          if altparam == 'Direct' then
+            lrvalue = LrDevelopController.getValue(param)
+          else
+            if param == altparam then
+              lrvalue = (photoval[param] or 0)
+            else
+              lrvalue = (photoval[param] or 0) + (photoval[altparam] or 0)
+            end
+          end
+          if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
+            local midivalue = (lrvalue-min)/(max-min)
+            if midivalue >= 1.0 then
+              MIDI2LR.SERVER:send(string.format('%s 1.0\n', param))
+            elseif midivalue <= 0.0 then -- = catches -0.0 and sends it as 0.0
+              MIDI2LR.SERVER:send(string.format('%s 0.0\n', param))
+            else
+              MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+            end
+          end
+        end
       end
-    end
+    )
   end
 end
 
