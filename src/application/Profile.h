@@ -82,7 +82,7 @@ inline void Profile::AddCommandForMessage(size_t command, rsj::MidiMessageId mes
 inline bool Profile::CommandHasAssociatedMessage(const std::string& command) const
 {
    auto guard {std::shared_lock {mutex_}};
-   return command_string_map_.contains(command);
+   return command_string_map_.find(command) != command_string_map_.end();
 }
 
 inline const std::string& Profile::GetCommandForMessage(rsj::MidiMessageId message) const
@@ -122,7 +122,7 @@ inline bool Profile::MessageExistsInMap(rsj::MidiMessageId message) const
 
 inline bool Profile::MessageExistsInMapI(rsj::MidiMessageId message) const
 {
-   return message_map_.contains(message);
+   return message_map_.find(message) != message_map_.end();
 }
 
 inline bool Profile::ProfileUnsaved() const
