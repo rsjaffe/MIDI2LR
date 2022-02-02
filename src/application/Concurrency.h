@@ -53,7 +53,8 @@ namespace rsj {
       {
       }
       /*4*/ ConcurrentQueue(const ConcurrentQueue& other) noexcept(
-          std::is_nothrow_copy_constructible_v<Container>)
+          std::is_nothrow_copy_constructible_v<Container>&& noexcept(
+              std::scoped_lock(std::declval<Mutex>())))
       {
          auto lock {std::scoped_lock(other.mutex_)};
          queue_ = other.queue_;
