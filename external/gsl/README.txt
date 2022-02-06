@@ -1,3 +1,3 @@
-Last updated August 31 2021
+Last updated February 4, 2022. GSL 4.0.
 
 Repository at https://github.com/Microsoft/GSL

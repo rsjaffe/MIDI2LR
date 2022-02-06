@@ -82,9 +82,9 @@ namespace rsj {
    /**************Thread Labels**************************************************/
    /*****************************************************************************/
 #ifdef _WIN32
-   void LabelThread(gsl::cwzstring<> threadname);
+   void LabelThread(gsl::cwzstring threadname);
 #else
-   void LabelThread(gsl::czstring<> threadname);
+   void LabelThread(gsl::czstring threadname);
 #endif
    /*****************************************************************************/
    /**************String Routines************************************************/
@@ -99,7 +99,7 @@ namespace rsj {
    /**************Error Logging**************************************************/
    /*****************************************************************************/
    /* typical call: rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e); */
-   void ExceptionResponse(gsl::czstring<> id, gsl::czstring<> fu, const std::exception& e) noexcept;
+   void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception& e) noexcept;
    /* char* overloads here are to allow catch clauses to avoid a juce::String conversion at the
     * caller location, thus avoiding a potential exception in the catch clause. string_view
     * overloads not used because those are ambiguous with the String versions. */
@@ -110,23 +110,23 @@ namespace rsj {
        const std::source_location& location = std::source_location::current()) noexcept;
    void LogAndAlertError(const juce::String& alert_text, const juce::String& error_text,
        const std::source_location& location = std::source_location::current()) noexcept;
-   void LogAndAlertError(gsl::czstring<> error_text,
+   void LogAndAlertError(gsl::czstring error_text,
        const std::source_location& location = std::source_location::current()) noexcept;
    void Log(const juce::String& info,
        const std::source_location& location = std::source_location::current()) noexcept;
-   void Log(gsl::czstring<> info,
+   void Log(gsl::czstring info,
        const std::source_location& location = std::source_location::current()) noexcept;
-   void Log(gsl::cwzstring<> info,
+   void Log(gsl::cwzstring info,
        const std::source_location& location = std::source_location::current()) noexcept;
 #define MIDI2LR_E_RESPONSE   rsj::ExceptionResponse(e)
 #define MIDI2LR_E_RESPONSE_F rsj::ExceptionResponse(e)
 #else
    void LogAndAlertError(const juce::String& error_text) noexcept;
    void LogAndAlertError(const juce::String& alert_text, const juce::String& error_text) noexcept;
-   void LogAndAlertError(gsl::czstring<> error_text) noexcept;
+   void LogAndAlertError(gsl::czstring error_text) noexcept;
    void Log(const juce::String& info) noexcept;
-   void Log(gsl::czstring<> info) noexcept;
-   void Log(gsl::cwzstring<> info) noexcept;
+   void Log(gsl::czstring info) noexcept;
+   void Log(gsl::cwzstring info) noexcept;
 #define MIDI2LR_E_RESPONSE   rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e)
 #define MIDI2LR_E_RESPONSE_F rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e)
 #endif

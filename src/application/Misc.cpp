@@ -37,13 +37,13 @@
 /**************Thread Labels**************************************************/
 /*****************************************************************************/
 #ifdef _WIN32
-void rsj::LabelThread(gsl::cwzstring<> threadname)
+void rsj::LabelThread(gsl::cwzstring threadname)
 {
    LOG_IF_FAILED(SetThreadDescription(GetCurrentThread(), threadname));
 }
 #else
 #include <pthread.h>
-void rsj::LabelThread(gsl::czstring<> threadname)
+void rsj::LabelThread(gsl::czstring threadname)
 {
    auto result {pthread_setname_np(threadname)};
    if (result) {
@@ -140,12 +140,12 @@ void rsj::Log(const juce::String& info, const std::source_location& location) no
    }
 }
 
-void rsj::Log(gsl::czstring<> info, const std::source_location& location) noexcept
+void rsj::Log(gsl::czstring info, const std::source_location& location) noexcept
 {
    rsj::Log(juce::String::fromUTF8(info), location);
 }
 
-void rsj::Log(gsl::cwzstring<> info, const std::source_location& location) noexcept
+void rsj::Log(gsl::cwzstring info, const std::source_location& location) noexcept
 {
    rsj::Log(juce::String(info), location);
 }
@@ -183,7 +183,7 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
 }
 
 void rsj::LogAndAlertError(
-    gsl::czstring<> error_text, const std::source_location& location) noexcept
+    gsl::czstring error_text, const std::source_location& location) noexcept
 {
    try {
       {
@@ -219,7 +219,7 @@ void rsj::Log(const juce::String& info) noexcept
    }
 }
 
-void rsj::Log(gsl::czstring<> info) noexcept
+void rsj::Log(gsl::czstring info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger()) {
@@ -231,7 +231,7 @@ void rsj::Log(gsl::czstring<> info) noexcept
    }
 }
 
-void rsj::Log(gsl::cwzstring<> info) noexcept
+void rsj::Log(gsl::cwzstring info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger()) {
@@ -272,7 +272,7 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
    }
 }
 
-void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
+void rsj::LogAndAlertError(gsl::czstring error_text) noexcept
 {
    try {
       {
@@ -291,7 +291,7 @@ void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
 #pragma warning(disable : 26447)
 #if defined(__GNUC__) || defined(__clang__)
 void rsj::ExceptionResponse(
-    [[maybe_unused]] gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
+    [[maybe_unused]] gsl::czstring id, gsl::czstring fu, const ::std::exception& e) noexcept
 {
    try {
       const auto alert_text {
@@ -306,7 +306,7 @@ void rsj::ExceptionResponse(
 /* Use typeid(this).name() for first argument to add class information. Typical call:
  * rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e); */
 void rsj::ExceptionResponse(
-    gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
+    gsl::czstring id, gsl::czstring fu, const ::std::exception& e) noexcept
 {
    try {
       const auto alert_text {fmt::format(
