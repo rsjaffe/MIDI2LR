@@ -1,8 +1,14 @@
-/*! \file list.hpp
-    \brief Support for types found in \<list\>
-    \ingroup STLSupport */
+/*! \file version.hpp
+    \brief Macros to detect cereal version
+
+    These macros can assist in determining the version of cereal. Be
+    warned that cereal is not guaranteed to be compatible across
+    different versions. For more information on releases of cereal,
+    see https://github.com/USCiLab/cereal/releases.
+
+    \ingroup utility */
 /*
-  Copyright (c) 2014, Randolph Voorhies, Shane Grant
+  Copyright (c) 2018, Shane Grant
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -27,36 +33,20 @@
   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#ifndef CEREAL_TYPES_LIST_HPP_
-#define CEREAL_TYPES_LIST_HPP_
 
-#include "cereal/cereal.hpp"
-#include <list>
+#ifndef CEREAL_VERSION_HPP_
+#define CEREAL_VERSION_HPP_
 
-namespace cereal
-{
-  //! Saving for std::list
-  template <class Archive, class T, class A> inline
-  void CEREAL_SAVE_FUNCTION_NAME( Archive & ar, std::list<T, A> const & list )
-  {
-    ar( make_size_tag( static_cast<size_type>(list.size()) ) );
+//! The major version
+#define CEREAL_VERSION_MAJOR 1
+//! The minor version
+#define CEREAL_VERSION_MINOR 3
+//! The patch version
+#define CEREAL_VERSION_PATCH 0
 
-    for( auto const & i : list )
-      ar( i );
-  }
+//! The full version as a single number
+#define CEREAL_VERSION (CEREAL_VERSION_MAJOR * 10000 \
+                        + CEREAL_VERSION_MINOR * 100 \
+                        + CEREAL_VERSION_PATCH)
 
-  //! Loading for std::list
-  template <class Archive, class T, class A> inline
-  void CEREAL_LOAD_FUNCTION_NAME( Archive & ar, std::list<T, A> & list )
-  {
-    size_type size;
-    ar( make_size_tag( size ) );
-
-    list.resize( static_cast<size_t>( size ) );
-
-    for( auto & i : list )
-      ar( i );
-  }
-} // namespace cereal
-
-#endif // CEREAL_TYPES_LIST_HPP_
+#endif // CEREAL_VERSION_HPP_

@@ -12,14 +12,14 @@
       * Redistributions in binary form must reproduce the above copyright
         notice, this list of conditions and the following disclaimer in the
         documentation and/or other materials provided with the distribution.
-      * Neither the name of cereal nor the
+      * Neither the name of the copyright holder nor the
         names of its contributors may be used to endorse or promote products
         derived from this software without specific prior written permission.
 
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
   ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  DISCLAIMED. IN NO EVENT SHALL RANDOLPH VOORHIES OR SHANE GRANT BE LIABLE FOR ANY
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
   DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
   (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -38,7 +38,7 @@ namespace cereal
   namespace tuple_detail
   {
     //! Creates a c string from a sequence of characters
-    /*! The c string created will alwas be prefixed by "tuple_element"
+    /*! The c string created will always be prefixed by "tuple_element"
         Based on code from: http://stackoverflow/a/20973438/710791
         @internal */
     template<char...Cs>
@@ -63,7 +63,7 @@ namespace cereal
     template <size_t Q, size_t R, char ... C>
     struct to_string_impl
     {
-      using type = typename to_string_impl<Q/10, Q%10, R+'0', C...>::type;
+      using type = typename to_string_impl<Q/10, Q%10, static_cast<char>(R+std::size_t{'0'}), C...>::type;
     };
 
     //! Base case with no quotient
@@ -71,7 +71,7 @@ namespace cereal
     template <size_t R, char ... C>
     struct to_string_impl<0, R, C...>
     {
-      using type = char_seq_to_c_str<R+'0', C...>;
+      using type = char_seq_to_c_str<static_cast<char>(R+std::size_t{'0'}), C...>;
     };
 
     //! Generates a c string for a given index of a tuple
@@ -84,7 +84,7 @@ namespace cereal
     struct tuple_element_name
     {
       using type = typename to_string_impl<T/10, T%10>::type;
-      static const typename type::arr_type c_str(){ return type::str; };
+      static const typename type::arr_type c_str(){ return type::str; }
     };
 
     // unwinds a tuple to save it

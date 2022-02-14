@@ -1,5 +1,5 @@
-/*! \file list.hpp
-    \brief Support for types found in \<list\>
+/*! \file atomic.hpp
+    \brief Support for types found in \<atomic\>
     \ingroup STLSupport */
 /*
   Copyright (c) 2014, Randolph Voorhies, Shane Grant
@@ -27,36 +27,29 @@
   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#ifndef CEREAL_TYPES_LIST_HPP_
-#define CEREAL_TYPES_LIST_HPP_
+#ifndef CEREAL_TYPES_ATOMIC_HPP_
+#define CEREAL_TYPES_ATOMIC_HPP_
 
-#include "cereal/cereal.hpp"
-#include <list>
+#include <cereal/cereal.hpp>
+#include <atomic>
 
 namespace cereal
 {
-  //! Saving for std::list
-  template <class Archive, class T, class A> inline
-  void CEREAL_SAVE_FUNCTION_NAME( Archive & ar, std::list<T, A> const & list )
+  //! Serializing (save) for std::atomic
+  template <class Archive, class T> inline
+  void CEREAL_SAVE_FUNCTION_NAME( Archive & ar, std::atomic<T> const & a )
   {
-    ar( make_size_tag( static_cast<size_type>(list.size()) ) );
-
-    for( auto const & i : list )
-      ar( i );
+    ar( CEREAL_NVP_("atomic_data", a.load()) );
   }
 
-  //! Loading for std::list
-  template <class Archive, class T, class A> inline
-  void CEREAL_LOAD_FUNCTION_NAME( Archive & ar, std::list<T, A> & list )
+  //! Serializing (load) for std::atomic
+  template <class Archive, class T> inline
+  void CEREAL_LOAD_FUNCTION_NAME( Archive & ar, std::atomic<T> & a )
   {
-    size_type size;
-    ar( make_size_tag( size ) );
-
-    list.resize( static_cast<size_t>( size ) );
-
-    for( auto & i : list )
-      ar( i );
+    T tmp;
+    ar( CEREAL_NVP_("atomic_data", tmp) );
+    a.store( tmp );
   }
 } // namespace cereal
 
-#endif // CEREAL_TYPES_LIST_HPP_
+#endif // CEREAL_TYPES_ATOMIC_HPP_

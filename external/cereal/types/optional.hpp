@@ -1,8 +1,8 @@
-/*! \file list.hpp
-    \brief Support for types found in \<list\>
+/*! \file optional.hpp
+    \brief Support for std::optional
     \ingroup STLSupport */
 /*
-  Copyright (c) 2014, Randolph Voorhies, Shane Grant
+  Copyright (c) 2017, Juan Pedro Bolivar Puente
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -27,36 +27,39 @@
   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#ifndef CEREAL_TYPES_LIST_HPP_
-#define CEREAL_TYPES_LIST_HPP_
+#ifndef CEREAL_TYPES_STD_OPTIONAL_
+#define CEREAL_TYPES_STD_OPTIONAL_
 
 #include "cereal/cereal.hpp"
-#include <list>
+#include <optional>
 
-namespace cereal
-{
-  //! Saving for std::list
-  template <class Archive, class T, class A> inline
-  void CEREAL_SAVE_FUNCTION_NAME( Archive & ar, std::list<T, A> const & list )
+namespace cereal {
+  //! Saving for std::optional
+  template <class Archive, typename T> inline
+  void CEREAL_SAVE_FUNCTION_NAME(Archive& ar, const std::optional<T>& optional)
   {
-    ar( make_size_tag( static_cast<size_type>(list.size()) ) );
-
-    for( auto const & i : list )
-      ar( i );
+    if(!optional) {
+      ar(CEREAL_NVP_("nullopt", true));
+    } else {
+      ar(CEREAL_NVP_("nullopt", false),
+         CEREAL_NVP_("data", *optional));
+    }
   }
 
-  //! Loading for std::list
-  template <class Archive, class T, class A> inline
-  void CEREAL_LOAD_FUNCTION_NAME( Archive & ar, std::list<T, A> & list )
+  //! Loading for std::optional
+  template <class Archive, typename T> inline
+  void CEREAL_LOAD_FUNCTION_NAME(Archive& ar, std::optional<T>& optional)
   {
-    size_type size;
-    ar( make_size_tag( size ) );
+    bool nullopt;
+    ar(CEREAL_NVP_("nullopt", nullopt));
 
-    list.resize( static_cast<size_t>( size ) );
-
-    for( auto & i : list )
-      ar( i );
+    if (nullopt) {
+      optional = std::nullopt;
+    } else {
+      optional.emplace();
+      ar(CEREAL_NVP_("data", *optional));
+    }
   }
 } // namespace cereal
 
-#endif // CEREAL_TYPES_LIST_HPP_
+#endif // CEREAL_TYPES_STD_OPTIONAL_
