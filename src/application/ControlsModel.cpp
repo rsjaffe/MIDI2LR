@@ -244,11 +244,11 @@ int ChannelModel::PluginToController(
       case rsj::MessageType::kPw:
          {
             /* TODO(C26451): int subtraction: can it overflow? */
-            const auto newv {
-                std::clamp(gsl::narrow<int>(std::lrint(
-                               value * static_cast<double>(pitch_wheel_max_ - pitch_wheel_min_)))
-                               + pitch_wheel_min_,
-                    pitch_wheel_min_, pitch_wheel_max_)};
+            const auto newv {std::clamp(
+                gsl::narrow<int>(
+                    std::lrint(value * static_cast<double>(pitch_wheel_max_ - pitch_wheel_min_)))
+                    + pitch_wheel_min_,
+                pitch_wheel_min_, pitch_wheel_max_)};
             pitch_wheel_current_.store(newv, std::memory_order_release);
             return newv;
          }

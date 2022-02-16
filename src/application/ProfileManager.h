@@ -50,7 +50,7 @@ class ProfileManager final : juce::AsyncUpdater {
    {
       if (object && mf) {
 #ifdef __cpp_lib_bind_front
-         callbacks_.emplace_back(std::bind_front(mf,object));
+         callbacks_.emplace_back(std::bind_front(mf, object));
 #else
          callbacks_.emplace_back(
              [=](juce::XmlElement* a, const juce::String& b) { (object->*mf)(a, b); });

@@ -182,8 +182,7 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
    }
 }
 
-void rsj::LogAndAlertError(
-    gsl::czstring error_text, const std::source_location& location) noexcept
+void rsj::LogAndAlertError(gsl::czstring error_text, const std::source_location& location) noexcept
 {
    try {
       {
@@ -305,8 +304,7 @@ void rsj::ExceptionResponse(
 #else
 /* Use typeid(this).name() for first argument to add class information. Typical call:
  * rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e); */
-void rsj::ExceptionResponse(
-    gsl::czstring id, gsl::czstring fu, const ::std::exception& e) noexcept
+void rsj::ExceptionResponse(gsl::czstring id, gsl::czstring fu, const ::std::exception& e) noexcept
 {
    try {
       const auto alert_text {fmt::format(

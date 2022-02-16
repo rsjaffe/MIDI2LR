@@ -213,9 +213,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             LoadControlsModel();
             /* need to start main window before ipc so it's already registered its callbacks and can
              * receive messages */
-            main_window_ =
-                std::make_unique<MainWindow>(getApplicationName(), command_set_, profile_,
-                    profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
+            main_window_ = std::make_unique<MainWindow>(getApplicationName(), command_set_,
+                profile_, profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_,
+                midi_sender_);
             midi_receiver_.Start();
             midi_sender_.Start();
             lr_ipc_out_.Start();

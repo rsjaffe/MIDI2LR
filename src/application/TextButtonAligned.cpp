@@ -27,9 +27,9 @@ void TextButtonAligned::paintButton(juce::Graphics& g, const bool should_draw_bu
    /* from TextButton.cpp: only change is second call from lf:: to TextButtonAligned:: */
 #pragma warning(suppress : 26812)
    juce::Component::getLookAndFeel().drawButtonBackground(g, *this,
-       juce::Component::findColour(juce::Button::getToggleState()
-                                       ? juce::TextButton::ColourIds::buttonOnColourId
-                                       : juce::TextButton::ColourIds::buttonColourId),
+       juce::Component::findColour(
+           juce::Button::getToggleState() ? juce::TextButton::ColourIds::buttonOnColourId
+                                          : juce::TextButton::ColourIds::buttonColourId),
        should_draw_button_as_highlighted, should_draw_button_as_down);
    /* the following normally calls lf.drawButtonText, hijacking the call for specific formatting */
    DrawButtonText(g, *this, should_draw_button_as_highlighted, should_draw_button_as_down);
