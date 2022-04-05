@@ -24,11 +24,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 *******************************************************************************/
 
-#include "JuceHeader.h"
 #include "ResizableLayout.h"
 
-ResizableLayout::Anchor::Anchor(juce::Component* component_)
-    : component(component_), child(dynamic_cast<ResizableChild*>(component_))
+#include "JuceHeader.h"
+
+ResizableLayout::Anchor::Anchor(juce::Component* component)
+    : component(component), child(dynamic_cast<ResizableChild*>(component))
 {
    jassert(component);
 }
@@ -48,23 +49,14 @@ bool ResizableLayout::Anchor::operator<(const Anchor& rhs) const noexcept
    return component < rhs.component;
 }
 
-ResizableLayout::State::State(juce::Component* component_) noexcept : component(component_)
+ResizableLayout::State::State(juce::Component* component) noexcept : component(component)
 {
    jassert(component);
 }
 
-ResizableLayout::State::State(const State& other) noexcept
-    : component(other.component), aspect(other.aspect), margin(other.margin)
-{
-}
+ResizableLayout::State::State(const State& other) noexcept = default;
 
-ResizableLayout::State& ResizableLayout::State::operator=(const State& other) noexcept
-{ // added 20 May 2017 RSJ
-   component = other.component;
-   aspect = other.aspect;
-   margin = other.margin;
-   return *this;
-}
+ResizableLayout::State& ResizableLayout::State::operator=(const State& other) noexcept = default;
 
 bool ResizableLayout::State::operator==(const State& rhs) const noexcept
 {
@@ -83,15 +75,13 @@ bool ResizableLayout::State::operator<(const State& rhs) const noexcept
 
 //------------------------------------------------------------------------------
 
-ResizableLayout::ResizableLayout(juce::Component* owner) : m_owner(owner)
+ResizableLayout::ResizableLayout(juce::Component* owner)
+    : m_owner(owner), m_bFirstTime(true), m_isActive(false)
 {
-   m_bFirstTime = true;
-   m_isActive = false;
-
    m_owner->addComponentListener(this);
 }
 
-ResizableLayout::~ResizableLayout() {}
+ResizableLayout::~ResizableLayout() = default;
 
 #pragma warning(suppress : 26429)
 void ResizableLayout::addToLayout(juce::Component* component, const juce::Point<int>& topLeft,
@@ -102,8 +92,7 @@ void ResizableLayout::addToLayout(juce::Component* component, const juce::Point<
    Anchor anchor(component);
    anchor.style = style;
    anchor.topLeft = topLeft;
-   if (bottomRight == anchorNone)
-      anchor.bottomRight = topLeft;
+   if (bottomRight == anchorNone) anchor.bottomRight = topLeft;
    else
       anchor.bottomRight = bottomRight;
 
@@ -134,9 +123,9 @@ void ResizableLayout::activateLayout(bool isActive) noexcept
 void ResizableLayout::updateLayout() noexcept
 {
    m_states.clearQuick();
-   for (int i = 0; i < m_anchors.size(); i++)
+   for (const auto& m_anchor : m_anchors)
 #pragma warning(suppress : 26446)
-      addStateFor(m_anchors[i]);
+      addStateFor(m_anchor);
 }
 
 void ResizableLayout::updateLayoutFor(juce::Component* component) noexcept
@@ -149,7 +138,7 @@ void ResizableLayout::updateLayoutFor(juce::Component* component) noexcept
 void ResizableLayout::addStateFor(const Anchor& anchor) noexcept
 {
 #pragma warning(suppress : 26496)
-   Rect rb = anchor.component->getBounds();
+   const Rect rb = anchor.component->getBounds();
 
    const auto w = m_owner->getWidth();
    const auto h = m_owner->getHeight();
@@ -157,12 +146,12 @@ void ResizableLayout::addStateFor(const Anchor& anchor) noexcept
    State state(anchor.component);
 
    // secret sauce
-   state.margin.top = rb.top - (h * anchor.topLeft.getY()) / anchorUnit;
-   state.margin.left = rb.left - (w * anchor.topLeft.getX()) / anchorUnit;
-   state.margin.bottom = rb.bottom - (h * anchor.bottomRight.getY()) / anchorUnit;
-   state.margin.right = rb.right - (w * anchor.bottomRight.getX()) / anchorUnit;
+   state.margin.top = rb.top - h * anchor.topLeft.getY() / anchorUnit;
+   state.margin.left = rb.left - w * anchor.topLeft.getX() / anchorUnit;
+   state.margin.bottom = rb.bottom - h * anchor.bottomRight.getY() / anchorUnit;
+   state.margin.right = rb.right - w * anchor.bottomRight.getX() / anchorUnit;
 
-   state.aspect = double(rb.getWidth()) / rb.getHeight();
+   state.aspect = static_cast<double>(rb.getWidth()) / rb.getHeight();
 
 #pragma warning(suppress : 26486)
    m_states.add(state);
@@ -172,7 +161,7 @@ void ResizableLayout::recalculateLayout() const
 {
    if (m_isActive) {
 #pragma warning(suppress : 26496)
-      Rect rp = m_owner->getBounds();
+      const Rect rp = m_owner->getBounds();
 
       for (int i = 0; i < m_states.size(); i++) {
 #pragma warning(suppress : 26446)
@@ -184,34 +173,31 @@ void ResizableLayout::recalculateLayout() const
          Rect rb;
 
          // secret sauce
-         rb.top = state.margin.top + (rp.getHeight() * anchor.topLeft.getY()) / anchorUnit;
-         rb.left = state.margin.left + (rp.getWidth() * anchor.topLeft.getX()) / anchorUnit;
-         rb.bottom =
-             state.margin.bottom + (rp.getHeight() * anchor.bottomRight.getY()) / anchorUnit;
-         rb.right = state.margin.right + (rp.getWidth() * anchor.bottomRight.getX()) / anchorUnit;
+         rb.top = state.margin.top + rp.getHeight() * anchor.topLeft.getY() / anchorUnit;
+         rb.left = state.margin.left + rp.getWidth() * anchor.topLeft.getX() / anchorUnit;
+         rb.bottom = state.margin.bottom + rp.getHeight() * anchor.bottomRight.getY() / anchorUnit;
+         rb.right = state.margin.right + rp.getWidth() * anchor.bottomRight.getX() / anchorUnit;
          // prove that there are no rounding issues
          jassert((anchor.bottomRight != anchor.topLeft)
                  || ((rb.getWidth() == anchor.component->getWidth())
                      && (rb.getHeight() == anchor.component->getHeight())));
 
-         if (anchor.style == styleStretch) {
-            anchor.component->setBounds(rb);
-         }
+         if (anchor.style == styleStretch) { anchor.component->setBounds(rb); }
          else if (anchor.style == styleFixedAspect) {
             Rect r;
-            const auto aspect = double(rb.getWidth()) / rb.getHeight();
+            const auto aspect = static_cast<double>(rb.getWidth()) / rb.getHeight();
 
             if (aspect > state.aspect) {
                r.top = rb.top;
                r.bottom = rb.bottom;
-               const auto width = int(state.aspect * r.getHeight());
+               const auto width = static_cast<int>(state.aspect * r.getHeight());
                r.left = rb.left + (rb.getWidth() - width) / 2;
                r.right = r.left + width;
             }
             else {
                r.left = rb.left;
                r.right = rb.right;
-               const auto height = int(1. / state.aspect * r.getWidth());
+               const auto height = static_cast<int>(1. / state.aspect * r.getWidth());
                r.top = rb.top + (rb.getHeight() - height) / 2;
                r.bottom = r.top + height;
             }
@@ -226,9 +212,7 @@ void ResizableLayout::componentMovedOrResized(
     juce::Component& component, bool /*wasMoved*/, bool wasResized)
 {
    if (&component == m_owner) {
-      if (wasResized) {
-         recalculateLayout();
-      }
+      if (wasResized) { recalculateLayout(); }
    }
    else {
       updateLayoutFor(&component);
@@ -244,7 +228,7 @@ void ResizableLayout::componentBeingDeleted(juce::Component& component) noexcept
 }
 
 #pragma warning(suppress : 26429 26461)
-juce::Rectangle<int> ResizableLayout::calcBoundsOfChildren(juce::Component* parent) noexcept
+juce::Rectangle<int> ResizableLayout::calcBoundsOfChildren(const juce::Component* parent) noexcept
 {
    juce::Rectangle<int> r;
 
@@ -259,8 +243,7 @@ void ResizableLayout::resizeStart() noexcept
 
    // first recursively call resizeStart() on all children
    for (int i = 0; i < m_anchors.size(); i++) {
-      auto child = m_anchors.getUnchecked(i).child;
-      if (child) {
+      if (const auto child = m_anchors.getUnchecked(i).child) {
          child->resizeStart();
          haveChildren = true;
       }
