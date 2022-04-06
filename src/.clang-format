@@ -90,7 +90,7 @@ PenaltyBreakBeforeFirstCallParameter: 75
 PenaltyBreakComment: 50
 PenaltyBreakFirstLessLess: 1
 #14 PenaltyBreakOpenParenthesis: 80
-PenaltyBreakString: 80
+PenaltyBreakString: 100
 PenaltyBreakTemplateDeclaration: 50
 PenaltyExcessCharacter: 1000
 PenaltyIndentedWhitespace: 1
