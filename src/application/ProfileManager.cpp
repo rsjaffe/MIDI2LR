@@ -66,6 +66,7 @@ void ProfileManager::SwitchToProfile(int profile_index)
    }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void ProfileManager::SwitchToProfile(const juce::String& profile)
 {
    try {

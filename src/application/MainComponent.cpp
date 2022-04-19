@@ -296,7 +296,7 @@ void MainContentComponent::MidiCmdCallback(const rsj::MidiMessage& mm)
       const rsj::MidiMessageId msg {mm};
       last_command_ = fmt::format(FMT_STRING("{}: {}{} [{}]"), msg.channel, mm.message_type_byte,
           msg.control_number, mm.value);
-      profile_.AddRowUnmapped(msg);
+      profile_.InsertUnassigned(msg);
       row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
       triggerAsyncUpdate();
    }

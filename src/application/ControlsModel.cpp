@@ -417,14 +417,12 @@ void ChannelModel::CcDefaults()
       cc_method_.fill(rsj::CCmethod::kAbsolute);
 #ifdef __cpp_lib_atomic_ref
       current_v_.fill(kMaxNrpnHalf);
-      for (size_t a {0}; a <= kMaxMidi; ++a) {
-         cc_high_.at(a) = kMaxMidi;
-         current_v_.at(a) = kMaxMidiHalf;
-      }
+      std::fill_n(cc_high_.begin(), kMaxMidi + 1, kMaxMidi);
+      std::fill_n(current_v_.begin(), kMaxMidi + 1, kMaxMidiHalf);
 #else
       for (auto&& a : current_v_) { a.store(kMaxNrpnHalf, std::memory_order_relaxed); }
+      std::fill_n(cc_high_.begin(), kMaxMidi + 1, kMaxMidi);
       for (size_t a {0}; a <= kMaxMidi; ++a) {
-         cc_high_.at(a) = kMaxMidi;
          current_v_.at(a).store(kMaxMidiHalf, std::memory_order_relaxed);
       }
 #endif
