@@ -97,15 +97,13 @@ size_t CommandSet::CommandTextIndex(const std::string& command) const
 {
    try {
       using namespace std::string_literals;
-      const auto found {cmd_idx_.find(command)};
-      if (found == cmd_idx_.end()) {
-         if (command != "Unmapped"s) { /*Old version of Unassigned*/
-            rsj::Log(
-                fmt::format(FMT_STRING("Command not found in CommandTextIndex: {}."), command));
-         }
-         return 0;
+      if (const auto found {cmd_idx_.find(command)}; found != cmd_idx_.end()) {
+         return found->second;
       }
-      return found->second;
+      if (command != "Unmapped"s) { /*Old version of Unassigned*/
+         rsj::Log(fmt::format(FMT_STRING("Command not found in CommandTextIndex: {}."), command));
+      }
+      return 0;
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
