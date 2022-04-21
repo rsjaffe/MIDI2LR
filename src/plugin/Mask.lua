@@ -198,14 +198,46 @@ local function NextTool()
   end
 end
 
+local function InvertMask()
+  if  (LrApplication.activeCatalog():getTargetPhoto() == nil) or
+  (LrApplicationView.getCurrentModuleName() ~= 'develop') or
+  (LrDevelopController.getSelectedTool() ~= 'masking') then
+    return
+  end
+  local currentmask = LrDevelopController.getSelectedMask()
+  if currentmask then
+    LrDevelopController.invertMask(currentmask)
+    if ProgramPreferences.ClientShowBezelOnChange then
+      LrDialogs.showBezel(Database.CmdTrans.MaskInvert)
+    end
+  end
+end
+
+local function InvertDuplicateMask()
+  if  (LrApplication.activeCatalog():getTargetPhoto() == nil) or
+  (LrApplicationView.getCurrentModuleName() ~= 'develop') or
+  (LrDevelopController.getSelectedTool() ~= 'masking') then
+    return
+  end
+  local currentmask = LrDevelopController.getSelectedMask()
+  if currentmask then
+    LrDevelopController.duplicateAndInvertMask(currentmask)
+    if ProgramPreferences.ClientShowBezelOnChange then
+      LrDialogs.showBezel(Database.CmdTrans.MaskInvertDup)
+    end
+  end
+end
+
 return {
   DeleteMask           = DeleteMask,
   DeleteMaskTool       = DeleteMaskTool,
-  ToggleInvertMaskTool = ToggleInvertMaskTool,
+  InvertDuplicateMask  = InvertDuplicateMask,
+  InvertMask           = InvertMask,
+  NextMask             = NextMask,
+  NextTool             = NextTool,
+  PreviousMask         = PreviousMask,
+  PreviousTool         = PreviousTool,
   ToggleHideMask       = ToggleHideMask,
   ToggleHideMaskTool   = ToggleHideMaskTool,
-  PreviousMask         = PreviousMask,
-  NextMask             = NextMask,
-  PreviousTool         = PreviousTool,
-  NextTool             = NextTool,
+  ToggleInvertMaskTool = ToggleInvertMaskTool,
 }

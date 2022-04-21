@@ -932,6 +932,8 @@ local DataBase = {
   {Command='MaskReset',Type='button',Translation=LOC('$$$/CRaw/Masking/DeleteAllMasks=Delete all masks'),Group=mask,Explanation=''},
   {Command='MaskPrevious',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/PreviousMaskGroup=Previous mask group'),Group=mask,Explanation='Select previous mask group.'},
   {Command='MaskNext',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/NextMaskGroup=Next mask group'),Group=mask,Explanation='Select next mask group.'},
+  {Command='MaskInvert',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/MaskInvert=Invert mask group'),Group=mask,Explanation='Invert mask group.'},
+  {Command='MaskInvertDup',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/Menu/DuplicateInvert=Duplicate and invert mask group'),Group=mask,Explanation='Duplicate mask group, then invert the duplicate.'},
   {Command='MaskPreviousTool',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/PreviousMaskTool=Previous mask tool'),Group=mask,Explanation='Select next mask tool within a mask group.'},
   {Command='MaskNextTool',Type='button',Translation=LOC('$$$/MIDI2LR/Menu/NextMaskTool=Next mask tool'),Group=mask,Explanation='Select previous mask tool within a mask group.'},
   {Command='MaskDelete',Type='button',Translation=LOC('$$$/AgCameraRawController/Mask/Delete=Delete ^1',LOC('$$$/AgDevelop/Menu/View/MaskGroup=mask group')),Group=mask,Explanation='Delete the selected mask group.'},
