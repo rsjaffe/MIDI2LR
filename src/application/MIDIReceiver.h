@@ -45,13 +45,13 @@ class MidiReceiver final : juce::MidiInputCallback {
    void Stop();
 
    template<class T>
-   void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(const rsj::MidiMessage&))
+   void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(rsj::MidiMessage))
    {
       if (object && mf) {
 #ifdef __cpp_lib_bind_front
          callbacks_.emplace_back(std::bind_front(mf, object));
 #else
-         callbacks_.emplace_back([=](const rsj::MidiMessage& a) { (object->*mf)(a); });
+         callbacks_.emplace_back([=](rsj::MidiMessage a) { (object->*mf)(a); });
 #endif
       }
    }
@@ -69,7 +69,7 @@ class MidiReceiver final : juce::MidiInputCallback {
    Devices& devices_;
    rsj::ConcurrentQueue<std::pair<rsj::MidiMessage, juce::MidiInput*>> messages_;
    std::map<juce::MidiInput*, NrpnFilter> filters_ {};
-   std::vector<std::function<void(const rsj::MidiMessage&)>> callbacks_;
+   std::vector<std::function<void(rsj::MidiMessage)>> callbacks_;
    std::vector<std::unique_ptr<juce::MidiInput>> input_devices_;
    std::future<void> dispatch_messages_future_; /* destroy this before callbacks_ */
 };

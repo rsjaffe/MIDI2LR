@@ -375,7 +375,7 @@ namespace {
    };
 } // namespace
 
-void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods) noexcept
+void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods) noexcept
 {
    try {
       Expects(!key.empty());

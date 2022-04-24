@@ -68,8 +68,8 @@ class ProfileManager final : juce::AsyncUpdater {
  private:
    void ConnectionCallback(bool, bool);
    void handleAsyncUpdate() override;
-   void MapCommand(const rsj::MidiMessageId& msg);
-   void MidiCmdCallback(const rsj::MidiMessage&);
+   void MapCommand(rsj::MidiMessageId msg);
+   void MidiCmdCallback(rsj::MidiMessage mm);
    void SwitchToNextProfile();
    void SwitchToPreviousProfile();
 

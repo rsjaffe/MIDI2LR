@@ -56,7 +56,7 @@ class MainContentComponent final :
  private:
    void handleAsyncUpdate() override;
    void LrIpcOutCallback(bool, bool);
-   void MidiCmdCallback(const rsj::MidiMessage&);
+   void MidiCmdCallback(rsj::MidiMessage mm);
    void paint(juce::Graphics&) override;
    void ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name);
    void StandardLabelSettings(juce::Label& label_to_set);

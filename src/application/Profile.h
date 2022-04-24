@@ -43,13 +43,13 @@ class Profile {
    [[nodiscard]] std::vector<rsj::MidiMessageId> GetMessagesForCommand(
        const std::string& command) const;
    [[nodiscard]] int GetRowForMessage(rsj::MidiMessageId message) const;
-   void InsertOrAssign(const std::string& command, const rsj::MidiMessageId& message);
+   void InsertOrAssign(const std::string& command, rsj::MidiMessageId message);
    void InsertOrAssign(size_t command, rsj::MidiMessageId message);
-   void InsertUnassigned(const rsj::MidiMessageId& message);
+   void InsertUnassigned(rsj::MidiMessageId message);
    [[nodiscard]] bool MessageExistsInMap(rsj::MidiMessageId message) const;
    [[nodiscard]] bool ProfileUnsaved() const;
    void RemoveAllRows();
-   void RemoveMessage(const rsj::MidiMessageId& message);
+   void RemoveMessage(rsj::MidiMessageId message);
    void RemoveRow(size_t row);
    void RemoveUnassignedMessages();
    void Resort(std::pair<int, bool> new_order);
@@ -103,7 +103,7 @@ inline int Profile::GetRowForMessage(rsj::MidiMessageId message) const
                                 - mm_abbrv_table_.begin());
 }
 
-inline void Profile::InsertOrAssign(const std::string& command, const rsj::MidiMessageId& message)
+inline void Profile::InsertOrAssign(const std::string& command, rsj::MidiMessageId message)
 {
    auto guard {std::unique_lock {mutex_}};
    InsertOrAssignI(command, message);

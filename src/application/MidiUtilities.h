@@ -135,7 +135,7 @@ namespace rsj {
       explicit MidiMessage(const juce::MidiMessage& mm);
    };
 
-   constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs) noexcept
+   constexpr bool operator==(rsj::MidiMessage lhs, rsj::MidiMessage rhs) noexcept
    {
       return lhs.message_type_byte == rhs.message_type_byte && lhs.channel == rhs.channel
              && lhs.control_number == rhs.control_number && lhs.value == rhs.value;
@@ -163,13 +163,13 @@ namespace rsj {
       constexpr std::strong_ordering operator<=>(
           const MidiMessageId& other) const noexcept = default;
 #else
-      constexpr bool operator==(const MidiMessageId& other) const noexcept
+      constexpr [[nodiscard]] bool operator==(const MidiMessageId& other) const noexcept
       {
          return msg_id_type == other.msg_id_type && channel == other.channel
                 && control_number == other.control_number;
       }
 
-      constexpr bool operator<(const MidiMessageId& other) const noexcept
+      constexpr [[nodiscard]] bool operator<(const MidiMessageId& other) const noexcept
       {
          if (channel < other.channel) { return true; }
          if (channel == other.channel) {
@@ -212,7 +212,7 @@ class NrpnFilter {
       int control {};
       int value {};
    };
-   ProcessResult operator()(const rsj::MidiMessage& message);
+   ProcessResult operator()(rsj::MidiMessage message);
 
  private:
    void Clear(int channel) noexcept

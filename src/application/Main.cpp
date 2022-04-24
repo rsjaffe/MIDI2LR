@@ -15,6 +15,7 @@
  */
 
 #include <algorithm>
+#include <cstdlib>
 #include <exception>
 #include <filesystem>
 #include <fstream>
@@ -110,6 +111,9 @@ namespace {
 #ifdef _WIN32
          try {
             wil::SetResultLoggingCallback(nullptr);
+         }
+         catch (const std::exception& e) {
+            MIDI2LR_E_RESPONSE;
          }
          catch (...) {
             rsj::Log("Unable to reset wil logging callback.");
@@ -348,7 +352,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    }
 
  private:
-   void DefaultProfileSave()
+   void DefaultProfileSave() noexcept
    {
       try {
          const auto file_name {rsj::AppDataFilePath(kDefaultsFile)};
@@ -362,7 +366,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
    }
 
-   void SaveControlsModel() const
+   void SaveControlsModel() const noexcept
    {
       try {
          const fs::path p {rsj::AppDataFilePath(kSettingsFileX)};
@@ -403,7 +407,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
    }
 
-   void SetAppFont() const
+   void SetAppFont() const noexcept
    {
       /* juce (as of July 2018) uses the following font defaults taken from juce_mac_Fonts.mm and
        * juce_wind32_Fonts.cpp. Sans defaults do not support Asian languages.

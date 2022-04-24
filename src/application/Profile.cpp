@@ -93,7 +93,7 @@ void Profile::InsertOrAssignI(const std::string& command, const rsj::MidiMessage
    }
 }
 
-void Profile::InsertUnassigned(const rsj::MidiMessageId& message)
+void Profile::InsertUnassigned(rsj::MidiMessageId message)
 {
    try {
       auto guard {std::unique_lock {mutex_}};
@@ -125,7 +125,7 @@ void Profile::RemoveAllRows()
    }
 }
 
-void Profile::RemoveMessage(const rsj::MidiMessageId& message)
+void Profile::RemoveMessage(rsj::MidiMessageId message)
 {
    try {
       auto guard {std::unique_lock {mutex_}};

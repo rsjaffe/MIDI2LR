@@ -81,7 +81,7 @@ class LrIpcOut {
  private:
    void Connect();
    void ConnectionMade();
-   void MidiCmdCallback(const rsj::MidiMessage&);
+   void MidiCmdCallback(rsj::MidiMessage mm);
    void SendOut();
    void SetRecenter(rsj::MidiMessageId mm);
    asio::ip::tcp::socket socket_;

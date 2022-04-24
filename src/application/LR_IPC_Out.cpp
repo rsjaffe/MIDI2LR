@@ -164,7 +164,7 @@ void LrIpcOut::ConnectionMade()
    }
 }
 
-void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
+void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
       const rsj::MidiMessageId message {mm};

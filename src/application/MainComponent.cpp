@@ -288,7 +288,7 @@ void MainContentComponent::paint(juce::Graphics& g)
    }
 }
 
-void MainContentComponent::MidiCmdCallback(const rsj::MidiMessage& mm)
+void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
       /* Display the MIDI parameters and add/highlight row in table corresponding to the message msg
