@@ -369,3 +369,5 @@ tools/selene/selene.txt
 *.favdoc
 
 *.suppress
+
+build/Windows/StructLayoutSettings.json

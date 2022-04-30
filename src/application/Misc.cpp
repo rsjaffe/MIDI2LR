@@ -132,6 +132,9 @@ void rsj::Log(const juce::String& info, const std::source_location& location) no
       if (juce::Logger::getCurrentLogger()) {
          juce::String localname {location.file_name()};
          localname = localname.substring(localname.lastIndexOfChar('\\') + 1);
+#ifdef _WIN32
+         auto last_error {wil::last_error_context()};
+#endif
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ' ' + localname
                                   + '(' + juce::String(location.line()) + ") " + info);
       }
@@ -211,6 +214,9 @@ void rsj::Log(const juce::String& info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger()) {
+#ifdef _WIN32
+         auto last_error {wil::last_error_context()};
+#endif
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + " " + info);
       }
    }
@@ -222,6 +228,9 @@ void rsj::Log(gsl::czstring info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger()) {
+#ifdef _WIN32
+         auto last_error {wil::last_error_context()};
+#endif
          juce::Logger::writeToLog(
              juce::Time::getCurrentTime().toISO8601(true) + " " + juce::String::fromUTF8(info));
       }
@@ -234,6 +243,9 @@ void rsj::Log(gsl::cwzstring info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger()) {
+#ifdef _WIN32
+         auto last_error {wil::last_error_context()};
+#endif
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + " " + info);
       }
    }
