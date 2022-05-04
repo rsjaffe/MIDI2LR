@@ -163,13 +163,13 @@ namespace rsj {
       constexpr std::strong_ordering operator<=>(
           const MidiMessageId& other) const noexcept = default;
 #else
-      constexpr [[nodiscard]] bool operator==(const MidiMessageId& other) const noexcept
+      [[nodiscard]] constexpr bool operator==(const MidiMessageId& other) const noexcept
       {
          return msg_id_type == other.msg_id_type && channel == other.channel
                 && control_number == other.control_number;
       }
 
-      constexpr [[nodiscard]] bool operator<(const MidiMessageId& other) const noexcept
+      [[nodiscard]] constexpr bool operator<(const MidiMessageId& other) const noexcept
       {
          if (channel < other.channel) { return true; }
          if (channel == other.channel) {
