@@ -235,7 +235,7 @@ void LrIpcOutShared::SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
           });
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      MIDI2LR_E_RESPONSE_F;
       throw;
    }
 }

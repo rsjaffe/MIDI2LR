@@ -246,7 +246,7 @@ void LrIpcInShared::Read(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      MIDI2LR_E_RESPONSE_F;
       throw;
    }
 }
