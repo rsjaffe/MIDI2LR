@@ -37,6 +37,7 @@ class MidiSender {
    void RescanDevices();
    void Send(rsj::MidiMessageId id, int value) const;
    void Start();
+   void Stop();
 
  private:
    void InitDevices();
