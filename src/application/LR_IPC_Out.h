@@ -17,6 +17,7 @@
  */
 #include <atomic>
 #include <functional>
+#include <memory>
 #include <mutex>
 #include <string>
 #include <unordered_map>
@@ -26,19 +27,13 @@
 
 #include <asio/asio.hpp>
 
-#include "Concurrency.h"
 #include "MidiUtilities.h"
 class CommandSet;
 class ControlsModel;
+class LrIpcOutShared;
 class MidiReceiver;
 class MidiSender;
 class Profile;
-
-#ifdef __cpp_lib_semaphore
-#include <semaphore>
-#else
-#include <condition_variable>
-#endif
 
 #ifndef _MSC_VER
 #define _In_ //-V3547
@@ -65,26 +60,18 @@ class LrIpcOut {
 #endif
       }
    }
-   void SendCommand(std::string&& command)
-   {
-      if (!sending_stopped_) { command_.push(std::move(command)); }
-   }
-   void SendCommand(const std::string& command)
-   {
-      if (!sending_stopped_) { command_.push(command); }
-   }
+   void SendCommand(std::string&& command);
+   void SendCommand(const std::string& command);
    void SendingRestart();
    void SendingStop();
-   void Start() { Connect(); }
+   void Start() { Connect(lr_ipc_out_shared_); }
    void Stop();
 
  private:
-   void Connect();
+   void Connect(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared);
    void ConnectionMade();
    void MidiCmdCallback(rsj::MidiMessage mm);
-   void SendOut();
    void SetRecenter(rsj::MidiMessageId mm);
-   asio::ip::tcp::socket socket_;
    asio::steady_timer recenter_timer_;
    bool connected_ {false};
    bool sending_stopped_ {false};
@@ -94,16 +81,9 @@ class LrIpcOut {
    const std::vector<std::string>& wrap_;
    ControlsModel& controls_model_;
    mutable std::mutex callback_mtx_;
-   rsj::ConcurrentQueue<std::string> command_;
    std::atomic<bool> thread_should_exit_ {false};
+   std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared_;
    std::vector<std::function<void(bool, bool)>> callbacks_ {};
-#ifdef __cpp_lib_semaphore
-   std::binary_semaphore sendout_running_ {1};
-#else
-   bool sendout_running_ {false};
-   mutable std::mutex mtx_;
-   std::condition_variable cv_;
-#endif
 };
 
 #endif
