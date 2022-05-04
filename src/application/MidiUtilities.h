@@ -160,7 +160,7 @@ namespace rsj {
       {
       }
 #ifdef __cpp_lib_three_way_comparison
-      constexpr std::strong_ordering operator<=>(
+      [[nodiscard]] constexpr std::strong_ordering operator<=>(
           const MidiMessageId& other) const noexcept = default;
 #else
       [[nodiscard]] constexpr bool operator==(const MidiMessageId& other) const noexcept

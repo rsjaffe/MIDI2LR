@@ -50,15 +50,15 @@ class Devices {
          return a <=> 0;
       }
 #else
-      friend [[nodiscard]] bool operator==(const DevInfo& lhs, const DevInfo& rhs) noexcept
+      [[nodiscard]] friend bool operator==(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return lhs.name == rhs.name && lhs.identifier == rhs.identifier && lhs.i_o == rhs.i_o;
       }
-      friend [[nodiscard]] bool operator!=(const DevInfo& lhs, const DevInfo& rhs) noexcept
+      [[nodiscard]] friend bool operator!=(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return !(lhs == rhs);
       }
-      friend [[nodiscard]] bool operator<(const DevInfo& lhs, const DevInfo& rhs) noexcept
+      [[nodiscard]] friend bool operator<(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          if (lhs.name < rhs.name) { return true; }
          if (rhs.name < lhs.name) { return false; }
@@ -66,15 +66,15 @@ class Devices {
          if (rhs.identifier < lhs.identifier) { return false; }
          return lhs.i_o < rhs.i_o;
       }
-      friend [[nodiscard]] bool operator<=(const DevInfo& lhs, const DevInfo& rhs) noexcept
+      [[nodiscard]] friend bool operator<=(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return !(rhs < lhs);
       }
-      friend [[nodiscard]] bool operator>(const DevInfo& lhs, const DevInfo& rhs) noexcept
+      [[nodiscard]] friend bool operator>(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return rhs < lhs;
       }
-      friend [[nodiscard]] bool operator>=(const DevInfo& lhs, const DevInfo& rhs) noexcept
+      [[nodiscard]] friend bool operator>=(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return !(lhs < rhs);
       }
