@@ -156,7 +156,7 @@ namespace {
 void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 {
    try {
-      do {
+      while (true) {
          const auto line_copy {lr_ipc_shared->line_.pop()};
          if (line_copy == kTerminate) { return; }
          auto [command_view, value_view] {SplitLine(line_copy)};
@@ -203,7 +203,7 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
                }
             }
          }
-      } while (true);
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

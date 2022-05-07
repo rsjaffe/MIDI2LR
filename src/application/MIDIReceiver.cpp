@@ -136,7 +136,7 @@ void MidiReceiver::InitDevices()
 void MidiReceiver::DispatchMessages()
 {
    try {
-      do {
+      while (true) {
          const auto [message, device] {messages_.pop()};
          if (message == kTerminate) { return; }
 #ifdef _WIN32
@@ -170,7 +170,7 @@ void MidiReceiver::DispatchMessages()
          case rsj::MessageType::kSystem:
             break; /* no action if other type of MIDI message */
          }
-      } while (true);
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

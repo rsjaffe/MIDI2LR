@@ -27,8 +27,7 @@ void Profile::FromXml(const juce::XmlElement* root)
    try {
       if (!root || root->getTagName().compare("settings") != 0) { return; }
       RemoveAllRows();
-      const auto* setting {root->getFirstChildElement()};
-      while (setting) {
+      for (const auto* setting : root->getChildIterator()) {
          if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message {setting->getIntAttribute("channel"),
                 setting->getIntAttribute("controller"), rsj::MessageType::kCc};
@@ -46,7 +45,6 @@ void Profile::FromXml(const juce::XmlElement* root)
          }
          else { /* no action needed */
          }
-         setting = setting->getNextElement();
       }
       auto guard {std::unique_lock {mutex_}};
       SortI();
