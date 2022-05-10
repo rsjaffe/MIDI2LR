@@ -46,20 +46,13 @@
 #include "ProfileManager.h"
 #include "SettingsManager.h"
 #include "VersionChecker.h"
-
-#ifdef __cpp_lib_semaphore
-#include <semaphore>
-#else
-#include <condition_variable>
-#endif
-
-namespace fs = std::filesystem;
-
 #ifdef _WIN32
 #include <array>
 
 #include <wil/result.h> /* including too early causes conflicts with other windows includes */
 #endif
+
+namespace fs = std::filesystem;
 
 namespace {
    constexpr auto kShutDownString {"--LRSHUTDOWN"};
@@ -267,42 +260,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          static std::once_flag of; /* function might be called twice during LR shutdown */
          std::call_once(of, [this] {
             if (profile_.ProfileUnsaved() && main_window_) {
-#ifdef __cpp_lib_semaphore
-               std::binary_semaphore ready_sem(1);
-#else
-               std::condition_variable cv;
-               std::mutex m;
-               bool ready {false};
-#endif
-
-               juce::MessageManager::callAsync([&] {
-                  try {
-                     const auto result {juce::NativeMessageBox::showYesNoBox(
-                         juce::AlertWindow::WarningIcon, juce::translate("MIDI2LR profiles"),
-                         juce::translate("Profile changed. Do you want to save your changes? If "
-                                         "you continue without saving, your changes will be "
-                                         "lost."))};
-                     if (result) { main_window_->SaveProfile(); }
-                  }
-                  catch (const std::exception& e) {
-                     MIDI2LR_E_RESPONSE; /* and continue, so ready flag can be set */
-                  }
-                  catch (...) { //-V565 //-V5002
-                  }
-#ifdef __cpp_lib_semaphore
-                  ready_sem.release();
-               });
-               ready_sem.acquire();
-#else
-                  {
-                     std::unique_lock<std::mutex> lk {m};
-                     ready = true;
-                  }
-                  cv.notify_one();
-               });
-               std::unique_lock<std::mutex> lk {m};
-               cv.wait(lk, [&] { return ready; });
-#endif
+               if (juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
+                       juce::translate("MIDI2LR profiles"),
+                       juce::translate("Profile changed. Do you want to save your changes? If "
+                                       "you continue without saving, your changes will be "
+                                       "lost."))) {
+                  main_window_->SaveProfile();
+               }
             }
             quit();
          });
