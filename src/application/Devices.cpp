@@ -105,7 +105,7 @@ bool Devices::Add(const juce::MidiDeviceInfo& info, const juce::String& io)
    try {
       const auto [it, success] {device_listing_.try_emplace({info, io}, true)};
       if (success) {
-         if (auto new_element {data_list_->createNewChildElement("item")}) {
+         if (const auto new_element {data_list_->createNewChildElement("item")}) {
             new_element->setAttribute("devicename", info.name);
             new_element->setAttribute("systemid", info.identifier);
             new_element->setAttribute("inputoutput", io);

@@ -18,7 +18,6 @@
 
 #include <future>
 #include <memory>
-#include <version>
 
 #include <asio/asio.hpp>
 

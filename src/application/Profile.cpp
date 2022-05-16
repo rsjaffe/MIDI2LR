@@ -162,18 +162,10 @@ void Profile::RemoveUnassignedMessages()
 {
    try {
       auto guard {std::unique_lock {mutex_}};
-#ifdef __cpp_lib_erase_if
       if (std::erase_if(
               mm_abbrv_table_, [](const auto& p) { return p.second == CommandSet::kUnassigned; })) {
          profile_unsaved_ = true;
       }
-#else
-      const auto old_size = mm_abbrv_table_.size();
-      mm_abbrv_table_.erase(std::remove_if(mm_abbrv_table_.begin(), mm_abbrv_table_.end(),
-                                [](const auto& p) { return p.second == CommandSet::kUnassigned; }),
-          mm_abbrv_table_.end());
-      if (mm_abbrv_table_.size() != old_size) { profile_unsaved_ = true; };
-#endif
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

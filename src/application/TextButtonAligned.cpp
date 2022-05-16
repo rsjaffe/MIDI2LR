@@ -17,7 +17,6 @@
 #include "TextButtonAligned.h"
 
 #include <algorithm>
-#include <cmath>
 
 #include <gsl/gsl>
 
@@ -60,9 +59,8 @@ void TextButtonAligned::DrawButtonText(juce::Graphics& g, juce::TextButton& butt
        std::min(font_height, 2 + corner_size / (button.isConnectedOnLeft() ? 4 : 2))}; //-V112
    const auto right_indent {
        std::min(font_height, 2 + corner_size / (button.isConnectedOnRight() ? 4 : 2))}; //-V112
-   const auto text_width {button.getWidth() - left_indent - right_indent};
 
-   if (text_width > 0) {
+   if (const auto text_width {button.getWidth() - left_indent - right_indent}; text_width > 0) {
       g.drawFittedText(button.getButtonText(), left_indent, y_indent, text_width,
           button.getHeight() - y_indent * 2, alignment_, 2);
    }

@@ -20,7 +20,6 @@
 #include <fstream>
 #include <memory>
 #include <utility>
-#include <version>
 
 #include <cereal/archives/xml.hpp>
 #include <cereal/types/string.hpp> /*ReSharper false alarm*/
@@ -63,8 +62,7 @@ CommandSet::Impl::Impl()
 {
    try {
       const fs::path p {rsj::AppDataFilePath(MIDI2LR_UC_LITERAL("MenuTrans.xml"))};
-      std::ifstream infile {p};
-      if (infile.is_open()) {
+      if (std::ifstream infile {p}; infile.is_open()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
          const auto iarchive {std::make_unique<cereal::XMLInputArchive>(infile)};
          (*iarchive)(*this);

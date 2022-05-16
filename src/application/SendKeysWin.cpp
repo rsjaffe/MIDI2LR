@@ -46,7 +46,7 @@ namespace {
       const auto length {GetWindowTextW(hwnd, buffer.data(), gsl::narrow_cast<int>(buffer.size()))};
       if (length) {
          /* check for issues with extra-long window titles and log them */
-         if (rsj::cmp_greater_equal(length + 1, buffer.size())) {
+         if (std::cmp_greater_equal(length + 1, buffer.size())) {
             rsj::Log(fmt::format(
                 FMT_STRING(L"EnumWindowsProc window text length > {}, truncated text is {}."),
                 buffer.size(), buffer.data())

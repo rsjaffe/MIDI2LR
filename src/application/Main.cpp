@@ -22,7 +22,6 @@
 #include <future>
 #include <memory>
 #include <mutex>
-#include <version>
 
 #include <asio/asio.hpp>
 #include <cereal/archives/xml.hpp>
@@ -335,8 +334,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    {
       try {
          const fs::path p {rsj::AppDataFilePath(kSettingsFileX)};
-         std::ofstream outfile {p, std::ios::trunc};
-         if (outfile.is_open()) {
+         if (std::ofstream outfile {p, std::ios::trunc}; outfile.is_open()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto oarchive {std::make_unique<cereal::XMLOutputArchive>(outfile)};
             (*oarchive)(controls_model_);
@@ -357,8 +355,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    {
       try {
          const fs::path px {rsj::AppDataFilePath(kSettingsFileX)};
-         std::ifstream in_file {px};
-         if (in_file.is_open() && !in_file.eof()) {
+         if (std::ifstream in_file {px}; in_file.is_open() && !in_file.eof()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto iarchive {std::make_unique<cereal::XMLInputArchive>(in_file)};
             (*iarchive)(controls_model_);

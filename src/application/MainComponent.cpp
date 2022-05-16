@@ -112,11 +112,12 @@ void MainContentComponent::Init()
       addAndMakeVisible(load_button_);
       load_button_.onClick = [this] {
          if (profile_.ProfileUnsaved()) {
-            const auto result {juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
-                juce::translate("MIDI2LR profiles"),
-                juce::translate("Profile changed. Do you want to save your changes? If you "
-                                "continue without saving, your changes will be lost."))};
-            if (result) { SaveProfile(); }
+            if (juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
+                    juce::translate("MIDI2LR profiles"),
+                    juce::translate("Profile changed. Do you want to save your changes? If you "
+                                    "continue without saving, your changes will be lost."))) {
+               SaveProfile();
+            }
          }
          juce::File profile_directory {settings_manager_.GetProfileDirectory()};
          const auto directory_saved {profile_directory.exists()};

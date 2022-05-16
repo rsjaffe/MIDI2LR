@@ -48,14 +48,7 @@ class ProfileManager final : juce::AsyncUpdater {
    void AddCallback(
        _In_ T* const object, _In_ void (T::*const mf)(juce::XmlElement*, const juce::String&))
    {
-      if (object && mf) {
-#ifdef __cpp_lib_bind_front
-         callbacks_.emplace_back(std::bind_front(mf, object));
-#else
-         callbacks_.emplace_back(
-             [=](juce::XmlElement* a, const juce::String& b) { (object->*mf)(a, b); });
-#endif
-      }
+      if (object && mf) { callbacks_.emplace_back(std::bind_front(mf, object)); }
    }
    [[nodiscard]] const juce::String& GetProfileDirectory() const noexcept
    {
