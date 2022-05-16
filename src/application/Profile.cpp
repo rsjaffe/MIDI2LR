@@ -77,7 +77,7 @@ void Profile::InsertOrAssignI(const std::string& command, const rsj::MidiMessage
 {
    try {
       const auto found = std::find_if(mm_abbrv_table_.begin(), mm_abbrv_table_.end(),
-          [&message](const auto& p) { return p.first == message; });
+          [message](const auto& p) { return p.first == message; });
       if (found != mm_abbrv_table_.end()) { found->second = command; }
       else {
          mm_abbrv_table_.emplace_back(message, command);
@@ -128,7 +128,7 @@ void Profile::RemoveMessage(rsj::MidiMessageId message)
    try {
       auto guard {std::unique_lock {mutex_}};
       const auto found {std::find_if(mm_abbrv_table_.begin(), mm_abbrv_table_.end(),
-          [&message](const auto& p) { return p.first == message; })};
+          [message](const auto& p) { return p.first == message; })};
       if (found != mm_abbrv_table_.end()) [[likely]] {
          mm_abbrv_table_.erase(found);
          profile_unsaved_ = true;

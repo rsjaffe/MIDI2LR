@@ -84,7 +84,7 @@ inline const std::string& Profile::GetCommandForMessage(rsj::MidiMessageId messa
 {
    auto guard {std::shared_lock {mutex_}};
    const auto found = std::find_if(mm_abbrv_table_.begin(), mm_abbrv_table_.end(),
-       [&message](auto& p) { return p.first == message; });
+       [message](auto& p) { return p.first == message; });
    if (found != mm_abbrv_table_.end()) { return found->second; }
    return CommandSet::kUnassigned;
 }
@@ -99,7 +99,7 @@ inline int Profile::GetRowForMessage(rsj::MidiMessageId message) const
 {
    auto guard {std::shared_lock {mutex_}};
    return gsl::narrow_cast<int>(std::find_if(mm_abbrv_table_.begin(), mm_abbrv_table_.end(),
-                                    [&message](auto& p) { return p.first == message; })
+                                    [message](auto& p) { return p.first == message; })
                                 - mm_abbrv_table_.begin());
 }
 
@@ -126,7 +126,7 @@ inline bool Profile::MessageExistsInMap(rsj::MidiMessageId message) const
 inline bool Profile::MessageExistsInMapI(rsj::MidiMessageId message) const
 {
    return std::any_of(mm_abbrv_table_.begin(), mm_abbrv_table_.end(),
-       [&message](auto& p) { return p.first == message; });
+       [message](auto& p) { return p.first == message; });
 }
 
 inline bool Profile::ProfileUnsaved() const
