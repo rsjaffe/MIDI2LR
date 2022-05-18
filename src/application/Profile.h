@@ -111,8 +111,8 @@ inline void Profile::InsertOrAssign(const std::string& command, rsj::MidiMessage
 
 inline void Profile::InsertOrAssign(size_t command, rsj::MidiMessageId message)
 {
-   auto guard {std::unique_lock {mutex_}};
    if (command < command_set_.CommandAbbrevSize()) {
+      auto guard {std::unique_lock {mutex_}};
       InsertOrAssignI(command_set_.CommandAbbrevAt(command), message);
    }
 }

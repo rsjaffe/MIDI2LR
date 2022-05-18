@@ -245,7 +245,7 @@ void LrIpcOut::SetRecenter(rsj::MidiMessageId mm)
    /* by capturing mm by copy, don't have to worry about later calls changing it--those will just
     * cancel and reschedule new one */
    try {
-      asio::dispatch([this] { recenter_timer_.expires_after(kRecenterTimer); });
+      recenter_timer_.expires_after(kRecenterTimer);
       recenter_timer_.async_wait([this, mm](const asio::error_code& error) {
          if (!error && !thread_should_exit_.load(std::memory_order_acquire)) {
             midi_sender_.Send(mm, controls_model_.SetToCenter(mm));

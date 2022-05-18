@@ -60,8 +60,8 @@ void Profile::FromXml(const juce::XmlElement* root)
 std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string& command) const
 {
    try {
-      auto guard {std::shared_lock {mutex_}};
       std::vector<rsj::MidiMessageId> mm;
+      auto guard {std::shared_lock {mutex_}};
       std::for_each(mm_abbrv_table_.begin(), mm_abbrv_table_.end(), [&command, &mm](const auto& p) {
          if (p.second == command) mm.push_back(p.first);
       });
