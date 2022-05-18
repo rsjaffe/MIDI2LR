@@ -242,7 +242,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        * MIDIReceiver. Add to this list if new threads or callback lists are developed in this
        * app. */
       midi_receiver_.Stop();
-      midi_sender_.Stop();
       lr_ipc_in_.Stop();
       lr_ipc_out_.Stop();
       version_checker_.Stop();

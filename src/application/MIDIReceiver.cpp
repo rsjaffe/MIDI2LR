@@ -136,18 +136,16 @@ void MidiReceiver::InitDevices()
 void MidiReceiver::DispatchMessages()
 {
    try {
-      while (true) {
-         const auto [message, device] {messages_.pop()};
-         if (message == kTerminate) { return; }
+      for (auto popped = messages_.pop(); popped.first != kTerminate; popped = messages_.pop()) {
 #ifdef _WIN32
          SetThreadExecutionState(0x00000002UL | 0x00000001UL);
 #endif
-         switch (message.message_type_byte) {
+         switch (popped.first.message_type_byte) {
          case rsj::MessageType::kCc:
-            if (const auto result {filters_[device](message)}; result.is_nrpn) {
+            if (const auto result {filters_[popped.second](popped.first)}; result.is_nrpn) {
                if (result.is_ready) {
                   const rsj::MidiMessage nrpn_message {
-                      rsj::MessageType::kCc, message.channel, result.control, result.value};
+                      rsj::MessageType::kCc, popped.first.channel, result.control, result.value};
                   for (const auto& cb : callbacks_) {
 #pragma warning(suppress : 26489) /* checked for existence before adding to callbacks_ */
                      cb(nrpn_message);
@@ -160,7 +158,7 @@ void MidiReceiver::DispatchMessages()
          case rsj::MessageType::kPw:
             for (const auto& cb : callbacks_) {
 #pragma warning(suppress : 26489) /* checked for existence before adding to callbacks_ */
-               cb(message);
+               cb(popped.first);
             }
             break;
          case rsj::MessageType::kChanPressure:

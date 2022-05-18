@@ -40,17 +40,6 @@ void MidiSender::Start()
    }
 }
 
-void MidiSender::Stop()
-{
-   try {
-      output_devices_.clear(); /* close devices */
-   }
-   catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
-      throw;
-   }
-}
-
 void MidiSender::Send(rsj::MidiMessageId id, int value) const
 {
    try {
