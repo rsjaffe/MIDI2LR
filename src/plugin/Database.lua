@@ -1084,7 +1084,6 @@ local DataBase = {
   --
 
   {Command='straightenAngle',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle'),Group=crop,Explanation='Rotate crop angle. Moves angle in crop tool panel from -45 to 45.'},
-  {Command='CropAngle',Type='parameter',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CropAngle=Crop Angle'),Group=crop,Explanation='Use *Straighten Angle* (above) instead. This control remains listed as a legacy item. Rotate crop rectangle. This control is constrained to picture boundaries even when \226\128\156constrain to image\226\128\157 is not selected. It also causes the aspect ratio of the crop to change.'},
   {Command='CropBottom',Type='parameter',Experimental=true,Translation=crop..' - '..LOC('$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Bottom=Bottom'),Group=crop,Explanation='Adjust bottom of crop rectangle.'},
   {Command='CropLeft',Type='parameter',Experimental=true,Translation=crop..' - '..LOC('$$$/AgWatermarking/Alignment/Left=Left'),Group=crop,Explanation='Adjust left side of crop rectangle.'},
   {Command='CropRight',Type='parameter',Experimental=true,Translation=crop..' - '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=crop,Explanation='Adjust right side of crop rectangle.'},

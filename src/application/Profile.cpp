@@ -25,23 +25,26 @@ void Profile::FromXml(const juce::XmlElement* root)
    /* external use only, but will either use external versions of Profile calls to lock individual
     * accesses or manually lock any internal calls instead of using mutex for entire method */
    try {
+      using namespace std::string_literals;
       if (!root || root->getTagName().compare("settings") != 0) { return; }
       RemoveAllRows();
       for (const auto* setting : root->getChildIterator()) {
+         auto command = setting->getStringAttribute("command_string").toStdString();
+         if (command == "CropAngle"s) { command = "straightenAngle"s; }
          if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message {setting->getIntAttribute("channel"),
                 setting->getIntAttribute("controller"), rsj::MessageType::kCc};
-            InsertOrAssign(setting->getStringAttribute("command_string").toStdString(), message);
+            InsertOrAssign(command, message);
          }
          else if (setting->hasAttribute("note")) {
             const rsj::MidiMessageId note {setting->getIntAttribute("channel"),
                 setting->getIntAttribute("note"), rsj::MessageType::kNoteOn};
-            InsertOrAssign(setting->getStringAttribute("command_string").toStdString(), note);
+            InsertOrAssign(command, note);
          }
          else if (setting->hasAttribute("pitchbend")) {
             const rsj::MidiMessageId pb {
                 setting->getIntAttribute("channel"), 0, rsj::MessageType::kPw};
-            InsertOrAssign(setting->getStringAttribute("command_string").toStdString(), pb);
+            InsertOrAssign(command, pb);
          }
          else { /* no action needed */
          }
