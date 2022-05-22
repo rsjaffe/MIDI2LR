@@ -105,6 +105,9 @@ local function ApplyPreset(presetnumber)
   currentpreset = presetnumber -- for next/prev preset
   local preset = LrApplication.developPresetByUuid(presetUuid)
   LrTasks.startAsyncTask ( function ()
+          --[[-----------debug section, enable by adding - to beginning this line
+    LrMobdebug.on()
+    --]]-----------end debug section
       LrApplication.activeCatalog():withWriteAccessDo(
         'Apply preset '..preset:getName(),
         function()
@@ -127,6 +130,9 @@ local function fApplyPreset(presetnumber)
     currentpreset = presetnumber -- for next/prev preset
     local preset = LrApplication.developPresetByUuid(presetUuid)
     LrTasks.startAsyncTask ( function ()
+            --[[-----------debug section, enable by adding - to beginning this line
+    LrMobdebug.on()
+    --]]-----------end debug section
         LrApplication.activeCatalog():withWriteAccessDo(
           'Apply preset '..preset:getName(),
           function()

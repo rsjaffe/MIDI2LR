@@ -41,6 +41,9 @@ end
 local function GetKeywords()
   LrTasks.startAsyncTask(
     function()
+          --[[-----------debug section, enable by adding - to beginning this line
+    LrMobdebug.on()
+    --]]-----------end debug section
       ListReady = false
       NotifyFinished = false
       KeywordList = {}
@@ -64,6 +67,9 @@ end
 
 local function ApplyKeyword(Keyword)
   LrTasks.startAsyncTask( function(context)
+          --[[-----------debug section, enable by adding - to beginning this line
+    LrMobdebug.on()
+    --]]-----------end debug section
       local LrCat = LrApplication.activeCatalog()
       local LrKeyword = LrCat:getKeywordsByLocalId({Keyword})[1]
       local TargetPhoto  = LrCat:getTargetPhoto()
@@ -82,6 +88,9 @@ end
 
 local function ToggleKeyword(Keyword)
   LrTasks.startAsyncTask( function(context)
+          --[[-----------debug section, enable by adding - to beginning this line
+    LrMobdebug.on()
+    --]]-----------end debug section
       local LrCat = LrApplication.activeCatalog()
       local LrKeyword = LrCat:getKeywordsByLocalId({Keyword})[1]
       local TargetPhoto  = LrCat:getTargetPhoto()
