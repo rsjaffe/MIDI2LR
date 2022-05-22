@@ -39,6 +39,7 @@
 #include "SendKeys.h"
 
 using namespace std::literals::chrono_literals;
+using namespace std::string_literals;
 
 namespace {
    constexpr auto kEmptyWait {100ms};
@@ -160,7 +161,7 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
            line_copy = lr_ipc_shared->line_.pop()) {
          auto [command_view, value_view] {SplitLine(line_copy)};
          const auto command {std::string(command_view)};
-         if (command == "TerminateApplication") {
+         if (command == "TerminateApplication"s) {
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
             return;
          }
@@ -169,13 +170,13 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
                 FMT_STRING("No value attached to message. Message from plugin was \"{}\"."),
                 rsj::ReplaceInvisibleChars(line_copy)));
          }
-         else if (command == "SwitchProfile") {
+         else if (command == "SwitchProfile"s) {
             profile_manager_.SwitchToProfile(std::string(value_view));
          }
-         else if (command == "Log") {
+         else if (command == "Log"s) {
             rsj::Log(fmt::format(FMT_STRING("Plugin: {}."), value_view));
          }
-         else if (command == "SendKey") {
+         else if (command == "SendKey"s) {
             const auto modifiers {std::stoi(std::string(value_view))};
             /* trim twice on purpose: first modifiers digits, then one space (fixed delimiter) */
             const auto first_not_digit {value_view.find_first_not_of("0123456789")};
@@ -226,7 +227,7 @@ void LrIpcInShared::Read(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
                       std::string command {buffers_begin(buf.data()),
                           buffers_begin(buf.data())
                               + gsl::narrow<std::ptrdiff_t>(bytes_transferred)};
-                      if (command == "TerminateApplication 1\n") {
+                      if (command == "TerminateApplication 1\n"s) {
                          lr_ipc_shared->thread_should_exit_.store(true, std::memory_order_release);
                       }
                       lr_ipc_shared->line_.push(std::move(command));

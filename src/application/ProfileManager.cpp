@@ -120,12 +120,13 @@ void ProfileManager::SwitchToPreviousProfile()
 void ProfileManager::MapCommand(rsj::MidiMessageId msg)
 {
    try {
+      using namespace std::string_literals;
       const auto cmd {current_profile_.GetCommandForMessage(msg)};
-      if (cmd == "PrevPro") {
+      if (cmd == "PrevPro"s) {
          switch_state_ = SwitchState::kPrev;
          triggerAsyncUpdate();
       }
-      else if (cmd == "NextPro") {
+      else if (cmd == "NextPro"s) {
          switch_state_ = SwitchState::kNext;
          triggerAsyncUpdate();
       }

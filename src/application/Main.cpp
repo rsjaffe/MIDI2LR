@@ -386,17 +386,18 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        *        Fixed   Menlo            Lucida Console
        */
       try {
+         using namespace std::string_literals;
          const auto& lang {command_set_.GetLanguage()};
          juce::String font1_name;
          juce::String font2_name;
          if (lang == "ko") { font1_name = "NotoSansKR-Regular.otf"; }
-         else if (rollbear::any_of("zh_TW", "zh_tw") == lang) {
+         else if (rollbear::any_of("zh_TW"s, "zh_tw"s) == lang) {
             font1_name = "NotoSansTC-Regular.otf";
          }
-         else if (rollbear::any_of("zh_CN", "zh_cn") == lang) {
+         else if (rollbear::any_of("zh_CN"s, "zh_cn"s) == lang) {
             font1_name = "NotoSansSC-Regular.otf";
          }
-         else if (lang == "ja") {
+         else if (lang == "ja"s) {
             font1_name = "NotoSansJP-Regular.otf";
          }
          else {
