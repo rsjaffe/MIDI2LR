@@ -345,37 +345,6 @@
                 </compareVersions>
             </ruleList>
         </throwError>
-        <throwError>
-            <text>${msg(midi.install.win)}</text>
-            <ruleList>
-                <platformTest>
-                    <type>windows</type>
-                </platformTest>
-                <ruleGroup>
-                    <ruleEvaluationLogic>or</ruleEvaluationLogic>
-                    <ruleList>
-                        <platformTest>
-                            <type>windows-x86</type>
-                        </platformTest>
-                        <ruleGroup>
-                            <negate>1</negate>
-                            <ruleEvaluationLogic>or</ruleEvaluationLogic>
-                            <ruleList>
-                                <platformTest>
-                                    <type>windows-10</type>
-                                </platformTest>
-                                <platformTest>
-                                    <type>windows-2016</type>
-                                </platformTest>
-                                <platformTest>
-                                    <type>windows-2019</type>
-                                </platformTest>
-                            </ruleList>
-                        </ruleGroup>
-                    </ruleList>
-                </ruleGroup>
-            </ruleList>
-        </throwError>
     </initializationActionList>
     <preInstallationActionList>
         <setInstallerVariable>
