@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <utility>
 
 #include <fmt/format.h>
 #include <fmt/xchar.h>
@@ -37,13 +38,13 @@
 /**************Thread Labels**************************************************/
 /*****************************************************************************/
 #ifdef _WIN32
-void rsj::LabelThread(gsl::cwzstring<> threadname)
+void rsj::LabelThread(gsl::cwzstring threadname)
 {
    LOG_IF_FAILED(SetThreadDescription(GetCurrentThread(), threadname));
 }
 #else
 #include <pthread.h>
-void rsj::LabelThread(gsl::czstring<> threadname)
+void rsj::LabelThread(gsl::czstring threadname)
 {
    auto result {pthread_setname_np(threadname)};
    if (result) {
@@ -68,13 +69,13 @@ namespace {
       ::std::string result {};
       result.reserve(in.size() * 3 / 2); /* midway between max and min final size */
       for (const auto a : in) {
-         if (rsj::cmp_less(rsj::CharToInt(a), ascii_map.size())
-             && rsj::cmp_greater_equal(rsj::CharToInt(a), 0)) {
+         if (std::cmp_less(rsj::CharToInt(a), ascii_map.size())
+             && std::cmp_greater_equal(rsj::CharToInt(a), 0)) {
 #pragma warning(suppress : 26446 26482) /* false alarm, range checked by if statement */
             // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
             result.append(ascii_map[gsl::narrow_cast<size_t>(a)]);
          }
-         else if (rsj::cmp_equal(rsj::CharToInt(a), 127)) {
+         else if (std::cmp_equal(rsj::CharToInt(a), 127)) {
             result.append("\\x7F");
          }
          else if (a == '\\') {
@@ -132,6 +133,9 @@ void rsj::Log(const juce::String& info, const std::source_location& location) no
       if (juce::Logger::getCurrentLogger()) {
          juce::String localname {location.file_name()};
          localname = localname.substring(localname.lastIndexOfChar('\\') + 1);
+#ifdef _WIN32
+         auto last_error {wil::last_error_context()};
+#endif
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ' ' + localname
                                   + '(' + juce::String(location.line()) + ") " + info);
       }
@@ -140,12 +144,12 @@ void rsj::Log(const juce::String& info, const std::source_location& location) no
    }
 }
 
-void rsj::Log(gsl::czstring<> info, const std::source_location& location) noexcept
+void rsj::Log(gsl::czstring info, const std::source_location& location) noexcept
 {
    rsj::Log(juce::String::fromUTF8(info), location);
 }
 
-void rsj::Log(gsl::cwzstring<> info, const std::source_location& location) noexcept
+void rsj::Log(gsl::cwzstring info, const std::source_location& location) noexcept
 {
    rsj::Log(juce::String(info), location);
 }
@@ -182,8 +186,7 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
    }
 }
 
-void rsj::LogAndAlertError(
-    gsl::czstring<> error_text, const std::source_location& location) noexcept
+void rsj::LogAndAlertError(gsl::czstring error_text, const std::source_location& location) noexcept
 {
    try {
       {
@@ -212,6 +215,9 @@ void rsj::Log(const juce::String& info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger()) {
+#ifdef _WIN32
+         auto last_error {wil::last_error_context()};
+#endif
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + " " + info);
       }
    }
@@ -219,10 +225,13 @@ void rsj::Log(const juce::String& info) noexcept
    }
 }
 
-void rsj::Log(gsl::czstring<> info) noexcept
+void rsj::Log(gsl::czstring info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger()) {
+#ifdef _WIN32
+         auto last_error {wil::last_error_context()};
+#endif
          juce::Logger::writeToLog(
              juce::Time::getCurrentTime().toISO8601(true) + " " + juce::String::fromUTF8(info));
       }
@@ -231,10 +240,13 @@ void rsj::Log(gsl::czstring<> info) noexcept
    }
 }
 
-void rsj::Log(gsl::cwzstring<> info) noexcept
+void rsj::Log(gsl::cwzstring info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger()) {
+#ifdef _WIN32
+         auto last_error {wil::last_error_context()};
+#endif
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + " " + info);
       }
    }
@@ -272,7 +284,7 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
    }
 }
 
-void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
+void rsj::LogAndAlertError(gsl::czstring error_text) noexcept
 {
    try {
       {
@@ -291,7 +303,7 @@ void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
 #pragma warning(disable : 26447)
 #if defined(__GNUC__) || defined(__clang__)
 void rsj::ExceptionResponse(
-    [[maybe_unused]] gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
+    [[maybe_unused]] gsl::czstring id, gsl::czstring fu, const ::std::exception& e) noexcept
 {
    try {
       const auto alert_text {
@@ -305,8 +317,7 @@ void rsj::ExceptionResponse(
 #else
 /* Use typeid(this).name() for first argument to add class information. Typical call:
  * rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e); */
-void rsj::ExceptionResponse(
-    gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
+void rsj::ExceptionResponse(gsl::czstring id, gsl::czstring fu, const ::std::exception& e) noexcept
 {
    try {
       const auto alert_text {fmt::format(

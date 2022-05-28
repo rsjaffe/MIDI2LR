@@ -20,7 +20,6 @@
 #include <fstream>
 #include <memory>
 #include <utility>
-#include <version>
 
 #include <cereal/archives/xml.hpp>
 #include <cereal/types/string.hpp> /*ReSharper false alarm*/
@@ -63,8 +62,7 @@ CommandSet::Impl::Impl()
 {
    try {
       const fs::path p {rsj::AppDataFilePath(MIDI2LR_UC_LITERAL("MenuTrans.xml"))};
-      std::ifstream infile {p};
-      if (infile.is_open()) {
+      if (std::ifstream infile {p}; infile.is_open()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
          const auto iarchive {std::make_unique<cereal::XMLInputArchive>(infile)};
          (*iarchive)(*this);
@@ -97,15 +95,13 @@ size_t CommandSet::CommandTextIndex(const std::string& command) const
 {
    try {
       using namespace std::string_literals;
-      const auto found {cmd_idx_.find(command)};
-      if (found == cmd_idx_.end()) {
-         if (command != "Unmapped"s) { /*Old version of Unassigned*/
-            rsj::Log(
-                fmt::format(FMT_STRING("Command not found in CommandTextIndex: {}."), command));
-         }
-         return 0;
+      if (const auto found {cmd_idx_.find(command)}; found != cmd_idx_.end()) {
+         return found->second;
       }
-      return found->second;
+      if (command != "Unmapped"s) { /*Old version of Unassigned*/
+         rsj::Log(fmt::format(FMT_STRING("Command not found in CommandTextIndex: {}."), command));
+      }
+      return 0;
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

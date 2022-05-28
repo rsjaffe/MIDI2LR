@@ -17,6 +17,7 @@
  */
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include <cereal/access.hpp>
@@ -63,7 +64,7 @@ class CommandSet {
       Impl& operator=(Impl&& other) = delete;
       template<class Archive> void serialize(Archive& archive, std::uint32_t const version)
       {
-         if (rsj::cmp_equal(version, 2)) {
+         if (std::cmp_equal(version, 2)) {
             archive(cereal::make_nvp("language", language_),
                 cereal::make_nvp("all_commands", allcommands_),
                 cereal::make_nvp("repeats", repeat_messages_), cereal::make_nvp("wraps", wraps_));

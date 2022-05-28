@@ -208,13 +208,13 @@ class ChannelModel {
 
 class ControlsModel {
  public:
-   double ControllerToPlugin(const rsj::MidiMessage& mm, bool wrap)
+   double ControllerToPlugin(rsj::MidiMessage mm, bool wrap)
    {
       return all_controls_.at(mm.channel)
           .ControllerToPlugin(mm.message_type_byte, mm.control_number, mm.value, wrap);
    }
 
-   int MeasureChange(const rsj::MidiMessage& mm)
+   int MeasureChange(rsj::MidiMessage mm)
    {
       return all_controls_.at(mm.channel)
           .MeasureChange(mm.message_type_byte, mm.control_number, mm.value);

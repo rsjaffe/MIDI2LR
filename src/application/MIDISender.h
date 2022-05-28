@@ -34,6 +34,11 @@ namespace rsj {
 class MidiSender {
  public:
    explicit MidiSender(Devices& devices) noexcept : devices_(devices) {}
+   ~MidiSender() { output_devices_.clear(); /* close devices */ }
+   MidiSender(const MidiSender& other) = delete;
+   MidiSender(MidiSender&& other) noexcept = delete;
+   MidiSender& operator=(const MidiSender& other) = delete;
+   MidiSender& operator=(MidiSender&& other) noexcept = delete;
    void RescanDevices();
    void Send(rsj::MidiMessageId id, int value) const;
    void Start();

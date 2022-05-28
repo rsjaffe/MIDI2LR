@@ -126,10 +126,11 @@ public:
                            | NSTrackingEnabledDuringMouseDrag
                            | NSTrackingActiveAlways
                            | NSTrackingInVisibleRect;
-        [view addTrackingArea: [[NSTrackingArea alloc] initWithRect: r
-                                                            options: options
-                                                              owner: view
-                                                           userInfo: nil]];
+        const NSUniquePtr<NSTrackingArea> trackingArea { [[NSTrackingArea alloc] initWithRect: r
+                                                                                      options: options
+                                                                                        owner: view
+                                                                                     userInfo: nil] };
+        [view addTrackingArea: trackingArea.get()];
 
         notificationCenter = [NSNotificationCenter defaultCenter];
 
@@ -429,20 +430,14 @@ public:
         if (isSharedWindow)
             return;
 
-        setCollectionBehaviour (shouldBeFullScreen);
+        if (shouldBeFullScreen)
+            setCollectionBehaviour (true);
 
         if (isMinimised())
             setMinimised (false);
 
-        if (hasNativeTitleBar())
-        {
-            if (shouldBeFullScreen != isFullScreen())
-                [window toggleFullScreen: nil];
-        }
-        else
-        {
-            [window zoom: nil];
-        }
+        if (shouldBeFullScreen != isFullScreen())
+            [window toggleFullScreen: nil];
     }
 
     bool isFullScreen() const override
@@ -493,12 +488,12 @@ public:
                                     : (v == view);
     }
 
-    BorderSize<int> getFrameSize() const override
+    OptionalBorderSize getFrameSizeIfPresent() const override
     {
-        BorderSize<int> b;
-
         if (! isSharedWindow)
         {
+            BorderSize<int> b;
+
             NSRect v = [view convertRect: [view frame] toView: nil];
             NSRect w = [window frame];
 
@@ -506,9 +501,19 @@ public:
             b.setBottom ((int) v.origin.y);
             b.setLeft ((int) v.origin.x);
             b.setRight ((int) (w.size.width - (v.origin.x + v.size.width)));
+
+            return OptionalBorderSize { b };
         }
 
-        return b;
+        return {};
+    }
+
+    BorderSize<int> getFrameSize() const override
+    {
+        if (const auto frameSize = getFrameSizeIfPresent())
+            return *frameSize;
+
+        return {};
     }
 
     bool hasNativeTitleBar() const
@@ -684,7 +689,7 @@ public:
         else
             // moved into another window which overlaps this one, so trigger an exit
             handleMouseEvent (MouseInputSource::InputSourceType::mouse, MouseInputSource::offscreenMousePos, ModifierKeys::currentModifiers,
-                              getMousePressure (ev), MouseInputSource::invalidOrientation, getMouseTime (ev));
+                              getMousePressure (ev), MouseInputSource::defaultOrientation, getMouseTime (ev));
 
         showArrowCursorIfNeeded();
     }
@@ -796,7 +801,7 @@ public:
     {
         updateModifiers (ev);
         handleMouseEvent (MouseInputSource::InputSourceType::mouse, getMousePos (ev, view), ModifierKeys::currentModifiers,
-                          getMousePressure (ev), MouseInputSource::invalidOrientation, getMouseTime (ev));
+                          getMousePressure (ev), MouseInputSource::defaultOrientation, getMouseTime (ev));
     }
 
     bool handleKeyEvent (NSEvent* ev, bool isKeyDown)
@@ -1094,13 +1099,34 @@ public:
         return false;
     }
 
-    void sendModalInputAttemptIfBlocked()
+    enum class KeyWindowChanged { no, yes };
+
+    void sendModalInputAttemptIfBlocked (KeyWindowChanged keyChanged)
     {
-        if (isBlockedByModalComponent())
-            if (auto* modal = Component::getCurrentlyModalComponent())
-                if (auto* otherPeer = modal->getPeer())
-                    if ((otherPeer->getStyleFlags() & ComponentPeer::windowIsTemporary) != 0)
-                        modal->inputAttemptWhenModal();
+        if (! isBlockedByModalComponent())
+            return;
+
+        if (auto* modal = Component::getCurrentlyModalComponent())
+        {
+            if (auto* otherPeer = modal->getPeer())
+            {
+                const auto modalPeerIsTemporary = (otherPeer->getStyleFlags() & ComponentPeer::windowIsTemporary) != 0;
+
+                if (! modalPeerIsTemporary)
+                    return;
+
+                // When a peer resigns key status, it might be because we just created a modal
+                // component that is now key.
+                // In this case, we should only dismiss the modal component if it isn't key,
+                // implying that a third window has become key.
+                const auto modalPeerIsKey = [NSApp keyWindow] == static_cast<NSViewComponentPeer*> (otherPeer)->window;
+
+                if (keyChanged == KeyWindowChanged::yes && modalPeerIsKey)
+                    return;
+
+                modal->inputAttemptWhenModal();
+            }
+        }
     }
 
     bool canBecomeKeyWindow()
@@ -1163,7 +1189,7 @@ public:
         {
             [notificationCenter addObserver: view
                                    selector: dismissModalsSelector
-                                       name: NSWindowDidMoveNotification
+                                       name: NSWindowWillMoveNotification
                                      object: currentWindow];
 
             [notificationCenter addObserver: view
@@ -1186,7 +1212,7 @@ public:
     void dismissModals()
     {
         if (hasNativeTitleBar() || isSharedWindow)
-            sendModalInputAttemptIfBlocked();
+            sendModalInputAttemptIfBlocked (KeyWindowChanged::no);
     }
 
     void becomeKey()
@@ -1197,7 +1223,7 @@ public:
     void resignKey()
     {
         viewFocusLoss();
-        sendModalInputAttemptIfBlocked();
+        sendModalInputAttemptIfBlocked (KeyWindowChanged::yes);
     }
 
     void liveResizingStart()
@@ -1432,7 +1458,7 @@ public:
         return [NSArray arrayWithObjects: type, (NSString*) kPasteboardTypeFileURLPromise, NSPasteboardTypeString, nil];
     }
 
-    BOOL sendDragCallback (const int type, id <NSDraggingInfo> sender)
+    BOOL sendDragCallback (bool (ComponentPeer::* callback) (const DragInfo&), id <NSDraggingInfo> sender)
     {
         NSPasteboard* pasteboard = [sender draggingPasteboard];
         NSString* contentType = [pasteboard availableTypeFromArray: getSupportedDragTypes()];
@@ -1440,9 +1466,10 @@ public:
         if (contentType == nil)
             return false;
 
-        NSPoint p = [view convertPoint: [sender draggingLocation] fromView: nil];
+        const auto p = localToGlobal (convertToPointFloat ([view convertPoint: [sender draggingLocation] fromView: nil]));
+
         ComponentPeer::DragInfo dragInfo;
-        dragInfo.position.setXY ((int) p.x, (int) p.y);
+        dragInfo.position = ScalingHelpers::screenPosToLocalPos (component, p).roundToInt();
 
         if (contentType == NSPasteboardTypeString)
             dragInfo.text = nsStringToJuce ([pasteboard stringForType: NSPasteboardTypeString]);
@@ -1450,15 +1477,7 @@ public:
             dragInfo.files = getDroppedFiles (pasteboard, contentType);
 
         if (! dragInfo.isEmpty())
-        {
-            switch (type)
-            {
-                case 0:   return handleDragMove (dragInfo);
-                case 1:   return handleDragExit (dragInfo);
-                case 2:   return handleDragDrop (dragInfo);
-                default:  jassertfalse; break;
-            }
-        }
+            return (this->*callback) (dragInfo);
 
         return false;
     }
@@ -1594,6 +1613,7 @@ public:
     String stringBeingComposed;
     NSNotificationCenter* notificationCenter = nil;
 
+    Rectangle<float> lastSizeBeforeZoom;
     RectangleList<float> deferredRepaints;
     uint32 lastRepaintTime;
 
@@ -2190,7 +2210,7 @@ private:
     static NSDragOperation draggingUpdated (id self, SEL, id<NSDraggingInfo> sender)
     {
         if (auto* owner = getOwner (self))
-            if (owner->sendDragCallback (0, sender))
+            if (owner->sendDragCallback (&NSViewComponentPeer::handleDragMove, sender))
                 return NSDragOperationGeneric;
 
         return NSDragOperationNone;
@@ -2203,7 +2223,7 @@ private:
 
     static void draggingExited (id self, SEL, id<NSDraggingInfo> sender)
     {
-        callOnOwner (self, &NSViewComponentPeer::sendDragCallback, 1, sender);
+        callOnOwner (self, &NSViewComponentPeer::sendDragCallback, &NSViewComponentPeer::handleDragExit, sender);
     }
 
     static BOOL prepareForDragOperation (id, SEL, id<NSDraggingInfo>)
@@ -2214,7 +2234,7 @@ private:
     static BOOL performDragOperation (id self, SEL, id<NSDraggingInfo> sender)
     {
         auto* owner = getOwner (self);
-        return owner != nullptr && owner->sendDragCallback (2, sender);
+        return owner != nullptr && owner->sendDragCallback (&NSViewComponentPeer::handleDragDrop, sender);
     }
 
     static void concludeDragOperation (id, SEL, id<NSDraggingInfo>) {}
@@ -2303,6 +2323,7 @@ struct JuceNSWindowClass   : public NSViewComponentPeerWrapper<ObjCClass<NSWindo
         addMethod (@selector (windowWillResize:toSize:),            windowWillResize);
         addMethod (@selector (windowDidExitFullScreen:),            windowDidExitFullScreen);
         addMethod (@selector (windowWillEnterFullScreen:),          windowWillEnterFullScreen);
+        addMethod (@selector (windowWillExitFullScreen:),           windowWillExitFullScreen);
         addMethod (@selector (windowWillStartLiveResize:),          windowWillStartLiveResize);
         addMethod (@selector (windowDidEndLiveResize:),             windowDidEndLiveResize);
         addMethod (@selector (window:shouldPopUpDocumentPathMenu:), shouldPopUpPathMenu);
@@ -2320,6 +2341,8 @@ struct JuceNSWindowClass   : public NSViewComponentPeerWrapper<ObjCClass<NSWindo
         addMethod (@selector (keyDown:),                            keyDown);
 
         addMethod (@selector (window:shouldDragDocumentWithEvent:from:withPasteboard:), shouldAllowIconDrag);
+
+        addMethod (@selector (toggleFullScreen:),                                         toggleFullScreen);
 
         addProtocol (@protocol (NSWindowDelegate));
 
@@ -2353,30 +2376,42 @@ private:
        #endif
     }
 
-    static NSRect windowWillUseStandardFrame (id self, SEL, NSWindow*, NSRect r)
+    static NSRect windowWillUseStandardFrame (id self, SEL, NSWindow* window, NSRect r)
     {
         if (auto* owner = getOwner (self))
         {
             if (auto* constrainer = owner->getConstrainer())
             {
-                const auto originalBounds = owner->getFrameSize().addedTo (owner->getComponent().getScreenBounds()).toFloat();
-                const auto expanded = originalBounds.withWidth  ((float) constrainer->getMaximumWidth())
-                                                    .withHeight ((float) constrainer->getMaximumHeight());
-                const auto constrained = expanded.constrainedWithin (convertToRectFloat (flippedScreenRect (r)));
-                return flippedScreenRect (makeNSRect (constrained));
+                if (auto* screen = [window screen])
+                {
+                    const auto safeScreenBounds = convertToRectFloat (flippedScreenRect (owner->hasNativeTitleBar() ? r : [screen visibleFrame]));
+                    const auto originalBounds = owner->getFrameSize().addedTo (owner->getComponent().getScreenBounds()).toFloat();
+                    const auto expanded = originalBounds.withWidth  ((float) constrainer->getMaximumWidth())
+                                                        .withHeight ((float) constrainer->getMaximumHeight());
+                    const auto constrained = expanded.constrainedWithin (safeScreenBounds);
+
+                    return flippedScreenRect (makeNSRect ([&]
+                    {
+                        if (constrained == owner->getBounds().toFloat())
+                            return owner->lastSizeBeforeZoom.toFloat();
+
+                        owner->lastSizeBeforeZoom = owner->getBounds().toFloat();
+                        return constrained;
+                    }()));
+                }
             }
         }
 
         return r;
     }
 
-    static BOOL windowShouldZoomToFrame (id self, SEL, NSWindow* window, NSRect frame)
+    static BOOL windowShouldZoomToFrame (id self, SEL, NSWindow*, NSRect)
     {
         if (auto* owner = getOwner (self))
             if (owner->hasNativeTitleBar() && (owner->getStyleFlags() & ComponentPeer::windowIsResizable) == 0)
                 return NO;
 
-        return convertToRectFloat ([window frame]).withZeroOrigin() != convertToRectFloat (frame).withZeroOrigin();
+        return YES;
     }
 
     static BOOL canBecomeKeyWindow (id self, SEL)
@@ -2459,10 +2494,37 @@ private:
         return frameRect.size;
     }
 
+    static void toggleFullScreen (id self, SEL name, id sender)
+    {
+        if (auto* owner = getOwner (self))
+        {
+            const auto isFullScreen = owner->isFullScreen();
+
+            if (! isFullScreen)
+                owner->lastSizeBeforeZoom = owner->getBounds().toFloat();
+
+            sendSuperclassMessage<void> (self, name, sender);
+
+            if (isFullScreen)
+            {
+                [NSApp setPresentationOptions: NSApplicationPresentationDefault];
+                owner->setBounds (owner->lastSizeBeforeZoom.toNearestInt(), false);
+            }
+        }
+    }
+
     static void windowDidExitFullScreen (id self, SEL, NSNotification*)
     {
         if (auto* owner = getOwner (self))
             owner->resetWindowPresentation();
+    }
+
+    static void windowWillExitFullScreen (id self, SEL, NSNotification*)
+    {
+        // The exit-fullscreen animation looks bad on Monterey if the window isn't resizable...
+        if (auto* owner = getOwner (self))
+            if (auto* window = owner->window)
+                [window setStyleMask: [window styleMask] | NSWindowStyleMaskResizable];
     }
 
     static void windowWillEnterFullScreen (id self, SEL, NSNotification*)

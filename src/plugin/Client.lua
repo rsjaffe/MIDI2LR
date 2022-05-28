@@ -421,6 +421,8 @@ LrTasks.startAsyncTask(
       MaskEnable     = CU.fToggleTFasync('EnableMaskGroupBasedCorrections'),
       MaskHide       = Mask.ToggleHideMask,
       MaskHideTool   = Mask.ToggleHideMaskTool,
+      MaskInvert     = Mask.InvertMask,
+      MaskInvertDup  = Mask.InvertDuplicateMask,
       MaskIntBrush   = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'brush'),
       MaskIntColor   = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'rangeMask','color'),
       MaskIntDepth   = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'rangeMask','depth'),

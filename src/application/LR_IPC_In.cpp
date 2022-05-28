@@ -16,7 +16,9 @@
 #include "LR_IPC_In.h"
 
 #include <algorithm>
+#include <atomic>
 #include <exception>
+#include <string>
 #include <string_view> //ReSharper false alarm
 #include <thread>
 #include <utility>
@@ -27,6 +29,7 @@
 #include <juce_audio_devices/juce_audio_devices.h> //ReSharper false alarm
 #include <juce_gui_basics/juce_gui_basics.h>
 
+#include "Concurrency.h"
 #include "ControlsModel.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
@@ -34,7 +37,9 @@
 #include "Profile.h"
 #include "ProfileManager.h"
 #include "SendKeys.h"
+
 using namespace std::literals::chrono_literals;
+using namespace std::string_literals;
 
 namespace {
    constexpr auto kEmptyWait {100ms};
@@ -42,22 +47,37 @@ namespace {
    constexpr auto kTerminate {"MBxegp3VXilFy0"};
 } // namespace
 
+class LrIpcInShared {
+ private:
+   friend LrIpcIn;
+   asio::ip::tcp::socket socket_;
+   asio::streambuf streambuf_ {};
+   rsj::ConcurrentQueue<std::string> line_;
+   std::atomic<bool> thread_should_exit_ {false};
+   static void Read(std::shared_ptr<LrIpcInShared> lr_ipc_shared);
+
+ public:
+   explicit LrIpcInShared(asio::io_context& io_context) : socket_ {asio::make_strand(io_context)} {}
+};
+
 LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const Profile& profile,
     const MidiSender& midi_sender, asio::io_context& io_context)
-    : socket_ {asio::make_strand(io_context)}, midi_sender_ {midi_sender}, profile_ {profile},
-      controls_model_ {c_model}, profile_manager_ {profile_manager}
+    : midi_sender_ {midi_sender}, profile_ {profile}, controls_model_ {c_model},
+      profile_manager_ {profile_manager}, lr_ipc_in_shared_ {
+                                              std::make_shared<LrIpcInShared>(io_context)}
 {
 }
 
 void LrIpcIn::Start()
 {
    try {
-      process_line_future_ = std::async(std::launch::async, [this] {
-         rsj::LabelThread(MIDI2LR_UC_LITERAL("LrIpcIn ProcessLine thread"));
-         MIDI2LR_FAST_FLOATS;
-         ProcessLine();
-      });
-      Connect();
+      process_line_future_ =
+          std::async(std::launch::async, [this, shared = lr_ipc_in_shared_]() mutable {
+             rsj::LabelThread(MIDI2LR_UC_LITERAL("LrIpcIn ProcessLine thread"));
+             MIDI2LR_FAST_FLOATS;
+             ProcessLine(std::move(shared));
+          });
+      Connect(lr_ipc_in_shared_);
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -68,29 +88,23 @@ void LrIpcIn::Start()
 void LrIpcIn::Stop()
 {
    try {
-      thread_should_exit_.store(true, std::memory_order_release);
-      if (socket_.is_open()) {
+      lr_ipc_in_shared_->thread_should_exit_.store(true, std::memory_order_release);
+      if (auto& sock {lr_ipc_in_shared_->socket_}; sock.is_open()) {
          asio::error_code ec;
          /* For portable behaviour with respect to graceful closure of a connected socket, call
           * shutdown() before closing the socket. */
-         socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+         sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
          if (ec) {
             rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket shutdown error {}."), ec.message()));
             ec.clear();
          }
-         socket_.close(ec);
+         sock.close(ec);
          if (ec) {
             rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message()));
          }
       }
-#ifdef __cpp_lib_semaphore
-      read_running_.acquire();
-#else
-      auto lock {std::unique_lock(mtx_)};
-      cv_.wait(lock, [this] { return !read_running_; });
-#endif
       /* clear input queue after port closed */
-      if (const auto m {line_.clear_count_emplace(kTerminate)}) {
+      if (const auto m {lr_ipc_in_shared_->line_.clear_count_emplace(kTerminate)}) {
          rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcIn destructor."), m));
       }
    }
@@ -100,28 +114,21 @@ void LrIpcIn::Stop()
    }
 }
 
-void LrIpcIn::Connect()
+void LrIpcIn::Connect(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 {
    try {
-      socket_.async_connect(asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrInPort),
-          [this](const asio::error_code& error) {
+      lr_ipc_shared->socket_.async_connect(
+          asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrInPort),
+          [lr_ipc_shared](const asio::error_code& error) mutable {
              if (!error) {
                 rsj::Log("Socket connected in LR_IPC_In.");
-#ifdef __cpp_lib_semaphore
-                read_running_.acquire();
-#else
-                {
-                   auto lock {std::scoped_lock(mtx_)};
-                   read_running_ = true;
-                }
-#endif
-                Read();
+                LrIpcInShared::Read(std::move(lr_ipc_shared));
              }
              else {
                 rsj::Log(
                     fmt::format(FMT_STRING("LR_IPC_In did not connect. {}."), error.message()));
                 asio::error_code ec2;
-                socket_.close(ec2);
+                lr_ipc_shared->socket_.close(ec2);
                 if (ec2) {
                    rsj::Log(
                        fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec2.message()));
@@ -147,15 +154,14 @@ namespace {
    }
 } // namespace
 
-void LrIpcIn::ProcessLine()
+void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 {
    try {
-      do {
-         const auto line_copy {line_.pop()};
-         if (line_copy == kTerminate) { return; }
+      for (auto line_copy = lr_ipc_shared->line_.pop(); line_copy != kTerminate;
+           line_copy = lr_ipc_shared->line_.pop()) {
          auto [command_view, value_view] {SplitLine(line_copy)};
          const auto command {std::string(command_view)};
-         if (command == "TerminateApplication") {
+         if (command == "TerminateApplication"s) {
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
             return;
          }
@@ -164,13 +170,13 @@ void LrIpcIn::ProcessLine()
                 FMT_STRING("No value attached to message. Message from plugin was \"{}\"."),
                 rsj::ReplaceInvisibleChars(line_copy)));
          }
-         else if (command == "SwitchProfile") {
+         else if (command == "SwitchProfile"s) {
             profile_manager_.SwitchToProfile(std::string(value_view));
          }
-         else if (command == "Log") {
+         else if (command == "Log"s) {
             rsj::Log(fmt::format(FMT_STRING("Plugin: {}."), value_view));
          }
-         else if (command == "SendKey") {
+         else if (command == "SendKey"s) {
             const auto modifiers {std::stoi(std::string(value_view))};
             /* trim twice on purpose: first modifiers digits, then one space (fixed delimiter) */
             const auto first_not_digit {value_view.find_first_not_of("0123456789")};
@@ -197,7 +203,7 @@ void LrIpcIn::ProcessLine()
                }
             }
          }
-      } while (true);
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -205,68 +211,42 @@ void LrIpcIn::ProcessLine()
    }
 }
 
-void LrIpcIn::Read()
+void LrIpcInShared::Read(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 {
    try {
-      if (!thread_should_exit_.load(std::memory_order_acquire)) {
-         asio::async_read_until(socket_, streambuf_, '\n',
-             [this](const asio::error_code& error, const std::size_t bytes_transferred) {
+      if (!lr_ipc_shared->thread_should_exit_.load(std::memory_order_acquire)) {
+         asio::async_read_until(lr_ipc_shared->socket_, lr_ipc_shared->streambuf_, '\n',
+             [lr_ipc_shared](
+                 const asio::error_code& error, const std::size_t bytes_transferred) mutable {
                 if (!error) [[likely]] {
                    if (bytes_transferred == 0) [[unlikely]] {
                       std::this_thread::sleep_for(kEmptyWait);
                    }
                    else {
-                      std::string command {buffers_begin(streambuf_.data()),
-                          buffers_begin(streambuf_.data())
+                      auto& buf {lr_ipc_shared->streambuf_};
+                      std::string command {buffers_begin(buf.data()),
+                          buffers_begin(buf.data())
                               + gsl::narrow<std::ptrdiff_t>(bytes_transferred)};
-                      if (command == "TerminateApplication 1\n") {
-                         thread_should_exit_.store(true, std::memory_order_release);
+                      if (command == "TerminateApplication 1\n"s) {
+                         lr_ipc_shared->thread_should_exit_.store(true, std::memory_order_release);
                       }
-                      line_.push(std::move(command));
-                      streambuf_.consume(bytes_transferred);
+                      lr_ipc_shared->line_.push(std::move(command));
+                      buf.consume(bytes_transferred);
                    }
-                   Read();
+                   Read(std::move(lr_ipc_shared));
                 }
                 else {
                    rsj::Log(fmt::format(FMT_STRING("LR_IPC_In Read error: {}."), error.message()));
-#ifdef __cpp_lib_semaphore
-                   read_running_.release();
-#else
-                   {
-                      auto lock {std::scoped_lock(mtx_)};
-                      read_running_ = false;
-                   }
-                   cv_.notify_one();
-#endif
+
                    if (error == asio::error::misc_errors::eof) { /* LR closed socket */
                       juce::JUCEApplication::getInstance()->systemRequestedQuit();
                    }
                 }
              });
       }
-      else {
-#ifdef __cpp_lib_semaphore
-         read_running_.release();
-#else
-         {
-            auto lock {std::scoped_lock(mtx_)};
-            read_running_ = false;
-         }
-         cv_.notify_one();
-#endif
-      }
    }
    catch (const std::exception& e) {
-#ifdef __cpp_lib_semaphore
-      read_running_.release();
-#else
-      {
-         auto lock {std::scoped_lock(mtx_)};
-         read_running_ = false;
-      }
-      cv_.notify_one();
-#endif
-      MIDI2LR_E_RESPONSE;
+      MIDI2LR_E_RESPONSE_F;
       throw;
    }
 }

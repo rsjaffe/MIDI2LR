@@ -6,9 +6,12 @@ dos2unix *.strings
 ./remove_comments.sh MIDI2LR_English.strings | sed -e '/^$/d' -e 's/^"//' -e 's/" = "/=/' -e 's/";//' > custom-en.lng
 ./remove_comments.sh MIDI2LR_French.strings | sed -e '/^$/d' -e 's/^"//' -e 's/" = "/=/' -e 's/";//' > custom-fr.lng
 ./remove_comments.sh MIDI2LR_German.strings | sed -e '/^$/d' -e 's/^"//' -e 's/" = "/=/' -e 's/";//' > custom-de.lng
+./remove_comments.sh MIDI2LR_Hindi.strings | sed -e '/^$/d' -e 's/^"//' -e 's/" = "/=/' -e 's/";//' > custom-hi.lng
 ./remove_comments.sh MIDI2LR_Italian.strings | sed -e '/^$/d' -e 's/^"//' -e 's/" = "/=/' -e 's/";//' > custom-it.lng
 ./remove_comments.sh MIDI2LR_Japanese.strings | sed -e '/^$/d' -e 's/^"//' -e 's/" = "/=/' -e 's/";//' > custom-ja.lng
 ./remove_comments.sh MIDI2LR_Korean.strings | sed -e '/^$/d' -e 's/^"//' -e 's/" = "/=/' -e 's/";//' > custom-ko.lng
+./remove_comments.sh MIDI2LR_Norwegian_Bokm_l.strings | sed -e '/^$/d' -e 's/^"//' -e 's/" = "/=/' -e 's/";//' > custom-nb.lng
+./remove_comments.sh MIDI2LR_Polish.strings | sed -e '/^$/d' -e 's/^"//' -e 's/" = "/=/' -e 's/";//' > custom-pl.lng
 ./remove_comments.sh MIDI2LR_Portuguese_BR.strings | sed -e '/^$/d' -e 's/^"//' -e 's/" = "/=/' -e 's/";//' > custom-pt.lng
 ./remove_comments.sh MIDI2LR_Russian.strings | sed -e '/^$/d' -e 's/^"//' -e 's/" = "/=/' -e 's/";//' > custom-ru.lng
 ./remove_comments.sh MIDI2LR_Spanish.strings | sed -e '/^$/d' -e 's/^"//' -e 's/" = "/=/' -e 's/";//' > custom-es.lng

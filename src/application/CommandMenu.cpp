@@ -94,18 +94,20 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             main_menu.addSubMenu(
                 command_set_.GetMenus().at(submenu_number++), sub_menu, true, nullptr, tick_menu);
          }
-         if (const auto result {gsl::narrow_cast<size_t>(main_menu.show())}) {
+         if (auto result {gsl::narrow_cast<size_t>(main_menu.show())}) {
             /* user chose a different command, remove previous command mapping associated to this
              * menu */
-            if (selected_item_ < std::numeric_limits<decltype(selected_item_)>::max()) {
-               profile_.RemoveMessage(message_);
-            }
             if (result - 1 < command_set_.CommandAbbrevSize()) {
+               profile_.InsertOrAssign(result - 1, message_);
                juce::Button::setButtonText(command_set_.CommandLabelAt(result - 1));
+            }
+            else {
+               profile_.InsertOrAssign(0, message_);
+               juce::Button::setButtonText(command_set_.CommandLabelAt(0));
+               result = 0;
             }
             selected_item_ = result;
             /* Map the selected command to the CC */
-            profile_.AddCommandForMessage(result - 1, message_);
          }
       }
    }

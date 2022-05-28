@@ -15,25 +15,17 @@
  * see <http://www.gnu.org/licenses/>.
  *
  */
-#include <atomic>
+
 #include <future>
-#include <string>
-#include <version>
+#include <memory>
 
 #include <asio/asio.hpp>
 
-#include "Concurrency.h"
 class ControlsModel;
+class LrIpcInShared;
 class MidiSender;
 class Profile;
 class ProfileManager;
-
-#ifdef __cpp_lib_semaphore
-#include <semaphore>
-#else
-#include <condition_variable>
-#include <mutex>
-#endif
 
 class LrIpcIn {
  public:
@@ -48,26 +40,15 @@ class LrIpcIn {
    void Stop();
 
  private:
-   void Connect();
-   void ProcessLine();
-   void Read();
+   void Connect(std::shared_ptr<LrIpcInShared> lr_ipc_shared);
+   void ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared);
 
-   asio::ip::tcp::socket socket_;
-   asio::streambuf streambuf_ {};
    const MidiSender& midi_sender_;
    const Profile& profile_;
    ControlsModel& controls_model_;
    ProfileManager& profile_manager_;
-   rsj::ConcurrentQueue<std::string> line_;
-   std::atomic<bool> thread_should_exit_ {false};
    std::future<void> process_line_future_;
-#ifdef __cpp_lib_semaphore
-   std::binary_semaphore read_running_ {1};
-#else
-   bool read_running_ {false};
-   mutable std::mutex mtx_;
-   std::condition_variable cv_;
-#endif
+   std::shared_ptr<LrIpcInShared> lr_ipc_in_shared_;
 };
 
 #endif

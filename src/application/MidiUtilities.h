@@ -23,12 +23,12 @@
 #include <stdexcept>
 #include <type_traits>
 #include <typeindex> /*declaration of std::hash template*/
+#include <utility>
 #include <version>
 
 #include <fmt/format.h>
 
 #include "Concurrency.h"
-#include "Misc.h"
 namespace juce {
    class MidiMessage;
 }
@@ -56,7 +56,7 @@ namespace rsj {
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
       const auto from {value >> 4U & 0xFU};
-      return rsj::cmp_greater_equal(
+      return std::cmp_greater_equal(
           from, static_cast<std::underlying_type_t<MessageType>>(MessageType::kNoteOff));
    }
 
@@ -64,7 +64,7 @@ namespace rsj {
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
       const auto from {value >> 4U & 0xFU};
-      if (rsj::cmp_less(
+      if (std::cmp_less(
               from, static_cast<std::underlying_type_t<MessageType>>(MessageType::kNoteOff))) {
          throw std::out_of_range("ToMessageType: MessageType range error, must be 0x8 to 0xF");
       }
@@ -107,8 +107,10 @@ template<typename Char> struct fmt::formatter<rsj::MessageType, Char> {
 
    template<typename FormatContext> auto format(const rsj::MessageType& p, FormatContext& ctx)
    {
-      if (tm_format_[0] == 'n') { return format_to(ctx.out(), "{}", rsj::MessageTypeToName(p)); }
-      return format_to(ctx.out(), "{}", rsj::MessageTypeToLabel(p));
+      if (tm_format_[0] == 'n') {
+         return fmt::format_to(ctx.out(), "{}", rsj::MessageTypeToName(p));
+      }
+      return fmt::format_to(ctx.out(), "{}", rsj::MessageTypeToLabel(p));
    }
 
  private:
@@ -135,7 +137,7 @@ namespace rsj {
       explicit MidiMessage(const juce::MidiMessage& mm);
    };
 
-   constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs) noexcept
+   constexpr bool operator==(rsj::MidiMessage lhs, rsj::MidiMessage rhs) noexcept
    {
       return lhs.message_type_byte == rhs.message_type_byte && lhs.channel == rhs.channel
              && lhs.control_number == rhs.control_number && lhs.value == rhs.value;
@@ -160,16 +162,16 @@ namespace rsj {
       {
       }
 #ifdef __cpp_lib_three_way_comparison
-      constexpr std::strong_ordering operator<=>(
+      [[nodiscard]] constexpr std::strong_ordering operator<=>(
           const MidiMessageId& other) const noexcept = default;
 #else
-      constexpr bool operator==(const MidiMessageId& other) const noexcept
+      [[nodiscard]] constexpr bool operator==(const MidiMessageId& other) const noexcept
       {
          return msg_id_type == other.msg_id_type && channel == other.channel
                 && control_number == other.control_number;
       }
 
-      constexpr bool operator<(const MidiMessageId& other) const noexcept
+      [[nodiscard]] constexpr bool operator<(const MidiMessageId& other) const noexcept
       {
          if (channel < other.channel) { return true; }
          if (channel == other.channel) {
@@ -192,9 +194,9 @@ template<> struct std::hash<rsj::MidiMessageId> {
    size_t operator()(rsj::MidiMessageId k) const noexcept
    {
       /* channel is one byte, messagetype is one byte, controller (data) is two bytes */
-      return hash<int_fast32_t>()(static_cast<int_fast32_t>(k.channel)
-                                  | static_cast<int_fast32_t>(k.msg_id_type) << 8
-                                  | static_cast<int_fast32_t>(k.control_number) << 16);
+      return hash<int_fast32_t>()(
+          static_cast<int_fast32_t>(k.channel) | static_cast<int_fast32_t>(k.msg_id_type) << 8
+          | static_cast<int_fast32_t>(k.control_number) << 16);
    }
 };
 
@@ -212,7 +214,7 @@ class NrpnFilter {
       int control {};
       int value {};
    };
-   ProcessResult operator()(const rsj::MidiMessage& message);
+   ProcessResult operator()(rsj::MidiMessage message);
 
  private:
    void Clear(int channel) noexcept

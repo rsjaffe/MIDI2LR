@@ -42,7 +42,7 @@ class Devices {
  private:
    struct DevInfo {
 #ifdef __cpp_lib_three_way_comparison
-      std::strong_ordering operator<=>(const DevInfo& rhs) const noexcept
+      [[nodiscard]] std::strong_ordering operator<=>(const DevInfo& rhs) const noexcept
       {
          if (const auto a = name.compare(rhs.name)) { return a <=> 0; }
          if (const auto a = identifier.compare(rhs.identifier)) { return a <=> 0; }
@@ -50,15 +50,15 @@ class Devices {
          return a <=> 0;
       }
 #else
-      friend bool operator==(const DevInfo& lhs, const DevInfo& rhs) noexcept
+      [[nodiscard]] friend bool operator==(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return lhs.name == rhs.name && lhs.identifier == rhs.identifier && lhs.i_o == rhs.i_o;
       }
-      friend bool operator!=(const DevInfo& lhs, const DevInfo& rhs) noexcept
+      [[nodiscard]] friend bool operator!=(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return !(lhs == rhs);
       }
-      friend bool operator<(const DevInfo& lhs, const DevInfo& rhs) noexcept
+      [[nodiscard]] friend bool operator<(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          if (lhs.name < rhs.name) { return true; }
          if (rhs.name < lhs.name) { return false; }
@@ -66,12 +66,15 @@ class Devices {
          if (rhs.identifier < lhs.identifier) { return false; }
          return lhs.i_o < rhs.i_o;
       }
-      friend bool operator<=(const DevInfo& lhs, const DevInfo& rhs) noexcept
+      [[nodiscard]] friend bool operator<=(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return !(rhs < lhs);
       }
-      friend bool operator>(const DevInfo& lhs, const DevInfo& rhs) noexcept { return rhs < lhs; }
-      friend bool operator>=(const DevInfo& lhs, const DevInfo& rhs) noexcept
+      [[nodiscard]] friend bool operator>(const DevInfo& lhs, const DevInfo& rhs) noexcept
+      {
+         return rhs < lhs;
+      }
+      [[nodiscard]] friend bool operator>=(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return !(lhs < rhs);
       }

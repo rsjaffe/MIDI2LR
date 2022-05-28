@@ -15,15 +15,10 @@
  * see <http://www.gnu.org/licenses/>.
  *
  */
-#include <chrono>
 #include <condition_variable>
-#include <cstddef>
 #include <deque>
 #include <mutex>
 #include <optional>
-#include <random>
-#include <thread>
-#include <tuple>
 #include <type_traits>
 #include <utility>
 
@@ -53,7 +48,8 @@ namespace rsj {
       {
       }
       /*4*/ ConcurrentQueue(const ConcurrentQueue& other) noexcept(
-          std::is_nothrow_copy_constructible_v<Container>)
+          std::is_nothrow_copy_constructible_v<Container>&& noexcept(
+              std::scoped_lock(std::declval<Mutex>())))
       {
          auto lock {std::scoped_lock(other.mutex_)};
          queue_ = other.queue_;

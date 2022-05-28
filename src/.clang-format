@@ -1,9 +1,9 @@
 ---
-# Visual Studio 2019 currently (August 2021) using clang-format v12. Options for later versions
+# Visual Studio 2022 currently (February 2022) using clang-format v13. Options for later versions
 # may be included but are commented out. Uncomment if used with a later version of clang-format.
 AccessModifierOffset: -2
 AlignAfterOpenBracket: DontAlign
-#AlignArrayOfStructures: Right
+AlignArrayOfStructures: Right
 AlignConsecutiveAssignments: false
 AlignConsecutiveBitFields: true
 AlignConsecutiveDeclarations: false
@@ -16,7 +16,7 @@ AllowAllConstructorInitializersOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortBlocksOnASingleLine: true
 AllowShortCaseLabelsOnASingleLine: false
-#AllowShortEnumsOnASingleLine: true
+AllowShortEnumsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: All
 AllowShortIfStatementsOnASingleLine: Always #AllIfsAndElse ###clang-format 13
 AllowShortLambdasOnASingleLine: All
@@ -37,6 +37,7 @@ BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: false
 BreakConstructorInitializers: BeforeColon
 BreakAfterJavaFieldAnnotations: false
+#13 BreakBeforeConceptDeclarations: Never
 BreakInheritanceList: AfterColon
 BreakStringLiterals: true
 ColumnLimit: 100
@@ -48,12 +49,12 @@ Cpp11BracedListStyle: true
 DeriveLineEnding: false
 DerivePointerAlignment: false
 DisableFormat: false
-#EmptyLineAfterAccessModifier: Never
-#EmptyLineBeforeAccessModifier: Always
+#13 EmptyLineAfterAccessModifier: Never
+#13 EmptyLineBeforeAccessModifier: Always
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
 ForEachMacros: ['forEachXmlChildElement','forEachXmlChildElementWithTagName']
-#IfMacros:
+#13 IfMacros:
 IncludeBlocks: Regroup
 IncludeCategories:
 #creates ambiguous reference to Point if included before Mac headers
@@ -70,32 +71,38 @@ IncludeCategories:
 #project headers
   - Regex:           '^".*"$'
     Priority:        4
-#IndentAccessModifiers: false
+#13 IndentAccessModifiers: false
 IndentCaseBlocks: true
 IndentCaseLabels: false
 IndentExternBlock: Indent
 IndentGotoLabels: false
 IndentPPDirectives: None
-IndentRequires: true
+#13 IndentRequiresClause: true
 IndentWidth: 3
 IndentWrappedFunctionNames: false
 KeepEmptyLinesAtTheStartOfBlocks: false
-#LambdaBodyIndentation: OuterScope
+#13 LambdaBodyIndentation: OuterScope
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
+#13 PackConstructorInitializers: BinPack
 PenaltyBreakAssignment: 2
 PenaltyBreakBeforeFirstCallParameter: 75
 PenaltyBreakComment: 50
 PenaltyBreakFirstLessLess: 1
-PenaltyBreakString: 80
+#14 PenaltyBreakOpenParenthesis: 80
+PenaltyBreakString: 100
 PenaltyBreakTemplateDeclaration: 50
 PenaltyExcessCharacter: 1000
-#PenaltyIndentedWhitespace:
+PenaltyIndentedWhitespace: 1
 PenaltyReturnTypeOnItsOwnLine: 200
 PointerAlignment: Left
-#ReferenceAlignment: Pointer
+#14 QualifierAlignment: Left
+#14 QualifierOrder: ['static', 'volatile', 'const', 'constexpr', 'inline', 'restrict', 'type']
+#13 ReferenceAlignment: Pointer
 ReflowComments: true
-#ShortNamespaceLines: 0
+#15 RequiresClausePosition: WithPreceding
+#14 SeparateDefinitionBlocks: Always
+#13 ShortNamespaceLines: 0
 SortIncludes: true
 SortUsingDeclarations: false
 SpaceAfterCStyleCast: false
@@ -103,7 +110,7 @@ SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: false
 SpaceAroundPointerQualifiers: Default
 SpaceBeforeAssignmentOperators: true
-#SpaceBeforeCaseColon: false
+SpaceBeforeCaseColon: false
 SpaceBeforeCpp11BracedList: true
 SpaceBeforeCtorInitializerColon: true
 SpaceBeforeInheritanceColon: true
@@ -117,12 +124,15 @@ SpacesInAngles: false
 SpacesInConditionalStatement: false
 SpacesInContainerLiterals: false
 SpacesInCStyleCastParentheses: false
+#13 SpacesInLineCommentPrefix: #Minimum = 1 
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
 Standard: Latest
+StatementAttributeLikeMacros: []
 StatementMacros: ['START_JUCE_APPLICATION']
 TabWidth: 2
 UseTab: Never
+#WhitespaceSensitivemacros: []
 ---
 Language: Cpp
 ---

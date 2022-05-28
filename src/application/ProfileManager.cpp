@@ -17,6 +17,7 @@
 
 #include <exception>
 #include <string>
+#include <utility>
 
 #include <fmt/format.h>
 #include <gsl/gsl>
@@ -55,7 +56,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
 void ProfileManager::SwitchToProfile(int profile_index)
 {
    try {
-      if (profile_index >= 0 && rsj::cmp_less(profile_index, profiles_.size())) {
+      if (profile_index >= 0 && std::cmp_less(profile_index, profiles_.size())) {
          SwitchToProfile(profiles_.at(gsl::narrow_cast<size_t>(profile_index)));
          current_profile_index_ = profile_index;
       }
@@ -66,6 +67,7 @@ void ProfileManager::SwitchToProfile(int profile_index)
    }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void ProfileManager::SwitchToProfile(const juce::String& profile)
 {
    try {
@@ -90,7 +92,7 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
 void ProfileManager::SwitchToNextProfile()
 {
    try {
-      if (rsj::cmp_equal(++current_profile_index_, profiles_.size())) {
+      if (std::cmp_equal(++current_profile_index_, profiles_.size())) {
          current_profile_index_ = 0;
       }
       SwitchToProfile(current_profile_index_);
@@ -115,15 +117,16 @@ void ProfileManager::SwitchToPreviousProfile()
    }
 }
 
-void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
+void ProfileManager::MapCommand(rsj::MidiMessageId msg)
 {
    try {
+      using namespace std::string_literals;
       const auto cmd {current_profile_.GetCommandForMessage(msg)};
-      if (cmd == "PrevPro") {
+      if (cmd == "PrevPro"s) {
          switch_state_ = SwitchState::kPrev;
          triggerAsyncUpdate();
       }
-      else if (cmd == "NextPro") {
+      else if (cmd == "NextPro"s) {
          switch_state_ = SwitchState::kNext;
          triggerAsyncUpdate();
       }
@@ -136,7 +139,7 @@ void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
    }
 }
 
-void ProfileManager::MidiCmdCallback(const rsj::MidiMessage& mm)
+void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
       const rsj::MidiMessageId cc {mm};

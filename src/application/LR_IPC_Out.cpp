@@ -23,6 +23,7 @@
 #include <fmt/format.h>
 
 #include "CommandSet.h"
+#include "Concurrency.h"
 #include "ControlsModel.h"
 #include "MIDIReceiver.h"
 #include "MIDISender.h"
@@ -41,13 +42,36 @@ namespace {
    constexpr auto kTerminate {"!!!@#$%^"};
 } // namespace
 
+class LrIpcOutShared {
+ private:
+   friend LrIpcOut;
+   asio::ip::tcp::socket socket_;
+   rsj::ConcurrentQueue<std::string> command_;
+   static void SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared);
+
+ public:
+   explicit LrIpcOutShared(asio::io_context& io_context) : socket_ {asio::make_strand(io_context)}
+   {
+   }
+};
+
 LrIpcOut::LrIpcOut(const CommandSet& command_set, ControlsModel& c_model, const Profile& profile,
     const MidiSender& midi_sender, MidiReceiver& midi_receiver, asio::io_context& io_context)
-    : socket_ {asio::make_strand(io_context)}, recenter_timer_ {asio::make_strand(io_context)},
-      midi_sender_ {midi_sender}, profile_ {profile}, repeat_cmd_ {command_set.GetRepeats()},
-      wrap_ {command_set.GetWraps()}, controls_model_ {c_model}
+    : recenter_timer_ {asio::make_strand(io_context)}, midi_sender_ {midi_sender},
+      profile_ {profile}, repeat_cmd_ {command_set.GetRepeats()}, wrap_ {command_set.GetWraps()},
+      controls_model_ {c_model}, lr_ipc_out_shared_ {std::make_shared<LrIpcOutShared>(io_context)}
 {
    midi_receiver.AddCallback(this, &LrIpcOut::MidiCmdCallback);
+}
+
+void LrIpcOut::SendCommand(std::string&& command)
+{
+   if (!sending_stopped_) { lr_ipc_out_shared_->command_.push(std::move(command)); }
+}
+
+void LrIpcOut::SendCommand(const std::string& command)
+{
+   if (!sending_stopped_) { lr_ipc_out_shared_->command_.push(command); }
 }
 
 void LrIpcOut::SendingRestart()
@@ -83,7 +107,7 @@ void LrIpcOut::Stop()
 {
    thread_should_exit_.store(true, std::memory_order_release);
    /* clear output queue before port closed */
-   if (const auto m {command_.clear_count_emplace(kTerminate)}) {
+   if (const auto m {lr_ipc_out_shared_->command_.clear_count_emplace(kTerminate)}) {
       rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcOut destructor."), m));
    }
    {
@@ -91,50 +115,37 @@ void LrIpcOut::Stop()
       callbacks_.clear(); /* no more connect/disconnect notifications */
    }
    recenter_timer_.cancel();
-#ifdef __cpp_lib_semaphore
-   sendout_running_.acquire();
-#else
-   auto lock {std::unique_lock(mtx_)};
-   cv_.wait(lock, [this] { return !sendout_running_; });
-#endif
-   if (socket_.is_open()) {
+   if (auto& sock {lr_ipc_out_shared_->socket_}; sock.is_open()) {
       asio::error_code ec;
       /* For portable behaviour with respect to graceful closure of a connected socket, call
        * shutdown() before closing the socket. */
-      socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+      sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
       if (ec) {
          rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket shutdown error {}."), ec.message()));
          ec.clear();
       }
-      socket_.close(ec);
+      sock.close(ec);
       if (ec) {
          rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec.message()));
       }
    }
 }
 
-void LrIpcOut::Connect()
+void LrIpcOut::Connect(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
 {
    try {
-      socket_.async_connect(asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrOutPort),
-          [this](const asio::error_code& error) {
+      lr_ipc_out_shared->socket_.async_connect(
+          asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrOutPort),
+          [this, lr_ipc_out_shared](const asio::error_code& error) mutable {
              if (!error) {
                 ConnectionMade();
-#ifdef __cpp_lib_semaphore
-                sendout_running_.acquire();
-#else
-                {
-                   auto lock {std::scoped_lock(mtx_)};
-                   sendout_running_ = true;
-                }
-#endif
-                SendOut();
+                LrIpcOutShared::SendOut(std::move(lr_ipc_out_shared));
              }
              else {
                 rsj::Log(
                     fmt::format(FMT_STRING("LR_IPC_Out did not connect. {}."), error.message()));
                 asio::error_code ec2;
-                socket_.close(ec2);
+                lr_ipc_out_shared->socket_.close(ec2);
                 if (ec2) {
                    rsj::Log(
                        fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec2.message()));
@@ -164,7 +175,7 @@ void LrIpcOut::ConnectionMade()
    }
 }
 
-void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
+void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
       const rsj::MidiMessageId message {mm};
@@ -207,53 +218,24 @@ void LrIpcOut::MidiCmdCallback(const rsj::MidiMessage& mm)
    }
 }
 
-void LrIpcOut::SendOut()
+void LrIpcOutShared::SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
 {
    try {
-      auto command_copy {std::make_shared<std::string>(command_.pop())};
-      if (*command_copy == kTerminate) [[unlikely]] {
-#ifdef __cpp_lib_semaphore
-         sendout_running_.release();
-#else
-         {
-            auto lock {std::scoped_lock(mtx_)};
-            sendout_running_ = false;
-         }
-         cv_.notify_one();
-#endif
-         return;
-      }
+      auto command_copy {std::make_shared<std::string>(lr_ipc_out_shared->command_.pop())};
+      if (*command_copy == kTerminate) [[unlikely]] { return; }
       if (command_copy->back() != '\n') [[unlikely]] { /* should be terminated with \n */
          command_copy->push_back('\n');
       } // ReSharper disable once CppLambdaCaptureNeverUsed
-      asio::async_write(socket_, asio::buffer(*command_copy),
-          [this, command_copy](const asio::error_code& error, std::size_t) {
-             if (!error) [[likely]] { SendOut(); }
+      asio::async_write(lr_ipc_out_shared->socket_, asio::buffer(*command_copy),
+          [command_copy, lr_ipc_out_shared](const asio::error_code& error, std::size_t) mutable {
+             if (!error) [[likely]] { SendOut(std::move(lr_ipc_out_shared)); }
              else {
-#ifdef __cpp_lib_semaphore
-                sendout_running_.release();
-#else
-                {
-                   auto lock {std::scoped_lock(mtx_)};
-                   sendout_running_ = false;
-                }
-                cv_.notify_one();
-#endif
                 rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out Write: {}."), error.message()));
              }
           });
    }
    catch (const std::exception& e) {
-#ifdef __cpp_lib_semaphore
-      sendout_running_.release();
-#else
-      {
-         auto lock {std::scoped_lock(mtx_)};
-         sendout_running_ = false;
-      }
-      cv_.notify_one();
-#endif
-      MIDI2LR_E_RESPONSE;
+      MIDI2LR_E_RESPONSE_F;
       throw;
    }
 }
@@ -263,7 +245,7 @@ void LrIpcOut::SetRecenter(rsj::MidiMessageId mm)
    /* by capturing mm by copy, don't have to worry about later calls changing it--those will just
     * cancel and reschedule new one */
    try {
-      asio::dispatch([this] { recenter_timer_.expires_after(kRecenterTimer); });
+      recenter_timer_.expires_after(kRecenterTimer);
       recenter_timer_.async_wait([this, mm](const asio::error_code& error) {
          if (!error && !thread_should_exit_.load(std::memory_order_acquire)) {
             midi_sender_.Send(mm, controls_model_.SetToCenter(mm));

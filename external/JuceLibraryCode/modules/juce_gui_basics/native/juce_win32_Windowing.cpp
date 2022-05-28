@@ -758,6 +758,11 @@ public:
        #endif
     }
 
+    ~NativeDarkModeChangeDetectorImpl()
+    {
+        UnhookWindowsHookEx (hook);
+    }
+
     bool isDarkModeEnabled() const noexcept  { return darkModeEnabled; }
 
 private:
@@ -990,7 +995,9 @@ public:
 
     void initialiseBitmapData (Image::BitmapData& bitmap, int x, int y, Image::BitmapData::ReadWriteMode mode) override
     {
-        bitmap.data = imageData + x * pixelStride + y * lineStride;
+        const auto offset = (size_t) (x * pixelStride + y * lineStride);
+        bitmap.data = imageData + offset;
+        bitmap.size = (size_t) (lineStride * height) - offset;
         bitmap.pixelFormat = pixelFormat;
         bitmap.lineStride = lineStride;
         bitmap.pixelStride = pixelStride;
@@ -1583,6 +1590,13 @@ public:
 
     void setBounds (const Rectangle<int>& bounds, bool isNowFullScreen) override
     {
+        // If we try to set new bounds while handling an existing position change,
+        // Windows may get confused about our current scale and size.
+        // This can happen when moving a window between displays, because the mouse-move
+        // generator in handlePositionChanged can cause the window to move again.
+        if (inHandlePositionChanged)
+            return;
+
         const ScopedValueSetter<bool> scope (shouldIgnoreModalDismiss, true);
 
         fullScreen = isNowFullScreen;
@@ -1608,7 +1622,7 @@ public:
         if (! hasMoved)    flags |= SWP_NOMOVE;
         if (! hasResized)  flags |= SWP_NOSIZE;
 
-        setWindowPos (hwnd, newBounds, flags, numInDpiChange == 0);
+        setWindowPos (hwnd, newBounds, flags, ! inDpiChange);
 
         if (hasResized && isValidPeer (this))
         {
@@ -1755,6 +1769,11 @@ public:
                                                                                        hwnd)));
 
         return w == hwnd || (trueIfInAChildWindow && (IsChild (hwnd, w) != 0));
+    }
+
+    OptionalBorderSize getFrameSizeIfPresent() const override
+    {
+        return ComponentPeer::OptionalBorderSize { windowBorder };
     }
 
     BorderSize<int> getFrameSize() const override
@@ -1981,8 +2000,9 @@ public:
     private:
         Point<float> getMousePos (POINTL mousePos) const
         {
-            return peer.getComponent().getLocalPoint (nullptr, convertPhysicalScreenPointToLogical (pointFromPOINT ({ mousePos.x, mousePos.y }),
-                                                                                                    (HWND) peer.getNativeHandle()).toFloat());
+            const auto originalPos = pointFromPOINT ({ mousePos.x, mousePos.y });
+            const auto logicalPos = convertPhysicalScreenPointToLogical (originalPos, peer.hwnd);
+            return ScalingHelpers::screenPosToLocalPos (peer.component, logicalPos.toFloat());
         }
 
         struct DroppedData
@@ -2125,7 +2145,7 @@ private:
    #endif
 
     double scaleFactor = 1.0;
-    int numInDpiChange = 0;
+    bool inDpiChange = 0, inHandlePositionChanged = 0;
 
     bool isAccessibilityActive = false;
 
@@ -2394,6 +2414,13 @@ private:
         }
         else
         {
+            TCHAR messageBuffer[256] = {};
+
+            FormatMessage (FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                           nullptr, GetLastError(), MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT),
+                           messageBuffer, (DWORD) numElementsInArray (messageBuffer) - 1, nullptr);
+
+            DBG (messageBuffer);
             jassertfalse;
         }
     }
@@ -2798,8 +2825,8 @@ private:
         if (now >= lastMouseTime + minTimeBetweenMouses)
         {
             lastMouseTime = now;
-            doMouseEvent (position, MouseInputSource::invalidPressure,
-                          MouseInputSource::invalidOrientation, modsToSend);
+            doMouseEvent (position, MouseInputSource::defaultPressure,
+                          MouseInputSource::defaultOrientation, modsToSend);
         }
     }
 
@@ -2825,7 +2852,7 @@ private:
 
             isDragging = true;
 
-            doMouseEvent (position, MouseInputSource::invalidPressure);
+            doMouseEvent (position, MouseInputSource::defaultPressure);
         }
     }
 
@@ -2852,7 +2879,7 @@ private:
         // NB: under some circumstances (e.g. double-clicking a native title bar), a mouse-up can
         // arrive without a mouse-down, so in that case we need to avoid sending a message.
         if (wasDragging)
-            doMouseEvent (position, MouseInputSource::invalidPressure);
+            doMouseEvent (position, MouseInputSource::defaultPressure);
     }
 
     void doCaptureChanged()
@@ -2874,7 +2901,7 @@ private:
         isMouseOver = false;
 
         if (! areOtherTouchSourcesActive())
-            doMouseEvent (getCurrentMousePos(), MouseInputSource::invalidPressure);
+            doMouseEvent (getCurrentMousePos(), MouseInputSource::defaultPressure);
     }
 
     ComponentPeer* findPeerUnderMouse (Point<float>& localPos)
@@ -2991,7 +3018,7 @@ private:
     }
 
     bool handleTouchInput (const TOUCHINPUT& touch, const bool isDown, const bool isUp,
-                           const float touchPressure = MouseInputSource::invalidPressure,
+                           const float touchPressure = MouseInputSource::defaultPressure,
                            const float orientation = 0.0f)
     {
         auto isCancel = false;
@@ -3068,9 +3095,9 @@ private:
                 return false;
 
             const auto pressure = touchInfo.touchMask & TOUCH_MASK_PRESSURE ? static_cast<float> (touchInfo.pressure)
-                                                                            : MouseInputSource::invalidPressure;
+                                                                            : MouseInputSource::defaultPressure;
             const auto orientation = touchInfo.touchMask & TOUCH_MASK_ORIENTATION ? degreesToRadians (static_cast<float> (touchInfo.orientation))
-                                                                                  : MouseInputSource::invalidOrientation;
+                                                                                  : MouseInputSource::defaultOrientation;
 
             if (! handleTouchInput (emulateTouchEventFromPointer (touchInfo.pointerInfo.ptPixelLocationRaw, wParam),
                                     isDown, isUp, pressure, orientation))
@@ -3083,7 +3110,7 @@ private:
             if (! getPointerPenInfo (GET_POINTERID_WPARAM (wParam), &penInfo))
                 return false;
 
-            const auto pressure = (penInfo.penMask & PEN_MASK_PRESSURE) ? (float) penInfo.pressure / 1024.0f : MouseInputSource::invalidPressure;
+            const auto pressure = (penInfo.penMask & PEN_MASK_PRESSURE) ? (float) penInfo.pressure / 1024.0f : MouseInputSource::defaultPressure;
 
             if (! handlePenInput (penInfo, globalToLocal (convertPhysicalScreenPointToLogical (pointFromPOINT (getPOINTFromLParam (lParam)), hwnd).toFloat()),
                                   pressure, isDown, isUp))
@@ -3114,9 +3141,9 @@ private:
         ModifierKeys modsToSend (ModifierKeys::currentModifiers);
         PenDetails penDetails;
 
-        penDetails.rotation = (penInfo.penMask & PEN_MASK_ROTATION) ? degreesToRadians (static_cast<float> (penInfo.rotation)) : MouseInputSource::invalidRotation;
-        penDetails.tiltX = (penInfo.penMask & PEN_MASK_TILT_X) ? (float) penInfo.tiltX / 90.0f : MouseInputSource::invalidTiltX;
-        penDetails.tiltY = (penInfo.penMask & PEN_MASK_TILT_Y) ? (float) penInfo.tiltY / 90.0f : MouseInputSource::invalidTiltY;
+        penDetails.rotation = (penInfo.penMask & PEN_MASK_ROTATION) ? degreesToRadians (static_cast<float> (penInfo.rotation)) : MouseInputSource::defaultRotation;
+        penDetails.tiltX = (penInfo.penMask & PEN_MASK_TILT_X) ? (float) penInfo.tiltX / 90.0f : MouseInputSource::defaultTiltX;
+        penDetails.tiltY = (penInfo.penMask & PEN_MASK_TILT_Y) ? (float) penInfo.tiltY / 90.0f : MouseInputSource::defaultTiltY;
 
         auto pInfoFlags = penInfo.pointerInfo.pointerFlags;
 
@@ -3131,7 +3158,7 @@ private:
 
             // this forces a mouse-enter/up event, in case for some reason we didn't get a mouse-up before.
             handleMouseEvent (MouseInputSource::InputSourceType::pen, pos, modsToSend.withoutMouseButtons(),
-                              pressure, MouseInputSource::invalidOrientation, time, penDetails);
+                              pressure, MouseInputSource::defaultOrientation, time, penDetails);
 
             if (! isValidPeer (this)) // (in case this component was deleted by the event)
                 return false;
@@ -3143,7 +3170,7 @@ private:
         }
 
         handleMouseEvent (MouseInputSource::InputSourceType::pen, pos, modsToSend, pressure,
-                          MouseInputSource::invalidOrientation, time, penDetails);
+                          MouseInputSource::defaultOrientation, time, penDetails);
 
         if (! isValidPeer (this)) // (in case this component was deleted by the event)
             return false;
@@ -3151,7 +3178,7 @@ private:
         if (isUp)
         {
             handleMouseEvent (MouseInputSource::InputSourceType::pen, MouseInputSource::offscreenMousePos, ModifierKeys::currentModifiers,
-                              pressure, MouseInputSource::invalidOrientation, time, penDetails);
+                              pressure, MouseInputSource::defaultOrientation, time, penDetails);
 
             if (! isValidPeer (this))
                 return false;
@@ -3448,8 +3475,10 @@ private:
 
         if (contains (pos.roundToInt(), false))
         {
+            const ScopedValueSetter<bool> scope (inHandlePositionChanged, true);
+
             if (! areOtherTouchSourcesActive())
-                doMouseEvent (pos, MouseInputSource::invalidPressure);
+                doMouseEvent (pos, MouseInputSource::defaultPressure);
 
             if (! isValidPeer (this))
                 return true;
@@ -3477,15 +3506,27 @@ private:
         scaleFactor = newScale;
 
         {
-            const ScopedValueSetter<int> setter (numInDpiChange, numInDpiChange + 1);
-            setBounds (windowBorder.subtractedFrom (convertPhysicalScreenRectangleToLogical (rectangleFromRECT (newRect), hwnd)), fullScreen);
+            const ScopedValueSetter<bool> setter (inDpiChange, true);
+            SetWindowPos (hwnd,
+                          nullptr,
+                          newRect.left,
+                          newRect.top,
+                          newRect.right  - newRect.left,
+                          newRect.bottom - newRect.top,
+                          SWP_NOZORDER | SWP_NOACTIVATE);
         }
 
         // This is to handle reentrancy. If responding to a DPI change triggers further DPI changes,
         // we should only notify listeners and resize windows once all of the DPI changes have
         // resolved.
-        if (numInDpiChange != 0)
+        if (inDpiChange)
+        {
+            // Danger! Re-entrant call to handleDPIChanging.
+            // Please report this issue on the JUCE forum, along with instructions
+            // so that a JUCE developer can reproduce the issue.
+            jassertfalse;
             return 0;
+        }
 
         updateShadower();
         InvalidateRect (hwnd, nullptr, FALSE);

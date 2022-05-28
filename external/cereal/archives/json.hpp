@@ -11,14 +11,14 @@
       * Redistributions in binary form must reproduce the above copyright
         notice, this list of conditions and the following disclaimer in the
         documentation and/or other materials provided with the distribution.
-      * Neither the name of cereal nor the
+      * Neither the name of the copyright holder nor the
         names of its contributors may be used to endorse or promote products
         derived from this software without specific prior written permission.
 
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
   ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  DISCLAIMED. IN NO EVENT SHALL RANDOLPH VOORHIES OR SHANE GRANT BE LIABLE FOR ANY
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
   DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
   (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -40,6 +40,11 @@ namespace cereal
   { RapidJSONException( const char * what_ ) : Exception( what_ ) {} };
 }
 
+// Inform rapidjson that assert will throw
+#ifndef CEREAL_RAPIDJSON_ASSERT_THROWS
+#define CEREAL_RAPIDJSON_ASSERT_THROWS
+#endif // CEREAL_RAPIDJSON_ASSERT_THROWS
+
 // Override rapidjson assertions to throw exceptions by default
 #ifndef CEREAL_RAPIDJSON_ASSERT
 #define CEREAL_RAPIDJSON_ASSERT(x) if(!(x)){ \
@@ -47,8 +52,14 @@ namespace cereal
 #endif // RAPIDJSON_ASSERT
 
 // Enable support for parsing of nan, inf, -inf
+#ifndef CEREAL_RAPIDJSON_WRITE_DEFAULT_FLAGS
 #define CEREAL_RAPIDJSON_WRITE_DEFAULT_FLAGS kWriteNanAndInfFlag
+#endif
+
+// Enable support for parsing of nan, inf, -inf
+#ifndef CEREAL_RAPIDJSON_PARSE_DEFAULT_FLAGS
 #define CEREAL_RAPIDJSON_PARSE_DEFAULT_FLAGS kParseFullPrecisionFlag | kParseNanAndInfFlag
+#endif
 
 #include "cereal/external/rapidjson/prettywriter.h"
 #include "cereal/external/rapidjson/ostreamwrapper.h"
@@ -209,11 +220,13 @@ namespace cereal
         {
           case NodeType::StartArray:
             itsWriter.StartArray();
+            // fall through
           case NodeType::InArray:
             itsWriter.EndArray();
             break;
           case NodeType::StartObject:
             itsWriter.StartObject();
+            // fall through
           case NodeType::InObject:
             itsWriter.EndObject();
             break;
@@ -273,19 +286,19 @@ namespace cereal
       void saveLong(T lu){ saveValue( static_cast<std::uint64_t>( lu ) ); }
 
     public:
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && _MSC_VER < 1916
       //! MSVC only long overload to current node
       void saveValue( unsigned long lu ){ saveLong( lu ); };
 #else // _MSC_VER
       //! Serialize a long if it would not be caught otherwise
       template <class T, traits::EnableIf<std::is_same<T, long>::value,
-                                          !std::is_same<T, std::int32_t>::value,
+                                          !std::is_same<T, int>::value,
                                           !std::is_same<T, std::int64_t>::value> = traits::sfinae> inline
       void saveValue( T t ){ saveLong( t ); }
 
       //! Serialize an unsigned long if it would not be caught otherwise
       template <class T, traits::EnableIf<std::is_same<T, unsigned long>::value,
-                                          !std::is_same<T, std::uint32_t>::value,
+                                          !std::is_same<T, unsigned>::value,
                                           !std::is_same<T, std::uint64_t>::value> = traits::sfinae> inline
       void saveValue( T t ){ saveLong( t ); }
 #endif // _MSC_VER
@@ -470,16 +483,16 @@ namespace cereal
           Iterator() : itsIndex( 0 ), itsType(Null_) {}
 
           Iterator(MemberIterator begin, MemberIterator end) :
-            itsMemberItBegin(begin), itsMemberItEnd(end), itsIndex(0), itsType(Member)
+            itsMemberItBegin(begin), itsMemberItEnd(end), itsIndex(0), itsSize(std::distance(begin, end)), itsType(Member)
           {
-            if( std::distance( begin, end ) == 0 )
+            if( itsSize == 0 )
               itsType = Null_;
           }
 
           Iterator(ValueIterator begin, ValueIterator end) :
-            itsValueItBegin(begin), itsValueItEnd(end), itsIndex(0), itsType(Value)
+            itsValueItBegin(begin), itsIndex(0), itsSize(std::distance(begin, end)), itsType(Value)
           {
-            if( std::distance( begin, end ) == 0 )
+            if( itsSize == 0 )
               itsType = Null_;
           }
 
@@ -493,6 +506,9 @@ namespace cereal
           //! Get the value of the current node
           GenericValue const & value()
           {
+            if( itsIndex >= itsSize )
+              throw cereal::Exception("No more objects in input");
+
             switch(itsType)
             {
               case Value : return itsValueItBegin[itsIndex];
@@ -532,8 +548,8 @@ namespace cereal
 
         private:
           MemberIterator itsMemberItBegin, itsMemberItEnd; //!< The member iterator (object)
-          ValueIterator itsValueItBegin, itsValueItEnd;    //!< The value iterator (array)
-          size_t itsIndex;                                 //!< The current index of this iterator
+          ValueIterator itsValueItBegin;                   //!< The value iterator (array)
+          size_t itsIndex, itsSize;                        //!< The current index of this iterator
           enum Type {Value, Member, Null_} itsType;        //!< Whether this holds values (array) or members (objects) or nothing
       };
 
@@ -548,18 +564,20 @@ namespace cereal
           @throws Exception if an expectedName is given and not found */
       inline void search()
       {
+        // store pointer to itsNextName locally and reset to nullptr in case search() throws
+        auto localNextName = itsNextName;
+        itsNextName = nullptr;
+
         // The name an NVP provided with setNextName()
-        if( itsNextName )
+        if( localNextName )
         {
           // The actual name of the current node
           auto const actualName = itsIteratorStack.back().name();
 
           // Do a search if we don't see a name coming up, or if the names don't match
-          if( !actualName || std::strcmp( itsNextName, actualName ) != 0 )
-            itsIteratorStack.back().search( itsNextName );
+          if( !actualName || std::strcmp( localNextName, actualName ) != 0 )
+            itsIteratorStack.back().search( localNextName );
         }
-
-        itsNextName = nullptr;
       }
 
     public:
@@ -749,6 +767,31 @@ namespace cereal
   /*! NVPs do not start or finish nodes - they just set up the names */
   template <class T> inline
   void epilogue( JSONInputArchive &, NameValuePair<T> const & )
+  { }
+
+  // ######################################################################
+  //! Prologue for deferred data for JSON archives
+  /*! Do nothing for the defer wrapper */
+  template <class T> inline
+  void prologue( JSONOutputArchive &, DeferredData<T> const & )
+  { }
+
+  //! Prologue for deferred data for JSON archives
+  template <class T> inline
+  void prologue( JSONInputArchive &, DeferredData<T> const & )
+  { }
+
+  // ######################################################################
+  //! Epilogue for deferred for JSON archives
+  /*! NVPs do not start or finish nodes - they just set up the names */
+  template <class T> inline
+  void epilogue( JSONOutputArchive &, DeferredData<T> const & )
+  { }
+
+  //! Epilogue for deferred for JSON archives
+  /*! Do nothing for the defer wrapper */
+  template <class T> inline
+  void epilogue( JSONInputArchive &, DeferredData<T> const & )
   { }
 
   // ######################################################################

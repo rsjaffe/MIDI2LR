@@ -1,5 +1,5 @@
 asio
 
-latest version downloaded https://github.com/chriskohlhoff/asio/releases
+latest version downloaded https://think-async.com/Asio/
 
-1.20.0 November 12 2021
+1.22.1 April 12 2022

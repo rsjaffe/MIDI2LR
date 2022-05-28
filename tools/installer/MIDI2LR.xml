@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>5.3.0.2</version>
+    <version>5.4.0.0</version>
     <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>data/translations/ReadMe.txt</readmeFile>
     <licenseFile>../../LICENSE.txt</licenseFile>
@@ -154,16 +154,25 @@
                             <origin>../../data/plugin/TranslatedStrings_it.txt</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>../../data/plugin/TranslatedStrings_hi.txt</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>../../data/plugin/TranslatedStrings_ja.txt</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../../data/plugin/TranslatedStrings_ko.txt</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>../../data/plugin/TranslatedStrings_nb.txt</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>../../data/plugin/TranslatedStrings_nl.txt</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../../data/plugin/TranslatedStrings_pt.txt</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../../data/plugin/TranslatedStrings_pl.txt</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../../data/plugin/TranslatedStrings_ru.txt</origin>
@@ -187,10 +196,10 @@
                             <origin>../../src/plugin/Virtual.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../../data/application/fonts/NotoSans-Regular-Plus-Thai.ttf</origin>
+                            <origin>../../data/application/fonts/NotoSans-Regular-MIDI2LR.ttf</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../../data/application/fonts/NotoSans-Bold-Plus-Thai.ttf</origin>
+                            <origin>../../data/application/fonts/NotoSans-Bold-MIDI2LR.ttf</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../../data/application/fonts/NotoSansJP-Regular.otf</origin>
@@ -336,37 +345,6 @@
                 </compareVersions>
             </ruleList>
         </throwError>
-        <throwError>
-            <text>${msg(midi.install.win)}</text>
-            <ruleList>
-                <platformTest>
-                    <type>windows</type>
-                </platformTest>
-                <ruleGroup>
-                    <ruleEvaluationLogic>or</ruleEvaluationLogic>
-                    <ruleList>
-                        <platformTest>
-                            <type>windows-x86</type>
-                        </platformTest>
-                        <ruleGroup>
-                            <negate>1</negate>
-                            <ruleEvaluationLogic>or</ruleEvaluationLogic>
-                            <ruleList>
-                                <platformTest>
-                                    <type>windows-10</type>
-                                </platformTest>
-                                <platformTest>
-                                    <type>windows-2016</type>
-                                </platformTest>
-                                <platformTest>
-                                    <type>windows-2019</type>
-                                </platformTest>
-                            </ruleList>
-                        </ruleGroup>
-                    </ruleList>
-                </ruleGroup>
-            </ruleList>
-        </throwError>
     </initializationActionList>
     <preInstallationActionList>
         <setInstallerVariable>
@@ -446,8 +424,14 @@
         <deleteFile>
             <path>${installdir}/MIDI2LR.lrplugin/CustomProfiles.lua</path>
         </deleteFile>
+        <deleteFile>
+            <path>${installdir}/MIDI2LR.lrplugin/NotoSans-Regular-Plus-Thai.ttf</path>
+        </deleteFile>
+        <deleteFile>
+            <path>${installdir}/MIDI2LR.lrplugin/NotoSans-Bold-Plus-Thai.ttf</path>
+        </deleteFile>
     </postInstallationActionList>
-    <allowedLanguages>en pt_BR nl fr de it ja ko pt ru zh_CN es sv th zh_TW</allowedLanguages>
+    <allowedLanguages>en pt_BR nl fr de it ja ko pt ru zh_CN es sv th zh_TW no pl</allowedLanguages>
     <compressPackedFiles>1</compressPackedFiles>
     <compressionAlgorithm>lzham-ultra</compressionAlgorithm>
     <createOsxBundleDmg>1</createOsxBundleDmg>
@@ -457,6 +441,7 @@
     <height>400</height>
     <licenseFileEncoding>utf-8</licenseFileEncoding>
     <osxApplicationBundleIcon>../../build/MacOS/Icon.icns</osxApplicationBundleIcon>
+    <osxPlatforms>osx-x86_64 osx-arm64</osxPlatforms>
     <osxSigningPkcs12File>../osx-signing.p12</osxSigningPkcs12File>
     <osxSigningPkcs12Password>${env(OSX_SIGNING_PASSWORD)}</osxSigningPkcs12Password>
     <osxUninstallerApplicationBundleIcon>../../build/MacOS/Icon.icns</osxUninstallerApplicationBundleIcon>
@@ -465,6 +450,7 @@
     <productUrlHelpLink>https://github.com/rsjaffe/MIDI2LR/discussions</productUrlHelpLink>
     <productUrlInfoAbout>https://rsjaffe.github.io/MIDI2LR/</productUrlInfoAbout>
     <readmeFileEncoding>utf-8</readmeFileEncoding>
+    <replaceLockedFilesOnReboot>1</replaceLockedFilesOnReboot>
     <saveRelativePaths>1</saveRelativePaths>
     <singleInstanceCheck>1</singleInstanceCheck>
     <uninstallerDirectory>${installdir}/MIDI2LR.lrplugin</uninstallerDirectory>
@@ -548,6 +534,16 @@
             <code>zh_TW</code>
             <encoding>utf-8</encoding>
             <file>data/translations/custom-zh_TW.lng</file>
+        </language>
+        <language>
+            <code>no</code>
+            <encoding>utf-8</encoding>
+            <file>data/translations/custom-nb.lng</file>
+        </language>
+        <language>
+            <code>pl</code>
+            <encoding>utf-8</encoding>
+            <file>data/translations/custom-pl.lng</file>
         </language>
     </customLanguageFileList>
     <finalPageActionList>
@@ -651,6 +647,16 @@
             <code>zh_TW</code>
             <encoding>utf-8</encoding>
             <file>data/translations/ReadMe-zh_TW.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>no</code>
+            <encoding>utf-8</encoding>
+            <file>data/translations/ReadMe-nb.txt</file>
+        </readmeFile>
+        <readmeFile>
+            <code>pl</code>
+            <encoding>utf-8</encoding>
+            <file>data/translations/ReadMe-pl.txt</file>
         </readmeFile>
     </readmeFileList>
 </project>

@@ -21,6 +21,9 @@ local LrHttp = import "LrHttp"
 
 import "LrTasks".startAsyncTask(
   function()
+        --[[-----------debug section, enable by adding - to beginning this line
+    LrMobdebug.on()
+    --]]-----------end debug section
     LrHttp.openUrlInBrowser("https://github.com/rsjaffe/MIDI2LR/discussions")
   end
 )

@@ -46,7 +46,7 @@ namespace {
       const auto length {GetWindowTextW(hwnd, buffer.data(), gsl::narrow_cast<int>(buffer.size()))};
       if (length) {
          /* check for issues with extra-long window titles and log them */
-         if (rsj::cmp_greater_equal(length + 1, buffer.size())) {
+         if (std::cmp_greater_equal(length + 1, buffer.size())) {
             rsj::Log(fmt::format(
                 FMT_STRING(L"EnumWindowsProc window text length > {}, truncated text is {}."),
                 buffer.size(), buffer.data())
@@ -107,7 +107,9 @@ namespace {
    {
       try {
          /* construct input event. */
-         INPUT ip {.type = INPUT_KEYBOARD, .ki = {0, 0, 0, 0, 0}};
+         INPUT ip {
+             .type = INPUT_KEYBOARD, .ki = {0, 0, 0, 0, 0}
+         };
          std::vector<INPUT> stroke_vector {};
          const auto push_stroke {[&](const auto stroke) {
             ip.ki.wVk = stroke;
@@ -134,25 +136,62 @@ namespace {
    }
 
 #pragma warning(suppress : 4244 26426) /* assigned to char intentionally */
-   const std::unordered_map<std::string, unsigned char> kKeyMap {{"backspace", VK_BACK},
-       {"cursor down", VK_DOWN}, {"cursor left", VK_LEFT}, {"cursor right", VK_RIGHT},
-       {"cursor up", VK_UP}, {"delete", VK_DELETE}, {"end", VK_END}, {"escape", VK_ESCAPE},
-       {"home", VK_HOME}, {"page down", VK_NEXT}, {"page up", VK_PRIOR}, {"return", VK_RETURN},
-       {"space", VK_SPACE}, {"tab", VK_TAB}, {"f1", VK_F1}, {"f2", VK_F2}, {"f3", VK_F3},
-       {"f4", VK_F4}, {"f5", VK_F5}, {"f6", VK_F6}, {"f7", VK_F7}, {"f8", VK_F8}, {"f9", VK_F9},
-       {"f10", VK_F10}, {"f11", VK_F11}, {"f12", VK_F12}, {"f13", VK_F13}, {"f14", VK_F14},
-       {"f15", VK_F15}, {"f16", VK_F16}, {"f17", VK_F17}, {"f18", VK_F18}, {"f19", VK_F19},
-       {"f20", VK_F20}, {"numpad 0", VK_NUMPAD0}, {"numpad 1", VK_NUMPAD1},
-       {"numpad 2", VK_NUMPAD2}, {"numpad 3", VK_NUMPAD3}, {"numpad 4", VK_NUMPAD4},
-       {"numpad 5", VK_NUMPAD5}, {"numpad 6", VK_NUMPAD6}, {"numpad 7", VK_NUMPAD7},
-       {"numpad 8", VK_NUMPAD8}, {"numpad 9", VK_NUMPAD9}, {"numpad add", VK_ADD},
-       {"numpad subtract", VK_SUBTRACT}, {"numpad multiply", VK_MULTIPLY},
-       {"numpad divide", VK_DIVIDE}, {"numpad decimal", VK_DECIMAL}};
+   const std::unordered_map<std::string, unsigned char> kKeyMap {
+       {      "backspace",     VK_BACK},
+       {    "cursor down",     VK_DOWN},
+       {    "cursor left",     VK_LEFT},
+       {   "cursor right",    VK_RIGHT},
+       {      "cursor up",       VK_UP},
+       {         "delete",   VK_DELETE},
+       {            "end",      VK_END},
+       {         "escape",   VK_ESCAPE},
+       {           "home",     VK_HOME},
+       {      "page down",     VK_NEXT},
+       {        "page up",    VK_PRIOR},
+       {         "return",   VK_RETURN},
+       {          "space",    VK_SPACE},
+       {            "tab",      VK_TAB},
+       {             "f1",       VK_F1},
+       {             "f2",       VK_F2},
+       {             "f3",       VK_F3},
+       {             "f4",       VK_F4},
+       {             "f5",       VK_F5},
+       {             "f6",       VK_F6},
+       {             "f7",       VK_F7},
+       {             "f8",       VK_F8},
+       {             "f9",       VK_F9},
+       {            "f10",      VK_F10},
+       {            "f11",      VK_F11},
+       {            "f12",      VK_F12},
+       {            "f13",      VK_F13},
+       {            "f14",      VK_F14},
+       {            "f15",      VK_F15},
+       {            "f16",      VK_F16},
+       {            "f17",      VK_F17},
+       {            "f18",      VK_F18},
+       {            "f19",      VK_F19},
+       {            "f20",      VK_F20},
+       {       "numpad 0",  VK_NUMPAD0},
+       {       "numpad 1",  VK_NUMPAD1},
+       {       "numpad 2",  VK_NUMPAD2},
+       {       "numpad 3",  VK_NUMPAD3},
+       {       "numpad 4",  VK_NUMPAD4},
+       {       "numpad 5",  VK_NUMPAD5},
+       {       "numpad 6",  VK_NUMPAD6},
+       {       "numpad 7",  VK_NUMPAD7},
+       {       "numpad 8",  VK_NUMPAD8},
+       {       "numpad 9",  VK_NUMPAD9},
+       {     "numpad add",      VK_ADD},
+       {"numpad subtract", VK_SUBTRACT},
+       {"numpad multiply", VK_MULTIPLY},
+       {  "numpad divide",   VK_DIVIDE},
+       { "numpad decimal",  VK_DECIMAL}
+   };
 } // namespace
 
 #pragma warning(push)
 #pragma warning(disable : 26447) /* all exceptions caught and suppressed */
-void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers& mods) noexcept
+void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods) noexcept
 {
    try {
       Expects(!key.empty());

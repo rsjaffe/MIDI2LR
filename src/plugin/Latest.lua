@@ -2,7 +2,7 @@
 
 Latest.lua
 Launches the github site
- 
+
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
@@ -14,13 +14,16 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local LrHttp = import "LrHttp"
 
 import "LrTasks".startAsyncTask(
   function()
+        --[[-----------debug section, enable by adding - to beginning this line
+    LrMobdebug.on()
+    --]]-----------end debug section
     LrHttp.openUrlInBrowser("https://github.com/rsjaffe/MIDI2LR/releases")
   end
 )

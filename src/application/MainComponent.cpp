@@ -112,11 +112,12 @@ void MainContentComponent::Init()
       addAndMakeVisible(load_button_);
       load_button_.onClick = [this] {
          if (profile_.ProfileUnsaved()) {
-            const auto result {juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
-                juce::translate("MIDI2LR profiles"),
-                juce::translate("Profile changed. Do you want to save your changes? If you "
-                                "continue without saving, your changes will be lost."))};
-            if (result) { SaveProfile(); }
+            if (juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
+                    juce::translate("MIDI2LR profiles"),
+                    juce::translate("Profile changed. Do you want to save your changes? If you "
+                                    "continue without saving, your changes will be lost."))) {
+               SaveProfile();
+            }
          }
          juce::File profile_directory {settings_manager_.GetProfileDirectory()};
          const auto directory_saved {profile_directory.exists()};
@@ -288,7 +289,7 @@ void MainContentComponent::paint(juce::Graphics& g)
    }
 }
 
-void MainContentComponent::MidiCmdCallback(const rsj::MidiMessage& mm)
+void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
       /* Display the MIDI parameters and add/highlight row in table corresponding to the message msg
@@ -296,7 +297,7 @@ void MainContentComponent::MidiCmdCallback(const rsj::MidiMessage& mm)
       const rsj::MidiMessageId msg {mm};
       last_command_ = fmt::format(FMT_STRING("{}: {}{} [{}]"), msg.channel, mm.message_type_byte,
           msg.control_number, mm.value);
-      profile_.AddRowUnmapped(msg);
+      profile_.InsertUnassigned(msg);
       row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
       triggerAsyncUpdate();
    }

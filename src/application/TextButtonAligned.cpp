@@ -17,7 +17,6 @@
 #include "TextButtonAligned.h"
 
 #include <algorithm>
-#include <cmath>
 
 #include <gsl/gsl>
 
@@ -27,9 +26,9 @@ void TextButtonAligned::paintButton(juce::Graphics& g, const bool should_draw_bu
    /* from TextButton.cpp: only change is second call from lf:: to TextButtonAligned:: */
 #pragma warning(suppress : 26812)
    juce::Component::getLookAndFeel().drawButtonBackground(g, *this,
-       juce::Component::findColour(juce::Button::getToggleState()
-                                       ? juce::TextButton::ColourIds::buttonOnColourId
-                                       : juce::TextButton::ColourIds::buttonColourId),
+       juce::Component::findColour(
+           juce::Button::getToggleState() ? juce::TextButton::ColourIds::buttonOnColourId
+                                          : juce::TextButton::ColourIds::buttonColourId),
        should_draw_button_as_highlighted, should_draw_button_as_down);
    /* the following normally calls lf.drawButtonText, hijacking the call for specific formatting */
    DrawButtonText(g, *this, should_draw_button_as_highlighted, should_draw_button_as_down);
@@ -60,9 +59,8 @@ void TextButtonAligned::DrawButtonText(juce::Graphics& g, juce::TextButton& butt
        std::min(font_height, 2 + corner_size / (button.isConnectedOnLeft() ? 4 : 2))}; //-V112
    const auto right_indent {
        std::min(font_height, 2 + corner_size / (button.isConnectedOnRight() ? 4 : 2))}; //-V112
-   const auto text_width {button.getWidth() - left_indent - right_indent};
 
-   if (text_width > 0) {
+   if (const auto text_width {button.getWidth() - left_indent - right_indent}; text_width > 0) {
       g.drawFittedText(button.getButtonText(), left_indent, y_indent, text_width,
           button.getHeight() - y_indent * 2, alignment_, 2);
    }

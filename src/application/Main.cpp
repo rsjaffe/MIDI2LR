@@ -15,13 +15,13 @@
  */
 
 #include <algorithm>
+#include <cstdlib>
 #include <exception>
 #include <filesystem>
 #include <fstream>
 #include <future>
 #include <memory>
 #include <mutex>
-#include <version>
 
 #include <asio/asio.hpp>
 #include <cereal/archives/xml.hpp>
@@ -45,26 +45,13 @@
 #include "ProfileManager.h"
 #include "SettingsManager.h"
 #include "VersionChecker.h"
-
-#ifdef __cpp_lib_semaphore
-#include <semaphore>
-#else
-#include <condition_variable>
-#endif
-/*weird xcode error for semaphore in this file only with cpp20: release has been explicitly marked
- * unavailable here*/
-#ifndef _WIN32
-#include <condition_variable>
-#undef __cpp_lib_semaphore
-#endif
-
-namespace fs = std::filesystem;
-
 #ifdef _WIN32
 #include <array>
 
 #include <wil/result.h> /* including too early causes conflicts with other windows includes */
 #endif
+
+namespace fs = std::filesystem;
 
 namespace {
    constexpr auto kShutDownString {"--LRSHUTDOWN"};
@@ -116,6 +103,9 @@ namespace {
 #ifdef _WIN32
          try {
             wil::SetResultLoggingCallback(nullptr);
+         }
+         catch (const std::exception& e) {
+            MIDI2LR_E_RESPONSE;
          }
          catch (...) {
             rsj::Log("Unable to reset wil logging callback.");
@@ -219,9 +209,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             LoadControlsModel();
             /* need to start main window before ipc so it's already registered its callbacks and can
              * receive messages */
-            main_window_ =
-                std::make_unique<MainWindow>(getApplicationName(), command_set_, profile_,
-                    profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
+            main_window_ = std::make_unique<MainWindow>(getApplicationName(), command_set_,
+                profile_, profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_,
+                midi_sender_);
             midi_receiver_.Start();
             midi_sender_.Start();
             lr_ipc_out_.Start();
@@ -268,42 +258,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          static std::once_flag of; /* function might be called twice during LR shutdown */
          std::call_once(of, [this] {
             if (profile_.ProfileUnsaved() && main_window_) {
-#ifdef __cpp_lib_semaphore
-               std::binary_semaphore ready_sem(1);
-#else
-               std::condition_variable cv;
-               std::mutex m;
-               bool ready {false};
-#endif
-
-               juce::MessageManager::callAsync([&] {
-                  try {
-                     const auto result {juce::NativeMessageBox::showYesNoBox(
-                         juce::AlertWindow::WarningIcon, juce::translate("MIDI2LR profiles"),
-                         juce::translate("Profile changed. Do you want to save your changes? If "
-                                         "you continue without saving, your changes will be "
-                                         "lost."))};
-                     if (result) { main_window_->SaveProfile(); }
-                  }
-                  catch (const std::exception& e) {
-                     MIDI2LR_E_RESPONSE; /* and continue, so ready flag can be set */
-                  }
-                  catch (...) { //-V565 //-V5002
-                  }
-#ifdef __cpp_lib_semaphore
-                  ready_sem.release();
-               });
-               ready_sem.acquire();
-#else
-                  {
-                     std::unique_lock<std::mutex> lk {m};
-                     ready = true;
-                  }
-                  cv.notify_one();
-               });
-               std::unique_lock<std::mutex> lk {m};
-               cv.wait(lk, [&] { return ready; });
-#endif
+               if (juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
+                       juce::translate("MIDI2LR profiles"),
+                       juce::translate("Profile changed. Do you want to save your changes? If "
+                                       "you continue without saving, your changes will be "
+                                       "lost."))) {
+                  main_window_->SaveProfile();
+               }
             }
             quit();
          });
@@ -354,7 +315,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    }
 
  private:
-   void DefaultProfileSave()
+   void DefaultProfileSave() noexcept
    {
       try {
          const auto file_name {rsj::AppDataFilePath(kDefaultsFile)};
@@ -368,12 +329,11 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
    }
 
-   void SaveControlsModel() const
+   void SaveControlsModel() const noexcept
    {
       try {
          const fs::path p {rsj::AppDataFilePath(kSettingsFileX)};
-         std::ofstream outfile {p, std::ios::trunc};
-         if (outfile.is_open()) {
+         if (std::ofstream outfile {p, std::ios::trunc}; outfile.is_open()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto oarchive {std::make_unique<cereal::XMLOutputArchive>(outfile)};
             (*oarchive)(controls_model_);
@@ -394,8 +354,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    {
       try {
          const fs::path px {rsj::AppDataFilePath(kSettingsFileX)};
-         std::ifstream in_file {px};
-         if (in_file.is_open() && !in_file.eof()) {
+         if (std::ifstream in_file {px}; in_file.is_open() && !in_file.eof()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto iarchive {std::make_unique<cereal::XMLInputArchive>(in_file)};
             (*iarchive)(controls_model_);
@@ -409,7 +368,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
    }
 
-   void SetAppFont() const
+   void SetAppFont() const noexcept
    {
       /* juce (as of July 2018) uses the following font defaults taken from juce_mac_Fonts.mm and
        * juce_wind32_Fonts.cpp. Sans defaults do not support Asian languages.
@@ -427,22 +386,23 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        *        Fixed   Menlo            Lucida Console
        */
       try {
+         using namespace std::string_literals;
          const auto& lang {command_set_.GetLanguage()};
          juce::String font1_name;
          juce::String font2_name;
          if (lang == "ko") { font1_name = "NotoSansKR-Regular.otf"; }
-         else if (rollbear::any_of("zh_TW", "zh_tw") == lang) {
+         else if (rollbear::any_of("zh_TW"s, "zh_tw"s) == lang) {
             font1_name = "NotoSansTC-Regular.otf";
          }
-         else if (rollbear::any_of("zh_CN", "zh_cn") == lang) {
+         else if (rollbear::any_of("zh_CN"s, "zh_cn"s) == lang) {
             font1_name = "NotoSansSC-Regular.otf";
          }
-         else if (lang == "ja") {
+         else if (lang == "ja"s) {
             font1_name = "NotoSansJP-Regular.otf";
          }
          else {
-            font1_name = "NotoSans-Regular-Plus-Thai.ttf";
-            font2_name = "NotoSans-Bold-Plus-Thai.ttf";
+            font1_name = "NotoSans-Regular-MIDI2LR.ttf";
+            font2_name = "NotoSans-Bold-MIDI2LR.ttf";
          }
          juce::MemoryBlock font_data {};
          auto font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)

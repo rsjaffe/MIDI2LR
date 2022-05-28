@@ -11,13 +11,13 @@
       * Redistributions in binary form must reproduce the above copyright
         notice, this list of conditions and the following disclaimer in the
         documentation and/or other materials provided with the distribution.
-      * Neither the name of cereal nor the
+      * Neither the name of the copyright holder nor the
         names of its contributors may be used to endorse or promote products
         derived from this software without specific prior written permission.
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
   ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  DISCLAIMED. IN NO EVENT SHALL RANDOLPH VOORHIES OR SHANE GRANT BE LIABLE FOR ANY
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
   DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
   (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -44,11 +44,11 @@
     License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
     http://www.boost.org/LICENSE_1_0.txt) */
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && !defined(__clang__)
 #   define CEREAL_DLL_EXPORT __declspec(dllexport)
 #   define CEREAL_USED
 #else // clang or gcc
-#   define CEREAL_DLL_EXPORT
+#   define CEREAL_DLL_EXPORT __attribute__ ((visibility("default")))
 #   define CEREAL_USED __attribute__ ((__used__))
 #endif
 
@@ -67,13 +67,12 @@ namespace cereal
     class CEREAL_DLL_EXPORT StaticObject
     {
       private:
-        //! Forces instantiation at pre-execution time
-        static void instantiate( T const & ) {}
 
         static T & create()
         {
           static T t;
-          instantiate(instance);
+          //! Forces instantiation at pre-execution time
+          (void)instance;
           return t;
         }
 
@@ -95,6 +94,8 @@ namespace cereal
             std::unique_lock<std::mutex> lock;
           #else
           public:
+            LockGuard() = default;
+            LockGuard(LockGuard const &) = default; // prevents implicit copy ctor warning
             ~LockGuard() CEREAL_NOEXCEPT {} // prevents variable not used
           #endif
         };

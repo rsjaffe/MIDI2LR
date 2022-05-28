@@ -35,9 +35,24 @@ using TransType = const char*;
 void rsj::Translate(const std::string& lg)
 {
    try {
-      static const std::map<std::string, TransType> kTranslationTable {{"de", de}, {"es", es},
-          {"fr", fr}, {"it", it}, {"ja", ja}, {"ko", ko}, {"nl", nl}, {"pt", pt}, {"ru", ru},
-          {"sv", sv}, {"th", th}, {"zh_cn", zh_cn}, {"zh_tw", zh_tw}};
+      static const std::map<std::string, TransType> kTranslationTable {
+          {   "de",    de},
+          {   "es",    es},
+          {   "fr",    fr},
+          {   "hi",    hi},
+          {   "it",    it},
+          {   "ja",    ja},
+          {   "ko",    ko},
+          {   "nb",    nb},
+          {   "nl",    nl},
+          {   "pl",    pl},
+          {   "pt",    pt},
+          {   "ru",    ru},
+          {   "sv",    sv},
+          {   "th",    th},
+          {"zh_cn", zh_cn},
+          {"zh_tw", zh_tw}
+      };
       const auto language {rsj::ToLower(lg)};
       if (const auto found {kTranslationTable.find(language)}; found != kTranslationTable.end()) {
 #pragma warning(suppress : 26490)

@@ -21,6 +21,8 @@
 
 #include <juce_audio_basics/juce_audio_basics.h>
 
+#include "Misc.h"
+
 /*****************************************************************************/
 /*************MidiMessage*****************************************************/
 /*****************************************************************************/
@@ -65,7 +67,7 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm)
 /*****************************************************************************/
 /*************NrpnFilter******************************************************/
 /*****************************************************************************/
-NrpnFilter::ProcessResult NrpnFilter::operator()(const rsj::MidiMessage& message)
+NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
 {
    try {
       Expects(message.value <= 0x7F && message.value >= 0);
