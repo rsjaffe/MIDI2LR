@@ -401,8 +401,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             font1_name = "NotoSansJP-Regular.otf";
          }
          else {
-            font1_name = "NotoSans-Regular-Plus-Thai.ttf";
-            font2_name = "NotoSans-Bold-Plus-Thai.ttf";
+            font1_name = "NotoSans-Regular-MIDI2LR.ttf";
+            font2_name = "NotoSans-Bold-MIDI2LR.ttf";
          }
          juce::MemoryBlock font_data {};
          auto font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)

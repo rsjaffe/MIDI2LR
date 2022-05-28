@@ -30,6 +30,11 @@ countries: it mt sm va
 ' >> Translate.txt
 ./remove_comments.sh MIDI2LR_Italian.strings | sed -e '/^$/d' -e 's/";/"/' >> Translate.txt
 echo ')===";
+   const auto hi = u8R"===(language: Hindi
+countries: in
+' >> Translate.txt
+./remove_comments.sh MIDI2LR_Hindi.strings | sed -e '/^$/d' -e 's/";/"/' >> Translate.txt
+echo ')===";
    const auto ja = u8R"===(language: Japanese
 countries: jp
 ' >> Translate.txt
@@ -44,6 +49,16 @@ echo ')===";
 countries: nl sr
 ' >> Translate.txt
 ./remove_comments.sh MIDI2LR_Dutch.strings | sed -e '/^$/d' -e 's/";/"/' >> Translate.txt
+echo ')===";
+   const auto nb = u8R"===(language: Norwegian
+countries: no
+' >> Translate.txt
+./remove_comments.sh MIDI2LR_Norwegian_Bokm_l.strings | sed -e '/^$/d' -e 's/";/"/' >> Translate.txt
+echo ')===";
+   const auto pl = u8R"===(language: Polish
+countries: pl
+' >> Translate.txt
+./remove_comments.sh MIDI2LR_Polish.strings | sed -e '/^$/d' -e 's/";/"/' >> Translate.txt
 echo ')===";
    const auto pt = u8R"===(language: Portuguese
 countries: pt br ao mz cv gw st

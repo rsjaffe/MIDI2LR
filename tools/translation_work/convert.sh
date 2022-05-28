@@ -6,9 +6,12 @@ dos2unix *.strings
 ./remove_comments.sh MIDI2LR_English.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_en.txt
 ./remove_comments.sh MIDI2LR_French.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_fr.txt
 ./remove_comments.sh MIDI2LR_German.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_de.txt
+./remove_comments.sh MIDI2LR_Hindi.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_hi.txt
 ./remove_comments.sh MIDI2LR_Italian.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_it.txt
 ./remove_comments.sh MIDI2LR_Japanese.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_ja.txt
 ./remove_comments.sh MIDI2LR_Korean.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_ko.txt
+./remove_comments.sh MIDI2LR_Norwegian_Bokm_l.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_nb.txt
+./remove_comments.sh MIDI2LR_Polish.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_pl.txt
 ./remove_comments.sh MIDI2LR_Portuguese_BR.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_pt.txt
 ./remove_comments.sh MIDI2LR_Russian.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_ru.txt
 ./remove_comments.sh MIDI2LR_Spanish.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_es.txt
