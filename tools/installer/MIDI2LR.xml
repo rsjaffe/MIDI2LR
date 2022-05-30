@@ -345,6 +345,19 @@
                 </compareVersions>
             </ruleList>
         </throwError>
+        <throwError>
+            <text>${msg(midi.install.win)}</text>
+            <ruleList>
+                <platformTest>
+                    <type>windows</type>
+                </platformTest>
+                <compareValues>
+                    <logic>less</logic>
+                    <value1>${windows_os_version_number}</value1>
+                    <value2>10</value2>
+                </compareValues>
+            </ruleList>
+        </throwError>
     </initializationActionList>
     <preInstallationActionList>
         <setInstallerVariable>
