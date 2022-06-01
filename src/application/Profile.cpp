@@ -202,10 +202,10 @@ void Profile::SortI()
          }
       }
       else if (current_sort_.second) {
-         std::sort(mm_abbrv_table_.begin(), mm_abbrv_table_.end(), msg_sort);
+         std::stable_sort(mm_abbrv_table_.begin(), mm_abbrv_table_.end(), msg_sort);
       }
       else {
-         std::sort(mm_abbrv_table_.rbegin(), mm_abbrv_table_.rend(), msg_sort);
+         std::stable_sort(mm_abbrv_table_.rbegin(), mm_abbrv_table_.rend(), msg_sort);
       }
    }
    catch (const std::exception& e) {
