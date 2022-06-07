@@ -247,7 +247,7 @@ void Profile::ToXmlFile(const juce::File& file)
                continue;
             }
             setting->setAttribute("command_string", cmd_str);
-            root.addChildElement(setting.release());
+            root.prependChildElement(setting.release());
          }
          if (!root.writeTo(file)) {
             /* Give feedback if file-save doesn't work */

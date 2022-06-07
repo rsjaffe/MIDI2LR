@@ -370,27 +370,12 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
    void SetAppFont() const noexcept
    {
-      /* juce (as of July 2018) uses the following font defaults taken from juce_mac_Fonts.mm and
-       * juce_wind32_Fonts.cpp. Sans defaults do not support Asian languages.
-       * SEE:https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list avoiding fonts
-       * added in windows 10 to support people using earlier Windows versions
-       * SEE:https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts
-       * SEE:https://docs.microsoft.com/en-us/windows/uwp/design/globalizing/loc-international-fonts
-       * but Meiryo UI doesn't work well on my computer, so using MS UI Gothic instead for ja.
-       * PingFang added in 10.11 El Capitan as new Chinese UI fonts
-       *
-       * Juce defaults:
-       *                MacOS            Windows
-       *        Sans    Lucida Grande    Verdana
-       *        Serif   Times New Roman  Times New Roman
-       *        Fixed   Menlo            Lucida Console
-       */
       try {
          using namespace std::string_literals;
          const auto& lang {command_set_.GetLanguage()};
          juce::String font1_name;
          juce::String font2_name;
-         if (lang == "ko") { font1_name = "NotoSansKR-Regular.otf"; }
+         if (lang == "ko"s) { font1_name = "NotoSansKR-Regular.otf"; }
          else if (rollbear::any_of("zh_TW"s, "zh_tw"s) == lang) {
             font1_name = "NotoSansTC-Regular.otf";
          }
