@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.3.1.11</span>
+   &#160;<span id="projectnumber">5.4.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -333,8 +333,6 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;   }</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">LrIpcOut::SendCommand()</a>.</p>
-
 </div>
 </div>
 <a id="a3f72426f5881bed364d70b41f52844cd"></a>
@@ -419,8 +417,6 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;getIntValue(<span class="stringliteral">&quot;LastVersionFound&quot;</span>, 0);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;   }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="class_version_checker.html#a77002a8003951c00080a5ed901e3d0ac">VersionChecker::Run()</a>.</p>
-
 </div>
 </div>
 <a id="ad3c2351b353983433605b1c936b2f77b"></a>
@@ -614,8 +610,6 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <a class="code" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;setValue(<span class="stringliteral">&quot;LastVersionFound&quot;</span>, version_number);</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;   }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="class_version_checker.html#a77002a8003951c00080a5ed901e3d0ac">VersionChecker::Run()</a>.</p>
-
 </div>
 </div>
 <a id="a838cdaffb2fccb100bd18985d6ea1337"></a>
@@ -756,10 +750,10 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="aclass_settings_manager_html_adc8d58846516e741e4c3940945100c83"><div class="ttname"><a href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">SettingsManager::GetProfileDirectory</a></div><div class="ttdeci">juce::String GetProfileDirectory() const noexcept</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:52</div></div>
 <div class="ttc" id="aclass_debug_info_html"><div class="ttname"><a href="class_debug_info.html">DebugInfo</a></div><div class="ttdef"><b>Definition:</b> DebugInfo.h:25</div></div>
 <div class="ttc" id="aclass_settings_manager_html_afcb8cc77d01b25a3ff7b2713dbb84011"><div class="ttname"><a href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">SettingsManager::profile_manager_</a></div><div class="ttdeci">ProfileManager &amp; profile_manager_</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:81</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:217</div></div>
-<div class="ttc" id="aclass_profile_manager_html_acb0cff45331b1e60e58b247efcfb5bf8"><div class="ttname"><a href="class_profile_manager.html#acb0cff45331b1e60e58b247efcfb5bf8">ProfileManager::SetProfileDirectory</a></div><div class="ttdeci">void SetProfileDirectory(const juce::File &amp;directory)</div><div class="ttdef"><b>Definition:</b> ProfileManager.cpp:40</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_a868d8f460f4f2140e177d74d1210f254"><div class="ttname"><a href="class_lr_ipc_out.html#a868d8f460f4f2140e177d74d1210f254">LrIpcOut::AddCallback</a></div><div class="ttdeci">void AddCallback(_In_ T *const object, _In_ void(T::*const mf)(bool, bool))</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.h:48</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_ae1e40469ef8e53e58ef1c833774f8dac"><div class="ttname"><a href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">LrIpcOut::SendCommand</a></div><div class="ttdeci">void SendCommand(std::string &amp;&amp;command)</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.h:53</div></div>
+<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:214</div></div>
+<div class="ttc" id="aclass_profile_manager_html_acb0cff45331b1e60e58b247efcfb5bf8"><div class="ttname"><a href="class_profile_manager.html#acb0cff45331b1e60e58b247efcfb5bf8">ProfileManager::SetProfileDirectory</a></div><div class="ttdeci">void SetProfileDirectory(const juce::File &amp;directory)</div><div class="ttdef"><b>Definition:</b> ProfileManager.cpp:41</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_a868d8f460f4f2140e177d74d1210f254"><div class="ttname"><a href="class_lr_ipc_out.html#a868d8f460f4f2140e177d74d1210f254">LrIpcOut::AddCallback</a></div><div class="ttdeci">void AddCallback(_In_ T *const object, _In_ void(T::*const mf)(bool, bool))</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.h:51</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_ae1e40469ef8e53e58ef1c833774f8dac"><div class="ttname"><a href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">LrIpcOut::SendCommand</a></div><div class="ttdeci">void SendCommand(std::string &amp;&amp;command)</div><div class="ttdef"><b>Definition:</b> LR_IPC_Out.cpp:67</div></div>
 <div class="ttc" id="aclass_settings_manager_html_a0f59381a05adefe4ed87846127092ba8"><div class="ttname"><a href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8">SettingsManager::ConnectionCallback</a></div><div class="ttdeci">void ConnectionCallback(bool, bool)</div><div class="ttdef"><b>Definition:</b> SettingsManager.cpp:50</div></div>
 <div class="ttc" id="aclass_settings_manager_html_ad065363b99b0db676f60ebfc249f2e22"><div class="ttname"><a href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">SettingsManager::lr_ipc_out_</a></div><div class="ttdeci">LrIpcOut &amp; lr_ipc_out_</div><div class="ttdef"><b>Definition:</b> SettingsManager.h:80</div></div>
 <!-- start footer part -->

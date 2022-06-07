@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.3.1.11</span>
+   &#160;<span id="projectnumber">5.4.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -186,9 +186,9 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;          : <a class="code" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a>(mt), <a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>(ch), <a class="code" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a>(nu), <a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a>(va)</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      {</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;          : <a class="code" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a>(mt), <a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>(ch), <a class="code" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a>(nu), <a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a>(va)</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>, <a class="el" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a>, <a class="el" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a>, and <a class="el" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a>.</p>
 
@@ -217,46 +217,45 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;   <span class="comment">/* anything not set below is set to zero by default constructor */</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#pragma warning(push)</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#pragma warning(disable : 26481) </span><span class="comment">/* doing raw pointer arithmetic, parsing low-level structure */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;   <span class="comment">// ReSharper disable CppClangTidyCppcoreguidelinesProBoundsPointerArithmetic</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> raw {mm.getRawData()};</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;   Ensures(raw);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;   <span class="keywordflow">if</span> (<a class="code" href="namespacersj.html#aa264d1498e1ef830ebf52d99beceaf26">rsj::ValidMessageType</a>(raw[0])) {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      <a class="code" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a> = <a class="code" href="namespacersj.html#a01820cbe9055abfea79fc9114f365fb0">rsj::ToMessageType</a>(raw[0]);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a> = raw[0] &amp; 0xF;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <span class="keywordflow">switch</span> (<a class="code" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a>) {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <span class="keywordflow">case</span> MessageType::kPw:</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;         <a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> = raw[2] &lt;&lt; 7 | raw[1];</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;         <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="keywordflow">case</span> MessageType::kCc:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keywordflow">case</span> MessageType::kKeyPressure:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keywordflow">case</span> MessageType::kNoteOff:</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="keywordflow">case</span> MessageType::kNoteOn:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;         <a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> = raw[2];</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;         <a class="code" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a> = raw[1];</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;         <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <span class="keywordflow">case</span> MessageType::kPgmChange:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;         <a class="code" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a> = raw[1];</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;         <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keywordflow">case</span> MessageType::kChanPressure:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;         <a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> = raw[1];</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;         <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">MessageType::kSystem</a>:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;         <span class="keywordflow">break</span>; <span class="comment">/* no action */</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;   }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;   <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <a class="code" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a> = <a class="code" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">MessageType::kSystem</a>;</div>
+<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;   <span class="comment">/* anything not set below is set to zero by default constructor */</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#pragma warning(push)</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#pragma warning(disable : 26481) </span><span class="comment">/* doing raw pointer arithmetic, parsing low-level structure */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;   <span class="comment">// ReSharper disable CppClangTidyCppcoreguidelinesProBoundsPointerArithmetic</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> raw {mm.getRawData()};</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;   Ensures(raw);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;   <span class="keywordflow">if</span> (<a class="code" href="namespacersj.html#abc174308b8f19eba15fa43c452cdccca">rsj::ValidMessageType</a>(raw[0])) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      <a class="code" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a> = <a class="code" href="namespacersj.html#a3e507a3be3fc79f796e5973bee4b1454">rsj::ToMessageType</a>(raw[0]);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      <a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a> = raw[0] &amp; 0xF;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <span class="keywordflow">switch</span> (<a class="code" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a>) {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <span class="keywordflow">case</span> MessageType::kPw:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;         <a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> = raw[2] &lt;&lt; 7 | raw[1];</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;         <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordflow">case</span> MessageType::kCc:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="keywordflow">case</span> MessageType::kKeyPressure:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keywordflow">case</span> MessageType::kNoteOff:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keywordflow">case</span> MessageType::kNoteOn:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;         <a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> = raw[2];</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;         <a class="code" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a> = raw[1];</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;         <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">case</span> MessageType::kPgmChange:</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;         <a class="code" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a> = raw[1];</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;         <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <span class="keywordflow">case</span> MessageType::kChanPressure:</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;         <a class="code" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> = raw[1];</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;         <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">MessageType::kSystem</a>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;         <span class="keywordflow">break</span>; <span class="comment">/* no action */</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;   }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;   <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <a class="code" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a> = <a class="code" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">MessageType::kSystem</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;   }</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#pragma warning(pop)</span></div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;   <span class="comment">// ReSharper restore CppClangTidyCppcoreguidelinesProBoundsPointerArithmetic</span></div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a2c9d4d4ca70df56c762f0140f57dbdfb">rsj::kSystem</a>, and <a class="el" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="class_midi_receiver.html#afbab9200ae3b216c658df1fe5033711b">MidiReceiver::handleIncomingMidiMessage()</a>.</p>
 
 </div>
 </div>
@@ -273,7 +272,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="structrsj_1_1_midi_message.html#a326594a7ae5d6ecbf5c2848ec180d693">MidiMessage()</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#a324834b9a01e109fde8705b1f77d0c97">rsj::MidiMessageId::MidiMessageId()</a>, <a class="el" href="class_nrpn_filter.html#a300dc0b08805123465fe78ef5bae6d72">NrpnFilter::operator()()</a>, and <a class="el" href="namespacersj.html#aca45a5e35c860d513fb0b69a75a84aed">rsj::operator==()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="structrsj_1_1_midi_message.html#a326594a7ae5d6ecbf5c2848ec180d693">MidiMessage()</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#a324834b9a01e109fde8705b1f77d0c97">rsj::MidiMessageId::MidiMessageId()</a>, <a class="el" href="class_nrpn_filter.html#a5ef7ed86e0648fd3debea79c42e7eb44">NrpnFilter::operator()()</a>, and <a class="el" href="namespacersj.html#a856fe46436c0adb0f9c58e6bfca0973a">rsj::operator==()</a>.</p>
 
 </div>
 </div>
@@ -289,7 +288,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="structrsj_1_1_midi_message.html#a326594a7ae5d6ecbf5c2848ec180d693">MidiMessage()</a>, <a class="el" href="class_nrpn_filter.html#a300dc0b08805123465fe78ef5bae6d72">NrpnFilter::operator()()</a>, and <a class="el" href="namespacersj.html#aca45a5e35c860d513fb0b69a75a84aed">rsj::operator==()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="structrsj_1_1_midi_message.html#a326594a7ae5d6ecbf5c2848ec180d693">MidiMessage()</a>, <a class="el" href="class_nrpn_filter.html#a5ef7ed86e0648fd3debea79c42e7eb44">NrpnFilter::operator()()</a>, and <a class="el" href="namespacersj.html#a856fe46436c0adb0f9c58e6bfca0973a">rsj::operator==()</a>.</p>
 
 </div>
 </div>
@@ -305,7 +304,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="structrsj_1_1_midi_message.html#a326594a7ae5d6ecbf5c2848ec180d693">MidiMessage()</a>, <a class="el" href="class_midi_receiver.html#afbab9200ae3b216c658df1fe5033711b">MidiReceiver::handleIncomingMidiMessage()</a>, <a class="el" href="class_lr_ipc_out.html#a3781eb19d9999a241a4c05917d1f73aa">LrIpcOut::MidiCmdCallback()</a>, and <a class="el" href="namespacersj.html#aca45a5e35c860d513fb0b69a75a84aed">rsj::operator==()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="structrsj_1_1_midi_message.html#a326594a7ae5d6ecbf5c2848ec180d693">MidiMessage()</a>, <a class="el" href="class_lr_ipc_out.html#a2bf8e781dad6bc1326560dcdd0dc8ed5">LrIpcOut::MidiCmdCallback()</a>, and <a class="el" href="namespacersj.html#a856fe46436c0adb0f9c58e6bfca0973a">rsj::operator==()</a>.</p>
 
 </div>
 </div>
@@ -321,7 +320,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="structrsj_1_1_midi_message.html#a326594a7ae5d6ecbf5c2848ec180d693">MidiMessage()</a>, <a class="el" href="class_nrpn_filter.html#a300dc0b08805123465fe78ef5bae6d72">NrpnFilter::operator()()</a>, and <a class="el" href="namespacersj.html#aca45a5e35c860d513fb0b69a75a84aed">rsj::operator==()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="structrsj_1_1_midi_message.html#a326594a7ae5d6ecbf5c2848ec180d693">MidiMessage()</a>, <a class="el" href="class_nrpn_filter.html#a5ef7ed86e0648fd3debea79c42e7eb44">NrpnFilter::operator()()</a>, and <a class="el" href="namespacersj.html#a856fe46436c0adb0f9c58e6bfca0973a">rsj::operator==()</a>.</p>
 
 </div>
 </div>
@@ -331,12 +330,12 @@ Public Attributes</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructrsj_1_1_midi_message_html_ad1b6e1d738eafd7f0ef54b56914e1448"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">rsj::MidiMessage::message_type_byte</a></div><div class="ttdeci">MessageType message_type_byte</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:125</div></div>
-<div class="ttc" id="anamespacersj_html_a01820cbe9055abfea79fc9114f365fb0"><div class="ttname"><a href="namespacersj.html#a01820cbe9055abfea79fc9114f365fb0">rsj::ToMessageType</a></div><div class="ttdeci">constexpr MessageType ToMessageType(uint8_t value)</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:61</div></div>
-<div class="ttc" id="anamespacersj_html_aa264d1498e1ef830ebf52d99beceaf26"><div class="ttname"><a href="namespacersj.html#aa264d1498e1ef830ebf52d99beceaf26">rsj::ValidMessageType</a></div><div class="ttdeci">constexpr bool ValidMessageType(uint8_t value) noexcept</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:54</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html_a40cce06213f004a2b07928898e112491"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">rsj::MidiMessage::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:127</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html_ad86e8d27f598c8def0279d3a3777cd7e"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">rsj::MidiMessage::value</a></div><div class="ttdeci">int value</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:128</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html_a9fe338912f9e54437351926dcc6df9e1"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">rsj::MidiMessage::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:126</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_ad1b6e1d738eafd7f0ef54b56914e1448"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">rsj::MidiMessage::message_type_byte</a></div><div class="ttdeci">MessageType message_type_byte</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:126</div></div>
+<div class="ttc" id="anamespacersj_html_abc174308b8f19eba15fa43c452cdccca"><div class="ttname"><a href="namespacersj.html#abc174308b8f19eba15fa43c452cdccca">rsj::ValidMessageType</a></div><div class="ttdeci">constexpr bool ValidMessageType(std::underlying_type_t&lt; MessageType &gt; value) noexcept</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:55</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_a40cce06213f004a2b07928898e112491"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">rsj::MidiMessage::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:128</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_ad86e8d27f598c8def0279d3a3777cd7e"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">rsj::MidiMessage::value</a></div><div class="ttdeci">int value</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:129</div></div>
+<div class="ttc" id="anamespacersj_html_a3e507a3be3fc79f796e5973bee4b1454"><div class="ttname"><a href="namespacersj.html#a3e507a3be3fc79f796e5973bee4b1454">rsj::ToMessageType</a></div><div class="ttdeci">constexpr MessageType ToMessageType(std::underlying_type_t&lt; MessageType &gt; value)</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:63</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_a9fe338912f9e54437351926dcc6df9e1"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">rsj::MidiMessage::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:127</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kNoteOff</a></div><div class="ttdeci">@ kNoteOff</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

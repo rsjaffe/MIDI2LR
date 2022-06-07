@@ -7,7 +7,7 @@ var class_main_content_component =
     [ "handleAsyncUpdate", "class_main_content_component.html#a9be726b895f68c0e9163d618ee4d20f6", null ],
     [ "Init", "class_main_content_component.html#ae702256a158baa25205b97aee67b63f3", null ],
     [ "LrIpcOutCallback", "class_main_content_component.html#a5c7da1ac272d106cfed84954a4816334", null ],
-    [ "MidiCmdCallback", "class_main_content_component.html#a820be14b7369b2896a84fdc6bf6523d8", null ],
+    [ "MidiCmdCallback", "class_main_content_component.html#a9aca9062f4600dc1aa8467193c80a8ba", null ],
     [ "operator=", "class_main_content_component.html#a585d34858fa1734cf631a868fee8759c", null ],
     [ "operator=", "class_main_content_component.html#ab5a2f587e185afc257c5450db43c3662", null ],
     [ "paint", "class_main_content_component.html#ad29d20b699ea1c995c17170083ad3aa7", null ],

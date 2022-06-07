@@ -16,7 +16,7 @@ var hierarchy =
       [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
     [ "rsj::ConcurrentQueue< T, Container, Mutex >", "classrsj_1_1_concurrent_queue.html", null ],
-    [ "rsj::ConcurrentQueue< rsj::MidiMessage >", "classrsj_1_1_concurrent_queue.html", null ],
+    [ "rsj::ConcurrentQueue< std::pair< rsj::MidiMessage, juce::MidiInput * > >", "classrsj_1_1_concurrent_queue.html", null ],
     [ "rsj::ConcurrentQueue< std::string >", "classrsj_1_1_concurrent_queue.html", null ],
     [ "ControlsModel", "class_controls_model.html", null ],
     [ "DebugInfo", "class_debug_info.html", null ],
@@ -41,7 +41,9 @@ var hierarchy =
       [ "CCoptions", "class_c_coptions.html", null ]
     ] ],
     [ "LrIpcIn", "class_lr_ipc_in.html", null ],
+    [ "LrIpcInShared", "class_lr_ipc_in_shared.html", null ],
     [ "LrIpcOut", "class_lr_ipc_out.html", null ],
+    [ "LrIpcOutShared", "class_lr_ipc_out_shared.html", null ],
     [ "MidiInputCallback", null, [
       [ "MidiReceiver", "class_midi_receiver.html", null ]
     ] ],
@@ -49,7 +51,6 @@ var hierarchy =
     [ "rsj::MidiMessageId", "structrsj_1_1_midi_message_id.html", null ],
     [ "MidiSender", "class_midi_sender.html", null ],
     [ "NrpnFilter", "class_nrpn_filter.html", null ],
-    [ "rsj::PRNG", "classrsj_1_1_p_r_n_g.html", null ],
     [ "NrpnFilter::ProcessResult", "struct_nrpn_filter_1_1_process_result.html", null ],
     [ "Profile", "class_profile.html", null ],
     [ "ResizableLayout", null, [
@@ -58,7 +59,6 @@ var hierarchy =
     ] ],
     [ "SettingsManager", "class_settings_manager.html", null ],
     [ "rsj::SettingsStruct", "structrsj_1_1_settings_struct.html", null ],
-    [ "rsj::SpinLock", "classrsj_1_1_spin_lock.html", null ],
     [ "TableListBox", null, [
       [ "CommandTable", "class_command_table.html", null ]
     ] ],

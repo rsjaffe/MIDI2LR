@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.3.1.11</span>
+   &#160;<span id="projectnumber">5.4.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -91,9 +91,9 @@ $(document).ready(function(){initNavTree('class_lr_ipc_in.html',''); initResizab
 
 <p>This is the complete list of members for <a class="el" href="class_lr_ipc_in.html">LrIpcIn</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_in.html#a41eb86f7e984ebfbe6928b4872b4d464">Connect</a>()</td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_in.html#a707d6f7350264e9dcfd8093355b7375c">Connect</a>(std::shared_ptr&lt; LrIpcInShared &gt; lr_ipc_shared)</td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_lr_ipc_in.html#a59ace245fb362643d6ce712a952ae238">controls_model_</a></td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_in.html#a63df8f884021aba7eb7d0c9414ae2684">line_</a></td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">lr_ipc_in_shared_</a></td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_lr_ipc_in.html#aaf1fd1c1e669f5759ce8c75df770cc58">LrIpcIn</a>(ControlsModel &amp;c_model, ProfileManager &amp;profile_manager, const Profile &amp;profile, const MidiSender &amp;midi_sender, asio::io_context &amp;io_context)</td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_in.html#a468b27abc43e7f1f6d4012eb8dc14bfd">LrIpcIn</a>(const LrIpcIn &amp;other)=delete</td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_lr_ipc_in.html#adfbf863dc7341c0ebc8b7f5ab13e71fc">LrIpcIn</a>(LrIpcIn &amp;&amp;other)=delete</td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"></td></tr>
@@ -101,15 +101,11 @@ $(document).ready(function(){initNavTree('class_lr_ipc_in.html',''); initResizab
   <tr><td class="entry"><a class="el" href="class_lr_ipc_in.html#a4d9c6d1172bcf7ca18065613b6c37fdf">operator=</a>(const LrIpcIn &amp;other)=delete</td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_in.html#a9cc668e71e6fc6555dfcc33cd80a6dd7">operator=</a>(LrIpcIn &amp;&amp;other)=delete</td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_lr_ipc_in.html#a31844f93eb6e2ba93a30caa1e4f4f0e3">process_line_future_</a></td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_in.html#a833e0157f89d7f78447d7d6fccac69e4">ProcessLine</a>()</td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_in.html#a569311aa6bdf3c5ed692fb51c72cdc88">ProcessLine</a>(std::shared_ptr&lt; LrIpcInShared &gt; lr_ipc_shared)</td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_lr_ipc_in.html#a9ad374498feeb2a1ccd5ddc56734d3be">profile_</a></td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_in.html#abe357338e4c1624eae973992869a7aca">profile_manager_</a></td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_lr_ipc_in.html#a16f9f4916e343a703668b97fba5199be">Read</a>()</td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_in.html#aba0ef620ca9109cac0af1937c60db218">socket_</a></td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_lr_ipc_in.html#a5210ba8aacb2a42f2cae043f99315b0e">Start</a>()</td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_in.html#a5f701822ea96e3ae3f192b19dc0054b5">Stop</a>()</td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_lr_ipc_in.html#a3d1fb776bd48289c513f8738f2f2fa8b">streambuf_</a></td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_in.html#aa904e7240d405c7dab3ec9c38ecc7451">thread_should_exit_</a></td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_lr_ipc_in.html#a5a20ae49e9e790062a61465556ba6f1a">~LrIpcIn</a>()=default</td><td class="entry"><a class="el" href="class_lr_ipc_in.html">LrIpcIn</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->

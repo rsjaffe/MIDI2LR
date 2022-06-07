@@ -1,14 +1,14 @@
 var class_controls_model =
 [
-    [ "ControllerToPlugin", "class_controls_model.html#af1978533a6696b6cc2c43b9ca7fa94cf", null ],
+    [ "ControllerToPlugin", "class_controls_model.html#a8b0b5810dcbe5298b424217e05eafc0b", null ],
     [ "GetCcMax", "class_controls_model.html#a53582c18fecf1ecc59b59874a56764f6", null ],
     [ "GetCcMethod", "class_controls_model.html#a0d0e3cd4d2c696c20e959afc76cb3f3d", null ],
     [ "GetCcMethod", "class_controls_model.html#a608a609d5cde005d56eb3df74526bf34", null ],
-    [ "GetCcMin", "class_controls_model.html#acf11d38ccf468c67ad27ebfe09ef072c", null ],
+    [ "GetCcMin", "class_controls_model.html#ab40bb7a59c423eb0c073f7ded85cc491", null ],
     [ "GetPwMax", "class_controls_model.html#a3b874112e3236ced1d3daf3129928081", null ],
     [ "GetPwMin", "class_controls_model.html#a358b704662a07c71422318eb6a6965b6", null ],
-    [ "MeasureChange", "class_controls_model.html#a2d5735d61189885a7abc2eb578cd608a", null ],
     [ "MeasureChange", "class_controls_model.html#acfd653df0d8aed249bc314f8ce8ec06d", null ],
+    [ "MeasureChange", "class_controls_model.html#ac9eb2558b85b17377b6903572cbf127f", null ],
     [ "PluginToController", "class_controls_model.html#aa01164847f0f99a719a5ce629ffc98b3", null ],
     [ "serialize", "class_controls_model.html#af48342ffeadbf99b7fc12e771cab0625", null ],
     [ "SetCc", "class_controls_model.html#aa2aa83e391646d803bf251a62f461af9", null ],

@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.3.1.11</span>
+   &#160;<span id="projectnumber">5.4.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -65,7 +65,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('classrsj_1_1_p_r_n_g.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('class_lr_ipc_out_shared.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -85,18 +85,19 @@ $(document).ready(function(){initNavTree('classrsj_1_1_p_r_n_g.html',''); initRe
 
 <div class="header">
   <div class="headertitle">
-<div class="title">rsj::PRNG Member List</div>  </div>
+<div class="title">LrIpcOutShared Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="classrsj_1_1_p_r_n_g.html">rsj::PRNG</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="class_lr_ipc_out_shared.html">LrIpcOutShared</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classrsj_1_1_p_r_n_g.html#acb63cf4204751f628b7312d7ffa6df00">max</a>() const noexcept</td><td class="entry"><a class="el" href="classrsj_1_1_p_r_n_g.html">rsj::PRNG</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classrsj_1_1_p_r_n_g.html#a952d95f4cd41471823ad227e77ab0f9c">min</a>() const noexcept</td><td class="entry"><a class="el" href="classrsj_1_1_p_r_n_g.html">rsj::PRNG</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classrsj_1_1_p_r_n_g.html#a7e78213f68ef5b86ff2ae0aa4388e16b">NextRandom</a>() noexcept</td><td class="entry"><a class="el" href="classrsj_1_1_p_r_n_g.html">rsj::PRNG</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classrsj_1_1_p_r_n_g.html#a076187dbe204b863a744fd1414018041">operator()</a>() noexcept</td><td class="entry"><a class="el" href="classrsj_1_1_p_r_n_g.html">rsj::PRNG</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classrsj_1_1_p_r_n_g.html#a2a4e10282dfb5fe28addc4367b6358ce">result_type</a> typedef</td><td class="entry"><a class="el" href="classrsj_1_1_p_r_n_g.html">rsj::PRNG</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classrsj_1_1_p_r_n_g.html#a2a870b99d3ebb1b87beade59f73304d2">state_</a></td><td class="entry"><a class="el" href="classrsj_1_1_p_r_n_g.html">rsj::PRNG</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html#a5ce4d74a611b32dae063f77ab8328cf3">command_</a></td><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html">LrIpcOutShared</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html#afa3ab5d81cb58889e4ec0cb5f0ccf701">LrIpcOut</a></td><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html">LrIpcOutShared</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html#ae4381f03b013bf7d09d0693647eb3d26">LrIpcOutShared</a>(asio::io_context &amp;io_context)</td><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html">LrIpcOutShared</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">explicit</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html#ae4381f03b013bf7d09d0693647eb3d26">LrIpcOutShared</a>(asio::io_context &amp;io_context)</td><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html">LrIpcOutShared</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">explicit</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html#ab7de6674f1846144167caf044593c9f2">SendOut</a>(std::shared_ptr&lt; LrIpcOutShared &gt; lr_ipc_out_shared)</td><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html">LrIpcOutShared</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html#a0a7e82f51242261962f5b720502ba121">SendOut</a>(std::shared_ptr&lt; LrIpcOutShared &gt; lr_ipc_out_shared)</td><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html">LrIpcOutShared</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html#ac1ffdb8efd520814d4992d6ea52b2b42">socket_</a></td><td class="entry"><a class="el" href="class_lr_ipc_out_shared.html">LrIpcOutShared</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

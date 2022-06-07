@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.3.1.11</span>
+   &#160;<span id="projectnumber">5.4.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -159,9 +159,9 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;          : <a class="code" href="struct_devices_1_1_dev_info.html#ad44ccde6b28836354c34191d75b8c60a">name</a> {info.name}, <a class="code" href="struct_devices_1_1_dev_info.html#a7aad29a1edb3224e7d245278e7e4a08d">identifier</a> {info.identifier}, <a class="code" href="struct_devices_1_1_dev_info.html#af153305523e46cbd84ab0af4d58044d3">i_o</a> {std::move(io)}</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;          : <a class="code" href="struct_devices_1_1_dev_info.html#ad44ccde6b28836354c34191d75b8c60a">name</a> {info.name}, <a class="code" href="struct_devices_1_1_dev_info.html#a7aad29a1edb3224e7d245278e7e4a08d">identifier</a> {info.identifier}, <a class="code" href="struct_devices_1_1_dev_info.html#af153305523e46cbd84ab0af4d58044d3">i_o</a> {std::move(io)}</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="struct_devices_1_1_dev_info.html#a3bac28eabfe8c4d8fd26b391ba94dcb2">DevInfo()</a>.</p>
 
@@ -208,9 +208,9 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;          : <a class="code" href="struct_devices_1_1_dev_info.html#ad44ccde6b28836354c34191d75b8c60a">name</a> {std::move(n)}, <a class="code" href="struct_devices_1_1_dev_info.html#a7aad29a1edb3224e7d245278e7e4a08d">identifier</a> {std::move(i)}, <a class="code" href="struct_devices_1_1_dev_info.html#af153305523e46cbd84ab0af4d58044d3">i_o</a> {std::move(io)}</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;          : <a class="code" href="struct_devices_1_1_dev_info.html#ad44ccde6b28836354c34191d75b8c60a">name</a> {std::move(n)}, <a class="code" href="struct_devices_1_1_dev_info.html#a7aad29a1edb3224e7d245278e7e4a08d">identifier</a> {std::move(i)}, <a class="code" href="struct_devices_1_1_dev_info.html#af153305523e46cbd84ab0af4d58044d3">i_o</a> {std::move(io)}</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="struct_devices_1_1_dev_info.html#a1f339d83d4ca2ef4a062620d6f53d73b">DevInfo()</a>.</p>
 
@@ -252,9 +252,9 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;         <span class="keywordflow">return</span> !(lhs == rhs);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;         <span class="keywordflow">return</span> !(lhs == rhs);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -291,17 +291,13 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;         <span class="keywordflow">if</span> (lhs.name &lt; rhs.name)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;         <span class="keywordflow">if</span> (rhs.name &lt; lhs.name)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;         <span class="keywordflow">if</span> (lhs.identifier &lt; rhs.identifier)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;         <span class="keywordflow">if</span> (rhs.identifier &lt; lhs.identifier)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;         <span class="keywordflow">return</span> lhs.i_o &lt; rhs.i_o;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;         <span class="keywordflow">if</span> (lhs.name &lt; rhs.name) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;         <span class="keywordflow">if</span> (rhs.name &lt; lhs.name) { <span class="keywordflow">return</span> <span class="keyword">false</span>; }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;         <span class="keywordflow">if</span> (lhs.identifier &lt; rhs.identifier) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;         <span class="keywordflow">if</span> (rhs.identifier &lt; lhs.identifier) { <span class="keywordflow">return</span> <span class="keyword">false</span>; }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;         <span class="keywordflow">return</span> lhs.i_o &lt; rhs.i_o;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -338,9 +334,9 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;         <span class="keywordflow">return</span> !(rhs &lt; lhs);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;         <span class="keywordflow">return</span> !(rhs &lt; lhs);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -377,9 +373,9 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;         <span class="keywordflow">return</span> lhs.name == rhs.name &amp;&amp; lhs.identifier == rhs.identifier &amp;&amp; lhs.i_o == rhs.i_o;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;         <span class="keywordflow">return</span> lhs.name == rhs.name &amp;&amp; lhs.identifier == rhs.identifier &amp;&amp; lhs.i_o == rhs.i_o;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -416,7 +412,9 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{ <span class="keywordflow">return</span> rhs &lt; lhs; }</div>
+<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;         <span class="keywordflow">return</span> rhs &lt; lhs;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -453,9 +451,9 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;         <span class="keywordflow">return</span> !(lhs &lt; rhs);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      }</div>
+<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;         <span class="keywordflow">return</span> !(lhs &lt; rhs);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -507,9 +505,9 @@ Friends</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astruct_devices_1_1_dev_info_html_a7aad29a1edb3224e7d245278e7e4a08d"><div class="ttname"><a href="struct_devices_1_1_dev_info.html#a7aad29a1edb3224e7d245278e7e4a08d">Devices::DevInfo::identifier</a></div><div class="ttdeci">juce::String identifier</div><div class="ttdef"><b>Definition:</b> Devices.h:86</div></div>
-<div class="ttc" id="astruct_devices_1_1_dev_info_html_af153305523e46cbd84ab0af4d58044d3"><div class="ttname"><a href="struct_devices_1_1_dev_info.html#af153305523e46cbd84ab0af4d58044d3">Devices::DevInfo::i_o</a></div><div class="ttdeci">juce::String i_o</div><div class="ttdef"><b>Definition:</b> Devices.h:87</div></div>
-<div class="ttc" id="astruct_devices_1_1_dev_info_html_ad44ccde6b28836354c34191d75b8c60a"><div class="ttname"><a href="struct_devices_1_1_dev_info.html#ad44ccde6b28836354c34191d75b8c60a">Devices::DevInfo::name</a></div><div class="ttdeci">juce::String name</div><div class="ttdef"><b>Definition:</b> Devices.h:85</div></div>
+<div class="ttc" id="astruct_devices_1_1_dev_info_html_a7aad29a1edb3224e7d245278e7e4a08d"><div class="ttname"><a href="struct_devices_1_1_dev_info.html#a7aad29a1edb3224e7d245278e7e4a08d">Devices::DevInfo::identifier</a></div><div class="ttdeci">juce::String identifier</div><div class="ttdef"><b>Definition:</b> Devices.h:92</div></div>
+<div class="ttc" id="astruct_devices_1_1_dev_info_html_af153305523e46cbd84ab0af4d58044d3"><div class="ttname"><a href="struct_devices_1_1_dev_info.html#af153305523e46cbd84ab0af4d58044d3">Devices::DevInfo::i_o</a></div><div class="ttdeci">juce::String i_o</div><div class="ttdef"><b>Definition:</b> Devices.h:93</div></div>
+<div class="ttc" id="astruct_devices_1_1_dev_info_html_ad44ccde6b28836354c34191d75b8c60a"><div class="ttname"><a href="struct_devices_1_1_dev_info.html#ad44ccde6b28836354c34191d75b8c60a">Devices::DevInfo::name</a></div><div class="ttdeci">juce::String name</div><div class="ttdef"><b>Definition:</b> Devices.h:91</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

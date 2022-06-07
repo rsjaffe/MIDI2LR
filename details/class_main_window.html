@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.3.1.11</span>
+   &#160;<span id="projectnumber">5.4.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -206,10 +206,10 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;      juce::Component::centreWithSize(getWidth(), getHeight());</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      juce::Component::setVisible(<span class="keyword">true</span>);</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      <a class="code" href="class_main_window.html#aab0d0a63b289dadf16e5354240e1ee6a">window_content_</a>-&gt;Init();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> hide_sec {settings_manager.<a class="code" href="class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd">GetAutoHideTime</a>()};</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      <span class="keywordflow">if</span> (hide_sec)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;         <span class="comment">/* don&#39;t start timer if time is zero */</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;         juce::Timer::startTimer(1000 * hide_sec);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> hide_sec {settings_manager.<a class="code" href="class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd">GetAutoHideTime</a>()}) { <span class="comment">/* don&#39;t start timer if time</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">                                                                         is zero */</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;         juce::Timer::startTimer(1000 * hide_sec);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      }</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;   }</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;   MIDI2LR_E_RESPONSE;</div>
@@ -427,14 +427,13 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;   <span class="keywordflow">try</span> {</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      juce::Timer::stopTimer();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keywordflow">if</span> (!juce::ResizableWindow::isMinimised())</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;         juce::DocumentWindow::minimiseButtonPressed();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;   }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;   }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keywordflow">if</span> (!juce::ResizableWindow::isMinimised()) { juce::DocumentWindow::minimiseButtonPressed(); }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;   }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;   }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>

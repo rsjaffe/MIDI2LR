@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.3.1.11</span>
+   &#160;<span id="projectnumber">5.4.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -94,10 +94,13 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884">MainContentComponent</a>
 </li>
 <li>SaveControlsModel()
-: <a class="el" href="class_m_i_d_i2_l_r_application.html#a20967d40a0d0b8656e7dd48b875721b8">MIDI2LRApplication</a>
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#a55bca44a0306c60e2a9f8e0111ae6573">MIDI2LRApplication</a>
 </li>
-<li>saved_map_
-: <a class="el" href="class_profile.html#a58d4e2b65f0a7d66104433993f3b867f">Profile</a>
+<li>saved_mm_abbrv_table_
+: <a class="el" href="class_profile.html#ab1f2ab7fd364bd4d3a9bbf7bf9e5b96e">Profile</a>
+</li>
+<li>saved_table_mtx_
+: <a class="el" href="class_profile.html#a4661e1aeb678d3add27fd9aa993b4a39">Profile</a>
 </li>
 <li>SavedToActive()
 : <a class="el" href="class_channel_model.html#a71495c165527c071c1793b8634b23bb5">ChannelModel</a>
@@ -125,7 +128,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="class_lr_ipc_out.html#a57f84fbcf5b7c27655ca8a1c7c033ea9">LrIpcOut</a>
 </li>
 <li>SendOut()
-: <a class="el" href="class_lr_ipc_out.html#ae2ee3997ab09a973d04176f8e8412ba6">LrIpcOut</a>
+: <a class="el" href="class_lr_ipc_out_shared.html#ab7de6674f1846144167caf044593c9f2">LrIpcOutShared</a>
 </li>
 <li>serialize()
 : <a class="el" href="class_command_set_1_1_impl.html#a00f817617c3b85720777f2e37a5f7a04">CommandSet::Impl</a>
@@ -133,7 +136,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 , <a class="el" href="structrsj_1_1_settings_struct.html#a2e2c401388dfe070b46a32129b776c42">rsj::SettingsStruct</a>
 </li>
 <li>SetAppFont()
-: <a class="el" href="class_m_i_d_i2_l_r_application.html#af54bf5e7841d4d144fd5856ad4cff77e">MIDI2LRApplication</a>
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#aec2e87f4f7ff251662ad3d210c18e435">MIDI2LRApplication</a>
 </li>
 <li>SetAutoHideTime()
 : <a class="el" href="class_settings_manager.html#ae7ffc72fc568559369271dd1497da53b">SettingsManager</a>
@@ -204,10 +207,10 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a">ChannelModel</a>
 </li>
 <li>SettingsComponent()
-: <a class="el" href="class_settings_component.html#a8cd20aeff90426909a5be7f92da008f8">SettingsComponent</a>
+: <a class="el" href="class_settings_component.html#a99d9cc142ad64122c1cb3768f006543d">SettingsComponent</a>
 </li>
 <li>SettingsManager()
-: <a class="el" href="class_settings_manager.html#a53b353bfd1b025f80dff7918f129b839">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#a5e280037c8b05ac85f11715e23a9e16c">SettingsManager</a>
 </li>
 <li>SettingsStruct()
 : <a class="el" href="structrsj_1_1_settings_struct.html#ac531b13467b60a31539d8952d1ca8515">rsj::SettingsStruct</a>
@@ -236,17 +239,14 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="classrsj_1_1_concurrent_queue.html#aaefad4d3d39082e32d100bc76bbe86f9">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
 </li>
 <li>socket_
-: <a class="el" href="class_lr_ipc_in.html#aba0ef620ca9109cac0af1937c60db218">LrIpcIn</a>
-, <a class="el" href="class_lr_ipc_out.html#a4d001349752bb6ed6d2999177b78c9c6">LrIpcOut</a>
+: <a class="el" href="class_lr_ipc_in_shared.html#a0cf2102a540ac1b2071e80591b399842">LrIpcInShared</a>
+, <a class="el" href="class_lr_ipc_out_shared.html#ac1ffdb8efd520814d4992d6ea52b2b42">LrIpcOutShared</a>
 </li>
 <li>SortI()
 : <a class="el" href="class_profile.html#aeba39bf32fc079f948b4669c64887867">Profile</a>
 </li>
 <li>sortOrderChanged()
 : <a class="el" href="class_command_table_model.html#a7bf944adbb8e47f698fdce34e68aab00">CommandTableModel</a>
-</li>
-<li>SpinLock()
-: <a class="el" href="classrsj_1_1_spin_lock.html#ad267278fc56b9ad060b3a9f433778be3">rsj::SpinLock</a>
 </li>
 <li>StandardLabelSettings()
 : <a class="el" href="class_main_content_component.html#a35ec9fb3b783b4942f25e4b433a9b688">MainContentComponent</a>
@@ -258,9 +258,6 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 , <a class="el" href="class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f">MidiSender</a>
 , <a class="el" href="class_version_checker.html#a74e37d7e17c6fb7d7489244ed2a62b80">VersionChecker</a>
 </li>
-<li>state_
-: <a class="el" href="classrsj_1_1_p_r_n_g.html#a2a870b99d3ebb1b87beade59f73304d2">rsj::PRNG</a>
-</li>
 <li>Stop()
 : <a class="el" href="class_lr_ipc_in.html#a5f701822ea96e3ae3f192b19dc0054b5">LrIpcIn</a>
 , <a class="el" href="class_lr_ipc_out.html#adf0bc1da59e8d2d619c5fbf99b4a5d21">LrIpcOut</a>
@@ -268,7 +265,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 , <a class="el" href="class_version_checker.html#ab1b7878540fe2fead5f916d82b0431ff">VersionChecker</a>
 </li>
 <li>streambuf_
-: <a class="el" href="class_lr_ipc_in.html#a3d1fb776bd48289c513f8738f2f2fa8b">LrIpcIn</a>
+: <a class="el" href="class_lr_ipc_in_shared.html#a7d1418c124ac5228cd6e21975e8178d5">LrIpcInShared</a>
 </li>
 <li>swap()
 : <a class="el" href="classrsj_1_1_concurrent_queue.html#af547b59e8f7bb2583f46323b9609fb0a">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
@@ -286,7 +283,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="class_profile_manager.html#aef2511c27587834a675de11f0512b0ea">ProfileManager</a>
 </li>
 <li>SwitchToProfile()
-: <a class="el" href="class_profile_manager.html#a4794fe76670a56dd71a570304c9b1c8a">ProfileManager</a>
+: <a class="el" href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">ProfileManager</a>
 </li>
 <li>systemRequestedQuit()
 : <a class="el" href="class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f">MIDI2LRApplication</a>

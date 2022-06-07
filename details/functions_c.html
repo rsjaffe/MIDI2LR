@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.3.1.11</span>
+   &#160;<span id="projectnumber">5.4.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -87,9 +87,12 @@ $(document).ready(function(){initNavTree('functions_c.html',''); initResizable()
 <div class="textblock">Here is a list of all class members with links to the classes they belong to:</div>
 
 <h3><a id="index_c"></a>- c -</h3><ul>
+<li>callback_mtx_
+: <a class="el" href="class_lr_ipc_out.html#a5d5eac6e8138cd79785505827ce77faa">LrIpcOut</a>
+</li>
 <li>callbacks_
 : <a class="el" href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">LrIpcOut</a>
-, <a class="el" href="class_midi_receiver.html#ab308920f58f2c1e4df56c2c896854787">MidiReceiver</a>
+, <a class="el" href="class_midi_receiver.html#a326d78bf9372875e07595d412d18735a">MidiReceiver</a>
 , <a class="el" href="class_profile_manager.html#abbe77680917497809ae1bf0aee0d89f9">ProfileManager</a>
 </li>
 <li>cc_high_
@@ -132,10 +135,10 @@ $(document).ready(function(){initNavTree('functions_c.html',''); initResizable()
 : <a class="el" href="class_nrpn_filter.html#a0f3404ec0e2f533eba4be185475f06cf">NrpnFilter</a>
 </li>
 <li>clear()
-: <a class="el" href="classrsj_1_1_concurrent_queue.html#aa4581e37f798e5db74bbf32b7044de8d">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#a9ece70c3387a835e844a19d581168a81">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
 </li>
 <li>clear_count()
-: <a class="el" href="classrsj_1_1_concurrent_queue.html#ad6ea8914f54562e772b37d208db6d65f">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#a087b5a2e7a85b3a3dd1696b0ba531a31">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
 </li>
 <li>clear_count_emplace()
 : <a class="el" href="classrsj_1_1_concurrent_queue.html#a52bf6f150e1aa679b3be3918ecb25ce0">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
@@ -165,7 +168,7 @@ $(document).ready(function(){initNavTree('functions_c.html',''); initResizable()
 : <a class="el" href="structrsj_1_1_active_modifiers.html#ad46a01f2fe20405d3ac4bca6a9934b8e">rsj::ActiveModifiers</a>
 </li>
 <li>command_
-: <a class="el" href="class_lr_ipc_out.html#a1a364ce0f026b92697353216418155f7">LrIpcOut</a>
+: <a class="el" href="class_lr_ipc_out_shared.html#a5ce4d74a611b32dae063f77ab8328cf3">LrIpcOutShared</a>
 </li>
 <li>command_label_
 : <a class="el" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">MainContentComponent</a>
@@ -176,12 +179,8 @@ $(document).ready(function(){initNavTree('functions_c.html',''); initResizable()
 , <a class="el" href="class_m_i_d_i2_l_r_application.html#ab7665efd9d1cfa839c38b3693b17e027">MIDI2LRApplication</a>
 , <a class="el" href="class_profile.html#af3dd223ec0e1ebf376647ba622d34e85">Profile</a>
 </li>
-<li>command_string_map_
-: <a class="el" href="class_profile.html#a88dcf644957ab23c0d23d8234a40dfb1">Profile</a>
-</li>
 <li>command_table_
 : <a class="el" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">MainContentComponent</a>
-, <a class="el" href="class_profile.html#afe9d4ec7a1d0076e5e19bc53d1cc6f5a">Profile</a>
 </li>
 <li>command_table_model_
 : <a class="el" href="class_main_content_component.html#a67d255a327565be0485550fe234e5f46">MainContentComponent</a>
@@ -214,17 +213,17 @@ $(document).ready(function(){initNavTree('functions_c.html',''); initResizable()
 : <a class="el" href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandSet</a>
 </li>
 <li>ConcurrentQueue()
-: <a class="el" href="classrsj_1_1_concurrent_queue.html#a795964b5bf7318e2343f13ecd89a3585">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
+: <a class="el" href="classrsj_1_1_concurrent_queue.html#a84b9b2b8e5590035c76ce9941fbbbbd4">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
 </li>
 <li>condition_
 : <a class="el" href="classrsj_1_1_concurrent_queue.html#a6dfd185d35c36c4123af5da18bd2d2a2">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a>
 </li>
 <li>Connect()
-: <a class="el" href="class_lr_ipc_in.html#a41eb86f7e984ebfbe6928b4872b4d464">LrIpcIn</a>
-, <a class="el" href="class_lr_ipc_out.html#a1d422517e5c3169daebcc384a3a6490f">LrIpcOut</a>
+: <a class="el" href="class_lr_ipc_in.html#a707d6f7350264e9dcfd8093355b7375c">LrIpcIn</a>
+, <a class="el" href="class_lr_ipc_out.html#ad2d0705a749d9ac0db4c30ddc6a1e029">LrIpcOut</a>
 </li>
 <li>connected_
-: <a class="el" href="class_lr_ipc_out.html#a720ce6df86df44c2933bc99da90845c6">LrIpcOut</a>
+: <a class="el" href="class_lr_ipc_out.html#ab347667ef76e3475d23e18e937928726">LrIpcOut</a>
 </li>
 <li>connection_label_
 : <a class="el" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">MainContentComponent</a>
@@ -262,7 +261,7 @@ $(document).ready(function(){initNavTree('functions_c.html',''); initResizable()
 </li>
 <li>ControllerToPlugin()
 : <a class="el" href="class_channel_model.html#a30f9b871330e6aab836e26ad5a4ec808">ChannelModel</a>
-, <a class="el" href="class_controls_model.html#af1978533a6696b6cc2c43b9ca7fa94cf">ControlsModel</a>
+, <a class="el" href="class_controls_model.html#a8b0b5810dcbe5298b424217e05eafc0b">ControlsModel</a>
 </li>
 <li>controls_model_
 : <a class="el" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">CCoptions</a>

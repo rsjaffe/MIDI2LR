@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.3.1.11</span>
+   &#160;<span id="projectnumber">5.4.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -296,31 +296,34 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;   <span class="comment">/* Based on drawButtonText in LookAndFeel_V2 (V3 doesn&#39;t override V2 for this call). Only change</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">    * in my version is alignment on last line. */</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> font {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;       juce::Component::getLookAndFeel().getTextButtonFont(button, button.getHeight())};</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;   g.setFont(font);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;   g.setColour(button</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                   .findColour(button.getToggleState() ? juce::TextButton::textColourOnId</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                                                       : juce::TextButton::textColourOffId)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                   .withMultipliedAlpha(button.isEnabled() ? 1.0f : 0.5f));</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> y_indent {std::min(4, button.proportionOfHeight(0.3f))}; <span class="comment">//-V112</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> corner_size {std::min(button.getHeight(), button.getWidth()) / 2};</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> font_height {gsl::narrow_cast&lt;int&gt;(std::lrint(font.getHeight() * 0.6f))};</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> left_indent {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;       std::min(font_height, 2 + corner_size / (button.isConnectedOnLeft() ? 4 : 2))}; <span class="comment">//-V112</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> right_indent {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;       std::min(font_height, 2 + corner_size / (button.isConnectedOnRight() ? 4 : 2))}; <span class="comment">//-V112</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> text_width {button.getWidth() - left_indent - right_indent};</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;   <span class="keywordflow">if</span> (text_width &gt; 0)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      g.drawFittedText(button.getButtonText(), left_indent, y_indent, text_width,</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;          button.getHeight() - y_indent * 2, <a class="code" href="class_text_button_aligned.html#ab59f5225953d8e5b8ef252413972e035">alignment_</a>, 2);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;   <span class="comment">/* Based on drawButtonText in LookAndFeel_V2 (V3 doesn&#39;t override V2 for this call). Only change</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">    * in my version is alignment on last line. */</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> font {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;       juce::Component::getLookAndFeel().getTextButtonFont(button, button.getHeight())};</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;   g.setFont(font);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;   g.setColour(button</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                   .findColour(button.getToggleState() ? juce::TextButton::textColourOnId</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                                       : juce::TextButton::textColourOffId)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                   .withMultipliedAlpha(button.isEnabled() ? 1.0F : 0.5F));</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> y_indent {std::min(4, button.proportionOfHeight(0.3F))}; <span class="comment">//-V112</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> corner_size {std::min(button.getHeight(), button.getWidth()) / 2};</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> font_height {_cvt_ftoi_fast(font.getHeight() * 0.6F + 0.5F)};</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> font_height {gsl::narrow_cast&lt;int&gt;(font.getHeight() * 0.6F + 0.5F)};</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> left_indent {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;       std::min(font_height, 2 + corner_size / (button.isConnectedOnLeft() ? 4 : 2))}; <span class="comment">//-V112</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;   <span class="keyword">const</span> <span class="keyword">auto</span> right_indent {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;       std::min(font_height, 2 + corner_size / (button.isConnectedOnRight() ? 4 : 2))}; <span class="comment">//-V112</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;   <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> text_width {button.getWidth() - left_indent - right_indent}; text_width &gt; 0) {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      g.drawFittedText(button.getButtonText(), left_indent, y_indent, text_width,</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;          button.getHeight() - y_indent * 2, <a class="code" href="class_text_button_aligned.html#ab59f5225953d8e5b8ef252413972e035">alignment_</a>, 2);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;   }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -363,17 +366,17 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;   <span class="comment">/* from TextButton.cpp: only change is second call from lf:: to TextButtonAligned:: */</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26812)</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;   juce::Component::getLookAndFeel().drawButtonBackground(g, *<span class="keyword">this</span>,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;       juce::Component::findColour(juce::Button::getToggleState()</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                       ? juce::TextButton::ColourIds::buttonOnColourId</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                                       : juce::TextButton::ColourIds::buttonColourId),</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;       should_draw_button_as_highlighted, should_draw_button_as_down);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;   <span class="comment">/* the following normally calls lf.drawButtonText, hijacking the call for specific formatting */</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;   <a class="code" href="class_text_button_aligned.html#a64924c47f4a7ef3c9b2180f34de0c8e8">DrawButtonText</a>(g, *<span class="keyword">this</span>, should_draw_button_as_highlighted, should_draw_button_as_down);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;   <span class="comment">/* from TextButton.cpp: only change is second call from lf:: to TextButtonAligned:: */</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26812)</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;   juce::Component::getLookAndFeel().drawButtonBackground(g, *<span class="keyword">this</span>,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;       juce::Component::findColour(</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;           juce::Button::getToggleState() ? juce::TextButton::ColourIds::buttonOnColourId</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                          : juce::TextButton::ColourIds::buttonColourId),</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;       should_draw_button_as_highlighted, should_draw_button_as_down);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;   <span class="comment">/* the following normally calls lf.drawButtonText, hijacking the call for specific formatting */</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;   <a class="code" href="class_text_button_aligned.html#a64924c47f4a7ef3c9b2180f34de0c8e8">DrawButtonText</a>(g, *<span class="keyword">this</span>, should_draw_button_as_highlighted, should_draw_button_as_down);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -407,7 +410,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_text_button_aligned_html_ab59f5225953d8e5b8ef252413972e035"><div class="ttname"><a href="class_text_button_aligned.html#ab59f5225953d8e5b8ef252413972e035">TextButtonAligned::alignment_</a></div><div class="ttdeci">juce::Justification::Flags alignment_</div><div class="ttdef"><b>Definition:</b> TextButtonAligned.h:46</div></div>
-<div class="ttc" id="aclass_text_button_aligned_html_a64924c47f4a7ef3c9b2180f34de0c8e8"><div class="ttname"><a href="class_text_button_aligned.html#a64924c47f4a7ef3c9b2180f34de0c8e8">TextButtonAligned::DrawButtonText</a></div><div class="ttdeci">void DrawButtonText(juce::Graphics &amp;g, TextButton &amp;button, [[maybe_unused]] bool should_draw_button_as_highlighted, [[maybe_unused]] bool should_draw_button_as_down) const</div><div class="ttdef"><b>Definition:</b> TextButtonAligned.cpp:38</div></div>
+<div class="ttc" id="aclass_text_button_aligned_html_a64924c47f4a7ef3c9b2180f34de0c8e8"><div class="ttname"><a href="class_text_button_aligned.html#a64924c47f4a7ef3c9b2180f34de0c8e8">TextButtonAligned::DrawButtonText</a></div><div class="ttdeci">void DrawButtonText(juce::Graphics &amp;g, TextButton &amp;button, [[maybe_unused]] bool should_draw_button_as_highlighted, [[maybe_unused]] bool should_draw_button_as_down) const</div><div class="ttdef"><b>Definition:</b> TextButtonAligned.cpp:37</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

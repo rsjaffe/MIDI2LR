@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">4.3.1.11</span>
+   &#160;<span id="projectnumber">5.4.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -114,9 +114,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7ac590940409dcbea4718ddc5b3d7438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4e9b671a3a2d2252f17662dcc636486"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#ae4e9b671a3a2d2252f17662dcc636486">~MidiReceiver</a> ()=default</td></tr>
 <tr class="separator:ae4e9b671a3a2d2252f17662dcc636486"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab39aa3c6b5da4a6ee0e74dc63a27e87d"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:ab39aa3c6b5da4a6ee0e74dc63a27e87d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#ab39aa3c6b5da4a6ee0e74dc63a27e87d">AddCallback</a> (_In_ T *const object, _In_ void(T::*const mf)(const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;))</td></tr>
-<tr class="separator:ab39aa3c6b5da4a6ee0e74dc63a27e87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7636111b57bff4fea30a0b1672bc3402"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a7636111b57bff4fea30a0b1672bc3402"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#a7636111b57bff4fea30a0b1672bc3402">AddCallback</a> (_In_ T *const object, _In_ void(T::*const mf)(<a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a>))</td></tr>
+<tr class="separator:a7636111b57bff4fea30a0b1672bc3402"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f22aaf308531ff37ded81a4aab5d807"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_midi_receiver.html">MidiReceiver</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#a6f22aaf308531ff37ded81a4aab5d807">operator=</a> (const <a class="el" href="class_midi_receiver.html">MidiReceiver</a> &amp;other)=delete</td></tr>
 <tr class="separator:a6f22aaf308531ff37ded81a4aab5d807"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7d9ab5d773b90e767a56435ec68f039"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_midi_receiver.html">MidiReceiver</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#ab7d9ab5d773b90e767a56435ec68f039">operator=</a> (<a class="el" href="class_midi_receiver.html">MidiReceiver</a> &amp;&amp;other)=delete</td></tr>
@@ -132,8 +132,8 @@ Public Member Functions</h2></td></tr>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a2002ccf0c5057164b72579f52f574f02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#a2002ccf0c5057164b72579f52f574f02">DispatchMessages</a> ()</td></tr>
 <tr class="separator:a2002ccf0c5057164b72579f52f574f02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbab9200ae3b216c658df1fe5033711b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#afbab9200ae3b216c658df1fe5033711b">handleIncomingMidiMessage</a> (juce::MidiInput *, const juce::MidiMessage &amp;) override</td></tr>
-<tr class="separator:afbab9200ae3b216c658df1fe5033711b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3356894c7d1a982cd94bc472150c95c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#ac3356894c7d1a982cd94bc472150c95c">handleIncomingMidiMessage</a> (juce::MidiInput *device, const juce::MidiMessage &amp;message) override</td></tr>
+<tr class="separator:ac3356894c7d1a982cd94bc472150c95c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cb87d018906962c78506b6caee0aa69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69">InitDevices</a> ()</td></tr>
 <tr class="separator:a0cb87d018906962c78506b6caee0aa69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a703b6a6d9e9c43e5dd5eef20692ae595"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595">TryToOpen</a> ()</td></tr>
@@ -141,8 +141,8 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:ab308920f58f2c1e4df56c2c896854787"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::function&lt; void(const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;)&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#ab308920f58f2c1e4df56c2c896854787">callbacks_</a></td></tr>
-<tr class="separator:ab308920f58f2c1e4df56c2c896854787"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a326d78bf9372875e07595d412d18735a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::function&lt; void(<a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a>)&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#a326d78bf9372875e07595d412d18735a">callbacks_</a></td></tr>
+<tr class="separator:a326d78bf9372875e07595d412d18735a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa32a91f83ddcc54a970183a103bae36"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_devices.html">Devices</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#aaa32a91f83ddcc54a970183a103bae36">devices_</a></td></tr>
 <tr class="separator:aaa32a91f83ddcc54a970183a103bae36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90cf4a5de8a026c91513b38332702d0a"><td class="memItemLeft" align="right" valign="top">std::future&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#a90cf4a5de8a026c91513b38332702d0a">dispatch_messages_future_</a></td></tr>
@@ -151,8 +151,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a8f228b0c8e2826c98827f3795488691c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ae371505226f912b3e41717cbb5df8f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; juce::MidiInput &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a></td></tr>
 <tr class="separator:a8ae371505226f912b3e41717cbb5df8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c55836503717abcf555478f04e34d9a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrsj_1_1_concurrent_queue.html">rsj::ConcurrentQueue</a>&lt; <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#a2c55836503717abcf555478f04e34d9a">messages_</a></td></tr>
-<tr class="separator:a2c55836503717abcf555478f04e34d9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9e2594efbd686a1255a40aa88d794e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrsj_1_1_concurrent_queue.html">rsj::ConcurrentQueue</a>&lt; std::pair&lt; <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a>, juce::MidiInput * &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_receiver.html#ad9e2594efbd686a1255a40aa88d794e5">messages_</a></td></tr>
+<tr class="separator:ad9e2594efbd686a1255a40aa88d794e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a7475b2d7fa8177834b1f6a7a70e399c6"></a>
@@ -262,8 +262,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab39aa3c6b5da4a6ee0e74dc63a27e87d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab39aa3c6b5da4a6ee0e74dc63a27e87d">&#9670;&nbsp;</a></span>AddCallback()</h2>
+<a id="a7636111b57bff4fea30a0b1672bc3402"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7636111b57bff4fea30a0b1672bc3402">&#9670;&nbsp;</a></span>AddCallback()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -282,7 +282,7 @@ template&lt;class T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">_In_ void(T::*)(const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;)&#160;</td>
+          <td class="paramtype">_In_ void(T::*)(<a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a>)&#160;</td>
           <td class="paramname"><em>mf</em>&#160;</td>
         </tr>
         <tr>
@@ -298,9 +298,8 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;   {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keywordflow">if</span> (<span class="keywordtype">object</span> &amp;&amp; mf)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;         <a class="code" href="class_midi_receiver.html#ab308920f58f2c1e4df56c2c896854787">callbacks_</a>.emplace_back([=](<span class="keyword">const</span> <a class="code" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a>&amp; a) { (<span class="keywordtype">object</span>-&gt;*mf)(a); });</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;   }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keywordflow">if</span> (<span class="keywordtype">object</span> &amp;&amp; mf) { <a class="code" href="class_midi_receiver.html#a326d78bf9372875e07595d412d18735a">callbacks_</a>.emplace_back(std::bind_front(mf, <span class="keywordtype">object</span>)); }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;   }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a>.</p>
 
@@ -328,28 +327,52 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;{</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;      <span class="keywordflow">do</span> {</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> message_copy {<a class="code" href="class_midi_receiver.html#a2c55836503717abcf555478f04e34d9a">messages_</a>.<a class="code" href="classrsj_1_1_concurrent_queue.html#a60b3f4145c5d9848062f60caee4a4e7e">pop</a>()};</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;         <span class="keywordflow">if</span> (message_copy == kTerminate)</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;         <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; cb : <a class="code" href="class_midi_receiver.html#ab308920f58f2c1e4df56c2c896854787">callbacks_</a>)</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26489)</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            <span class="comment">/* false warning, checked for existence before adding to callbacks_ */</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            cb(message_copy);</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;      } <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;   }</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;   }</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;{</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> popped = <a class="code" href="class_midi_receiver.html#ad9e2594efbd686a1255a40aa88d794e5">messages_</a>.<a class="code" href="classrsj_1_1_concurrent_queue.html#a60b3f4145c5d9848062f60caee4a4e7e">pop</a>(); popped.first != kTerminate; popped = <a class="code" href="class_midi_receiver.html#ad9e2594efbd686a1255a40aa88d794e5">messages_</a>.<a class="code" href="classrsj_1_1_concurrent_queue.html#a60b3f4145c5d9848062f60caee4a4e7e">pop</a>()) {</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;         SetThreadExecutionState(0x00000002UL | 0x00000001UL);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;         <span class="keywordflow">switch</span> (popped.first.message_type_byte) {</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;         <span class="keywordflow">case</span> rsj::MessageType::kCc:</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> result {<a class="code" href="class_midi_receiver.html#a8f228b0c8e2826c98827f3795488691c">filters_</a>[popped.second](popped.first)}; result.is_nrpn) {</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;               <span class="keywordflow">if</span> (result.is_ready) {</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                  <span class="keyword">const</span> <a class="code" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> nrpn_message {</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                      rsj::MessageType::kCc, popped.first.<a class="code" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>, result.control, result.value};</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; cb : <a class="code" href="class_midi_receiver.html#a326d78bf9372875e07595d412d18735a">callbacks_</a>) {</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26489) </span><span class="comment">/* checked for existence before adding to callbacks_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                     cb(nrpn_message);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                  }</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;               }</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;               <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            }</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            [[fallthrough]]; <span class="comment">/* if not nrpn, handle like other messages */</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;         <span class="keywordflow">case</span> rsj::MessageType::kNoteOn:</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;         <span class="keywordflow">case</span> rsj::MessageType::kPw:</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; cb : <a class="code" href="class_midi_receiver.html#a326d78bf9372875e07595d412d18735a">callbacks_</a>) {</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="preprocessor">#pragma warning(suppress : 26489) </span><span class="comment">/* checked for existence before adding to callbacks_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;               cb(popped.first);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            }</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;         <span class="keywordflow">case</span> rsj::MessageType::kChanPressure:</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;         <span class="keywordflow">case</span> rsj::MessageType::kKeyPressure:</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;         <span class="keywordflow">case</span> rsj::MessageType::kNoteOff:</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;         <span class="keywordflow">case</span> rsj::MessageType::kPgmChange:</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;         <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kSystem</a>:</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            <span class="keywordflow">break</span>; <span class="comment">/* no action if other type of MIDI message */</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;         }</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      }</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;   }</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;   }</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="afbab9200ae3b216c658df1fe5033711b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afbab9200ae3b216c658df1fe5033711b">&#9670;&nbsp;</a></span>handleIncomingMidiMessage()</h2>
+<a id="ac3356894c7d1a982cd94bc472150c95c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3356894c7d1a982cd94bc472150c95c">&#9670;&nbsp;</a></span>handleIncomingMidiMessage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -377,49 +400,14 @@ template&lt;class T &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;   <span class="comment">/* reentrant ok. NRPN filter contains mutex in case of concurrency. This procedure is in</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">    * near-real-time, so must return quickly. will place message in multithreaded queue and let</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">    * separate process handle the messages */</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      <span class="keyword">const</span> <a class="code" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> mess {message};</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      <span class="keywordflow">switch</span> (mess.message_type_byte) {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::kCc: {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;         <span class="keyword">const</span> <span class="keyword">auto</span> result {<a class="code" href="class_midi_receiver.html#a8f228b0c8e2826c98827f3795488691c">filters_</a>[device](mess)};</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;         <span class="keywordflow">if</span> (result.is_nrpn) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="comment">/* send when complete */</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">if</span> (result.is_ready)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;               <a class="code" href="class_midi_receiver.html#a2c55836503717abcf555478f04e34d9a">messages_</a>.<a class="code" href="classrsj_1_1_concurrent_queue.html#a607c8a7098348fe54c39ffb482bafc74">emplace</a>(rsj::MessageType::kCc, mess.channel, result.control, result.value);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="comment">/* finished with nrpn piece */</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;         }</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;         <span class="comment">/* if not nrpn, handle like other messages */</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;         [[fallthrough]];</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::kNoteOn:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::kPw:</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;         <a class="code" href="class_midi_receiver.html#a2c55836503717abcf555478f04e34d9a">messages_</a>.<a class="code" href="classrsj_1_1_concurrent_queue.html#ae236a42aa960ae9e8f04d8b1b3d5af9e">push</a>(mess);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;         <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::kChanPressure:</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::kKeyPressure:</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::kNoteOff:</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <span class="keywordflow">case</span> rsj::MessageType::kPgmChange:</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kSystem</a>:</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;          <span class="comment">/* no action if other type of MIDI message */</span>;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      }</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;   }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;   }</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;   {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <a class="code" href="class_midi_receiver.html#ad9e2594efbd686a1255a40aa88d794e5">messages_</a>.<a class="code" href="classrsj_1_1_concurrent_queue.html#ae236a42aa960ae9e8f04d8b1b3d5af9e">push</a>({<a class="code" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a>(message), device});</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;   }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="structrsj_1_1_midi_message.html#a36f1bebe95b7bddd3f48524f745f820f">rsj::MidiMessage::MidiMessage()</a>, <a class="el" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj::AppLogFilePath()</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::kCc</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a283a06ba59b6d1bc696531719892cabc">rsj::kChanPressure</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a95d525a4ee95e4387eb14863fdf96f21">rsj::kKeyPressure</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::kNoteOff</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ac8dee6bd627c5f37262bc991b7797c50">rsj::kPgmChange</a>, <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a2c9d4d4ca70df56c762f0140f57dbdfb">rsj::kSystem</a>, and <a class="el" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">rsj::MidiMessage::message_type_byte</a>.</p>
-
 </div>
 </div>
 <a id="a0cb87d018906962c78506b6caee0aa69"></a>
@@ -444,29 +432,31 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;{</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;   <span class="keyword">using namespace </span>std::literals::chrono_literals;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;      <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Trying to open input devices.&quot;</span>);</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;      <a class="code" href="class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595">TryToOpen</a>();</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a>.empty()) <span class="comment">/* encountering errors first try on MacOS */</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;      {</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Retrying to open input devices.&quot;</span>);</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;         <a class="code" href="namespacersj.html#a3ff3cae4cb893f0e81cd429efdd189de">rsj::SleepTimedLogged</a>(<span class="stringliteral">&quot;Open input devices&quot;</span>, 20ms);</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;         <a class="code" href="class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595">TryToOpen</a>();</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a>.empty()) <span class="comment">/* encountering errors second try on MacOS */</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;         {</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Retrying second time to open input devices.&quot;</span>);</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <a class="code" href="namespacersj.html#a3ff3cae4cb893f0e81cd429efdd189de">rsj::SleepTimedLogged</a>(<span class="stringliteral">&quot;Open input devices&quot;</span>, 80ms);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            <a class="code" href="class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595">TryToOpen</a>();</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;         }</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;      }</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;   }</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;   }</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;{</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;   <span class="keyword">using namespace </span>std::literals::chrono_literals;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;      <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Trying to open input devices.&quot;</span>);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      <a class="code" href="class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595">TryToOpen</a>();</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a>.empty()) <span class="comment">/* encountering errors first try on MacOS */</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Retrying to open input devices.&quot;</span>);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;         std::this_thread::sleep_for(20ms);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;20ms sleep for open input devices.&quot;</span>);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;         <a class="code" href="class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595">TryToOpen</a>();</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a>.empty()) <span class="comment">/* encountering errors second try on MacOS */</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;         {</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Retrying second time to open input devices.&quot;</span>);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            std::this_thread::sleep_for(80ms);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;80ms sleep for open input devices.&quot;</span>);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <a class="code" href="class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595">TryToOpen</a>();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;         }</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      }</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;   }</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;   }</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595">TryToOpen()</a>.</p>
 
@@ -540,22 +530,22 @@ template&lt;class T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;{</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a>) {</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;         dev-&gt;stop();</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;             fmt::format(FMT_STRING(<span class="stringliteral">&quot;Stopped input device {}.&quot;</span>), dev-&gt;getName().toStdString()));</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <a class="code" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a>.clear();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Cleared input devices.&quot;</span>);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;   }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;   }</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;   <a class="code" href="class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69">InitDevices</a>(); <span class="comment">/* initdevices has own try catch block */</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a>) {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;         dev-&gt;stop();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;         <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;             fmt::format(FMT_STRING(<span class="stringliteral">&quot;Stopped input device {}.&quot;</span>), dev-&gt;getName().toStdString()));</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <a class="code" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a>.clear();</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Cleared input devices.&quot;</span>);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;   }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;   }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;   <a class="code" href="class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69">InitDevices</a>(); <span class="comment">/* initdevices has own try catch block */</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69">InitDevices()</a>.</p>
 
@@ -575,20 +565,20 @@ template&lt;class T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      <a class="code" href="class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69">InitDevices</a>();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      <a class="code" href="class_midi_receiver.html#a90cf4a5de8a026c91513b38332702d0a">dispatch_messages_future_</a> = std::async(std::launch::async, [<span class="keyword">this</span>] {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;         <a class="code" href="namespacersj.html#a4e5c7ad21cdc60c8a5495654ea212328">rsj::LabelThread</a>(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;MidiReceiver dispatch messages thread&quot;</span>));</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;         MIDI2LR_FAST_FLOATS;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;         <a class="code" href="class_midi_receiver.html#a2002ccf0c5057164b72579f52f574f02">DispatchMessages</a>();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      });</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;   }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;   }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <a class="code" href="class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69">InitDevices</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <a class="code" href="class_midi_receiver.html#a90cf4a5de8a026c91513b38332702d0a">dispatch_messages_future_</a> = std::async(std::launch::async, [<span class="keyword">this</span>] {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;         <a class="code" href="namespacersj.html#ad45ed3020e2c86eb083be1a36dc23784">rsj::LabelThread</a>(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;MidiReceiver dispatch messages thread&quot;</span>));</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;         MIDI2LR_FAST_FLOATS;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;         <a class="code" href="class_midi_receiver.html#a2002ccf0c5057164b72579f52f574f02">DispatchMessages</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      });</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;   }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;   }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69">InitDevices()</a>.</p>
 
@@ -608,15 +598,15 @@ template&lt;class T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;   <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a>) {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      dev-&gt;stop();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Stopped input device {}.&quot;</span>), dev-&gt;getName().toStdString()));</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;   }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;   <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> remaining {<a class="code" href="class_midi_receiver.html#a2c55836503717abcf555478f04e34d9a">messages_</a>.<a class="code" href="classrsj_1_1_concurrent_queue.html#a12981d51d4ee65c91a9088890558ee4f">clear_count_push</a>(kTerminate)})</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} left in queue in MidiReceiver StopRunning.&quot;</span>), remaining));</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;   <a class="code" href="class_midi_receiver.html#ab308920f58f2c1e4df56c2c896854787">callbacks_</a>.clear(); <span class="comment">/* after queue emptied */</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;   <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a>) {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      dev-&gt;stop();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Stopped input device {}.&quot;</span>), dev-&gt;getName().toStdString()));</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;   }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;   <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> remaining {<a class="code" href="class_midi_receiver.html#ad9e2594efbd686a1255a40aa88d794e5">messages_</a>.<a class="code" href="classrsj_1_1_concurrent_queue.html#a12981d51d4ee65c91a9088890558ee4f">clear_count_push</a>({kTerminate, <span class="keyword">nullptr</span>})}) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} left in queue in MidiReceiver StopRunning.&quot;</span>), remaining));</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;   }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -642,37 +632,37 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;{</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;   <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> available_devices {juce::MidiInput::getAvailableDevices()};</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; device : available_devices) {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;         <span class="keyword">auto</span> open_device {juce::MidiInput::openDevice(device.identifier, <span class="keyword">this</span>)};</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;         <span class="keywordflow">if</span> (open_device) {</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_midi_receiver.html#aaa32a91f83ddcc54a970183a103bae36">devices_</a>.<a class="code" href="class_devices.html#ac1422ea1542473f126633f82087634b0">EnabledOrNew</a>(open_device-&gt;getDeviceInfo(), <span class="stringliteral">&quot;input&quot;</span>)) {</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;               open_device-&gt;start();</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;               <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                   FMT_STRING(<span class="stringliteral">&quot;Opened input device {}.&quot;</span>), open_device-&gt;getName().toStdString()));</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;               <a class="code" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a>.emplace_back(std::move(open_device));</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            }</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;               <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                   FMT_STRING(<span class="stringliteral">&quot;Ignored input device {}.&quot;</span>), open_device-&gt;getName().toStdString()));</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;         }</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      }</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;   }</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;      <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;   }</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;{</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;   <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> available_devices {juce::MidiInput::getAvailableDevices()};</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; device : available_devices) {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;         <span class="keywordflow">if</span> (<span class="keyword">auto</span> open_device {juce::MidiInput::openDevice(device.identifier, <span class="keyword">this</span>)}) {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_midi_receiver.html#aaa32a91f83ddcc54a970183a103bae36">devices_</a>.<a class="code" href="class_devices.html#ac1422ea1542473f126633f82087634b0">EnabledOrNew</a>(open_device-&gt;getDeviceInfo(), <span class="stringliteral">&quot;input&quot;</span>)) {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;               open_device-&gt;start();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;               <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                   FMT_STRING(<span class="stringliteral">&quot;Opened input device {}.&quot;</span>), open_device-&gt;getName().toStdString()));</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;               <a class="code" href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">input_devices_</a>.push_back(std::move(open_device));</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;               <a class="code" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                   FMT_STRING(<span class="stringliteral">&quot;Ignored input device {}.&quot;</span>), open_device-&gt;getName().toStdString()));</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;         }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      }</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;   }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;   }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69">InitDevices()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ab308920f58f2c1e4df56c2c896854787"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab308920f58f2c1e4df56c2c896854787">&#9670;&nbsp;</a></span>callbacks_</h2>
+<a id="a326d78bf9372875e07595d412d18735a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a326d78bf9372875e07595d412d18735a">&#9670;&nbsp;</a></span>callbacks_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -681,7 +671,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;std::function&lt;void(const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a>&amp;)&gt; &gt; MidiReceiver::callbacks_</td>
+          <td class="memname">std::vector&lt;std::function&lt;void(<a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a>)&gt; &gt; MidiReceiver::callbacks_</td>
         </tr>
       </table>
   </td>
@@ -781,12 +771,12 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="class_midi_receiver.html#ab39aa3c6b5da4a6ee0e74dc63a27e87d">AddCallback()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_midi_receiver.html#a7636111b57bff4fea30a0b1672bc3402">AddCallback()</a>.</p>
 
 </div>
 </div>
-<a id="a2c55836503717abcf555478f04e34d9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c55836503717abcf555478f04e34d9a">&#9670;&nbsp;</a></span>messages_</h2>
+<a id="ad9e2594efbd686a1255a40aa88d794e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9e2594efbd686a1255a40aa88d794e5">&#9670;&nbsp;</a></span>messages_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -795,7 +785,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classrsj_1_1_concurrent_queue.html">rsj::ConcurrentQueue</a>&lt;<a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a>&gt; MidiReceiver::messages_</td>
+          <td class="memname"><a class="el" href="classrsj_1_1_concurrent_queue.html">rsj::ConcurrentQueue</a>&lt;std::pair&lt;<a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a>, juce::MidiInput*&gt; &gt; MidiReceiver::messages_</td>
         </tr>
       </table>
   </td>
@@ -813,25 +803,24 @@ template&lt;class T &gt; </div>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_a607c8a7098348fe54c39ffb482bafc74"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#a607c8a7098348fe54c39ffb482bafc74">rsj::ConcurrentQueue::emplace</a></div><div class="ttdeci">void emplace(Args &amp;&amp;... args)</div><div class="ttdef"><b>Definition:</b> Concurrency.h:260</div></div>
-<div class="ttc" id="aclass_midi_receiver_html_a8f228b0c8e2826c98827f3795488691c"><div class="ttname"><a href="class_midi_receiver.html#a8f228b0c8e2826c98827f3795488691c">MidiReceiver::filters_</a></div><div class="ttdeci">std::map&lt; juce::MidiInput *, NrpnFilter &gt; filters_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:63</div></div>
-<div class="ttc" id="anamespacersj_html_a3ff3cae4cb893f0e81cd429efdd189de"><div class="ttname"><a href="namespacersj.html#a3ff3cae4cb893f0e81cd429efdd189de">rsj::SleepTimedLogged</a></div><div class="ttdeci">void SleepTimedLogged(std::string_view msg_prefix, const std::chrono::duration&lt; Rep, Period &gt; sleep_duration)</div><div class="ttdef"><b>Definition:</b> Misc.h:165</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:217</div></div>
-<div class="ttc" id="aclass_midi_receiver_html_a8ae371505226f912b3e41717cbb5df8f"><div class="ttname"><a href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">MidiReceiver::input_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiInput &gt; &gt; input_devices_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:65</div></div>
-<div class="ttc" id="aclass_midi_receiver_html_a2c55836503717abcf555478f04e34d9a"><div class="ttname"><a href="class_midi_receiver.html#a2c55836503717abcf555478f04e34d9a">MidiReceiver::messages_</a></div><div class="ttdeci">rsj::ConcurrentQueue&lt; rsj::MidiMessage &gt; messages_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:61</div></div>
-<div class="ttc" id="aclass_midi_receiver_html_a0cb87d018906962c78506b6caee0aa69"><div class="ttname"><a href="class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69">MidiReceiver::InitDevices</a></div><div class="ttdeci">void InitDevices()</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.cpp:140</div></div>
-<div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_ae236a42aa960ae9e8f04d8b1b3d5af9e"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#ae236a42aa960ae9e8f04d8b1b3d5af9e">rsj::ConcurrentQueue::push</a></div><div class="ttdeci">void push(const T &amp;value)</div><div class="ttdef"><b>Definition:</b> Concurrency.h:244</div></div>
-<div class="ttc" id="anamespacersj_html_a4e5c7ad21cdc60c8a5495654ea212328"><div class="ttname"><a href="namespacersj.html#a4e5c7ad21cdc60c8a5495654ea212328">rsj::LabelThread</a></div><div class="ttdeci">void LabelThread(gsl::czstring&lt;&gt; threadname)</div><div class="ttdef"><b>Definition:</b> Misc.cpp:44</div></div>
-<div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_a12981d51d4ee65c91a9088890558ee4f"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#a12981d51d4ee65c91a9088890558ee4f">rsj::ConcurrentQueue::clear_count_push</a></div><div class="ttdeci">size_type clear_count_push(const T &amp;value)</div><div class="ttdef"><b>Definition:</b> Concurrency.h:329</div></div>
-<div class="ttc" id="aclass_midi_receiver_html_a90cf4a5de8a026c91513b38332702d0a"><div class="ttname"><a href="class_midi_receiver.html#a90cf4a5de8a026c91513b38332702d0a">MidiReceiver::dispatch_messages_future_</a></div><div class="ttdeci">std::future&lt; void &gt; dispatch_messages_future_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:62</div></div>
+<div class="ttc" id="aclass_midi_receiver_html_a326d78bf9372875e07595d412d18735a"><div class="ttname"><a href="class_midi_receiver.html#a326d78bf9372875e07595d412d18735a">MidiReceiver::callbacks_</a></div><div class="ttdeci">std::vector&lt; std::function&lt; void(rsj::MidiMessage)&gt; &gt; callbacks_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:66</div></div>
+<div class="ttc" id="aclass_midi_receiver_html_a8f228b0c8e2826c98827f3795488691c"><div class="ttname"><a href="class_midi_receiver.html#a8f228b0c8e2826c98827f3795488691c">MidiReceiver::filters_</a></div><div class="ttdeci">std::map&lt; juce::MidiInput *, NrpnFilter &gt; filters_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:65</div></div>
+<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:214</div></div>
+<div class="ttc" id="aclass_midi_receiver_html_a8ae371505226f912b3e41717cbb5df8f"><div class="ttname"><a href="class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f">MidiReceiver::input_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiInput &gt; &gt; input_devices_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:67</div></div>
+<div class="ttc" id="aclass_midi_receiver_html_a0cb87d018906962c78506b6caee0aa69"><div class="ttname"><a href="class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69">MidiReceiver::InitDevices</a></div><div class="ttdeci">void InitDevices()</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.cpp:109</div></div>
+<div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_ae236a42aa960ae9e8f04d8b1b3d5af9e"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#ae236a42aa960ae9e8f04d8b1b3d5af9e">rsj::ConcurrentQueue::push</a></div><div class="ttdeci">void push(const T &amp;value)</div><div class="ttdef"><b>Definition:</b> Concurrency.h:141</div></div>
+<div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_a12981d51d4ee65c91a9088890558ee4f"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#a12981d51d4ee65c91a9088890558ee4f">rsj::ConcurrentQueue::clear_count_push</a></div><div class="ttdeci">size_type clear_count_push(const T &amp;value)</div><div class="ttdef"><b>Definition:</b> Concurrency.h:228</div></div>
+<div class="ttc" id="aclass_midi_receiver_html_ad9e2594efbd686a1255a40aa88d794e5"><div class="ttname"><a href="class_midi_receiver.html#ad9e2594efbd686a1255a40aa88d794e5">MidiReceiver::messages_</a></div><div class="ttdeci">rsj::ConcurrentQueue&lt; std::pair&lt; rsj::MidiMessage, juce::MidiInput * &gt; &gt; messages_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:64</div></div>
+<div class="ttc" id="anamespacersj_html_ad45ed3020e2c86eb083be1a36dc23784"><div class="ttname"><a href="namespacersj.html#ad45ed3020e2c86eb083be1a36dc23784">rsj::LabelThread</a></div><div class="ttdeci">void LabelThread(gsl::czstring threadname)</div><div class="ttdef"><b>Definition:</b> Misc.cpp:47</div></div>
+<div class="ttc" id="aclass_midi_receiver_html_a90cf4a5de8a026c91513b38332702d0a"><div class="ttname"><a href="class_midi_receiver.html#a90cf4a5de8a026c91513b38332702d0a">MidiReceiver::dispatch_messages_future_</a></div><div class="ttdeci">std::future&lt; void &gt; dispatch_messages_future_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:68</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_a9fe338912f9e54437351926dcc6df9e1"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">rsj::MidiMessage::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:127</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kNoteOff</a></div><div class="ttdeci">@ kNoteOff</div></div>
-<div class="ttc" id="aclass_midi_receiver_html_a703b6a6d9e9c43e5dd5eef20692ae595"><div class="ttname"><a href="class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595">MidiReceiver::TryToOpen</a></div><div class="ttdeci">void TryToOpen()</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.cpp:115</div></div>
-<div class="ttc" id="aclass_midi_receiver_html_aaa32a91f83ddcc54a970183a103bae36"><div class="ttname"><a href="class_midi_receiver.html#aaa32a91f83ddcc54a970183a103bae36">MidiReceiver::devices_</a></div><div class="ttdeci">Devices &amp; devices_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:60</div></div>
-<div class="ttc" id="aclass_devices_html_ac1422ea1542473f126633f82087634b0"><div class="ttname"><a href="class_devices.html#ac1422ea1542473f126633f82087634b0">Devices::EnabledOrNew</a></div><div class="ttdeci">bool EnabledOrNew(const juce::MidiDeviceInfo &amp;info, const juce::String &amp;io)</div><div class="ttdef"><b>Definition:</b> Devices.cpp:126</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html"><div class="ttname"><a href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a></div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:124</div></div>
-<div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_a60b3f4145c5d9848062f60caee4a4e7e"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#a60b3f4145c5d9848062f60caee4a4e7e">rsj::ConcurrentQueue::pop</a></div><div class="ttdeci">T pop()</div><div class="ttdef"><b>Definition:</b> Concurrency.h:269</div></div>
-<div class="ttc" id="aclass_midi_receiver_html_ab308920f58f2c1e4df56c2c896854787"><div class="ttname"><a href="class_midi_receiver.html#ab308920f58f2c1e4df56c2c896854787">MidiReceiver::callbacks_</a></div><div class="ttdeci">std::vector&lt; std::function&lt; void(const rsj::MidiMessage &amp;)&gt; &gt; callbacks_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:64</div></div>
-<div class="ttc" id="aclass_midi_receiver_html_a2002ccf0c5057164b72579f52f574f02"><div class="ttname"><a href="class_midi_receiver.html#a2002ccf0c5057164b72579f52f574f02">MidiReceiver::DispatchMessages</a></div><div class="ttdeci">void DispatchMessages()</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.cpp:165</div></div>
+<div class="ttc" id="aclass_midi_receiver_html_a703b6a6d9e9c43e5dd5eef20692ae595"><div class="ttname"><a href="class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595">MidiReceiver::TryToOpen</a></div><div class="ttdeci">void TryToOpen()</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.cpp:84</div></div>
+<div class="ttc" id="aclass_midi_receiver_html_aaa32a91f83ddcc54a970183a103bae36"><div class="ttname"><a href="class_midi_receiver.html#aaa32a91f83ddcc54a970183a103bae36">MidiReceiver::devices_</a></div><div class="ttdeci">Devices &amp; devices_</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.h:63</div></div>
+<div class="ttc" id="aclass_devices_html_ac1422ea1542473f126633f82087634b0"><div class="ttname"><a href="class_devices.html#ac1422ea1542473f126633f82087634b0">Devices::EnabledOrNew</a></div><div class="ttdeci">bool EnabledOrNew(const juce::MidiDeviceInfo &amp;info, const juce::String &amp;io)</div><div class="ttdef"><b>Definition:</b> Devices.cpp:139</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html"><div class="ttname"><a href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a></div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:125</div></div>
+<div class="ttc" id="aclassrsj_1_1_concurrent_queue_html_a60b3f4145c5d9848062f60caee4a4e7e"><div class="ttname"><a href="classrsj_1_1_concurrent_queue.html#a60b3f4145c5d9848062f60caee4a4e7e">rsj::ConcurrentQueue::pop</a></div><div class="ttdeci">T pop()</div><div class="ttdef"><b>Definition:</b> Concurrency.h:166</div></div>
+<div class="ttc" id="aclass_midi_receiver_html_a2002ccf0c5057164b72579f52f574f02"><div class="ttname"><a href="class_midi_receiver.html#a2002ccf0c5057164b72579f52f574f02">MidiReceiver::DispatchMessages</a></div><div class="ttdeci">void DispatchMessages()</div><div class="ttdef"><b>Definition:</b> MIDIReceiver.cpp:136</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
