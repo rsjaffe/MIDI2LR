@@ -241,7 +241,7 @@ namespace {
          std::array<CHAR, KL_NAMELENGTH> klid_ascii {};
          if (LOG_IF_WIN32_BOOL_FALSE(GetKeyboardLayoutNameA(klid_ascii.data()))) {
             try {
-               const auto klid {std::stoul(std::string(klid_ascii.data()), nullptr, 16)};
+               const auto klid {std::strtoul(klid_ascii.data(), nullptr, 16)};
                if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end()) {
                   return f->second;
                }
