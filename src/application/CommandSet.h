@@ -64,17 +64,24 @@ class CommandSet {
       Impl& operator=(Impl&& other) = delete;
       template<class Archive> void serialize(Archive& archive, std::uint32_t const version)
       {
-         if (std::cmp_equal(version, 2)) {
-            archive(cereal::make_nvp("language", language_),
-                cereal::make_nvp("all_commands", allcommands_),
-                cereal::make_nvp("repeats", repeat_messages_), cereal::make_nvp("wraps", wraps_));
+         try {
+            if (std::cmp_equal(version, 2)) {
+               archive(cereal::make_nvp("language", language_),
+                   cereal::make_nvp("all_commands", allcommands_),
+                   cereal::make_nvp("repeats", repeat_messages_),
+                   cereal::make_nvp("wraps", wraps_));
+            }
+            else {
+               constexpr auto msg {
+                   "The file, 'MenuTrans.xml', is marked as a version not supported by the current "
+                   "version of MIDI2LR, and won't be loaded. File version: {}."};
+               rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
+                   fmt::format(msg, version));
+            }
          }
-         else {
-            constexpr auto msg {
-                "The file, 'MenuTrans.xml', is marked as a version not supported by the current "
-                "version of MIDI2LR, and won't be loaded. File version: {}."};
-            rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                fmt::format(msg, version));
+         catch (const std::exception& e) {
+            MIDI2LR_E_RESPONSE;
+            throw;
          }
       }
       std::string language_;

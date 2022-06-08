@@ -297,7 +297,13 @@ class ControlsModel {
    friend class cereal::access;
    template<class Archive> void serialize(Archive& archive, uint32_t const version)
    {
-      if (version == 1) { archive(all_controls_); }
+      try {
+         if (version == 1) archive(all_controls_);
+      }
+      catch (const std::exception& e) {
+         MIDI2LR_E_RESPONSE;
+         throw;
+      }
    }
    std::array<ChannelModel, 16> all_controls_;
 };
