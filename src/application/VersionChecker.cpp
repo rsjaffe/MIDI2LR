@@ -64,8 +64,8 @@ void VersionChecker::handleAsyncUpdate()
               + IntToVersion(new_version_),
           nullptr, juce::ModalCallbackFunction::create([this](const int result) {
              if (result) {
-                const auto git {juce::URL("https://github.com/rsjaffe/MIDI2LR/releases")};
-                if (git.launchInDefaultBrowser()) { /* successfully opened browser */
+                if (juce::URL("https://github.com/rsjaffe/MIDI2LR/releases")
+                        .launchInDefaultBrowser()) { /* successfully opened browser */
                    settings_manager_.SetLastVersionFound(new_version_);
                 }
              }
