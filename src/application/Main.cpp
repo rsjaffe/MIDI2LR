@@ -245,6 +245,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       lr_ipc_in_.Stop();
       lr_ipc_out_.Stop();
       version_checker_.Stop();
+      io_context_.stop();
       DefaultProfileSave();
       SaveControlsModel();
    }
@@ -426,9 +427,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    asio::io_context io_context_ {};
    std::future<void> io_thread0_;
    std::future<void> io_thread1_;
-   [[maybe_unused]] asio::any_io_executor work_ {
-       asio::require(io_context_.get_executor(), asio::execution::outstanding_work.tracked)};
-   Devices devices_ {};
+   [[maybe_unused]] asio::executor_work_guard<asio::io_context::executor_type> guard_ {
+       asio::make_work_guard(io_context_)};
+    Devices devices_ {};
    const CommandSet command_set_ {};
    ControlsModel controls_model_ {};
    Profile profile_ {command_set_};
