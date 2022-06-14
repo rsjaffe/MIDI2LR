@@ -76,12 +76,20 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
          /* add each submenu */
          for (const auto& submenus : command_set_.GetMenuEntries()) {
             juce::PopupMenu sub_menu;
+            auto ticked {false};
             for (const auto& command : submenus) {
                /* add each submenu entry, ticking the previously selected entry and marking used
                 * entries red */
                if (profile_.CommandHasAssociatedMessage(command_set_.CommandAbbrevAt(index - 1))) {
-                  sub_menu.addColouredItem(gsl::narrow_cast<int>(index), command,
-                      juce::Colours::red, true, index == selected_item_);
+                  if (index == selected_item_) {
+                     ticked = true;
+                     sub_menu.addColouredItem(gsl::narrow_cast<int>(index), command,
+                         juce::Colours::red, true, true);
+                  }
+                  else {
+                     sub_menu.addColouredItem(gsl::narrow_cast<int>(index), command,
+                         juce::Colours::red, true, false);
+                  }
                }
                else {
                   sub_menu.addItem(gsl::narrow_cast<int>(index), command, true, false);
@@ -89,7 +97,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
                index++;
             }
             main_menu.addSubMenu(command_set_.GetMenus().at(submenu_number++), sub_menu, true,
-                nullptr, index == selected_item_);
+                nullptr, ticked);
          }
          if (auto result {gsl::narrow_cast<size_t>(main_menu.show())}) {
             /* user chose a different command, remove previous command mapping associated to this
