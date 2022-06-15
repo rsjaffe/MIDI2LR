@@ -454,7 +454,6 @@
     <height>400</height>
     <licenseFileEncoding>utf-8</licenseFileEncoding>
     <osxApplicationBundleIcon>../../build/MacOS/Icon.icns</osxApplicationBundleIcon>
-    <osxPlatforms>osx-x86_64 osx-arm64</osxPlatforms>
     <osxSigningPkcs12File>../osx-signing.p12</osxSigningPkcs12File>
     <osxSigningPkcs12Password>${env(OSX_SIGNING_PASSWORD)}</osxSigningPkcs12Password>
     <osxUninstallerApplicationBundleIcon>../../build/MacOS/Icon.icns</osxUninstallerApplicationBundleIcon>
