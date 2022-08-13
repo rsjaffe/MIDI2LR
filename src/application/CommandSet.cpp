@@ -69,8 +69,8 @@ CommandSet::Impl::Impl()
          rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p.string()));
       }
       else {
-         rsj::LogAndAlertError(
-             juce::translate("Unable to load MenuTrans.xml."), "Unable to load MenuTrans.xml.");
+         rsj::LogAndAlertError(juce::translate("Unable to load MenuTrans.xml."),
+             "Unable to load MenuTrans.xml.");
       }
    }
    catch (const std::exception& e) {

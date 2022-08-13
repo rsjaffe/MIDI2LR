@@ -54,8 +54,8 @@ void SettingsComponent::Init()
       pickup_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
       addAndMakeVisible(pickup_label_);
 
-      pickup_enabled_.setToggleState(
-          settings_manager_.GetPickupEnabled(), juce::NotificationType::dontSendNotification);
+      pickup_enabled_.setToggleState(settings_manager_.GetPickupEnabled(),
+          juce::NotificationType::dontSendNotification);
       pickup_enabled_.setBounds(kSettingsLeft, 60, kSettingsWidth - 2 * kSettingsLeft,
           32); //-V112
       addToLayout(&pickup_enabled_, anchorMidLeft, anchorMidRight);
@@ -72,8 +72,8 @@ void SettingsComponent::Init()
       addToLayout(&profile_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(profile_group_);
 
-      profile_location_button_.setBounds(
-          kSettingsLeft, 120, kSettingsWidth - 2 * kSettingsLeft, 25);
+      profile_location_button_.setBounds(kSettingsLeft, 120, kSettingsWidth - 2 * kSettingsLeft,
+          25);
       addToLayout(&profile_location_button_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(profile_location_button_);
       profile_location_button_.onClick = [this] {
@@ -82,10 +82,10 @@ void SettingsComponent::Init()
          if (chooser.browseForDirectory()) {
             const auto profile_location {chooser.getResult().getFullPathName()};
             settings_manager_.SetProfileDirectory(profile_location);
-            rsj::Log(fmt::format(
-                FMT_STRING("Profile location set to {}."), profile_location.toStdString()));
-            profile_location_label_.setText(
-                profile_location, juce::NotificationType::dontSendNotification);
+            rsj::Log(fmt::format(FMT_STRING("Profile location set to {}."),
+                profile_location.toStdString()));
+            profile_location_label_.setText(profile_location,
+                juce::NotificationType::dontSendNotification);
          }
       };
 
@@ -94,8 +94,8 @@ void SettingsComponent::Init()
       addToLayout(&profile_location_label_, anchorMidLeft, anchorMidRight);
       profile_location_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
       addAndMakeVisible(profile_location_label_);
-      profile_location_label_.setText(
-          settings_manager_.GetProfileDirectory(), juce::NotificationType::dontSendNotification);
+      profile_location_label_.setText(settings_manager_.GetProfileDirectory(),
+          juce::NotificationType::dontSendNotification);
 
       /* autohide */
       autohide_group_.setText(juce::translate("Auto hide"));
@@ -116,16 +116,16 @@ void SettingsComponent::Init()
 
       autohide_setting_.setBounds(kSettingsLeft, 245, kSettingsWidth - 2 * kSettingsLeft, 50);
       autohide_setting_.setRange(0., 10., 1.);
-      autohide_setting_.setValue(
-          settings_manager_.GetAutoHideTime(), juce::NotificationType::dontSendNotification);
+      autohide_setting_.setValue(settings_manager_.GetAutoHideTime(),
+          juce::NotificationType::dontSendNotification);
 
       addToLayout(&autohide_setting_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(autohide_setting_);
       autohide_setting_.onValueChange = [this] {
          settings_manager_.SetAutoHideTime(
              gsl::narrow<int>(std::lrint(autohide_setting_.getValue())));
-         rsj::Log(fmt::format(
-             FMT_STRING("Autohide time set to {} seconds."), settings_manager_.GetAutoHideTime()));
+         rsj::Log(fmt::format(FMT_STRING("Autohide time set to {} seconds."),
+             settings_manager_.GetAutoHideTime()));
       };
       /* turn it on */
       activateLayout();

@@ -29,8 +29,8 @@
 #include "Misc.h"
 #include "Profile.h"
 
-ProfileManager::ProfileManager(
-    ControlsModel& c_model, const Profile& profile, LrIpcOut& out, MidiReceiver& midi_receiver)
+ProfileManager::ProfileManager(ControlsModel& c_model, const Profile& profile, LrIpcOut& out,
+    MidiReceiver& midi_receiver)
     : current_profile_ {profile}, controls_model_ {c_model}, lr_ipc_out_ {out}
 {
    /* add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection */
@@ -78,8 +78,8 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
             lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToDirectory {}\n"),
                 juce::File::addTrailingSeparator(profile_location_.getFullPathName())
                     .toStdString()));
-            lr_ipc_out_.SendCommand(
-                fmt::format(FMT_STRING("ChangedToFile {}\n"), profile.toStdString()));
+            lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToFile {}\n"),
+                profile.toStdString()));
          }
       }
    }

@@ -64,6 +64,7 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm)
 #pragma warning(pop)
    // ReSharper restore CppClangTidyCppcoreguidelinesProBoundsPointerArithmetic
 }
+
 /*****************************************************************************/
 /*************NrpnFilter******************************************************/
 /*****************************************************************************/

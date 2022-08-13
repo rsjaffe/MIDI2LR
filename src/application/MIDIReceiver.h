@@ -35,6 +35,7 @@ class Devices;
 class MidiReceiver final : juce::MidiInputCallback {
  public:
    explicit MidiReceiver(Devices& devices) : devices_(devices) {}
+
    ~MidiReceiver() = default; // NOLINT(modernize-use-override)
    MidiReceiver(const MidiReceiver& other) = delete;
    MidiReceiver(MidiReceiver&& other) = delete;
@@ -52,11 +53,13 @@ class MidiReceiver final : juce::MidiInputCallback {
 
  private:
    void DispatchMessages();
-   void handleIncomingMidiMessage(
-       juce::MidiInput* device, const juce::MidiMessage& message) override
+
+   void handleIncomingMidiMessage(juce::MidiInput* device,
+       const juce::MidiMessage& message) override
    {
       messages_.push({rsj::MidiMessage(message), device});
    }
+
    void InitDevices();
    void TryToOpen(); /* inner code for InitDevices */
 

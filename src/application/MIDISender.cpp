@@ -48,8 +48,8 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
          for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
       }
       else if (id.msg_id_type == rsj::MessageType::kNoteOn) {
-         const auto msg {juce::MidiMessage::noteOn(
-             id.channel, id.control_number, gsl::narrow_cast<juce::uint8>(value))};
+         const auto msg {juce::MidiMessage::noteOn(id.channel, id.control_number,
+             gsl::narrow_cast<juce::uint8>(value))};
          for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
       }
       else if (id.msg_id_type == rsj::MessageType::kCc) {
@@ -80,8 +80,8 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
       else {
          constexpr auto msge {"MIDISender: Unexpected data type: {:n}."};
          const auto msgt {juce::translate(msge).toStdString()};
-         rsj::LogAndAlertError(
-             fmt::format(msgt, id.msg_id_type), fmt::format(msge, id.msg_id_type));
+         rsj::LogAndAlertError(fmt::format(msgt, id.msg_id_type),
+             fmt::format(msge, id.msg_id_type));
       }
    }
 

@@ -117,24 +117,22 @@ void LrIpcIn::Stop()
 void LrIpcIn::Connect(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 {
    try {
-      lr_ipc_shared->socket_.async_connect(
-          asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrInPort),
+      lr_ipc_shared->socket_.async_connect(asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(),
+                                               kLrInPort),
           [lr_ipc_shared](const asio::error_code& error) mutable {
-             if (!error) {
-                rsj::Log("Socket connected in LR_IPC_In.");
-                LrIpcInShared::Read(std::move(lr_ipc_shared));
-             }
-             else {
-                rsj::Log(
-                    fmt::format(FMT_STRING("LR_IPC_In did not connect. {}."), error.message()));
-                asio::error_code ec2;
-                lr_ipc_shared->socket_.close(ec2);
-                if (ec2) {
-                   rsj::Log(
-                       fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec2.message()));
-                }
-             }
-          });
+         if (!error) {
+            rsj::Log("Socket connected in LR_IPC_In.");
+            LrIpcInShared::Read(std::move(lr_ipc_shared));
+         }
+         else {
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In did not connect. {}."), error.message()));
+            asio::error_code ec2;
+            lr_ipc_shared->socket_.close(ec2);
+            if (ec2) {
+               rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec2.message()));
+            }
+         }
+      });
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -166,8 +164,8 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
             return;
          }
          if (value_view.empty()) {
-            rsj::Log(fmt::format(
-                FMT_STRING("No value attached to message. Message from plugin was \"{}\"."),
+            rsj::Log(fmt::format(FMT_STRING("No value attached to message. Message from plugin was "
+                                            "\"{}\"."),
                 rsj::ReplaceInvisibleChars(line_copy)));
          }
          else if (command == "SwitchProfile"s) {
@@ -183,13 +181,13 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
             if (first_not_digit != std::string_view::npos) {
                value_view.remove_prefix(first_not_digit + 1);
                if (!value_view.empty()) {
-                  rsj::SendKeyDownUp(
-                      std::string(value_view), rsj::ActiveModifiers::FromMidi2LR(modifiers));
+                  rsj::SendKeyDownUp(std::string(value_view),
+                      rsj::ActiveModifiers::FromMidi2LR(modifiers));
                   continue; /* skip log and alert error */
                }
             }
-            rsj::LogAndAlertError(fmt::format(
-                FMT_STRING("SendKey couldn't identify keystroke. Message from plugin was \"{}\"."),
+            rsj::LogAndAlertError(fmt::format(FMT_STRING("SendKey couldn't identify keystroke. "
+                                                         "Message from plugin was \"{}\"."),
                 rsj::ReplaceInvisibleChars(line_copy)));
          }
          else { /* send associated messages to MIDI OUT devices */
@@ -216,33 +214,30 @@ void LrIpcInShared::Read(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
    try {
       if (!lr_ipc_shared->thread_should_exit_.load(std::memory_order_acquire)) {
          asio::async_read_until(lr_ipc_shared->socket_, lr_ipc_shared->streambuf_, '\n',
-             [lr_ipc_shared](
-                 const asio::error_code& error, const std::size_t bytes_transferred) mutable {
-                if (!error) [[likely]] {
-                   if (bytes_transferred == 0) [[unlikely]] {
-                      std::this_thread::sleep_for(kEmptyWait);
-                   }
-                   else {
-                      auto& buf {lr_ipc_shared->streambuf_};
-                      std::string command {buffers_begin(buf.data()),
-                          buffers_begin(buf.data())
-                              + gsl::narrow<std::ptrdiff_t>(bytes_transferred)};
-                      if (command == "TerminateApplication 1\n"s) {
-                         lr_ipc_shared->thread_should_exit_.store(true, std::memory_order_release);
-                      }
-                      lr_ipc_shared->line_.push(std::move(command));
-                      buf.consume(bytes_transferred);
-                   }
-                   Read(std::move(lr_ipc_shared));
-                }
-                else {
-                   rsj::Log(fmt::format(FMT_STRING("LR_IPC_In Read error: {}."), error.message()));
+             [lr_ipc_shared](const asio::error_code& error,
+                 const std::size_t bytes_transferred) mutable {
+            if (!error) [[likely]] {
+               if (bytes_transferred == 0) [[unlikely]] { std::this_thread::sleep_for(kEmptyWait); }
+               else {
+                  auto& buf {lr_ipc_shared->streambuf_};
+                  std::string command {buffers_begin(buf.data()),
+                      buffers_begin(buf.data()) + gsl::narrow<std::ptrdiff_t>(bytes_transferred)};
+                  if (command == "TerminateApplication 1\n"s) {
+                     lr_ipc_shared->thread_should_exit_.store(true, std::memory_order_release);
+                  }
+                  lr_ipc_shared->line_.push(std::move(command));
+                  buf.consume(bytes_transferred);
+               }
+               Read(std::move(lr_ipc_shared));
+            }
+            else {
+               rsj::Log(fmt::format(FMT_STRING("LR_IPC_In Read error: {}."), error.message()));
 
-                   if (error == asio::error::misc_errors::eof) { /* LR closed socket */
-                      juce::JUCEApplication::getInstance()->systemRequestedQuit();
-                   }
-                }
-             });
+               if (error == asio::error::misc_errors::eof) { /* LR closed socket */
+                  juce::JUCEApplication::getInstance()->systemRequestedQuit();
+               }
+            }
+         });
       }
    }
    catch (const std::exception& e) {

@@ -25,6 +25,7 @@
 class DebugInfo {
  public:
    explicit DebugInfo(std::string_view profile_directory) noexcept;
+
    [[nodiscard]] const std::vector<std::string>& GetInfo() const noexcept { return info_; }
 
  private:
@@ -33,6 +34,7 @@ class DebugInfo {
       rsj::Log(msg);
       info_.push_back(std::move(msg));
    }
+
    std::vector<std::string> info_;
 };
 

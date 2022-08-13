@@ -32,12 +32,15 @@ namespace rsj {
       UInt16 keycode {};
       bool shift {};
       bool option {};
+
       constexpr KeyData(UInt16 k, bool s, bool o) : keycode {k}, shift {s}, option {o} {}
+
       constexpr KeyData(const KeyData& other) = default;
       constexpr KeyData(KeyData&& other) noexcept = default;
       constexpr KeyData& operator=(const KeyData& other) = default;
       constexpr KeyData& operator=(KeyData&& other) noexcept = default;
    };
+
    [[nodiscard]] std::string AppDataMac();
    [[nodiscard]] std::string AppLogMac();
    [[nodiscard]] std::unordered_map<UniChar, KeyData> GetKeyMap();

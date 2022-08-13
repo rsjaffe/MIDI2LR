@@ -58,8 +58,8 @@ void VersionChecker::handleAsyncUpdate()
    try {
       if (thread_should_exit_.load(std::memory_order_acquire)) { return; }
       juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::AlertIconType::QuestionIcon,
-          fmt::format(
-              juce::translate("A new version of {} is available.").toStdString(), "MIDI2LR"),
+          fmt::format(juce::translate("A new version of {} is available.").toStdString(),
+              "MIDI2LR"),
           juce::translate("Do you want to download the latest version?") + ' '
               + IntToVersion(new_version_),
           nullptr, juce::ModalCallbackFunction::create([this](const int result) {
@@ -97,8 +97,8 @@ void VersionChecker::Run() noexcept
             last_checked = std::min(new_version_, ProjectInfo::versionNumber);
             settings_manager_.SetLastVersionFound(last_checked);
          }
-         rsj::Log(fmt::format(
-             FMT_STRING("Version available {}, version last checked {}, current version {}."),
+         rsj::Log(fmt::format(FMT_STRING("Version available {}, version last checked {}, current "
+                                         "version {}."),
              IntToVersion(new_version_), IntToVersion(last_checked),
              IntToVersion(ProjectInfo::versionNumber)));
          if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked

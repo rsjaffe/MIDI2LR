@@ -1,5 +1,5 @@
 ---
-# Visual Studio 2022 currently (February 2022) using clang-format v13. Options for later versions
+# Visual Studio 2022 currently (August 2022) using clang-format v14. Options for later versions
 # may be included but are commented out. Uncomment if used with a later version of clang-format.
 AccessModifierOffset: -2
 AlignAfterOpenBracket: DontAlign
@@ -37,7 +37,6 @@ BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: false
 BreakConstructorInitializers: BeforeColon
 BreakAfterJavaFieldAnnotations: false
-#13 BreakBeforeConceptDeclarations: Never
 BreakInheritanceList: AfterColon
 BreakStringLiterals: true
 ColumnLimit: 100
@@ -49,12 +48,12 @@ Cpp11BracedListStyle: true
 DeriveLineEnding: false
 DerivePointerAlignment: false
 DisableFormat: false
-#13 EmptyLineAfterAccessModifier: Never
-#13 EmptyLineBeforeAccessModifier: Always
+EmptyLineAfterAccessModifier: Never
+EmptyLineBeforeAccessModifier: Always
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
 ForEachMacros: ['forEachXmlChildElement','forEachXmlChildElementWithTagName']
-#13 IfMacros:
+IfMacros:
 IncludeBlocks: Regroup
 IncludeCategories:
 #creates ambiguous reference to Point if included before Mac headers
@@ -71,38 +70,39 @@ IncludeCategories:
 #project headers
   - Regex:           '^".*"$'
     Priority:        4
-#13 IndentAccessModifiers: false
+IndentAccessModifiers: false
 IndentCaseBlocks: true
 IndentCaseLabels: false
 IndentExternBlock: Indent
 IndentGotoLabels: false
 IndentPPDirectives: None
-#13 IndentRequiresClause: true
+#15 IndentRequiresClause: true
 IndentWidth: 3
 IndentWrappedFunctionNames: false
+#15 InsertBraces: true
 KeepEmptyLinesAtTheStartOfBlocks: false
-#13 LambdaBodyIndentation: OuterScope
+LambdaBodyIndentation: OuterScope
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
-#13 PackConstructorInitializers: BinPack
+PackConstructorInitializers: BinPack
 PenaltyBreakAssignment: 2
 PenaltyBreakBeforeFirstCallParameter: 75
 PenaltyBreakComment: 50
 PenaltyBreakFirstLessLess: 1
-#14 PenaltyBreakOpenParenthesis: 80
+PenaltyBreakOpenParenthesis: 80
 PenaltyBreakString: 100
 PenaltyBreakTemplateDeclaration: 50
 PenaltyExcessCharacter: 1000
 PenaltyIndentedWhitespace: 1
 PenaltyReturnTypeOnItsOwnLine: 200
 PointerAlignment: Left
-#14 QualifierAlignment: Left
-#14 QualifierOrder: ['static', 'volatile', 'const', 'constexpr', 'inline', 'restrict', 'type']
-#13 ReferenceAlignment: Pointer
+QualifierAlignment: Custom
+QualifierOrder: ['inline', 'static', 'volatile', 'const', 'constexpr', 'restrict', 'type']
+ReferenceAlignment: Pointer
 ReflowComments: true
-#15 RequiresClausePosition: WithPreceding
-#14 SeparateDefinitionBlocks: Always
-#13 ShortNamespaceLines: 0
+#15 RequiresClausePosition: OwnLine
+SeparateDefinitionBlocks: Always
+ShortNamespaceLines: 0
 SortIncludes: true
 SortUsingDeclarations: false
 SpaceAfterCStyleCast: false
@@ -124,7 +124,7 @@ SpacesInAngles: false
 SpacesInConditionalStatement: false
 SpacesInContainerLiterals: false
 SpacesInCStyleCastParentheses: false
-#13 SpacesInLineCommentPrefix: #Minimum = 1 
+SpacesInLineCommentPrefix: #Minimum = 1 
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
 Standard: Latest

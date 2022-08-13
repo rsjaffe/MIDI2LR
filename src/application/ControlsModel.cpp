@@ -40,14 +40,14 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber, const
             }
             else { /* no action needed */
             }
-         } while (!cv.compare_exchange_weak(
-             old_v, new_v, std::memory_order_release, std::memory_order_acquire));
+         } while (!cv.compare_exchange_weak(old_v, new_v, std::memory_order_release,
+             std::memory_order_acquire));
       }
       else [[likely]] {
          do {
             new_v = std::clamp(old_v + diff, 0, high_limit);
-         } while (!cv.compare_exchange_weak(
-             old_v, new_v, std::memory_order_release, std::memory_order_acquire));
+         } while (!cv.compare_exchange_weak(old_v, new_v, std::memory_order_release,
+             std::memory_order_acquire));
       }
       return static_cast<double>(new_v) / static_cast<double>(high_limit);
    }
@@ -57,8 +57,8 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber, const
    }
 }
 
-double ChannelModel::ControllerToPlugin(
-    const rsj::MessageType controltype, const int controlnumber, const int value, const bool wrap)
+double ChannelModel::ControllerToPlugin(const rsj::MessageType controltype, const int controlnumber,
+    const int value, const bool wrap)
 {
    try {
       Expects(controltype == rsj::MessageType::kCc
@@ -93,19 +93,19 @@ double ChannelModel::ControllerToPlugin(
             return OffsetResult(value - kBit7, controlnumber, wrap);
          case rsj::CCmethod::kSignMagnitude:
             if (IsNrpn(controlnumber)) {
-               return OffsetResult(
-                   value & kBit14 ? -(value & kLow13Bits) : value, controlnumber, wrap);
+               return OffsetResult(value & kBit14 ? -(value & kLow13Bits) : value, controlnumber,
+                   wrap);
             }
             return OffsetResult(value & kBit7 ? -(value & kLow6Bits) : value, controlnumber, wrap);
          case rsj::CCmethod::kTwosComplement:
             /* SEE:https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
              * flip twos comp and subtract--independent of processor architecture */
             if (IsNrpn(controlnumber)) {
-               return OffsetResult(
-                   value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value, controlnumber, wrap);
+               return OffsetResult(value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value,
+                   controlnumber, wrap);
             }
-            return OffsetResult(
-                value & kBit7 ? -((value ^ kMaxMidi) + 1) : value, controlnumber, wrap);
+            return OffsetResult(value & kBit7 ? -((value ^ kMaxMidi) + 1) : value, controlnumber,
+                wrap);
          }
       case rsj::MessageType::kNoteOn:
          return static_cast<double>(value)
@@ -121,10 +121,10 @@ double ChannelModel::ControllerToPlugin(
                         "controlnumber {}, value {}, wrap {}."),
              controltype, controlnumber, value, wrap));
       }
-      throw std::domain_error(
-          fmt::format(FMT_STRING("Undefined control type in ChannelModel::PluginToController. "
-                                 "Control type {}."),
-              controltype));
+      throw std::domain_error(fmt::format(FMT_STRING("Undefined control type in "
+                                                     "ChannelModel::PluginToController. "
+                                                     "Control type {}."),
+          controltype));
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -169,8 +169,8 @@ int ChannelModel::SetToCenter(const rsj::MessageType controltype, const int cont
    }
 }
 
-int ChannelModel::MeasureChange(
-    const rsj::MessageType controltype, const int controlnumber, const int value)
+int ChannelModel::MeasureChange(const rsj::MessageType controltype, const int controlnumber,
+    const int value)
 {
    try {
       Expects(controltype == rsj::MessageType::kCc
@@ -222,10 +222,10 @@ int ChannelModel::MeasureChange(
                                     "Controltype {}, controlnumber {}, value {}."),
                  controltype, controlnumber, value));
       }
-      throw std::domain_error(
-          fmt::format(FMT_STRING("Undefined control type in ChannelModel::PluginToController. "
-                                 "Control type {}."),
-              controltype));
+      throw std::domain_error(fmt::format(FMT_STRING("Undefined control type in "
+                                                     "ChannelModel::PluginToController. "
+                                                     "Control type {}."),
+          controltype));
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -235,8 +235,9 @@ int ChannelModel::MeasureChange(
 
 #pragma warning(push)
 #pragma warning(disable : 26451) /* see TODO below */
-int ChannelModel::PluginToController(
-    const rsj::MessageType controltype, const int controlnumber, const double value)
+
+int ChannelModel::PluginToController(const rsj::MessageType controltype, const int controlnumber,
+    const double value)
 {
    try {
       /* value effectively clamped to 0-1 by clamp calls below */
@@ -244,11 +245,11 @@ int ChannelModel::PluginToController(
       case rsj::MessageType::kPw:
          {
             /* TODO(C26451): int subtraction: can it overflow? */
-            const auto newv {std::clamp(
-                gsl::narrow<int>(
-                    std::lrint(value * static_cast<double>(pitch_wheel_max_ - pitch_wheel_min_)))
-                    + pitch_wheel_min_,
-                pitch_wheel_min_, pitch_wheel_max_)};
+            const auto newv {
+                std::clamp(gsl::narrow<int>(std::lrint(
+                               value * static_cast<double>(pitch_wheel_max_ - pitch_wheel_min_)))
+                               + pitch_wheel_min_,
+                    pitch_wheel_min_, pitch_wheel_max_)};
             pitch_wheel_current_.store(newv, std::memory_order_release);
             return newv;
          }
@@ -280,25 +281,26 @@ int ChannelModel::PluginToController(
       case rsj::MessageType::kNoteOff:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::invalid_argument(
-             fmt::format(FMT_STRING("Unexpected control type in ChannelModel::PluginToController. "
-                                    "Control type {}."),
-                 controltype));
+         throw std::invalid_argument(fmt::format(FMT_STRING("Unexpected control type in "
+                                                            "ChannelModel::PluginToController. "
+                                                            "Control type {}."),
+             controltype));
       }
-      throw std::domain_error(
-          fmt::format(FMT_STRING("Undefined control type in ChannelModel::PluginToController. "
-                                 "Control type {}."),
-              controltype));
+      throw std::domain_error(fmt::format(FMT_STRING("Undefined control type in "
+                                                     "ChannelModel::PluginToController. "
+                                                     "Control type {}."),
+          controltype));
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
       throw;
    }
 }
+
 #pragma warning(pop)
 
-void ChannelModel::SetCc(
-    const int controlnumber, const int min, const int max, const rsj::CCmethod controltype)
+void ChannelModel::SetCc(const int controlnumber, const int min, const int max,
+    const rsj::CCmethod controltype)
 {
    try {
       /* CcMethod has to be set before others or ranges won't be correct */
@@ -312,8 +314,8 @@ void ChannelModel::SetCc(
    }
 }
 
-void ChannelModel::SetCcAll(
-    const int controlnumber, const int min, const int max, const rsj::CCmethod controltype)
+void ChannelModel::SetCcAll(const int controlnumber, const int min, const int max,
+    const rsj::CCmethod controltype)
 {
    try {
       if (IsNrpn(controlnumber))
@@ -449,6 +451,7 @@ void ChannelModel::SavedToActive()
 
 #pragma warning(push)
 #pragma warning(disable : 26455)
+
 ChannelModel::ChannelModel()
 {
    try {
@@ -459,4 +462,5 @@ ChannelModel::ChannelModel()
       throw;
    }
 }
+
 #pragma warning(pop)

@@ -34,17 +34,26 @@ class CommandSet {
  public:
    CommandSet();
    [[nodiscard]] size_t CommandTextIndex(const std::string& command) const;
+
    [[nodiscard]] const auto& CommandAbbrevAt(size_t index) const
    {
       return cmd_by_number_.at(index);
    }
+
    [[nodiscard]] auto CommandAbbrevSize() const noexcept { return cmd_by_number_.size(); }
+
    [[nodiscard]] auto CommandLabelAt(size_t index) const { return cmd_label_by_number_.at(index); }
+
    [[nodiscard]] const auto& GetLanguage() const noexcept { return m_impl_.language_; }
+
    [[nodiscard]] const auto& GetMenus() const noexcept { return menus_; }
+
    [[nodiscard]] const auto& GetMenuEntries() const noexcept { return menu_entries_; }
+
    [[nodiscard]] const auto& GetRepeats() const noexcept { return m_impl_.repeat_messages_; }
+
    [[nodiscard]] const auto& GetWraps() const noexcept { return m_impl_.wraps_; }
+
    [[nodiscard]] static const auto& UnassignedTranslated()
    {
       static const auto unassigned {juce::translate("Unassigned").toStdString()};
@@ -62,6 +71,7 @@ class CommandSet {
       Impl(Impl&& other) = delete;
       Impl& operator=(const Impl& other) = delete;
       Impl& operator=(Impl&& other) = delete;
+
       template<class Archive> void serialize(Archive& archive, std::uint32_t const version)
       {
          try {
@@ -84,6 +94,7 @@ class CommandSet {
             throw;
          }
       }
+
       std::string language_;
       std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::string>>>>
           allcommands_;
@@ -102,6 +113,7 @@ class CommandSet {
    std::vector<std::string> cmd_label_by_number_ {};
    std::vector<std::vector<MenuStringT>> menu_entries_ {}; /* use for commandmenu */
 };
+
 #pragma warning(push)
 #pragma warning(disable : 26426 26440 26444)
 CEREAL_CLASS_VERSION(CommandSet::Impl, 2)

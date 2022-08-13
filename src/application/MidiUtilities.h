@@ -29,9 +29,10 @@
 #include <fmt/format.h>
 
 #include "Concurrency.h"
+
 namespace juce {
    class MidiMessage;
-}
+} // namespace juce
 
 #ifdef __cpp_lib_three_way_comparison
 #include <compare>
@@ -56,16 +57,16 @@ namespace rsj {
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
       const auto from {value >> 4U & 0xFU};
-      return std::cmp_greater_equal(
-          from, static_cast<std::underlying_type_t<MessageType>>(MessageType::kNoteOff));
+      return std::cmp_greater_equal(from,
+          static_cast<std::underlying_type_t<MessageType>>(MessageType::kNoteOff));
    }
 
    constexpr MessageType ToMessageType(std::underlying_type_t<MessageType> value)
    {
       static_assert(std::is_unsigned_v<decltype(value)>, "Avoid sign extension");
       const auto from {value >> 4U & 0xFU};
-      if (std::cmp_less(
-              from, static_cast<std::underlying_type_t<MessageType>>(MessageType::kNoteOff))) {
+      if (std::cmp_less(from,
+              static_cast<std::underlying_type_t<MessageType>>(MessageType::kNoteOff))) {
          throw std::out_of_range("ToMessageType: MessageType range error, must be 0x8 to 0xF");
       }
       return static_cast<MessageType>(from);
@@ -194,9 +195,9 @@ template<> struct std::hash<rsj::MidiMessageId> {
    size_t operator()(rsj::MidiMessageId k) const noexcept
    {
       /* channel is one byte, messagetype is one byte, controller (data) is two bytes */
-      return hash<int_fast32_t>()(
-          static_cast<int_fast32_t>(k.channel) | static_cast<int_fast32_t>(k.msg_id_type) << 8
-          | static_cast<int_fast32_t>(k.control_number) << 16);
+      return hash<int_fast32_t>()(static_cast<int_fast32_t>(k.channel)
+                                  | static_cast<int_fast32_t>(k.msg_id_type) << 8
+                                  | static_cast<int_fast32_t>(k.control_number) << 16);
    }
 };
 
@@ -207,6 +208,7 @@ class NrpnFilter {
    /* This  assumes that all NRPN messages have 4 messages, though the NRPN standard allows omission
     * of the 4th message. If the 4th message is dropped, this class silently consumes the message
     * without emitting anything. */
+
  public:
    struct ProcessResult {
       bool is_nrpn {};
@@ -214,6 +216,7 @@ class NrpnFilter {
       int control {};
       int value {};
    };
+
    ProcessResult operator()(rsj::MidiMessage message);
 
  private:
@@ -223,6 +226,7 @@ class NrpnFilter {
       // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
       intermediate_results_[channel] = {0, 0, 0, 0, 0};
    }
+
    struct InternalStructure {
       int control_lsb_ {0};
       int control_msb_ {0};
@@ -230,6 +234,7 @@ class NrpnFilter {
       int value_lsb_ {0};
       int value_msb_ {0};
    };
+
    static constexpr int kChannels {16};
    std::array<InternalStructure, kChannels> intermediate_results_ {};
 };

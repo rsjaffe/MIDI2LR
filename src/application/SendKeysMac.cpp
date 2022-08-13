@@ -194,8 +194,8 @@ namespace {
          /* add 20 in case more processes show up */
          const auto number_processes {proc_listpids(PROC_ALL_PIDS, 0, nullptr, 0) + 20};
          std::vector<pid_t> pids(number_processes, 0);
-         proc_listpids(
-             PROC_ALL_PIDS, 0, pids.data(), gsl::narrow_cast<int>(sizeof(pids[0]) * pids.size()));
+         proc_listpids(PROC_ALL_PIDS, 0, pids.data(),
+             gsl::narrow_cast<int>(sizeof(pids[0]) * pids.size()));
          std::array<char, PROC_PIDPATHINFO_MAXSIZE> path_buffer {};
          for (const auto pid : pids) {
             if (pid == 0) { continue; }
@@ -427,9 +427,9 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
       }
    }
    catch (const std::exception& e) {
-      rsj::LogAndAlertError(fmt::format(
-          FMT_STRING("Exception in key sending function for key: \"{}\". Exception: {}."), key,
-          e.what()));
+      rsj::LogAndAlertError(fmt::format(FMT_STRING("Exception in key sending function for key: "
+                                                   "\"{}\". Exception: {}."),
+          key, e.what()));
    }
    catch (...) {
       rsj::LogAndAlertError(fmt::format(

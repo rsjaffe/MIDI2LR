@@ -37,9 +37,10 @@ namespace rsj {
       int low {};
       int high {};
       rsj::CCmethod method {};
+
       // ReSharper disable once CppNonExplicitConvertingConstructor
-      SettingsStruct(
-          int n = 0, int l = 0, int h = 0x7F, rsj::CCmethod m = rsj::CCmethod::kAbsolute) noexcept
+      SettingsStruct(int n = 0, int l = 0, int h = 0x7F,
+          rsj::CCmethod m = rsj::CCmethod::kAbsolute) noexcept
           : control_number {n}, low {l}, high {h}, method {m}
       {
       }
@@ -47,7 +48,7 @@ namespace rsj {
       template<class Archive,
           cereal::traits::DisableIf<cereal::traits::is_text_archive<Archive>::value> =
               cereal::traits::sfinae>
-      void serialize(Archive& archive, uint32_t const version)
+      void serialize(Archive& archive, const uint32_t version)
       {
          switch (version) {
          case 1:
@@ -68,7 +69,7 @@ namespace rsj {
       template<class Archive,
           cereal::traits::EnableIf<cereal::traits::is_text_archive<Archive>::value> =
               cereal::traits::sfinae>
-      void serialize(Archive& archive, uint32_t const version)
+      void serialize(Archive& archive, const uint32_t version)
       {
          try {
             switch (version) {
@@ -144,52 +145,64 @@ class ChannelModel {
    double ControllerToPlugin(rsj::MessageType controltype, int controlnumber, int value, bool wrap);
    int MeasureChange(rsj::MessageType controltype, int controlnumber, int value);
    int SetToCenter(rsj::MessageType controltype, int controlnumber);
+
    [[nodiscard]] rsj::CCmethod GetCcMethod(int controlnumber) const
    {
       return cc_method_.at(controlnumber);
    }
+
    [[nodiscard]] int GetCcMax(int controlnumber) const { return cc_high_.at(controlnumber); }
+
    [[nodiscard]] int GetCcMin(int controlnumber) const { return cc_low_.at(controlnumber); }
+
    [[nodiscard]] int GetPwMax() const noexcept { return pitch_wheel_max_; }
+
    [[nodiscard]] int GetPwMin() const noexcept { return pitch_wheel_min_; }
+
    int PluginToController(rsj::MessageType controltype, int controlnumber, double value);
    void SetCc(int controlnumber, int min, int max, rsj::CCmethod controltype);
    void SetCcAll(int controlnumber, int min, int max, rsj::CCmethod controltype);
    void SetCcMax(int controlnumber, int value);
+
    void SetCcMethod(int controlnumber, rsj::CCmethod value)
    {
       cc_method_.at(controlnumber) = value;
    }
+
    void SetCcMin(int controlnumber, int value);
    void SetPwMax(int value) noexcept;
    void SetPwMin(int value) noexcept;
 
  private:
    friend class cereal::access;
+
    [[nodiscard]] int CenterCc(int controlnumber) const noexcept
    {
       return (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) / 2
              + cc_low_.at(controlnumber)
              + (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) % 2;
    }
+
    [[nodiscard]] int CenterPw() const noexcept
    {
       return (pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_
              + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
    }
+
    // ReSharper disable once CppMemberFunctionMayBeStatic
    [[nodiscard]] bool IsNrpn(int controlnumber) const
    {
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       return controlnumber > kMaxMidi;
    }
+
    double OffsetResult(int diff, int controlnumber, bool wrap);
    void ActiveToSaved() const;
    void CcDefaults();
    void SavedToActive();
    // ReSharper disable CppConstParameterInDeclaration
-   template<class Archive> void load(Archive& archive, uint32_t const version);
-   template<class Archive> void save(Archive& archive, uint32_t const version) const;
+   template<class Archive> void load(Archive& archive, const uint32_t version);
+   template<class Archive> void save(Archive& archive, const uint32_t version) const;
    // ReSharper restore CppConstParameterInDeclaration
 
    mutable std::vector<rsj::SettingsStruct> settings_to_save_ {};
@@ -269,6 +282,7 @@ class ControlsModel {
    {
       all_controls_.at(channel).SetCc(controlnumber, min, max, controltype);
    }
+
    void SetCcAll(int channel, int controlnumber, int min, int max, rsj::CCmethod controltype)
    {
       all_controls_.at(channel).SetCcAll(controlnumber, min, max, controltype);
@@ -295,7 +309,8 @@ class ControlsModel {
 
  private:
    friend class cereal::access;
-   template<class Archive> void serialize(Archive& archive, uint32_t const version)
+
+   template<class Archive> void serialize(Archive& archive, const uint32_t version)
    {
       try {
          if (version == 1) archive(all_controls_);
@@ -305,10 +320,11 @@ class ControlsModel {
          throw;
       }
    }
+
    std::array<ChannelModel, 16> all_controls_;
 };
 
-template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const version)
+template<class Archive> void ChannelModel::load(Archive& archive, const uint32_t version)
 {
    try {
       switch (version) {
@@ -341,7 +357,7 @@ template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const
    }
 }
 
-template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const version) const
+template<class Archive> void ChannelModel::save(Archive& archive, const uint32_t version) const
 {
    try {
       switch (version) {
@@ -373,6 +389,7 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
       throw;
    }
 }
+
 #pragma warning(push)
 #pragma warning(disable : 26426 26440 26444)
 CEREAL_CLASS_VERSION(ChannelModel, 3)

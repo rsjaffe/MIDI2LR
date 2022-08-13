@@ -36,6 +36,7 @@
 class Profile {
  public:
    explicit Profile(const CommandSet& command_set) noexcept : command_set_ {command_set} {}
+
    [[nodiscard]] bool CommandHasAssociatedMessage(const std::string& command) const;
    void FromXml(const juce::XmlElement* root);
    [[nodiscard]] const std::string& GetCommandForMessage(rsj::MidiMessageId message) const;
@@ -99,8 +100,9 @@ inline int Profile::GetRowForMessage(rsj::MidiMessageId message) const
 {
    auto guard {std::shared_lock {mutex_}};
    return gsl::narrow_cast<int>(std::find_if(mm_abbrv_table_.begin(), mm_abbrv_table_.end(),
-                                    [message](auto& p) { return p.first == message; })
-                                - mm_abbrv_table_.begin());
+                                    [message](auto& p) {
+      return p.first == message;
+   }) - mm_abbrv_table_.begin());
 }
 
 inline void Profile::InsertOrAssign(const std::string& command, rsj::MidiMessageId message)

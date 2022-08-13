@@ -165,8 +165,8 @@ void Profile::RemoveUnassignedMessages()
 {
    try {
       auto guard {std::unique_lock {mutex_}};
-      if (std::erase_if(
-              mm_abbrv_table_, [](const auto& p) { return p.second == CommandSet::kUnassigned; })) {
+      if (std::erase_if(mm_abbrv_table_,
+              [](const auto& p) { return p.second == CommandSet::kUnassigned; })) {
          profile_unsaved_ = true;
       }
    }

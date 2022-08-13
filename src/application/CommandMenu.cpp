@@ -24,11 +24,13 @@
 #include "PWoptions.h"
 #include "Profile.h"
 
-CommandMenu::CommandMenu(
-    rsj::MidiMessageId message, const CommandSet& command_set, Profile& profile)
+CommandMenu::CommandMenu(rsj::MidiMessageId message, const CommandSet& command_set,
+    Profile& profile)
+
 try : TextButtonAligned{CommandSet::UnassignedTranslated()}, command_set_(command_set),
     profile_(profile), message_{message} {
 }
+
 catch (const std::exception& e) {
    MIDI2LR_E_RESPONSE;
    throw;
