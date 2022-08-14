@@ -129,13 +129,13 @@
         <CONFIGURATION isDebug="0" name="Release" useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_gui_basics"/>
-        <MODULEPATH id="juce_graphics"/>
-        <MODULEPATH id="juce_events"/>
-        <MODULEPATH id="juce_data_structures"/>
-        <MODULEPATH id="juce_core"/>
-        <MODULEPATH id="juce_audio_devices"/>
-        <MODULEPATH id="juce_audio_basics"/>
+        <MODULEPATH id="juce_gui_basics" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_graphics" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_events" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_data_structures" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_core" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_audio_devices" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_audio_basics" path="external\JuceLibraryCode\modules"/>
       </MODULEPATHS>
     </VS2022>
   </EXPORTFORMATS>
@@ -148,13 +148,11 @@
     <MODULE id="juce_graphics" showAllCode="0" useLocalCopy="1"/>
     <MODULES id="juce_gui_basics" showAllCode="0" useLocalCopy="1"/>
   </MODULES>
-  <JUCEOPTIONS JUCE_USE_OGGVORBIS="disabled" JUCE_USE_ANDROID_OPENSLES="0" JUCE_USE_CDREADER="disabled"
-               JUCE_USE_CDBURNER="disabled" JUCE_WASAPI="0" JUCE_WASAPI_EXCLUSIVE="0"
-               JUCE_DIRECTSOUND="0" JUCE_ALSA="0" JUCE_USE_WINRT_MIDI="0" JUCE_ASIO="0"
-               JUCE_JACK="0" JUCE_BELA="0" JUCE_USE_ANDROID_OBOE="0" JUCE_DISABLE_AUDIO_MIXING_WITH_OTHER_APPS="0"
-               JUCE_FORCE_DEBUG="0" JUCE_LOG_ASSERTIONS="0" JUCE_CATCH_UNHANDLED_EXCEPTIONS="1"
-               JUCE_ALLOW_STATIC_NULL_VARIABLES="0" JUCE_STRICT_REFCOUNTEDPOINTER="1"
-               JUCE_EXECUTE_APP_SUSPEND_ON_IOS_BACKGROUND_TASK="0"/>
+  <JUCEOPTIONS JUCE_USE_OGGVORBIS="disabled" JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled"
+               JUCE_WASAPI_EXCLUSIVE="0" JUCE_DIRECTSOUND="0" JUCE_ALSA="0"
+               JUCE_USE_ANDROID_OBOE="0" JUCE_CATCH_UNHANDLED_EXCEPTIONS="1"
+               JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_EXECUTE_APP_SUSPEND_ON_IOS_BACKGROUND_TASK="0"
+               JUCE_WASAPI="0"/>
   <LIVE_SETTINGS>
     <WINDOWS enableCxx11="1"/>
   </LIVE_SETTINGS>
