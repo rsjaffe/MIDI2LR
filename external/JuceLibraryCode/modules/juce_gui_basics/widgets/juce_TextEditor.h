@@ -37,8 +37,8 @@ namespace juce
 
     @tags{GUI}
 */
-class JUCE_API  TextEditor  : public Component,
-                              public TextInputTarget,
+class JUCE_API  TextEditor  : public TextInputTarget,
+                              public Component,
                               public SettableTooltipClient
 {
 public:
@@ -742,7 +742,9 @@ public:
     /** @internal */
     void setTemporaryUnderlining (const Array<Range<int>>&) override;
     /** @internal */
-    VirtualKeyboardType getKeyboardType() override    { return keyboardType; }
+    VirtualKeyboardType getKeyboardType() override;
+    /** @internal */
+    std::unique_ptr<AccessibilityHandler> createAccessibilityHandler() override;
 
 protected:
     //==============================================================================
@@ -771,10 +773,26 @@ private:
     struct RemoveAction;
     class EditorAccessibilityHandler;
 
+    class GlobalMouseListener : private MouseListener
+    {
+    public:
+        explicit GlobalMouseListener (Component& e) : editor (e) { Desktop::getInstance().addGlobalMouseListener    (this); }
+        ~GlobalMouseListener() override                          { Desktop::getInstance().removeGlobalMouseListener (this); }
+
+        bool lastMouseDownInEditor() const { return mouseDownInEditor; }
+
+    private:
+        void mouseDown (const MouseEvent& event) override { mouseDownInEditor = event.originalComponent == &editor; }
+
+        Component& editor;
+        bool mouseDownInEditor = false;
+    };
+
     std::unique_ptr<Viewport> viewport;
     TextHolderComponent* textHolder;
     BorderSize<int> borderSize { 1, 1, 1, 3 };
     Justification justification { Justification::topLeft };
+    const GlobalMouseListener globalMouseListener { *this };
 
     bool readOnly = false;
     bool caretVisible = true;
@@ -791,7 +809,6 @@ private:
     bool valueTextNeedsUpdating = false;
     bool consumeEscAndReturnKeys = true;
     bool underlineWhitespace = true;
-    bool mouseDownInEditor = false;
     bool clicksOutsideDismissVirtualKeyboard = false;
 
     UndoManager undoManager;
@@ -823,7 +840,6 @@ private:
     ListenerList<Listener> listeners;
     Array<Range<int>> underlinedSections;
 
-    std::unique_ptr<AccessibilityHandler> createAccessibilityHandler() override;
     void moveCaret (int newCaretPos);
     void moveCaretTo (int newPosition, bool isSelecting);
     void recreateCaret();

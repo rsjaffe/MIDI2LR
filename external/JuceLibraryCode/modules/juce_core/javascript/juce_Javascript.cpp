@@ -520,7 +520,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
     {
         EqualsOp (const CodeLocation& l, ExpPtr& a, ExpPtr& b) noexcept : BinaryOperator (l, a, b, TokenTypes::equals) {}
         var getWithUndefinedArg() const override                               { return true; }
-        var getWithDoubles (double a, double b) const override                 { return a == b; }
+        var getWithDoubles (double a, double b) const override                 { return exactlyEqual (a, b); }
         var getWithInts (int64 a, int64 b) const override                      { return a == b; }
         var getWithStrings (const String& a, const String& b) const override   { return a == b; }
         var getWithArrayOrObject (const var& a, const var& b) const override   { return a == b; }
@@ -530,7 +530,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
     {
         NotEqualsOp (const CodeLocation& l, ExpPtr& a, ExpPtr& b) noexcept : BinaryOperator (l, a, b, TokenTypes::notEquals) {}
         var getWithUndefinedArg() const override                               { return false; }
-        var getWithDoubles (double a, double b) const override                 { return a != b; }
+        var getWithDoubles (double a, double b) const override                 { return ! exactlyEqual (a, b); }
         var getWithInts (int64 a, int64 b) const override                      { return a != b; }
         var getWithStrings (const String& a, const String& b) const override   { return a != b; }
         var getWithArrayOrObject (const var& a, const var& b) const override   { return a != b; }
@@ -593,14 +593,14 @@ struct JavascriptEngine::RootObject   : public DynamicObject
     struct DivideOp  : public BinaryOperator
     {
         DivideOp (const CodeLocation& l, ExpPtr& a, ExpPtr& b) noexcept : BinaryOperator (l, a, b, TokenTypes::divide) {}
-        var getWithDoubles (double a, double b) const override  { return b != 0 ? a / b : std::numeric_limits<double>::infinity(); }
+        var getWithDoubles (double a, double b) const override  { return exactlyEqual (b, 0.0) ? std::numeric_limits<double>::infinity() : a / b; }
         var getWithInts (int64 a, int64 b) const override       { return b != 0 ? var ((double) a / (double) b) : var (std::numeric_limits<double>::infinity()); }
     };
 
     struct ModuloOp  : public BinaryOperator
     {
         ModuloOp (const CodeLocation& l, ExpPtr& a, ExpPtr& b) noexcept : BinaryOperator (l, a, b, TokenTypes::modulo) {}
-        var getWithDoubles (double a, double b) const override  { return b != 0 ? fmod (a, b) : std::numeric_limits<double>::infinity(); }
+        var getWithDoubles (double a, double b) const override  { return exactlyEqual (b, 0.0) ? std::numeric_limits<double>::infinity() : fmod (a, b); }
         var getWithInts (int64 a, int64 b) const override       { return b != 0 ? var (a % b) : var (std::numeric_limits<double>::infinity()); }
     };
 
@@ -1278,7 +1278,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
         Expression* parseFunctionCall (FunctionCall* call, ExpPtr& function)
         {
             std::unique_ptr<FunctionCall> s (call);
-            s->object.reset (function.release());
+            s->object = std::move (function);
             match (TokenTypes::openParen);
 
             while (currentType != TokenTypes::closeParen)
@@ -1304,7 +1304,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
             if (matchIf (TokenTypes::openBracket))
             {
                 std::unique_ptr<ArraySubscript> s (new ArraySubscript (location));
-                s->object.reset (input.release());
+                s->object = std::move (input);
                 s->index.reset (parseExpression());
                 match (TokenTypes::closeBracket);
                 return parseSuffixes (s.release());
@@ -1513,7 +1513,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
         Expression* parseTernaryOperator (ExpPtr& condition)
         {
             std::unique_ptr<ConditionalOp> e (new ConditionalOp (location));
-            e->condition.reset (condition.release());
+            e->condition = std::move (condition);
             e->trueBranch.reset (parseExpression());
             match (TokenTypes::colon);
             e->falseBranch.reset (parseExpression());
@@ -1539,9 +1539,9 @@ struct JavascriptEngine::RootObject   : public DynamicObject
             setMethod ("clone", cloneFn);
         }
 
-        static Identifier getClassName()   { static const Identifier i ("Object"); return i; }
-        static var dump  (Args a)          { DBG (JSON::toString (a.thisObject)); ignoreUnused (a); return var::undefined(); }
-        static var cloneFn (Args a)        { return a.thisObject.clone(); }
+        static Identifier getClassName()            { static const Identifier i ("Object"); return i; }
+        static var dump  ([[maybe_unused]] Args a)  { DBG (JSON::toString (a.thisObject)); return var::undefined(); }
+        static var cloneFn (Args a)                 { return a.thisObject.clone(); }
     };
 
     //==============================================================================
@@ -1711,6 +1711,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
             setMethod ("exp",       Math_exp);              setMethod ("pow",       Math_pow);
             setMethod ("sqr",       Math_sqr);              setMethod ("sqrt",      Math_sqrt);
             setMethod ("ceil",      Math_ceil);             setMethod ("floor",     Math_floor);
+            setMethod ("hypot",     Math_hypot);
 
             setProperty ("PI",      MathConstants<double>::pi);
             setProperty ("E",       MathConstants<double>::euler);
@@ -1749,6 +1750,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
         static var Math_sqrt      (Args a) { return std::sqrt  (getDouble (a, 0)); }
         static var Math_ceil      (Args a) { return std::ceil  (getDouble (a, 0)); }
         static var Math_floor     (Args a) { return std::floor (getDouble (a, 0)); }
+        static var Math_hypot     (Args a) { return std::hypot (getDouble (a, 0), getDouble (a, 1)); }
 
         // We can't use the std namespace equivalents of these functions without breaking
         // compatibility with older versions of OS X.

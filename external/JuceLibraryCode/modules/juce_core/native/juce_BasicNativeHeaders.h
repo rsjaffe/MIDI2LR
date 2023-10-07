@@ -113,18 +113,7 @@
  #include <iphlpapi.h>
  #include <accctrl.h>
  #include <aclapi.h>
-
- #if ! JUCE_CXX17_IS_AVAILABLE
-  #pragma push_macro ("WIN_NOEXCEPT")
-  #define WIN_NOEXCEPT
- #endif
-
  #include <mapi.h>
-
- #if ! JUCE_CXX17_IS_AVAILABLE
-  #pragma pop_macro ("WIN_NOEXCEPT")
- #endif
-
  #include <float.h>
  #include <process.h>
  #include <shlobj.h>
@@ -214,11 +203,14 @@
  #include <sys/ptrace.h>
  #include <sys/socket.h>
  #include <sys/stat.h>
+ #include <sys/syscall.h>
  #include <sys/sysinfo.h>
  #include <sys/time.h>
  #include <sys/types.h>
  #include <sys/vfs.h>
  #include <sys/wait.h>
+ #include <sys/timerfd.h>
+ #include <sys/eventfd.h>
  #include <utime.h>
  #include <poll.h>
 
@@ -275,11 +267,13 @@
  #include <dirent.h>
  #include <fnmatch.h>
  #include <sys/wait.h>
+ #include <sys/timerfd.h>
+ #include <sys/eventfd.h>
  #include <android/api-level.h>
  #include <poll.h>
 
- // If you are getting include errors here, then you to re-build the Projucer
- // and re-save your .jucer file.
+ // If you are getting include errors here, then you need to re-build
+ // the Projucer and re-save your .jucer file.
  #include <cpu-features.h>
 #endif
 

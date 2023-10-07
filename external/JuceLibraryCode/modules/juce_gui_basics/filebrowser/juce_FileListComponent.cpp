@@ -26,17 +26,13 @@
 namespace juce
 {
 
-Image juce_createIconForFile (const File& file);
-
-
 //==============================================================================
 FileListComponent::FileListComponent (DirectoryContentsList& listToShow)
-    : ListBox ({}, nullptr),
+    : ListBox ({}, this),
       DirectoryContentsDisplayComponent (listToShow),
       lastDirectory (listToShow.getDirectory())
 {
     setTitle ("Files");
-    setModel (this);
     directoryContentsList.addChangeListener (this);
 }
 
@@ -67,14 +63,18 @@ void FileListComponent::scrollToTop()
 
 void FileListComponent::setSelectedFile (const File& f)
 {
-    for (int i = directoryContentsList.getNumFiles(); --i >= 0;)
+    if (! directoryContentsList.isStillLoading())
     {
-        if (directoryContentsList.getFile (i) == f)
+        for (int i = directoryContentsList.getNumFiles(); --i >= 0;)
         {
-            fileWaitingToBeSelected = File();
+            if (directoryContentsList.getFile (i) == f)
+            {
+                fileWaitingToBeSelected = File();
 
-            selectRow (i);
-            return;
+                updateContent();
+                selectRow (i);
+                return;
+            }
         }
     }
 
@@ -100,6 +100,7 @@ void FileListComponent::changeListenerCallback (ChangeBroadcaster*)
 
 //==============================================================================
 class FileListComponent::ItemComponent  : public Component,
+                                          public TooltipClient,
                                           private TimeSliceClient,
                                           private AsyncUpdater
 {
@@ -190,6 +191,11 @@ public:
         repaint();
     }
 
+    String getTooltip() override
+    {
+        return owner.getTooltipForRow (index);
+    }
+
 private:
     //==============================================================================
     FileListComponent& owner;
@@ -214,7 +220,7 @@ private:
 
             if (im.isNull() && ! onlyUpdateIfCached)
             {
-                im = juce_createIconForFile (file);
+                im = detail::WindowingHelpers::createIconForFile (file);
 
                 if (im.isValid())
                     ImageCache::addImageToCache (im, hashCode);

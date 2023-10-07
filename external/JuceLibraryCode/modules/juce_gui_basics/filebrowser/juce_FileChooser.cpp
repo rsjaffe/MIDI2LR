@@ -165,7 +165,7 @@ bool FileChooser::browseForDirectory()
 
 bool FileChooser::showDialog (const int flags, FilePreviewComponent* const previewComp)
 {
-    FocusRestorer focusRestorer;
+    detail::FocusRestorer focusRestorer;
 
     pimpl = createPimpl (flags, previewComp);
     pimpl->runModally();
@@ -269,6 +269,13 @@ void FileChooser::finished (const Array<URL>& asyncResults)
      if (callback)
          callback (*this);
 }
+
+#if ! JUCE_ANDROID
+void FileChooser::registerCustomMimeTypeForFileExtension ([[maybe_unused]] const String& mimeType,
+                                                          [[maybe_unused]] const String& fileExtension)
+{
+}
+#endif
 
 //==============================================================================
 FilePreviewComponent::FilePreviewComponent() {}

@@ -54,8 +54,16 @@ RelativeTime RelativeTime::operator-= (double secs) noexcept        { numSeconds
 JUCE_API RelativeTime JUCE_CALLTYPE operator+ (RelativeTime t1, RelativeTime t2) noexcept  { return t1 += t2; }
 JUCE_API RelativeTime JUCE_CALLTYPE operator- (RelativeTime t1, RelativeTime t2) noexcept  { return t1 -= t2; }
 
-JUCE_API bool JUCE_CALLTYPE operator== (RelativeTime t1, RelativeTime t2) noexcept       { return t1.inSeconds() == t2.inSeconds(); }
-JUCE_API bool JUCE_CALLTYPE operator!= (RelativeTime t1, RelativeTime t2) noexcept       { return t1.inSeconds() != t2.inSeconds(); }
+JUCE_API bool JUCE_CALLTYPE operator== (RelativeTime t1, RelativeTime t2) noexcept
+{
+    return exactlyEqual (t1.inSeconds(), t2.inSeconds());
+}
+
+JUCE_API bool JUCE_CALLTYPE operator!= (RelativeTime t1, RelativeTime t2) noexcept
+{
+    return ! (t1 == t2);
+}
+
 JUCE_API bool JUCE_CALLTYPE operator>  (RelativeTime t1, RelativeTime t2) noexcept       { return t1.inSeconds() >  t2.inSeconds(); }
 JUCE_API bool JUCE_CALLTYPE operator<  (RelativeTime t1, RelativeTime t2) noexcept       { return t1.inSeconds() <  t2.inSeconds(); }
 JUCE_API bool JUCE_CALLTYPE operator>= (RelativeTime t1, RelativeTime t2) noexcept       { return t1.inSeconds() >= t2.inSeconds(); }
@@ -86,7 +94,7 @@ String RelativeTime::getApproximateDescription() const
     if (weeks > 8)    return describeMonths ((weeks * 12) / 52);
     if (weeks > 1)    return describeWeeks (weeks);
 
-    auto days = (int) inWeeks();
+    auto days = (int) inDays();
 
     if (days > 1)
         return describeDays (days);

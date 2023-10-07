@@ -420,6 +420,8 @@ void LookAndFeel_V3::drawLinearSlider (Graphics& g, int x, int y, int width, int
             g.fillRect (fx, sliderPos, fw, 1.0f);
         else
             g.fillRect (sliderPos, fy, 1.0f, fh);
+
+        drawLinearSliderOutline (g, x, y, width, height, style, slider);
     }
     else
     {
@@ -464,10 +466,9 @@ void LookAndFeel_V3::drawLinearSliderBackground (Graphics& g, int x, int y, int 
     g.strokePath (indent, PathStrokeType (0.5f));
 }
 
-void LookAndFeel_V3::drawPopupMenuBackground (Graphics& g, int width, int height)
+void LookAndFeel_V3::drawPopupMenuBackground (Graphics& g, [[maybe_unused]] int width, [[maybe_unused]] int height)
 {
     g.fillAll (findColour (PopupMenu::backgroundColourId));
-    ignoreUnused (width, height);
 
    #if ! JUCE_MAC
     g.setColour (findColour (PopupMenu::textColourId).withAlpha (0.6f));

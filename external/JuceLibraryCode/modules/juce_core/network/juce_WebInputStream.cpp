@@ -61,11 +61,8 @@ StringPairArray WebInputStream::parseHttpHeaders (const String& headerData)
     StringPairArray headerPairs;
     auto headerLines = StringArray::fromLines (headerData);
 
-    // ignore the first line as this is the status line
-    for (int i = 1; i < headerLines.size(); ++i)
+    for (const auto& headersEntry : headerLines)
     {
-        const auto& headersEntry = headerLines[i];
-
         if (headersEntry.isNotEmpty())
         {
             const auto key = headersEntry.upToFirstOccurrenceOf (": ", false, false);
@@ -94,6 +91,13 @@ void WebInputStream::createHeadersAndPostData (const URL& aURL,
                                                bool addParametersToBody)
 {
     aURL.createHeadersAndPostData (headers, data, addParametersToBody);
+}
+
+bool WebInputStream::Listener::postDataSendProgress ([[maybe_unused]] WebInputStream& request,
+                                                     [[maybe_unused]] int bytesSent,
+                                                     [[maybe_unused]] int totalBytes)
+{
+    return true;
 }
 
 } // namespace juce

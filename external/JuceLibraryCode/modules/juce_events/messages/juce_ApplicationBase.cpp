@@ -184,7 +184,7 @@ StringArray JUCE_CALLTYPE JUCEApplicationBase::getCommandLineParameterArray()
 #endif
 
 #if (JUCE_LINUX || JUCE_BSD) && JUCE_MODULE_AVAILABLE_juce_gui_extra && (! defined(JUCE_WEB_BROWSER) || JUCE_WEB_BROWSER)
- extern int juce_gtkWebkitMain (int argc, const char* argv[]);
+ extern "C" int juce_gtkWebkitMain (int argc, const char* const* argv);
 #endif
 
 #if JUCE_WINDOWS
@@ -199,14 +199,12 @@ String JUCEApplicationBase::getCommandLineParameters()
 {
     String argString;
 
-    for (int i = 1; i < juce_argc; ++i)
+    for (const auto& arg : getCommandLineParameterArray())
     {
-        String arg { CharPointer_UTF8 (juce_argv[i]) };
-
-        if (arg.containsChar (' ') && ! arg.isQuotedString())
-            arg = arg.quoted ('"');
-
-        argString << arg << ' ';
+        const auto withQuotes = arg.containsChar (' ') && ! arg.isQuotedString()
+                              ? arg.quoted ('"')
+                              : arg;
+        argString << withQuotes << ' ';
     }
 
     return argString.trim();
@@ -214,7 +212,12 @@ String JUCEApplicationBase::getCommandLineParameters()
 
 StringArray JUCEApplicationBase::getCommandLineParameterArray()
 {
-    return StringArray (juce_argv + 1, juce_argc - 1);
+    StringArray result;
+
+    for (int i = 1; i < juce_argc; ++i)
+        result.add (CharPointer_UTF8 (juce_argv[i]));
+
+    return result;
 }
 
 int JUCEApplicationBase::main (int argc, const char* argv[])
@@ -228,7 +231,7 @@ int JUCEApplicationBase::main (int argc, const char* argv[])
         initialiseNSApplication();
        #endif
 
-       #if (JUCE_LINUX || JUCE_BSD) && JUCE_MODULE_AVAILABLE_juce_gui_extra && (! defined(JUCE_WEB_BROWSER) || JUCE_WEB_BROWSER)
+       #if (JUCE_LINUX || JUCE_BSD) && JUCE_MODULE_AVAILABLE_juce_gui_extra && (! defined (JUCE_WEB_BROWSER) || JUCE_WEB_BROWSER)
         if (argc >= 2 && String (argv[1]) == "--juce-gtkwebkitfork-child")
             return juce_gtkWebkitMain (argc, argv);
        #endif

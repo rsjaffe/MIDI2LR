@@ -16,6 +16,7 @@
 		1562130B71CCF34B763B688C /* Accelerate.framework */ = {isa = PBXBuildFile; fileRef = 9611FA7443ABCAB541EB5252; };
 		1D380AF7EEF8C2F746822108 /* LR_IPC_In.cpp */ = {isa = PBXBuildFile; fileRef = 4C648AE74835E2D0C711DE2E; };
 		1E2FED61647457C8A908508B /* ControlsModel.cpp */ = {isa = PBXBuildFile; fileRef = 5E94B6497D6EE8478D62DFAF; };
+		2DFC568DF8176BD97A0A473E /* Security.framework */ = {isa = PBXBuildFile; fileRef = 7AB798E7A0EC5706E907B179; };
 		348DDB3FE9388DFE51C66D78 /* Cocoa.framework */ = {isa = PBXBuildFile; fileRef = 357B44B34E653363B6C68855; };
 		35083D700EFC3AAC1C2FF545 /* MIDISender.cpp */ = {isa = PBXBuildFile; fileRef = 91021F67A9181F05736421DA; };
 		3F2026E13BECDAE2943AFC1C /* DebugInfo.cpp */ = {isa = PBXBuildFile; fileRef = 0F87A6B21DAA69386E6C0AF9; };
@@ -105,6 +106,7 @@
 		74CF929C2DC5DB8EA41679C5 /* Profile.h */ /* Profile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Profile.h; path = ../../src/application/Profile.h; sourceTree = SOURCE_ROOT; };
 		7701616104E29C22DA2383DF /* SettingsManager.h */ /* SettingsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SettingsManager.h; path = ../../src/application/SettingsManager.h; sourceTree = SOURCE_ROOT; };
 		78C490E72B571C45E9BF65BE /* Icon.icns */ /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = file.icns; name = Icon.icns; path = Icon.icns; sourceTree = SOURCE_ROOT; };
+		7AB798E7A0EC5706E907B179 /* Security.framework */ /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7B2DEB6D17806C7DEAAB2C82 /* DebugInfo.h */ /* DebugInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DebugInfo.h; path = ../../src/application/DebugInfo.h; sourceTree = SOURCE_ROOT; };
 		818EDED92D24EB7D4F600D34 /* IOKit.framework */ /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		88C3AB35F33604B9F920F0B4 /* Devices.cpp */ /* Devices.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Devices.cpp; path = ../../src/application/Devices.cpp; sourceTree = SOURCE_ROOT; };
@@ -160,6 +162,7 @@
 				100166DF95BCCAF9ED99F812,
 				F8AB50737B907B086631C821,
 				6BE8BB329BE5556B8E6A2058,
+				2DFC568DF8176BD97A0A473E,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +180,7 @@
 				5EF1B81B9C3117DCED014EE6,
 				818EDED92D24EB7D4F600D34,
 				41CEEB9299C6C870680C7552,
+				7AB798E7A0EC5706E907B179,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -485,7 +489,7 @@
 					"NDEBUG=1",
 					"JUCE_DISPLAY_SPLASH_SCREEN=0",
 					"JUCE_USE_DARK_SPLASH_SCREEN=1",
-					"JUCE_PROJUCER_VERSION=0x70002",
+					"JUCE_PROJUCER_VERSION=0x70007",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
@@ -526,7 +530,7 @@
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../external/JuceLibraryCode $(SRCROOT)/../../external/JuceLibraryCode/modules $(SRCROOT)/../../external/asio/ $(SRCROOT)/../../external/";
 				OTHER_LDFLAGS = "-weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
@@ -608,7 +612,7 @@
 					"DEBUG=1",
 					"JUCE_DISPLAY_SPLASH_SCREEN=0",
 					"JUCE_USE_DARK_SPLASH_SCREEN=1",
-					"JUCE_PROJUCER_VERSION=0x70002",
+					"JUCE_PROJUCER_VERSION=0x70007",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
@@ -648,10 +652,10 @@
 				INFOPLIST_FILE = Info-App.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../external/JuceLibraryCode $(SRCROOT)/../../external/JuceLibraryCode/modules $(SRCROOT)/../../external/asio/ $(SRCROOT)/../../external/";
-				OTHER_CFLAGS = "-Wall -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wswitch-enum -Wsign-conversion -Wsign-compare -Wunreachable-code -Wcast-align -Wno-ignored-qualifiers -Wshorten-64-to-32 -Wconversion -Wint-conversion -Wconditional-uninitialized -Wconstant-conversion -Wbool-conversion -Wextra-semi -Wshift-sign-overflow -Wshadow-all -Wnullable-to-nonnull-conversion -Wmissing-prototypes -Wunguarded-availability -Wunguarded-availability-new";
-				OTHER_CPLUSPLUSFLAGS = "-Woverloaded-virtual -Wreorder -Wzero-as-null-pointer-constant -Wunused-private-field -Winconsistent-missing-destructor-override -Wall -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wswitch-enum -Wsign-conversion -Wsign-compare -Wunreachable-code -Wcast-align -Wno-ignored-qualifiers -Wshorten-64-to-32 -Wconversion -Wint-conversion -Wconditional-uninitialized -Wconstant-conversion -Wbool-conversion -Wextra-semi -Wshift-sign-overflow -Wshadow-all -Wnullable-to-nonnull-conversion -Wmissing-prototypes -Wunguarded-availability -Wunguarded-availability-new";
+				OTHER_CFLAGS = "-Wall -Wcast-align -Wfloat-equal -Wno-ignored-qualifiers -Wsign-compare -Wsign-conversion -Wstrict-aliasing -Wswitch-enum -Wuninitialized -Wunreachable-code -Wunused-parameter -Wmissing-field-initializers -Wshadow-all -Wshorten-64-to-32 -Wconversion -Wint-conversion -Wconditional-uninitialized -Wconstant-conversion -Wbool-conversion -Wextra-semi -Wshift-sign-overflow -Wmissing-prototypes -Wnullable-to-nonnull-conversion -Wpedantic -Wdeprecated -Wunguarded-availability -Wunguarded-availability-new";
+				OTHER_CPLUSPLUSFLAGS = "-Woverloaded-virtual -Wreorder -Wzero-as-null-pointer-constant -Wunused-private-field -Winconsistent-missing-destructor-override -Wall -Wcast-align -Wfloat-equal -Wno-ignored-qualifiers -Wsign-compare -Wsign-conversion -Wstrict-aliasing -Wswitch-enum -Wuninitialized -Wunreachable-code -Wunused-parameter -Wmissing-field-initializers -Wshadow-all -Wshorten-64-to-32 -Wconversion -Wint-conversion -Wconditional-uninitialized -Wconstant-conversion -Wbool-conversion -Wextra-semi -Wshift-sign-overflow -Wmissing-prototypes -Wnullable-to-nonnull-conversion -Wpedantic -Wdeprecated -Wunguarded-availability -Wunguarded-availability-new";
 				OTHER_LDFLAGS = "-weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
 				PRODUCT_NAME = "MIDI2LR";

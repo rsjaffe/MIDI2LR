@@ -953,7 +953,7 @@ File File::createTempFile (StringRef fileNameEnding)
 }
 
 bool File::createSymbolicLink (const File& linkFileToCreate,
-                               const String& nativePathOfTarget,
+                               [[maybe_unused]] const String& nativePathOfTarget,
                                bool overwriteExisting)
 {
     if (linkFileToCreate.exists())
@@ -970,7 +970,7 @@ bool File::createSymbolicLink (const File& linkFileToCreate,
             linkFileToCreate.deleteFile();
     }
 
-   #if JUCE_MAC || JUCE_LINUX
+   #if JUCE_MAC || JUCE_LINUX || JUCE_BSD
     // one common reason for getting an error here is that the file already exists
     if (symlink (nativePathOfTarget.toRawUTF8(), linkFileToCreate.getFullPathName().toRawUTF8()) == -1)
     {
@@ -986,7 +986,6 @@ bool File::createSymbolicLink (const File& linkFileToCreate,
                                nativePathOfTarget.toWideCharPointer(),
                                targetFile.isDirectory() ? SYMBOLIC_LINK_FLAG_DIRECTORY : 0) != FALSE;
    #else
-    ignoreUnused (nativePathOfTarget);
     jassertfalse; // symbolic links not supported on this platform!
     return false;
    #endif

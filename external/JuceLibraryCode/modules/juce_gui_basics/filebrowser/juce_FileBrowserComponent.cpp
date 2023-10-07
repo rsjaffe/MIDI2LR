@@ -63,6 +63,9 @@ FileBrowserComponent::FileBrowserComponent (int flags_,
         filename = initialFileOrDirectory.getFileName();
     }
 
+    // The thread must be started before the DirectoryContentsList attempts to scan any file
+    thread.startThread (Thread::Priority::low);
+
     fileList.reset (new DirectoryContentsList (this, thread));
     fileList->setDirectory (currentRoot, true, true);
 
@@ -121,8 +124,6 @@ FileBrowserComponent::FileBrowserComponent (int flags_,
 
     if (filename.isNotEmpty())
         setFileName (filename);
-
-    thread.startThread (4);
 
     startTimer (2000);
 }
@@ -370,7 +371,6 @@ void FileBrowserComponent::lookAndFeelChanged()
     filenameBox.applyColourToAllText (findColour (filenameBoxTextColourId));
 
     resized();
-    repaint();
 }
 
 //==============================================================================
@@ -439,7 +439,7 @@ void FileBrowserComponent::fileDoubleClicked (const File& f)
 
 void FileBrowserComponent::browserRootChanged (const File&) {}
 
-bool FileBrowserComponent::keyPressed (const KeyPress& key)
+bool FileBrowserComponent::keyPressed ([[maybe_unused]] const KeyPress& key)
 {
    #if JUCE_LINUX || JUCE_BSD || JUCE_WINDOWS
     if (key.getModifiers().isCommandDown()
@@ -451,7 +451,6 @@ bool FileBrowserComponent::keyPressed (const KeyPress& key)
     }
    #endif
 
-    ignoreUnused (key);
     return false;
 }
 
@@ -605,7 +604,7 @@ void FileBrowserComponent::getRoots (StringArray& rootNames, StringArray& rootPa
 
 void FileBrowserComponent::timerCallback()
 {
-    const auto isProcessActive = isForegroundOrEmbeddedProcess (this);
+    const auto isProcessActive = detail::WindowingHelpers::isForegroundOrEmbeddedProcess (this);
 
     if (wasProcessActive != isProcessActive)
     {
