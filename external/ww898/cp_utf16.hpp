@@ -76,7 +76,7 @@ struct utf16 final
         if (ch0 < 0xDC00) // [0xD800‥0xDBFF] [0xDC00‥0xDFFF]
         {
             char_type const ch1 = read_fn(); if (ch1 >> 10 != 0x37) throw std::runtime_error("The low utf16 surrogate char is expected");
-            return (ch0 << 10) + ch1 - 0x35FDC00;
+            return static_cast<uint32_t>((ch0 << 10) + ch1 - 0x35FDC00);
         }
         if (ch0 < 0xE000)
             throw std::runtime_error("The high utf16 surrogate char is expected");
