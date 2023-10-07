@@ -40,7 +40,7 @@
 //       constructible. Therefore, use 'sizeof' for syntax validation. We don't do this universally for all compilers
 //       since lambdas are not allowed in unevaluated contexts prior to C++20, which does not appear to affect __noop
 #if !defined(_MSC_VER) || defined(__clang__)
-#define __WI_ANALYSIS_ASSUME(_exp)                          ((void)sizeof(_exp)) // Validate syntax on non-debug builds
+#define __WI_ANALYSIS_ASSUME(_exp)                          ((void)sizeof(!(_exp))) // Validate syntax on non-debug builds
 #else
 #define __WI_ANALYSIS_ASSUME(_exp)                          __noop(_exp)
 #endif
@@ -802,6 +802,7 @@ WI_ODR_PRAGMA("WIL_FreeMemory", "0")
 #define THROW_IF_NULL_ALLOC(ptr)                                __R_FN(Throw_IfNullAlloc)(__R_INFO(#ptr) ptr)
 #define THROW_HR_IF(hr, condition)                              __R_FN(Throw_HrIf)(__R_INFO(#condition) wil::verify_hresult(hr), wil::verify_bool(condition))
 #define THROW_HR_IF_NULL(hr, ptr)                               __R_FN(Throw_HrIfNull)(__R_INFO(#ptr) wil::verify_hresult(hr), ptr)
+#define THROW_WIN32_IF(win32err, condition)                     __R_FN(Throw_Win32If)(__R_INFO(#condition) wil::verify_win32(win32err), wil::verify_bool(condition))
 #define THROW_LAST_ERROR_IF(condition)                          __R_FN(Throw_GetLastErrorIf)(__R_INFO(#condition) wil::verify_bool(condition))
 #define THROW_LAST_ERROR_IF_NULL(ptr)                           __R_FN(Throw_GetLastErrorIfNull)(__R_INFO(#ptr) ptr)
 #define THROW_IF_NTSTATUS_FAILED(status)                        __R_FN(Throw_IfNtStatusFailed)(__R_INFO(#status) status)
@@ -820,6 +821,7 @@ WI_ODR_PRAGMA("WIL_FreeMemory", "0")
 #define THROW_IF_NULL_ALLOC_MSG(ptr, fmt, ...)                  __R_FN(Throw_IfNullAllocMsg)(__R_INFO(#ptr) ptr, fmt, ##__VA_ARGS__)
 #define THROW_HR_IF_MSG(hr, condition, fmt, ...)                __R_FN(Throw_HrIfMsg)(__R_INFO(#condition) wil::verify_hresult(hr), wil::verify_bool(condition), fmt, ##__VA_ARGS__)
 #define THROW_HR_IF_NULL_MSG(hr, ptr, fmt, ...)                 __R_FN(Throw_HrIfNullMsg)(__R_INFO(#ptr) wil::verify_hresult(hr), ptr, fmt, ##__VA_ARGS__)
+#define THROW_WIN32_IF_MSG(win32err, condition, fmt, ...)       __R_FN(Throw_Win32IfMsg)(__R_INFO(#condition) wil::verify_win32(win32err), wil::verify_bool(condition), fmt, ##__VA_ARGS__)
 #define THROW_LAST_ERROR_IF_MSG(condition, fmt, ...)            __R_FN(Throw_GetLastErrorIfMsg)(__R_INFO(#condition) wil::verify_bool(condition), fmt, ##__VA_ARGS__)
 #define THROW_LAST_ERROR_IF_NULL_MSG(ptr, fmt, ...)             __R_FN(Throw_GetLastErrorIfNullMsg)(__R_INFO(#ptr) ptr, fmt, ##__VA_ARGS__)
 #define THROW_IF_NTSTATUS_FAILED_MSG(status, fmt, ...)          __R_FN(Throw_IfNtStatusFailedMsg)(__R_INFO(#status) status, fmt, ##__VA_ARGS__)
@@ -1128,7 +1130,7 @@ namespace wil
                 break;
             }
 
-            wchar_t szErrorText[256];
+            wchar_t szErrorText[256]{};
             szErrorText[0] = L'\0';
             LONG errorCode = 0;
 
@@ -1222,21 +1224,23 @@ namespace wil
 
         struct ResultStatus
         {
+            enum Kind : unsigned int { HResult, NtStatus };
+
             static ResultStatus FromResult(const HRESULT _hr)
             {
-                return { _hr, wil::details::HrToNtStatus(_hr), false };
+                return { _hr, wil::details::HrToNtStatus(_hr), Kind::HResult };
             }
             static ResultStatus FromStatus(const NTSTATUS _status)
             {
-                return { wil::details::NtStatusToHr(_status), _status, true };
+                return { wil::details::NtStatusToHr(_status), _status, Kind::NtStatus };
             }
             static ResultStatus FromFailureInfo(const FailureInfo& _failure)
             {
-                return { _failure.hr, _failure.status, WI_IsFlagSet(_failure.flags, FailureFlags::NtStatus) };
+                return { _failure.hr, _failure.status, WI_IsFlagSet(_failure.flags, FailureFlags::NtStatus) ? Kind::NtStatus : Kind::HResult };
             }
             HRESULT hr = S_OK;
             NTSTATUS status = STATUS_SUCCESS;
-            bool isNtStatus = false;
+            Kind kind = Kind::NtStatus;
         };
 
         // Fallback telemetry provider callback (set with wil::SetResultTelemetryFallback)
@@ -1295,19 +1299,32 @@ namespace wil
         // Plugin to call RoFailFastWithErrorContext (WIL use only)
         __declspec(selectany) void(__stdcall* g_pfnFailfastWithContextCallback)(wil::FailureInfo const& failure) WI_PFN_NOEXCEPT = nullptr;
 
-        // Called to tell Appverifier to ignore a particular allocation from leak tracking
-        // If AppVerifier is not enabled, this is a no-op
-        // Desktop/System Only: Automatically setup when building Windows (BUILD_WINDOWS defined)
-        __declspec(selectany) NTSTATUS(__stdcall *g_pfnRtlDisownModuleHeapAllocation)(_In_ HANDLE heapHandle, _In_ PVOID address) WI_PFN_NOEXCEPT = nullptr;
 
         // Allocate and disown the allocation so that Appverifier does not complain about a false leak
-        inline PVOID ProcessHeapAlloc(_In_ DWORD flags, _In_ size_t size)
+        inline PVOID ProcessHeapAlloc(_In_ DWORD flags, _In_ size_t size) WI_NOEXCEPT
         {
-            PVOID allocation = ::HeapAlloc(::GetProcessHeap(), flags, size);
+            const HANDLE processHeap = ::GetProcessHeap();
+            const PVOID allocation = ::HeapAlloc(processHeap, flags, size);
 
-            if (g_pfnRtlDisownModuleHeapAllocation)
+            static bool fetchedRtlDisownModuleHeapAllocation = false;
+            static NTSTATUS (__stdcall *pfnRtlDisownModuleHeapAllocation)(HANDLE, PVOID) WI_PFN_NOEXCEPT = nullptr;
+
+            if (pfnRtlDisownModuleHeapAllocation)
             {
-                (void)g_pfnRtlDisownModuleHeapAllocation(::GetProcessHeap(), allocation);
+                (void)pfnRtlDisownModuleHeapAllocation(processHeap, allocation);
+            }
+            else if (!fetchedRtlDisownModuleHeapAllocation)
+            {
+                if (auto ntdllModule = ::GetModuleHandleW(L"ntdll.dll"))
+                {
+                    pfnRtlDisownModuleHeapAllocation = reinterpret_cast<decltype(pfnRtlDisownModuleHeapAllocation)>(::GetProcAddress(ntdllModule, "RtlDisownModuleHeapAllocation"));
+                }
+                fetchedRtlDisownModuleHeapAllocation = true;
+
+                if (pfnRtlDisownModuleHeapAllocation)
+                {
+                    (void)pfnRtlDisownModuleHeapAllocation(processHeap, allocation);
+                }
             }
 
             return allocation;
@@ -1389,25 +1406,25 @@ namespace wil
         template <ErrorReturn errorReturn, typename T>
         struct return_type
         {
-            typedef tag_return_other type;
+            using type = tag_return_other;
         };
 
         template <>
         struct return_type<ErrorReturn::Auto, HRESULT>
         {
-            typedef tag_return_HRESULT type;
+            using type = tag_return_HRESULT;
         };
 
         template <>
         struct return_type<ErrorReturn::Auto, void>
         {
-            typedef tag_return_void type;
+            using type = tag_return_void;
         };
 
         template <>
         struct return_type<ErrorReturn::None, void>
         {
-            typedef tag_return_void type;
+            using type = tag_return_void;
         };
 
         template <ErrorReturn errorReturn, typename Functor>
@@ -1546,7 +1563,7 @@ namespace wil
                 return create(nullptr, cbData);
             }
 
-            void* get(_Out_opt_ size_t *pSize = nullptr) const WI_NOEXCEPT
+            WI_NODISCARD void* get(_Out_opt_ size_t *pSize = nullptr) const WI_NOEXCEPT
             {
                 if (pSize != nullptr)
                 {
@@ -1555,17 +1572,17 @@ namespace wil
                 return (m_pCopy == nullptr) ? nullptr : (m_pCopy + 1);
             }
 
-            size_t size() const WI_NOEXCEPT
+            WI_NODISCARD size_t size() const WI_NOEXCEPT
             {
                 return m_size;
             }
 
-            explicit operator bool() const WI_NOEXCEPT
+            WI_NODISCARD explicit operator bool() const WI_NOEXCEPT
             {
                 return (m_pCopy != nullptr);
             }
 
-            bool unique() const WI_NOEXCEPT
+            WI_NODISCARD bool unique() const WI_NOEXCEPT
             {
                 return ((m_pCopy != nullptr) && (*m_pCopy == 1));
             }
@@ -1693,22 +1710,22 @@ namespace wil
                 return true;
             }
 
-            object_t* get() const WI_NOEXCEPT
+            WI_NODISCARD object_t* get() const WI_NOEXCEPT
             {
                 return (m_pCopy == nullptr) ? nullptr : &m_pCopy->m_object;
             }
 
-            explicit operator bool() const WI_NOEXCEPT
+            WI_NODISCARD explicit operator bool() const WI_NOEXCEPT
             {
                 return (m_pCopy != nullptr);
             }
 
-            bool unique() const WI_NOEXCEPT
+            WI_NODISCARD bool unique() const WI_NOEXCEPT
             {
                 return ((m_pCopy != nullptr) && (m_pCopy->m_refCount == 1));
             }
 
-            object_t *operator->() const WI_NOEXCEPT
+            WI_NODISCARD object_t* operator->() const WI_NOEXCEPT
             {
                 return get();
             }
@@ -2031,6 +2048,12 @@ __WI_POP_WARNINGS
             return err;
         }
 
+        inline __declspec(noinline) DWORD GetLastErrorFail() WI_NOEXCEPT
+        {
+            __R_FN_LOCALS_FULL_RA;
+            return GetLastErrorFail(__R_FN_CALL_FULL);
+        }
+
         _Translates_last_error_to_HRESULT_
         inline HRESULT GetLastErrorFailHr(__R_FN_PARAMS_FULL) WI_NOEXCEPT
         {
@@ -2097,8 +2120,8 @@ __WI_POP_WARNINGS
 
         _Must_inspect_result_ STRSAFEAPI StringCchLengthA(_In_reads_or_z_(cchMax) STRSAFE_PCNZCH psz, _In_ _In_range_(1, STRSAFE_MAX_CCH) size_t cchMax, _Out_opt_ _Deref_out_range_(<, cchMax) _Deref_out_range_(<= , _String_length_(psz)) size_t* pcchLength)
         {
-            HRESULT hr;
-            if ((psz == NULL) || (cchMax > STRSAFE_MAX_CCH))
+            HRESULT hr = S_OK;
+            if ((psz == nullptr) || (cchMax > STRSAFE_MAX_CCH))
             {
                 hr = STRSAFE_E_INVALID_PARAMETER;
             }
@@ -2127,12 +2150,11 @@ __WI_POP_WARNINGS
         static STRSAFEAPI WilStringVPrintfWorkerA(_Out_writes_(cchDest) _Always_(_Post_z_) STRSAFE_LPSTR pszDest, _In_ _In_range_(1, STRSAFE_MAX_CCH) size_t cchDest, _Always_(_Out_opt_ _Deref_out_range_(<=, cchDest - 1)) size_t* pcchNewDestLength, _In_ _Printf_format_string_ STRSAFE_LPCSTR pszFormat, _In_ va_list argList)
         {
             HRESULT hr = S_OK;
-            int iRet;
-            size_t cchMax;
-            size_t cchNewDestLength = 0;
+            int iRet{};
 
             // leave the last space for the null terminator
-            cchMax = cchDest - 1;
+            size_t cchMax = cchDest - 1;
+            size_t cchNewDestLength = 0;
 #undef STRSAFE_USE_SECURE_CRT
 #define STRSAFE_USE_SECURE_CRT 1
         #if (STRSAFE_USE_SECURE_CRT == 1) && !defined(STRSAFE_LIB_IMPL)
@@ -2185,7 +2207,7 @@ __WI_POP_WARNINGS
             {
                 va_list argList;
                 va_start(argList, pszFormat);
-                hr = wil::details::WilStringVPrintfWorkerA(pszDest, cchDest, NULL, pszFormat, argList);
+                hr = wil::details::WilStringVPrintfWorkerA(pszDest, cchDest, nullptr, pszFormat, argList);
                 va_end(argList);
             }
             else if (cchDest > 0)
@@ -2229,7 +2251,7 @@ __WI_POP_WARNINGS
             }
 
             memcpy_s(pStart, bufferSize, pszString, stringSize);
-            assign_to_opt_param(ppszBufferString, reinterpret_cast<TString>(pStart));
+            assign_to_opt_param(ppszBufferString, reinterpret_cast<TString>(pStart));// lgtm[cpp/incorrect-string-type-conversion] False positive - The query is misinterpreting a buffer (char *) with a MBS string, the cast to TString is expected.
             return pStart + stringSize;
         }
 
@@ -2241,84 +2263,12 @@ __WI_POP_WARNINGS
         {
             size_t cchLen = UntrustedStringLength(reinterpret_cast<TString>(pStart), (pEnd - pStart) / sizeof((*ppszBufferString)[0]));
             *ppszBufferString = (cchLen > 0) ? reinterpret_cast<TString>(pStart) : nullptr;
-            auto pReturn = min(pEnd, pStart + ((cchLen + 1) * sizeof((*ppszBufferString)[0])));
+            auto pReturn = (wistd::min)(pEnd, pStart + ((cchLen + 1) * sizeof((*ppszBufferString)[0])));
             __analysis_assume((pReturn >= pStart) && (pReturn <= pEnd));
             return pReturn;
         }
     } // details namespace
     /// @endcond
-
-    //! This type copies the current value of GetLastError at construction and resets the last error
-    //! to that value when it is destroyed.
-    //!
-    //! This is useful in library code that runs during a value's destructor. If the library code could
-    //! inadvertantly change the value of GetLastError (by calling a Win32 API or similar), it should
-    //! instantiate a value of this type before calling the library function in order to preserve the
-    //! GetLastError value the user would expect.
-    //!
-    //! This construct exists to hide kernel mode/user mode differences in wil library code.
-    //!
-    //! Example usage:
-    //!
-    //!     if (!CreateFile(...))
-    //!     {
-    //!         auto lastError = wil::last_error_context();
-    //!         WriteFile(g_hlog, logdata);
-    //!     }
-    //!
-    class last_error_context
-    {
-#ifndef WIL_KERNEL_MODE
-        bool m_dismissed = false;
-        DWORD m_error = 0;
-    public:
-        last_error_context() WI_NOEXCEPT : last_error_context(::GetLastError())
-        {
-        }
-
-        explicit last_error_context(DWORD error) WI_NOEXCEPT :
-            m_error(error)
-        {
-        }
-
-        last_error_context(last_error_context&& other) WI_NOEXCEPT
-        {
-            operator=(wistd::move(other));
-        }
-
-        last_error_context& operator=(last_error_context&& other) WI_NOEXCEPT
-        {
-            m_dismissed = wistd::exchange(other.m_dismissed, true);
-            m_error = other.m_error;
-
-            return *this;
-        }
-
-        ~last_error_context() WI_NOEXCEPT
-        {
-            if (!m_dismissed)
-            {
-                ::SetLastError(m_error);
-            }
-        }
-
-        //! last_error_context doesn't own a concrete resource, so therefore
-        //! it just disarms its destructor and returns void.
-        void release() WI_NOEXCEPT
-        {
-            WI_ASSERT(!m_dismissed);
-            m_dismissed = true;
-        }
-
-        auto value() const WI_NOEXCEPT
-        {
-            return m_error;
-        }
-#else
-    public:
-        void release() WI_NOEXCEPT { }
-#endif // WIL_KERNEL_MODE
-    };
 
     //*****************************************************************************
     // WIL result handling initializers
@@ -2584,7 +2534,7 @@ __WI_POP_WARNINGS
             SetFailureInfo(other);
         }
 
-        FailureInfo const & GetFailureInfo() const WI_NOEXCEPT
+        WI_NODISCARD FailureInfo const& GetFailureInfo() const WI_NOEXCEPT
         {
             return m_failureInfo;
         }
@@ -2660,7 +2610,7 @@ __WI_POP_WARNINGS
         }
 
         //! Returns the failed HRESULT that this exception represents.
-        _Always_(_Post_satisfies_(return < 0)) HRESULT GetErrorCode() const WI_NOEXCEPT
+        _Always_(_Post_satisfies_(return < 0)) WI_NODISCARD HRESULT GetErrorCode() const WI_NOEXCEPT
         {
             HRESULT const hr = m_failure.GetFailureInfo().hr;
             __analysis_assume(hr < 0);
@@ -2668,7 +2618,7 @@ __WI_POP_WARNINGS
         }
 
         //! Returns the failed NTSTATUS that this exception represents.
-        _Always_(_Post_satisfies_(return < 0)) NTSTATUS GetStatusCode() const WI_NOEXCEPT
+        _Always_(_Post_satisfies_(return < 0)) WI_NODISCARD NTSTATUS GetStatusCode() const WI_NOEXCEPT
         {
             NTSTATUS const status = m_failure.GetFailureInfo().status;
             __analysis_assume(status < 0);
@@ -2676,7 +2626,7 @@ __WI_POP_WARNINGS
         }
 
         //! Get a reference to the stored FailureInfo.
-        FailureInfo const & GetFailureInfo() const WI_NOEXCEPT
+        WI_NODISCARD FailureInfo const& GetFailureInfo() const WI_NOEXCEPT
         {
             return m_failure.GetFailureInfo();
         }
@@ -2688,7 +2638,7 @@ __WI_POP_WARNINGS
         }
 
         //! Provides a string representing the FailureInfo from this exception.
-        inline const char * __CLR_OR_THIS_CALL what() const WI_NOEXCEPT override
+        WI_NODISCARD inline const char* __CLR_OR_THIS_CALL what() const WI_NOEXCEPT override
         {
             if (!m_what)
             {
@@ -2813,7 +2763,7 @@ __WI_POP_WARNINGS
 
         inline HRESULT ResultFromKnownException(const ResultException& exception, const DiagnosticsInfo& diagnostics, void* returnAddress)
         {
-            wchar_t message[2048];
+            wchar_t message[2048]{};
             message[0] = L'\0';
             MaybeGetExceptionString(exception, message, ARRAYSIZE(message));
             auto hr = exception.GetErrorCode();
@@ -2823,7 +2773,7 @@ __WI_POP_WARNINGS
 
         inline HRESULT ResultFromKnownException(const std::bad_alloc& exception, const DiagnosticsInfo& diagnostics, void* returnAddress)
         {
-            wchar_t message[2048];
+            wchar_t message[2048]{};
             message[0] = L'\0';
             MaybeGetExceptionString(exception, message, ARRAYSIZE(message));
             constexpr auto hr = E_OUTOFMEMORY;
@@ -2833,7 +2783,7 @@ __WI_POP_WARNINGS
 
         inline HRESULT ResultFromKnownException(const std::exception& exception, const DiagnosticsInfo& diagnostics, void* returnAddress)
         {
-            wchar_t message[2048];
+            wchar_t message[2048]{};
             message[0] = L'\0';
             MaybeGetExceptionString(exception, message, ARRAYSIZE(message));
             constexpr auto hr = __HRESULT_FROM_WIN32(ERROR_UNHANDLED_EXCEPTION);
@@ -2845,7 +2795,7 @@ __WI_POP_WARNINGS
         {
             if (g_pfnResultFromCaughtException_CppWinRt)
             {
-                wchar_t message[2048];
+                wchar_t message[2048]{};
                 message[0] = L'\0';
                 bool ignored;
                 auto hr = g_pfnResultFromCaughtException_CppWinRt(message, ARRAYSIZE(message), &ignored);
@@ -3577,7 +3527,7 @@ __WI_POP_WARNINGS
 
             failure->type = type;
             failure->flags = FailureFlags::None;
-            WI_SetFlagIf(failure->flags, FailureFlags::NtStatus, resultPair.isNtStatus);
+            WI_SetFlagIf(failure->flags, FailureFlags::NtStatus, resultPair.kind == ResultStatus::Kind::NtStatus);
             failure->failureId = ::InterlockedIncrementNoFence(&s_failureId);
             failure->pszMessage = ((message != nullptr) && (message[0] != L'\0')) ? message : nullptr;
             failure->threadId = ::GetCurrentThreadId();
@@ -3695,7 +3645,7 @@ __WI_POP_WARNINGS
             er.ExceptionCode = static_cast<DWORD>(STATUS_STACK_BUFFER_OVERRUN); // 0xC0000409
             er.ExceptionFlags = EXCEPTION_NONCONTINUABLE;
             er.ExceptionInformation[0] = FAST_FAIL_FATAL_APP_EXIT; // see winnt.h, generated from minkernel\published\base\ntrtl_x.w
-            if (failure.returnAddress == 0)                     // FailureInfo does not have _ReturnAddress, have RaiseFailFastException generate it
+            if (failure.returnAddress == nullptr)                     // FailureInfo does not have _ReturnAddress, have RaiseFailFastException generate it
             {
                 // passing ExceptionCode 0xC0000409 and one param with FAST_FAIL_APP_EXIT will use existing
                 // !analyze functionality to crawl the stack looking for the HRESULT
@@ -4006,24 +3956,28 @@ __WI_SUPPRESS_4127_E
         template<FailureType T>
         __declspec(noinline) inline DWORD ReportFailure_GetLastError(__R_FN_PARAMS_FULL)
         {
-            const last_error_context err { GetLastErrorFail(__R_FN_CALL_FULL) };
-            ReportFailure_Base<T>(__R_FN_CALL_FULL, ResultStatus::FromResult(__HRESULT_FROM_WIN32(err.value())));
-            return err.value();
+            const auto err = GetLastErrorFail(__R_FN_CALL_FULL);
+            const auto hr = __HRESULT_FROM_WIN32(err);
+            ReportFailure_Base<T>(__R_FN_CALL_FULL, ResultStatus::FromResult(hr));
+            ::SetLastError(err);
+            return err;
         }
 
         template<>
         __declspec(noinline) inline RESULT_NORETURN DWORD ReportFailure_GetLastError<FailureType::FailFast>(__R_FN_PARAMS_FULL)
         {
-            const last_error_context err { GetLastErrorFail(__R_FN_CALL_FULL) };
-            ReportFailure_Base<FailureType::FailFast>(__R_FN_CALL_FULL, ResultStatus::FromResult(__HRESULT_FROM_WIN32(err.value())));
+            const auto err = GetLastErrorFail(__R_FN_CALL_FULL);
+            const auto hr = __HRESULT_FROM_WIN32(err);
+            ReportFailure_Base<FailureType::FailFast>(__R_FN_CALL_FULL, ResultStatus::FromResult(hr));
             RESULT_NORETURN_RESULT(err);
         }
 
         template<>
         __declspec(noinline) inline RESULT_NORETURN DWORD ReportFailure_GetLastError<FailureType::Exception>(__R_FN_PARAMS_FULL)
         {
-            const last_error_context err { GetLastErrorFail(__R_FN_CALL_FULL) };
-            ReportFailure_Base<FailureType::Exception>(__R_FN_CALL_FULL, ResultStatus::FromResult(__HRESULT_FROM_WIN32(err.value())));
+            const auto err = GetLastErrorFail(__R_FN_CALL_FULL);
+            const auto hr = __HRESULT_FROM_WIN32(err);
+            ReportFailure_Base<FailureType::Exception>(__R_FN_CALL_FULL, ResultStatus::FromResult(hr));
             RESULT_NORETURN_RESULT(err);
         }
 
@@ -4090,7 +4044,7 @@ __WI_SUPPRESS_4127_E
         template<FailureType T>
         __declspec(noinline) inline HRESULT ReportFailure_CaughtException(__R_FN_PARAMS_FULL, SupportedExceptions supported)
         {
-            wchar_t message[2048];
+            wchar_t message[2048]{};
             message[0] = L'\0';
             return ReportFailure_CaughtExceptionCommon<T>(__R_FN_CALL_FULL, message, ARRAYSIZE(message), supported).hr;
         }
@@ -4098,7 +4052,7 @@ __WI_SUPPRESS_4127_E
         template<>
         __declspec(noinline) inline RESULT_NORETURN HRESULT ReportFailure_CaughtException<FailureType::FailFast>(__R_FN_PARAMS_FULL, SupportedExceptions supported)
         {
-            wchar_t message[2048];
+            wchar_t message[2048]{};
             message[0] = L'\0';
             RESULT_NORETURN_RESULT(ReportFailure_CaughtExceptionCommon<FailureType::FailFast>(__R_FN_CALL_FULL, message, ARRAYSIZE(message), supported).hr);
         }
@@ -4106,7 +4060,7 @@ __WI_SUPPRESS_4127_E
         template<>
         __declspec(noinline) inline RESULT_NORETURN HRESULT ReportFailure_CaughtException<FailureType::Exception>(__R_FN_PARAMS_FULL, SupportedExceptions supported)
         {
-            wchar_t message[2048];
+            wchar_t message[2048]{};
             message[0] = L'\0';
             RESULT_NORETURN_RESULT(ReportFailure_CaughtExceptionCommon<FailureType::Exception>(__R_FN_CALL_FULL, message, ARRAYSIZE(message), supported).hr);
         }
@@ -4162,24 +4116,28 @@ __WI_SUPPRESS_4127_E
         template<FailureType T>
         __declspec(noinline) inline DWORD ReportFailure_GetLastErrorMsg(__R_FN_PARAMS_FULL, _Printf_format_string_ PCSTR formatString, va_list argList)
         {
-            const last_error_context err { GetLastErrorFail(__R_FN_CALL_FULL) };
-            ReportFailure_Msg<T>(__R_FN_CALL_FULL, ResultStatus::FromResult(__HRESULT_FROM_WIN32(err.value())), formatString, argList);
-            return err.value();
+            auto err = GetLastErrorFail(__R_FN_CALL_FULL);
+            auto hr = __HRESULT_FROM_WIN32(err);
+            ReportFailure_Msg<T>(__R_FN_CALL_FULL, ResultStatus::FromResult(hr), formatString, argList);
+            ::SetLastError(err);
+            return err;
         }
 
         template<>
         __declspec(noinline) inline RESULT_NORETURN DWORD ReportFailure_GetLastErrorMsg<FailureType::FailFast>(__R_FN_PARAMS_FULL, _Printf_format_string_ PCSTR formatString, va_list argList)
         {
-            const last_error_context err { GetLastErrorFail(__R_FN_CALL_FULL) };
-            ReportFailure_Msg<FailureType::FailFast>(__R_FN_CALL_FULL, ResultStatus::FromResult(__HRESULT_FROM_WIN32(err.value())), formatString, argList);
+            auto err = GetLastErrorFail(__R_FN_CALL_FULL);
+            auto hr = __HRESULT_FROM_WIN32(err);
+            ReportFailure_Msg<FailureType::FailFast>(__R_FN_CALL_FULL, ResultStatus::FromResult(hr), formatString, argList);
             RESULT_NORETURN_RESULT(err);
         }
 
         template<>
         __declspec(noinline) inline RESULT_NORETURN DWORD ReportFailure_GetLastErrorMsg<FailureType::Exception>(__R_FN_PARAMS_FULL, _Printf_format_string_ PCSTR formatString, va_list argList)
         {
-            const last_error_context err { GetLastErrorFail(__R_FN_CALL_FULL) };
-            ReportFailure_Msg<FailureType::Exception>(__R_FN_CALL_FULL, ResultStatus::FromResult(__HRESULT_FROM_WIN32(err.value())), formatString, argList);
+            auto err = GetLastErrorFail(__R_FN_CALL_FULL);
+            auto hr = __HRESULT_FROM_WIN32(err);
+            ReportFailure_Msg<FailureType::Exception>(__R_FN_CALL_FULL, ResultStatus::FromResult(hr), formatString, argList);
             RESULT_NORETURN_RESULT(err);
         }
 
@@ -5854,6 +5812,16 @@ __WI_SUPPRESS_4127_E
             }
 
             _Post_satisfies_(return == condition) _When_(condition, _Analysis_noreturn_)
+            __R_CONDITIONAL_METHOD(bool, Throw_Win32If)(__R_CONDITIONAL_FN_PARAMS DWORD err, bool condition)
+            {
+                if (condition)
+                {
+                    __R_CALL_INTERNAL_METHOD(_Throw_Win32)(__R_CONDITIONAL_FN_CALL err);
+                }
+                return condition;
+            }
+
+            _Post_satisfies_(return == condition) _When_(condition, _Analysis_noreturn_)
             __R_CONDITIONAL_METHOD(bool, Throw_GetLastErrorIf)(__R_CONDITIONAL_FN_PARAMS bool condition)
             {
                 if (condition)
@@ -6112,6 +6080,18 @@ __WI_SUPPRESS_4127_E
             }
 
             _Post_satisfies_(return == condition) _When_(condition, _Analysis_noreturn_)
+            __R_CONDITIONAL_NOINLINE_METHOD(bool, Throw_Win32IfMsg)(__R_CONDITIONAL_FN_PARAMS DWORD err, bool condition, _Printf_format_string_ PCSTR formatString, ...)
+            {
+                if (condition)
+                {
+                    va_list argList;
+                    va_start(argList, formatString);
+                    __R_CALL_INTERNAL_NOINLINE_METHOD(_Throw_Win32Msg)(__R_CONDITIONAL_NOINLINE_FN_CALL err, formatString, argList);
+                }
+                return condition;
+            }
+
+            _Post_satisfies_(return == condition) _When_(condition, _Analysis_noreturn_)
             __R_CONDITIONAL_NOINLINE_METHOD(bool, Throw_GetLastErrorIfMsg)(__R_CONDITIONAL_FN_PARAMS bool condition, _Printf_format_string_ PCSTR formatString, ...)
             {
                 if (condition)
@@ -6189,7 +6169,7 @@ __WI_SUPPRESS_4127_E
     // Intentionally removed logging from this policy as logging is more useful at the caller.
     struct err_returncode_policy
     {
-        typedef HRESULT result;
+        using result = HRESULT;
 
         __forceinline static HRESULT Win32BOOL(BOOL fReturn) { RETURN_IF_WIN32_BOOL_FALSE_EXPECTED(fReturn); return S_OK; }
         __forceinline static HRESULT Win32Handle(HANDLE h, _Out_ HANDLE *ph) { *ph = h; RETURN_LAST_ERROR_IF_NULL_EXPECTED(h); return S_OK; }
