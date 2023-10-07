@@ -25,7 +25,12 @@
 #include <array>       // for array
 #include <cstddef>     // for ptrdiff_t, size_t, nullptr_t
 #include <iterator>    // for reverse_iterator, distance, random_access_...
+#include <memory>      // for pointer_traits
 #include <type_traits> // for enable_if_t, declval, is_convertible, inte...
+
+#if defined(__has_include) && __has_include(<version>)
+#include <version>
+#endif
 
 #if defined(_MSC_VER) && !defined(__clang__)
 #pragma warning(push)
@@ -110,6 +115,9 @@ namespace details
     class span_iterator
     {
     public:
+#if defined(__cpp_lib_ranges) || (defined(_MSVC_STL_VERSION) && defined(__cpp_lib_concepts))
+        using iterator_concept = std::contiguous_iterator_tag;
+#endif // __cpp_lib_ranges
         using iterator_category = std::random_access_iterator_tag;
         using value_type = std::remove_cv_t<Type>;
         using difference_type = std::ptrdiff_t;
@@ -118,6 +126,7 @@ namespace details
 
 #ifdef _MSC_VER
         using _Unchecked_type = pointer;
+        using _Prevent_inheriting_unwrap = span_iterator;
 #endif // _MSC_VER
         constexpr span_iterator() = default;
 
@@ -206,6 +215,7 @@ namespace details
             if (n != 0) Expects(begin_ && current_ && end_);
             if (n > 0) Expects(current_ - begin_ >= n);
             if (n < 0) Expects(end_ - current_ >= -n);
+            GSL_SUPPRESS(bounds .1)
             current_ -= n;
             return *this;
         }
@@ -329,8 +339,26 @@ namespace details
         pointer begin_ = nullptr;
         pointer end_ = nullptr;
         pointer current_ = nullptr;
-    };
 
+        template <typename Ptr>
+        friend struct std::pointer_traits;
+    };
+}} // namespace gsl::details
+
+namespace std
+{
+template <class Type>
+struct pointer_traits<::gsl::details::span_iterator<Type>>
+{
+    using pointer = ::gsl::details::span_iterator<Type>;
+    using element_type = Type;
+    using difference_type = ptrdiff_t;
+
+    static constexpr element_type* to_address(const pointer i) noexcept { return i.current_; }
+};
+} // namespace std
+
+namespace gsl { namespace details {
     template <std::size_t Ext>
     class extent_type
     {
@@ -596,11 +624,7 @@ public:
     // [span.obs], span observers
     constexpr size_type size() const noexcept { return storage_.size(); }
 
-    constexpr size_type size_bytes() const noexcept
-    {
-        Expects(size() < dynamic_extent / sizeof(element_type));
-        return size() * sizeof(element_type);
-    }
+    constexpr size_type size_bytes() const noexcept { return size() * sizeof(element_type); }
 
     constexpr bool empty() const noexcept { return size() == 0; }
 
@@ -682,14 +706,11 @@ private:
         template <class OtherExtentType>
         constexpr storage_type(KnownNotNull data, OtherExtentType ext)
             : ExtentType(ext), data_(data.p)
-        {
-            Expects(ExtentType::size() != dynamic_extent);
-        }
+        {}
 
         template <class OtherExtentType>
         constexpr storage_type(pointer data, OtherExtentType ext) : ExtentType(ext), data_(data)
         {
-            Expects(ExtentType::size() != dynamic_extent);
             Expects(data || ExtentType::size() == 0);
         }
 
@@ -756,8 +777,15 @@ span(const Container&) -> span<Element>;
 #endif // ( defined(__cpp_deduction_guides) && (__cpp_deduction_guides >= 201611L) )
 
 #if defined(GSL_USE_STATIC_CONSTEXPR_WORKAROUND)
+#if defined(__clang__) && defined(_MSC_VER) && defined(__cplusplus) && (__cplusplus < 201703L)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated" // Bug in clang-cl.exe which raises a C++17 -Wdeprecated warning about this static constexpr workaround in C++14 mode.
+#endif // defined(__clang__) && defined(_MSC_VER) && defined(__cplusplus) && (__cplusplus < 201703L)
 template <class ElementType, std::size_t Extent>
 constexpr const typename span<ElementType, Extent>::size_type span<ElementType, Extent>::extent;
+#if defined(__clang__) && defined(_MSC_VER) && defined(__cplusplus) && (__cplusplus < 201703L)
+#pragma clang diagnostic pop
+#endif // defined(__clang__) && defined(_MSC_VER) && defined(__cplusplus) && (__cplusplus < 201703L)
 #endif
 
 namespace details
