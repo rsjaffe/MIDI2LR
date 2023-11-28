@@ -15,9 +15,9 @@
  */
 #include "CommandTable.h"
 
-#include <algorithm>
 #include <exception>
 #include <memory>
+#include <utility>
 
 #include <gsl/util>
 

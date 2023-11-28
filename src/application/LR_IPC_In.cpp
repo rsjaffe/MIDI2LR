@@ -63,8 +63,8 @@ class LrIpcInShared {
 LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, const Profile& profile,
     const MidiSender& midi_sender, asio::io_context& io_context)
     : midi_sender_ {midi_sender}, profile_ {profile}, controls_model_ {c_model},
-      profile_manager_ {profile_manager}, lr_ipc_in_shared_ {
-                                              std::make_shared<LrIpcInShared>(io_context)}
+      profile_manager_ {profile_manager},
+      lr_ipc_in_shared_ {std::make_shared<LrIpcInShared>(io_context)}
 {
 }
 

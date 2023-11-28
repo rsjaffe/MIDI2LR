@@ -14,7 +14,6 @@
  *
  */
 
-#include <algorithm>
 #include <cstdlib>
 #include <exception>
 #include <filesystem>
@@ -22,6 +21,7 @@
 #include <future>
 #include <memory>
 #include <mutex>
+#include <utility>
 
 #include <asio/asio.hpp>
 #include <cereal/archives/xml.hpp>

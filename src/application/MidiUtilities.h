@@ -106,7 +106,7 @@ template<typename Char> struct fmt::formatter<rsj::MessageType, Char> {
       return end;
    }
 
-   template<typename FormatContext> auto format(const rsj::MessageType& p, FormatContext& ctx)
+   template<typename FormatContext> auto format(const rsj::MessageType& p, FormatContext& ctx) const
    {
       if (tm_format_[0] == 'n') {
          return fmt::format_to(ctx.out(), "{}", rsj::MessageTypeToName(p));

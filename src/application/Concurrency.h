@@ -51,16 +51,14 @@ namespace rsj {
       }
 
       /*4*/ ConcurrentQueue(const ConcurrentQueue& other) noexcept(
-          std::is_nothrow_copy_constructible_v<Container>&& noexcept(
-              std::scoped_lock(std::declval<Mutex>())))
+          std::is_nothrow_copy_constructible_v<Container>&& noexcept(std::scoped_lock(mutex_)))
       {
          auto lock {std::scoped_lock(other.mutex_)};
          queue_ = other.queue_;
       }
 
       /*5*/ ConcurrentQueue(ConcurrentQueue&& other) noexcept(
-          std::is_nothrow_move_constructible_v<Container>&& noexcept(
-              std::scoped_lock(std::declval<Mutex>())))
+          std::is_nothrow_move_constructible_v<Container>&& noexcept(std::scoped_lock(mutex_)))
       {
          auto lock {std::scoped_lock(other.mutex_)};
          queue_ = std::exchange(other.queue_, {});
@@ -96,7 +94,7 @@ namespace rsj {
           class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       ConcurrentQueue(ConcurrentQueue&& other, const Alloc& alloc) noexcept(
           std::is_nothrow_constructible_v<Container, Container, const Alloc&>&& noexcept(
-              std::scoped_lock(std::declval<Mutex>())))
+              std::scoped_lock(mutex_)))
           : queue_(alloc)
       {
          auto lock {std::scoped_lock(other.mutex_)};
@@ -105,8 +103,7 @@ namespace rsj {
 
       /* operator= */
       ConcurrentQueue& operator=(const ConcurrentQueue& other) noexcept(
-          std::is_nothrow_copy_assignable_v<Container>&& noexcept(
-              std::scoped_lock(std::declval<Mutex>())))
+          std::is_nothrow_copy_assignable_v<Container>&& noexcept(std::scoped_lock(mutex_)))
       {
          {
             auto lock {std::scoped_lock(mutex_, other.mutex_)};
@@ -117,8 +114,7 @@ namespace rsj {
       }
 
       ConcurrentQueue& operator=(ConcurrentQueue&& other) noexcept(
-          std::is_nothrow_move_assignable_v<Container>&& noexcept(
-              std::scoped_lock(std::declval<Mutex>())))
+          std::is_nothrow_move_assignable_v<Container>&& noexcept(std::scoped_lock(mutex_)))
       {
          {
             auto lock {std::scoped_lock(mutex_, other.mutex_)};
@@ -132,23 +128,22 @@ namespace rsj {
       ~ConcurrentQueue() = default;
 
       /* methods */
-      [[nodiscard]] auto empty() const noexcept(noexcept(
-          std::declval<Container>().empty()) && noexcept(std::scoped_lock(std::declval<Mutex>())))
+      [[nodiscard]] auto empty() const
+          noexcept(noexcept(queue_.empty()) && noexcept(std::scoped_lock(mutex_)))
       {
          auto lock {std::scoped_lock(mutex_)};
          return queue_.empty();
       }
 
-      [[nodiscard]] size_type size() const noexcept(noexcept(
-          std::declval<Container>().size()) && noexcept(std::scoped_lock(std::declval<Mutex>())))
+      [[nodiscard]] size_type size() const
+          noexcept(noexcept(queue_.size()) && noexcept(std::scoped_lock(mutex_)))
       {
          auto lock {std::scoped_lock(mutex_)};
          return queue_.size();
       }
 
       [[nodiscard]] size_type max_size() const
-          noexcept(noexcept(std::declval<Container>().max_size()) && noexcept(
-              std::scoped_lock(std::declval<Mutex>())))
+          noexcept(noexcept(queue_.max_size()) && noexcept(std::scoped_lock(mutex_)))
       {
          auto lock {std::scoped_lock(mutex_)};
          return queue_.max_size();
@@ -200,8 +195,8 @@ namespace rsj {
          return rc;
       }
 
-      void swap(ConcurrentQueue& other) noexcept(std::is_nothrow_swappable_v<Container>&& noexcept(
-          std::scoped_lock(std::declval<Mutex>())))
+      void swap(ConcurrentQueue& other) noexcept(
+          std::is_nothrow_swappable_v<Container>&& noexcept(std::scoped_lock(mutex_)))
       {
          {
             auto lock {std::scoped_lock(mutex_, other.mutex_)};
@@ -227,8 +222,8 @@ namespace rsj {
       }
 
       void clear() noexcept(std::is_nothrow_default_constructible_v<Container>&&
-              std::is_nothrow_destructible_v<Container>&& std::is_nothrow_swappable_v<
-                  Container>&& noexcept(std::scoped_lock(std::declval<Mutex>())))
+              std::is_nothrow_destructible_v<Container>&&
+                  std::is_nothrow_swappable_v<Container>&& noexcept(std::scoped_lock(mutex_)))
       { /*https://devblogs.microsoft.com/oldnewthing/20201112-00/?p=104444 */
          Container trash {};
          auto lock {std::scoped_lock(mutex_)};
@@ -237,10 +232,8 @@ namespace rsj {
 
       [[nodiscard]] size_type clear_count() noexcept(
           std::is_nothrow_default_constructible_v<Container>&&
-              std::is_nothrow_destructible_v<Container>&&
-                  std::is_nothrow_swappable_v<Container>&& noexcept(
-                      std::declval<Container>()
-                          .size()) && noexcept(std::scoped_lock(std::declval<Mutex>())))
+              std::is_nothrow_destructible_v<Container>&& std::is_nothrow_swappable_v<
+                  Container>&& noexcept(queue_.size()) && noexcept(std::scoped_lock(mutex_)))
       {
          Container trash {};
          {

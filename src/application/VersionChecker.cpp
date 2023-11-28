@@ -15,9 +15,12 @@
  */
 #include "VersionChecker.h"
 
-#include <algorithm>
+#include <atomic>
 #include <exception>
+#include <future>
+#include <string>
 #include <type_traits>
+#include <utility>
 
 #include <fmt/format.h>
 
