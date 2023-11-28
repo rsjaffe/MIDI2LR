@@ -59,6 +59,7 @@
 		F8AB50737B907B086631C821 /* IOKit.framework */ = {isa = PBXBuildFile; fileRef = 818EDED92D24EB7D4F600D34; };
 		F9F594A69212D79B99AC9C66 /* Icon.icns */ = {isa = PBXBuildFile; fileRef = 78C490E72B571C45E9BF65BE; };
 		FC74B26CD05687C5FFD1A1C8 /* Profile.cpp */ = {isa = PBXBuildFile; fileRef = 71BA19677BA7D564A2C16275; };
+		FD6605C5A4469B4AB387864C /* Carbon.framework */ = {isa = PBXBuildFile; fileRef = D2EACC606605DFFAF801E68B; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -135,6 +136,7 @@
 		CCD3AA56FF49ED87A074EDD9 /* Ocpp.h */ /* Ocpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Ocpp.h; path = ../../src/application/Ocpp.h; sourceTree = SOURCE_ROOT; };
 		CE97B74D927FF782C744A25B /* CommandTableModel.h */ /* CommandTableModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CommandTableModel.h; path = ../../src/application/CommandTableModel.h; sourceTree = SOURCE_ROOT; };
 		D238BDBB4BB480ADB8257BDF /* MainWindow.cpp */ /* MainWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainWindow.cpp; path = ../../src/application/MainWindow.cpp; sourceTree = SOURCE_ROOT; };
+		D2EACC606605DFFAF801E68B /* Carbon.framework */ /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		D9BC0CEA563A48C3DC710A32 /* SettingsManager.cpp */ /* SettingsManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SettingsManager.cpp; path = ../../src/application/SettingsManager.cpp; sourceTree = SOURCE_ROOT; };
 		DDB2753894B712708956613D /* MidiUtilities.cpp */ /* MidiUtilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MidiUtilities.cpp; path = ../../src/application/MidiUtilities.cpp; sourceTree = SOURCE_ROOT; };
 		E35092CFA6219FEC9D4CEE88 /* ResizableLayout.cpp */ /* ResizableLayout.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ResizableLayout.cpp; path = ../../external/falco/ResizableLayout.cpp; sourceTree = SOURCE_ROOT; };
@@ -156,6 +158,7 @@
 			files = (
 				1562130B71CCF34B763B688C,
 				F6AE589EAAAB2C15A8BEA721,
+				FD6605C5A4469B4AB387864C,
 				348DDB3FE9388DFE51C66D78,
 				4B121A3266721C7796239A67,
 				8625DB8B66D62CC2D018F17B,
@@ -174,6 +177,7 @@
 			children = (
 				9611FA7443ABCAB541EB5252,
 				68DC42A4B1FB7D7FF18489B7,
+				D2EACC606605DFFAF801E68B,
 				357B44B34E653363B6C68855,
 				21C6B16D556E368BC28C907B,
 				3B8837E2AC355C780919021F,
@@ -530,7 +534,7 @@
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../external/JuceLibraryCode $(SRCROOT)/../../external/JuceLibraryCode/modules $(SRCROOT)/../../external/asio/ $(SRCROOT)/../../external/";
 				OTHER_LDFLAGS = "-weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
@@ -652,7 +656,7 @@
 				INFOPLIST_FILE = Info-App.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../external/JuceLibraryCode $(SRCROOT)/../../external/JuceLibraryCode/modules $(SRCROOT)/../../external/asio/ $(SRCROOT)/../../external/";
 				OTHER_CFLAGS = "-Wall -Wcast-align -Wfloat-equal -Wno-ignored-qualifiers -Wsign-compare -Wsign-conversion -Wstrict-aliasing -Wswitch-enum -Wuninitialized -Wunreachable-code -Wunused-parameter -Wmissing-field-initializers -Wshadow-all -Wshorten-64-to-32 -Wconversion -Wint-conversion -Wconditional-uninitialized -Wconstant-conversion -Wbool-conversion -Wextra-semi -Wshift-sign-overflow -Wmissing-prototypes -Wnullable-to-nonnull-conversion -Wpedantic -Wdeprecated -Wunguarded-availability -Wunguarded-availability-new";
 				OTHER_CPLUSPLUSFLAGS = "-Woverloaded-virtual -Wreorder -Wzero-as-null-pointer-constant -Wunused-private-field -Winconsistent-missing-destructor-override -Wall -Wcast-align -Wfloat-equal -Wno-ignored-qualifiers -Wsign-compare -Wsign-conversion -Wstrict-aliasing -Wswitch-enum -Wuninitialized -Wunreachable-code -Wunused-parameter -Wmissing-field-initializers -Wshadow-all -Wshorten-64-to-32 -Wconversion -Wint-conversion -Wconditional-uninitialized -Wconstant-conversion -Wbool-conversion -Wextra-semi -Wshift-sign-overflow -Wmissing-prototypes -Wnullable-to-nonnull-conversion -Wpedantic -Wdeprecated -Wunguarded-availability -Wunguarded-availability-new";
