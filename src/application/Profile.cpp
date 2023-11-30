@@ -21,6 +21,17 @@
 
 #include "Misc.h"
 
+namespace {
+   const std::vector<std::pair<std::string, std::string>> replace_me {
+       {            "CropAngle",      "straightenAngle"},
+       {       "ResetCropAngle", "ResetstraightenAngle"},
+       {     "local_Whites2012",         "local_Whites"},
+       {     "local_Blacks2012",         "local_Blacks"},
+       {"Resetlocal_Whites2012",    "Resetlocal_Whites"},
+       {"Resetlocal_Blacks2012",    "Resetlocal_Blacks"}
+   };
+} // namespace
+
 void Profile::FromXml(const juce::XmlElement* root)
 {
    /* external use only, but will either use external versions of Profile calls to lock individual
@@ -31,7 +42,15 @@ void Profile::FromXml(const juce::XmlElement* root)
       RemoveAllRows();
       for (const auto* setting : root->getChildIterator()) {
          auto command = setting->getStringAttribute("command_string").toStdString();
-         if (command == "CropAngle"s) { command = "straightenAngle"s; }
+         if (const auto b = command.back(); b == '2' || b == 'e') { // assumes only e,2 end old
+                                                                    // strings
+            for (const auto& i : replace_me) {
+               if (command == i.first) {
+                  command = i.second;
+                  break;
+               }
+            }
+         }
          if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message {setting->getIntAttribute("channel"),
                 setting->getIntAttribute("controller"), rsj::MessageType::kCc};
