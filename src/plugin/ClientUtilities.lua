@@ -537,11 +537,7 @@ local function FullRefresh()
           if altparam == 'Direct' then
             lrvalue = LrDevelopController.getValue(param)
           else
-            if param == altparam then
-              lrvalue = (photoval[param] or 0)
-            else
-              lrvalue = (photoval[param] or 0) + (photoval[altparam] or 0)
-            end
+            lrvalue = photoval[param] or photoval[altparam] or 0
           end
           if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
             local midivalue = (lrvalue-min)/(max-min)
