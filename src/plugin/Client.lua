@@ -88,7 +88,7 @@ LrTasks.startAsyncTask(
     local LrSelection         = import 'LrSelection'
     local LrUndo              = import 'LrUndo'
     --global variables
-    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, CLIENT = {}, RUNNING = true} --non-local but in MIDI2LR namespace
+    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, CLIENT = {}, RUNNING = true, AltOpt = false} --non-local but in MIDI2LR namespace
     --local variables
     local LastParam           = ''
     local UpdateParamPickup, UpdateParamNoPickup, UpdateParam
@@ -183,6 +183,7 @@ LrTasks.startAsyncTask(
       FullRefresh                     = CU.FullRefresh,
       GetPluginInfo                   = DebugInfo.sendLog, -- not in db: internal use only
       GridViewStyle                   = LrApplicationView.gridViewStyle,
+      HoldAltOpt                      = CU.HoldAltOptToggle,
       IncreaseRating                  = LrSelection.increaseRating,
       IncrementLastDevelopParameter   = function() CU.execFOM(LrDevelopController.increment,LastParam) end,
       Key1  = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(1)..'\n') end,
@@ -810,7 +811,7 @@ LrTasks.startAsyncTask(
           value = CU.MIDIValueToLRValue(param, midi_value)
           if value ~= LrDevelopController.getValue(param) then
             MIDI2LR.PARAM_OBSERVER[param] = value
-            LrDevelopController.setValue(param, value)
+            LrDevelopController.setValue(param, value, MIDI2LR.AltOpt)
             LastParam = param
             if ProgramPreferences.ClientShowBezelOnChange and not silent then
               CU.showBezel(param,value)
@@ -848,7 +849,7 @@ LrTasks.startAsyncTask(
       value = CU.MIDIValueToLRValue(param, midi_value)
       if value ~= LrDevelopController.getValue(param) then
         MIDI2LR.PARAM_OBSERVER[param] = value
-        LrDevelopController.setValue(param, value)
+        LrDevelopController.setValue(param, value, MIDI2LR.AltOpt)
         LastParam = param
         if ProgramPreferences.ClientShowBezelOnChange and not silent then
           CU.showBezel(param,value)

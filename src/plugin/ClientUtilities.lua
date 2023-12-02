@@ -71,7 +71,19 @@ local _needsModule = {
 }
 setmetatable ( needsModule, _needsModule)
 
+local AltOptionStr = WIN_ENV and LOC('$$$/AgBezels/KeyRemapping/WinAlt=Alt') or LOC('$$$/AgBezels/KeyRemapping/MacOption=Option')
+AltOptionStr = AltOptionStr .. ' ' .. LOC('$$$/MIDI2LR/Menu/PressAndHold=press and hold') .. ' '
+local AltOptionStrAct = AltOptionStr .. LOC('$$$/AgLocation/EnableGeocoding/Enable=Activate')
+local AltOptionStrDeact = AltOptionStr .. LOC('$$$/AgLocation/EnableGeocoding/Diable=Deactivate')
 --public
+
+local function HoldAltOptToggle()
+  MIDI2LR.AltOpt = not MIDI2LR.AltOpt
+  if ProgramPreferences.ClientShowBezelOnChange then
+    LrDialogs.showBezel(MIDI2LR.AltOpt and AltOptionStrAct or AltOptionStrDeact)
+  end
+end
+
 
 --------------------------------------------------------------------------------
 -- Returns function passed to it, with appropriate switch to Lightroom module if
@@ -448,7 +460,7 @@ end
 local function ApplySettings(settings)
   if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   LrTasks.startAsyncTask ( function ()
-          --[[-----------debug section, enable by adding - to beginning this line
+      --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
       LrApplication.activeCatalog():withWriteAccessDo(
@@ -489,7 +501,7 @@ local function FullRefresh()
   (LrApplicationView.getCurrentModuleName() == 'develop') then
     -- refresh MIDI controller since mapping has changed
     LrTasks.startAsyncTask ( function ()
-            --[[-----------debug section, enable by adding - to beginning this line
+        --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
         local photoval = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
@@ -671,7 +683,7 @@ local function ProfileAmount(value)
   lastprofileadj = os.clock()
   local val = value -- make available to async task
   LrTasks.startAsyncTask ( function ()
-          --[[-----------debug section, enable by adding - to beginning this line
+      --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
       if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
@@ -851,7 +863,7 @@ local function quickDevAdjust(par,val,cmd) --note lightroom applies this to all 
   return function()
     LrTasks.startAsyncTask(
       function()
-            --[[-----------debug section, enable by adding - to beginning this line
+        --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
         local TargetPhoto  = LrApplication.activeCatalog():getTargetPhoto()
@@ -870,7 +882,7 @@ local function quickDevAdjustWB(par,val,cmd) --note lightroom applies this to al
   return function()
     LrTasks.startAsyncTask(
       function()
-            --[[-----------debug section, enable by adding - to beginning this line
+        --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
         local TargetPhoto  = LrApplication.activeCatalog():getTargetPhoto()
@@ -887,6 +899,7 @@ end
 return {
   ApplySettings = ApplySettings,
   FullRefresh = FullRefresh,
+  HoldAltOptToggle = HoldAltOptToggle,
   LRValueToMIDIValue = LRValueToMIDIValue,
   MIDIValueToLRValue = MIDIValueToLRValue,
   ProfileAmount = ProfileAmount,

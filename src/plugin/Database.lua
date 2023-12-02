@@ -92,7 +92,7 @@ local serexp = 'Sends a series of button commands. See [Series of Commands](http
 local size = LOC('$$$/AgDevelop/Toolbar/Localized/BrushSize=Size')
 local smaller = LOC('$$$/AgEmail/FontSize/smaller=smaller')
 local whiteBalance = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/WhiteBalance=White Balance')
-
+local AltOption = WIN_ENV and LOC('$$$/AgBezels/KeyRemapping/WinAlt=Alt') or LOC('$$$/AgBezels/KeyRemapping/MacOption=Option')
 --Groups (but translation may be used for specific actions as well
 --Listing the groups here makes it easier to understand layout, but doesn't change how the program works
 --If the group was listed above this comment, it'd still work ok, but it would be more confusing to the reader
@@ -127,6 +127,7 @@ local crop = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')
 local gotoToolModulePanel = LOC('$$$/AgDialogs/Select=Select')..' '..LOC('$$$/AgDevelop/Menu/Tools=Tools'):gsub('%(%&%a%)',''):gsub('%&','')..LOC('$$$/AgStringUtils/localizedList/separatorString=, ')..LOC('$$$/Application/Menu/Window/Modules=Modules:'):gsub(' ?:','')..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..LOC('$$$/AgPreferences/Interface/GroupTitle/Panels=Panels')
 local secondaryDisplay = LOC('$$$/AgApplication/Menu/Window/SecondaryDisplay=Secondary Display')
 local profiles = LOC("$$$/CRaw/Style/ProfileGroup/Profiles=Profiles")
+
 
 --[[----------------------------------------------------------------------------
   -----------------------------------------------------------------------------]]
@@ -392,6 +393,7 @@ local DataBase = {
   --develop: basic tone panel
   --
   {Command='RevealPanelAdjust',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',basicTone),Group=basicTone,Explanation='Open Basic Adjustments Panel in Develop Module.'},
+  {Command='HoldAltOpt',Type='button',Translation=AltOption..' '..LOC('$$$/MIDI2LR/Menu/PressAndHold=press and hold')..' '..LOC('$$$/AgLocation/EnableGeocoding/Enable=Activate')..'/'..LOC('$$$/AgLocation/EnableGeocoding/Diable=Deactivate'),Group=basicTone,Explanation='Toggles Alt/Option *pressed* state for adjustments that have alternative display when that key is held (e.g., displaying clipping). MIDI2LR always starts with this *not pressed*.'},
   {Command='WhiteBalanceAs_Shot',Type='button',Experimental=true,Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/AsShot=As Shot'),Group=basicTone,Explanation='Use Temperature and Tint as determined by camera.',Panel='adjustPanel'},
   {Command='WhiteBalanceAuto',Type='button',Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Auto=Auto'),Group=basicTone,Explanation='Have Lightroom determine Temperature and Tint.',Panel='adjustPanel'},
   {Command='WhiteBalanceDaylight',Type='button',Experimental=true,Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Daylight=Daylight'),Group=basicTone,Explanation='Use daylight white balance.',Panel='adjustPanel'},
@@ -1173,7 +1175,7 @@ local Ut = require 'Utilities'
 
 local AppTrans = LrPathUtils.child(Ut.appdatapath() , 'MenuTrans.xml')
 local function WriteAppTrans(language)
-  local file = assert(io.open(AppTrans,'w'),LOC("$$$/AgImageIO/Errors/WriteFile=The file could not be written.")..' '..'MenuTrans.txt')
+  local file = assert(io.open(AppTrans,'w'),LOC("$$$/AgImageIO/Errors/WriteFile=The file could not be written.")..' '..'MenuTrans.xml')
   --new version for xml file
   local CmdStructure={}
   local GroupOrder={}
