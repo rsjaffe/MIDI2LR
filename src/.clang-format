@@ -1,6 +1,6 @@
 ---
-# Visual Studio 2022 currently (August 2022) using clang-format v14. Options for later versions
-# may be included but are commented out. Uncomment if used with a later version of clang-format.
+# Visual Studio 2022 currently (November 2023) using clang-format v16. Options for later versions
+# are not included.
 AccessModifierOffset: -2
 AlignAfterOpenBracket: DontAlign
 AlignArrayOfStructures: Right
@@ -10,7 +10,7 @@ AlignConsecutiveDeclarations: false
 AlignConsecutiveMacros: true
 AlignEscapedNewlines: Right
 AlignOperands: true
-AlignTrailingComments: true
+AlignTrailingComments: Always
 AllowAllArgumentsOnNextLine: true
 AllowAllConstructorInitializersOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
@@ -29,10 +29,13 @@ AttributeMacros: ['_In_']
 BinPackArguments: true
 BinPackParameters: true
 BitFieldColonSpacing: Both
+BreakAfterAttributes: Never
+BreakArrays: false
 BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Stroustrup
 BreakBeforeConceptDeclarations: false
 BreakBeforeInheritanceComma: false
+BreakBeforeInlineASMColon: Never
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: false
 BreakConstructorInitializers: BeforeColon
@@ -76,12 +79,20 @@ IndentCaseLabels: false
 IndentExternBlock: Indent
 IndentGotoLabels: false
 IndentPPDirectives: None
-#15 IndentRequiresClause: true
+IndentRequiresClause: true
 IndentWidth: 3
 IndentWrappedFunctionNames: false
-#15 InsertBraces: true
+InsertBraces: true
+InsertNewlineAtEOF: true
+IntegerLiteralSeparator:
+  Binary: 4
+  Decimal: 3
+  Hex: -1
+  BinaryMinDigits: 8
+  DecimalMinDigits: 6
 KeepEmptyLinesAtTheStartOfBlocks: false
 LambdaBodyIndentation: OuterScope
+#LineEnding: #do not use, handled by git
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
 PackConstructorInitializers: BinPack
@@ -100,7 +111,9 @@ QualifierAlignment: Custom
 QualifierOrder: ['inline', 'static', 'volatile', 'const', 'constexpr', 'restrict', 'type']
 ReferenceAlignment: Pointer
 ReflowComments: true
-#15 RequiresClausePosition: OwnLine
+RemoveSemicolon: true
+RequiresClausePosition: OwnLine
+RequiresExpressionIndentation: Keyword
 SeparateDefinitionBlocks: Always
 ShortNamespaceLines: 0
 SortIncludes: true

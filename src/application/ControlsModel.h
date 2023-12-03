@@ -313,7 +313,7 @@ class ControlsModel {
    template<class Archive> void serialize(Archive& archive, const uint32_t version)
    {
       try {
-         if (version == 1) archive(all_controls_);
+         if (version == 1) { archive(all_controls_); }
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;

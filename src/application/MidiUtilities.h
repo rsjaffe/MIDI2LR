@@ -28,8 +28,6 @@
 
 #include <fmt/format.h>
 
-#include "Concurrency.h"
-
 namespace juce {
    class MidiMessage;
 } // namespace juce

@@ -403,8 +403,9 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
                 mapped_unshifted_key != kANSIKeyMap.end()) {
                vk = mapped_unshifted_key->second;
                if (gsl::narrow_cast<char>(std::tolower(static_cast<unsigned char>(key.front())))
-                   != key.front())
+                   != key.front()) {
                   flags |= kCGEventFlagMaskShift;
+               }
             }
             else if (const auto mapped_shifted_key {kANSIKeyMapShifted.find(key)};
                      mapped_shifted_key != kANSIKeyMapShifted.end()) {

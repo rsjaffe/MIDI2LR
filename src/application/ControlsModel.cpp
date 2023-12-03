@@ -16,7 +16,6 @@
 #include "ControlsModel.h"
 
 #include <algorithm>
-#include <cmath>
 #include <stdexcept>
 
 double ChannelModel::OffsetResult(const int diff, const int controlnumber, const bool wrap)
@@ -318,10 +317,12 @@ void ChannelModel::SetCcAll(const int controlnumber, const int min, const int ma
     const rsj::CCmethod controltype)
 {
    try {
-      if (IsNrpn(controlnumber))
-         for (auto a {kMaxMidi + 1}; a <= kMaxNrpn; ++a) SetCc(a, min, max, controltype);
-      else
-         for (auto a {0}; a <= kMaxMidi; ++a) SetCc(a, min, max, controltype);
+      if (IsNrpn(controlnumber)) {
+         for (auto a {kMaxMidi + 1}; a <= kMaxNrpn; ++a) { SetCc(a, min, max, controltype); }
+      }
+      else {
+         for (auto a {0}; a <= kMaxMidi; ++a) { SetCc(a, min, max, controltype); }
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

@@ -203,8 +203,11 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
                }
             }
             else { /* not repeated command */
-               const auto wrap {
-                   std::find(wrap_.begin(), wrap_.end(), command_to_send) != wrap_.end()};
+#ifdef __cpp_lib_ranges_contains
+               const auto wrap {std::ranges::contains(wrap_, command_to_send)};
+#else
+               const auto wrap {std::ranges::find(wrap_, command_to_send) != wrap_.end()};
+#endif
                const auto computed_value {controls_model_.ControllerToPlugin(mm, wrap)};
                SendCommand(fmt::format(FMT_STRING("{} {}\n"), command_to_send, computed_value));
             }

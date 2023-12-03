@@ -58,6 +58,7 @@ class Profile {
    void ToXmlFile(const juce::File& file);
 
  private:
+   using mm_abbrv_table_t = std::pair<rsj::MidiMessageId, std::string>;
    void InsertOrAssignI(const std::string& command, const rsj::MidiMessageId& message);
    [[nodiscard]] bool MessageExistsInMapI(rsj::MidiMessageId message) const;
    void SortI();
@@ -70,22 +71,25 @@ class Profile {
    mutable std::mutex saved_table_mtx_;
    mutable std::shared_mutex mutex_;
    std::pair<int, bool> current_sort_ {2, true};
-   std::vector<std::pair<rsj::MidiMessageId, std::string>> mm_abbrv_table_ {};
-   std::vector<std::pair<rsj::MidiMessageId, std::string>> saved_mm_abbrv_table_ {};
+   std::vector<mm_abbrv_table_t> mm_abbrv_table_ {};
+   std::vector<mm_abbrv_table_t> saved_mm_abbrv_table_ {};
 };
 
 inline bool Profile::CommandHasAssociatedMessage(const std::string& command) const
 {
    auto guard {std::shared_lock {mutex_}};
-   return std::any_of(mm_abbrv_table_.begin(), mm_abbrv_table_.end(),
+#ifdef __cpp_lib_ranges_contains
+   return std::ranges::contains(mm_abbrv_table_, command, &mm_abbrv_table_t::second);
+#else
+   return std::ranges::any_of(mm_abbrv_table_,
        [&command](const auto& p) { return p.second == command; });
+#endif
 }
 
 inline const std::string& Profile::GetCommandForMessage(rsj::MidiMessageId message) const
 {
    auto guard {std::shared_lock {mutex_}};
-   const auto found = std::find_if(mm_abbrv_table_.begin(), mm_abbrv_table_.end(),
-       [message](auto& p) { return p.first == message; });
+   const auto found = std::ranges::find(mm_abbrv_table_, message, &mm_abbrv_table_t::first);
    if (found != mm_abbrv_table_.end()) { return found->second; }
    return CommandSet::kUnassigned;
 }
@@ -99,10 +103,7 @@ inline rsj::MidiMessageId Profile::GetMessageForNumber(size_t num) const
 inline int Profile::GetRowForMessage(rsj::MidiMessageId message) const
 {
    auto guard {std::shared_lock {mutex_}};
-   return gsl::narrow_cast<int>(std::find_if(mm_abbrv_table_.begin(), mm_abbrv_table_.end(),
-                                    [message](auto& p) {
-      return p.first == message;
-   }) - mm_abbrv_table_.begin());
+   return gsl::narrow_cast<int>(std::ranges::find(mm_abbrv_table_, message, &mm_abbrv_table_t::first) - mm_abbrv_table_.begin());
 }
 
 inline void Profile::InsertOrAssign(const std::string& command, rsj::MidiMessageId message)
@@ -127,8 +128,11 @@ inline bool Profile::MessageExistsInMap(rsj::MidiMessageId message) const
 
 inline bool Profile::MessageExistsInMapI(rsj::MidiMessageId message) const
 {
-   return std::any_of(mm_abbrv_table_.begin(), mm_abbrv_table_.end(),
-       [message](auto& p) { return p.first == message; });
+#ifdef __cpp_lib_ranges_contains
+   return std::ranges::contains(mm_abbrv_table_, message, &mm_abbrv_table_t::first);
+#else
+   return std::ranges::any_of(mm_abbrv_table_, [message](auto& p) { return p.first == message; });
+#endif
 }
 
 inline bool Profile::ProfileUnsaved() const

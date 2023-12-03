@@ -17,6 +17,7 @@
 #include <array>
 #include <exception>
 #include <mutex>
+#include <ranges>
 #include <string_view>
 #include <tuple>
 #include <unordered_map>
@@ -116,9 +117,9 @@ namespace {
             stroke_vector.push_back(ip);
          }};
          /* down strokes in reverse order from up strokes */
-         std::for_each(strokes.crbegin(), strokes.crend(), push_stroke);
+         std::ranges::for_each(strokes | std::views::reverse, push_stroke);
          ip.ki.dwFlags = KEYEVENTF_KEYUP;
-         std::for_each(strokes.cbegin(), strokes.cend(), push_stroke);
+         std::ranges::for_each(strokes, push_stroke);
          /* send strokes */
          auto lock {std::scoped_lock(mutex_sending)};
          THROW_LAST_ERROR_IF(SendInput(gsl::narrow_cast<UINT>(stroke_vector.size()),
