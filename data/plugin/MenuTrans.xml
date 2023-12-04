@@ -1271,11 +1271,11 @@
             </value20>
             <value21>
               <first>PointCurveBlacksUpDown</first>
-              <second>Tone Curve increase: Blacks Tone Curve decrease: Blacks</second>
+              <second>Gradation Curve Blacks</second>
             </value21>
             <value22>
               <first>PointCurveHighlightsUpDown</first>
-              <second>Tone Curve increase: Highlights Tone Curve decrease: Highlights</second>
+              <second>Gradation Curve Highlights</second>
             </value22>
         </second>
       </value10>

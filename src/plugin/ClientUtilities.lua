@@ -577,6 +577,10 @@ local function UpdatePointCurve(settings)
   end
 end
 
+local curBlkDn = LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 decrease: ^2',LOC('$$$/AgDevelop/Localized/Panel/Curve=Gradation Curve'),LOC('$$$/AgCameraRawUI/Blacks=Blacks'))
+local curBlkUp = LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=^1 increase: ^2',LOC('$$$/AgDevelop/Localized/Panel/Curve=Gradation Curve'),LOC('$$$/AgCameraRawUI/Blacks=Blacks'))
+local curHiDn = LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 decrease: ^2',LOC('$$$/AgDevelop/Localized/Panel/Curve=Gradation Curve'),LOC('$$$/AgCameraRawUI/Highlights=Highlights'))
+local curHiUp = LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=^1 increase: ^2',LOC('$$$/AgDevelop/Localized/Panel/Curve=Gradation Curve'),LOC('$$$/AgCameraRawUI/Highlights=Highlights'))
 local function PointCurveUpDown(blacks, moveup, color)
   return function()
     if LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
@@ -640,6 +644,13 @@ local function PointCurveUpDown(blacks, moveup, color)
     end
     fChangePanel('tonePanel')
     LrDevelopController.setValue(setting, newpoints)
+        if ProgramPreferences.ClientShowBezelOnChange then
+      if blacks then
+        LrDialogs.showBezel(moveup and curBlkUp or curBlkDn)
+      else
+        LrDialogs.showBezel(moveup and curHiUp or curHiDn)
+      end
+    end
   end
 end
 
