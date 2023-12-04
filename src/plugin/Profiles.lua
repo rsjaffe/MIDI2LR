@@ -80,7 +80,7 @@ local function doprofilechange(newprofile)
           local min,max = Limits.GetMinMax(param) --can't include ClientUtilities: circular reference
           local lrvalue
           if altparam == 'Direct' then
-            lrvalue = LrDevelopController.getValue(param)
+            if LrDevelopController.getSelectedMask() then lrvalue = LrDevelopController.getValue(param) end
           else
             lrvalue = photoval[param] or photoval[altparam] or 0
           end

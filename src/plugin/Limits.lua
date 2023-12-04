@@ -10,7 +10,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 --]]
 
 local LrApplication       = import 'LrApplication'
@@ -19,7 +19,7 @@ local LrDevelopController = import 'LrDevelopController'
 local LrView              = import 'LrView'
 local Database            = require 'Database'
 
---hidden 
+--hidden
 local DisplayOrder           = {'Temperature','Tint','Exposure','straightenAngle'}
 
 --public--each must be in table of exports
@@ -56,7 +56,7 @@ end
 -- @return bool as result of test
 --------------------------------------------------------------------------------
 local function LimitsCanBeSet()
-  return 
+  return
   (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and
   (LrApplicationView.getCurrentModuleName() == 'develop')
 end
@@ -78,7 +78,7 @@ local function GetMinMax(param)
         ProgramPreferences.Limits[param][rangemax] = {low, rangemax}
       end
     else
-      ProgramPreferences.Limits[param] = {param = param, 
+      ProgramPreferences.Limits[param] = {param = param,
         label = Database.CmdTrans[param][Database.LatestPVSupported],
         rangemax = {low,rangemax}}
     end
@@ -99,7 +99,7 @@ end
 local function ClampValue(param)
   local min, max = GetMinMax(param)
   local value = LrDevelopController.getValue(param)
-  if value < min then      
+  if value < min then
     MIDI2LR.PARAM_OBSERVER[param] = min
     LrDevelopController.setValue(param, min)
   elseif value > max then
@@ -123,7 +123,7 @@ local function OptionsRows(f,obstable)
   for _, p in ipairs(DisplayOrder) do
     local low,high = LrDevelopController.getRange(p)
     local integral = high - 5 > low
-    retval[#retval+1] = f:row { 
+    retval[#retval+1] = f:row {
       f:static_text {
         title = ProgramPreferences.Limits[p]['label']..' '..LOC('$$$/MIDI2LR/Limits/Limits=Limits'),
         width = LrView.share('limit_label'),
@@ -131,11 +131,11 @@ local function OptionsRows(f,obstable)
       f:static_text {
         title = LrView.bind('Limits'..p..'Low'),
         alignment = 'right',
-        width = LrView.share('limit_reading'),  
+        width = LrView.share('limit_reading'),
       }, -- static_text
       f:slider {
         value = LrView.bind('Limits'..p..'Low'),
-        min = low, 
+        min = low,
         max = high,
         integral = integral,
         width = LrView.share('limit_slider'),
@@ -143,7 +143,7 @@ local function OptionsRows(f,obstable)
       f:static_text {
         title = LrView.bind('Limits'..p..'High'),
         alignment = 'right',
-        width = LrView.share('limit_reading'),                
+        width = LrView.share('limit_reading'),
       }, -- static_text
       f:slider {
         value = LrView.bind('Limits'..p..'High'),
@@ -177,8 +177,9 @@ local function StartDialog(obstable,f)
       obstable['Limits'..p..'High'] = max
     end
     return OptionsRows(f,obstable)
+  else
+    return {f:row {f:spacer{height=10},f:static_text{title = LOC("$$$/MIDI2LR/Limits/Limits=Limits").."\226\128\148"..LOC('$$$/MIDI2LR/Limits/Limits/NotDevelop=Active in "Develop" module only')},f:spacer{height=10},}}
   end
-  return {visible = false}
 end
 
 local function EndDialog(obstable, status)

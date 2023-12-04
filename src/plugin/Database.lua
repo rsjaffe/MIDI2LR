@@ -62,7 +62,7 @@ Optional: AltParameter : define for those parameters in which
   -----------------------------------------------------------------------------]]
 
 --local function LOC(str) return str end--for debugging
--- if update LatestPVSupported, update CmdTrans at end of this file to add the new PVs
+-- if update LatestPVSupported, *****update CmdTrans at end of this file to add the new PVs*****
 local LatestPVSupported = 6 -- used for update PV to latest and for limits code to get best label
 
 --Common terms used in database translated once here
@@ -379,7 +379,7 @@ local DataBase = {
   {Command='PV2',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',2),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 2.'},
   {Command='PV3',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',3),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 3.'},
   {Command='PV4',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',4),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 4.'},
-  --{Command='PV5',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',5),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 5.'},
+  {Command='PV5',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',5),Group=develop,Explanation='Sets the Process Version of all selected photos to PV 5.'},
   {Command='PVLatest',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateToCurrentProcessVersion=Update to current process version'),Group=develop,Explanation='Sets the Process Version of all selected photos to the latest (currently PV '..LatestPVSupported..'). This Process Version command is recommended if you want the latest version instead of one specific version.'},
   {Command='ShowClipping',Type='button',Translation=LOC('$$$/AgDevelop/Histogram/Menu/ShowClippingIndicators=Show clipping'),Group=develop,Explanation='Toggles clipping indicators on/off. Must be called while the Develop module is active.'},
   --develop: before/after previews
@@ -442,6 +442,7 @@ local DataBase = {
   {Command='ParametricShadowSplit',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneShadowSplit=Shadow Split'),Group=toneCurve,Explanation='Move division between shadows and darks.',Panel='tonePanel'},
   {Command='ParametricMidtoneSplit',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneMidtoneSplit=Midtone Split'),Group=toneCurve,Explanation='Move division between darks and lights.',Panel='tonePanel'},
   {Command='ParametricHighlightSplit',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneHighlightSplit=Highlight Split'),Group=toneCurve,Explanation='Move division between lights and highlights.',Panel='tonePanel'},
+  {Command='CurveRefineSaturation',Type='parameter',Translation=LOC('$$$/AgDevelop/Settings/CurveRefineSaturation=Refine Saturation'),Group=toneCurve,Explanation='Reduces saturation caused by tone curve (0 is original saturation).',Panel='tonePanel'},
   {Command='ResetParametricDarks',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneDarks=Dark Tones')),Group=toneCurve,Explanation='Reset to default.',Panel='tonePanel'},
   {Command='ResetParametricLights',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneLights=Light Tones')),Group=toneCurve,Explanation='Reset to default.',Panel='tonePanel'},
   {Command='ResetParametricShadows',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneShadows=Shadow Tones')),Group=toneCurve,Explanation='Reset to default.',Panel='tonePanel'},
@@ -449,9 +450,16 @@ local DataBase = {
   {Command='ResetParametricShadowSplit',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneShadowSplit=Shadow Split')),Group=toneCurve,Explanation='Reset to default.',Panel='tonePanel'},
   {Command='ResetParametricMidtoneSplit',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneMidtoneSplit=Midtone Split')),Group=toneCurve,Explanation='Reset to default.',Panel='tonePanel'},
   {Command='ResetParametricHighlightSplit',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneHighlightSplit=Highlight Split')),Group=toneCurve,Explanation='Reset to default.',Panel='tonePanel'},
+  {Command='ResetCurveRefineSaturation',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',LOC('$$$/AgDevelop/Settings/CurveRefineSaturation=Refine Saturation')),Group=toneCurve,Explanation='Reset to default.',Panel='tonePanel'},
   {Command='PointCurveLinear',Type='button',Translation=toneCurve..' '..LOC('$$$/CRaw/ToneCurvePreset/Linear=Linear'),Group=toneCurve,Explanation='Linear Point Curve.',Panel='tonePanel'},
   {Command='PointCurveMediumContrast',Type='button',Translation=toneCurve..' '..LOC('$$$/CRaw/ToneCurvePreset/MediumContrast=Medium Contrast'),Group=toneCurve,Explanation='Medium Contrast Point Curve.',Panel='tonePanel'},
   {Command='PointCurveStrongContrast',Type='button',Translation=toneCurve..' '..LOC('$$$/CRaw/ToneCurvePreset/StrongContrast=Strong Contrast'),Group=toneCurve,Explanation='Strong Contrast Point Curve.',Panel='tonePanel'},
+  --{Command='PointCurveBlacksUp',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=^1 increase: ^2',toneCurve,LOC('$$$/AgCameraRawUI/Blacks=Blacks')),Group=toneCurve,Explanation='Moves the tone curve points for blacks and shadows up.',Panel='tonePanel'},
+  --{Command='PointCurveBlacksDown',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 decrease: ^2',toneCurve,LOC('$$$/AgCameraRawUI/Blacks=Blacks')),Group=toneCurve,Explanation='Moves the tone curve points for blacks and shadows down.',Panel='tonePanel'},
+  --{Command='PointCurveHighlightsUp',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=^1 increase: ^2',toneCurve,LOC('$$$/AgCameraRawUI/Highlights=Highlights')),Group=toneCurve,Explanation='Moves the tone curve points for highlights and whites up.',Panel='tonePanel'},
+  --{Command='PointCurveHighlightsDown',Type='button',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 decrease: ^2',toneCurve,LOC('$$$/AgCameraRawUI/Highlights=Highlights')),Group=toneCurve,Explanation='Moves the tone curve points for highlights and whites down.',Panel='tonePanel'},
+  {Command='PointCurveBlacksUpDown',Type='repeat',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=^1 increase: ^2',toneCurve,LOC('$$$/AgCameraRawUI/Blacks=Blacks'))..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 decrease: ^2',toneCurve,LOC('$$$/AgCameraRawUI/Blacks=Blacks')),Group=toneCurve,Explanation='Turning knob moves the tone curve points for blacks and shadows up and down.',Repeats={'PointCurveBlacksUp','PointCurveBlacksDown'}},
+  {Command='PointCurveHighlightsUpDown',Type='repeat',Translation=LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=^1 increase: ^2',toneCurve,LOC('$$$/AgCameraRawUI/Highlights=Highlights'))..' '..LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 decrease: ^2',toneCurve,LOC('$$$/AgCameraRawUI/Highlights=Highlights')),Group=toneCurve,Explanation='Turning knob moves the tone curve points for highlights and whites up and down.',Repeats={'PointCurveHighlightsUp','PointCurveHighlightsDown'}},
   --
   --develop: mixer panel
   --
@@ -686,7 +694,6 @@ local DataBase = {
   --
   {Command='RevealPanelCalibrate',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',calibration),Group=calibration,Explanation='Open Camera Calibration Panel in Develop Module.'},
   {Command='EnableCalibration',Type='button',Translation=LOC('$$$/AgDevelop/Settings/ToggleCalibration=Calibration enable/disable'),Group=calibration,Explanation='Enable or disable custom camera calibration.',Panel='calibratePanel'},
-  {Command='ProfileAmount',Type='variable',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ProfileAmount=Profile amount'),Group=calibration,Explanation='Varies amount of custom calibration applied. **Note**: The MIDI controller does not get updated when the value is changed directly in Lightroom, either by using a mouse or when changing images. Pickup mode does not affect behavior of this adjustment. Also, Lightroom may complain of being unable to update the value if too many changes occur in a short period of time. Just dismiss those warnings and continue.', Panel='calibratePanel'},
   {Command='ShadowTint',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ShadowTintCalibration=Shadow Tint Calibration'),Group=calibration,Explanation='Corrects for any green or magenta tint in the shadow areas of the photo.',Panel='calibratePanel'},
   {Command='RedHue',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RedHueCalibration=Red Hue Calibration'),Group=calibration,Explanation='For the red primary. Moving the Hue slider to the left (negative value) is similar to a counterclockwise move on the color wheel; moving it to the right (positive value) is similar to a clockwise move.',Panel='calibratePanel'},
   {Command='RedSaturation',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RedSaturationCalibration=Red Saturation Calibration'),Group=calibration,Explanation='For the red primary. Moving the Saturation slider to the left (negative value) desaturates the color; moving it to the right (positive value) increases saturation.',Panel='calibratePanel'},
@@ -944,38 +951,54 @@ local DataBase = {
   {Command='MaskInvertTool',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/ToggleInvert=Toggle invert for selected tool'),Group=mask,Explanation=''},
   {Command='MaskHide',Type='button',Translation=LOC('$$$/MIDI2LR/ShortCuts/ShowHide1=Show/hide ^1',LOC('$$$/AgDevelop/Menu/View/MaskGroup=mask group')),Group=mask,Explanation='Show/hide the effect of selected mask group.'},
   {Command='MaskHideTool',Type='button',Translation=LOC('$$$/MIDI2LR/ShortCuts/ShowHide1=Show/hide ^1',LOC('$$$/MIDI2LR/Menu/Tool=tool')),Group=mask,Explanation='Show/hide the effect of selected individual mask tool within the current group.'},
+
+  {Command='MaskNewSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
+  {Command='MaskNewSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
+  {Command='MaskNewBack',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectBackground/Short=background'),Group=mask,Explanation=''},
+  {Command='MaskNewObj',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectObject/Short=object'),Group=mask,Explanation=''},
   {Command='MaskNewBrush',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/Brush=brush'),Group=mask,Explanation=''},
   {Command='MaskNewGrad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/Gradient=gradient'),Group=mask,Explanation=''},
   {Command='MaskNewRad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/CircularGradient=radial gradient'),Group=mask,Explanation=''},
   {Command='MaskNewColor',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/ColorRange=color range'),Group=mask,Explanation=''},
   {Command='MaskNewLum',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/LuminanceRange=luminance range'),Group=mask,Explanation=''},
   {Command='MaskNewDepth',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/DepthRange=depth range'),Group=mask,Explanation=''},
-  {Command='MaskNewSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
-  {Command='MaskNewSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
+  {Command='MaskNewPeople',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewMask=New ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectPerson/Short=persons'),Group=mask,Explanation=''},
+
+  {Command='MaskAddSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
+  {Command='MaskAddSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
+  {Command='MaskAddBack',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/AddToMask=Add ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectBackground/Short=background'),Group=mask,Explanation=''},
+  {Command='MaskAddObj',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/AddToMask=Add ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectObject/Short=object'),Group=mask,Explanation=''},
   {Command='MaskAddBrush',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/Brush=brush'),Group=mask,Explanation=''},
   {Command='MaskAddGrad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/Gradient=gradient'),Group=mask,Explanation=''},
   {Command='MaskAddRad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/CircularGradient=radial gradient'),Group=mask,Explanation=''},
   {Command='MaskAddColor',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/ColorRange=color range'),Group=mask,Explanation=''},
   {Command='MaskAddLum',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/LuminanceRange=luminance range'),Group=mask,Explanation=''},
   {Command='MaskAddDepth',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/DepthRange=depth range'),Group=mask,Explanation=''},
-  {Command='MaskAddSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
-  {Command='MaskAddSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
+  {Command='MaskAddPeople',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/AddToMask=Add ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectPerson/Short=persons'),Group=mask,Explanation=''},
+
+  {Command='MaskSubSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
+  {Command='MaskSubSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
+  {Command='MaskSubBack',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectBackground/Short=background'),Group=mask,Explanation=''},
+  {Command='MaskSubObj',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectObject/Short=object'),Group=mask,Explanation=''},
   {Command='MaskSubBrush',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/Brush=brush'),Group=mask,Explanation=''},
   {Command='MaskSubGrad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/Gradient=gradient'),Group=mask,Explanation=''},
   {Command='MaskSubRad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/CircularGradient=radial gradient'),Group=mask,Explanation=''},
   {Command='MaskSubColor',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/ColorRange=color range'),Group=mask,Explanation=''},
   {Command='MaskSubLum',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/LuminanceRange=luminance range'),Group=mask,Explanation=''},
   {Command='MaskSubDepth',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/DepthRange=depth range'),Group=mask,Explanation=''},
-  {Command='MaskSubSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
-  {Command='MaskSubSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
+  {Command='MaskSubPeople',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectPerson/Short=persons'),Group=mask,Explanation=''},
+
+  {Command='MaskIntSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
+  {Command='MaskIntSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
   {Command='MaskIntBrush',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/Brush=brush'),Group=mask,Explanation=''},
   {Command='MaskIntGrad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/Gradient=gradient'),Group=mask,Explanation=''},
   {Command='MaskIntRad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/CircularGradient=radial gradient'),Group=mask,Explanation=''},
   {Command='MaskIntColor',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/ColorRange=color range'),Group=mask,Explanation=''},
   {Command='MaskIntLum',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/LuminanceRange=luminance range'),Group=mask,Explanation=''},
   {Command='MaskIntDepth',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/DepthRange=depth range'),Group=mask,Explanation=''},
-  {Command='MaskIntSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
-  {Command='MaskIntSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
+  {Command='MaskIntBack',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectBackground/Short=background'),Group=mask,Explanation=''},
+  {Command='MaskIntObj',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectObject/Short=object'),Group=mask,Explanation=''},
+  {Command='MaskIntPeople',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Intersect=Intersect with mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectPerson/Short=persons'),Group=mask,Explanation=''},
 
   --
   --develop: localized adjustments
@@ -1160,6 +1183,7 @@ for _,v in ipairs(DataBase) do
   CmdTrans[v.Command][3] = v.PV3 or CmdTrans[v.Command][2]
   CmdTrans[v.Command][4] = v.PV4 or CmdTrans[v.Command][3]
   CmdTrans[v.Command][5] = v.PV5 or CmdTrans[v.Command][4]
+  CmdTrans[v.Command][6] = v.PV6 or CmdTrans[v.Command][5]
   if v.Panel then
     CmdPanel[v.Command] = v.Panel
   end
