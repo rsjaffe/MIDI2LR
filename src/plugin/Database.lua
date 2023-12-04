@@ -108,7 +108,7 @@ local photos = LOC('$$$/AgLibrary/Help/Shortcuts/Header/ImageShortcuts=Photos')
 local develop = LOC('$$$/SmartCollection/Criteria/Heading/Develop=Develop')
 local basicTone = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/BasicTone=Basic Tone')
 local toneCurve = LOC('$$$/AgDevelop/CameraRawPanel/TargetName/ToneCurve=Tone Curve')
-local colorAdjustments = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/ColorAdjustments=Color Adjustments')
+local colorAdjustments = LOC('$$$/AgDevelop/ColorAdjustments/ColorMixer/Title=Color Adjustments')
 local resetColorAdjustments = LOC('$$$/AgCameraRawController/TargetAdjustment/Reset=Reset ^1',colorAdjustments)
 local colorGrading = LOC('$$$/AgDevelop/Panel/ColorGrading=Color Grading')
 local detail = LOC('$$$/AgDevelop/Panel/Detail=Detail')
@@ -966,15 +966,15 @@ local DataBase = {
 
   {Command='MaskAddSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
   {Command='MaskAddSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
-  {Command='MaskAddBack',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/AddToMask=Add ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectBackground/Short=background'),Group=mask,Explanation=''},
-  {Command='MaskAddObj',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/AddToMask=Add ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectObject/Short=object'),Group=mask,Explanation=''},
+  {Command='MaskAddBack',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectBackground/Short=background'),Group=mask,Explanation=''},
+  {Command='MaskAddObj',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectObject/Short=object'),Group=mask,Explanation=''},
   {Command='MaskAddBrush',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/Brush=brush'),Group=mask,Explanation=''},
   {Command='MaskAddGrad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/Gradient=gradient'),Group=mask,Explanation=''},
   {Command='MaskAddRad',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/CircularGradient=radial gradient'),Group=mask,Explanation=''},
   {Command='MaskAddColor',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/ColorRange=color range'),Group=mask,Explanation=''},
   {Command='MaskAddLum',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/LuminanceRange=luminance range'),Group=mask,Explanation=''},
   {Command='MaskAddDepth',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1 to the mask',LOC'$$$/AgDevelop/Localized/MaskGroup/DepthRange=depth range'),Group=mask,Explanation=''},
-  {Command='MaskAddPeople',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/AddToMask=Add ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectPerson/Short=persons'),Group=mask,Explanation=''},
+  {Command='MaskAddPeople',Type='button',Translation=LOC('$$$/AgDevelop/Localized/Masking/AddToMask=Add ^1',LOC'$$$/AgDevelop/Localized/MaskGroup/SelectPerson/Short=persons'),Group=mask,Explanation=''},
 
   {Command='MaskSubSubject',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSubject/Short=subject'),Group=mask,Explanation=''},
   {Command='MaskSubSky',Type='button',Translation=LOC('$$$/AgDevelop/Localized/MaskGroup/NewComponent/Subtract=Subtract from mask...')..' '..LOC('$$$/AgDevelop/Localized/MaskGroup/SelectSky/Short=sky'),Group=mask,Explanation=''},
@@ -1015,7 +1015,7 @@ local DataBase = {
   {Command='ChangeFeatherSize',Type='repeat',Translation=brush..' — '..feather,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Change adjustment brush feather size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size.'..repeatexp,Repeats={'BrushFeatherLarger','BrushFeatherSmaller'}},
   {Command='BrushFeatherSmaller',Type='button',Translation=brush..' — '..feather..' — '..smaller,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Reduce adjustment brush feather. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.'},
   {Command='BrushFeatherLarger',Type='button',Translation=brush..' — '..feather..' — '..larger,Group=localizedAdjustments,Explanation='Sends keystroke to Lightroom. The keystroke varies according to the which Language Lightroom is set to. Increase adjustment brush feather. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.'},
-  {Command='local_Amount',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Amount=amount'),Group=localizedAdjustments,Explanation='Adjust amount of application of local presets',AltParameter='Direct'},
+  {Command='local_Amount',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/CorrectionAmount=amount'),Group=localizedAdjustments,Explanation='Adjust amount of application of local presets',AltParameter='Direct'},
   {Command='local_Temperature',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Temperature=Temp.')..' (PV 3+)',PV3=locadj..' '..LOC('$$$/AgDevelop/Localized/Temperature=Temp.'),Group=localizedAdjustments,Explanation='Adjust Temperature for the currently active tool: Brush, Radial Filter, or Graduated Filter.',AltParameter='Direct'},
   {Command='local_Tint',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Tint=Tint')..' (PV 3+)',PV3=locadj..' '..LOC('$$$/AgDevelop/Localized/Tint=Tint'),Group=localizedAdjustments,Explanation='Adjust Tint for the currently active tool: Brush, Radial Filter, or Graduated Filter.',AltParameter='Direct'},
   {Command='local_Exposure',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Exposure=Exposure')..' ('..P2and3plus..')',PV2=locadj..' '..LOC('$$$/AgDevelop/Localized/Exposure=Exposure'),Group=localizedAdjustments,Explanation='Adjust Exposure for the currently active tool: Brush, Radial Filter, or Graduated Filter.',AltParameter='Direct'},
