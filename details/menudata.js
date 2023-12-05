@@ -115,4 +115,4 @@ var menudata={children:[
 {text:"w",url:"functions_vars_w.html#index_w"}]},
 {text:"Typedefs",url:"functions_type.html"},
 {text:"Enumerations",url:"functions_enum.html"},
-{text:"Related Functions",url:"functions_rela.html"}]}]}]}
+{text:"Related Symbols",url:"functions_rela.html"}]}]}]}

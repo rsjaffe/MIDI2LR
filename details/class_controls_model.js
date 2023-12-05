@@ -10,7 +10,7 @@ var class_controls_model =
     [ "MeasureChange", "class_controls_model.html#acfd653df0d8aed249bc314f8ce8ec06d", null ],
     [ "MeasureChange", "class_controls_model.html#ac9eb2558b85b17377b6903572cbf127f", null ],
     [ "PluginToController", "class_controls_model.html#aa01164847f0f99a719a5ce629ffc98b3", null ],
-    [ "serialize", "class_controls_model.html#af48342ffeadbf99b7fc12e771cab0625", null ],
+    [ "serialize", "class_controls_model.html#a44e99cb628f119f8c24169f4d1b22956", null ],
     [ "SetCc", "class_controls_model.html#aa2aa83e391646d803bf251a62f461af9", null ],
     [ "SetCcAll", "class_controls_model.html#ab369e2c0f31ac41671e917939643c167", null ],
     [ "SetCcMax", "class_controls_model.html#a5b7a06a72f2bd775dd14877418eae610", null ],

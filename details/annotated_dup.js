@@ -1,7 +1,17 @@
 var annotated_dup =
 [
-    [ "fmt", "namespacefmt.html", "namespacefmt" ],
-    [ "rsj", "namespacersj.html", "namespacersj" ],
+    [ "fmt", null, [
+      [ "formatter< rsj::MessageType, Char >", "structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html", "structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4" ]
+    ] ],
+    [ "rsj", "namespacersj.html", [
+      [ "ActiveModifiers", "structrsj_1_1_active_modifiers.html", "structrsj_1_1_active_modifiers" ],
+      [ "CFDeleter", "structrsj_1_1_c_f_deleter.html", "structrsj_1_1_c_f_deleter" ],
+      [ "ConcurrentQueue", "classrsj_1_1_concurrent_queue.html", "classrsj_1_1_concurrent_queue" ],
+      [ "KeyData", "structrsj_1_1_key_data.html", "structrsj_1_1_key_data" ],
+      [ "MidiMessage", "structrsj_1_1_midi_message.html", "structrsj_1_1_midi_message" ],
+      [ "MidiMessageId", "structrsj_1_1_midi_message_id.html", "structrsj_1_1_midi_message_id" ],
+      [ "SettingsStruct", "structrsj_1_1_settings_struct.html", "structrsj_1_1_settings_struct" ]
+    ] ],
     [ "std", null, [
       [ "hash< rsj::MidiMessageId >", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4" ]
     ] ],

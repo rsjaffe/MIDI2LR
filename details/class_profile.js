@@ -1,5 +1,6 @@
 var class_profile =
 [
+    [ "mm_abbrv_lmnt_t", "class_profile.html#aeb28c9236bbfe7da0df38e83f3acdb07", null ],
     [ "Profile", "class_profile.html#a6012a9f1b5b3d0b43fbbb312b153117d", null ],
     [ "CommandHasAssociatedMessage", "class_profile.html#a77ba709ce554f849159a08950a9a93d3", null ],
     [ "FromXml", "class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720", null ],
@@ -24,9 +25,9 @@ var class_profile =
     [ "ToXmlFile", "class_profile.html#a6ae35735b1edc78dd1b32535c093aca8", null ],
     [ "command_set_", "class_profile.html#af3dd223ec0e1ebf376647ba622d34e85", null ],
     [ "current_sort_", "class_profile.html#af3463acf83f255b501ec8a3e44d12681", null ],
-    [ "mm_abbrv_table_", "class_profile.html#aaad5b4cc484d8e0d7421b9d5414895ef", null ],
+    [ "mm_abbrv_table_", "class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43", null ],
     [ "mutex_", "class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073", null ],
     [ "profile_unsaved_", "class_profile.html#a5a3f148bef7c8510e96ec42824e834da", null ],
-    [ "saved_mm_abbrv_table_", "class_profile.html#ab1f2ab7fd364bd4d3a9bbf7bf9e5b96e", null ],
+    [ "saved_mm_abbrv_table_", "class_profile.html#ab6d36386b0443a218308179086dff426", null ],
     [ "saved_table_mtx_", "class_profile.html#a4661e1aeb678d3add27fd9aa993b4a39", null ]
 ];

@@ -6,7 +6,7 @@ var class_c_coptions =
     [ "BindToControl", "class_c_coptions.html#a22932f3d2ae242a2c0de934801c2816c", null ],
     [ "buttonClicked", "class_c_coptions.html#a13493c8ed50e389eb15930fbcdeb0e93", null ],
     [ "LinkToControlsModel", "class_c_coptions.html#a619006592f172a81a8c3f73c05440a0e", null ],
-    [ "operator=", "class_c_coptions.html#a6c8a9fe66aca064e0ea57a7f0a275229", null ],
+    [ "operator=", "class_c_coptions.html#aab71e4606aaff025183146f1a03f348b", null ],
     [ "paint", "class_c_coptions.html#a8d68ddf926aeb364ecdd204a25e01d81", null ],
     [ "resized", "class_c_coptions.html#a5d08843370dbba861d25fec42f47862f", null ],
     [ "textEditorFocusLost", "class_c_coptions.html#a3cff0c3a7927858957412e27fea0a997", null ],
