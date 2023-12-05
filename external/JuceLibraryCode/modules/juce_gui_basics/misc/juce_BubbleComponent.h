@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -151,14 +151,33 @@ public:
     {
         virtual ~LookAndFeelMethods() = default;
 
-        virtual void drawBubble (Graphics&, BubbleComponent&,
+        /** Override this method to draw a speech-bubble pointing at a specific location on
+            the screen.
+        */
+        virtual void drawBubble (Graphics& g,
+                                 BubbleComponent& bubbleComponent,
                                  const Point<float>& positionOfTip,
                                  const Rectangle<float>& body) = 0;
+
+        /** Override this method to set effects, such as a drop-shadow, on a
+            BubbleComponent.
+
+            This will be called whenever a BubbleComponent is constructed or its
+            look-and-feel changes.
+
+            If you need to trigger this callback to update an effect, call
+            sendLookAndFeelChange() on the component.
+
+            @see Component::setComponentEffect, Component::sendLookAndFeelChange
+        */
+        virtual void setComponentEffectForBubbleComponent (BubbleComponent& bubbleComponent) = 0;
     };
 
     //==============================================================================
     /** @internal */
     void paint (Graphics&) override;
+    /** @internal */
+    void lookAndFeelChanged() override;
 
 protected:
     //==============================================================================
@@ -178,7 +197,6 @@ private:
     Rectangle<int> content;
     Point<int> arrowTip;
     int allowablePlacements;
-    DropShadowEffect shadow;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BubbleComponent)
 };

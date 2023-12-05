@@ -44,12 +44,13 @@ void rsj::LabelThread(gsl::cwzstring threadname)
 }
 #else
 #include <pthread.h>
+
 void rsj::LabelThread(gsl::czstring threadname)
 {
    auto result {pthread_setname_np(threadname)};
    if (result) {
-      rsj::Log(
-          fmt::format(FMT_STRING("Label thread {} failed with {} error."), threadname, result));
+      rsj::Log(fmt::format(FMT_STRING("Label thread {} failed with {} error."), threadname,
+          result));
    }
 }
 #endif
@@ -99,7 +100,7 @@ namespace {
    try {
       ::std::string result;
       result.resize(in.size());
-      ::std::transform(in.begin(), in.end(), result.begin(), [](const unsigned char c) noexcept {
+      ::std::ranges::transform(in, result.begin(), [](const unsigned char c) noexcept {
          return gsl::narrow_cast<unsigned char>(::std::tolower(c));
       });
       return result;
@@ -123,6 +124,7 @@ void rsj::TrimL(::std::string_view& value) noexcept
    const auto first_not {value.find_first_not_of(" \t\n")};
    if (first_not != ::std::string_view::npos) { value.remove_prefix(first_not); }
 }
+
 /*****************************************************************************/
 /**************Error Logging**************************************************/
 /*****************************************************************************/
@@ -154,14 +156,14 @@ void rsj::Log(gsl::cwzstring info, const std::source_location& location) noexcep
    rsj::Log(juce::String(info), location);
 }
 
-void rsj::LogAndAlertError(
-    const juce::String& error_text, const std::source_location& location) noexcept
+void rsj::LogAndAlertError(const juce::String& error_text,
+    const std::source_location& location) noexcept
 {
    try {
       {
          juce::MessageManager::callAsync([=] {
-            juce::NativeMessageBox::showMessageBox(
-                juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
+                juce::translate("Error"), error_text);
          });
       }
       rsj::Log(error_text, location);
@@ -176,8 +178,8 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
    try {
       {
          juce::MessageManager::callAsync([=] {
-            juce::NativeMessageBox::showMessageBox(
-                juce::AlertWindow::WarningIcon, juce::translate("Error"), alert_text);
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
+                juce::translate("Error"), alert_text);
          });
       }
       rsj::Log(error_text, location);
@@ -191,8 +193,8 @@ void rsj::LogAndAlertError(gsl::czstring error_text, const std::source_location&
    try {
       {
          juce::MessageManager::callAsync([=] {
-            juce::NativeMessageBox::showMessageBox(
-                juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
+                juce::translate("Error"), error_text);
          });
       }
       rsj::Log(error_text, location);
@@ -200,6 +202,7 @@ void rsj::LogAndAlertError(gsl::czstring error_text, const std::source_location&
    catch (...) { //-V565 //-V5002
    }
 }
+
 void rsj::ExceptionResponse(const std::exception& e, const std::source_location& location) noexcept
 {
    try {
@@ -232,8 +235,8 @@ void rsj::Log(gsl::czstring info) noexcept
 #ifdef _WIN32
          auto last_error {wil::last_error_context()};
 #endif
-         juce::Logger::writeToLog(
-             juce::Time::getCurrentTime().toISO8601(true) + " " + juce::String::fromUTF8(info));
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + " "
+                                  + juce::String::fromUTF8(info));
       }
    }
    catch (...) { //-V565
@@ -259,8 +262,8 @@ void rsj::LogAndAlertError(const juce::String& error_text) noexcept
    try {
       {
          juce::MessageManager::callAsync([=] {
-            juce::NativeMessageBox::showMessageBox(
-                juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
+                juce::translate("Error"), error_text);
          });
       }
       rsj::Log(error_text);
@@ -274,8 +277,8 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
    try {
       {
          juce::MessageManager::callAsync([=] {
-            juce::NativeMessageBox::showMessageBox(
-                juce::AlertWindow::WarningIcon, juce::translate("Error"), alert_text);
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
+                juce::translate("Error"), alert_text);
          });
       }
       rsj::Log(error_text);
@@ -289,8 +292,8 @@ void rsj::LogAndAlertError(gsl::czstring error_text) noexcept
    try {
       {
          juce::MessageManager::callAsync([=] {
-            juce::NativeMessageBox::showMessageBox(
-                juce::AlertWindow::WarningIcon, juce::translate("Error"), error_text);
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
+                juce::translate("Error"), error_text);
          });
       }
       rsj::Log(error_text);
@@ -302,8 +305,8 @@ void rsj::LogAndAlertError(gsl::czstring error_text) noexcept
 #pragma warning(push)
 #pragma warning(disable : 26447)
 #if defined(__GNUC__) || defined(__clang__)
-void rsj::ExceptionResponse(
-    [[maybe_unused]] gsl::czstring id, gsl::czstring fu, const ::std::exception& e) noexcept
+void rsj::ExceptionResponse([[maybe_unused]] gsl::czstring id, gsl::czstring fu,
+    const ::std::exception& e) noexcept
 {
    try {
       const auto alert_text {
@@ -320,8 +323,8 @@ void rsj::ExceptionResponse(
 void rsj::ExceptionResponse(gsl::czstring id, gsl::czstring fu, const ::std::exception& e) noexcept
 {
    try {
-      const auto alert_text {fmt::format(
-          juce::translate("Exception ").toStdString() + "{} {}::{}.", e.what(), id, fu)};
+      const auto alert_text {fmt::format(juce::translate("Exception ").toStdString() + "{} {}::{}.",
+          e.what(), id, fu)};
       const auto error_text {fmt::format(FMT_STRING("Exception {} {}::{}."), e.what(), id, fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
@@ -353,6 +356,7 @@ std::wstring rsj::AppDataFilePath(std::string_view file_name)
 {
    return rsj::AppDataMac() + "/MIDI2LR/" + file_name;
 }
+
 ::std::string rsj::AppLogFilePath(const ::std::string& file_name)
 {
    return rsj::AppLogMac() + "/MIDI2LR/" + file_name;

@@ -2,7 +2,7 @@
 // detail/memory.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,6 +20,7 @@
 #include <cstdlib>
 #include <memory>
 #include <new>
+#include "asio/detail/cstdint.hpp"
 #include "asio/detail/throw_exception.hpp"
 
 #if !defined(ASIO_HAS_STD_SHARED_PTR)
@@ -58,6 +59,36 @@ using std::addressof;
 #else // defined(ASIO_HAS_STD_ADDRESSOF)
 using boost::addressof;
 #endif // defined(ASIO_HAS_STD_ADDRESSOF)
+
+#if defined(ASIO_HAS_STD_TO_ADDRESS)
+using std::to_address;
+#else // defined(ASIO_HAS_STD_TO_ADDRESS)
+template <typename T>
+inline T* to_address(T* p) { return p; }
+template <typename T>
+inline const T* to_address(const T* p) { return p; }
+template <typename T>
+inline volatile T* to_address(volatile T* p) { return p; }
+template <typename T>
+inline const volatile T* to_address(const volatile T* p) { return p; }
+#endif // defined(ASIO_HAS_STD_TO_ADDRESS)
+
+inline void* align(std::size_t alignment,
+    std::size_t size, void*& ptr, std::size_t& space)
+{
+#if defined(ASIO_HAS_STD_ALIGN)
+  return std::align(alignment, size, ptr, space);
+#else // defined(ASIO_HAS_STD_ALIGN)
+	const uintptr_t intptr = reinterpret_cast<uintptr_t>(ptr);
+	const uintptr_t aligned = (intptr - 1u + alignment) & -alignment;
+	const std::size_t padding = aligned - intptr;
+	if (size + padding > space)
+    return 0;
+	space -= padding;
+	ptr = reinterpret_cast<void*>(aligned);
+  return ptr;
+#endif // defined(ASIO_HAS_STD_ALIGN)
+}
 
 } // namespace detail
 

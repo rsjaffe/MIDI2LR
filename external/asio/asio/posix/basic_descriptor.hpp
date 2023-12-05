@@ -2,7 +2,7 @@
 // posix/basic_descriptor.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -58,6 +58,9 @@ template <typename Executor = any_io_executor>
 class basic_descriptor
   : public descriptor_base
 {
+private:
+  class initiate_async_wait;
+
 public:
   /// The type of the executor associated with the object.
   typedef Executor executor_type;
@@ -198,10 +201,58 @@ public:
     impl_ = std::move(other.impl_);
     return *this;
   }
+
+  // All descriptors have access to each other's implementations.
+  template <typename Executor1>
+  friend class basic_descriptor;
+
+  /// Move-construct a basic_descriptor from a descriptor of another executor
+  /// type.
+  /**
+   * This constructor moves a descriptor from one object to another.
+   *
+   * @param other The other basic_descriptor object from which the move will
+   * occur.
+   *
+   * @note Following the move, the moved-from object is in the same state as if
+   * constructed using the @c basic_descriptor(const executor_type&)
+   * constructor.
+   */
+  template <typename Executor1>
+  basic_descriptor(basic_descriptor<Executor1>&& other,
+      typename constraint<
+        is_convertible<Executor1, Executor>::value,
+        defaulted_constraint
+      >::type = defaulted_constraint())
+    : impl_(std::move(other.impl_))
+  {
+  }
+
+  /// Move-assign a basic_descriptor from a descriptor of another executor type.
+  /**
+   * This assignment operator moves a descriptor from one object to another.
+   *
+   * @param other The other basic_descriptor object from which the move will
+   * occur.
+   *
+   * @note Following the move, the moved-from object is in the same state as if
+   * constructed using the @c basic_descriptor(const executor_type&)
+   * constructor.
+   */
+  template <typename Executor1>
+  typename constraint<
+    is_convertible<Executor1, Executor>::value,
+    basic_descriptor&
+  >::type operator=(basic_descriptor<Executor1> && other)
+  {
+    basic_descriptor tmp(std::move(other));
+    impl_ = std::move(tmp.impl_);
+    return *this;
+  }
 #endif // defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
 
   /// Get the executor associated with the object.
-  executor_type get_executor() ASIO_NOEXCEPT
+  const executor_type& get_executor() ASIO_NOEXCEPT
   {
     return impl_.get_executor();
   }
@@ -651,11 +702,14 @@ public:
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code))
         WaitToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE(WaitToken,
+  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WaitToken,
       void (asio::error_code))
   async_wait(wait_type w,
       ASIO_MOVE_ARG(WaitToken) token
         ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
+    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+      async_initiate<WaitToken, void (asio::error_code)>(
+          declval<initiate_async_wait>(), token, w)))
   {
     return async_initiate<WaitToken, void (asio::error_code)>(
         initiate_async_wait(this), token, w);
@@ -693,7 +747,7 @@ private:
     {
     }
 
-    executor_type get_executor() const ASIO_NOEXCEPT
+    const executor_type& get_executor() const ASIO_NOEXCEPT
     {
       return self_->get_executor();
     }

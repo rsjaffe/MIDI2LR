@@ -15,9 +15,9 @@
  */
 #include "CommandTable.h"
 
-#include <algorithm>
 #include <exception>
 #include <memory>
+#include <utility>
 
 #include <gsl/util>
 
@@ -35,6 +35,7 @@ try : juce
           juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable
               | juce::TableHeaderComponent::sortedForwards);
    }
+
 catch (const std::exception& e) {
    MIDI2LR_E_RESPONSE;
    throw;
@@ -48,7 +49,8 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
          if (juce::ListBox::getSelectedRow() != -1) {
             const auto last {
                 juce::ListBox::getSelectedRow() == juce::TableListBox::getNumRows() - 1};
-            if (const auto ptr {dynamic_cast<CommandTableModel*>(juce::TableListBox::getModel())}) {
+            if (const auto ptr {
+                    dynamic_cast<CommandTableModel*>(juce::TableListBox::getTableListBoxModel())}) {
                ptr->RemoveRow(gsl::narrow_cast<size_t>(juce::ListBox::getSelectedRow()));
             }
             juce::ListBox::updateContent();
@@ -83,8 +85,8 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
       }
       if (key_pressed == juce::KeyPress::pageDownKey) {
          if (juce::TableListBox::getNumRows() > 0) {
-            juce::ListBox::selectRow(std::min(
-                juce::ListBox::getSelectedRow() + 20, juce::TableListBox::getNumRows() - 1));
+            juce::ListBox::selectRow(std::min(juce::ListBox::getSelectedRow() + 20,
+                juce::TableListBox::getNumRows() - 1));
             return true;
          }
          return false;

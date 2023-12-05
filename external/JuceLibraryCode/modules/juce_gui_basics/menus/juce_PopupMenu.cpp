@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -87,7 +87,7 @@ struct HeaderItemComponent  : public PopupMenu::CustomComponent
 
     std::unique_ptr<AccessibilityHandler> createAccessibilityHandler() override
     {
-        return nullptr;
+        return createIgnoredAccessibilityHandler (*this);
     }
 
     const Options& options;
@@ -187,29 +187,6 @@ struct ItemComponent  : public Component
     PopupMenu::Item item;
 
 private:
-    class ValueInterface  : public AccessibilityValueInterface
-    {
-    public:
-        ValueInterface() = default;
-
-        bool isReadOnly() const override  { return true; }
-
-        double getCurrentValue() const override
-        {
-            return 1.0;
-        }
-
-        String getCurrentValueAsString() const override
-        {
-            return TRANS ("Checked");
-        }
-
-        void setValue (double) override {}
-        void setValueAsString (const String&) override  {}
-
-        AccessibleValueRange getRange() const override { return {}; }
-    };
-
     //==============================================================================
     class ItemAccessibilityHandler  : public AccessibilityHandler
     {
@@ -218,9 +195,7 @@ private:
             : AccessibilityHandler (itemComponentToWrap,
                                     isAccessibilityHandlerRequired (itemComponentToWrap.item) ? AccessibilityRole::menuItem
                                                                                               : AccessibilityRole::ignored,
-                                    getAccessibilityActions (*this, itemComponentToWrap),
-                                    AccessibilityHandler::Interfaces { itemComponentToWrap.item.isTicked ? std::make_unique<ValueInterface>()
-                                                                                                         : nullptr }),
+                                    getAccessibilityActions (*this, itemComponentToWrap)),
               itemComponent (itemComponentToWrap)
         {
         }
@@ -242,7 +217,7 @@ private:
             }
 
             if (itemComponent.item.isTicked)
-                state = state.withChecked();
+                state = state.withCheckable().withChecked();
 
             return state.isFocused() ? state.withSelected() : state;
         }
@@ -300,7 +275,8 @@ private:
 
     std::unique_ptr<AccessibilityHandler> createAccessibilityHandler() override
     {
-        return item.isSeparator ? nullptr : std::make_unique<ItemAccessibilityHandler> (*this);
+        return item.isSeparator ? createIgnoredAccessibilityHandler (*this)
+                                : std::make_unique<ItemAccessibilityHandler> (*this);
     }
 
     //==============================================================================
@@ -348,12 +324,16 @@ private:
 //==============================================================================
 struct MenuWindow  : public Component
 {
-    MenuWindow (const PopupMenu& menu, MenuWindow* parentWindow,
-                Options opts, bool alignToRectangle, bool shouldDismissOnMouseUp,
-                ApplicationCommandManager** manager, float parentScaleFactor = 1.0f)
+    MenuWindow (const PopupMenu& menu,
+                MenuWindow* parentWindow,
+                Options opts,
+                bool alignToRectangle,
+                bool shouldDismissOnMouseUp,
+                ApplicationCommandManager** manager,
+                float parentScaleFactor = 1.0f)
         : Component ("menu"),
           parent (parentWindow),
-          options (opts.withParentComponent (getLookAndFeel().getParentComponentForMenuOptions (opts))),
+          options (opts.withParentComponent (findNonNullLookAndFeel (menu, parentWindow).getParentComponentForMenuOptions (opts))),
           managerOfChosenCommand (manager),
           componentAttachedTo (options.getTargetComponent()),
           dismissOnMouseUp (shouldDismissOnMouseUp),
@@ -367,8 +347,7 @@ struct MenuWindow  : public Component
         setAlwaysOnTop (true);
         setFocusContainerType (FocusContainerType::focusContainer);
 
-        setLookAndFeel (parent != nullptr ? &(parent->getLookAndFeel())
-                                          : menu.lookAndFeel.get());
+        setLookAndFeel (findLookAndFeel (menu, parentWindow));
 
         auto& lf = getLookAndFeel();
 
@@ -412,6 +391,7 @@ struct MenuWindow  : public Component
             if (i + 1 < menu.items.size() || ! item.isSeparator)
             {
                 auto* child = items.add (new ItemComponent (item, options, *this));
+                child->setExplicitFocusOrder (1 + i);
 
                 if (initialSelectedId != 0 && item.itemID == initialSelectedId)
                     setCurrentlyHighlightedChild (child);
@@ -541,10 +521,14 @@ struct MenuWindow  : public Component
             auto resultID = options.hasWatchedComponentBeenDeleted() ? 0 : getResultItemID (item);
 
             exitModalState (resultID);
-            exitingModalState = true;
 
-            if (makeInvisible && deletionChecker != nullptr)
-                setVisible (false);
+            if (deletionChecker != nullptr)
+            {
+                exitingModalState = true;
+
+                if (makeInvisible)
+                    setVisible (false);
+            }
 
             if (resultID != 0
                  && item != nullptr
@@ -813,7 +797,7 @@ struct MenuWindow  : public Component
 
     bool doesAnyJuceCompHaveFocus()
     {
-        if (! isForegroundOrEmbeddedProcess (componentAttachedTo))
+        if (! detail::WindowingHelpers::isForegroundOrEmbeddedProcess (componentAttachedTo))
             return false;
 
         if (Component::getCurrentlyFocusedComponent() != nullptr)
@@ -1311,6 +1295,20 @@ struct MenuWindow  : public Component
                                                        }));
     }
 
+    LookAndFeel* findLookAndFeel (const PopupMenu& menu, MenuWindow* parentWindow) const
+    {
+        return parentWindow != nullptr ? &(parentWindow->getLookAndFeel())
+                                       : menu.lookAndFeel.get();
+    }
+
+    LookAndFeel& findNonNullLookAndFeel (const PopupMenu& menu, MenuWindow* parentWindow) const
+    {
+        if (auto* result = findLookAndFeel (menu, parentWindow))
+            return *result;
+
+        return getLookAndFeel();
+    }
+
     //==============================================================================
     MenuWindow* parent;
     const Options options;
@@ -1409,7 +1407,9 @@ private:
                     && (ModifierKeys::currentModifiers.isAnyMouseButtonDown()
                          || ComponentPeer::getCurrentModifiersRealtime().isAnyMouseButtonDown());
 
-        if (! window.doesAnyJuceCompHaveFocus())
+        const auto reallyContained = window.reallyContains (localMousePos, true);
+
+        if (! window.doesAnyJuceCompHaveFocus() && ! reallyContained)
         {
             if (timeNow > window.lastFocusedTime + 10)
             {
@@ -1418,10 +1418,9 @@ private:
                 // Note: This object may have been deleted by the previous call.
             }
         }
-        else if (wasDown && timeNow > window.windowCreationTime + 250
-                   && ! (isDown || overScrollArea))
+        else if (wasDown && timeNow > window.windowCreationTime + 250 && ! isDown && ! overScrollArea)
         {
-            if (window.reallyContains (localMousePos, true))
+            if (reallyContained)
                 window.triggerCurrentlyHighlightedItem();
             else if ((window.hasBeenOver || ! window.dismissOnMouseUp) && ! isOverAny)
                 window.dismissMenu (nullptr);
@@ -2049,6 +2048,17 @@ PopupMenu::Options PopupMenu::Options::withInitiallySelectedItem (int idOfItemTo
 Component* PopupMenu::createWindow (const Options& options,
                                     ApplicationCommandManager** managerOfChosenCommand) const
 {
+   #if JUCE_WINDOWS
+    const auto scope = [&]() -> std::unique_ptr<ScopedThreadDPIAwarenessSetter>
+    {
+        if (auto* target = options.getTargetComponent())
+            if (auto* handle = target->getWindowHandle())
+                return std::make_unique<ScopedThreadDPIAwarenessSetter> (handle);
+
+        return nullptr;
+    }();
+   #endif
+
     return items.isEmpty() ? nullptr
                            : new HelperClasses::MenuWindow (*this, nullptr, options,
                                                             ! options.getTargetScreenArea().isEmpty(),
@@ -2107,7 +2117,7 @@ struct PopupMenuCompletionCallback  : public ModalComponentManager::Callback
 
 int PopupMenu::showWithOptionalCallback (const Options& options,
                                          ModalComponentManager::Callback* userCallback,
-                                         bool canBeModal)
+                                         [[maybe_unused]] bool canBeModal)
 {
     std::unique_ptr<ModalComponentManager::Callback> userCallbackDeleter (userCallback);
     std::unique_ptr<PopupMenuCompletionCallback> callback (new PopupMenuCompletionCallback());
@@ -2129,7 +2139,6 @@ int PopupMenu::showWithOptionalCallback (const Options& options,
         if (userCallback == nullptr && canBeModal)
             return window->runModalLoop();
        #else
-        ignoreUnused (canBeModal);
         jassert (! (userCallback == nullptr && canBeModal));
        #endif
     }

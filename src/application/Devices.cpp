@@ -24,6 +24,7 @@
 #include <gsl/gsl>
 
 #include "Misc.h"
+
 namespace {
    template<class T> juce::File GetSource(T path)
    {
@@ -35,6 +36,7 @@ namespace {
       }
    }
 } // namespace
+
 Devices::Devices()
 {
    try {

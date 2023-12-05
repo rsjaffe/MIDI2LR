@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -28,7 +28,7 @@ namespace juce
 
 // tests that some coordinates aren't NaNs
 #define JUCE_CHECK_COORDS_ARE_VALID(x, y) \
-    jassert (x == x && y == y);
+    jassert (! std::isnan (x) && ! std::isnan (y));
 
 //==============================================================================
 namespace PathHelpers
@@ -58,18 +58,13 @@ namespace PathHelpers
 }
 
 //==============================================================================
-const float Path::lineMarker           = 100001.0f;
-const float Path::moveMarker           = 100002.0f;
-const float Path::quadMarker           = 100003.0f;
-const float Path::cubicMarker          = 100004.0f;
-const float Path::closeSubPathMarker   = 100005.0f;
 
 const float Path::defaultToleranceForTesting = 1.0f;
 const float Path::defaultToleranceForMeasurement = 0.6f;
 
 static bool isMarker (float value, float marker) noexcept
 {
-    return value == marker;
+    return exactlyEqual (value, marker);
 }
 
 //==============================================================================
@@ -726,10 +721,11 @@ void Path::addBubble (Rectangle<float> bodyArea,
 void Path::addPath (const Path& other)
 {
     const auto* d = other.data.begin();
+    const auto size = other.data.size();
 
-    for (int i = 0; i < other.data.size();)
+    for (int i = 0; i < size;)
     {
-        auto type = d[i++];
+        const auto type = d[i++];
 
         if (isMarker (type, moveMarker))
         {
@@ -767,10 +763,11 @@ void Path::addPath (const Path& other,
                     const AffineTransform& transformToApply)
 {
     const auto* d = other.data.begin();
+    const auto size = other.data.size();
 
-    for (int i = 0; i < other.data.size();)
+    for (int i = 0; i < size;)
     {
-        auto type = d[i++];
+        const auto type = d[i++];
 
         if (isMarker (type, closeSubPathMarker))
         {

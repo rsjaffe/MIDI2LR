@@ -25,6 +25,7 @@
 class CommandTableModel final : public juce::TableListBoxModel {
  public:
    CommandTableModel(const CommandSet& command_set, Profile& profile) noexcept;
+
    // ReSharper disable once CppMemberFunctionMayBeConst
    void RemoveRow(size_t row)
    {
@@ -34,10 +35,11 @@ class CommandTableModel final : public juce::TableListBoxModel {
 
  private:
    [[nodiscard]] int getNumRows() override { return gsl::narrow_cast<int>(profile_.Size()); }
+
    void paintCell(juce::Graphics&, int row_number, int column_id, int width, int height,
        bool row_is_selected) override;
-   void paintRowBackground(
-       juce::Graphics&, int row_number, int width, int height, bool row_is_selected) override;
+   void paintRowBackground(juce::Graphics&, int row_number, int width, int height,
+       bool row_is_selected) override;
    juce::Component* refreshComponentForCell(int row_number, int column_id, bool is_row_selected,
        juce::Component* existing_component) override;
    void sortOrderChanged(int new_sort_column_id, bool is_forwards) override;

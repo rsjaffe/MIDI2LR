@@ -61,11 +61,13 @@ namespace {
 MainContentComponent::MainContentComponent(const CommandSet& command_set, Profile& profile,
     ProfileManager& profile_manager, SettingsManager& settings_manager, LrIpcOut& lr_ipc_out,
     MidiReceiver& midi_receiver, MidiSender& midi_sender)
+
 try : ResizableLayout{this}, command_table_model_(command_set, profile), lr_ipc_out_{lr_ipc_out},
     midi_receiver_{midi_receiver}, midi_sender_{midi_sender}, profile_(profile),
     profile_manager_(profile_manager), settings_manager_(settings_manager) {
    setSize(kMainWidth, kMainHeight);
 }
+
 catch (const std::exception& e) {
    MIDI2LR_E_RESPONSE;
    throw;
@@ -131,8 +133,8 @@ void MainContentComponent::Init()
                const auto new_profile {chooser.getResult()};
                lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToFullPath {}\n"),
                    new_profile.getFullPathName().toStdString()));
-               profile_name_label_.setText(
-                   new_profile.getFileName(), juce::NotificationType::dontSendNotification);
+               profile_name_label_.setText(new_profile.getFileName(),
+                   juce::NotificationType::dontSendNotification);
                profile_.FromXml(parsed.get());
                command_table_.updateContent();
                command_table_.repaint();
@@ -230,8 +232,8 @@ void MainContentComponent::Init()
       };
 
       /* Delete unassigned rows */
-      remove_unassigned_button_.setBounds(
-          kFirstButtonX, kBottomButtonY2, kButtonWidth, kStandardHeight);
+      remove_unassigned_button_.setBounds(kFirstButtonX, kBottomButtonY2, kButtonWidth,
+          kStandardHeight);
       addToLayout(&remove_unassigned_button_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(remove_unassigned_button_);
       remove_unassigned_button_.onClick = [this] {
@@ -313,15 +315,15 @@ void MainContentComponent::LrIpcOutCallback(const bool connected, const bool sen
       const juce::MessageManagerLock mm_lock; /* as not called in message loop */
       if (connected) {
          if (sending_blocked) {
-            connection_label_.setText(
-                juce::translate("Sending halted"), juce::NotificationType::dontSendNotification);
+            connection_label_.setText(juce::translate("Sending halted"),
+                juce::NotificationType::dontSendNotification);
             connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::yellow);
          }
          else {
             connection_label_.setText(juce::translate("Connected to Lightroom"),
                 juce::NotificationType::dontSendNotification);
-            connection_label_.setColour(
-                juce::Label::backgroundColourId, juce::Colours::greenyellow);
+            connection_label_.setColour(juce::Label::backgroundColourId,
+                juce::Colours::greenyellow);
          }
       }
       else {
@@ -337,9 +339,10 @@ void MainContentComponent::LrIpcOutCallback(const bool connected, const bool sen
 }
 
 #pragma warning(suppress : 26461) /* must not change function signature, used as callback */
-void MainContentComponent::ProfileChanged(
-    juce::XmlElement* xml_element, const juce::String& file_name) //-V3536
-{                                                                 //-V2009 overridden method
+
+void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element,
+    const juce::String& file_name) //-V3536
+{                                  //-V2009 overridden method
    try {
       {
          const juce::MessageManagerLock mm_lock;

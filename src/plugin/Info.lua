@@ -63,11 +63,11 @@ return {
     {
       title = LOC("$$$/MIDI2LR/Info/DeleteSettings=Delete settings"),
       file = "PrefReset.lua",
-    },
+    },--[[-----------development only, enable by adding - to beginning of comment
     {
       title = LOC("$$$/MIDI2LR/Info/BuildFiles=Build files (development use only)"),
       file = "Build.lua"
-    },
+    },--]]-----------end development section
   },
   LrHelpMenuItems = {
     {
@@ -95,5 +95,5 @@ return {
       file = "LogSave.lua",
     },
   },
-  VERSION = { major=5, minor=4, revision=0, build=0}
+  VERSION = { major=6, minor=0, revision=0, build=0}
 }

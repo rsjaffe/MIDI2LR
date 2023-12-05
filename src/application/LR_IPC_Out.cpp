@@ -137,20 +137,19 @@ void LrIpcOut::Connect(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
       lr_ipc_out_shared->socket_.async_connect(
           asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrOutPort),
           [this, lr_ipc_out_shared](const asio::error_code& error) mutable {
-             if (!error) {
-                ConnectionMade();
-                LrIpcOutShared::SendOut(std::move(lr_ipc_out_shared));
-             }
-             else {
-                rsj::Log(
-                    fmt::format(FMT_STRING("LR_IPC_Out did not connect. {}."), error.message()));
-                asio::error_code ec2;
-                lr_ipc_out_shared->socket_.close(ec2);
-                if (ec2) {
-                   rsj::Log(
-                       fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec2.message()));
-                }
-             }
+         if (!error) {
+            ConnectionMade();
+            LrIpcOutShared::SendOut(std::move(lr_ipc_out_shared));
+         }
+         else {
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out did not connect. {}."), error.message()));
+            asio::error_code ec2;
+            lr_ipc_out_shared->socket_.close(ec2);
+            if (ec2) {
+               rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."),
+                   ec2.message()));
+            }
+         }
           });
    }
    catch (const std::exception& e) {
@@ -204,8 +203,11 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
                }
             }
             else { /* not repeated command */
-               const auto wrap {
-                   std::find(wrap_.begin(), wrap_.end(), command_to_send) != wrap_.end()};
+#ifdef __cpp_lib_ranges_contains
+               const auto wrap {std::ranges::contains(wrap_, command_to_send)};
+#else
+               const auto wrap {std::ranges::find(wrap_, command_to_send) != wrap_.end()};
+#endif
                const auto computed_value {controls_model_.ControllerToPlugin(mm, wrap)};
                SendCommand(fmt::format(FMT_STRING("{} {}\n"), command_to_send, computed_value));
             }
@@ -228,11 +230,11 @@ void LrIpcOutShared::SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
       } // ReSharper disable once CppLambdaCaptureNeverUsed
       asio::async_write(lr_ipc_out_shared->socket_, asio::buffer(*command_copy),
           [command_copy, lr_ipc_out_shared](const asio::error_code& error, std::size_t) mutable {
-             if (!error) [[likely]] { SendOut(std::move(lr_ipc_out_shared)); }
-             else {
-                rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out Write: {}."), error.message()));
-             }
-          });
+         if (!error) [[likely]] { SendOut(std::move(lr_ipc_out_shared)); }
+         else {
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out Write: {}."), error.message()));
+         }
+      });
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE_F;

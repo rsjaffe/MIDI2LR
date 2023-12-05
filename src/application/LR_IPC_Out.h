@@ -55,11 +55,14 @@ class LrIpcOut {
          callbacks_.emplace_back(std::bind_front(mf, object));
       }
    }
+
    void SendCommand(std::string&& command);
    void SendCommand(const std::string& command);
    void SendingRestart();
    void SendingStop();
+
    void Start() { Connect(lr_ipc_out_shared_); }
+
    void Stop();
 
  private:

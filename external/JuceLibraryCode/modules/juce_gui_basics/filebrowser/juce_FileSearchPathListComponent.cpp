@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -129,7 +129,7 @@ void FileSearchPathListComponent::paintListBoxItem (int rowNumber, Graphics& g, 
     f.setHorizontalScale (0.9f);
     g.setFont (f);
 
-    g.drawText (path[rowNumber].getFullPathName(),
+    g.drawText (path.getRawString (rowNumber),
                 4, 0, width - 6, height,
                 Justification::centredLeft, true);
 }
@@ -145,7 +145,7 @@ void FileSearchPathListComponent::deleteKeyPressed (int row)
 
 void FileSearchPathListComponent::returnKeyPressed (int row)
 {
-    chooser = std::make_unique<FileChooser> (TRANS("Change folder..."), path[row], "*");
+    chooser = std::make_unique<FileChooser> (TRANS("Change folder..."), path.getRawString (row), "*");
     auto chooserFlags = FileBrowserComponent::openMode | FileBrowserComponent::canSelectDirectories;
 
     chooser->launchAsync (chooserFlags, [this, row] (const FileChooser& fc)
@@ -258,7 +258,7 @@ void FileSearchPathListComponent::moveSelection (int delta)
 
         if (currentRow != newRow)
         {
-            auto f = path[currentRow];
+            const auto f = File::createFileWithoutCheckingPath (path.getRawString (currentRow));
             path.remove (currentRow);
             path.add (f, newRow);
             listBox.selectRow (newRow);

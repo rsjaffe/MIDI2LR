@@ -54,10 +54,12 @@ class Devices {
       {
          return lhs.name == rhs.name && lhs.identifier == rhs.identifier && lhs.i_o == rhs.i_o;
       }
+
       [[nodiscard]] friend bool operator!=(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return !(lhs == rhs);
       }
+
       [[nodiscard]] friend bool operator<(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          if (lhs.name < rhs.name) { return true; }
@@ -66,14 +68,17 @@ class Devices {
          if (rhs.identifier < lhs.identifier) { return false; }
          return lhs.i_o < rhs.i_o;
       }
+
       [[nodiscard]] friend bool operator<=(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return !(rhs < lhs);
       }
+
       [[nodiscard]] friend bool operator>(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return rhs < lhs;
       }
+
       [[nodiscard]] friend bool operator>=(const DevInfo& lhs, const DevInfo& rhs) noexcept
       {
          return !(lhs < rhs);
@@ -84,14 +89,17 @@ class Devices {
           : name {info.name}, identifier {info.identifier}, i_o {std::move(io)}
       {
       }
+
       DevInfo(juce::String n, juce::String i, juce::String io) noexcept
           : name {std::move(n)}, identifier {std::move(i)}, i_o {std::move(io)}
       {
       }
+
       juce::String name;
       juce::String identifier;
       juce::String i_o;
    };
+
    std::map<DevInfo, bool> device_listing_;
    std::unique_ptr<juce::XmlElement> device_xml_;
    juce::XmlElement* column_list_ {nullptr};

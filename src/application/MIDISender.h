@@ -22,11 +22,11 @@ class Devices;
 
 namespace juce {
    class MidiOutput;
-}
+} // namespace juce
 
 namespace rsj {
    struct MidiMessageId;
-}
+} // namespace rsj
 
 //-V813_MINSIZE=13 /* warn if passing structure by value > 12 bytes (3*sizeof(int)) */
 
@@ -34,7 +34,9 @@ namespace rsj {
 class MidiSender {
  public:
    explicit MidiSender(Devices& devices) noexcept : devices_(devices) {}
+
    ~MidiSender() { output_devices_.clear(); /* close devices */ }
+
    MidiSender(const MidiSender& other) = delete;
    MidiSender(MidiSender&& other) noexcept = delete;
    MidiSender& operator=(const MidiSender& other) = delete;

@@ -33,47 +33,59 @@ class SettingsManager final {
    SettingsManager(SettingsManager&& other) = delete;
    SettingsManager& operator=(const SettingsManager& other) = delete;
    SettingsManager& operator=(SettingsManager&& other) = delete;
+
    [[nodiscard]] int GetAutoHideTime() const noexcept
    {
       return properties_file_->getIntValue("autohide", 0);
    }
+
    [[nodiscard]] juce::String GetDefaultProfile() const noexcept
    {
       return properties_file_->getValue("default_profile");
    }
+
    [[nodiscard]] int GetLastVersionFound() const noexcept
    {
       return properties_file_->getIntValue("LastVersionFound", 0);
    }
+
    [[nodiscard]] bool GetPickupEnabled() const noexcept
    {
       return properties_file_->getBoolValue("pickup_enabled", true);
    }
+
    [[nodiscard]] juce::String GetProfileDirectory() const noexcept
    {
       return properties_file_->getValue("profile_directory");
    }
+
    // ReSharper disable CppMemberFunctionMayBeConst
    void SetAutoHideTime(int new_time) { properties_file_->setValue("autohide", new_time); }
+
    void SetDefaultProfile(const juce::String& default_profile)
    {
       properties_file_->setValue("default_profile", default_profile);
    }
+
    void SetLastVersionFound(int version_number)
    {
       properties_file_->setValue("LastVersionFound", version_number);
    }
+
    void SetPickupEnabled(bool enabled)
    {
       properties_file_->setValue("pickup_enabled", enabled);
       lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("Pickup {}\n"), enabled ? '1' : '0'));
    }
+
    void SetProfileDirectory(const juce::String& profile_directory)
    {
       properties_file_->setValue("profile_directory", profile_directory);
       profile_manager_.SetProfileDirectory(profile_directory);
    }
+
    // ReSharper restore CppMemberFunctionMayBeConst
+
  private:
    void ConnectionCallback(bool, bool);
 

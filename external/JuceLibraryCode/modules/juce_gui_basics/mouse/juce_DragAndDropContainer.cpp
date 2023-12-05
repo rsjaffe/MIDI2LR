@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -59,6 +59,7 @@ public:
         startTimer (200);
 
         setInterceptsMouseClicks (false, false);
+        setWantsKeyboardFocus (true);
         setAlwaysOnTop (true);
     }
 
@@ -97,12 +98,12 @@ public:
             // (note: use a local copy of this in case the callback runs
             // a modal loop and deletes this object before the method completes)
             auto details = sourceDetails;
-            DragAndDropTarget* finalTarget = nullptr;
 
             auto wasVisible = isVisible();
             setVisible (false);
-            Component* unused;
-            finalTarget = findTarget (e.getScreenPosition(), details.localPosition, unused);
+            const auto [finalTarget, unused, localPosition] = findTarget (e.getScreenPosition());
+            ignoreUnused (unused);
+            details.localPosition = localPosition;
 
             if (wasVisible) // fade the component and remove it - it'll be deleted later by the timer callback
                 dismissWithAnimation (finalTarget == nullptr);
@@ -132,10 +133,12 @@ public:
 
         setNewScreenPos (screenPos);
 
-        Component* newTargetComp;
-        auto* newTarget = findTarget (screenPos, details.localPosition, newTargetComp);
+        const auto [newTarget, newTargetComp, localPosition] = findTarget (screenPos);
+        details.localPosition = localPosition;
 
         setVisible (newTarget == nullptr || newTarget->shouldDrawDragImageWhenOver());
+
+        maintainKeyboardFocusWhenPossible();
 
         if (newTargetComp != currentlyOverComp)
         {
@@ -200,7 +203,12 @@ public:
     {
         if (key == KeyPress::escapeKey)
         {
-            dismissWithAnimation (true);
+            const auto wasVisible = isVisible();
+            setVisible (false);
+
+            if (wasVisible)
+                dismissWithAnimation (true);
+
             deleteSelf();
             return true;
         }
@@ -227,6 +235,16 @@ private:
     Time lastTimeOverTarget;
     int originalInputSourceIndex;
     MouseInputSource::InputSourceType originalInputSourceType;
+    bool canHaveKeyboardFocus = false;
+
+    void maintainKeyboardFocusWhenPossible()
+    {
+        const auto newCanHaveKeyboardFocus = isVisible();
+
+        if (std::exchange (canHaveKeyboardFocus, newCanHaveKeyboardFocus) != newCanHaveKeyboardFocus)
+            if (canHaveKeyboardFocus)
+                grabKeyboardFocus();
+    }
 
     void updateSize()
     {
@@ -270,8 +288,7 @@ private:
         return getLocalPoint (sourceComponent, offsetInSource) - getLocalPoint (sourceComponent, Point<int>());
     }
 
-    DragAndDropTarget* findTarget (Point<int> screenPos, Point<int>& relativePos,
-                                   Component*& resultComponent) const
+    std::tuple<DragAndDropTarget*, Component*, Point<int>> findTarget (Point<int> screenPos) const
     {
         auto* hit = getParentComponent();
 
@@ -287,20 +304,13 @@ private:
         while (hit != nullptr)
         {
             if (auto* ddt = dynamic_cast<DragAndDropTarget*> (hit))
-            {
                 if (ddt->isInterestedInDragSource (details))
-                {
-                    relativePos = hit->getLocalPoint (nullptr, screenPos);
-                    resultComponent = hit;
-                    return ddt;
-                }
-            }
+                    return std::tuple (ddt, hit, hit->getLocalPoint (nullptr, screenPos));
 
             hit = hit->getParentComponent();
         }
 
-        resultComponent = nullptr;
-        return nullptr;
+        return {};
     }
 
     void setNewScreenPos (Point<int> screenPos)
@@ -466,8 +476,7 @@ void DragAndDropContainer::startDragging (const var& sourceDescription,
             dragImageComponent->setOpaque (true);
 
         dragImageComponent->addToDesktop (ComponentPeer::windowIgnoresMouseClicks
-                                          | ComponentPeer::windowIsTemporary
-                                          | ComponentPeer::windowIgnoresKeyPresses);
+                                          | ComponentPeer::windowIsTemporary);
     }
     else
     {

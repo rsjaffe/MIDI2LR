@@ -71,7 +71,19 @@ local _needsModule = {
 }
 setmetatable ( needsModule, _needsModule)
 
+local AltOptionStr = WIN_ENV and LOC('$$$/AgBezels/KeyRemapping/WinAlt=Alt') or LOC('$$$/AgBezels/KeyRemapping/MacOption=Option')
+AltOptionStr = AltOptionStr .. ' ' .. LOC('$$$/MIDI2LR/Menu/PressAndHold=press and hold') .. ' '
+local AltOptionStrAct = AltOptionStr .. LOC('$$$/AgLocation/EnableGeocoding/Enable=Activate')
+local AltOptionStrDeact = AltOptionStr .. LOC('$$$/AgLocation/EnableGeocoding/Diable=Deactivate')
 --public
+
+local function HoldAltOptToggle()
+  MIDI2LR.AltOpt = not MIDI2LR.AltOpt
+  if ProgramPreferences.ClientShowBezelOnChange then
+    LrDialogs.showBezel(MIDI2LR.AltOpt and AltOptionStrAct or AltOptionStrDeact)
+  end
+end
+
 
 --------------------------------------------------------------------------------
 -- Returns function passed to it, with appropriate switch to Lightroom module if
@@ -292,7 +304,7 @@ local function showBezel(param, value1, value2)
   -- this is in case someone doesn't update MIDI2LR but Adobe goes to a higher process version not supported by MIDI2LR CmdTrans table
   local bezelname = Database.CmdTrans[param] and (Database.CmdTrans[param][processVersion] or Database.CmdTrans[param][Database.LatestPVSupported]) or param
   if value2 then
-    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value1,precision)..'  '..LrStringUtils.numberToStringWithSeparators(value2,precision) )
+    LrDialogs.showBezel(bezelname..'  '..LOC('$$$/MIDI2LR/Bezel/Pickup=Controller not synchronized. Adjust ^1 to Lightroom value: ^2.',LrStringUtils.numberToStringWithSeparators(value1,precision),LrStringUtils.numberToStringWithSeparators(value2,precision)) )
   else
     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value1,precision))
   end
@@ -430,7 +442,8 @@ local function fToggleTool(param)
 end
 
 local ftt1_functionList = {
-  dust = LrDevelopController.goToSpotRemoval,
+  dust = LrDevelopController.goToHealing,
+  masking = LrDevelopController.goToMasking,
 }
 
 local function fToggleTool1(param) --for new version toggle tool
@@ -448,7 +461,7 @@ end
 local function ApplySettings(settings)
   if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   LrTasks.startAsyncTask ( function ()
-          --[[-----------debug section, enable by adding - to beginning this line
+      --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
       LrApplication.activeCatalog():withWriteAccessDo(
@@ -489,7 +502,7 @@ local function FullRefresh()
   (LrApplicationView.getCurrentModuleName() == 'develop') then
     -- refresh MIDI controller since mapping has changed
     LrTasks.startAsyncTask ( function ()
-            --[[-----------debug section, enable by adding - to beginning this line
+        --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
         local photoval = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
@@ -525,11 +538,7 @@ local function FullRefresh()
           if altparam == 'Direct' then
             lrvalue = LrDevelopController.getValue(param)
           else
-            if param == altparam then
-              lrvalue = (photoval[param] or 0)
-            else
-              lrvalue = (photoval[param] or 0) + (photoval[altparam] or 0)
-            end
+            lrvalue = photoval[param] or photoval[altparam] or 0
           end
           if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
             local midivalue = (lrvalue-min)/(max-min)
@@ -565,6 +574,83 @@ local function UpdatePointCurve(settings)
   return function()
     fChangePanel('tonePanel')
     ApplySettings(settings)
+  end
+end
+
+local curBlkDn = LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 decrease: ^2',LOC('$$$/AgDevelop/Localized/Panel/Curve=Gradation Curve'),LOC('$$$/AgCameraRawUI/Blacks=Blacks'))
+local curBlkUp = LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=^1 increase: ^2',LOC('$$$/AgDevelop/Localized/Panel/Curve=Gradation Curve'),LOC('$$$/AgCameraRawUI/Blacks=Blacks'))
+local curHiDn = LOC('$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 decrease: ^2',LOC('$$$/AgDevelop/Localized/Panel/Curve=Gradation Curve'),LOC('$$$/AgCameraRawUI/Highlights=Highlights'))
+local curHiUp = LOC('$$$/AgCameraRawController/TargetAdjustment/Increase=^1 increase: ^2',LOC('$$$/AgDevelop/Localized/Panel/Curve=Gradation Curve'),LOC('$$$/AgCameraRawUI/Highlights=Highlights'))
+local function PointCurveUpDown(blacks, moveup, color)
+  return function()
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+    local maxamount = 5
+    local  factor  = 0
+    local setting = 'ToneCurvePV2012'
+    if color then setting = setting..color end
+    local points = LrDevelopController.getValue(setting)
+    local newpoints = {}
+    local xval = 0
+    local testamount = 0
+    -- Find the left and right most points
+    local xmin, ymin, xmax, ymax, xmindid, xmaxdid = nil, nil, nil, nil, false, false
+    for idx,val in ipairs(points) do
+      if math.floor(idx/2) ~= idx/2 then -- odd number, i.e. x
+        if val < (xmin or 256) then xmin = val; xmindid = true end
+        if val > (xmax or 0) then xmax = val; xmaxdid = true end
+      elseif xmindid then
+        ymin = val
+        xmindid = false
+      elseif xmaxdid then
+        ymax = val
+        xmaxdid = false
+      end
+    end
+    -- There are two scales (explanation for blacks):
+    -- xscale: diminishes the point movement the further right the point is, where the left most point has full effect (1 => maxamount), the right most point has 0 (does not move at all)
+    -- yscale: is the percentage how much maxamount is in relation to the y-value of the leftmost point; this is for awkward curves where the leftmost point is not the lowest one,
+    -- in such cases the points lower than the leftmost have to be affected more to keep the shape of the curve intact, as those values are more 'extreme', they are affected more
+    local yscale = 0
+    local xscale = 0
+    if blacks then
+      if not moveup and ymin < maxamount then maxamount = ymin end
+      yscale = maxamount / (255 - ymin)
+    else
+      if moveup and (255 - ymax) < maxamount then maxamount = (255 - ymax) end
+      yscale = maxamount / ymax
+    end
+    xscale = 1 / (xmax - xmin)
+    -- Now all points are moved. 'factor' is the diminishing effect of xscale depending on the actual x-value of the point
+    for idx,val in ipairs(points) do
+      if math.floor(idx/2) ~= idx/2 then -- odd number, i.e. x
+        if blacks then
+          factor  = 1 - (xscale * (val - xmin))^2.5
+        else
+          factor  = 1 - (xscale * (xmax - val))^2.5
+        end
+        xval = val
+      else -- even number, i.e. y
+        newpoints[#newpoints+1] = xval
+        if not moveup then  factor  =  factor  * -1 end
+        if blacks then
+          testamount = val + yscale * (255 - val) * factor
+        else
+          testamount = val + yscale * val * factor
+        end
+        if testamount < 0 then testamount = 0 end
+        if testamount > 255 then testamount = 255 end
+        newpoints[#newpoints+1] = testamount
+      end
+    end
+    fChangePanel('tonePanel')
+    LrDevelopController.setValue(setting, newpoints)
+        if ProgramPreferences.ClientShowBezelOnChange then
+      if blacks then
+        LrDialogs.showBezel(moveup and curBlkUp or curBlkDn)
+      else
+        LrDialogs.showBezel(moveup and curHiUp or curHiDn)
+      end
+    end
   end
 end
 
@@ -671,7 +757,7 @@ local function ProfileAmount(value)
   lastprofileadj = os.clock()
   local val = value -- make available to async task
   LrTasks.startAsyncTask ( function ()
-          --[[-----------debug section, enable by adding - to beginning this line
+      --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
       if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
@@ -851,7 +937,7 @@ local function quickDevAdjust(par,val,cmd) --note lightroom applies this to all 
   return function()
     LrTasks.startAsyncTask(
       function()
-            --[[-----------debug section, enable by adding - to beginning this line
+        --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
         local TargetPhoto  = LrApplication.activeCatalog():getTargetPhoto()
@@ -870,7 +956,7 @@ local function quickDevAdjustWB(par,val,cmd) --note lightroom applies this to al
   return function()
     LrTasks.startAsyncTask(
       function()
-            --[[-----------debug section, enable by adding - to beginning this line
+        --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
         local TargetPhoto  = LrApplication.activeCatalog():getTargetPhoto()
@@ -887,6 +973,7 @@ end
 return {
   ApplySettings = ApplySettings,
   FullRefresh = FullRefresh,
+  HoldAltOptToggle = HoldAltOptToggle,
   LRValueToMIDIValue = LRValueToMIDIValue,
   MIDIValueToLRValue = MIDIValueToLRValue,
   ProfileAmount = ProfileAmount,
@@ -919,4 +1006,5 @@ return {
   showBezel = showBezel,
   wrapFOM = wrapFOM,
   wrapForEachPhoto = wrapForEachPhoto,
+  PointCurveUpDown = PointCurveUpDown,
 }

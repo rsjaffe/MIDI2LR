@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -1117,7 +1117,7 @@ public:
     {
         jassert (numberOfSignificantFigures > 0);
 
-        if (number == 0)
+        if (exactlyEqual (number, DecimalType()))
         {
             if (numberOfSignificantFigures > 1)
             {

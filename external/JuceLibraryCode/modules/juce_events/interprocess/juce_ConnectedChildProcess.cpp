@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -51,7 +51,7 @@ struct ChildProcessPingThread  : public Thread,
         pingReceived();
     }
 
-    void startPinging()                     { startThread (4); }
+    void startPinging()                     { startThread (Priority::low); }
 
     void pingReceived() noexcept            { countdown = timeoutMs / 1000 + 1; }
     void triggerConnectionLostMessage()     { triggerAsyncUpdate(); }
@@ -60,6 +60,8 @@ struct ChildProcessPingThread  : public Thread,
     virtual void pingFailed() = 0;
 
     int timeoutMs;
+
+    using AsyncUpdater::cancelPendingUpdate;
 
 private:
     Atomic<int> countdown;
@@ -97,6 +99,7 @@ struct ChildProcessCoordinator::Connection  : public InterprocessConnection,
 
     ~Connection() override
     {
+        cancelPendingUpdate();
         stopThread (10000);
     }
 
@@ -169,6 +172,7 @@ bool ChildProcessCoordinator::launchWorkerProcess (const File& executable, const
 
         if (connection->isConnected())
         {
+            connection->startPinging();
             sendMessageToWorker ({ startMessage, specialMessageSize });
             return true;
         }
@@ -205,6 +209,7 @@ struct ChildProcessWorker::Connection  : public InterprocessConnection,
 
     ~Connection() override
     {
+        cancelPendingUpdate();
         stopThread (10000);
         disconnect();
     }

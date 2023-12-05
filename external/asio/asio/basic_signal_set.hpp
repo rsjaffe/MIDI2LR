@@ -2,7 +2,7 @@
 // basic_signal_set.hpp
 // ~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -27,6 +27,7 @@
 #include "asio/detail/type_traits.hpp"
 #include "asio/error.hpp"
 #include "asio/execution_context.hpp"
+#include "asio/signal_set_base.hpp"
 
 #include "asio/detail/push_options.hpp"
 
@@ -93,8 +94,11 @@ namespace asio {
  * least one thread.
  */
 template <typename Executor = any_io_executor>
-class basic_signal_set
+class basic_signal_set : public signal_set_base
 {
+private:
+  class initiate_async_wait;
+
 public:
   /// The type of the executor associated with the object.
   typedef Executor executor_type;
@@ -330,7 +334,7 @@ public:
   }
 
   /// Get the executor associated with the object.
-  executor_type get_executor() ASIO_NOEXCEPT
+  const executor_type& get_executor() ASIO_NOEXCEPT
   {
     return impl_.get_executor();
   }
@@ -364,6 +368,58 @@ public:
       asio::error_code& ec)
   {
     impl_.get_service().add(impl_.get_implementation(), signal_number, ec);
+    ASIO_SYNC_OP_VOID_RETURN(ec);
+  }
+
+  /// Add a signal to a signal_set with the specified flags.
+  /**
+   * This function adds the specified signal to the set. It has no effect if the
+   * signal is already in the set.
+   *
+   * Flags other than flags::dont_care require OS support for the @c sigaction
+   * call, and this function will fail with @c error::operation_not_supported if
+   * this is unavailable.
+   *
+   * The specified flags will conflict with a prior, active registration of the
+   * same signal, if either specified a flags value other than flags::dont_care.
+   * In this case, the @c add will fail with @c error::invalid_argument.
+   *
+   * @param signal_number The signal to be added to the set.
+   *
+   * @param f Flags to modify the behaviour of the specified signal.
+   *
+   * @throws asio::system_error Thrown on failure.
+   */
+  void add(int signal_number, flags_t f)
+  {
+    asio::error_code ec;
+    impl_.get_service().add(impl_.get_implementation(), signal_number, f, ec);
+    asio::detail::throw_error(ec, "add");
+  }
+
+  /// Add a signal to a signal_set with the specified flags.
+  /**
+   * This function adds the specified signal to the set. It has no effect if the
+   * signal is already in the set.
+   *
+   * Flags other than flags::dont_care require OS support for the @c sigaction
+   * call, and this function will fail with @c error::operation_not_supported if
+   * this is unavailable.
+   *
+   * The specified flags will conflict with a prior, active registration of the
+   * same signal, if either specified a flags value other than flags::dont_care.
+   * In this case, the @c add will fail with @c error::invalid_argument.
+   *
+   * @param signal_number The signal to be added to the set.
+   *
+   * @param f Flags to modify the behaviour of the specified signal.
+   *
+   * @param ec Set to indicate what error occurred, if any.
+   */
+  ASIO_SYNC_OP_VOID add(int signal_number, flags_t f,
+      asio::error_code& ec)
+  {
+    impl_.get_service().add(impl_.get_implementation(), signal_number, f, ec);
     ASIO_SYNC_OP_VOID_RETURN(ec);
   }
 
@@ -535,11 +591,14 @@ public:
   template <
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code, int))
       SignalToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE(SignalToken,
+  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(SignalToken,
       void (asio::error_code, int))
   async_wait(
       ASIO_MOVE_ARG(SignalToken) token
         ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
+    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+      async_initiate<SignalToken, void (asio::error_code, int)>(
+          declval<initiate_async_wait>(), token)))
   {
     return async_initiate<SignalToken, void (asio::error_code, int)>(
         initiate_async_wait(this), token);
@@ -560,7 +619,7 @@ private:
     {
     }
 
-    executor_type get_executor() const ASIO_NOEXCEPT
+    const executor_type& get_executor() const ASIO_NOEXCEPT
     {
       return self_->get_executor();
     }

@@ -241,16 +241,16 @@ namespace {
          std::array<CHAR, KL_NAMELENGTH> klid_ascii {};
          if (LOG_IF_WIN32_BOOL_FALSE(GetKeyboardLayoutNameA(klid_ascii.data()))) {
             try {
-               const auto klid {std::stoul(std::string(klid_ascii.data()), nullptr, 16)};
+               const auto klid {std::strtoul(klid_ascii.data(), nullptr, 16)};
                if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end()) {
                   return f->second;
                }
-               return fmt::format(
-                   FMT_STRING("KLID not in keyboard_names: 0x{}."), klid_ascii.data());
+               return fmt::format(FMT_STRING("KLID not in keyboard_names: 0x{}."),
+                   klid_ascii.data());
             }
             catch (...) {
-               auto msg {fmt::format(
-                   FMT_STRING("Exception when finding KLID name. KLID: 0x{}."), klid_ascii.data())};
+               auto msg {fmt::format(FMT_STRING("Exception when finding KLID name. KLID: 0x{}."),
+                   klid_ascii.data())};
                rsj::Log(msg);
                return msg;
             }
@@ -267,21 +267,22 @@ namespace {
 
 #pragma warning(push)
 #pragma warning(disable : 26447) /* all exceptions suppressed by catch blocks */
+
 DebugInfo::DebugInfo(std::string_view profile_directory) noexcept
 {
    try {
       LogAndSave(fmt::format(FMT_STRING("Application: System language {}."),
           juce::SystemStats::getDisplayLanguage().toStdString()));
-      LogAndSave(fmt::format(
-          FMT_STRING("Application: CPU {}."), juce::SystemStats::getCpuModel().toStdString()));
+      LogAndSave(fmt::format(FMT_STRING("Application: CPU {}."),
+          juce::SystemStats::getCpuModel().toStdString()));
       // ReSharper disable CppUnreachableCode
       if constexpr (kNdebug) {
-         LogAndSave(fmt::format(
-             FMT_STRING("Application: Application version {}."), ProjectInfo::versionString));
+         LogAndSave(fmt::format(FMT_STRING("Application: Application version {}."),
+             ProjectInfo::versionString));
       }
       else {
-         LogAndSave(fmt::format(
-             FMT_STRING("Application: Application version {}-debug."), ProjectInfo::versionString));
+         LogAndSave(fmt::format(FMT_STRING("Application: Application version {}-debug."),
+             ProjectInfo::versionString));
       }
       // ReSharper restore CppUnreachableCode
       LogAndSave(fmt::format(FMT_STRING("Application: Application path {}."),
@@ -297,8 +298,8 @@ DebugInfo::DebugInfo(std::string_view profile_directory) noexcept
       /* MacOS defers keyboard layout information until first keystroke sent */
       LogAndSave(fmt::format(FMT_STRING("Application: Keyboard type {}."), GetKeyboardLayout()));
 #endif
-      LogAndSave(fmt::format(
-          FMT_STRING("Juce version {}."), juce::SystemStats::getJUCEVersion().toStdString()));
+      LogAndSave(fmt::format(FMT_STRING("Juce version {}."),
+          juce::SystemStats::getJUCEVersion().toStdString()));
    }
    catch (...) {
       try {
@@ -310,4 +311,5 @@ DebugInfo::DebugInfo(std::string_view profile_directory) noexcept
       }
    }
 }
+
 #pragma warning(pop)

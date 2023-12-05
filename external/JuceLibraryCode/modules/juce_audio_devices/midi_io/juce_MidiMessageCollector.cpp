@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -56,7 +56,7 @@ void MidiMessageCollector::addMessageToQueue (const MidiMessage& message)
 
     // the messages that come in here need to be time-stamped correctly - see MidiInput
     // for details of what the number should be.
-    jassert (message.getTimeStamp() != 0);
+    jassert (! approximatelyEqual (message.getTimeStamp(), 0.0));
 
     auto sampleNumber = (int) ((message.getTimeStamp() - 0.001 * lastCallbackTime) * sampleRate);
 

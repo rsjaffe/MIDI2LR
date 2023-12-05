@@ -2,7 +2,7 @@
 // dispatch.hpp
 // ~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,6 +17,7 @@
 
 #include "asio/detail/config.hpp"
 #include "asio/async_result.hpp"
+#include "asio/detail/initiate_dispatch.hpp"
 #include "asio/detail/type_traits.hpp"
 #include "asio/execution_context.hpp"
 #include "asio/execution/executor.hpp"
@@ -56,10 +57,7 @@ namespace asio {
  * @code auto alloc = get_associated_allocator(handler); @endcode
  *
  * @li If <tt>execution::is_executor<Ex>::value</tt> is true, performs
- * @code execution::execute(
- *     prefer(ex,
- *       execution::blocking.possibly,
- *       execution::allocator(alloc)),
+ * @code prefer(ex, execution::allocator(alloc)).execute(
  *     std::forward<CompletionHandler>(completion_handler)); @endcode
  *
  * @li If <tt>execution::is_executor<Ex>::value</tt> is false, performs
@@ -71,8 +69,15 @@ namespace asio {
  * @code void() @endcode
  */
 template <ASIO_COMPLETION_TOKEN_FOR(void()) NullaryToken>
-ASIO_INITFN_AUTO_RESULT_TYPE(NullaryToken, void()) dispatch(
-    ASIO_MOVE_ARG(NullaryToken) token);
+ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(NullaryToken, void()) dispatch(
+    ASIO_MOVE_ARG(NullaryToken) token)
+  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+    async_initiate<NullaryToken, void()>(
+        declval<detail::initiate_dispatch>(), token)))
+{
+  return async_initiate<NullaryToken, void()>(
+      detail::initiate_dispatch(), token);
+}
 
 /// Submits a completion token or function object for execution.
 /**
@@ -116,11 +121,8 @@ ASIO_INITFN_AUTO_RESULT_TYPE(NullaryToken, void()) dispatch(
  * handler_ that is a decay-copy of @c completion_handler, and a function call
  * operator that performs:
  * @code auto a = get_associated_allocator(handler_);
- * execution::execute(
- *     prefer(executor_,
- *       execution::blocking.possibly,
- *       execution::allocator(a)),
- *     std::move(handler_)); @endcode
+ * prefer(executor_, execution::allocator(a)).execute(std::move(handler_));
+ * @endcode
  *
  * @li If <tt>execution::is_executor<Ex1>::value</tt> is false, constructs a
  * function object @c f with a member @c work_ that is initialised with
@@ -131,11 +133,7 @@ ASIO_INITFN_AUTO_RESULT_TYPE(NullaryToken, void()) dispatch(
  * work_.reset(); @endcode
  *
  * @li If <tt>execution::is_executor<Ex>::value</tt> is true, performs
- * @code execution::execute(
- *     prefer(ex,
- *       execution::blocking.possibly,
- *       execution::allocator(alloc)),
- *     std::move(f)); @endcode
+ * @code prefer(ex, execution::allocator(alloc)).execute(std::move(f)); @endcode
  *
  * @li If <tt>execution::is_executor<Ex>::value</tt> is false, performs
  * @code ex.dispatch(std::move(f), alloc); @endcode
@@ -146,13 +144,20 @@ ASIO_INITFN_AUTO_RESULT_TYPE(NullaryToken, void()) dispatch(
 template <typename Executor,
     ASIO_COMPLETION_TOKEN_FOR(void()) NullaryToken
       ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(Executor)>
-ASIO_INITFN_AUTO_RESULT_TYPE(NullaryToken, void()) dispatch(
+ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(NullaryToken, void()) dispatch(
     const Executor& ex,
     ASIO_MOVE_ARG(NullaryToken) token
       ASIO_DEFAULT_COMPLETION_TOKEN(Executor),
     typename constraint<
       execution::is_executor<Executor>::value || is_executor<Executor>::value
-    >::type = 0);
+    >::type = 0)
+  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+    async_initiate<NullaryToken, void()>(
+        declval<detail::initiate_dispatch_with_executor<Executor> >(), token)))
+{
+  return async_initiate<NullaryToken, void()>(
+      detail::initiate_dispatch_with_executor<Executor>(ex), token);
+}
 
 /// Submits a completion token or function object for execution.
 /**
@@ -172,18 +177,26 @@ template <typename ExecutionContext,
     ASIO_COMPLETION_TOKEN_FOR(void()) NullaryToken
       ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(
         typename ExecutionContext::executor_type)>
-ASIO_INITFN_AUTO_RESULT_TYPE(NullaryToken, void()) dispatch(
+ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(NullaryToken, void()) dispatch(
     ExecutionContext& ctx,
     ASIO_MOVE_ARG(NullaryToken) token
       ASIO_DEFAULT_COMPLETION_TOKEN(
         typename ExecutionContext::executor_type),
     typename constraint<is_convertible<
-      ExecutionContext&, execution_context&>::value>::type = 0);
+      ExecutionContext&, execution_context&>::value>::type = 0)
+  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+    async_initiate<NullaryToken, void()>(
+        declval<detail::initiate_dispatch_with_executor<
+          typename ExecutionContext::executor_type> >(), token)))
+{
+  return async_initiate<NullaryToken, void()>(
+      detail::initiate_dispatch_with_executor<
+        typename ExecutionContext::executor_type>(
+          ctx.get_executor()), token);
+}
 
 } // namespace asio
 
 #include "asio/detail/pop_options.hpp"
-
-#include "asio/impl/dispatch.hpp"
 
 #endif // ASIO_DISPATCH_HPP

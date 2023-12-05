@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -62,7 +62,7 @@ void ToneGeneratorAudioSource::releaseResources()
 
 void ToneGeneratorAudioSource::getNextAudioBlock (const AudioSourceChannelInfo& info)
 {
-    if (phasePerSample == 0.0)
+    if (approximatelyEqual (phasePerSample, 0.0))
         phasePerSample = MathConstants<double>::twoPi / (sampleRate / frequency);
 
     for (int i = 0; i < info.numSamples; ++i)

@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -483,8 +483,8 @@ public:
 
             @see withTargetComponent, withTargetScreenArea
         */
-        JUCE_NODISCARD Options withTargetComponent (Component* targetComponent) const;
-        JUCE_NODISCARD Options withTargetComponent (Component& targetComponent) const;
+        [[nodiscard]] Options withTargetComponent (Component* targetComponent) const;
+        [[nodiscard]] Options withTargetComponent (Component& targetComponent) const;
 
         /** Sets the region of the screen next to which the menu should be displayed.
 
@@ -500,7 +500,7 @@ public:
 
             @see withMousePosition
         */
-        JUCE_NODISCARD Options withTargetScreenArea (Rectangle<int> targetArea) const;
+        [[nodiscard]] Options withTargetScreenArea (Rectangle<int> targetArea) const;
 
         /** Sets the target screen area to match the current mouse position.
 
@@ -508,7 +508,7 @@ public:
 
             @see withTargetScreenArea
         */
-        JUCE_NODISCARD Options withMousePosition() const;
+        [[nodiscard]] Options withMousePosition() const;
 
         /** If the passed component has been deleted when the popup menu exits,
             the selected item's action will not be called.
@@ -517,26 +517,26 @@ public:
             callback, in the case that the callback needs to access a component that
             may be deleted.
         */
-        JUCE_NODISCARD Options withDeletionCheck (Component& componentToWatchForDeletion) const;
+        [[nodiscard]] Options withDeletionCheck (Component& componentToWatchForDeletion) const;
 
         /** Sets the minimum width of the popup window. */
-        JUCE_NODISCARD Options withMinimumWidth (int minWidth) const;
+        [[nodiscard]] Options withMinimumWidth (int minWidth) const;
 
         /** Sets the minimum number of columns in the popup window. */
-        JUCE_NODISCARD Options withMinimumNumColumns (int minNumColumns) const;
+        [[nodiscard]] Options withMinimumNumColumns (int minNumColumns) const;
 
         /** Sets the maximum number of columns in the popup window. */
-        JUCE_NODISCARD Options withMaximumNumColumns (int maxNumColumns) const;
+        [[nodiscard]] Options withMaximumNumColumns (int maxNumColumns) const;
 
         /** Sets the default height of each item in the popup menu. */
-        JUCE_NODISCARD Options withStandardItemHeight (int standardHeight) const;
+        [[nodiscard]] Options withStandardItemHeight (int standardHeight) const;
 
         /** Sets an item which must be visible when the menu is initially drawn.
 
             This is useful to ensure that a particular item is shown when the menu
             contains too many items to display on a single screen.
         */
-        JUCE_NODISCARD Options withItemThatMustBeVisible (int idOfItemToBeVisible) const;
+        [[nodiscard]] Options withItemThatMustBeVisible (int idOfItemToBeVisible) const;
 
         /** Sets a component that the popup menu will be drawn into.
 
@@ -547,10 +547,10 @@ public:
             avoid this unwanted behaviour, but with the downside that the menu size
             will be constrained by the size of the parent component.
         */
-        JUCE_NODISCARD Options withParentComponent (Component* parentComponent) const;
+        [[nodiscard]] Options withParentComponent (Component* parentComponent) const;
 
         /** Sets the direction of the popup menu relative to the target screen area. */
-        JUCE_NODISCARD Options withPreferredPopupDirection (PopupDirection direction) const;
+        [[nodiscard]] Options withPreferredPopupDirection (PopupDirection direction) const;
 
         /** Sets an item to select in the menu.
 
@@ -560,7 +560,7 @@ public:
             than needing to move the highlighted row down from the top of the menu each time
             it is opened.
         */
-        JUCE_NODISCARD Options withInitiallySelectedItem (int idOfItemToBeSelected) const;
+        [[nodiscard]] Options withInitiallySelectedItem (int idOfItemToBeSelected) const;
 
         //==============================================================================
         /** Gets the parent component. This may be nullptr if the Component has been deleted.

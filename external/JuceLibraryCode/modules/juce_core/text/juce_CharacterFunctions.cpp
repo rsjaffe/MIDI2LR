@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -134,7 +134,7 @@ double CharacterFunctions::mulexp10 (const double value, int exponent) noexcept
     if (exponent == 0)
         return value;
 
-    if (value == 0.0)
+    if (exactlyEqual (value, 0.0))
         return 0;
 
     const bool negative = (exponent < 0);

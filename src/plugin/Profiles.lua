@@ -46,7 +46,7 @@ local function doprofilechange(newprofile)
   (LrApplicationView.getCurrentModuleName() == 'develop') then
     -- refresh MIDI controller since mapping has changed
     LrTasks.startAsyncTask ( function ()
-            --[[-----------debug section, enable by adding - to beginning this line
+        --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
         local photoval = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
@@ -80,13 +80,9 @@ local function doprofilechange(newprofile)
           local min,max = Limits.GetMinMax(param) --can't include ClientUtilities: circular reference
           local lrvalue
           if altparam == 'Direct' then
-            lrvalue = LrDevelopController.getValue(param)
+            if LrDevelopController.getSelectedMask() then lrvalue = LrDevelopController.getValue(param) end
           else
-            if param == altparam then
-              lrvalue = (photoval[param] or 0)
-            else
-              lrvalue = (photoval[param] or 0) + (photoval[altparam] or 0)
-            end
+            lrvalue = photoval[param] or photoval[altparam] or 0
           end
           if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
             local midivalue = (lrvalue-min)/(max-min)

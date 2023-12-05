@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -82,9 +82,9 @@ struct U32ToBytestreamHandler : public U32InputHandler
 
     void pushMidiData (const uint32_t* begin, const uint32_t* end, double time) override
     {
-        dispatcher.dispatch (begin, end, time, [this] (const MidiMessage& m)
+        dispatcher.dispatch (begin, end, time, [this] (const BytestreamMidiView& m)
         {
-            callback.handleIncomingMidiMessage (&input, m);
+            callback.handleIncomingMidiMessage (&input, m.getMessage());
         });
     }
 

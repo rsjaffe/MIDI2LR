@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -49,7 +49,7 @@ public:
         destAlpha = finalAlpha;
 
         isMoving = (finalBounds != component->getBounds());
-        isChangingAlpha = (finalAlpha != component->getAlpha());
+        isChangingAlpha = ! approximatelyEqual (finalAlpha, component->getAlpha());
 
         left    = component->getX();
         top     = component->getY();
@@ -273,7 +273,7 @@ void ComponentAnimator::fadeOut (Component* component, int millisecondsToTake)
 
 void ComponentAnimator::fadeIn (Component* component, int millisecondsToTake)
 {
-    if (component != nullptr && ! (component->isVisible() && component->getAlpha() == 1.0f))
+    if (component != nullptr && ! (component->isVisible() && approximatelyEqual (component->getAlpha(), 1.0f)))
     {
         component->setAlpha (0.0f);
         component->setVisible (true);

@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -35,10 +35,10 @@ namespace KeyboardFocusTraverserHelpers
     }
 
     static Component* traverse (Component* current, Component* container,
-                                FocusHelpers::NavigationDirection direction)
+                                detail::FocusHelpers::NavigationDirection direction)
     {
-        if (auto* comp = FocusHelpers::navigateFocus (current, container, direction,
-                                                      &Component::isKeyboardFocusContainer))
+        if (auto* comp = detail::FocusHelpers::navigateFocus (current, container, direction,
+                                                              &Component::isKeyboardFocusContainer))
         {
             if (isKeyboardFocusable (comp, container))
                 return comp;
@@ -53,13 +53,13 @@ namespace KeyboardFocusTraverserHelpers
 Component* KeyboardFocusTraverser::getNextComponent (Component* current)
 {
     return KeyboardFocusTraverserHelpers::traverse (current, current->findKeyboardFocusContainer(),
-                                                    FocusHelpers::NavigationDirection::forwards);
+                                                    detail::FocusHelpers::NavigationDirection::forwards);
 }
 
 Component* KeyboardFocusTraverser::getPreviousComponent (Component* current)
 {
     return KeyboardFocusTraverserHelpers::traverse (current, current->findKeyboardFocusContainer(),
-                                                    FocusHelpers::NavigationDirection::backwards);
+                                                    detail::FocusHelpers::NavigationDirection::backwards);
 }
 
 Component* KeyboardFocusTraverser::getDefaultComponent (Component* parentComponent)
@@ -74,9 +74,9 @@ Component* KeyboardFocusTraverser::getDefaultComponent (Component* parentCompone
 std::vector<Component*> KeyboardFocusTraverser::getAllComponents (Component* parentComponent)
 {
     std::vector<Component*> components;
-    FocusHelpers::findAllComponents (parentComponent,
-                                     components,
-                                     &Component::isKeyboardFocusContainer);
+    detail::FocusHelpers::findAllComponents (parentComponent,
+                                             components,
+                                             &Component::isKeyboardFocusContainer);
 
     auto removePredicate = [parentComponent] (const Component* comp)
     {

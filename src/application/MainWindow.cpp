@@ -38,6 +38,7 @@ try : juce
          juce::Timer::startTimer(1000 * hide_sec);
       }
    }
+
 catch (const std::exception& e) {
    MIDI2LR_E_RESPONSE;
    throw;

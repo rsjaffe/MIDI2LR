@@ -2,7 +2,7 @@
 // basic_deadline_timer.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -128,6 +128,9 @@ template <typename Time,
     typename Executor = any_io_executor>
 class basic_deadline_timer
 {
+private:
+  class initiate_async_wait;
+
 public:
   /// The type of the executor associated with the object.
   typedef Executor executor_type;
@@ -314,7 +317,7 @@ public:
   }
 
   /// Get the executor associated with the object.
-  executor_type get_executor() ASIO_NOEXCEPT
+  const executor_type& get_executor() ASIO_NOEXCEPT
   {
     return impl_.get_executor();
   }
@@ -647,11 +650,14 @@ public:
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code))
         WaitToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE(WaitToken,
+  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WaitToken,
       void (asio::error_code))
   async_wait(
       ASIO_MOVE_ARG(WaitToken) token
         ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
+    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+      async_initiate<WaitToken, void (asio::error_code)>(
+          declval<initiate_async_wait>(), token)))
   {
     return async_initiate<WaitToken, void (asio::error_code)>(
         initiate_async_wait(this), token);
@@ -673,7 +679,7 @@ private:
     {
     }
 
-    executor_type get_executor() const ASIO_NOEXCEPT
+    const executor_type& get_executor() const ASIO_NOEXCEPT
     {
       return self_->get_executor();
     }

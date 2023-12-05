@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -107,7 +107,7 @@ void MPESynthesiserBase::renderNextBlock (AudioBuffer<floatType>& outputAudio,
                                           int numSamples)
 {
     // you must set the sample rate before using this!
-    jassert (sampleRate != 0);
+    jassert (! approximatelyEqual (sampleRate, 0.0));
 
     const ScopedLock sl (noteStateLock);
 
@@ -144,7 +144,7 @@ template void MPESynthesiserBase::renderNextBlock<double> (AudioBuffer<double>&,
 //==============================================================================
 void MPESynthesiserBase::setCurrentPlaybackSampleRate (const double newRate)
 {
-    if (sampleRate != newRate)
+    if (! approximatelyEqual (sampleRate, newRate))
     {
         const ScopedLock sl (noteStateLock);
         instrument.releaseAllNotes();

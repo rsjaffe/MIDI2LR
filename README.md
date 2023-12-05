@@ -1,4 +1,4 @@
-﻿# MIDI2LR
+# MIDI2LR
 
 [![Latest release](https://img.shields.io/github/release/rsjaffe/MIDI2LR.svg)](https://github.com/rsjaffe/MIDI2LR/releases/latest) [![MIDI2LR All Releases](https://img.shields.io/github/downloads/rsjaffe/MIDI2LR/total.svg)](https://github.com/rsjaffe/MIDI2LR/releases) [![license](https://img.shields.io/github/license/rsjaffe/MIDI2LR.svg)](https://github.com/rsjaffe/MIDI2LR/blob/master/LICENSE.txt)
 
@@ -37,3 +37,5 @@ Translation assistance welcome. Sign up at https://poeditor.com/join/project?has
 ## SAST Tools
 
 [PVS-Studio](https://pvs-studio.com/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
+
+[ReSharperC++](https://www.jetbrains.com/resharper-cpp/) - static analyzer for C++ code.

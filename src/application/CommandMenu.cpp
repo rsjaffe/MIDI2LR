@@ -24,11 +24,13 @@
 #include "PWoptions.h"
 #include "Profile.h"
 
-CommandMenu::CommandMenu(
-    rsj::MidiMessageId message, const CommandSet& command_set, Profile& profile)
+CommandMenu::CommandMenu(rsj::MidiMessageId message, const CommandSet& command_set,
+    Profile& profile)
+
 try : TextButtonAligned{CommandSet::UnassignedTranslated()}, command_set_(command_set),
     profile_(profile), message_{message} {
 }
+
 catch (const std::exception& e) {
    MIDI2LR_E_RESPONSE;
    throw;
@@ -75,24 +77,29 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
          size_t submenu_number {0}; /* to track name for submenu */
          /* add each submenu */
          for (const auto& submenus : command_set_.GetMenuEntries()) {
-            auto tick_menu {false}; /* tick when submenu item is currently selected */
             juce::PopupMenu sub_menu;
+            auto ticked {false};
             for (const auto& command : submenus) {
                /* add each submenu entry, ticking the previously selected entry and marking used
                 * entries red */
                if (profile_.CommandHasAssociatedMessage(command_set_.CommandAbbrevAt(index - 1))) {
-                  const auto tick_item {index == selected_item_};
-                  tick_menu |= tick_item;
-                  sub_menu.addColouredItem(
-                      gsl::narrow_cast<int>(index), command, juce::Colours::red, true, tick_item);
+                  if (index == selected_item_) {
+                     ticked = true;
+                     sub_menu.addColouredItem(gsl::narrow_cast<int>(index), command,
+                         juce::Colours::red, true, true);
+                  }
+                  else {
+                     sub_menu.addColouredItem(gsl::narrow_cast<int>(index), command,
+                         juce::Colours::red, true, false);
+                  }
                }
                else {
                   sub_menu.addItem(gsl::narrow_cast<int>(index), command, true, false);
                }
                index++;
             }
-            main_menu.addSubMenu(
-                command_set_.GetMenus().at(submenu_number++), sub_menu, true, nullptr, tick_menu);
+            main_menu.addSubMenu(command_set_.GetMenus().at(submenu_number++), sub_menu, true,
+                nullptr, ticked);
          }
          if (auto result {gsl::narrow_cast<size_t>(main_menu.show())}) {
             /* user chose a different command, remove previous command mapping associated to this

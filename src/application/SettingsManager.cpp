@@ -76,4 +76,5 @@ void SettingsManager::ConnectionCallback(const bool connected, const bool blocke
       throw;
    }
 }
+
 // ReSharper restore CppMemberFunctionMayBeConst

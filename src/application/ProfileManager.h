@@ -37,23 +37,26 @@ namespace rsj {
 
 class ProfileManager final : juce::AsyncUpdater {
  public:
-   ProfileManager(
-       ControlsModel& c_model, const Profile& profile, LrIpcOut& out, MidiReceiver& midi_receiver);
+   ProfileManager(ControlsModel& c_model, const Profile& profile, LrIpcOut& out,
+       MidiReceiver& midi_receiver);
    ~ProfileManager() = default; // NOLINT(modernize-use-override)
    ProfileManager(const ProfileManager& other) = delete;
    ProfileManager(ProfileManager&& other) = delete;
    ProfileManager& operator=(const ProfileManager& other) = delete;
    ProfileManager& operator=(ProfileManager&& other) = delete;
+
    template<class T>
-   void AddCallback(
-       _In_ T* const object, _In_ void (T::*const mf)(juce::XmlElement*, const juce::String&))
+   void AddCallback(_In_ T* const object,
+       _In_ void (T::*const mf)(juce::XmlElement*, const juce::String&))
    {
       if (object && mf) { callbacks_.emplace_back(std::bind_front(mf, object)); }
    }
+
    [[nodiscard]] const juce::String& GetProfileDirectory() const noexcept
    {
       return profile_location_.getFullPathName();
    }
+
    void SetProfileDirectory(const juce::File& directory);
    void SwitchToProfile(int profile_index);
    void SwitchToProfile(const juce::String& profile);

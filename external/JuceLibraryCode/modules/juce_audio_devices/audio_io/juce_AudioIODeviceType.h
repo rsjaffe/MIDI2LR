@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -116,7 +116,7 @@ public:
     /**
         A class for receiving events when audio devices are inserted or removed.
 
-        You can register an AudioIODeviceType::Listener with an~AudioIODeviceType object
+        You can register an AudioIODeviceType::Listener with an AudioIODeviceType object
         using the AudioIODeviceType::addListener() method, and it will be called when
         devices of that type are added or removed.
 

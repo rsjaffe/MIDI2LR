@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -139,32 +139,32 @@
 #endif
 
 #if JUCE_USE_FREETYPE
- #include "native/juce_freetype_Fonts.cpp"
+ #include "native/juce_Fonts_freetype.cpp"
 #endif
 
 //==============================================================================
 #if JUCE_MAC || JUCE_IOS
- #include "native/juce_mac_Fonts.mm"
- #include "native/juce_mac_CoreGraphicsContext.mm"
- #include "native/juce_mac_IconHelpers.cpp"
+ #include "native/juce_Fonts_mac.mm"
+ #include "native/juce_CoreGraphicsContext_mac.mm"
+ #include "native/juce_IconHelpers_mac.cpp"
 
 #elif JUCE_WINDOWS
- #include "native/juce_win32_DirectWriteTypeface.cpp"
- #include "native/juce_win32_DirectWriteTypeLayout.cpp"
- #include "native/juce_win32_Fonts.cpp"
- #include "native/juce_win32_IconHelpers.cpp"
+ #include "native/juce_DirectWriteTypeface_windows.cpp"
+ #include "native/juce_DirectWriteTypeLayout_windows.cpp"
+ #include "native/juce_Fonts_windows.cpp"
+ #include "native/juce_IconHelpers_windows.cpp"
  #if JUCE_DIRECT2D
-  #include "native/juce_win32_Direct2DGraphicsContext.cpp"
+  #include "native/juce_Direct2DGraphicsContext_windows.cpp"
  #endif
 
 #elif JUCE_LINUX || JUCE_BSD
- #include "native/juce_linux_Fonts.cpp"
- #include "native/juce_linux_IconHelpers.cpp"
+ #include "native/juce_Fonts_linux.cpp"
+ #include "native/juce_IconHelpers_linux.cpp"
 
 #elif JUCE_ANDROID
- #include "native/juce_android_GraphicsContext.cpp"
- #include "native/juce_android_Fonts.cpp"
- #include "native/juce_android_IconHelpers.cpp"
+ #include "native/juce_GraphicsContext_android.cpp"
+ #include "native/juce_Fonts_android.cpp"
+ #include "native/juce_IconHelpers_android.cpp"
 
 #endif
 

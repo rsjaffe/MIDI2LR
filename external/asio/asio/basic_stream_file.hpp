@@ -2,7 +2,7 @@
 // basic_stream_file.hpp
 // ~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -57,6 +57,10 @@ template <typename Executor>
 class basic_stream_file
   : public basic_file<Executor>
 {
+private:
+  class initiate_async_write_some;
+  class initiate_async_read_some;
+
 public:
   /// The type of the executor associated with the object.
   typedef Executor executor_type;
@@ -520,11 +524,15 @@ public:
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
         std::size_t)) WriteToken
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE(WriteToken,
+  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WriteToken,
       void (asio::error_code, std::size_t))
   async_write_some(const ConstBufferSequence& buffers,
       ASIO_MOVE_ARG(WriteToken) token
         ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
+    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+      async_initiate<WriteToken,
+        void (asio::error_code, std::size_t)>(
+          declval<initiate_async_write_some>(), token, buffers)))
   {
     return async_initiate<WriteToken,
       void (asio::error_code, std::size_t)>(
@@ -649,11 +657,15 @@ public:
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
         std::size_t)) ReadToken
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE(ReadToken,
+  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
       void (asio::error_code, std::size_t))
   async_read_some(const MutableBufferSequence& buffers,
       ASIO_MOVE_ARG(ReadToken) token
         ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
+    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+      async_initiate<ReadToken,
+        void (asio::error_code, std::size_t)>(
+          declval<initiate_async_read_some>(), token, buffers)))
   {
     return async_initiate<ReadToken,
       void (asio::error_code, std::size_t)>(
@@ -675,7 +687,7 @@ private:
     {
     }
 
-    executor_type get_executor() const ASIO_NOEXCEPT
+    const executor_type& get_executor() const ASIO_NOEXCEPT
     {
       return self_->get_executor();
     }
@@ -708,7 +720,7 @@ private:
     {
     }
 
-    executor_type get_executor() const ASIO_NOEXCEPT
+    const executor_type& get_executor() const ASIO_NOEXCEPT
     {
       return self_->get_executor();
     }

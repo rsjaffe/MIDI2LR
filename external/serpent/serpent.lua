@@ -1,4 +1,4 @@
-local n, v = "serpent", "0.30" -- (C) 2012-17 Paul Kulchenko; MIT License
+local n, v = "serpent", "0.303" -- (C) 2012-18 Paul Kulchenko; MIT License
 local c, d = "Paul Kulchenko", "Lua serializer and pretty printer"
 local snum = {[tostring(1/0)]='1/0 --[[math.huge]]',[tostring(-1/0)]='-1/0 --[[-math.huge]]',[tostring(0/0)]='0/0'}
 local badtype = {thread = true, userdata = true, cdata = true}
@@ -23,9 +23,16 @@ local function s(t, opts)
   local function gensym(val) return '_'..(tostring(tostring(val)):gsub("[^%w]",""):gsub("(%d%w+)",
     -- tostring(val) is needed because __tostring may return a non-string value
     function(s) if not syms[s] then symn = symn+1; syms[s] = symn end return tostring(syms[s]) end)) end
-  local function safestr(s) return type(s) == "number" and tostring(huge and snum[tostring(s)] or numformat:format(s))
+  local function safestr(s) return type(s) == "number" and (huge and snum[tostring(s)] or numformat:format(s))
     or type(s) ~= "string" and tostring(s) -- escape NEWLINE/010 and EOF/026
     or ("%q"):format(s):gsub("\010","n"):gsub("\026","\\026") end
+  -- handle radix changes in some locales
+  if opts.fixradix and (".1f"):format(1.2) ~= "1.2" then
+    local origsafestr = safestr
+    safestr = function(s) return type(s) == "number"
+      and (nohuge and snum[tostring(s)] or numformat:format(s):gsub(",",".")) or origsafestr(s)
+    end
+  end
   local function comment(s,l) return comm and (l or 0) < comm and ' --[['..select(2, pcall(tostring, s))..']]' or '' end
   local function globerr(s,l) return globals[s] and globals[s]..comment(s,l) or not fatal
     and safestr(select(2, pcall(tostring, s))) or error("Can't serialize "..tostring(s)) end
@@ -49,12 +56,13 @@ local function s(t, opts)
       (name ~= nil and sname..space..'='..space or '')
     if seen[t] then -- already seen this element
       sref[#sref+1] = spath..space..'='..space..seen[t]
-      return tag..'nil'..comment('ref', level) end
+      return tag..'nil'..comment('ref', level)
+    end
     -- protect from those cases where __tostring may fail
-    if type(mt) == 'table' then
+    if type(mt) == 'table' and metatostring ~= false then
       local to, tr = pcall(function() return mt.__tostring(t) end)
       local so, sr = pcall(function() return mt.__serialize(t) end)
-      if (opts.metatostring ~= false and to or so) then -- knows how to serialize itself
+      if (to or so) then -- knows how to serialize itself
         seen[t] = insref or spath
         t = so and sr or tr
         ttype = type(t)
@@ -69,7 +77,10 @@ local function s(t, opts)
       for key = 1, maxn do o[key] = key end
       if not maxnum or #o < maxnum then
         local n = #o -- n = n + 1; o[n] is much faster than o[#o+1] on large tables
-        for key in pairs(t) do if o[key] ~= key then n = n + 1; o[n] = key end end end
+        for key in pairs(t) do
+          if o[key] ~= key then n = n + 1; o[n] = key end
+        end
+      end
       if maxnum and #o > maxnum then o[maxnum+1] = nil end
       if opts.sortkeys and #o > maxn then alphanumsort(o, t, opts.sortkeys) end
       local sparse = sparse and #o > maxn -- disable sparsness if only numeric keys (shorter output)
@@ -84,12 +95,13 @@ local function s(t, opts)
           if not seen[key] and not globals[key] then
             sref[#sref+1] = 'placeholder'
             local sname = safename(iname, gensym(key)) -- iname is table for local variables
-            sref[#sref] = val2str(key,sname,indent,sname,iname,true) end
+            sref[#sref] = val2str(key,sname,indent,sname,iname,true)
+          end
           sref[#sref+1] = 'placeholder'
           local path = seen[t]..'['..tostring(seen[key] or globals[key] or gensym(key))..']'
           sref[#sref] = path..space..'='..space..tostring(seen[value] or val2str(value,nil,indent,path))
         else
-          out[#out+1] = val2str(value,key,indent,insref,seen[t],plainindex,level+1)
+          out[#out+1] = val2str(value,key,indent,nil,seen[t],plainindex,level+1)
           if maxlen then
             maxlen = maxlen - #out[#out]
             if maxlen < 0 then break end
@@ -138,4 +150,3 @@ return { _NAME = n, _COPYRIGHT = c, _DESCRIPTION = d, _VERSION = v, serialize = 
   dump = function(a, opts) return s(a, merge({name = '_', compact = true, sparse = true}, opts)) end,
   line = function(a, opts) return s(a, merge({sortkeys = true, comment = true}, opts)) end,
   block = function(a, opts) return s(a, merge({indent = '  ', sortkeys = true, comment = true}, opts)) end }
-

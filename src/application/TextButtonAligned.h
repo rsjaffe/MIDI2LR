@@ -24,18 +24,22 @@ class TextButtonAligned : public juce::TextButton {
  public:
    using TextButton::TextButton;
 #pragma warning(suppress : 26812)
+
    explicit TextButtonAligned(const juce::Justification::Flags alignment) : alignment_ {alignment}
    {
    }
+
    TextButtonAligned(const juce::String& button_name, const juce::Justification::Flags alignment)
        : juce::TextButton(button_name), alignment_ {alignment}
    {
    }
+
    TextButtonAligned(const juce::String& button_name, const juce::String& tool_tip,
        const juce::Justification::Flags alignment)
        : juce::TextButton(button_name, tool_tip), alignment_ {alignment}
    {
    }
+
    void paintButton(juce::Graphics&, bool, bool) override;
 
  private:

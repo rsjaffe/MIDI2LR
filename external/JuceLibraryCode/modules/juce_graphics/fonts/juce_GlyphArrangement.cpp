@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -312,7 +312,7 @@ void GlyphArrangement::addFittedText (const Font& f, const String& text,
                                       Justification layout, int maximumLines,
                                       float minimumHorizontalScale)
 {
-    if (minimumHorizontalScale == 0.0f)
+    if (approximatelyEqual (minimumHorizontalScale, 0.0f))
         minimumHorizontalScale = Font::getDefaultMinimumHorizontalScaleFactor();
 
     // doesn't make much sense if this is outside a sensible range of 0.5 to 1.0
@@ -363,7 +363,7 @@ void GlyphArrangement::moveRangeOfGlyphs (int startIndex, int num, const float d
 {
     jassert (startIndex >= 0);
 
-    if (dx != 0.0f || dy != 0.0f)
+    if (! approximatelyEqual (dx, 0.0f) || ! approximatelyEqual (dy, 0.0f))
     {
         if (num < 0 || startIndex + num > glyphs.size())
             num = glyphs.size() - startIndex;
@@ -491,7 +491,7 @@ void GlyphArrangement::justifyGlyphs (int startIndex, int num,
             {
                 auto glyphY = glyphs.getReference (startIndex + i).getBaselineY();
 
-                if (glyphY != baseY)
+                if (! approximatelyEqual (glyphY, baseY))
                 {
                     spreadOutLine (startIndex + lineStart, i - lineStart, width);
 
@@ -695,7 +695,7 @@ void GlyphArrangement::drawGlyphUnderline (const Graphics& g, const PositionedGl
     auto lineThickness = (pg.font.getDescent()) * 0.3f;
     auto nextX = pg.x + pg.w;
 
-    if (i < glyphs.size() - 1 && glyphs.getReference (i + 1).y == pg.y)
+    if (i < glyphs.size() - 1 && approximatelyEqual (glyphs.getReference (i + 1).y, pg.y))
         nextX = glyphs.getReference (i + 1).x;
 
     Path p;

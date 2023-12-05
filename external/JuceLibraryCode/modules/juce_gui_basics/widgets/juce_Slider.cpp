@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -25,6 +25,14 @@
 
 namespace juce
 {
+
+static double getStepSize (const Slider& slider)
+{
+    const auto interval = slider.getInterval();
+
+    return ! approximatelyEqual (interval, 0.0) ? interval
+                                                : slider.getRange().getLength() * 0.01;
+}
 
 class Slider::Pimpl   : public AsyncUpdater, // this needs to be public otherwise it will cause an
                                              // error when JUCE_DLL_BUILD=1
@@ -114,20 +122,34 @@ public:
         return 0.0f;
     }
 
+    void setNumDecimalPlacesToDisplay (int decimalPlacesToDisplay)
+    {
+        fixedNumDecimalPlaces = jmax (0, decimalPlacesToDisplay);
+        numDecimalPlaces = fixedNumDecimalPlaces;
+    }
+
+    int getNumDecimalPlacesToDisplay() const
+    {
+        return fixedNumDecimalPlaces == -1 ? numDecimalPlaces : fixedNumDecimalPlaces;
+    }
+
     void updateRange()
     {
-        // figure out the number of DPs needed to display all values at this
-        // interval setting.
-        numDecimalPlaces = 7;
-
-        if (normRange.interval != 0.0)
+        if (fixedNumDecimalPlaces == -1)
         {
-            int v = std::abs (roundToInt (normRange.interval * 10000000));
+            // figure out the number of DPs needed to display all values at this
+            // interval setting.
+            numDecimalPlaces = 7;
 
-            while ((v % 10) == 0 && numDecimalPlaces > 0)
+            if (! approximatelyEqual (normRange.interval, 0.0))
             {
-                --numDecimalPlaces;
-                v /= 10;
+                int v = std::abs (roundToInt (normRange.interval * 10000000));
+
+                while ((v % 10) == 0 && numDecimalPlaces > 0)
+                {
+                    --numDecimalPlaces;
+                    v /= 10;
+                }
             }
         }
 
@@ -184,7 +206,7 @@ public:
                                newValue);
         }
 
-        if (newValue != lastCurrentValue)
+        if (! approximatelyEqual (newValue, lastCurrentValue))
         {
             if (valueBox != nullptr)
                 valueBox->hideEditor (true);
@@ -194,12 +216,11 @@ public:
             // Need to do this comparison because the Value will use equalsWithSameType to compare
             // the new and old values, so will generate unwanted change events if the type changes.
             // Cast to double before comparing, to prevent comparing as another type (e.g. String).
-            if (static_cast<double> (currentValue.getValue()) != newValue)
+            if (! approximatelyEqual (static_cast<double> (currentValue.getValue()), newValue))
                 currentValue = newValue;
 
             updateText();
             owner.repaint();
-            updatePopupDisplay (newValue);
 
             triggerChangeMessage (notification);
         }
@@ -228,12 +249,12 @@ public:
             newValue = jmin (lastCurrentValue, newValue);
         }
 
-        if (lastValueMin != newValue)
+        if (! approximatelyEqual (lastValueMin, newValue))
         {
             lastValueMin = newValue;
             valueMin = newValue;
             owner.repaint();
-            updatePopupDisplay (newValue);
+            updatePopupDisplay();
 
             triggerChangeMessage (notification);
         }
@@ -262,12 +283,12 @@ public:
             newValue = jmax (lastCurrentValue, newValue);
         }
 
-        if (lastValueMax != newValue)
+        if (! approximatelyEqual (lastValueMax, newValue))
         {
             lastValueMax = newValue;
             valueMax = newValue;
             owner.repaint();
-            updatePopupDisplay (valueMax.getValue());
+            updatePopupDisplay();
 
             triggerChangeMessage (notification);
         }
@@ -285,7 +306,7 @@ public:
         newMinValue = constrainedValue (newMinValue);
         newMaxValue = constrainedValue (newMaxValue);
 
-        if (lastValueMax != newMaxValue || lastValueMin != newMinValue)
+        if (! approximatelyEqual (lastValueMax, newMaxValue) || ! approximatelyEqual (lastValueMin, newMinValue))
         {
             lastValueMax = newMaxValue;
             lastValueMin = newMinValue;
@@ -340,6 +361,9 @@ public:
 
         if (owner.onValueChange != nullptr)
             owner.onValueChange();
+
+        if (checker.shouldBailOut())
+            return;
 
         if (auto* handler = owner.getAccessibilityHandler())
             handler->notifyAccessibilityEvent (AccessibilityEvent::valueChanged);
@@ -413,7 +437,7 @@ public:
     {
         auto newValue = owner.snapValue (owner.getValueFromText (valueBox->getText()), notDragging);
 
-        if (newValue != static_cast<double> (currentValue.getValue()))
+        if (! approximatelyEqual (newValue, static_cast<double> (currentValue.getValue())))
         {
             ScopedDragNotification drag (owner);
             setValue (newValue, sendNotificationSync);
@@ -431,6 +455,8 @@ public:
             if (newValue != valueBox->getText())
                 valueBox->setText (newValue, dontSendNotification);
         }
+
+        updatePopupDisplay();
     }
 
     double constrainedValue (double value) const
@@ -791,7 +817,7 @@ public:
         auto maxSpeed = jmax (200.0, (double) sliderRegionSize);
         auto speed = jlimit (0.0, maxSpeed, (double) std::abs (mouseDiff));
 
-        if (speed != 0.0)
+        if (! approximatelyEqual (speed, 0.0))
         {
             speed = 0.2 * velocityModeSensitivity
                       * (1.0 + std::sin (MathConstants<double>::pi * (1.5 + jmin (0.5, velocityModeOffset
@@ -944,7 +970,7 @@ public:
         {
             restoreMouseIfHidden();
 
-            if (sendChangeOnlyOnRelease && valueOnMouseDown != static_cast<double> (currentValue.getValue()))
+            if (sendChangeOnlyOnRelease && ! approximatelyEqual (valueOnMouseDown, static_cast<double> (currentValue.getValue())))
                 triggerChangeMessage (sendNotificationAsync);
 
             currentDrag.reset();
@@ -991,6 +1017,38 @@ public:
         popupDisplay.reset();
     }
 
+    bool keyPressed (const KeyPress& key)
+    {
+        if (key.getModifiers().isAnyModifierKeyDown())
+            return false;
+
+        const auto getInterval = [this]
+        {
+            if (auto* accessibility = owner.getAccessibilityHandler())
+                if (auto* valueInterface = accessibility->getValueInterface())
+                    return valueInterface->getRange().getInterval();
+
+            return getStepSize (owner);
+        };
+
+        const auto valueChange = [&]
+        {
+            if (key == KeyPress::rightKey || key == KeyPress::upKey)
+                return getInterval();
+
+            if (key == KeyPress::leftKey || key == KeyPress::downKey)
+                return -getInterval();
+
+            return 0.0;
+        }();
+
+        if (approximatelyEqual (valueChange, 0.0))
+            return false;
+
+        setValue (getValue() + valueChange, sendNotificationSync);
+        return true;
+    }
+
     void showPopupDisplay()
     {
         if (style == IncDecButtons)
@@ -1007,25 +1065,36 @@ public:
                                             | ComponentPeer::windowIgnoresKeyPresses
                                             | ComponentPeer::windowIgnoresMouseClicks);
 
-            if (style == SliderStyle::TwoValueHorizontal
-                || style == SliderStyle::TwoValueVertical)
-            {
-                updatePopupDisplay (sliderBeingDragged == 2 ? getMaxValue()
-                                                            : getMinValue());
-            }
-            else
-            {
-                updatePopupDisplay (getValue());
-            }
-
+            updatePopupDisplay();
             popupDisplay->setVisible (true);
         }
     }
 
-    void updatePopupDisplay (double valueToShow)
+    void updatePopupDisplay()
     {
-        if (popupDisplay != nullptr)
-            popupDisplay->updatePosition (owner.getTextFromValue (valueToShow));
+        if (popupDisplay == nullptr)
+            return;
+
+        const auto valueToShow = [this]
+        {
+            constexpr SliderStyle multiSliderStyles[] { SliderStyle::TwoValueHorizontal,
+                                                        SliderStyle::TwoValueVertical,
+                                                        SliderStyle::ThreeValueHorizontal,
+                                                        SliderStyle::ThreeValueVertical };
+
+            if (std::find (std::begin (multiSliderStyles), std::end (multiSliderStyles), style) == std::end (multiSliderStyles))
+                return getValue();
+
+            if (sliderBeingDragged == 2)
+                return getMaxValue();
+
+            if (sliderBeingDragged == 1)
+                return getMinValue();
+
+            return getValue();
+        }();
+
+        popupDisplay->updatePosition (owner.getTextFromValue (valueToShow));
     }
 
     bool canDoubleClickToValue() const
@@ -1079,7 +1148,7 @@ public:
                     auto delta = getMouseWheelDelta (value, (std::abs (wheel.deltaX) > std::abs (wheel.deltaY)
                                                                   ? -wheel.deltaX : wheel.deltaY)
                                                                * (wheel.isReversed ? -1.0f : 1.0f));
-                    if (delta != 0.0)
+                    if (! approximatelyEqual (delta, 0.0))
                     {
                         auto newValue = value + jmax (normRange.interval, std::abs (delta)) * (delta < 0 ? -1.0 : 1.0);
 
@@ -1173,12 +1242,6 @@ public:
                                      getLinearSliderPos (lastValueMax),
                                      style, owner);
             }
-
-            if ((style == LinearBar || style == LinearBarVertical) && valueBox == nullptr)
-            {
-                g.setColour (owner.findColour (Slider::textBoxOutlineColourId));
-                g.drawRect (0, 0, owner.getWidth(), owner.getHeight(), 1);
-            }
         }
     }
 
@@ -1259,6 +1322,7 @@ public:
     TextEntryBoxPosition textBoxPos;
     String textSuffix;
     int numDecimalPlaces = 7;
+    int fixedNumDecimalPlaces = -1;
     int textBoxWidth = 80, textBoxHeight = 20;
     IncDecButtonMode incDecButtonMode = incDecButtonsNotDraggable;
     ModifierKeys::Flags modifierToSwapModes = ModifierKeys::ctrlAltCommandModifiers;
@@ -1508,10 +1572,11 @@ void Slider::lookAndFeelChanged()   { pimpl->lookAndFeelChanged (getLookAndFeel(
 void Slider::enablementChanged()    { repaint(); pimpl->updateTextBoxEnablement(); }
 
 //==============================================================================
-Range<double> Slider::getRange() const noexcept  { return { pimpl->normRange.start, pimpl->normRange.end }; }
-double Slider::getMaximum() const noexcept       { return pimpl->normRange.end; }
-double Slider::getMinimum() const noexcept       { return pimpl->normRange.start; }
-double Slider::getInterval() const noexcept      { return pimpl->normRange.interval; }
+NormalisableRange<double> Slider::getNormalisableRange() const noexcept { return pimpl->normRange; }
+Range<double> Slider::getRange() const noexcept                         { return { pimpl->normRange.start, pimpl->normRange.end }; }
+double Slider::getMaximum() const noexcept                              { return pimpl->normRange.end; }
+double Slider::getMinimum() const noexcept                              { return pimpl->normRange.start; }
+double Slider::getInterval() const noexcept                             { return pimpl->normRange.interval; }
 
 void Slider::setRange (double newMin, double newMax, double newInt)      { pimpl->setRange (newMin, newMax, newInt); }
 void Slider::setRange (Range<double> newRange, double newInt)            { pimpl->setRange (newRange.getStart(), newRange.getEnd(), newInt); }
@@ -1618,11 +1683,14 @@ double Slider::snapValue (double attemptedValue, DragMode)
     return attemptedValue;
 }
 
-int Slider::getNumDecimalPlacesToDisplay() const noexcept   { return pimpl->numDecimalPlaces; }
+int Slider::getNumDecimalPlacesToDisplay() const noexcept
+{
+    return pimpl->getNumDecimalPlacesToDisplay();
+}
 
 void Slider::setNumDecimalPlacesToDisplay (int decimalPlacesToDisplay)
 {
-    pimpl->numDecimalPlaces = decimalPlacesToDisplay;
+    pimpl->setNumDecimalPlacesToDisplay (decimalPlacesToDisplay);
     updateText();
 }
 
@@ -1660,6 +1728,9 @@ void Slider::mouseExit (const MouseEvent&)      { pimpl->mouseExit(); }
 // If popup display is enabled and set to show on mouse hover, this makes sure
 // it is shown when dragging the mouse over a slider and releasing
 void Slider::mouseEnter (const MouseEvent&)     { pimpl->mouseMove(); }
+
+/** @internal */
+bool Slider::keyPressed (const KeyPress& k)     { return pimpl->keyPressed (k); }
 
 void Slider::modifierKeysChanged (const ModifierKeys& modifiers)
 {
@@ -1734,18 +1805,10 @@ private:
         AccessibleValueRange getRange() const override
         {
             return { { slider.getMinimum(), slider.getMaximum() },
-                     getStepSize() };
+                     getStepSize (slider) };
         }
 
     private:
-        double getStepSize() const
-        {
-            auto interval = slider.getInterval();
-
-            return interval != 0.0 ? interval
-                                   : slider.getRange().getLength() * 0.01;
-        }
-
         Slider& slider;
         const bool useMaxValue;
 

@@ -17,6 +17,7 @@
 #include <array>
 #include <exception>
 #include <mutex>
+#include <ranges>
 #include <string_view>
 #include <tuple>
 #include <unordered_map>
@@ -39,7 +40,7 @@ namespace {
    HWND h_lr_wnd {nullptr};
    std::once_flag of_getlanguage;
 
-   BOOL CALLBACK EnumWindowsProc(_In_ const HWND hwnd, [[maybe_unused]] _In_ const LPARAM l_param)
+   BOOL CALLBACK EnumWindowsProc(const _In_ HWND hwnd, [[maybe_unused]] const _In_ LPARAM l_param)
    {
       if (!IsWindowVisible(hwnd)) { return true; }
       std::array<WCHAR, 500> buffer {};
@@ -47,8 +48,8 @@ namespace {
       if (length) {
          /* check for issues with extra-long window titles and log them */
          if (std::cmp_greater_equal(length + 1, buffer.size())) {
-            rsj::Log(fmt::format(
-                FMT_STRING(L"EnumWindowsProc window text length > {}, truncated text is {}."),
+            rsj::Log(fmt::format(FMT_STRING(L"EnumWindowsProc window text length > {}, truncated "
+                                            L"text is {}."),
                 buffer.size(), buffer.data())
                          .data());
          } /* try to find Lightroom Classic. Use Lightroom as fallback */
@@ -87,8 +88,8 @@ namespace {
          const auto uc {ww898::utf::conv<wchar_t>(key).front()};
          static const auto kLanguageId {GetLanguage()};
          const auto vk_code_and_shift {VkKeyScanExW(uc, kLanguageId)};
-         THROW_LAST_ERROR_IF(
-             rollbear::all_of(LOBYTE(vk_code_and_shift), HIBYTE(vk_code_and_shift)) == 0xFF);
+         THROW_LAST_ERROR_IF(rollbear::all_of(LOBYTE(vk_code_and_shift), HIBYTE(vk_code_and_shift))
+                             == 0xFF);
          return {LOBYTE(vk_code_and_shift),
              rsj::ActiveModifiers::FromWindows(HIBYTE(vk_code_and_shift))};
       }
@@ -116,9 +117,9 @@ namespace {
             stroke_vector.push_back(ip);
          }};
          /* down strokes in reverse order from up strokes */
-         std::for_each(strokes.crbegin(), strokes.crend(), push_stroke);
+         std::ranges::for_each(strokes | std::views::reverse, push_stroke);
          ip.ki.dwFlags = KEYEVENTF_KEYUP;
-         std::for_each(strokes.cbegin(), strokes.cend(), push_stroke);
+         std::ranges::for_each(strokes, push_stroke);
          /* send strokes */
          auto lock {std::scoped_lock(mutex_sending)};
          THROW_LAST_ERROR_IF(SendInput(gsl::narrow_cast<UINT>(stroke_vector.size()),
@@ -191,6 +192,7 @@ namespace {
 
 #pragma warning(push)
 #pragma warning(disable : 26447) /* all exceptions caught and suppressed */
+
 void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods) noexcept
 {
    try {
@@ -230,5 +232,6 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
           FMT_STRING("Non-standard exception in key sending function for key: \"{}\"."), key));
    }
 }
+
 #pragma warning(pop)
 #endif

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -58,6 +58,20 @@ public:
     {
         return gain > Type() ? jmax (minusInfinityDb, static_cast<Type> (std::log10 (gain)) * Type (20.0))
                              : minusInfinityDb;
+    }
+
+    /** Restricts a gain value based on a lower bound specified in dBFS.
+
+        This is useful if you want to make sure a gain value never reaches zero.
+    */
+    template <typename Type>
+    static Type gainWithLowerBound (Type gain, Type lowerBoundDb)
+    {
+        // You probably want to use a negative decibel value or the gain will
+        // be restricted to boosting only!
+        jassert (lowerBoundDb < (Type) 0.0);
+
+        return jmax ((Type) gain, Decibels::decibelsToGain (lowerBoundDb, lowerBoundDb - (Type) 1.0));
     }
 
     //==============================================================================

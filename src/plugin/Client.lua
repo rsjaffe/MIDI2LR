@@ -88,7 +88,7 @@ LrTasks.startAsyncTask(
     local LrSelection         = import 'LrSelection'
     local LrUndo              = import 'LrUndo'
     --global variables
-    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, CLIENT = {}, RUNNING = true} --non-local but in MIDI2LR namespace
+    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, CLIENT = {}, RUNNING = true, AltOpt = false} --non-local but in MIDI2LR namespace
     --local variables
     local LastParam           = ''
     local UpdateParamPickup, UpdateParamNoPickup, UpdateParam
@@ -183,6 +183,7 @@ LrTasks.startAsyncTask(
       FullRefresh                     = CU.FullRefresh,
       GetPluginInfo                   = DebugInfo.sendLog, -- not in db: internal use only
       GridViewStyle                   = LrApplicationView.gridViewStyle,
+      HoldAltOpt                      = CU.HoldAltOptToggle,
       IncreaseRating                  = LrSelection.increaseRating,
       IncrementLastDevelopParameter   = function() CU.execFOM(LrDevelopController.increment,LastParam) end,
       Key1  = function() MIDI2LR.SERVER:send('SendKey '..Keys.GetKey(1)..'\n') end,
@@ -407,12 +408,15 @@ LrTasks.startAsyncTask(
       LocalPreset8  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[8]) end,
       LocalPreset9  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[9]) end,
       Loupe          = CU.fToggleTool('loupe'),
-      Mask           = CU.fToggleTool('masking'),
+      Mask           = CU.fToggleTool1('masking'),
+      MaskAddBack    = CU.wrapFOM(LrDevelopController.addToCurrentMask,'aiSelection','background'),
       MaskAddBrush   = CU.wrapFOM(LrDevelopController.addToCurrentMask,'brush'),
       MaskAddColor   = CU.wrapFOM(LrDevelopController.addToCurrentMask,'rangeMask','color'),
       MaskAddDepth   = CU.wrapFOM(LrDevelopController.addToCurrentMask,'rangeMask','depth'),
       MaskAddGrad    = CU.wrapFOM(LrDevelopController.addToCurrentMask,'gradient'),
       MaskAddLum     = CU.wrapFOM(LrDevelopController.addToCurrentMask,'rangeMask','luminance'),
+      MaskAddObj     = CU.wrapFOM(LrDevelopController.addToCurrentMask,'aiSelection','objects'),
+      MaskAddPeople  = CU.wrapFOM(LrDevelopController.addToCurrentMask,'aiSelection','people'),
       MaskAddRad     = CU.wrapFOM(LrDevelopController.addToCurrentMask,'radialGradient'),
       MaskAddSky     = CU.wrapFOM(LrDevelopController.addToCurrentMask,'aiSelection','sky'),
       MaskAddSubject = CU.wrapFOM(LrDevelopController.addToCurrentMask,'aiSelection','subject'),
@@ -423,20 +427,26 @@ LrTasks.startAsyncTask(
       MaskHideTool   = Mask.ToggleHideMaskTool,
       MaskInvert     = Mask.InvertMask,
       MaskInvertDup  = Mask.InvertDuplicateMask,
+      MaskIntBack    = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'aiSelection','background'),
       MaskIntBrush   = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'brush'),
       MaskIntColor   = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'rangeMask','color'),
       MaskIntDepth   = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'rangeMask','depth'),
       MaskIntGrad    = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'gradient'),
       MaskIntLum     = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'rangeMask','luminance'),
+      MaskIntObj     = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'aiSelection','objects'),
+      MaskIntPeople  = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'aiSelection','people'),
       MaskIntRad     = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'radialGradient'),
       MaskIntSky     = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'aiSelection','sky'),
       MaskIntSubject = CU.wrapFOM(LrDevelopController.intersectWithCurrentMask,'aiSelection','subject'),
       MaskInvertTool = Mask.ToggleInvertMaskTool,
+      MaskNewBack    = CU.wrapFOM(LrDevelopController.createNewMask,'aiSelection','background'),
       MaskNewBrush   = CU.wrapFOM(LrDevelopController.createNewMask,'brush'),
       MaskNewColor   = CU.wrapFOM(LrDevelopController.createNewMask,'rangeMask','color'),
       MaskNewDepth   = CU.wrapFOM(LrDevelopController.createNewMask,'rangeMask','depth'),
       MaskNewGrad    = CU.wrapFOM(LrDevelopController.createNewMask,'gradient'),
       MaskNewLum     = CU.wrapFOM(LrDevelopController.createNewMask,'rangeMask','luminance'),
+      MaskNewObj     = CU.wrapFOM(LrDevelopController.createNewMask,'aiSelection','objects'),
+      MaskNewPeople  = CU.wrapFOM(LrDevelopController.createNewMask,'aiSelection','people'),
       MaskNewRad     = CU.wrapFOM(LrDevelopController.createNewMask,'radialGradient'),
       MaskNewSky     = CU.wrapFOM(LrDevelopController.createNewMask,'aiSelection','sky'),
       MaskNewSubject = CU.wrapFOM(LrDevelopController.createNewMask,'aiSelection','subject'),
@@ -445,11 +455,14 @@ LrTasks.startAsyncTask(
       MaskPrevious   = Mask.PreviousMask,
       MaskPreviousTool = Mask.PreviousTool,
       MaskReset      = CU.wrapFOM(LrDevelopController.resetMasking),
+      MaskSubBack    = CU.wrapFOM(LrDevelopController.subtractFromCurrentMask,'aiSelection','background'),
       MaskSubBrush   = CU.wrapFOM(LrDevelopController.subtractFromCurrentMask,'brush'),
       MaskSubColor   = CU.wrapFOM(LrDevelopController.subtractFromCurrentMask,'rangeMask','color'),
       MaskSubDepth   = CU.wrapFOM(LrDevelopController.subtractFromCurrentMask,'rangeMask','depth'),
       MaskSubGrad    = CU.wrapFOM(LrDevelopController.subtractFromCurrentMask,'gradient'),
       MaskSubLum     = CU.wrapFOM(LrDevelopController.subtractFromCurrentMask,'rangeMask','luminance'),
+      MaskSubObj     = CU.wrapFOM(LrDevelopController.subtractFromCurrentMask,'aiSelection','objects'),
+      MaskSubPeople  = CU.wrapFOM(LrDevelopController.subtractFromCurrentMask,'aiSelection','people'),
       MaskSubRad     = CU.wrapFOM(LrDevelopController.subtractFromCurrentMask,'radialGradient'),
       MaskSubSky     = CU.wrapFOM(LrDevelopController.subtractFromCurrentMask,'aiSelection','sky'),
       MaskSubSubject = CU.wrapFOM(LrDevelopController.subtractFromCurrentMask,'aiSelection','subject'),
@@ -466,6 +479,10 @@ LrTasks.startAsyncTask(
       PointCurveLinear                = CU.UpdatePointCurve({ToneCurveName="Linear",ToneCurveName2012="Linear",ToneCurvePV2012={0,0,255,255,}}),
       PointCurveMediumContrast        = CU.UpdatePointCurve({ToneCurveName="Medium Contrast",ToneCurveName2012="Medium Contrast",ToneCurvePV2012={0,0,32,22,64,56,128,128,192,196,255,255,}}),
       PointCurveStrongContrast        = CU.UpdatePointCurve({ToneCurveName="Strong Contrast",ToneCurveName2012="Strong Contrast",ToneCurvePV2012={0,0,32,16,64,50,128,128,192,202,255,255,}}),
+      PointCurveBlacksUp              = CU.PointCurveUpDown(true, true),
+      PointCurveBlacksDown            = CU.PointCurveUpDown(true, false),
+      PointCurveHighlightsUp          = CU.PointCurveUpDown(false, true),
+      PointCurveHighlightsDown        = CU.PointCurveUpDown(false, false),
       PostCropVignetteStyle           = CU.fToggle1ModN('PostCropVignetteStyle', 3),
       PostCropVignetteStyleColorPriority     = CU.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',2),
       PostCropVignetteStyleHighlightPriority = CU.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',1),
@@ -670,8 +687,8 @@ LrTasks.startAsyncTask(
       ShoVwpeople                     = function() LrApplicationView.showView('people') end,
       ShoVwsurvey                     = function() LrApplicationView.showView('survey') end,
       ShowClipping                    = CU.wrapFOM(LrDevelopController.showClipping),
-      SliderDecrease                  = CU.fSimulateKeys(KS.KeyCode.SliderDecreaseKey,true),
-      SliderIncrease                  = CU.fSimulateKeys(KS.KeyCode.SliderIncreaseKey,true),
+      SliderDecrease                  = CU.fSimulateKeys(KS.KeyCode.SliderDecreaseKey,false), -- developonly was true, but also works in library view for grid size
+      SliderIncrease                  = CU.fSimulateKeys(KS.KeyCode.SliderIncreaseKey,false), -- developonly was true, but also works in library view for grid size
       SpotRemoval                     = CU.fToggleTool1('dust'),
       SwToMbook                       = CU.fChangeModule('book'),
       SwToMdevelop                    = CU.fChangeModule('develop'),
@@ -681,7 +698,7 @@ LrTasks.startAsyncTask(
       SwToMslideshow                  = CU.fChangeModule('slideshow'),
       SwToMweb                        = CU.fChangeModule('web'),
       ToggleBlue                      = LrSelection.toggleBlueLabel,
-      ToggleFlag                      = function() MIDI2LR.SERVER:send('SendKey '..KS.KeyCode.ToggleFlagKey..'\n') end,
+      ToggleFlag                      = CU.fSimulateKeys(KS.KeyCode.ToggleFlagKey,false),
       ToggleGreen                     = LrSelection.toggleGreenLabel,
       ToggleLoupe                     = LrApplicationView.toggleLoupe,
       ToggleOverlay                   = LrDevelopController.toggleOverlay,
@@ -810,7 +827,7 @@ LrTasks.startAsyncTask(
           value = CU.MIDIValueToLRValue(param, midi_value)
           if value ~= LrDevelopController.getValue(param) then
             MIDI2LR.PARAM_OBSERVER[param] = value
-            LrDevelopController.setValue(param, value)
+            LrDevelopController.setValue(param, value, MIDI2LR.AltOpt)
             LastParam = param
             if ProgramPreferences.ClientShowBezelOnChange and not silent then
               CU.showBezel(param,value)
@@ -848,7 +865,7 @@ LrTasks.startAsyncTask(
       value = CU.MIDIValueToLRValue(param, midi_value)
       if value ~= LrDevelopController.getValue(param) then
         MIDI2LR.PARAM_OBSERVER[param] = value
-        LrDevelopController.setValue(param, value)
+        LrDevelopController.setValue(param, value, MIDI2LR.AltOpt)
         LastParam = param
         if ProgramPreferences.ClientShowBezelOnChange and not silent then
           CU.showBezel(param,value)

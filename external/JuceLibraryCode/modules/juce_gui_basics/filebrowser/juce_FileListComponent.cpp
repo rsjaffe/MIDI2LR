@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -26,17 +26,13 @@
 namespace juce
 {
 
-Image juce_createIconForFile (const File& file);
-
-
 //==============================================================================
 FileListComponent::FileListComponent (DirectoryContentsList& listToShow)
-    : ListBox ({}, nullptr),
+    : ListBox ({}, this),
       DirectoryContentsDisplayComponent (listToShow),
       lastDirectory (listToShow.getDirectory())
 {
     setTitle ("Files");
-    setModel (this);
     directoryContentsList.addChangeListener (this);
 }
 
@@ -67,14 +63,18 @@ void FileListComponent::scrollToTop()
 
 void FileListComponent::setSelectedFile (const File& f)
 {
-    for (int i = directoryContentsList.getNumFiles(); --i >= 0;)
+    if (! directoryContentsList.isStillLoading())
     {
-        if (directoryContentsList.getFile (i) == f)
+        for (int i = directoryContentsList.getNumFiles(); --i >= 0;)
         {
-            fileWaitingToBeSelected = File();
+            if (directoryContentsList.getFile (i) == f)
+            {
+                fileWaitingToBeSelected = File();
 
-            selectRow (i);
-            return;
+                updateContent();
+                selectRow (i);
+                return;
+            }
         }
     }
 
@@ -100,6 +100,7 @@ void FileListComponent::changeListenerCallback (ChangeBroadcaster*)
 
 //==============================================================================
 class FileListComponent::ItemComponent  : public Component,
+                                          public TooltipClient,
                                           private TimeSliceClient,
                                           private AsyncUpdater
 {
@@ -190,6 +191,11 @@ public:
         repaint();
     }
 
+    String getTooltip() override
+    {
+        return owner.getTooltipForRow (index);
+    }
+
 private:
     //==============================================================================
     FileListComponent& owner;
@@ -214,7 +220,7 @@ private:
 
             if (im.isNull() && ! onlyUpdateIfCached)
             {
-                im = juce_createIconForFile (file);
+                im = detail::WindowingHelpers::createIconForFile (file);
 
                 if (im.isValid())
                     ImageCache::addImageToCache (im, hashCode);

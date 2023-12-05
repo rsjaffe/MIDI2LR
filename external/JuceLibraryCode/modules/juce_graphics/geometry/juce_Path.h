@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -827,11 +827,11 @@ private:
     PathBounds bounds;
     bool useNonZeroWinding = true;
 
-    static const float lineMarker;
-    static const float moveMarker;
-    static const float quadMarker;
-    static const float cubicMarker;
-    static const float closeSubPathMarker;
+    static constexpr float lineMarker           = 100001.0f;
+    static constexpr float moveMarker           = 100002.0f;
+    static constexpr float quadMarker           = 100003.0f;
+    static constexpr float cubicMarker          = 100004.0f;
+    static constexpr float closeSubPathMarker   = 100005.0f;
 
     JUCE_LEAK_DETECTOR (Path)
 };

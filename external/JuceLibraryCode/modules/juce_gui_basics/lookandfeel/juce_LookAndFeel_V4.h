@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -140,8 +140,9 @@ public:
     Font getAlertWindowFont() override;
 
     //==============================================================================
-    void drawProgressBar (Graphics&, ProgressBar&, int width, int height, double progress, const String& textToShow) override;
+    void drawProgressBar (Graphics&, ProgressBar&, int width, int height, double progress, const String&) override;
     bool isProgressBarOpaque (ProgressBar&) override    { return false; }
+    ProgressBar::Style getDefaultProgressBarStyle (const ProgressBar&) override;
 
     //==============================================================================
     int getDefaultScrollbarWidth() override;
@@ -242,9 +243,10 @@ public:
 
 private:
     //==============================================================================
-    void drawLinearProgressBar (Graphics&, ProgressBar&, int width, int height, double progress, const String&);
-    void drawCircularProgressBar (Graphics&, ProgressBar&, const String&);
+    static void drawLinearProgressBar (Graphics&, const ProgressBar&, int, int, double, const String&);
+    static void drawCircularProgressBar (Graphics&, const ProgressBar&, const String&);
 
+    //==============================================================================
     int getPropertyComponentIndent (PropertyComponent&);
 
     //==============================================================================

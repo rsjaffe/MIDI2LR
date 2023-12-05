@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -63,7 +63,7 @@ struct SysEx7
     /** Holds the bytes from a single SysEx-7 packet. */
     struct PacketBytes
     {
-        std::array<uint8_t, 6> data;
+        std::array<std::byte, 6> data;
         uint8_t size;
     };
 

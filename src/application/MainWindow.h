@@ -41,7 +41,9 @@ class MainWindow final : juce::DocumentWindow, juce::Timer {
    MainWindow(MainWindow&& other) = delete;
    MainWindow& operator=(const MainWindow& other) = delete;
    MainWindow& operator=(MainWindow&& other) = delete;
+
    void SaveProfile() const { window_content_->SaveProfile(); }
+
    /* Note: Be careful if you override any DocumentWindow methods - the base class uses a lot of
     * them, so by overriding you might break its functionality. It's best to do all your work in
     * your content component instead, but if you really have to override any DocumentWindow methods,
@@ -52,6 +54,7 @@ class MainWindow final : juce::DocumentWindow, juce::Timer {
    {
       juce::JUCEApplication::getInstance()->systemRequestedQuit();
    }
+
    void timerCallback() override;
 
    std::unique_ptr<MainContentComponent> window_content_ {};

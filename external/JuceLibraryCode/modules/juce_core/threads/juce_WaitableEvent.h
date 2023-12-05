@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -61,7 +61,7 @@ public:
         @returns    true if the object has been signalled, false if the timeout expires first.
         @see signal, reset
     */
-    bool wait (int timeOutMilliseconds = -1) const;
+    bool wait (double timeOutMilliseconds = -1.0) const;
 
     /** Wakes up any threads that are currently waiting on this object.
 

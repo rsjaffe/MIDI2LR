@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -46,17 +46,22 @@ EdgeTable::EdgeTable (Rectangle<int> area, const Path& path, const AffineTransfo
         t += lineStrideElements;
     }
 
-    auto leftLimit   = scale * bounds.getX();
-    auto topLimit    = scale * bounds.getY();
-    auto rightLimit  = scale * bounds.getRight();
-    auto heightLimit = scale * bounds.getHeight();
+    auto leftLimit   = scale * static_cast<int64_t> (bounds.getX());
+    auto topLimit    = scale * static_cast<int64_t> (bounds.getY());
+    auto rightLimit  = scale * static_cast<int64_t> (bounds.getRight());
+    auto heightLimit = scale * static_cast<int64_t> (bounds.getHeight());
 
     PathFlatteningIterator iter (path, transform);
 
     while (iter.next())
     {
-        auto y1 = roundToInt (iter.y1 * 256.0f);
-        auto y2 = roundToInt (iter.y2 * 256.0f);
+        const auto scaleIterY = [] (auto y)
+        {
+            return static_cast<int64_t> (y * 256.0f + (y >= 0 ? 0.5f : -0.5f));
+        };
+
+        auto y1 = scaleIterY (iter.y1);
+        auto y2 = scaleIterY (iter.y2);
 
         if (y1 != y2)
         {
@@ -82,19 +87,15 @@ EdgeTable::EdgeTable (Rectangle<int> area, const Path& path, const AffineTransfo
             {
                 const double startX = 256.0f * iter.x1;
                 const double multiplier = (iter.x2 - iter.x1) / (iter.y2 - iter.y1);
-                auto stepSize = jlimit (1, 256, 256 / (1 + (int) std::abs (multiplier)));
+                auto stepSize = static_cast<int64_t> (jlimit (1, 256, 256 / (1 + (int) std::abs (multiplier))));
 
                 do
                 {
                     auto step = jmin (stepSize, y2 - y1, 256 - (y1 & 255));
-                    auto x = roundToInt (startX + multiplier * ((y1 + (step >> 1)) - startY));
+                    auto x = static_cast<int64_t> (startX + multiplier * static_cast<double> ((y1 + (step >> 1)) - startY));
+                    auto clampedX = static_cast<int> (jlimit (leftLimit, rightLimit - 1, x));
 
-                    if (x < leftLimit)
-                        x = leftLimit;
-                    else if (x >= rightLimit)
-                        x = rightLimit - 1;
-
-                    addEdgePoint (x, y1 / scale, direction * step);
+                    addEdgePoint (clampedX, static_cast<int> (y1 / scale), static_cast<int> (direction * step));
                     y1 += step;
                 }
                 while (y1 < y2);

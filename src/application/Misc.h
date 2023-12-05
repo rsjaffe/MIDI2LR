@@ -131,10 +131,12 @@ namespace rsj {
 #ifdef _WIN32
    [[nodiscard]] std::wstring AppDataFilePath(std::wstring_view file_name);
    [[nodiscard]] std::wstring AppDataFilePath(std::string_view file_name);
+
    [[nodiscard]] inline std::wstring AppLogFilePath(const std::wstring& file_name)
    {
       return AppDataFilePath(file_name);
    }
+
    [[nodiscard]] inline std::wstring AppLogFilePath(const std::string& file_name)
    {
       return AppDataFilePath(file_name);
@@ -147,6 +149,7 @@ namespace rsj {
    /**************Safe Integer Comparisons***************************************/
    /*****************************************************************************/
    template<class T> auto CharToInt(T t) = delete;
+
    [[nodiscard]] constexpr auto CharToInt(const char in) noexcept
    {
       if constexpr (std::numeric_limits<char>::is_signed) { return static_cast<int>(in); }

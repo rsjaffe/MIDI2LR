@@ -2,7 +2,7 @@
 // post.hpp
 // ~~~~~~~~
 //
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,10 +17,13 @@
 
 #include "asio/detail/config.hpp"
 #include "asio/async_result.hpp"
+#include "asio/detail/initiate_post.hpp"
 #include "asio/detail/type_traits.hpp"
 #include "asio/execution_context.hpp"
+#include "asio/execution/blocking.hpp"
 #include "asio/execution/executor.hpp"
 #include "asio/is_executor.hpp"
+#include "asio/require.hpp"
 
 #include "asio/detail/push_options.hpp"
 
@@ -59,12 +62,11 @@ namespace asio {
  * @code auto alloc = get_associated_allocator(handler); @endcode
  *
  * @li If <tt>execution::is_executor<Ex>::value</tt> is true, performs
- * @code execution::execute(
- *     prefer(
- *       require(ex, execution::blocking.never),
- *       execution::relationship.fork,
- *       execution::allocator(alloc)),
- *     std::forward<CompletionHandler>(completion_handler)); @endcode
+ * @code prefer(
+ *     require(ex, execution::blocking.never),
+ *     execution::relationship.fork,
+ *     execution::allocator(alloc)
+ *   ).execute(std::forward<CompletionHandler>(completion_handler)); @endcode
  *
  * @li If <tt>execution::is_executor<Ex>::value</tt> is false, performs
  * @code ex.post(
@@ -75,8 +77,15 @@ namespace asio {
  * @code void() @endcode
  */
 template <ASIO_COMPLETION_TOKEN_FOR(void()) NullaryToken>
-ASIO_INITFN_AUTO_RESULT_TYPE(NullaryToken, void()) post(
-    ASIO_MOVE_ARG(NullaryToken) token);
+ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(NullaryToken, void()) post(
+    ASIO_MOVE_ARG(NullaryToken) token)
+  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+    async_initiate<NullaryToken, void()>(
+        declval<detail::initiate_post>(), token)))
+{
+  return async_initiate<NullaryToken, void()>(
+      detail::initiate_post(), token);
+}
 
 /// Submits a completion token or function object for execution.
 /**
@@ -123,11 +132,8 @@ ASIO_INITFN_AUTO_RESULT_TYPE(NullaryToken, void()) post(
  * handler_ that is a decay-copy of @c completion_handler, and a function call
  * operator that performs:
  * @code auto a = get_associated_allocator(handler_);
- * execution::execute(
- *     prefer(executor_,
- *       execution::blocking.possibly,
- *       execution::allocator(a)),
- *     std::move(handler_)); @endcode
+ * prefer(executor_, execution::allocator(a)).execute(std::move(handler_));
+ * @endcode
  *
  * @li If <tt>execution::is_executor<Ex1>::value</tt> is false, constructs a
  * function object @c f with a member @c work_ that is initialised with
@@ -138,12 +144,11 @@ ASIO_INITFN_AUTO_RESULT_TYPE(NullaryToken, void()) post(
  * work_.reset(); @endcode
  *
  * @li If <tt>execution::is_executor<Ex>::value</tt> is true, performs
- * @code execution::execute(
- *     prefer(
- *       require(ex, execution::blocking.never),
- *       execution::relationship.fork,
- *       execution::allocator(alloc)),
- *     std::move(f)); @endcode
+ * @code prefer(
+ *     require(ex, execution::blocking.never),
+ *     execution::relationship.fork,
+ *     execution::allocator(alloc)
+ *   ).execute(std::move(f)); @endcode
  *
  * @li If <tt>execution::is_executor<Ex>::value</tt> is false, performs
  * @code ex.post(std::move(f), alloc); @endcode
@@ -154,13 +159,22 @@ ASIO_INITFN_AUTO_RESULT_TYPE(NullaryToken, void()) post(
 template <typename Executor,
     ASIO_COMPLETION_TOKEN_FOR(void()) NullaryToken
       ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(Executor)>
-ASIO_INITFN_AUTO_RESULT_TYPE(NullaryToken, void()) post(
+ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(NullaryToken, void()) post(
     const Executor& ex,
     ASIO_MOVE_ARG(NullaryToken) token
       ASIO_DEFAULT_COMPLETION_TOKEN(Executor),
     typename constraint<
-      execution::is_executor<Executor>::value || is_executor<Executor>::value
-    >::type = 0);
+      (execution::is_executor<Executor>::value
+          && can_require<Executor, execution::blocking_t::never_t>::value)
+        || is_executor<Executor>::value
+    >::type = 0)
+  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+    async_initiate<NullaryToken, void()>(
+        declval<detail::initiate_post_with_executor<Executor> >(), token)))
+{
+  return async_initiate<NullaryToken, void()>(
+      detail::initiate_post_with_executor<Executor>(ex), token);
+}
 
 /// Submits a completion token or function object for execution.
 /**
@@ -179,18 +193,26 @@ template <typename ExecutionContext,
     ASIO_COMPLETION_TOKEN_FOR(void()) NullaryToken
       ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(
         typename ExecutionContext::executor_type)>
-ASIO_INITFN_AUTO_RESULT_TYPE(NullaryToken, void()) post(
+ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(NullaryToken, void()) post(
     ExecutionContext& ctx,
     ASIO_MOVE_ARG(NullaryToken) token
       ASIO_DEFAULT_COMPLETION_TOKEN(
         typename ExecutionContext::executor_type),
     typename constraint<is_convertible<
-      ExecutionContext&, execution_context&>::value>::type = 0);
+      ExecutionContext&, execution_context&>::value>::type = 0)
+  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+    async_initiate<NullaryToken, void()>(
+        declval<detail::initiate_post_with_executor<
+          typename ExecutionContext::executor_type> >(), token)))
+{
+  return async_initiate<NullaryToken, void()>(
+      detail::initiate_post_with_executor<
+        typename ExecutionContext::executor_type>(
+          ctx.get_executor()), token);
+}
 
 } // namespace asio
 
 #include "asio/detail/pop_options.hpp"
-
-#include "asio/impl/post.hpp"
 
 #endif // ASIO_POST_HPP

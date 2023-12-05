@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -156,6 +156,11 @@ public:
     */
     virtual var getDragSourceDescription (const SparseSet<int>& rowsToDescribe);
 
+    /** Called when starting a drag operation on a list row to determine whether the item may be
+        dragged to other windows. Returns true by default.
+    */
+    virtual bool mayDragToExternalWindows() const   { return true; }
+
     /** You can override this to provide tool tips for specific rows.
         @see TooltipClient
     */
@@ -163,8 +168,14 @@ public:
 
     /** You can override this to return a custom mouse cursor for each row. */
     virtual MouseCursor getMouseCursorForRow (int row);
-};
 
+private:
+   #if ! JUCE_DISABLE_ASSERTIONS
+    friend class ListBox;
+    struct Empty {};
+    std::shared_ptr<Empty> sharedState = std::make_shared<Empty>();
+   #endif
+};
 
 //==============================================================================
 /**
@@ -187,6 +198,11 @@ public:
 
         The model pointer passed-in can be null, in which case you can set it later
         with setModel().
+
+        The ListBoxModel instance must stay alive for as long as the ListBox
+        holds a pointer to it. Be careful to destroy the ListBox before the
+        ListBoxModel, or to call ListBox::setModel (nullptr) before destroying
+        the ListBoxModel.
     */
     ListBox (const String& componentName = String(),
              ListBoxModel* model = nullptr);
@@ -194,14 +210,25 @@ public:
     /** Destructor. */
     ~ListBox() override;
 
-
     //==============================================================================
-    /** Changes the current data model to display. */
+    /** Changes the current data model to display.
+
+        The ListBoxModel instance must stay alive for as long as the ListBox
+        holds a pointer to it. Be careful to destroy the ListBox before the
+        ListBoxModel, or to call ListBox::setModel (nullptr) before destroying
+        the ListBoxModel.
+    */
     void setModel (ListBoxModel* newModel);
 
     /** Returns the current list model. */
-    ListBoxModel* getModel() const noexcept                     { return model; }
+    ListBoxModel* getListBoxModel() const noexcept
+    {
+       #if ! JUCE_DISABLE_ASSERTIONS
+        checkModelPtrIsValid();
+       #endif
 
+        return model;
+    }
 
     //==============================================================================
     /** Causes the list to refresh its content.
@@ -238,6 +265,11 @@ public:
         By default this is true, but you may want to turn it off.
     */
     void setRowSelectedOnMouseDown (bool isSelectedOnMouseDown) noexcept;
+
+    /** Gets whether a row should be selected when the mouse is pressed or released.
+        By default this is true, but you may want to turn it off.
+    */
+    bool getRowSelectedOnMouseDown() const                  { return selectOnMouseDown; }
 
     /** Makes the list react to mouse moves by selecting the row that the mouse if over.
 
@@ -433,7 +465,7 @@ public:
     /** Returns the row number that the given component represents.
         If the component isn't one of the list's rows, this will return -1.
     */
-    int getRowNumberOfComponent (Component* rowComponent) const noexcept;
+    int getRowNumberOfComponent (const Component* rowComponent) const noexcept;
 
     /** Returns the width of a row (which may be less than the width of this component
         if there's a scrollbar).
@@ -571,6 +603,8 @@ public:
     /** @internal */
     void startDragAndDrop (const MouseEvent&, const SparseSet<int>& rowsToDrag,
                            const var& dragDescription, bool allowDraggingToOtherWindows);
+    /** @internal */
+    std::unique_ptr<AccessibilityHandler> createAccessibilityHandler() override;
 
     //==============================================================================
    #ifndef DOXYGEN
@@ -578,13 +612,16 @@ public:
     void setSelectedRows (const SparseSet<int>&, bool);
    #endif
 
+    [[deprecated ("The name of this function is ambiguous if derived classes supply their own models, use getListBoxModel instead")]]
+    ListBoxModel* getModel() const noexcept  { return getListBoxModel(); }
+
 private:
     //==============================================================================
     JUCE_PUBLIC_IN_DLL_BUILD (class ListViewport)
     JUCE_PUBLIC_IN_DLL_BUILD (class RowComponent)
     friend class ListViewport;
     friend class TableListBox;
-    ListBoxModel* model;
+    ListBoxModel* model = nullptr;
     std::unique_ptr<ListViewport> viewport;
     std::unique_ptr<Component> headerComponent;
     std::unique_ptr<MouseListener> mouseMoveSelector;
@@ -594,7 +631,12 @@ private:
     int lastRowSelected = -1;
     bool multipleSelection = false, alwaysFlipSelection = false, hasDoneInitialUpdate = false, selectOnMouseDown = true;
 
-    std::unique_ptr<AccessibilityHandler> createAccessibilityHandler() override;
+   #if ! JUCE_DISABLE_ASSERTIONS
+    std::weak_ptr<ListBoxModel::Empty> weakModelPtr;
+   #endif
+
+    void assignModelPtr (ListBoxModel*);
+    void checkModelPtrIsValid() const;
     bool hasAccessibleHeaderComponent() const;
     void selectRowInternal (int rowNumber, bool dontScrollToShowThisRow,
                             bool deselectOthersFirst, bool isMouseClick);

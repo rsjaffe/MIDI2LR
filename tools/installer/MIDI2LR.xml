@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>5.4.0.0</version>
+    <version>6.0.0.0</version>
     <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>data/translations/ReadMe.txt</readmeFile>
     <licenseFile>../../LICENSE.txt</licenseFile>
@@ -341,8 +341,21 @@
                 <compareVersions>
                     <logic>less</logic>
                     <version1>${osx_major_version}</version1>
-                    <version2>10.15</version2>
+                    <version2>12</version2>
                 </compareVersions>
+            </ruleList>
+        </throwError>
+        <throwError>
+            <text>${msg(midi.install.win)}</text>
+            <ruleList>
+                <platformTest>
+                    <type>windows</type>
+                </platformTest>
+                <compareValues>
+                    <logic>less</logic>
+                    <value1>${windows_os_version_number}</value1>
+                    <value2>10</value2>
+                </compareValues>
             </ruleList>
         </throwError>
     </initializationActionList>

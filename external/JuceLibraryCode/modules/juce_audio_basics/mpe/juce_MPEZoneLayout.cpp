@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -108,14 +108,11 @@ void MPEZoneLayout::processNextMidiEvent (const MidiMessage& message)
     if (! message.isController())
         return;
 
-    MidiRPNMessage rpn;
-
-    if (rpnDetector.parseControllerMessage (message.getChannel(),
+    if (auto parsed = rpnDetector.tryParse (message.getChannel(),
                                             message.getControllerNumber(),
-                                            message.getControllerValue(),
-                                            rpn))
+                                            message.getControllerValue()))
     {
-        processRpnMessage (rpn);
+        processRpnMessage (*parsed);
     }
 }
 

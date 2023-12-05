@@ -52,9 +52,9 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
          }
          else {
             std::string format_str;
-            switch (
-                const auto cmd {profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))};
-                cmd.msg_id_type) {
+            switch (const auto cmd {
+                profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))};
+                    cmd.msg_id_type) {
             case rsj::MessageType::kNoteOn:
                format_str =
                    fmt::format(FMT_STRING("{} | Note : {}"), cmd.channel, cmd.control_number);
@@ -70,8 +70,8 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
                format_str = fmt::format(FMT_STRING("{} | Pitch Bend"), cmd.channel);
                break;
             case rsj::MessageType::kKeyPressure:
-               format_str = fmt::format(
-                   FMT_STRING("{} | Key Pressure: {}"), cmd.channel, cmd.control_number);
+               format_str = fmt::format(FMT_STRING("{} | Key Pressure: {}"), cmd.channel,
+                   cmd.control_number);
                break;
             case rsj::MessageType::kChanPressure:
                format_str = fmt::format(FMT_STRING("{} | Channel Pressure"), cmd.channel);
@@ -92,8 +92,8 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
    }
 }
 
-void CommandTableModel::paintRowBackground(
-    juce::Graphics& g, int /*rowNumber*/, int /*width*/, int /*height*/, const bool row_is_selected)
+void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/, int /*width*/,
+    int /*height*/, const bool row_is_selected)
 {
    /* This must draw the background behind one of the rows in the table. The graphics context has
     * its origin at the row's top-left, and your method should fill the area specified by the width

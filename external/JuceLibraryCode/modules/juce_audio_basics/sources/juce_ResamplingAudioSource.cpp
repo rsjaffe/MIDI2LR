@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -88,7 +88,7 @@ void ResamplingAudioSource::getNextAudioBlock (const AudioSourceChannelInfo& inf
         localRatio = ratio;
     }
 
-    if (lastRatio != localRatio)
+    if (! approximatelyEqual (lastRatio, localRatio))
     {
         createLowPass (localRatio);
         lastRatio = localRatio;

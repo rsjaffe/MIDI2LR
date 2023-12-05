@@ -33,7 +33,7 @@ local ProfileTypes = {
   loupe = {TMP = 'Tool', friendlyName = LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),},
   map = {TMP = 'Module', friendlyName = LOC("$$$/AgLocation/ModuleTitle=Map"),},
   masking = {TMP = 'Tool', friendlyName = LOC("$$$/AgDevelop/LoupeView/Tool/MaskGroupTooltip=Masking"),},
-  mixerPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/ColorAdjustments=Color Adjustments"),},
+  mixerPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/ColorAdjustments/ColorMixer/Title=Color Adjustments"),},
   print = {TMP = 'Module', friendlyName = LOC("$$$/AgPrint/Menu/File/Print=Print"),},
   profile1 = {TMP = 'Profile', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 1',},
   profile10 = {TMP = 'Profile', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 10',},

@@ -17,8 +17,20 @@
 
 #include <exception>
 #include <memory>
+#include <ranges>
 
 #include "Misc.h"
+
+namespace {
+   const std::vector<std::pair<std::string, std::string>> replace_me {
+       {            "CropAngle",      "straightenAngle"},
+       {       "ResetCropAngle", "ResetstraightenAngle"},
+       {     "local_Whites2012",         "local_Whites"},
+       {     "local_Blacks2012",         "local_Blacks"},
+       {"Resetlocal_Whites2012",    "Resetlocal_Whites"},
+       {"Resetlocal_Blacks2012",    "Resetlocal_Blacks"}
+   };
+} // namespace
 
 void Profile::FromXml(const juce::XmlElement* root)
 {
@@ -30,7 +42,15 @@ void Profile::FromXml(const juce::XmlElement* root)
       RemoveAllRows();
       for (const auto* setting : root->getChildIterator()) {
          auto command = setting->getStringAttribute("command_string").toStdString();
-         if (command == "CropAngle"s) { command = "straightenAngle"s; }
+         if (const auto b = command.back(); b == '2' || b == 'e') { // assumes only e,2 end old
+                                                                    // strings
+            for (const auto& i : replace_me) {
+               if (command == i.first) {
+                  command = i.second;
+                  break;
+               }
+            }
+         }
          if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message {setting->getIntAttribute("channel"),
                 setting->getIntAttribute("controller"), rsj::MessageType::kCc};
@@ -65,8 +85,8 @@ std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string
    try {
       std::vector<rsj::MidiMessageId> mm;
       auto guard {std::shared_lock {mutex_}};
-      std::for_each(mm_abbrv_table_.begin(), mm_abbrv_table_.end(), [&command, &mm](const auto& p) {
-         if (p.second == command) mm.push_back(p.first);
+      std::ranges::for_each(mm_abbrv_table_, [&command, &mm](const auto& p) {
+         if (p.second == command) { mm.push_back(p.first); }
       });
       return mm;
    }
@@ -79,8 +99,7 @@ std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string
 void Profile::InsertOrAssignI(const std::string& command, const rsj::MidiMessageId& message)
 {
    try {
-      const auto found = std::find_if(mm_abbrv_table_.begin(), mm_abbrv_table_.end(),
-          [message](const auto& p) { return p.first == message; });
+      const auto found = std::ranges::find(mm_abbrv_table_, message, &mm_abbrv_lmnt_t::first);
       if (found != mm_abbrv_table_.end()) { found->second = command; }
       else {
          mm_abbrv_table_.emplace_back(message, command);
@@ -130,8 +149,7 @@ void Profile::RemoveMessage(rsj::MidiMessageId message)
 {
    try {
       auto guard {std::unique_lock {mutex_}};
-      const auto found {std::find_if(mm_abbrv_table_.begin(), mm_abbrv_table_.end(),
-          [message](const auto& p) { return p.first == message; })};
+      const auto found = std::ranges::find(mm_abbrv_table_, message, &mm_abbrv_lmnt_t::first);
       if (found != mm_abbrv_table_.end()) [[likely]] {
          mm_abbrv_table_.erase(found);
          profile_unsaved_ = true;
@@ -165,8 +183,8 @@ void Profile::RemoveUnassignedMessages()
 {
    try {
       auto guard {std::unique_lock {mutex_}};
-      if (std::erase_if(
-              mm_abbrv_table_, [](const auto& p) { return p.second == CommandSet::kUnassigned; })) {
+      if (std::erase_if(mm_abbrv_table_,
+              [](const auto& p) { return p.second == CommandSet::kUnassigned; })) {
          profile_unsaved_ = true;
       }
    }
@@ -192,20 +210,19 @@ void Profile::Resort(const std::pair<int, bool> new_order)
 void Profile::SortI()
 {
    try {
-      const auto msg_sort {[this](const auto& a, const auto& b) {
-         return command_set_.CommandTextIndex(a.second) < command_set_.CommandTextIndex(b.second);
-      }};
+      const auto projection {
+          [this](const auto& a) { return command_set_.CommandTextIndex(a.second); }};
       if (current_sort_.first == 1) {
-         if (current_sort_.second) { std::sort(mm_abbrv_table_.begin(), mm_abbrv_table_.end()); }
+         if (current_sort_.second) { std::ranges::sort(mm_abbrv_table_); }
          else {
-            std::sort(mm_abbrv_table_.rbegin(), mm_abbrv_table_.rend());
+            std::ranges::sort(mm_abbrv_table_ | std::views::reverse);
          }
       }
       else if (current_sort_.second) {
-         std::sort(mm_abbrv_table_.begin(), mm_abbrv_table_.end(), msg_sort);
+         std::ranges::stable_sort(mm_abbrv_table_, {}, projection);
       }
       else {
-         std::sort(mm_abbrv_table_.rbegin(), mm_abbrv_table_.rend(), msg_sort);
+         std::ranges::stable_sort(mm_abbrv_table_ | std::views::reverse, {}, projection);
       }
    }
    catch (const std::exception& e) {
@@ -247,7 +264,7 @@ void Profile::ToXmlFile(const juce::File& file)
                continue;
             }
             setting->setAttribute("command_string", cmd_str);
-            root.addChildElement(setting.release());
+            root.prependChildElement(setting.release());
          }
          if (!root.writeTo(file)) {
             /* Give feedback if file-save doesn't work */

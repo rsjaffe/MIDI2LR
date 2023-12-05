@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -392,7 +392,14 @@ void ComboBox::enablementChanged()
 
 void ComboBox::colourChanged()
 {
-    lookAndFeelChanged();
+    label->setColour (Label::backgroundColourId, Colours::transparentBlack);
+    label->setColour (Label::textColourId, findColour (ComboBox::textColourId));
+
+    label->setColour (TextEditor::textColourId, findColour (ComboBox::textColourId));
+    label->setColour (TextEditor::backgroundColourId, Colours::transparentBlack);
+    label->setColour (TextEditor::highlightColourId, findColour (TextEditor::highlightColourId));
+    label->setColour (TextEditor::outlineColourId, Colours::transparentBlack);
+    repaint();
 }
 
 void ComboBox::parentHierarchyChanged()
@@ -402,8 +409,6 @@ void ComboBox::parentHierarchyChanged()
 
 void ComboBox::lookAndFeelChanged()
 {
-    repaint();
-
     {
         std::unique_ptr<Label> newLabel (getLookAndFeel().createComboBoxTextBox (*this));
         jassert (newLabel != nullptr);
@@ -433,14 +438,7 @@ void ComboBox::lookAndFeelChanged()
     label->addMouseListener (this, false);
     label->setAccessible (labelEditableState == labelIsEditable);
 
-    label->setColour (Label::backgroundColourId, Colours::transparentBlack);
-    label->setColour (Label::textColourId, findColour (ComboBox::textColourId));
-
-    label->setColour (TextEditor::textColourId, findColour (ComboBox::textColourId));
-    label->setColour (TextEditor::backgroundColourId, Colours::transparentBlack);
-    label->setColour (TextEditor::highlightColourId, findColour (TextEditor::highlightColourId));
-    label->setColour (TextEditor::outlineColourId, Colours::transparentBlack);
-
+    colourChanged();
     resized();
 }
 
@@ -588,7 +586,7 @@ void ComboBox::mouseUp (const MouseEvent& e2)
 
 void ComboBox::mouseWheelMove (const MouseEvent& e, const MouseWheelDetails& wheel)
 {
-    if (! menuActive && scrollWheelEnabled && e.eventComponent == this && wheel.deltaY != 0.0f)
+    if (! menuActive && scrollWheelEnabled && e.eventComponent == this && ! approximatelyEqual (wheel.deltaY, 0.0f))
     {
         mouseWheelAccumulator += wheel.deltaY * 5.0f;
 
@@ -629,6 +627,9 @@ void ComboBox::handleAsyncUpdate()
 
     if (onChange != nullptr)
         onChange();
+
+    if (checker.shouldBailOut())
+        return;
 
     if (auto* handler = getAccessibilityHandler())
         handler->notifyAccessibilityEvent (AccessibilityEvent::valueChanged);

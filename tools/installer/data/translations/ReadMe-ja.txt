@@ -3,7 +3,7 @@
 =============
 
 -Lightroom 11+またはCCクラシック
--Windows 10以降またはMacOS 10.15以降
+-Windows 10以降またはMacOS 12.0以降
 -USB MIDIコントローラー（例：Korg nanoKONTROLなど）
 
 =====

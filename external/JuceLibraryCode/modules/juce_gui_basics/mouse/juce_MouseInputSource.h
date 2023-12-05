@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -288,12 +288,11 @@ private:
     //==============================================================================
     friend class ComponentPeer;
     friend class Desktop;
-    friend class MouseInputSourceInternal;
-    MouseInputSourceInternal* pimpl;
+    friend class detail::MouseInputSourceList;
+    friend class detail::MouseInputSourceImpl;
+    detail::MouseInputSourceImpl* pimpl;
 
-    struct SourceList;
-
-    explicit MouseInputSource (MouseInputSourceInternal*) noexcept;
+    explicit MouseInputSource (detail::MouseInputSourceImpl*) noexcept;
     void handleEvent (ComponentPeer&, Point<float>, int64 time, ModifierKeys, float, float, const PenDetails&);
     void handleWheel (ComponentPeer&, Point<float>, int64 time, const MouseWheelDetails&);
     void handleMagnifyGesture (ComponentPeer&, Point<float>, int64 time, float scaleFactor);

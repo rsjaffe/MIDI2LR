@@ -1,6 +1,6 @@
 ﻿midi.donate=บริจาคเพื่อสนับสนุนการพัฒนาโครงการ
 midi.donate.exp=เปิดเว็บเบราว์เซอร์ด้วยแบบฟอร์ม PayPal ซึ่งคุณสามารถบริจาคเพื่อสนับสนุนการพัฒนา ${project.fullName} เพิ่มเติม
-midi.install.mac=ต้องใช้ MacOS Catalina 10.15 หรือรุ่นที่ใหม่กว่า
+midi.install.mac=ต้องใช้ MacOS Monterey 12.0 หรือรุ่นที่ใหม่กว่า
 midi.install.win=${project.fullName} สามารถติดตั้งบน Microsoft Windows 10 รุ่น 64 บิตหรือใหม่กว่าเท่านั้น
 midi.instructions=วิธีใช้แบบออนไลน์
 midi.instructions.exp=เปิดเว็บเบราว์เซอร์ที่แสดงคู่มือ โปรดทำบุ๊กมาร์กด้วยตนเองเนื่องจากมีตัวเลือกและการตั้งค่ามากมายที่คุณสามารถใช้ได้ใน ${project.fullName}
