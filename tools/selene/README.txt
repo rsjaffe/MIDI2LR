@@ -1,1 +1,1 @@
-selene 0.15.0 downloaded Nov 13 2021 from https://github.com/Kampfkarren/selene
+selene 0.26.1 downloaded Dec 5 2023 from https://github.com/Kampfkarren/selene
