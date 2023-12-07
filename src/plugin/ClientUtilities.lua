@@ -29,7 +29,9 @@ local LrDialogs           = import 'LrDialogs'
 local LrLocalization      = import 'LrLocalization'
 local LrStringUtils       = import 'LrStringUtils'
 local LrTasks             = import 'LrTasks'
-
+--[[-----------debug section, enable by adding - to beginning this line
+local LrMobdebug = import 'LrMobdebug'
+--]]-----------end debug section
 --modules may be library develop map book slideshow print web
 local needsModule = {
   [LrDevelopController.addAdjustmentChangeObserver]    = {module = 'develop', photoSelected = false },
@@ -380,8 +382,8 @@ local function fToggle01Async(param)
   return function()
     LrTasks.startAsyncTask ( function ()
         --[[-----------debug section, enable by adding - to beginning this line
-    LrMobdebug.on()
-    --]]-----------end debug section
+        LrMobdebug.on()
+        --]]-----------end debug section
         if execFOM(LrDevelopController.getValue, param) == 0 then
           LrDevelopController.setValue(param,1)
         else
@@ -403,8 +405,8 @@ local function fToggleTFasync(param)
   return function()
     LrTasks.startAsyncTask ( function ()
         --[[-----------debug section, enable by adding - to beginning this line
-    LrMobdebug.on()
-    --]]-----------end debug section
+        LrMobdebug.on()
+        --]]-----------end debug section
         if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
         LrApplication.activeCatalog():withWriteAccessDo(
           'MIDI2LR: Apply settings',
@@ -462,8 +464,8 @@ local function ApplySettings(settings)
   if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   LrTasks.startAsyncTask ( function ()
       --[[-----------debug section, enable by adding - to beginning this line
-    LrMobdebug.on()
-    --]]-----------end debug section
+      LrMobdebug.on()
+      --]]-----------end debug section
       LrApplication.activeCatalog():withWriteAccessDo(
         'MIDI2LR: Apply settings',
         function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(settings) end,
@@ -503,8 +505,8 @@ local function FullRefresh()
     -- refresh MIDI controller since mapping has changed
     LrTasks.startAsyncTask ( function ()
         --[[-----------debug section, enable by adding - to beginning this line
-    LrMobdebug.on()
-    --]]-----------end debug section
+        LrMobdebug.on()
+        --]]-----------end debug section
         local photoval = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
         -- refresh crop values
         local val_bottom = photoval.CropBottom
@@ -532,11 +534,13 @@ local function FullRefresh()
         else
           MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / range_h))
         end
+        local sel_mask = LrDevelopController.getSelectedMask()
         for param,altparam in pairs(Database.Parameters) do
+          LrTasks.yield()
           local min,max = Limits.GetMinMax(param)
           local lrvalue
           if altparam == 'Direct' then
-            lrvalue = LrDevelopController.getValue(param)
+            if (param:sub(1,6) ~= 'local_') or sel_mask then lrvalue = LrDevelopController.getValue(param) end
           else
             lrvalue = photoval[param] or photoval[altparam] or 0
           end
@@ -644,7 +648,7 @@ local function PointCurveUpDown(blacks, moveup, color)
     end
     fChangePanel('tonePanel')
     LrDevelopController.setValue(setting, newpoints)
-        if ProgramPreferences.ClientShowBezelOnChange then
+    if ProgramPreferences.ClientShowBezelOnChange then
       if blacks then
         LrDialogs.showBezel(moveup and curBlkUp or curBlkDn)
       else
@@ -758,8 +762,8 @@ local function ProfileAmount(value)
   local val = value -- make available to async task
   LrTasks.startAsyncTask ( function ()
       --[[-----------debug section, enable by adding - to beginning this line
-    LrMobdebug.on()
-    --]]-----------end debug section
+      LrMobdebug.on()
+      --]]-----------end debug section
       if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
       LrApplication.activeCatalog():withWriteAccessDo(
         'MIDI2LR: Profile amount',
@@ -938,8 +942,8 @@ local function quickDevAdjust(par,val,cmd) --note lightroom applies this to all 
     LrTasks.startAsyncTask(
       function()
         --[[-----------debug section, enable by adding - to beginning this line
-    LrMobdebug.on()
-    --]]-----------end debug section
+        LrMobdebug.on()
+        --]]-----------end debug section
         local TargetPhoto  = LrApplication.activeCatalog():getTargetPhoto()
         if TargetPhoto then
           TargetPhoto:quickDevelopAdjustImage(par,val)
@@ -957,8 +961,8 @@ local function quickDevAdjustWB(par,val,cmd) --note lightroom applies this to al
     LrTasks.startAsyncTask(
       function()
         --[[-----------debug section, enable by adding - to beginning this line
-    LrMobdebug.on()
-    --]]-----------end debug section
+        LrMobdebug.on()
+        --]]-----------end debug section
         local TargetPhoto  = LrApplication.activeCatalog():getTargetPhoto()
         if TargetPhoto then
           TargetPhoto:quickDevelopAdjustWhiteBalance(par,val)

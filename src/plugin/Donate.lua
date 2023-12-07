@@ -21,8 +21,8 @@ local LrHttp = import "LrHttp"
 
 import "LrTasks".startAsyncTask(
   function()
-        --[[-----------debug section, enable by adding - to beginning this line
-    LrMobdebug.on()
+    --[[-----------debug section, enable by adding - to beginning this line
+    import 'LrMobdebug'.on()
     --]]-----------end debug section
     LrHttp.openUrlInBrowser("https://www.paypal.me/MIDI2LR")
   end

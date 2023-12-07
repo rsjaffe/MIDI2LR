@@ -3,7 +3,7 @@
 ActionSeries.lua
 
 Manages action series for plugin
- 
+
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
@@ -15,7 +15,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local CU                  = require 'ClientUtilities'
@@ -27,7 +27,7 @@ local LrView              = import 'LrView'
 Database.ValidActions.Pause = true --this is in addition to the menu list
 
 local function ValidateActions(_,value)
-  local stack = nil 
+  local stack = nil
   for a in value:gmatch("[%w_]+") do
     if not Database.ValidActions[a] then
       if not stack then
@@ -62,9 +62,8 @@ local function StartDialog(obstable,f)
         validate = ValidateActions,
       }
     }
-  end 
-  return 
-  f:column(dlgrows)
+  end
+  return f:column(dlgrows)
 end
 
 local function EndDialog(obstable, status)
@@ -77,16 +76,16 @@ local function EndDialog(obstable, status)
 end
 
 local function RunActionSeries(strarg1,actarray)
-  if strarg1 == nil or strarg1 == '' then 
+  if strarg1 == nil or strarg1 == '' then
     MIDI2LR.SERVER:send('Log Empty string in RunActionSeries\n')
-    return 
+    return
   end
   local strarg = strarg1 -- make argument available to async task
   LrTasks.startAsyncTask(
     function()
       --[[-----------debug section, enable by adding - to beginning this line
-          LrMobdebug.on()
-          --]]-----------end debug section
+      import 'LrMobdebug'.on()
+      --]]-----------end debug section
       --currently only accepts items in Database assigned 'button' and saved in Database.ValidActions
       --will have to parse into command and value if want to go to parameterized commands (e.g., slider change)
       for i in strarg:gmatch("[%w_]+") do
@@ -102,7 +101,7 @@ local function RunActionSeries(strarg1,actarray)
         end
         LrTasks.sleep(0.01) --pause between actions to allow synchronization with slow LR responses and keystrokes from app
       end
-    end 
+    end
   )
 end
 

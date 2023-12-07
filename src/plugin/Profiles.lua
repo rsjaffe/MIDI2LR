@@ -47,8 +47,8 @@ local function doprofilechange(newprofile)
     -- refresh MIDI controller since mapping has changed
     LrTasks.startAsyncTask ( function ()
         --[[-----------debug section, enable by adding - to beginning this line
-    LrMobdebug.on()
-    --]]-----------end debug section
+        import 'LrMobdebug'.on()
+        --]]-----------end debug section
         local photoval = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
         -- refresh crop values
         local val_bottom = photoval.CropBottom
@@ -76,11 +76,13 @@ local function doprofilechange(newprofile)
         else
           MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / range_h))
         end
+        local sel_mask = LrDevelopController.getSelectedMask()
         for param,altparam in pairs(Database.Parameters) do
+          LrTasks.yield()
           local min,max = Limits.GetMinMax(param) --can't include ClientUtilities: circular reference
           local lrvalue
           if altparam == 'Direct' then
-            if LrDevelopController.getSelectedMask() then lrvalue = LrDevelopController.getValue(param) end
+            if (param:sub(1,6) ~= 'local_') or sel_mask then lrvalue = LrDevelopController.getValue(param) end
           else
             lrvalue = photoval[param] or photoval[altparam] or 0
           end
