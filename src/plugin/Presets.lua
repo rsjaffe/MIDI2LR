@@ -22,7 +22,9 @@ local LrApplication = import 'LrApplication'
 local LrTasks       = import 'LrTasks'
 local LrDialogs     = import 'LrDialogs'
 local LrView        = import 'LrView'
-
+--[[-----------debug section, enable by adding - to beginning this line
+local LrMobdebug = import 'LrMobdebug'
+--]]-----------end debug section
 local number_of_presets = 80
 local currentpreset = 1
 local lastchange = 0

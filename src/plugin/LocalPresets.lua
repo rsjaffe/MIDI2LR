@@ -26,21 +26,21 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  defringe = 1,
  dehaze = 1,
  exposure = 0,
- exposure2012 = 1,
- highlights2012 = 1,
- hue = 1,
- luminanceNoise = 1,
- moire = 1,
- saturation = 1,
- shadows2012 = 1,
- sharpness = 1,
- temperature = 1,
- texture = 1,
- tint = 1,
- toningHue = 327,
- toningLuminance = 0,
- toningSaturation = 1,
- whites2012 = 1,
+exposure2012 = 1,
+highlights2012 = 1,
+hue = 1,
+luminanceNoise = 1,
+moire = 1,
+saturation = 1,
+shadows2012 = 1,
+sharpness = 1,
+temperature = 1,
+texture = 1,
+tint = 1,
+toningHue = 327,
+toningLuminance = 0,
+toningSaturation = 1,
+whites2012 = 1,
 --]]
 
 local LrApplicationView   = import 'LrApplicationView'
@@ -155,7 +155,7 @@ local function StartDialog(obstable,f)
     }
   end
   local dlgrows1 = {}
-    for i=numdiv2 + 1, numseries do
+  for i=numdiv2 + 1, numseries do
     dlgrows1[i - numdiv2] = f:row{
       bind_to_object = obstable, -- default bound table
       f:static_text{title = LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." "..i,

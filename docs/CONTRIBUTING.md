@@ -54,11 +54,7 @@ Version number is in the style *major.minor.maintenance.build* and needs to be u
 
 ## Notarizing for MacOS
 
-Both the app and the installer need to be notarized for MacOS distribution. Use XCode to notarize and staple application. To notarize and staple installer, run (substitute correct username, password, and MIDI2LR version number)
-`xcrun altool --notarize-app --primary-bundle-id "com.rsjaffe.MIDI2LR.installer" --username "InsertUsernameHere" --password "InsertPasswordHere" --file MIDI2LR-W.X.Y.Z-osx-installer.dmg`
-
-After successful notarization, run (substitute correct MIDI2LR version number)
-`xcrun stapler staple MIDI2LR-W.X.Y.Z-osx-installer.dmg`
+Both the app and the installer need to be notarized for MacOS distribution. Use XCode to notarize and staple application. To notarize and staple installer, follow the [instructions provided by Apple](https://developer.apple.com/documentation/security/notarizing_macos_software_before_distribution/customizing_the_notarization_workflow#3087734).
 
 ## Translations
 
