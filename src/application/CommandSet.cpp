@@ -38,7 +38,7 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
       cmd_by_number_.push_back(kUnassigned);
       cmd_label_by_number_.push_back(UnassignedTranslated());
       cmd_idx_[kUnassigned] = 0;
-      size_t idx = 1;
+      size_t idx {1};
       for (const auto& [cmd_group, cmd_abbrev_label] : m_impl_.allcommands_) {
          std::vector<MenuStringT> menu_items_temp {};
          const auto group_colon {cmd_group + " : "}; /* concatenation optimization */

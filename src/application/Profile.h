@@ -89,7 +89,7 @@ inline bool Profile::CommandHasAssociatedMessage(const std::string& command) con
 inline const std::string& Profile::GetCommandForMessage(rsj::MidiMessageId message) const
 {
    auto guard {std::shared_lock {mutex_}};
-   const auto found = std::ranges::find(mm_abbrv_table_, message, &mm_abbrv_lmnt_t::first);
+   const auto found {std::ranges::find(mm_abbrv_table_, message, &mm_abbrv_lmnt_t::first)};
    if (found != mm_abbrv_table_.end()) { return found->second; }
    return CommandSet::kUnassigned;
 }

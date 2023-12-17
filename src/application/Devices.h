@@ -40,6 +40,10 @@ class Devices {
    [[nodiscard]] bool EnabledOrNew(const juce::MidiDeviceInfo& info, const juce::String& io);
 
  private:
+   void CreateDefaultDeviceXml();
+   void LoadDeviceXml();
+   void ProcessDataList();
+
    struct DevInfo {
 #ifdef __cpp_lib_three_way_comparison
       [[nodiscard]] std::strong_ordering operator<=>(const DevInfo& rhs) const noexcept

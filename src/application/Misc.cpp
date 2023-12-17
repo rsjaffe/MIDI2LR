@@ -113,15 +113,15 @@ namespace {
 
 void rsj::Trim(::std::string_view& value) noexcept
 {
-   const auto first_not {value.find_first_not_of(" \t\n")};
+   const auto first_not {value.find_first_not_of(" \t\n\f\r\v")};
    if (first_not != ::std::string_view::npos) { value.remove_prefix(first_not); }
-   const auto last_not {value.find_last_not_of(" \t\n")};
+   const auto last_not {value.find_last_not_of(" \t\n\f\r\v")};
    if (last_not != ::std::string_view::npos) { value.remove_suffix(value.size() - last_not - 1); }
 }
 
 void rsj::TrimL(::std::string_view& value) noexcept
 {
-   const auto first_not {value.find_first_not_of(" \t\n")};
+   const auto first_not {value.find_first_not_of(" \t\n\f\r\v")};
    if (first_not != ::std::string_view::npos) { value.remove_prefix(first_not); }
 }
 

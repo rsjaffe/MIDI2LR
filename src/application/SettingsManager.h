@@ -88,6 +88,7 @@ class SettingsManager final {
 
  private:
    void ConnectionCallback(bool, bool);
+   void WriteDebugInfo() const;
 
    LrIpcOut& lr_ipc_out_;
    ProfileManager& profile_manager_;

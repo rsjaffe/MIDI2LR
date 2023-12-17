@@ -42,7 +42,7 @@ namespace {
    constexpr int kFullWidth {kMainWidth - kMainLeft * 2};
    constexpr int kButtonWidth {(kFullWidth - kSpaceBetweenButton * 2) / 3};
    constexpr int kButtonXIncrement {kButtonWidth + kSpaceBetweenButton};
-   constexpr int kConnectionLabelWidth = {kMainWidth - kMainLeft - 200};
+   constexpr int kConnectionLabelWidth {kMainWidth - kMainLeft - 200};
    constexpr int kTopButtonY {60};
    constexpr int kCommandTableY {100};
    constexpr int kFirstButtonX {kMainLeft};
@@ -309,27 +309,31 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
    }
 }
 
+void MainContentComponent::UpdateConnectionLabel(const char* text, const juce::Colour colour)
+{
+   try {
+      connection_label_.setText(juce::translate(text),
+          juce::NotificationType::dontSendNotification);
+      connection_label_.setColour(juce::Label::backgroundColourId, colour);
+   }
+   catch (const std::exception& e) {
+      MIDI2LR_E_RESPONSE;
+      throw;
+   }
+}
+
 void MainContentComponent::LrIpcOutCallback(const bool connected, const bool sending_blocked)
 {
    try {
       const juce::MessageManagerLock mm_lock; /* as not called in message loop */
       if (connected) {
-         if (sending_blocked) {
-            connection_label_.setText(juce::translate("Sending halted"),
-                juce::NotificationType::dontSendNotification);
-            connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::yellow);
-         }
+         if (sending_blocked) { UpdateConnectionLabel("Sending halted", juce::Colours::yellow); }
          else {
-            connection_label_.setText(juce::translate("Connected to Lightroom"),
-                juce::NotificationType::dontSendNotification);
-            connection_label_.setColour(juce::Label::backgroundColourId,
-                juce::Colours::greenyellow);
+            UpdateConnectionLabel("Connected to Lightroom", juce::Colours::greenyellow);
          }
       }
       else {
-         connection_label_.setText(juce::translate("Not connected to Lightroom"),
-             juce::NotificationType::dontSendNotification);
-         connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
+         UpdateConnectionLabel("Not connected to Lightroom", juce::Colours::red);
       }
    }
    catch (const std::exception& e) {

@@ -16,6 +16,7 @@
 #include "SettingsManager.h"
 
 #include <exception>
+#include <functional>
 #include <mutex>
 #include <string>
 
@@ -42,6 +43,17 @@ SettingsManager::SettingsManager(ProfileManager& profile_manager, LrIpcOut& lr_i
    }
 }
 
+void SettingsManager::WriteDebugInfo() const
+{
+   const DebugInfo db {GetProfileDirectory().toStdString()};
+   lr_ipc_out_.SendCommand("AppInfoClear 1\n");
+   for (const auto& info : db.GetInfo()) {
+      lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("AppInfo {}\n"), info));
+   }
+   lr_ipc_out_.SendCommand("AppInfoDone 1\n");
+   lr_ipc_out_.SendCommand("GetPluginInfo 1\n");
+}
+
 // ReSharper disable CppMemberFunctionMayBeConst
 
 /*Const means method won't change object's client-visible state. These methods do, by changing the
@@ -60,15 +72,7 @@ void SettingsManager::ConnectionCallback(const bool connected, const bool blocke
             rsj::Log("Pickup is disabled.");
          }
          static std::once_flag of; /* add debug info once to logs */
-         std::call_once(of, [this] {
-            const DebugInfo db {GetProfileDirectory().toStdString()};
-            lr_ipc_out_.SendCommand("AppInfoClear 1\n");
-            for (const auto& info : db.GetInfo()) {
-               lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("AppInfo {}\n"), info));
-            }
-            lr_ipc_out_.SendCommand("AppInfoDone 1\n");
-            lr_ipc_out_.SendCommand("GetPluginInfo 1\n");
-         });
+         std::call_once(of, std::bind_front(&SettingsManager::WriteDebugInfo, this));
       }
    }
    catch (const std::exception& e) {

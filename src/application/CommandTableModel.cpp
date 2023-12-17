@@ -31,60 +31,58 @@ CommandTableModel::CommandTableModel(const CommandSet& command_set, Profile& pro
 {
 }
 
+namespace {
+   std::string FormatMessageText(const rsj::MidiMessageId& cmd)
+   {
+      std::string messageText;
+      switch (cmd.msg_id_type) {
+      case rsj::MessageType::kNoteOn:
+         messageText = fmt::format(FMT_STRING("{} | Note : {}"), cmd.channel, cmd.control_number);
+         break;
+      case rsj::MessageType::kNoteOff:
+         messageText =
+             fmt::format(FMT_STRING("{} | Note Off: {}"), cmd.channel, cmd.control_number);
+         break;
+      case rsj::MessageType::kCc:
+         messageText = fmt::format(FMT_STRING("{} | CC: {}"), cmd.channel, cmd.control_number);
+         break;
+      case rsj::MessageType::kPw:
+         messageText = fmt::format(FMT_STRING("{} | Pitch Bend"), cmd.channel);
+         break;
+      case rsj::MessageType::kKeyPressure:
+         messageText =
+             fmt::format(FMT_STRING("{} | Key Pressure: {}"), cmd.channel, cmd.control_number);
+         break;
+      case rsj::MessageType::kChanPressure:
+         messageText = fmt::format(FMT_STRING("{} | Channel Pressure"), cmd.channel);
+         break;
+      case rsj::MessageType::kPgmChange:
+         messageText = fmt::format(FMT_STRING("{} | Program Change"), cmd.channel);
+         break;
+      case rsj::MessageType::kSystem:
+         break;
+      }
+      return messageText;
+   }
+} // namespace
+
 void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int column_id,
     const int width, const int height, bool /*rowIsSelected*/)
 {
-   /* This must draw one of the cells. The graphics context's origin will already be set to the
-    * top-left of the cell, whose size is specified by(width, height). Note that the rowNumber value
-    * may be greater than the number of rows in your list, so be careful that you don't assume it's
-    * less than getNumRows(). */
    try {
       g.setColour(juce::Colours::black);
       g.setFont(std::min(16.0F, static_cast<float>(height) * 0.7F));
-      if (column_id == 1) {
-         /* write the MIDI message in the MIDI command column */
-         if (std::cmp_less_equal(profile_.Size(), row_number)) [[unlikely]] {
-            /* error condition */
-            g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
-            rsj::Log(fmt::format(FMT_STRING("Unknown control CommandTableModel::paintCell. {} rows "
-                                            "in profile, row number to be painted is {}."),
-                profile_.Size(), row_number));
-         }
-         else {
-            std::string format_str;
-            switch (const auto cmd {
-                profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))};
-                    cmd.msg_id_type) {
-            case rsj::MessageType::kNoteOn:
-               format_str =
-                   fmt::format(FMT_STRING("{} | Note : {}"), cmd.channel, cmd.control_number);
-               break;
-            case rsj::MessageType::kNoteOff:
-               format_str =
-                   fmt::format(FMT_STRING("{} | Note Off: {}"), cmd.channel, cmd.control_number);
-               break;
-            case rsj::MessageType::kCc:
-               format_str = fmt::format(FMT_STRING("{} | CC: {}"), cmd.channel, cmd.control_number);
-               break;
-            case rsj::MessageType::kPw:
-               format_str = fmt::format(FMT_STRING("{} | Pitch Bend"), cmd.channel);
-               break;
-            case rsj::MessageType::kKeyPressure:
-               format_str = fmt::format(FMT_STRING("{} | Key Pressure: {}"), cmd.channel,
-                   cmd.control_number);
-               break;
-            case rsj::MessageType::kChanPressure:
-               format_str = fmt::format(FMT_STRING("{} | Channel Pressure"), cmd.channel);
-               break;
-            case rsj::MessageType::kPgmChange:
-               format_str = fmt::format(FMT_STRING("{} | Program Change"), cmd.channel);
-               break;
-            case rsj::MessageType::kSystem:
-               break;
-            }
-            g.drawText(format_str, 0, 0, width, height, juce::Justification::centredLeft);
-         }
+      if (column_id != 1) { return; }
+      if (std::cmp_less_equal(profile_.Size(), row_number)) {
+         g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
+         rsj::Log(fmt::format(FMT_STRING("Unknown control CommandTableModel::paintCell. {} rows "
+                                         "in profile, row number to be painted is {}."),
+             profile_.Size(), row_number));
+         return;
       }
+      const auto cmd {profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))};
+      const auto messageText {FormatMessageText(cmd)};
+      g.drawText(messageText, 0, 0, width, height, juce::Justification::centredLeft);
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -108,6 +106,31 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/,
    }
 }
 
+CommandMenu* CommandTableModel::CreateNewCommandMenu(int row_number,
+    juce::Component* existing_component) const
+{
+   /* create a new command menu, delete old one if it exists */
+   delete existing_component; // NOLINT(cppcoreguidelines-owning-memory)
+   auto new_select {std::make_unique<CommandMenu>(
+       profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)), command_set_, profile_)};
+   new_select->SetSelectedItem(
+       command_set_.CommandTextIndex(profile_.GetCommandForMessage(
+           profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
+       + 1);
+   return new_select.release();
+}
+
+CommandMenu* CommandTableModel::UpdateCommandMenu(int row_number, CommandMenu* command_select) const
+{
+   /* Updates the existing command menu */
+   command_select->SetMsg(profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)));
+   command_select->SetSelectedItem(
+       command_set_.CommandTextIndex(profile_.GetCommandForMessage(
+           profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
+       + 1);
+   return command_select;
+}
+
 juce::Component* CommandTableModel::refreshComponentForCell(int row_number, const int column_id,
     bool /*isRowSelected*/, juce::Component* existing_component)
 {
@@ -125,30 +148,16 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, cons
     * that the component was created for), or it can delete this component and return a new one.
     * Because Juce recycles these components when scrolling, we need to reset their properties. */
    try {
-      if (column_id == 2) /* LR command column */
-      {
-         const auto command_select {dynamic_cast<CommandMenu*>(existing_component)};
-         if (command_select == nullptr) {
-            /* create a new command menu, delete old one if it exists */
-            delete existing_component; // NOLINT(cppcoreguidelines-owning-memory)
-            auto new_select {std::make_unique<CommandMenu>(
-                profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)), command_set_,
-                profile_)};
-            new_select->SetSelectedItem(
-                command_set_.CommandTextIndex(profile_.GetCommandForMessage(
-                    profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
-                + 1);
-            return new_select.release();
-         }
-         /* change old command menu */
-         command_select->SetMsg(profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)));
-         command_select->SetSelectedItem(
-             command_set_.CommandTextIndex(profile_.GetCommandForMessage(
-                 profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
-             + 1);
-         return command_select;
+      if (column_id != 2) { // Not LR command column
+         return nullptr;
       }
-      return nullptr;
+      const auto command_select {dynamic_cast<CommandMenu*>(existing_component)};
+      if (command_select == nullptr) {
+         return CreateNewCommandMenu(row_number, existing_component);
+      }
+      else {
+         return UpdateCommandMenu(row_number, command_select);
+      }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

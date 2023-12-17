@@ -40,54 +40,74 @@ void MidiSender::Start()
    }
 }
 
+namespace {
+   void LogUnexpectedDataType(rsj::MidiMessageId id)
+   {
+      constexpr auto msge {"MIDISender: Unexpected data type: {:n}."};
+      const auto msgt {juce::translate(msge).toStdString()};
+      rsj::LogAndAlertError(fmt::format(msgt, id.msg_id_type), fmt::format(msge, id.msg_id_type));
+   }
+} // namespace
+
 void MidiSender::Send(rsj::MidiMessageId id, int value) const
 {
    try {
-      if (id.msg_id_type == rsj::MessageType::kPw) {
-         const auto msg {juce::MidiMessage::pitchWheel(id.channel, value)};
-         for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
-      }
+      if (id.msg_id_type == rsj::MessageType::kCc) { SendControllerEvent(id, value); }
       else if (id.msg_id_type == rsj::MessageType::kNoteOn) {
-         const auto msg {juce::MidiMessage::noteOn(id.channel, id.control_number,
-             gsl::narrow_cast<juce::uint8>(value))};
-         for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
+         SendNoteOn(id, value);
       }
-      else if (id.msg_id_type == rsj::MessageType::kCc) {
-         if (id.control_number < 128 && value < 128) {
-            /* regular message */
-            const auto msg {
-                juce::MidiMessage::controllerEvent(id.channel, id.control_number, value)};
-            for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
-         }
-         else {
-            /* NRPN */
-            const auto msg_parm_msb {
-                juce::MidiMessage::controllerEvent(id.channel, 99, id.control_number >> 7 & 0x7F)};
-            const auto msg_parm_lsb {
-                juce::MidiMessage::controllerEvent(id.channel, 98, id.control_number & 0x7f)};
-            const auto msg_val_msb {
-                juce::MidiMessage::controllerEvent(id.channel, 6, value >> 7 & 0x7F)};
-            const auto msg_val_lsb {
-                juce::MidiMessage::controllerEvent(id.channel, 38, value & 0x7f)};
-            for (const auto& dev : output_devices_) {
-               dev->sendMessageNow(msg_parm_msb);
-               dev->sendMessageNow(msg_parm_lsb);
-               dev->sendMessageNow(msg_val_msb);
-               dev->sendMessageNow(msg_val_lsb);
-            }
-         }
+      else if (id.msg_id_type == rsj::MessageType::kPw) {
+         SendPitchWheel(id, value);
       }
       else {
-         constexpr auto msge {"MIDISender: Unexpected data type: {:n}."};
-         const auto msgt {juce::translate(msge).toStdString()};
-         rsj::LogAndAlertError(fmt::format(msgt, id.msg_id_type),
-             fmt::format(msge, id.msg_id_type));
+         LogUnexpectedDataType(id);
       }
    }
-
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
       throw;
+   }
+}
+
+void MidiSender::SendPitchWheel(rsj::MidiMessageId id, int value) const
+{
+   const auto msg {juce::MidiMessage::pitchWheel(id.channel, value)};
+   for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
+}
+
+void MidiSender::SendNoteOn(rsj::MidiMessageId id, int value) const
+{
+   const auto msg {juce::MidiMessage::noteOn(id.channel, id.control_number,
+       gsl::narrow_cast<juce::uint8>(value))};
+   for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
+}
+
+void MidiSender::SendControllerEvent(rsj::MidiMessageId id, int value) const
+{
+   if (id.control_number < 128 && value < 128) {
+      /* regular message */
+      const auto msg {juce::MidiMessage::controllerEvent(id.channel, id.control_number, value)};
+      for (const auto& dev : output_devices_) { dev->sendMessageNow(msg); }
+   }
+   else {
+      /* NPRN */
+      SendNrpn(id, value);
+   }
+}
+
+void MidiSender::SendNrpn(rsj::MidiMessageId id, int value) const
+{
+   const auto msg_parm_msb {
+       juce::MidiMessage::controllerEvent(id.channel, 99, id.control_number >> 7 & 0x7F)};
+   const auto msg_parm_lsb {
+       juce::MidiMessage::controllerEvent(id.channel, 98, id.control_number & 0x7f)};
+   const auto msg_val_msb {juce::MidiMessage::controllerEvent(id.channel, 6, value >> 7 & 0x7F)};
+   const auto msg_val_lsb {juce::MidiMessage::controllerEvent(id.channel, 38, value & 0x7f)};
+   for (const auto& dev : output_devices_) {
+      dev->sendMessageNow(msg_parm_msb);
+      dev->sendMessageNow(msg_parm_lsb);
+      dev->sendMessageNow(msg_val_msb);
+      dev->sendMessageNow(msg_val_lsb);
    }
 }
 
@@ -104,6 +124,17 @@ void MidiSender::RescanDevices()
    }
 }
 
+bool MidiSender::ShouldOpenDevice(const std::string& devname, const auto& open_device)
+{
+   if constexpr (MSWindows) {
+      return devname != "Microsoft GS Wavetable Synth"
+             && devices_.EnabledOrNew(open_device->getDeviceInfo(), "output");
+   }
+   else {
+      return devices_.EnabledOrNew(open_device->getDeviceInfo(), "output");
+   }
+}
+
 void MidiSender::InitDevices()
 {
    try {
@@ -111,24 +142,12 @@ void MidiSender::InitDevices()
       for (const auto& device : available_devices) {
          if (auto open_device {juce::MidiOutput::openDevice(device.identifier)}) {
             const auto devname {open_device->getName().toStdString()};
-            if constexpr (MSWindows) {
-               if (devname != "Microsoft GS Wavetable Synth"
-                   && devices_.EnabledOrNew(open_device->getDeviceInfo(), "output")) {
-                  rsj::Log(fmt::format(FMT_STRING("Opened output device {}."), devname));
-                  output_devices_.push_back(std::move(open_device));
-               }
-               else {
-                  rsj::Log(fmt::format(FMT_STRING("Ignored output device {}."), devname));
-               }
+            if (ShouldOpenDevice(devname, open_device)) {
+               rsj::Log(fmt::format(FMT_STRING("Opened output device {}."), devname));
+               output_devices_.push_back(std::move(open_device));
             }
             else {
-               if (devices_.EnabledOrNew(open_device->getDeviceInfo(), "output")) {
-                  rsj::Log(fmt::format(FMT_STRING("Opened output device {}."), devname));
-                  output_devices_.push_back(std::move(open_device));
-               }
-               else {
-                  rsj::Log(fmt::format(FMT_STRING("Ignored output device {}."), devname));
-               }
+               rsj::Log(fmt::format(FMT_STRING("Ignored output device {}."), devname));
             }
          }
       } /* devices that are skipped have their pointers deleted and are automatically closed*/

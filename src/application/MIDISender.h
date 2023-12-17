@@ -16,6 +16,7 @@
  *
  */
 #include <memory>
+#include <string>
 #include <vector>
 
 class Devices;
@@ -46,7 +47,13 @@ class MidiSender {
    void Start();
 
  private:
+   bool ShouldOpenDevice(const std::string& devname, const auto& open_device);
    void InitDevices();
+   void SendControllerEvent(rsj::MidiMessageId id, int value) const;
+   void SendNoteOn(rsj::MidiMessageId id, int value) const;
+   void SendNrpn(rsj::MidiMessageId id, int value) const;
+   void SendPitchWheel(rsj::MidiMessageId id, int value) const;
+
    Devices& devices_;
 
    std::vector<std::unique_ptr<juce::MidiOutput>> output_devices_;

@@ -52,14 +52,15 @@ class MidiReceiver final : juce::MidiInputCallback {
    }
 
  private:
-   void DispatchMessages();
-
    void handleIncomingMidiMessage(juce::MidiInput* device,
        const juce::MidiMessage& message) override
    {
       messages_.push({rsj::MidiMessage(message), device});
    }
 
+   void DispatchMessages();
+   void DispatchCcMessage(const std::pair<rsj::MidiMessage, juce::MidiInput*>& popped);
+   void DispatchNoteOnPwMessage(const std::pair<rsj::MidiMessage, juce::MidiInput*>& popped) const;
    void InitDevices();
    void TryToOpen(); /* inner code for InitDevices */
 

@@ -133,33 +133,52 @@ void MidiReceiver::InitDevices()
    }
 }
 
+void MidiReceiver::DispatchCcMessage(const std::pair<rsj::MidiMessage, juce::MidiInput*>& popped)
+{
+   try {
+      if (const auto result {filters_[popped.second](popped.first)}; result.is_nrpn) {
+         if (result.is_ready) {
+            const rsj::MidiMessage nrpn_message {
+                rsj::MessageType::kCc, popped.first.channel, result.control, result.value};
+            for (const auto& cb : callbacks_) { cb(nrpn_message); }
+         }
+      }
+      else {
+         for (const auto& cb : callbacks_) { cb(popped.first); }
+      }
+   }
+   catch (const std::exception& e) {
+      MIDI2LR_E_RESPONSE;
+      throw;
+   }
+}
+
+void MidiReceiver::DispatchNoteOnPwMessage(
+    const std::pair<rsj::MidiMessage, juce::MidiInput*>& popped) const
+{
+   try {
+      for (const auto& cb : callbacks_) { cb(popped.first); }
+   }
+   catch (const std::exception& e) {
+      MIDI2LR_E_RESPONSE;
+      throw;
+   }
+}
+
 void MidiReceiver::DispatchMessages()
 {
    try {
-      for (auto popped = messages_.pop(); popped.first != kTerminate; popped = messages_.pop()) {
+      for (auto popped {messages_.pop()}; popped.first != kTerminate; popped = messages_.pop()) {
 #ifdef _WIN32
          SetThreadExecutionState(0x00000002UL | 0x00000001UL);
 #endif
          switch (popped.first.message_type_byte) {
          case rsj::MessageType::kCc:
-            if (const auto result {filters_[popped.second](popped.first)}; result.is_nrpn) {
-               if (result.is_ready) {
-                  const rsj::MidiMessage nrpn_message {
-                      rsj::MessageType::kCc, popped.first.channel, result.control, result.value};
-                  for (const auto& cb : callbacks_) {
-#pragma warning(suppress : 26489) /* checked for existence before adding to callbacks_ */
-                     cb(nrpn_message);
-                  }
-               }
-               break;
-            }
-            [[fallthrough]]; /* if not nrpn, handle like other messages */
+            DispatchCcMessage(popped);
+            break;
          case rsj::MessageType::kNoteOn:
          case rsj::MessageType::kPw:
-            for (const auto& cb : callbacks_) {
-#pragma warning(suppress : 26489) /* checked for existence before adding to callbacks_ */
-               cb(popped.first);
-            }
+            DispatchNoteOnPwMessage(popped);
             break;
          case rsj::MessageType::kChanPressure:
          case rsj::MessageType::kKeyPressure:

@@ -41,8 +41,8 @@ void Profile::FromXml(const juce::XmlElement* root)
       if (!root || root->getTagName().compare("settings") != 0) { return; }
       RemoveAllRows();
       for (const auto* setting : root->getChildIterator()) {
-         auto command = setting->getStringAttribute("command_string").toStdString();
-         if (const auto b = command.back(); b == '2' || b == 'e') { // assumes only e,2 end old
+         auto command {setting->getStringAttribute("command_string").toStdString()};
+         if (const auto b {command.back()}; b == '2' || b == 'e') { // assumes only e,2 end old
                                                                     // strings
             for (const auto& i : replace_me) {
                if (command == i.first) {
@@ -83,11 +83,16 @@ void Profile::FromXml(const juce::XmlElement* root)
 std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string& command) const
 {
    try {
-      std::vector<rsj::MidiMessageId> mm;
       auto guard {std::shared_lock {mutex_}};
-      std::ranges::for_each(mm_abbrv_table_, [&command, &mm](const auto& p) {
-         if (p.second == command) { mm.push_back(p.first); }
-      });
+      const auto filt {[&command](const auto& p) { return p.second == command; }};
+#ifdef __cpp_lib_ranges_to_container
+      auto mm {mm_abbrv_table_ | std::views::filter(filt)
+               | std::views::elements<0> | std::ranges::to<std::vector>()};
+#else
+      std::vector<rsj::MidiMessageId> mm;
+      std::ranges::copy(mm_abbrv_table_ | std::views::filter(filt) | std::views::elements<0>,
+          std::back_inserter(mm));
+#endif
       return mm;
    }
    catch (const std::exception& e) {
@@ -99,7 +104,7 @@ std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string
 void Profile::InsertOrAssignI(const std::string& command, const rsj::MidiMessageId& message)
 {
    try {
-      const auto found = std::ranges::find(mm_abbrv_table_, message, &mm_abbrv_lmnt_t::first);
+      const auto found {std::ranges::find(mm_abbrv_table_, message, &mm_abbrv_lmnt_t::first)};
       if (found != mm_abbrv_table_.end()) { found->second = command; }
       else {
          mm_abbrv_table_.emplace_back(message, command);
@@ -149,7 +154,7 @@ void Profile::RemoveMessage(rsj::MidiMessageId message)
 {
    try {
       auto guard {std::unique_lock {mutex_}};
-      const auto found = std::ranges::find(mm_abbrv_table_, message, &mm_abbrv_lmnt_t::first);
+      const auto found {std::ranges::find(mm_abbrv_table_, message, &mm_abbrv_lmnt_t::first)};
       if (found != mm_abbrv_table_.end()) [[likely]] {
          mm_abbrv_table_.erase(found);
          profile_unsaved_ = true;

@@ -64,12 +64,12 @@ LrIpcOut::LrIpcOut(const CommandSet& command_set, ControlsModel& c_model, const 
    midi_receiver.AddCallback(this, &LrIpcOut::MidiCmdCallback);
 }
 
-void LrIpcOut::SendCommand(std::string&& command)
+void LrIpcOut::SendCommand(std::string&& command) const
 {
    if (!sending_stopped_) { lr_ipc_out_shared_->command_.push(std::move(command)); }
 }
 
-void LrIpcOut::SendCommand(const std::string& command)
+void LrIpcOut::SendCommand(const std::string& command) const
 {
    if (!sending_stopped_) { lr_ipc_out_shared_->command_.push(command); }
 }
@@ -178,46 +178,66 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
       const rsj::MidiMessageId message {mm};
-      if (profile_.MessageExistsInMap(message)) {
-         const auto command_to_send {profile_.GetCommandForMessage(message)};
-         if (rollbear::none_of("PrevPro", "NextPro", CommandSet::kUnassigned)
-             == command_to_send) { /* handled elsewhere */
-            if (const auto a {repeat_cmd_.find(command_to_send)}; a != repeat_cmd_.end())
-                [[unlikely]] {
-               static TimePoint next_response {};
-               if (const auto now {Clock::now()}; next_response < now) {
-                  next_response = now + kDelay;
-                  if ((mm.message_type_byte == rsj::MessageType::kCc
-                          && controls_model_.GetCcMethod(message) == rsj::CCmethod::kAbsolute)
-                      || mm.message_type_byte == rsj::MessageType::kPw) {
-                     SetRecenter(message);
-                  }
-                  if (const auto change {controls_model_.MeasureChange(mm)}; change > 0) {
-                     SendCommand(a->second.first); /* turned clockwise */
-                  }
-                  else if (change < 0) {
-                     SendCommand(a->second.second); /* turned counterclockwise */
-                  }
-                  else { /* do nothing if change == 0 */
-                  }
-               }
-            }
-            else { /* not repeated command */
-#ifdef __cpp_lib_ranges_contains
-               const auto wrap {std::ranges::contains(wrap_, command_to_send)};
-#else
-               const auto wrap {std::ranges::find(wrap_, command_to_send) != wrap_.end()};
-#endif
-               const auto computed_value {controls_model_.ControllerToPlugin(mm, wrap)};
-               SendCommand(fmt::format(FMT_STRING("{} {}\n"), command_to_send, computed_value));
-            }
-         }
-      }
+      if (profile_.MessageExistsInMap(message)) { ProcessMessage(message, mm); }
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
       throw;
    }
+}
+
+void LrIpcOut::ProcessMessage(const rsj::MidiMessageId& message, const rsj::MidiMessage& mm)
+{
+   const auto command_to_send {profile_.GetCommandForMessage(message)};
+   if (rollbear::none_of("PrevPro", "NextPro", CommandSet::kUnassigned) == command_to_send) {
+      if (const auto repeats {repeat_cmd_.find(command_to_send)}; repeats == repeat_cmd_.end()) {
+         ProcessNonRepeatedCommand(command_to_send, mm);
+      }
+      else {
+         ProcessRepeatedCommand(repeats, mm, message);
+      }
+   }
+}
+
+void LrIpcOut::ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm,
+    const rsj::MidiMessageId& message)
+{
+   static TimePoint next_response {};
+   if (const auto now {Clock::now()}; next_response < now) {
+      next_response = now + kDelay;
+      if (ShouldSetRecenter(mm)) { SetRecenter(message); }
+      ProcessChange(repeats, mm);
+   }
+}
+
+bool LrIpcOut::ShouldSetRecenter(const rsj::MidiMessage& mm) const
+{
+   return (mm.message_type_byte == rsj::MessageType::kCc
+              && controls_model_.GetCcMethod(mm.channel, mm.control_number)
+                     == rsj::CCmethod::kAbsolute)
+          || mm.message_type_byte == rsj::MessageType::kPw;
+}
+
+void LrIpcOut::ProcessChange(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm) const
+{
+   if (const auto change {controls_model_.MeasureChange(mm)}; change > 0) {
+      SendCommand(repeats->second.first); /* turned clockwise */
+   }
+   else if (change < 0) {
+      SendCommand(repeats->second.second); /* turned counterclockwise */
+   }
+}
+
+void LrIpcOut::ProcessNonRepeatedCommand(const std::string& command_to_send,
+    const rsj::MidiMessage& mm) const
+{
+#ifdef __cpp_lib_ranges_contains
+   const auto wrap {std::ranges::contains(wrap_, command_to_send)};
+#else
+   const auto wrap {std::ranges::find(wrap_, command_to_send) != wrap_.end()};
+#endif
+   const auto computed_value {controls_model_.ControllerToPlugin(mm, wrap)};
+   SendCommand(fmt::format(FMT_STRING("{} {}\n"), command_to_send, computed_value));
 }
 
 void LrIpcOutShared::SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)

@@ -72,7 +72,7 @@ namespace rsj {
 
    inline const char* MessageTypeToName(MessageType from) noexcept
    {
-      static const std::array translation_table {"Note Off", "Note On", "Key Pressure",
+      constexpr std::array translation_table {"Note Off", "Note On", "Key Pressure",
           "Control Change", "Program Change", "Channel Pressure", "Pitch Bend", "System"};
 #pragma warning(suppress : 26446 26482)
       // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
@@ -82,7 +82,7 @@ namespace rsj {
 
    inline const char* MessageTypeToLabel(MessageType from) noexcept
    {
-      static const std::array kTranslationTable {"NOTE OFF", "NOTE ON", "KEY PRESSURE", "CC",
+      constexpr std::array kTranslationTable {"NOTE OFF", "NOTE ON", "KEY PRESSURE", "CC",
           "PROGRAM CHANGE", "CHANNEL PRESSURE", "PITCHBEND", "SYSTEM"};
 #pragma warning(suppress : 26446 26482)
       // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
@@ -136,7 +136,7 @@ namespace rsj {
       explicit MidiMessage(const juce::MidiMessage& mm);
    };
 
-   constexpr bool operator==(rsj::MidiMessage lhs, rsj::MidiMessage rhs) noexcept
+   constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs) noexcept
    {
       return lhs.message_type_byte == rhs.message_type_byte && lhs.channel == rhs.channel
              && lhs.control_number == rhs.control_number && lhs.value == rhs.value;
