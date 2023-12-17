@@ -323,30 +323,33 @@ local function fApplyFilter(filternumber)
     end
   end
 end
+--see AppData\Roaming\Adobe\Lightroom\Filter Presets\Filters Off.lrtemplate
+local nofilter = { --version = 2
+		columnBrowserActive = false,
+		customLabel = false,
+		datePreset = "all",
+		dateSearchActive = false,
+		filtersActive = false,
+		label1 = false,
+		label2 = false,
+		label3 = false,
+		label4 = false,
+		label5 = false,
+		labelOp = "any",
+		--minRating = "<nil>",
+		noLabel = false,
+		--pick = "<nil>",
+		--edit = "<nil>",
+		ratingOp = ">=",
+		searchOp = "all",
+		searchString = "",
+		searchStringActive = false,
+		searchTarget = "all",
+		--usage = "<nil>",
+		--whichCopies = "<nil>",
+		visualSearchActive = false,
+	}
 
-local nofilter = {
-  columnBrowserActive=false,
-  filtersActive=false,
-  sesarchStringActive=false,
-  label1=false,
-  label2=false,
-  label3=false,
-  label4=false,
-  label5=false,
-  customLabel=false,
-  noLabel=false,
-  minRating=0,
-  ratingOp=">=",
---pick="<nil>",
---edit="<nil>",
---whichCopies="<nil>",
-  searchOp="all",
-  searchString="",
-  searchTarget="all",
-  searchStringActive=false,
-  gpsLocation=false,
-  labelOp="any",
-}
 local function RemoveFilters()
   LrApplication.activeCatalog():setViewFilter(nofilter)
   if ProgramPreferences.ClientShowBezelOnChange then
