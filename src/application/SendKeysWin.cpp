@@ -98,7 +98,7 @@ namespace {
          throw;
       }
       catch (...) {
-         LOG_CAUGHT_EXCEPTION();
+         std::ignore = LOG_CAUGHT_EXCEPTION();
          THROW_NORMALIZED_CAUGHT_EXCEPTION();
       }
    }
@@ -131,62 +131,62 @@ namespace {
          throw;
       }
       catch (...) {
-         LOG_CAUGHT_EXCEPTION();
+         std::ignore = LOG_CAUGHT_EXCEPTION();
          THROW_NORMALIZED_CAUGHT_EXCEPTION();
       }
    }
 
 #pragma warning(suppress : 4244 26426) /* assigned to char intentionally */
    const std::unordered_map<std::string, unsigned char> kKeyMap {
-       {      "backspace",     VK_BACK},
-       {    "cursor down",     VK_DOWN},
-       {    "cursor left",     VK_LEFT},
-       {   "cursor right",    VK_RIGHT},
-       {      "cursor up",       VK_UP},
-       {         "delete",   VK_DELETE},
-       {            "end",      VK_END},
-       {         "escape",   VK_ESCAPE},
-       {           "home",     VK_HOME},
-       {      "page down",     VK_NEXT},
-       {        "page up",    VK_PRIOR},
-       {         "return",   VK_RETURN},
-       {          "space",    VK_SPACE},
-       {            "tab",      VK_TAB},
-       {             "f1",       VK_F1},
-       {             "f2",       VK_F2},
-       {             "f3",       VK_F3},
-       {             "f4",       VK_F4},
-       {             "f5",       VK_F5},
-       {             "f6",       VK_F6},
-       {             "f7",       VK_F7},
-       {             "f8",       VK_F8},
-       {             "f9",       VK_F9},
-       {            "f10",      VK_F10},
-       {            "f11",      VK_F11},
-       {            "f12",      VK_F12},
-       {            "f13",      VK_F13},
-       {            "f14",      VK_F14},
-       {            "f15",      VK_F15},
-       {            "f16",      VK_F16},
-       {            "f17",      VK_F17},
-       {            "f18",      VK_F18},
-       {            "f19",      VK_F19},
-       {            "f20",      VK_F20},
-       {       "numpad 0",  VK_NUMPAD0},
-       {       "numpad 1",  VK_NUMPAD1},
-       {       "numpad 2",  VK_NUMPAD2},
-       {       "numpad 3",  VK_NUMPAD3},
-       {       "numpad 4",  VK_NUMPAD4},
-       {       "numpad 5",  VK_NUMPAD5},
-       {       "numpad 6",  VK_NUMPAD6},
-       {       "numpad 7",  VK_NUMPAD7},
-       {       "numpad 8",  VK_NUMPAD8},
-       {       "numpad 9",  VK_NUMPAD9},
-       {     "numpad add",      VK_ADD},
-       {"numpad subtract", VK_SUBTRACT},
-       {"numpad multiply", VK_MULTIPLY},
-       {  "numpad divide",   VK_DIVIDE},
-       { "numpad decimal",  VK_DECIMAL}
+       {      "backspace",     static_cast<unsigned char>(VK_BACK)},
+       {    "cursor down",     static_cast<unsigned char>(VK_DOWN)},
+       {    "cursor left",     static_cast<unsigned char>(VK_LEFT)},
+       {   "cursor right",    static_cast<unsigned char>(VK_RIGHT)},
+       {      "cursor up",       static_cast<unsigned char>(VK_UP)},
+       {         "delete",   static_cast<unsigned char>(VK_DELETE)},
+       {            "end",      static_cast<unsigned char>(VK_END)},
+       {         "escape",   static_cast<unsigned char>(VK_ESCAPE)},
+       {           "home",     static_cast<unsigned char>(VK_HOME)},
+       {      "page down",     static_cast<unsigned char>(VK_NEXT)},
+       {        "page up",    static_cast<unsigned char>(VK_PRIOR)},
+       {         "return",   static_cast<unsigned char>(VK_RETURN)},
+       {          "space",    static_cast<unsigned char>(VK_SPACE)},
+       {            "tab",      static_cast<unsigned char>(VK_TAB)},
+       {             "f1",       static_cast<unsigned char>(VK_F1)},
+       {             "f2",       static_cast<unsigned char>(VK_F2)},
+       {             "f3",       static_cast<unsigned char>(VK_F3)},
+       {             "f4",       static_cast<unsigned char>(VK_F4)},
+       {             "f5",       static_cast<unsigned char>(VK_F5)},
+       {             "f6",       static_cast<unsigned char>(VK_F6)},
+       {             "f7",       static_cast<unsigned char>(VK_F7)},
+       {             "f8",       static_cast<unsigned char>(VK_F8)},
+       {             "f9",       static_cast<unsigned char>(VK_F9)},
+       {            "f10",      static_cast<unsigned char>(VK_F10)},
+       {            "f11",      static_cast<unsigned char>(VK_F11)},
+       {            "f12",      static_cast<unsigned char>(VK_F12)},
+       {            "f13",      static_cast<unsigned char>(VK_F13)},
+       {            "f14",      static_cast<unsigned char>(VK_F14)},
+       {            "f15",      static_cast<unsigned char>(VK_F15)},
+       {            "f16",      static_cast<unsigned char>(VK_F16)},
+       {            "f17",      static_cast<unsigned char>(VK_F17)},
+       {            "f18",      static_cast<unsigned char>(VK_F18)},
+       {            "f19",      static_cast<unsigned char>(VK_F19)},
+       {            "f20",      static_cast<unsigned char>(VK_F20)},
+       {       "numpad 0",  static_cast<unsigned char>(VK_NUMPAD0)},
+       {       "numpad 1",  static_cast<unsigned char>(VK_NUMPAD1)},
+       {       "numpad 2",  static_cast<unsigned char>(VK_NUMPAD2)},
+       {       "numpad 3",  static_cast<unsigned char>(VK_NUMPAD3)},
+       {       "numpad 4",  static_cast<unsigned char>(VK_NUMPAD4)},
+       {       "numpad 5",  static_cast<unsigned char>(VK_NUMPAD5)},
+       {       "numpad 6",  static_cast<unsigned char>(VK_NUMPAD6)},
+       {       "numpad 7",  static_cast<unsigned char>(VK_NUMPAD7)},
+       {       "numpad 8",  static_cast<unsigned char>(VK_NUMPAD8)},
+       {       "numpad 9",  static_cast<unsigned char>(VK_NUMPAD9)},
+       {     "numpad add",      static_cast<unsigned char>(VK_ADD)},
+       {"numpad subtract", static_cast<unsigned char>(VK_SUBTRACT)},
+       {"numpad multiply", static_cast<unsigned char>(VK_MULTIPLY)},
+       {  "numpad divide",   static_cast<unsigned char>(VK_DIVIDE)},
+       { "numpad decimal",  static_cast<unsigned char>(VK_DECIMAL)}
    };
 } // namespace
 

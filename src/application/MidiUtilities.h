@@ -24,7 +24,6 @@
 #include <type_traits>
 #include <typeindex> /*declaration of std::hash template*/
 #include <utility>
-#include <version>
 
 #include <fmt/format.h>
 

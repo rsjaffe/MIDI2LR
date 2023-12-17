@@ -18,7 +18,6 @@
 #include <map>
 #include <memory>
 #include <utility>
-#include <version>
 
 #include <juce_audio_devices/juce_audio_devices.h>
 #include <juce_core/juce_core.h>

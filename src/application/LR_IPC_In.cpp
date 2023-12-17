@@ -21,6 +21,7 @@
 #include <string>
 #include <string_view> //ReSharper false alarm
 #include <thread>
+#include <tuple>
 #include <utility>
 
 #include <fmt/format.h>
@@ -93,12 +94,12 @@ void LrIpcIn::Stop()
          asio::error_code ec;
          /* For portable behaviour with respect to graceful closure of a connected socket, call
           * shutdown() before closing the socket. */
-         sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+         std::ignore = sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
          if (ec) {
             rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket shutdown error {}."), ec.message()));
             ec.clear();
          }
-         sock.close(ec);
+         std::ignore = sock.close(ec);
          if (ec) {
             rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message()));
          }
@@ -127,7 +128,7 @@ void LrIpcIn::Connect(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
          else {
             rsj::Log(fmt::format(FMT_STRING("LR_IPC_In did not connect. {}."), error.message()));
             asio::error_code ec2;
-            lr_ipc_shared->socket_.close(ec2);
+            std::ignore = lr_ipc_shared->socket_.close(ec2);
             if (ec2) {
                rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec2.message()));
             }

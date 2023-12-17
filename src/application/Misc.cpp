@@ -40,7 +40,7 @@
 #ifdef _WIN32
 void rsj::LabelThread(gsl::cwzstring threadname)
 {
-   LOG_IF_FAILED(SetThreadDescription(GetCurrentThread(), threadname));
+   std::ignore = LOG_IF_FAILED(SetThreadDescription(GetCurrentThread(), threadname));
 }
 #else
 #include <pthread.h>

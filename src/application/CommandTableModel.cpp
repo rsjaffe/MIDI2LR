@@ -155,9 +155,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, cons
       if (command_select == nullptr) {
          return CreateNewCommandMenu(row_number, existing_component);
       }
-      else {
-         return UpdateCommandMenu(row_number, command_select);
-      }
+      return UpdateCommandMenu(row_number, command_select);
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

@@ -78,6 +78,21 @@ MainContentComponent::~MainContentComponent()
    settings_manager_.SetDefaultProfile(profile_name_label_.getText());
 }
 
+namespace {
+   void StandardLabelSettings(juce::Label& label_to_set)
+   {
+      try {
+         label_to_set.setFont(juce::Font {16.F, juce::Font::bold});
+         label_to_set.setEditable(false);
+         label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
+      }
+      catch (const std::exception& e) {
+         MIDI2LR_E_RESPONSE;
+         throw;
+      }
+   }
+}
+
 void MainContentComponent::Init()
 {
    try {
@@ -364,18 +379,7 @@ void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element,
    }
 }
 
-void MainContentComponent::StandardLabelSettings(juce::Label& label_to_set)
-{
-   try {
-      label_to_set.setFont(juce::Font {16.F, juce::Font::bold});
-      label_to_set.setEditable(false);
-      label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
-   }
-   catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
-      throw;
-   }
-}
+
 
 void MainContentComponent::handleAsyncUpdate()
 {
