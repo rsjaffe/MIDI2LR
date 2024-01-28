@@ -200,6 +200,7 @@ class ChannelModel {
    void ActiveToSaved() const;
    void CcDefaults();
    void SavedToActive();
+   void SaveSettings(int start, int end, int maxVal) const;
    // ReSharper disable CppConstParameterInDeclaration
    template<class Archive> void load(Archive& archive, const uint32_t version);
    template<class Archive> void save(Archive& archive, const uint32_t version) const;

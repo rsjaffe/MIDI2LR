@@ -18,7 +18,6 @@
 #include <map>
 #include <memory>
 #include <utility>
-#include <version>
 
 #include <juce_audio_devices/juce_audio_devices.h>
 #include <juce_core/juce_core.h>
@@ -40,6 +39,10 @@ class Devices {
    [[nodiscard]] bool EnabledOrNew(const juce::MidiDeviceInfo& info, const juce::String& io);
 
  private:
+   void CreateDefaultDeviceXml();
+   void LoadDeviceXml();
+   void ProcessDataList();
+
    struct DevInfo {
 #ifdef __cpp_lib_three_way_comparison
       [[nodiscard]] std::strong_ordering operator<=>(const DevInfo& rhs) const noexcept

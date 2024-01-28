@@ -58,6 +58,18 @@ void VersionChecker::Start()
 
 void VersionChecker::handleAsyncUpdate()
 {
+   const auto response {[this](const int result) {
+      if (result) {
+         if (juce::URL("https://github.com/rsjaffe/MIDI2LR/releases")
+                 .launchInDefaultBrowser()) { /* successfully opened browser */
+            settings_manager_.SetLastVersionFound(new_version_);
+         }
+      }
+      else { /* user doesn't want it, don't show again */
+         settings_manager_.SetLastVersionFound(new_version_);
+      }
+   }};
+   /*                                                                       */
    try {
       if (thread_should_exit_.load(std::memory_order_acquire)) { return; }
       juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::AlertIconType::QuestionIcon,
@@ -65,22 +77,35 @@ void VersionChecker::handleAsyncUpdate()
               "MIDI2LR"),
           juce::translate("Do you want to download the latest version?") + ' '
               + IntToVersion(new_version_),
-          nullptr, juce::ModalCallbackFunction::create([this](const int result) {
-             if (result) {
-                if (juce::URL("https://github.com/rsjaffe/MIDI2LR/releases")
-                        .launchInDefaultBrowser()) { /* successfully opened browser */
-                   settings_manager_.SetLastVersionFound(new_version_);
-                }
-             }
-             else { /* user doesn't want it, don't show again */
-                settings_manager_.SetLastVersionFound(new_version_);
-             }
-          }));
+          nullptr, juce::ModalCallbackFunction::create(response));
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
    }
 }
+
+namespace {
+   int CheckVersion(const std::unique_ptr<juce::XmlElement>& version_xml_element)
+   {
+      int new_version;
+      if (const auto os_specific_version =
+              version_xml_element->getIntAttribute(MSWindows ? "vMSWindows" : "vMacOS")) {
+         new_version = os_specific_version;
+      }
+      else {
+         new_version = version_xml_element->getIntAttribute("vlatest");
+      }
+      return new_version;
+   }
+
+   void LogVersion(int new_version, int last_checked)
+   {
+      rsj::Log(fmt::format(FMT_STRING("Version available {}, version last checked {}, current "
+                                      "version {}."),
+          IntToVersion(new_version), IntToVersion(last_checked),
+          IntToVersion(ProjectInfo::versionNumber)));
+   }
+} // namespace
 
 void VersionChecker::Run() noexcept
 {
@@ -89,21 +114,12 @@ void VersionChecker::Run() noexcept
       const auto version_xml_element {version_url.readEntireXmlStream()};
       if (version_xml_element && !thread_should_exit_.load(std::memory_order_acquire)) {
          auto last_checked {settings_manager_.GetLastVersionFound()};
-         if (const auto os_specific_version =
-                 version_xml_element->getIntAttribute(MSWindows ? "vMSWindows" : "vMacOS")) {
-            new_version_ = os_specific_version;
-         }
-         else {
-            new_version_ = version_xml_element->getIntAttribute("vlatest");
-         }
+         new_version_ = CheckVersion(version_xml_element);
          if (last_checked == 0) {
             last_checked = std::min(new_version_, ProjectInfo::versionNumber);
             settings_manager_.SetLastVersionFound(last_checked);
          }
-         rsj::Log(fmt::format(FMT_STRING("Version available {}, version last checked {}, current "
-                                         "version {}."),
-             IntToVersion(new_version_), IntToVersion(last_checked),
-             IntToVersion(ProjectInfo::versionNumber)));
+         LogVersion(new_version_, last_checked);
          if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked
              && !thread_should_exit_.load(std::memory_order_acquire)) {
             triggerAsyncUpdate();

@@ -389,22 +389,22 @@ void ChannelModel::SetPwMin(const int value) noexcept
    pitch_wheel_current_.store(CenterPw(), std::memory_order_release);
 }
 
+void ChannelModel::SaveSettings(int start, int end, int maxVal) const
+{
+   for (auto i {start}; i <= end; ++i) {
+      if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != maxVal
+          || cc_low_.at(i) != 0) {
+         settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
+      }
+   }
+}
+
 void ChannelModel::ActiveToSaved() const
 {
    try {
       settings_to_save_.clear();
-      for (auto i {0}; i <= kMaxMidi; ++i) {
-         if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxMidi
-             || cc_low_.at(i) != 0) {
-            settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
-         }
-      }
-      for (auto i {kMaxMidi + 1}; i <= kMaxNrpn; ++i) {
-         if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxNrpn
-             || cc_low_.at(i) != 0) {
-            settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
-         }
-      }
+      SaveSettings(0, kMaxMidi, kMaxMidi);
+      SaveSettings(kMaxMidi + 1, kMaxNrpn, kMaxNrpn);
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;

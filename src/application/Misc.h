@@ -21,7 +21,6 @@
 #include <limits>
 #include <string>
 #include <string_view>
-#include <version>
 
 #include <gsl/gsl>
 

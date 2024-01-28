@@ -19,6 +19,7 @@
 #include <juce_graphics/juce_graphics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
 
+#include "CommandMenu.h"
 #include "CommandSet.h"
 #include "Profile.h"
 
@@ -36,12 +37,14 @@ class CommandTableModel final : public juce::TableListBoxModel {
  private:
    [[nodiscard]] int getNumRows() override { return gsl::narrow_cast<int>(profile_.Size()); }
 
+   CommandMenu* CreateNewCommandMenu(int row_number, juce::Component* existing_component) const;
+   CommandMenu* UpdateCommandMenu(int row_number, CommandMenu* command_select) const;
+   juce::Component* refreshComponentForCell(int row_number, int column_id, bool is_row_selected,
+       juce::Component* existing_component) override;
    void paintCell(juce::Graphics&, int row_number, int column_id, int width, int height,
        bool row_is_selected) override;
    void paintRowBackground(juce::Graphics&, int row_number, int width, int height,
        bool row_is_selected) override;
-   juce::Component* refreshComponentForCell(int row_number, int column_id, bool is_row_selected,
-       juce::Component* existing_component) override;
    void sortOrderChanged(int new_sort_column_id, bool is_forwards) override;
 
    const CommandSet& command_set_;

@@ -37,53 +37,64 @@ namespace {
    }
 } // namespace
 
-Devices::Devices()
+void Devices::LoadDeviceXml()
 {
    try {
-      /* open file with xml list of devices */
-      auto source {GetSource(MIDI2LR_UC_LITERAL("Controllers.xml"))};
-      if (source.existsAsFile()) { device_xml_ = juce::parseXML(source); }
+      auto deviceXmlSource {GetSource(MIDI2LR_UC_LITERAL("Controllers.xml"))};
+      if (deviceXmlSource.existsAsFile()) { device_xml_ = juce::parseXML(deviceXmlSource); }
       else {
-         source = GetSource(MIDI2LR_UC_LITERAL("DisabledControllers.xml"));
-         if (source.existsAsFile()) {
-            device_xml_ = juce::parseXML(source);
-            std::ignore = source.deleteFile(); // don't want to use name again
+         deviceXmlSource = GetSource(MIDI2LR_UC_LITERAL("DisabledControllers.xml"));
+         if (deviceXmlSource.existsAsFile()) {
+            device_xml_ = juce::parseXML(deviceXmlSource);
+            std::ignore = deviceXmlSource.deleteFile(); // don't want to use name again
          }
       }
    }
-   catch (const std::exception& e) { /* log and carry on */
+   catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
       device_xml_.reset();
    }
-   if (!device_xml_) {
-      device_xml_ = juce::parseXML(R"===(<?xml version="1.0" encoding="UTF-8"?>
-<table_data>
-  <heading>
-    <column columnId="1" name="devicename" label="device name" width="200"/>
-    <column columnId="2" name="systemid" label="system id" width="200"/>
-    <column columnId="3" name="inputoutput" label="input/output" width="50"/>
-    <column columnId="9" name="active" label="active" width="50"/>
-  </heading>
-  <data>
-  </data>
-</table_data>)===");
-   }
+}
+
+void Devices::CreateDefaultDeviceXml()
+{
+   device_xml_ = juce::parseXML(R"===(<?xml version="1.0" encoding="UTF-8"?>
+    <table_data>
+        <heading>
+            <column columnId="1" name="devicename" label="device name" width="200"/>
+            <column columnId="2" name="systemid" label="system id" width="200"/>
+            <column columnId="3" name="inputoutput" label="input/output" width="50"/>
+            <column columnId="9" name="active" label="active" width="50"/>
+        </heading>
+        <data>
+        </data>
+    </table_data>)===");
+}
+
+void Devices::ProcessDataList()
+{
    column_list_ = device_xml_->getChildByName("heading");
    data_list_ = device_xml_->getChildByName("data");
-
    if (data_list_) {
       num_rows_ = data_list_->getNumChildElements();
-      for (const gsl::not_null<const juce::XmlElement*> data_element :
+      for (const gsl::not_null<const juce::XmlElement*> dataElement :
           data_list_->getChildIterator()) {
-         device_listing_.emplace(DevInfo {data_element->getStringAttribute("devicename"),
-                                     data_element->getStringAttribute("systemid"),
-                                     data_element->getStringAttribute("inputoutput")},
-             data_element->getIntAttribute("active"));
+         device_listing_.emplace(DevInfo {dataElement->getStringAttribute("devicename"),
+                                     dataElement->getStringAttribute("systemid"),
+                                     dataElement->getStringAttribute("inputoutput")},
+             dataElement->getIntAttribute("active"));
       }
    }
    else {
       data_list_ = device_xml_->createNewChildElement("data");
    }
+}
+
+Devices::Devices()
+{
+   LoadDeviceXml();
+   if (!device_xml_) { CreateDefaultDeviceXml(); }
+   ProcessDataList();
 }
 
 Devices::~Devices()

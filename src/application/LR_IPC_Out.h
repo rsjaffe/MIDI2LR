@@ -56,8 +56,8 @@ class LrIpcOut {
       }
    }
 
-   void SendCommand(std::string&& command);
-   void SendCommand(const std::string& command);
+   void SendCommand(std::string&& command) const;
+   void SendCommand(const std::string& command) const;
    void SendingRestart();
    void SendingStop();
 
@@ -66,9 +66,18 @@ class LrIpcOut {
    void Stop();
 
  private:
+   using RepeatCmdIterator =
+       const std::unordered_map<std::string, std::pair<std::string, std::string>>::const_iterator;
+   bool ShouldSetRecenter(const rsj::MidiMessage& mm) const;
    void Connect(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared);
    void ConnectionMade();
    void MidiCmdCallback(rsj::MidiMessage mm);
+   void ProcessChange(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm) const;
+   void ProcessMessage(const rsj::MidiMessageId& message, const rsj::MidiMessage& mm);
+   void ProcessNonRepeatedCommand(const std::string& command_to_send,
+       const rsj::MidiMessage& mm) const;
+   void ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm,
+       const rsj::MidiMessageId& message);
    void SetRecenter(rsj::MidiMessageId mm);
    asio::steady_timer recenter_timer_;
    bool connected_ {false};

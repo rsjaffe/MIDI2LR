@@ -60,8 +60,8 @@ class MainContentComponent final :
    void MidiCmdCallback(rsj::MidiMessage mm);
    void paint(juce::Graphics&) override;
    void ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name);
-   void StandardLabelSettings(juce::Label& label_to_set);
    void timerCallback() override;
+   void UpdateConnectionLabel(const char* text, juce::Colour colour);
 
    CommandTable command_table_ {"Table", nullptr};
    CommandTableModel command_table_model_;

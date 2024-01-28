@@ -23,7 +23,8 @@ class CommandTable final : public juce::TableListBox {
  public:
    CommandTable(const juce::String& component_name, CommandTableModel* model);
 
-   ~CommandTable() {juce::TableListBox::setModel(nullptr); } // NOLINT(modernize-use-override)
+   ~CommandTable() { juce::TableListBox::setModel(nullptr); } // NOLINT(modernize-use-override)
+
    CommandTable(const CommandTable& other) = delete;
    CommandTable(CommandTable&& other) = delete;
    CommandTable& operator=(const CommandTable& other) = delete;

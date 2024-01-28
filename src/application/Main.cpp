@@ -25,7 +25,6 @@
 
 #include <asio/asio.hpp>
 #include <cereal/archives/xml.hpp>
-#include <dry-comparisons/dry-comparisons.hpp>
 #include <fmt/format.h>
 
 #include <JuceHeader.h>
@@ -49,6 +48,7 @@
 #include <array>
 
 #include <wil/result.h> /* including too early causes conflicts with other windows includes */
+#include <ww898/utf_converters.hpp>
 #endif
 
 namespace fs = std::filesystem;
@@ -154,6 +154,24 @@ namespace {
       std::_Exit(EXIT_FAILURE);
    }
 
+   void LoadFont(const juce::String& font_name, bool is_primary) noexcept
+   {
+      juce::MemoryBlock font_data {};
+      const auto font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
+                                 .getSiblingFile(font_name);
+      if (font_file.loadFileAsData(font_data)) {
+         const auto typeface =
+             juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize());
+         if (is_primary) {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(typeface);
+         }
+      }
+      else {
+         rsj::Log(fmt::format(FMT_STRING("Unable to load {} font file {}."),
+             is_primary ? "primary" : "bold", font_name.toStdString()));
+      }
+   }
+
 /* global to install prior to program start order of initialization unimportant for this global
  * object */
 #pragma warning(suppress : 26426)
@@ -178,51 +196,21 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
    void initialise(const juce::String& command_line) override
    {
+      /*Called when the application starts. This will be called once to let the application do
+       * whatever initialization it needs, create its windows, etc. After the method returns, the
+       * normal event - dispatch loop will be run, until the quit() method is called, at which
+       * point the shutdown() method will be called to let the application clear up anything it
+       * needs to delete. If during the initialise() method, the application decides not to
+       * start-up after all, it can just call the quit() method and the event loop won't be
+       * run. */
       try {
-         /*Called when the application starts. This will be called once to let the application do
-          * whatever initialization it needs, create its windows, etc. After the method returns, the
-          * normal event - dispatch loop will be run, until the quit() method is called, at which
-          * point the shutdown() method will be called to let the application clear up anything it
-          * needs to delete. If during the initialise() method, the application decides not to
-          * start-up after all, it can just call the quit() method and the event loop won't be
-          * run. */
          if (command_line != kShutDownString) {
-            MIDI2LR_FAST_FLOATS;
-            rsj::LabelThread(MIDI2LR_UC_LITERAL("Main MIDI2LR thread"));
-            io_thread0_ = std::async(std::launch::async, [this] {
-               rsj::LabelThread(MIDI2LR_UC_LITERAL("io_thread0_"));
-               MIDI2LR_FAST_FLOATS;
-               if constexpr (kNdebug) { io_context_.run(); }
-               else {
-                  rsj::Log(fmt::format(FMT_STRING("io_thread0_ ran {} handlers."),
-                      io_context_.run()));
-               }
-            });
-            io_thread1_ = std::async(std::launch::async, [this] {
-               rsj::LabelThread(MIDI2LR_UC_LITERAL("io_thread1_"));
-               MIDI2LR_FAST_FLOATS;
-               if constexpr (kNdebug) { io_context_.run(); }
-               else {
-                  rsj::Log(fmt::format(FMT_STRING("io_thread1_ ran {} handlers."),
-                      io_context_.run()));
-               }
-            });
-            CCoptions::LinkToControlsModel(&controls_model_);
-            PWoptions::LinkToControlsModel(&controls_model_);
-            /* set language and load appropriate fonts and files */
-            SetAppFont();
-            LoadControlsModel();
-            /* need to start main window before ipc so it's already registered its callbacks and can
+            InitializeThreads();
+            LinkControlsModels();
+            /* Need to start main window before ipc so it's already registered its callbacks and can
              * receive messages */
-            main_window_ = std::make_unique<MainWindow>(getApplicationName(), command_set_,
-                profile_, profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_,
-                midi_sender_);
-            midi_receiver_.Start();
-            midi_sender_.Start();
-            lr_ipc_out_.Start();
-            lr_ipc_in_.Start();
-            /* Check for latest version */
-            version_checker_.Start();
+            SetupUi();
+            StartServices();
          }
          else {
             quit();
@@ -241,16 +229,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        * to allow the application to sort itself out. Be careful that nothing happens in this method
        * that might rely on messages being sent, or any kind of window activity, because the message
        * loop is no longer running at this point. */
-
-      /*Primary goals: 1) remove callbacks in LR_IPC_Out and MIDIReceiver before the callee is
-       * destroyed, 2) stop additional threads in VersionChecker, LR_IPC_In, LR_IPC_Out and
-       * MIDIReceiver. Add to this list if new threads or callback lists are developed in this
-       * app. */
-      midi_receiver_.Stop();
-      lr_ipc_in_.Stop();
-      lr_ipc_out_.Stop();
-      version_checker_.Stop();
-      io_context_.stop();
+      StopServices();
       DefaultProfileSave();
       SaveControlsModel();
    }
@@ -321,6 +300,67 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    }
 
  private:
+   void InitializeThreads()
+   {
+      MIDI2LR_FAST_FLOATS;
+      rsj::LabelThread(MIDI2LR_UC_LITERAL("Main MIDI2LR thread"));
+      StartThread(io_thread0_, "io_thread0_");
+      StartThread(io_thread1_, "io_thread1_");
+   }
+
+   void StartThread(std::future<void>& thread, const char* threadName)
+   {
+      thread = std::async(std::launch::async, [this, threadName] {
+#ifdef _WIN32
+         const auto uwr = ww898::utf::convz<wchar_t>(threadName);
+         rsj::LabelThread(uwr.c_str());
+#else
+         rsj::LabelThread(threadName);
+#endif
+         MIDI2LR_FAST_FLOATS;
+         if constexpr (kNdebug) { io_context_.run(); }
+         else {
+            rsj::Log(fmt::format(FMT_STRING("{} ran {} handlers."), threadName, io_context_.run()));
+         }
+      });
+   }
+
+   void LinkControlsModels()
+   {
+      CCoptions::LinkToControlsModel(&controls_model_);
+      PWoptions::LinkToControlsModel(&controls_model_);
+   }
+
+   void SetupUi()
+   {
+      SetAppFont();
+      LoadControlsModel();
+      main_window_ = std::make_unique<MainWindow>(getApplicationName(), command_set_, profile_,
+          profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
+   }
+
+   void StartServices()
+   {
+      midi_receiver_.Start();
+      midi_sender_.Start();
+      lr_ipc_out_.Start();
+      lr_ipc_in_.Start();
+      version_checker_.Start();
+   }
+
+   void StopServices()
+   {
+      /*Primary goals: 1) remove callbacks in LR_IPC_Out and MIDIReceiver before the callee is
+       * destroyed, 2) stop additional threads in VersionChecker, LR_IPC_In, LR_IPC_Out and
+       * MIDIReceiver. Add to this list if new threads or callback lists are developed in this
+       * app. */
+      midi_receiver_.Stop();
+      lr_ipc_in_.Stop();
+      lr_ipc_out_.Stop();
+      version_checker_.Stop();
+      io_context_.stop();
+   }
+
    void DefaultProfileSave() noexcept
    {
       try {
@@ -379,45 +419,21 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       try {
          using namespace std::string_literals;
          const auto& lang {command_set_.GetLanguage()};
-         juce::String font1_name;
-         juce::String font2_name;
-         if (lang == "ko"s) { font1_name = "NotoSansKR-Regular.otf"; }
-         else if (rollbear::any_of("zh_TW"s, "zh_tw"s) == lang) {
-            font1_name = "NotoSansTC-Regular.otf";
-         }
-         else if (rollbear::any_of("zh_CN"s, "zh_cn"s) == lang) {
-            font1_name = "NotoSansSC-Regular.otf";
-         }
-         else if (lang == "ja"s) {
-            font1_name = "NotoSansJP-Regular.otf";
-         }
-         else {
-            font1_name = "NotoSans-Regular-MIDI2LR.ttf";
-            font2_name = "NotoSans-Bold-MIDI2LR.ttf";
-         }
-         juce::MemoryBlock font_data {};
-         auto font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
-                              .getSiblingFile(font1_name);
-         if (font_file.loadFileAsData(font_data)) {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(
-                juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize()));
-         }
-         else {
-            rsj::Log(fmt::format(FMT_STRING("Unable to load primary font file {}."),
-                font1_name.toStdString()));
-         }
-         if (font2_name.isNotEmpty()) {
-            font_data.reset();
-            font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
-                            .getSiblingFile(font2_name);
-            if (font_file.loadFileAsData(font_data)) {
-               juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize());
-            }
-            else {
-               rsj::Log(fmt::format(FMT_STRING("Unable to load bold font file {}."),
-                   font2_name.toStdString()));
-            }
-         }
+         const std::unordered_map<std::string, std::pair<std::string, std::string>> font_map {
+             {    "ko"s,                                {"NotoSansKR-Regular.otf", ""}},
+             { "zh_TW"s,                                {"NotoSansTC-Regular.otf", ""}},
+             { "zh_tw"s,                                {"NotoSansTC-Regular.otf", ""}},
+             { "zh_CN"s,                                {"NotoSansSC-Regular.otf", ""}},
+             { "zh_cn"s,                                {"NotoSansSC-Regular.otf", ""}},
+             {    "ja"s,                                {"NotoSansJP-Regular.otf", ""}},
+             {"default", {"NotoSans-Regular-MIDI2LR.ttf", "NotoSans-Bold-MIDI2LR.ttf"}}
+         };
+         auto font_pair = font_map.find(lang);
+         if (font_pair == font_map.end()) { font_pair = font_map.find("default"); }
+         const auto& primary_font_name = font_pair->second.first;
+         const auto& bold_font_name = font_pair->second.second;
+         LoadFont(primary_font_name, true);
+         if (!bold_font_name.empty()) { LoadFont(bold_font_name, false); }
       }
       catch (const std::exception& e) {
          MIDI2LR_E_RESPONSE;

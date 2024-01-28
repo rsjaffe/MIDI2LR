@@ -29,6 +29,7 @@ class Profile;
 class CommandMenu final : public TextButtonAligned {
  public:
    CommandMenu(rsj::MidiMessageId message, const CommandSet& command_set, Profile& profile);
+   void ShowCCDialog() const;
 
    void SetMsg(rsj::MidiMessageId message) noexcept { message_ = message; }
 
@@ -41,7 +42,14 @@ class CommandMenu final : public TextButtonAligned {
    }
 
  private:
+   void AddSubMenuItems(juce::PopupMenu& sub_menu, const juce::String& command, size_t index,
+      bool& ticked) const;
+   void AddSubMenusToMainMenu(juce::PopupMenu& main_menu, size_t& index) const;
    void clicked(const juce::ModifierKeys& modifiers) override;
+   void ProcessMenuItems();
+   void ProcessUserSelection(juce::PopupMenu& main_menu);
+   void ShowDialogBasedOnMessageType() const;
+   void ShowPWDialog() const;
 
    const CommandSet& command_set_;
    Profile& profile_;
