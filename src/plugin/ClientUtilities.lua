@@ -501,12 +501,6 @@ local function LRValueToMIDIValue(param)
   return retval
 end
 
-local function FullRefresh()
-  return function()
-    Profiles.refreshMidiController()
-  end
-end
-
 local function fSimulateKeys(keys, developonly, tool)
   return function()
     if developonly then
@@ -634,13 +628,13 @@ local function cg_hsl_paste()
     LrDevelopController.setValue(cg_hsl_parms.shadow[1],cg_hsl[1])
     LrDevelopController.setValue(cg_hsl_parms.shadow[2],cg_hsl[2])
     LrDevelopController.setValue(cg_hsl_parms.shadow[3],cg_hsl[3])
-    FullRefresh()
+    Limits.RefreshMidiController()
     return
   end
   LrDevelopController.setValue(cg_hsl_parms[currentView][1],cg_hsl[1])
   LrDevelopController.setValue(cg_hsl_parms[currentView][2],cg_hsl[2])
   LrDevelopController.setValue(cg_hsl_parms[currentView][3],cg_hsl[3])
-  FullRefresh()
+  Limits.RefreshMidiController()
 end
 
 local function cg_reset_3way()
@@ -653,7 +647,7 @@ local function cg_reset_3way()
   LrDevelopController.resetToDefault('SplitToningShadowHue')
   LrDevelopController.resetToDefault('SplitToningShadowSaturation')
   LrDevelopController.resetToDefault('ColorGradeShadowLum')
-  FullRefresh()
+  Limits.RefreshMidiController()
 end
 
 local function cg_reset_all()
@@ -673,28 +667,28 @@ local function cg_reset_current()
     LrDevelopController.resetToDefault('ColorGradeGlobalHue')
     LrDevelopController.resetToDefault('ColorGradeGlobalSat')
     LrDevelopController.resetToDefault('ColorGradeGlobalLum')
-    FullRefresh()
+    Limits.RefreshMidiController()
     return
   end
   if currentView == 'highlight' then
     LrDevelopController.resetToDefault('SplitToningHighlightHue')
     LrDevelopController.resetToDefault('SplitToningHighlightSaturation')
     LrDevelopController.resetToDefault('ColorGradeHighlightLum')
-    FullRefresh()
+    Limits.RefreshMidiController()
     return
   end
   if currentView == 'midtone' then
     LrDevelopController.resetToDefault('ColorGradeMidtoneHue')
     LrDevelopController.resetToDefault('ColorGradeMidtoneSat')
     LrDevelopController.resetToDefault('ColorGradeMidtoneLum')
-    FullRefresh()
+    Limits.RefreshMidiController()
     return
   end
   if currentView == 'shadow' then
     LrDevelopController.resetToDefault('SplitToningShadowHue')
     LrDevelopController.resetToDefault('SplitToningShadowSaturation')
     LrDevelopController.resetToDefault('ColorGradeShadowLum')
-    FullRefresh()
+    Limits.RefreshMidiController()
     return
   end
 end
@@ -923,7 +917,6 @@ local function quickDevAdjustWB(par,val,cmd) --note lightroom applies this to al
 end
 return {
   ApplySettings = ApplySettings,
-  FullRefresh = FullRefresh,
   HoldAltOptToggle = HoldAltOptToggle,
   LRValueToMIDIValue = LRValueToMIDIValue,
   MIDIValueToLRValue = MIDIValueToLRValue,

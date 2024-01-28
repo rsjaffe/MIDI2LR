@@ -18,17 +18,14 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
-local Database            = require 'Database'
 local Init                = require 'Init'
 local Limits              = require 'Limits'
 local ProfileTypes        = require 'ProfileTypes'
-local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
 local LrFileUtils         = import 'LrFileUtils'
 local LrStringUtils       = import 'LrStringUtils'
-local LrTasks             = import 'LrTasks'
 local LrView              = import 'LrView'
 --[[-----------debug section, enable by adding - to beginning this line
 local LrMobdebug = import 'LrMobdebug'
@@ -38,72 +35,6 @@ local currentTMP = {Tool = '', Module = '', Panel = '', Profile = ''}
 local loadedprofile = ''-- according to application and us
 local profilepath = '' --according to application
 
-local function refreshMidiController()
-  if (LrApplication.activeCatalog():getTargetPhoto() == nil) or (LrApplicationView.getCurrentModuleName() ~= 'develop') then
-   return
-  end
-  LrTasks.startAsyncTask (function ()
-      --[[-----------debug section, enable by adding - to beginning this line
-      LrMobdebug.on()
-      --]]-----------end debug section
-      local photoval = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
-      -- refresh crop values
-      local val_bottom = photoval.CropBottom
-      MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val_bottom))
-      MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val_bottom))
-      MIDI2LR.SERVER:send(string.format('CropAll %g\n', val_bottom))
-      MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val_bottom))
-      local val_top = photoval.CropTop
-      MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val_top))
-      MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val_top))
-      MIDI2LR.SERVER:send(string.format('CropTop %g\n', val_top))
-      local val_left = photoval.CropLeft
-      local val_right = photoval.CropRight
-      MIDI2LR.SERVER:send(string.format('CropLeft %g\n', val_left))
-      MIDI2LR.SERVER:send(string.format('CropRight %g\n', val_right))
-      local range_v = (1 - (val_bottom - val_top))
-      if range_v == 0.0 then
-        MIDI2LR.SERVER:send('CropMoveVertical 0\n')
-      else
-        MIDI2LR.SERVER:send(string.format('CropMoveVertical %g\n', val_top / range_v))
-      end
-      local range_h = (1 - (val_right - val_left))
-      if range_h == 0.0 then
-        MIDI2LR.SERVER:send('CropMoveHorizontal 0\n')
-      else
-        MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / range_h))
-      end
-      local sel_mask = LrDevelopController.getSelectedMask()
-      for param,altparam in pairs(Database.Parameters) do
-        LrTasks.yield()
-        local min,max = Limits.GetMinMax(param)
-        local lrvalue
-        if altparam == 'Direct' then
-          if (param:sub(1,6) ~= 'local_') or sel_mask then lrvalue = LrDevelopController.getValue(param) end
-        else
-          if photoval[altparam] ~= nil then
-            lrvalue = photoval[altparam]
-          elseif photoval[param] ~= nil then
-            lrvalue = photoval[param]
-          else
-            lrvalue = 0
-          end
-        end
-        if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
-          local midivalue = (lrvalue-min)/(max-min)
-          if midivalue >= 1.0 then
-            MIDI2LR.SERVER:send(string.format('%s 1.0\n', param))
-          elseif midivalue <= 0.0 then -- = catches -0.0 and sends it as 0.0
-            MIDI2LR.SERVER:send(string.format('%s 0.0\n', param))
-          else
-            MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
-          end
-        end
-      end
-    end
-  )
-end
-
 local function doprofilechange(newprofile)
   if ProgramPreferences.ProfilesShowBezelOnChange then
     local filename = newprofile:match(".-([^\\^/]-([^%.]+))$")
@@ -111,7 +42,7 @@ local function doprofilechange(newprofile)
     LrDialogs.showBezel(filename)
   end
   loadedprofile = newprofile
-  refreshMidiController()
+  Limits.RefreshMidiController()
 end
 
 local function setDirectory(value)

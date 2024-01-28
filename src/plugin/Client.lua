@@ -180,7 +180,7 @@ LrTasks.startAsyncTask(
       Filter_7                        = CU.fApplyFilter(7),
       Filter_8                        = CU.fApplyFilter(8),
       Filter_9                        = CU.fApplyFilter(9),
-      FullRefresh                     = CU.FullRefresh,
+      FullRefresh                     = Limits.RefreshMidiController,
       GetPluginInfo                   = DebugInfo.sendLog, -- not in db: internal use only
       GridViewStyle                   = LrApplicationView.gridViewStyle,
       HoldAltOpt                      = CU.HoldAltOptToggle,
@@ -845,7 +845,7 @@ LrTasks.startAsyncTask(
             CU.showBezel(param,value,actualvalue)
           end
           if lastfullrefresh + 1 < os.clock() then --try refreshing controller once a second
-            CU.FullRefresh()
+            Limits.RefreshMidiController()
             lastfullrefresh = os.clock()
           end
         end -- end of if pickup/elseif bezel group
