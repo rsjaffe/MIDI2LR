@@ -1,1 +1,1 @@
-luacheck v 0.25.0 downloaded Nov 13 2021 from https://github.com/lunarmodules/luacheck
+luacheck v1.1.2 downloaded Jan 31 2024 from https://github.com/lunarmodules/luacheck
