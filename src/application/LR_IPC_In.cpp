@@ -146,6 +146,7 @@ namespace {
    {
       rsj::Trim(msg);
       const auto first_delimiter {msg.find_first_of(" \t\n")};
+      if (first_delimiter == std::string_view::npos) { return {msg, {}}; }
       auto value_view {msg.substr(first_delimiter + 1)};
       rsj::TrimL(value_view);
       const auto command_view {msg.substr(0, first_delimiter)};

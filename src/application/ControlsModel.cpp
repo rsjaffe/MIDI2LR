@@ -24,29 +24,23 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber, const
       const auto high_limit {cc_high_.at(controlnumber)};
       Expects(diff <= high_limit && diff >= -high_limit);
 #ifdef __cpp_lib_atomic_ref
-      const std::atomic_ref cv {current_v_.at(controlnumber)};
+      std::atomic_ref cv {current_v_.at(controlnumber)};
 #else
       auto& cv {current_v_.at(controlnumber)};
 #endif
-      auto old_v {cv.load(std::memory_order_acquire)};
+      auto old_v {cv.load(std::memory_order_relaxed)};
       int new_v {};
       if (wrap) {
          do {
-            new_v = old_v + diff;
-            if (new_v > high_limit) { new_v -= high_limit; }
-            else if (new_v < 0) {
-               new_v += high_limit;
-            }
-            else { /* no action needed */
-            }
+            new_v = (old_v + diff + high_limit) % high_limit;
          } while (!cv.compare_exchange_weak(old_v, new_v, std::memory_order_release,
-             std::memory_order_acquire));
+             std::memory_order_relaxed));
       }
-      else [[likely]] {
+      else {
          do {
             new_v = std::clamp(old_v + diff, 0, high_limit);
          } while (!cv.compare_exchange_weak(old_v, new_v, std::memory_order_release,
-             std::memory_order_acquire));
+             std::memory_order_relaxed));
       }
       return static_cast<double>(new_v) / static_cast<double>(high_limit);
    }
@@ -60,9 +54,11 @@ double ChannelModel::ControllerToPlugin(const rsj::MessageType controltype, cons
     const int value, const bool wrap)
 {
    try {
-      Expects(controltype == rsj::MessageType::kCc
-                      && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute
-                  ? cc_low_.at(controlnumber) < cc_high_.at(controlnumber)
+      const auto cc_method = cc_method_.at(controlnumber);
+      const auto cc_low = cc_low_.at(controlnumber);
+      const auto cc_high = cc_high_.at(controlnumber);
+      Expects(controltype == rsj::MessageType::kCc && cc_method == rsj::CCmethod::kAbsolute
+                  ? cc_low < cc_high
                   : 1);
       Expects(controltype == rsj::MessageType::kPw ? pitch_wheel_max_ > pitch_wheel_min_ : 1);
       Expects(controltype == rsj::MessageType::kPw
@@ -77,7 +73,7 @@ double ChannelModel::ControllerToPlugin(const rsj::MessageType controltype, cons
          return static_cast<double>(value - pitch_wheel_min_)
                 / static_cast<double>(pitch_wheel_max_ - pitch_wheel_min_);
       case rsj::MessageType::kCc:
-         switch (cc_method_.at(controlnumber)) {
+         switch (cc_method) {
          case rsj::CCmethod::kAbsolute:
 #ifdef __cpp_lib_atomic_ref
             std::atomic_ref(current_v_.at(controlnumber)).store(value, std::memory_order_release);
@@ -85,8 +81,7 @@ double ChannelModel::ControllerToPlugin(const rsj::MessageType controltype, cons
             current_v_.at(controlnumber).store(value, std::memory_order_release);
 #endif
 #pragma warning(suppress : 26451) /* int subtraction won't overflow 4 bytes here */
-            return static_cast<double>(value - cc_low_.at(controlnumber))
-                   / static_cast<double>(cc_high_.at(controlnumber) - cc_low_.at(controlnumber));
+            return static_cast<double>(value - cc_low) / static_cast<double>(cc_high - cc_low);
          case rsj::CCmethod::kBinaryOffset:
             if (IsNrpn(controlnumber)) { return OffsetResult(value - kBit14, controlnumber, wrap); }
             return OffsetResult(value - kBit7, controlnumber, wrap);
@@ -115,14 +110,14 @@ double ChannelModel::ControllerToPlugin(const rsj::MessageType controltype, cons
       case rsj::MessageType::kKeyPressure:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::invalid_argument(fmt::format(
-             FMT_STRING("ChannelModel::ControllerToPlugin unexpected control type. Controltype {}, "
-                        "controlnumber {}, value {}, wrap {}."),
-             controltype, controlnumber, value, wrap));
+         throw std::invalid_argument(
+             fmt::format(FMT_STRING("ChannelModel::ControllerToPlugin unexpected control type. "
+                                    "Controltype {}, controlnumber {}, value {}, wrap {}."),
+                 controltype, controlnumber, value, wrap));
       }
       throw std::domain_error(fmt::format(FMT_STRING("Undefined control type in "
-                                                     "ChannelModel::PluginToController. "
-                                                     "Control type {}."),
+                                                     "ChannelModel::PluginToController. Control "
+                                                     "type {}."),
           controltype));
    }
    catch (const std::exception& e) {

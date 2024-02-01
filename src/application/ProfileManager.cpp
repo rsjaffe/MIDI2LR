@@ -44,8 +44,9 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       profile_location_ = directory;
       auto file_array {directory.findChildFiles(juce::File::findFiles, false, "*.xml")};
       file_array.sort();
-      profiles_.clear();
-      for (const auto& file : file_array) { profiles_.push_back(file.getFileName()); }
+      profiles_.resize(file_array.size());
+      std::ranges::transform(file_array, profiles_.begin(),
+          [](const auto& file) { return file.getFileName(); });
    }
    catch (const std::exception& e) {
       MIDI2LR_E_RESPONSE;
@@ -92,9 +93,7 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
 void ProfileManager::SwitchToNextProfile()
 {
    try {
-      if (std::cmp_equal(++current_profile_index_, profiles_.size())) {
-         current_profile_index_ = 0;
-      }
+      current_profile_index_ = (current_profile_index_ + 1) % profiles_.size();
       SwitchToProfile(current_profile_index_);
    }
    catch (const std::exception& e) {
@@ -106,9 +105,7 @@ void ProfileManager::SwitchToNextProfile()
 void ProfileManager::SwitchToPreviousProfile()
 {
    try {
-      if (--current_profile_index_ < 0) {
-         current_profile_index_ = gsl::narrow_cast<int>(profiles_.size()) - 1;
-      }
+      current_profile_index_ = (current_profile_index_ + profiles_.size() - 1) % profiles_.size();
       SwitchToProfile(current_profile_index_);
    }
    catch (const std::exception& e) {

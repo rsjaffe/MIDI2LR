@@ -775,8 +775,6 @@ LrTasks.startAsyncTask(
     ACTIONS.ActionSeries15 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[15],ACTIONS) end
     ACTIONS.ActionSeries16 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[16],ACTIONS) end
 
-    local function notsupported() LrDialogs.showBezel(LOC('$$$/MIDI2LR/Dialog/NeedNewerLR=A newer version of Lightroom is required')) end
-
     local SETTINGS = {
       AppInfo            = function(value) Info.AppInfo[#Info.AppInfo+1] = value end,
       ChangedToDirectory = Profiles.setDirectory,

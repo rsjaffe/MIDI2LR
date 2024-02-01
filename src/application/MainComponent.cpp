@@ -91,7 +91,7 @@ namespace {
          throw;
       }
    }
-}
+} // namespace
 
 void MainContentComponent::Init()
 {
@@ -367,7 +367,6 @@ void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element,
          const juce::MessageManagerLock mm_lock;
          profile_.FromXml(xml_element);
          command_table_.updateContent();
-         command_table_.repaint();
          profile_name_label_.setText(file_name, juce::NotificationType::dontSendNotification);
       }
       /* Send new CC parameters to MIDI Out devices */
@@ -378,8 +377,6 @@ void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element,
       throw;
    }
 }
-
-
 
 void MainContentComponent::handleAsyncUpdate()
 {
