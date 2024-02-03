@@ -72,18 +72,13 @@ void CommandMenu::ShowDialogBasedOnMessageType() const
 }
 
 void CommandMenu::AddSubMenuItems(juce::PopupMenu& sub_menu, const juce::String& command,
-   size_t index, bool& ticked) const
+    size_t index, bool& ticked) const
 {
    if (profile_.CommandHasAssociatedMessage(command_set_.CommandAbbrevAt(index - 1))) {
-      if (index == selected_item_) {
-         ticked = true;
-         sub_menu.addColouredItem(gsl::narrow_cast<int>(index), command, juce::Colours::red, true,
-             true);
-      }
-      else {
-         sub_menu.addColouredItem(gsl::narrow_cast<int>(index), command, juce::Colours::red, true,
-             false);
-      }
+      const auto is_selected_item = (index == selected_item_);
+      ticked |= is_selected_item;
+      sub_menu.addColouredItem(gsl::narrow_cast<int>(index), command, juce::Colours::red, true,
+          is_selected_item);
    }
    else {
       sub_menu.addItem(gsl::narrow_cast<int>(index), command, true, false);
@@ -107,29 +102,25 @@ void CommandMenu::ProcessUserSelection(juce::PopupMenu& main_menu)
    }
 }
 
-void CommandMenu::AddSubMenusToMainMenu(juce::PopupMenu& main_menu, size_t& index) const
+void CommandMenu::AddSubMenusToMainMenu(juce::PopupMenu& main_menu, size_t index) const
 {
-   size_t submenu_number {0}; // to track name for submenu
-   for (const auto& submenus : command_set_.GetMenuEntries()) {
+   const auto& menus {command_set_.GetMenus()};
+   const auto& menu_entries {command_set_.GetMenuEntries()};
+   for (size_t submenu_number = 0; submenu_number < menu_entries.size(); ++submenu_number) {
       juce::PopupMenu sub_menu;
       auto ticked {false};
-      for (const auto& command : submenus) {
-         AddSubMenuItems(sub_menu, command, index, ticked);
-         index++;
+      for (const auto& command : menu_entries[submenu_number]) {
+         AddSubMenuItems(sub_menu, command, index++, ticked);
       }
-      main_menu.addSubMenu(command_set_.GetMenus().at(submenu_number++), sub_menu, true, nullptr,
-          ticked);
+      main_menu.addSubMenu(menus[submenu_number], sub_menu, true, nullptr, ticked);
    }
 }
 
 void CommandMenu::ProcessMenuItems()
 {
-   size_t index {1};
    juce::PopupMenu main_menu;
-   main_menu.addItem(gsl::narrow_cast<int>(index), CommandSet::UnassignedTranslated(), true,
-       index == selected_item_);
-   index++;
-   AddSubMenusToMainMenu(main_menu, index);
+   main_menu.addItem(1, CommandSet::UnassignedTranslated(), true, 1 == selected_item_);
+   AddSubMenusToMainMenu(main_menu, 2);
    ProcessUserSelection(main_menu);
 }
 

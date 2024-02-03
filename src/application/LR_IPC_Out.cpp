@@ -119,10 +119,15 @@ void LrIpcOut::Stop()
       asio::error_code ec;
       /* For portable behaviour with respect to graceful closure of a connected socket, call
        * shutdown() before closing the socket. */
-      std::ignore = sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
-      if (ec) {
-         rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket shutdown error {}."), ec.message()));
-         ec.clear();
+      try { /* ignore exceptions from shutdown, always close */
+         std::ignore = sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+         if (ec) {
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket shutdown error {}."), ec.message()));
+            ec.clear();
+         }
+      }
+      catch (const std::exception& e) {
+         rsj::Log(fmt::format(FMT_STRING("Exception during socket shutdown: {}"), e.what()));
       }
       std::ignore = sock.close(ec);
       if (ec) {

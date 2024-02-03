@@ -36,7 +36,7 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber, const
          } while (!cv.compare_exchange_weak(old_v, new_v, std::memory_order_release,
              std::memory_order_relaxed));
       }
-      else {
+      else [[likely]] {
          do {
             new_v = std::clamp(old_v + diff, 0, high_limit);
          } while (!cv.compare_exchange_weak(old_v, new_v, std::memory_order_release,
