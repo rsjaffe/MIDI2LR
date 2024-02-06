@@ -180,6 +180,13 @@ LrTasks.startAsyncTask(
       Filter_7                        = CU.fApplyFilter(7),
       Filter_8                        = CU.fApplyFilter(8),
       Filter_9                        = CU.fApplyFilter(9),
+      Fine16                          = function() Limits.Fine(16) end,
+      Fine2                           = function() Limits.Fine(2) end,
+      Fine4                           = function() Limits.Fine(4) end,
+      Fine8                           = function() Limits.Fine(8) end,
+      FineDecrease                    = Limits.FineDecrease,
+      FineIncrease                    = Limits.FineIncrease,
+      FineOff                         = function() Limits.Fine() end,
       FullRefresh                     = Limits.RefreshMidiController,
       GetPluginInfo                   = DebugInfo.sendLog, -- not in db: internal use only
       GridViewStyle                   = LrApplicationView.gridViewStyle,
@@ -806,13 +813,20 @@ LrTasks.startAsyncTask(
       end,
     }
 
+    local CropsCorrelated = {
+      {'CropTop',{'CropTopRight %g\n','CropTopLeft %g\n', 'CropTop %g\n'}},
+      {'CropBottom',{'CropBottomRight %g\n','CropBottomLeft %g\n','CropAll %g\n','CropBottom %g\n'}},
+      {'CropLeft',{'CropLeft %g\n'}},
+      {'CropRight',{'CropRight %g\n'}},
+    }
 
     function UpdateParamPickup() --closure
       local paramlastmoved = {}
       local lastfullrefresh = 0
-      return function(param, midi_value, silent)
+      -- parameters: name of parameter, midi value to update, true if no bezel, true if ignore pickup
+      return function(param, midi_value_update, silent, force)
         if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
-        local value
+        local lr_value_update
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
           LrApplicationView.switchToModule('develop')
           LrTasks.yield() -- need this to allow module change before value sent
@@ -820,15 +834,23 @@ LrTasks.startAsyncTask(
         if Limits.Parameters[param] then
           Limits.ClampValue(param)
         end
-        if (math.abs(midi_value - CU.LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > os.clock()) then -- pickup succeeded
+        if force or (math.abs(midi_value_update - CU.LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > os.clock()) then -- pickup succeeded
           paramlastmoved[param] = os.clock()
-          value = CU.MIDIValueToLRValue(param, midi_value)
-          if value ~= LrDevelopController.getValue(param) then
-            MIDI2LR.PARAM_OBSERVER[param] = value
-            LrDevelopController.setValue(param, value, MIDI2LR.AltOpt)
+          lr_value_update = CU.MIDIValueToLRValue(param, midi_value_update)
+          if lr_value_update ~= LrDevelopController.getValue(param) then
+            MIDI2LR.PARAM_OBSERVER[param] = lr_value_update
+            LrDevelopController.setValue(param, lr_value_update, MIDI2LR.AltOpt)
             LastParam = param
+            if string.sub(param,1,4) == 'Crop' then --need to notify other Crop values in controller
+              local crop_notify = CropsCorrelated[param]
+              if crop_notify then
+                for _, crop in pairs(crop_notify) do
+                  MIDI2LR.SERVER:send(string.format(crop,midi_value_update))
+                end
+              end
+            end
             if ProgramPreferences.ClientShowBezelOnChange and not silent then
-              CU.showBezel(param,value)
+              CU.showBezel(param,lr_value_update)
             elseif type(silent) == 'string' then
               LrDialogs.showBezel(silent)
             end
@@ -836,16 +858,18 @@ LrTasks.startAsyncTask(
           if Database.CmdPanel[param] then
             Profiles.changeProfile(Database.CmdPanel[param])
           end
+          return true
         else --failed pickup
           if ProgramPreferences.ClientShowBezelOnChange then -- failed pickup. do I display bezel?
-            value = CU.MIDIValueToLRValue(param, midi_value)
+            lr_value_update = CU.MIDIValueToLRValue(param, midi_value_update)
             local actualvalue = LrDevelopController.getValue(param)
-            CU.showBezel(param,value,actualvalue)
+            CU.showBezel(param,lr_value_update,actualvalue)
           end
           if lastfullrefresh + 1 < os.clock() then --try refreshing controller once a second
             Limits.RefreshMidiController()
             lastfullrefresh = os.clock()
           end
+          return false
         end -- end of if pickup/elseif bezel group
       end -- end of returned function
     end
@@ -865,6 +889,14 @@ LrTasks.startAsyncTask(
         MIDI2LR.PARAM_OBSERVER[param] = value
         LrDevelopController.setValue(param, value, MIDI2LR.AltOpt)
         LastParam = param
+        if string.sub(param,1,4) == 'Crop' then --need to notify other Crop values in controller
+          local crop_notify = CropsCorrelated[param]
+          if crop_notify then
+            for _, crop in pairs(crop_notify) do
+              MIDI2LR.SERVER:send(string.format(crop,midi_value))
+            end
+          end
+        end
         if ProgramPreferences.ClientShowBezelOnChange and not silent then
           CU.showBezel(param,value)
         elseif type(silent) == 'string' then
@@ -874,6 +906,7 @@ LrTasks.startAsyncTask(
       if Database.CmdPanel[param] then
         Profiles.changeProfile(Database.CmdPanel[param])
       end
+      return true
     end
     UpdateParam = UpdateParamPickup --initial state
 
@@ -893,20 +926,18 @@ LrTasks.startAsyncTask(
           return function(observer) -- closure
             if not sendIsConnected then return end -- can't send
             if Limits.LimitsCanBeSet() and lastrefresh < os.clock() then
-              -- refresh crop values NOTE: this function is repeated in ClientUtilities and Profiles
+              -- refresh crop values NOTE: this function is repeated in Limits
               local val_bottom = LrDevelopController.getValue("CropBottom")
-              MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val_bottom))
-              MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val_bottom))
-              MIDI2LR.SERVER:send(string.format('CropAll %g\n', val_bottom))
-              MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val_bottom))
+              local midi_val_bottom = CU.LRValueToMIDIValue('CropBottom',val_bottom)
+              MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', midi_val_bottom))
+              MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', midi_val_bottom))
+              MIDI2LR.SERVER:send(string.format('CropAll %g\n', midi_val_bottom))
               local val_top = LrDevelopController.getValue("CropTop")
-              MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val_top))
-              MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val_top))
-              MIDI2LR.SERVER:send(string.format('CropTop %g\n', val_top))
+              local midi_val_top = CU.LRValueToMIDIValue('CropTop',val_top)
+              MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', midi_val_top))
+              MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', midi_val_top))
               local val_left = LrDevelopController.getValue("CropLeft")
               local val_right = LrDevelopController.getValue("CropRight")
-              MIDI2LR.SERVER:send(string.format('CropLeft %g\n', val_left))
-              MIDI2LR.SERVER:send(string.format('CropRight %g\n', val_right))
               local range_v = (1 - (val_bottom - val_top))
               if range_v == 0.0 then
                 MIDI2LR.SERVER:send('CropMoveVertical 0\n')
@@ -922,7 +953,7 @@ LrTasks.startAsyncTask(
               for param in pairs(Database.Parameters) do
                 local lrvalue = LrDevelopController.getValue(param)
                 if observer[param] ~= lrvalue and type(lrvalue) == 'number' then --testing for MIDI2LR.SERVER.send kills responsiveness
-                  MIDI2LR.SERVER:send(string.format('%s %g\n', param, CU.LRValueToMIDIValue(param)))
+                  MIDI2LR.SERVER:send(string.format('%s %g\n', param, CU.LRValueToMIDIValue(param,lrvalue)))
                   observer[param] = lrvalue
                   LastParam = param
                 end

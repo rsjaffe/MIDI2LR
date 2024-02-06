@@ -16,12 +16,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
+local LrDialogs           = import 'LrDialogs'
 local LrTasks             = import 'LrTasks'
 local LrView              = import 'LrView'
 local Database            = require 'Database'
 
 --hidden
 local DisplayOrder           = {'Temperature','Tint','Exposure','straightenAngle'}
+local Fineness               = nil
+local FineLimits             = {}
 
 --public--each must be in table of exports
 
@@ -63,28 +66,73 @@ local function LimitsCanBeSet()
 end
 
 --------------------------------------------------------------------------------
--- Provides min and max for given parameter and mode. Must be called in Develop
--- module with photo selected.
--- @param param Which parameter is being adjusted.
--- @return min for given param and mode.
--- @return max for given param and mode.
+-- Provides min and max for given parameter and mode. Must be called when Fineness
+-- is not nil. This function checks limits to ensure that fineness is calculated
+-- within overall limits for a parameter.
+-- @param param Which parameter is getting fine limits
+-- @param lr_low Low end of Lightroom range
+-- @param lr_max High end of Lightroom range
+-- @param lr_value Current value of parameter
+-- @return nil.
 --------------------------------------------------------------------------------
-local function GetMinMax(param)
-  local low,rangemax = LrDevelopController.getRange(param)
-  if LimitParameters[param] then --should have limits
-    if type(ProgramPreferences.Limits[param]) == 'table' and rangemax ~= nil then -- B&W picture may not have temperature, tint. This avoids indexing a nil rangemax and blowing up the metatable _index
-      if type(ProgramPreferences.Limits[param][rangemax]) == 'table' then
-        return ProgramPreferences.Limits[param][rangemax][1], ProgramPreferences.Limits[param][rangemax][2]
+local function CalcFineLimit(param, lr_low, lr_max, lr_value)
+  if LimitParameters[param] ~= nil and type(ProgramPreferences.Limits[param]) == 'table' and type(ProgramPreferences.Limits[param][lr_max]) == 'table' then
+    lr_low = ProgramPreferences.Limits[param][lr_max][1] -- use preset limits as range if available
+    lr_max = ProgramPreferences.Limits[param][lr_max][2]
+  end
+  local lr_width = (lr_max - lr_low) / Fineness
+  local lr_halfwidth = lr_width / 2
+  local span = {lr_value - lr_halfwidth, lr_value + lr_halfwidth}
+  if span[1] < lr_low then
+    FineLimits[param] = {lr_low, lr_low + lr_width}
+    return
+  end
+  if span[2] > lr_max then
+    FineLimits[param] = {lr_max - lr_width, lr_max}
+    return
+  end
+  FineLimits[param] = span
+end
+--------------------------------------------------------------------------------
+-- Provides min and max for given parameter and mode. Must be called in Develop
+-- module with photo selected. When this function is called with fineness active,
+-- it also ensures that the fineness bounds enclose current LR value for parameter.
+-- So any time this is called, fineness values are properly fixed.
+-- @param param Which parameter is being adjusted.
+-- @param lr_value optional: LR value when in fine mode if already known
+-- @param ignorefineness optional: true if ignore fineness (used for limits dialog)
+-- @return lr_min for given param and mode.
+-- @return lr_max for given param and mode.
+--------------------------------------------------------------------------------
+local function GetMinMax(param, lr_value, ignorefineness)
+  if Fineness == nil or ignorefineness then
+    local lr_low,lr_max = LrDevelopController.getRange(param)
+    if LimitParameters[param] then --should have limits
+      if type(ProgramPreferences.Limits[param]) == 'table' and lr_max ~= nil then -- B&W picture may not have temperature, tint. This avoids indexing a nil rangemax and blowing up the metatable _index
+        if type(ProgramPreferences.Limits[param][lr_max]) == 'table' then
+          return ProgramPreferences.Limits[param][lr_max][1], ProgramPreferences.Limits[param][lr_max][2]
+        else
+          ProgramPreferences.Limits[param][lr_max] = {lr_low, lr_max}
+        end
       else
-        ProgramPreferences.Limits[param][rangemax] = {low, rangemax}
+        ProgramPreferences.Limits[param] = {param = param,
+          label = Database.CmdTrans[param][Database.LatestPVSupported],
+          rangemax = {lr_low,lr_max}}
       end
+    end
+    return lr_low, lr_max
+  else --getminmax when fineness in effect, recalc limits if lr value outside of finelimits or limits missing
+    lr_value = lr_value or LrDevelopController.getValue(param)
+    if FineLimits[param] ~= nil and FineLimits[param][1] <= lr_value and FineLimits[param][2] >= lr_value then
+      return FineLimits[param][1], FineLimits[param][2]
     else
-      ProgramPreferences.Limits[param] = {param = param,
-        label = Database.CmdTrans[param][Database.LatestPVSupported],
-        rangemax = {low,rangemax}}
+      local low,rangemax = LrDevelopController.getRange(param)
+      if rangemax and lr_value and low then -- return nil if values don't exist
+        CalcFineLimit(param, low, rangemax, lr_value)
+        return FineLimits[param][1], FineLimits[param][2]
+      end
     end
   end
-  return low, rangemax
 end
 
 --------------------------------------------------------------------------------
@@ -98,8 +146,8 @@ end
 -- @return nil.
 --------------------------------------------------------------------------------
 local function ClampValue(param)
-  local min, max = GetMinMax(param)
   local value = LrDevelopController.getValue(param)
+  local min, max = GetMinMax(param, value)
   if value < min then
     MIDI2LR.PARAM_OBSERVER[param] = min
     LrDevelopController.setValue(param, min)
@@ -110,35 +158,52 @@ local function ClampValue(param)
   return nil
 end
 
+local function MIDIValueToLRValue(param, midi_value)
+  -- must be called when in develop module with photo selected
+  -- map midi range to develop parameter range
+  -- expects midi_value 0.0-1.0, doesn't protect against out-of-range
+  local min,max = GetMinMax(param)
+  return midi_value * (max-min) + min
+end
+
+local function LRValueToMIDIValue(param, lr_value) -- lr_value optional
+  -- needs to be called in Develop module with photo selected
+  -- map develop parameter range to midi range
+  lr_value = lr_value or LrDevelopController.getValue(param)
+  local min,max = GetMinMax(param,lr_value)
+  local retval = (lr_value-min)/(max-min)
+  if retval > 1 then return 1 end
+  if retval < 0 then return 0 end
+  return retval
+end
+
 local function RefreshMidiController()
   if (LrApplication.activeCatalog():getTargetPhoto() == nil) or (LrApplicationView.getCurrentModuleName() ~= 'develop') then
-   return
+    return
   end
   LrTasks.startAsyncTask (function ()
       --[[-----------debug section, enable by adding - to beginning this line
       LrMobdebug.on()
       --]]-----------end debug section
       local photoval = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
-      -- refresh crop values
-      local val_bottom = photoval.CropBottom
-      MIDI2LR.SERVER:send(string.format('CropBottomRight %g\n', val_bottom))
-      MIDI2LR.SERVER:send(string.format('CropBottomLeft %g\n', val_bottom))
-      MIDI2LR.SERVER:send(string.format('CropAll %g\n', val_bottom))
-      MIDI2LR.SERVER:send(string.format('CropBottom %g\n', val_bottom))
-      local val_top = photoval.CropTop
-      MIDI2LR.SERVER:send(string.format('CropTopRight %g\n', val_top))
-      MIDI2LR.SERVER:send(string.format('CropTopLeft %g\n', val_top))
-      MIDI2LR.SERVER:send(string.format('CropTop %g\n', val_top))
-      local val_left = photoval.CropLeft
-      local val_right = photoval.CropRight
-      MIDI2LR.SERVER:send(string.format('CropLeft %g\n', val_left))
-      MIDI2LR.SERVER:send(string.format('CropRight %g\n', val_right))
+      -- refresh crop values NOTE: this function is repeated in Client
+      local val_bottom = LrDevelopController.getValue("CropBottom")
+      local midi_val_bottom = LRValueToMIDIValue('CropBottom',val_bottom)
+      MIDI2LR.SERVER:send(string.format('CropBottomRight %g\nCropBottomLeft %g\nCropAll %g\n', midi_val_bottom, midi_val_bottom, midi_val_bottom))
+      LrTasks.yield()
+      local val_top = LrDevelopController.getValue("CropTop")
+      local midi_val_top = LRValueToMIDIValue('CropTop',val_top)
+      MIDI2LR.SERVER:send(string.format('CropTopRight %g\nCropTopLeft %g\n', midi_val_top, midi_val_top))
+      LrTasks.yield()
+      local val_left = LrDevelopController.getValue("CropLeft")
+      local val_right = LrDevelopController.getValue("CropRight")
       local range_v = (1 - (val_bottom - val_top))
       if range_v == 0.0 then
         MIDI2LR.SERVER:send('CropMoveVertical 0\n')
       else
         MIDI2LR.SERVER:send(string.format('CropMoveVertical %g\n', val_top / range_v))
       end
+      LrTasks.yield()
       local range_h = (1 - (val_right - val_left))
       if range_h == 0.0 then
         MIDI2LR.SERVER:send('CropMoveHorizontal 0\n')
@@ -148,7 +213,6 @@ local function RefreshMidiController()
       local sel_mask = LrDevelopController.getSelectedMask()
       for param,altparam in pairs(Database.Parameters) do
         LrTasks.yield()
-        local min,max = GetMinMax(param)
         local lrvalue
         if altparam == 'Direct' then
           if (param:sub(1,6) ~= 'local_') or sel_mask then lrvalue = LrDevelopController.getValue(param) end
@@ -161,6 +225,7 @@ local function RefreshMidiController()
             lrvalue = 0
           end
         end
+        local min,max = GetMinMax(param,lrvalue)
         if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
           local midivalue = (lrvalue-min)/(max-min)
           if midivalue >= 1.0 then
@@ -174,6 +239,52 @@ local function RefreshMidiController()
       end
     end
   )
+end
+
+--------------------------------------------------------------------------------
+-- Changes fineness parameter and resets table. Must be called in develop module
+-- @param param Amount of fineness.
+-- @param tested true if LimitsCanBeSet already called
+-- @return nil.
+--------------------------------------------------------------------------------
+local fine_off = LOC('$$$/AgCameraRaw/LocalizedCorrections/LocalHue/FineAdjustment=Fine correction')..' '..LOC('$$$/TouchWorkspace/Adjustments/Off=Off')
+local function Fine(value, tested)
+  if tested or LimitsCanBeSet() then
+    if Fineness == nil or Fineness ~= value then
+      Fineness = value
+    else
+      Fineness = nil
+    end
+    FineLimits = {}
+    RefreshMidiController()
+  end
+  if ProgramPreferences.ClientShowBezelOnChange then
+    if Fineness then
+      LrDialogs.showBezel(LOC('$$$/AgCameraRaw/LocalizedCorrections/LocalHue/FineAdjustment=Fine correction')..' '..Fineness..'×')
+    else
+      LrDialogs.showBezel(fine_off)
+    end
+  end
+end
+
+local function FineDecrease()
+  if Fineness ~= nil and LimitsCanBeSet() then
+    if Fineness == 2 then
+      Fine(nil, true)
+    else
+      Fine(Fineness / 2, true)
+    end
+  end
+end
+
+local function FineIncrease()
+  if LimitsCanBeSet() then
+    if Fineness ~= nil then
+      Fine(Fineness * 2, true)
+    else
+      Fine(2, true)
+    end
+  end
 end
 
 --------------------------------------------------------------------------------
@@ -239,7 +350,7 @@ end
 local function StartDialog(obstable,f)
   if LimitsCanBeSet() then
     for _,p in ipairs(DisplayOrder) do
-      local min,max = GetMinMax(p)
+      local min,max = GetMinMax(p,nil,true)--ignore fineness for getminmax for dialog purposes
       obstable['Limits'..p..'Low'] = min
       obstable['Limits'..p..'High'] = max
     end
@@ -267,6 +378,9 @@ end
 return {
   ClampValue  = ClampValue,
   EndDialog   = EndDialog,
+  Fine           = Fine,
+  FineDecrease   = FineDecrease,
+  FineIncrease   = FineIncrease,
   GetMinMax   = GetMinMax,
   LimitsCanBeSet = LimitsCanBeSet,
   Parameters  = LimitParameters,

@@ -325,30 +325,30 @@ local function fApplyFilter(filternumber)
 end
 --see AppData\Roaming\Adobe\Lightroom\Filter Presets\Filters Off.lrtemplate
 local nofilter = { --version = 2
-		columnBrowserActive = false,
-		customLabel = false,
-		datePreset = "all",
-		dateSearchActive = false,
-		filtersActive = false,
-		label1 = false,
-		label2 = false,
-		label3 = false,
-		label4 = false,
-		label5 = false,
-		labelOp = "any",
-		--minRating = "<nil>",
-		noLabel = false,
-		--pick = "<nil>",
-		--edit = "<nil>",
-		ratingOp = ">=",
-		searchOp = "all",
-		searchString = "",
-		searchStringActive = false,
-		searchTarget = "all",
-		--usage = "<nil>",
-		--whichCopies = "<nil>",
-		visualSearchActive = false,
-	}
+  columnBrowserActive = false,
+  customLabel = false,
+  datePreset = "all",
+  dateSearchActive = false,
+  filtersActive = false,
+  label1 = false,
+  label2 = false,
+  label3 = false,
+  label4 = false,
+  label5 = false,
+  labelOp = "any",
+  --minRating = "<nil>",
+  noLabel = false,
+  --pick = "<nil>",
+  --edit = "<nil>",
+  ratingOp = ">=",
+  searchOp = "all",
+  searchString = "",
+  searchStringActive = false,
+  searchTarget = "all",
+  --usage = "<nil>",
+  --whichCopies = "<nil>",
+  visualSearchActive = false,
+}
 
 local function RemoveFilters()
   LrApplication.activeCatalog():setViewFilter(nofilter)
@@ -491,11 +491,12 @@ local function MIDIValueToLRValue(param, midi_value)
   return midi_value * (max-min) + min
 end
 
-local function LRValueToMIDIValue(param)
+local function LRValueToMIDIValue(param, lr_value) -- lr_value optional
   -- needs to be called in Develop module with photo selected
   -- map develop parameter range to midi range
-  local min,max = Limits.GetMinMax(param)
-  local retval = (LrDevelopController.getValue(param)-min)/(max-min)
+  lr_value = lr_value or LrDevelopController.getValue(param)
+  local min,max = Limits.GetMinMax(param,lr_value)
+  local retval = (lr_value-min)/(max-min)
   if retval > 1 then return 1 end
   if retval < 0 then return 0 end
   return retval
@@ -797,7 +798,7 @@ if LrLocalization.currentLanguage() == 'fr' then
   pct = ' %'
 end
 
-local function RatioCrop(param, value, UpdateParam)
+local function RatioCrop(param, midi_value, UpdateParam)
   if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   if LrApplicationView.getCurrentModuleName() ~= 'develop' then
     LrApplicationView.switchToModule('develop')
@@ -809,47 +810,55 @@ local function RatioCrop(param, value, UpdateParam)
   local prior_c_right = LrDevelopController.getValue("CropRight") -- starts at 1
   local ratio = (prior_c_right - prior_c_left) / (prior_c_bottom - prior_c_top)
   if param == "CropTopLeft" then
-    local new_top = tonumber(value)
+    local new_top = MIDIValueToLRValue('CropTop',midi_value)
     local new_left = prior_c_right - ratio * (prior_c_bottom - new_top)
     if new_left < 0 then
       new_top = prior_c_bottom - prior_c_right / ratio
       new_left = 0
     end
-    UpdateParam("CropTop",new_top,
+    if UpdateParam("CropTop",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(prior_c_bottom-new_top)*100,0)..pct)
-    UpdateParam("CropLeft",new_left,true)
+    then
+      UpdateParam("CropLeft",LRValueToMIDIValue(new_left),true,true)
+    end
   elseif param == "CropTopRight" then
-    local new_top = tonumber(value)
+    local new_top = MIDIValueToLRValue('CropTop',midi_value)
     local new_right = prior_c_left + ratio * (prior_c_bottom - new_top)
     if new_right > 1 then
       new_top = prior_c_bottom - (1 - prior_c_left) / ratio
       new_right = 1
     end
-    UpdateParam("CropTop",new_top,
+    if UpdateParam("CropTop",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(prior_c_bottom-new_top)*100,0)..pct)
-    UpdateParam("CropRight",new_right,true)
+    then
+      UpdateParam("CropRight",LRValueToMIDIValue(new_right),true,true)
+    end
   elseif param == "CropBottomLeft" then
-    local new_bottom = tonumber(value)
+    local new_bottom = MIDIValueToLRValue('CropBottom',midi_value)
     local new_left = prior_c_right - ratio * (new_bottom - prior_c_top)
     if new_left < 0 then
       new_bottom = prior_c_right / ratio + prior_c_top
       new_left = 0
     end
-    UpdateParam("CropBottom",new_bottom,
+    if UpdateParam("CropBottom",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(new_bottom-prior_c_top)*100,0)..pct)
-    UpdateParam("CropLeft",new_left,true)
+    then
+      UpdateParam("CropLeft",LRValueToMIDIValue(new_left),true,true)
+    end
   elseif param == "CropBottomRight" then
-    local new_bottom = tonumber(value)
+    local new_bottom = MIDIValueToLRValue('CropBottom',midi_value)
     local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
     if new_right > 1 then
       new_bottom = (1 - prior_c_left) / ratio + prior_c_top
       new_right = 1
     end
-    UpdateParam("CropBottom",new_bottom,
+    if UpdateParam("CropBottom",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(new_bottom-prior_c_top)*100,0)..pct)
-    UpdateParam("CropRight",new_right,true)
+    then
+      UpdateParam("CropRight",LRValueToMIDIValue(new_right),true,true)
+    end
   elseif param == "CropAll" then
-    local new_bottom = tonumber(value)
+    local new_bottom = MIDIValueToLRValue('CropBottom',midi_value)
     local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
     if new_right > 1 then
       new_right = 1
@@ -860,21 +869,25 @@ local function RatioCrop(param, value, UpdateParam)
       new_top = new_bottom - new_right / ratio
       new_left = 0
     end
-    UpdateParam("CropBottom",new_bottom,
+    UpdateParam("CropBottom",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-new_left)*(new_bottom-new_top)*100,0)..pct)
-    UpdateParam("CropRight",new_right,true)
-    UpdateParam("CropTop",new_top,true)
-    UpdateParam("CropLeft",new_left,true)
+    UpdateParam("CropRight",LRValueToMIDIValue(new_right),true)
+    UpdateParam("CropTop",LRValueToMIDIValue(new_top),true)
+    UpdateParam("CropLeft",LRValueToMIDIValue(new_left),true)
   elseif param == "CropMoveVertical" then
-    local new_top = (1 - (prior_c_bottom - prior_c_top)) * tonumber(value)
+    local new_top = (1 - (prior_c_bottom - prior_c_top)) * tonumber(midi_value)
     local new_bottom = new_top - prior_c_top + prior_c_bottom
-    UpdateParam("CropBottom",new_bottom,true)
-    UpdateParam("CropTop", new_top)
+    if UpdateParam("CropBottom",LRValueToMIDIValue(new_bottom),true)
+    then
+      UpdateParam("CropTop", LRValueToMIDIValue(new_top),nil,true)
+    end
   elseif param == "CropMoveHorizontal" then
-    local new_left = (1 - (prior_c_right - prior_c_left)) * tonumber(value)
+    local new_left = (1 - (prior_c_right - prior_c_left)) * tonumber(midi_value)
     local new_right = new_left - prior_c_left + prior_c_right
-    UpdateParam("CropLeft",new_left,true)
-    UpdateParam("CropRight", new_right)
+    if UpdateParam("CropLeft",LRValueToMIDIValue(new_left),true)
+    then
+      UpdateParam("CropRight", LRValueToMIDIValue(new_right,nil,true)
+    end
   end
 end
 
