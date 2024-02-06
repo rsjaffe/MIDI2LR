@@ -62,12 +62,16 @@ void VersionChecker::handleAsyncUpdate()
       if (result) {
          if (juce::URL("https://github.com/rsjaffe/MIDI2LR/releases")
                  .launchInDefaultBrowser()) { /* successfully opened browser */
+#ifndef MIDI2LR_BETA
             settings_manager_.SetLastVersionFound(new_version_);
+#endif
          }
       }
+#ifndef MIDI2LR_BETA
       else { /* user doesn't want it, don't show again */
          settings_manager_.SetLastVersionFound(new_version_);
       }
+#endif
    }};
    /*                                                                       */
    try {
