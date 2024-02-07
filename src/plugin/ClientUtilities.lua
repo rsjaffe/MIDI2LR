@@ -884,9 +884,8 @@ local function RatioCrop(param, midi_value, UpdateParam)
   elseif param == "CropMoveHorizontal" then
     local new_left = (1 - (prior_c_right - prior_c_left)) * tonumber(midi_value)
     local new_right = new_left - prior_c_left + prior_c_right
-    if UpdateParam("CropLeft",LRValueToMIDIValue(new_left),true)
-    then
-      UpdateParam("CropRight", LRValueToMIDIValue(new_right,nil,true)
+    if UpdateParam("CropLeft",LRValueToMIDIValue(new_left),true) then
+      UpdateParam("CropRight", LRValueToMIDIValue(new_right),nil,true)
     end
   end
 end
