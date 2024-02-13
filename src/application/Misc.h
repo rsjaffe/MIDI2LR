@@ -116,12 +116,12 @@ namespace rsj {
    [[nodiscard]] std::wstring AppDataFilePath(std::wstring_view file_name);
    [[nodiscard]] std::wstring AppDataFilePath(std::string_view file_name);
 
-   [[nodiscard]] inline std::wstring AppLogFilePath(const std::wstring& file_name)
+   [[nodiscard]] inline std::wstring AppLogFilePath(std::wstring_view file_name)
    {
       return AppDataFilePath(file_name);
    }
 
-   [[nodiscard]] inline std::wstring AppLogFilePath(const std::string& file_name)
+   [[nodiscard]] inline std::wstring AppLogFilePath(std::string_view file_name)
    {
       return AppDataFilePath(file_name);
    }
