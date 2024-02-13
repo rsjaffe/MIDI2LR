@@ -53,8 +53,8 @@ namespace
     {
         jassert (family != nullptr);
         ComSmartPtr<IDWriteLocalizedStrings> familyNames;
-        auto hr = family->GetFamilyNames (familyNames.resetAndGetPointerAddress());
-        jassertquiet (SUCCEEDED (hr));
+        [[maybe_unused]] auto hr = family->GetFamilyNames (familyNames.resetAndGetPointerAddress());
+        jassert (SUCCEEDED (hr));
         return getLocalisedName (familyNames);
     }
 
@@ -62,8 +62,8 @@ namespace
     {
         jassert (font != nullptr);
         ComSmartPtr<IDWriteLocalizedStrings> faceNames;
-        auto hr = font->GetFaceNames (faceNames.resetAndGetPointerAddress());
-        jassertquiet (SUCCEEDED (hr));
+        [[maybe_unused]] auto hr = font->GetFaceNames (faceNames.resetAndGetPointerAddress());
+        jassert (SUCCEEDED (hr));
         return getLocalisedName (faceNames);
     }
 
@@ -142,7 +142,7 @@ private:
 };
 
 //==============================================================================
-class WindowsDirectWriteTypeface  : public Typeface
+class WindowsDirectWriteTypeface final : public Typeface
 {
 public:
     WindowsDirectWriteTypeface (const Font& font, IDWriteFontCollection* fontCollection)
@@ -212,11 +212,11 @@ public:
     bool loadedOk() const noexcept          { return dwFontFace != nullptr; }
     BOOL isFontFound() const noexcept       { return fontFound; }
 
-    float getAscent() const                 { return ascent; }
-    float getDescent() const                { return 1.0f - ascent; }
-    float getHeightToPointsFactor() const   { return heightToPointsFactor; }
+    float getAscent() const                 override { return ascent; }
+    float getDescent() const                override { return 1.0f - ascent; }
+    float getHeightToPointsFactor() const   override { return heightToPointsFactor; }
 
-    float getStringWidth (const String& text)
+    float getStringWidth (const String& text) override
     {
         auto textUTF32 = text.toUTF32();
         auto len = textUTF32.length();
@@ -235,7 +235,7 @@ public:
         return x * unitsToHeightScaleFactor;
     }
 
-    void getGlyphPositions (const String& text, Array<int>& resultGlyphs, Array<float>& xOffsets)
+    void getGlyphPositions (const String& text, Array<int>& resultGlyphs, Array<float>& xOffsets) override
     {
         xOffsets.add (0);
 
@@ -257,7 +257,7 @@ public:
         }
     }
 
-    bool getOutlineForGlyph (int glyphNumber, Path& path)
+    bool getOutlineForGlyph (int glyphNumber, Path& path) override
     {
         jassert (path.isEmpty());  // we might need to apply a transform to the path, so this must be empty
         auto glyphIndex = (UINT16) glyphNumber;
@@ -285,7 +285,7 @@ private:
     AffineTransform pathTransform;
     BOOL fontFound = false;
 
-    struct PathGeometrySink  : public ComBaseClassHelper<IDWriteGeometrySink>
+    struct PathGeometrySink final : public ComBaseClassHelper<IDWriteGeometrySink>
     {
         PathGeometrySink() : ComBaseClassHelper (0) {}
 

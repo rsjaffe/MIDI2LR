@@ -20,9 +20,7 @@
   ==============================================================================
 */
 
-namespace juce
-{
-namespace universal_midi_packets
+namespace juce::universal_midi_packets
 {
 
 constexpr uint8_t  operator""_u8  (unsigned long long int i) { return static_cast<uint8_t>  (i); }
@@ -30,7 +28,7 @@ constexpr uint16_t operator""_u16 (unsigned long long int i) { return static_cas
 constexpr uint32_t operator""_u32 (unsigned long long int i) { return static_cast<uint32_t> (i); }
 constexpr uint64_t operator""_u64 (unsigned long long int i) { return static_cast<uint64_t> (i); }
 
-class UniversalMidiPacketTests : public UnitTest
+class UniversalMidiPacketTests final : public UnitTest
 {
 public:
     UniversalMidiPacketTests()
@@ -991,21 +989,11 @@ private:
         }
     }
 
-   #if JUCE_WINDOWS && ! JUCE_MINGW
-    #define JUCE_CHECKED_ITERATOR(msg, size) \
-        stdext::checked_array_iterator<std::remove_reference_t<decltype (msg)>> ((msg), (size_t) (size))
-   #else
-    #define JUCE_CHECKED_ITERATOR(msg, size) (msg)
-   #endif
-
     static bool equal (const MidiMessage& a, const MidiMessage& b) noexcept
     {
         return a.getRawDataSize() == b.getRawDataSize()
-               && std::equal (a.getRawData(), a.getRawData() + a.getRawDataSize(),
-                              JUCE_CHECKED_ITERATOR (b.getRawData(), b.getRawDataSize()));
+               && std::equal (a.getRawData(), a.getRawData() + a.getRawDataSize(), b.getRawData());
     }
-
-    #undef JUCE_CHECKED_ITERATOR
 
     static bool equal (const MidiBuffer& a, const MidiBuffer& b) noexcept
     {
@@ -1015,5 +1003,4 @@ private:
 
 static UniversalMidiPacketTests universalMidiPacketTests;
 
-}
-}
+} // namespace juce::universal_midi_packets
