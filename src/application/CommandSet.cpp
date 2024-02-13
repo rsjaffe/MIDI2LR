@@ -38,7 +38,7 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
       rsj::Translate(m_impl_.language_); /* so UnassignedTranslated translated properly */
       const auto command_count {
           std::accumulate(m_impl_.allcommands_.begin(), m_impl_.allcommands_.end(), size_t {1},
-              [](size_t sum, const auto& pair) { return sum + pair.second.size(); }) + 1};
+              [](size_t sum, const auto& pair) { return sum + pair.second.size(); })};
       cmd_by_number_.reserve(command_count);
       cmd_label_by_number_.reserve(command_count);
       cmd_by_number_.push_back(kUnassigned);

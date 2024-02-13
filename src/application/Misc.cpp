@@ -134,9 +134,11 @@ void rsj::Log(const juce::String& info, const std::source_location& location) no
    try {
       if (juce::Logger::getCurrentLogger()) {
          juce::String localname {location.file_name()};
-         localname = localname.substring(localname.lastIndexOfChar('\\') + 1);
 #ifdef _WIN32
+         localname = localname.substring(localname.lastIndexOfChar('\\') + 1);
          auto last_error {wil::last_error_context()};
+#else
+         localname = localname.substring(localname.lastIndexOfChar('/') + 1);
 #endif
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ' ' + localname
                                   + '(' + juce::String(location.line()) + ") " + info);
