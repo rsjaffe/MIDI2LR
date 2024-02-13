@@ -89,7 +89,7 @@ namespace {
       return result;
    }
    catch (const ::std::exception& e) {
-      MIDI2LR_E_RESPONSE_F;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -106,7 +106,7 @@ namespace {
       return result;
    }
    catch (const ::std::exception& e) {
-      MIDI2LR_E_RESPONSE_F;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -128,7 +128,6 @@ void rsj::TrimL(::std::string_view& value) noexcept
 /*****************************************************************************/
 /**************Error Logging**************************************************/
 /*****************************************************************************/
-#ifdef __cpp_lib_source_location
 void rsj::Log(const juce::String& info, const std::source_location& location) noexcept
 {
    try {
@@ -215,95 +214,7 @@ void rsj::ExceptionResponse(const std::exception& e, const std::source_location&
    catch (...) { //-V565 //-V5002
    }
 }
-#else
-void rsj::Log(const juce::String& info) noexcept
-{
-   try {
-      if (juce::Logger::getCurrentLogger()) {
-#ifdef _WIN32
-         auto last_error {wil::last_error_context()};
-#endif
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + " " + info);
-      }
-   }
-   catch (...) { //-V565
-   }
-}
 
-void rsj::Log(gsl::czstring info) noexcept
-{
-   try {
-      if (juce::Logger::getCurrentLogger()) {
-#ifdef _WIN32
-         auto last_error {wil::last_error_context()};
-#endif
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + " "
-                                  + juce::String::fromUTF8(info));
-      }
-   }
-   catch (...) { //-V565
-   }
-}
-
-void rsj::Log(gsl::cwzstring info) noexcept
-{
-   try {
-      if (juce::Logger::getCurrentLogger()) {
-#ifdef _WIN32
-         auto last_error {wil::last_error_context()};
-#endif
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + " " + info);
-      }
-   }
-   catch (...) { //-V565
-   }
-}
-
-void rsj::LogAndAlertError(const juce::String& error_text) noexcept
-{
-   try {
-      {
-         juce::MessageManager::callAsync([=] {
-            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
-                juce::translate("Error"), error_text);
-         });
-      }
-      rsj::Log(error_text);
-   }
-   catch (...) { //-V565
-   }
-}
-
-void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& error_text) noexcept
-{
-   try {
-      {
-         juce::MessageManager::callAsync([=] {
-            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
-                juce::translate("Error"), alert_text);
-         });
-      }
-      rsj::Log(error_text);
-   }
-   catch (...) { //-V565
-   }
-}
-
-void rsj::LogAndAlertError(gsl::czstring error_text) noexcept
-{
-   try {
-      {
-         juce::MessageManager::callAsync([=] {
-            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
-                juce::translate("Error"), error_text);
-         });
-      }
-      rsj::Log(error_text);
-   }
-   catch (...) { //-V565
-   }
-}
-#endif
 #pragma warning(push)
 #pragma warning(disable : 26447)
 #if defined(__GNUC__) || defined(__clang__)

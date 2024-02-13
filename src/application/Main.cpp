@@ -93,7 +93,7 @@ namespace {
             });
          }
          catch (const std::exception& e) {
-            MIDI2LR_E_RESPONSE;
+            rsj::ExceptionResponse(e);
          }
          catch (...) {
             rsj::Log("Unable to set up wil logger.");
@@ -108,7 +108,7 @@ namespace {
             wil::SetResultLoggingCallback(nullptr);
          }
          catch (const std::exception& e) {
-            MIDI2LR_E_RESPONSE;
+            rsj::ExceptionResponse(e);
          }
          catch (...) {
             rsj::Log("Unable to reset wil logging callback.");
@@ -217,7 +217,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE;
+         rsj::ExceptionResponse(e);
          throw;
       }
    }
@@ -255,7 +255,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          });
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE;
+         rsj::ExceptionResponse(e);
          throw;
       }
    }
@@ -371,7 +371,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
              profile_file.getFullPathName().toStdString()));
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE;
+         rsj::ExceptionResponse(e);
       }
    }
 
@@ -392,7 +392,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE;
+         rsj::ExceptionResponse(e);
       }
    }
 
@@ -409,7 +409,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE;
+         rsj::ExceptionResponse(e);
          throw;
       }
    }
@@ -436,7 +436,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          if (!bold_font_name.empty()) { LoadFont(bold_font_name, false); }
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE;
+         rsj::ExceptionResponse(e);
       }
    }
 

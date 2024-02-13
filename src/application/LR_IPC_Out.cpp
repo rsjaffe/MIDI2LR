@@ -85,7 +85,7 @@ void LrIpcOut::SendingRestart()
       SendCommand("FullRefresh 1\n"); /* synchronize controls */
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -98,7 +98,7 @@ void LrIpcOut::SendingStop()
       for (const auto& cb : callbacks_) { cb(connected_, true); }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -158,7 +158,7 @@ void LrIpcOut::Connect(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
           });
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -174,7 +174,7 @@ void LrIpcOut::ConnectionMade()
       rsj::Log("Socket connected in LR_IPC_Out.");
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -186,7 +186,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
       if (profile_.MessageExistsInMap(message)) { ProcessMessage(message, mm); }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -262,7 +262,7 @@ void LrIpcOutShared::SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
       });
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE_F;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -280,7 +280,7 @@ void LrIpcOut::SetRecenter(rsj::MidiMessageId mm)
       });
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

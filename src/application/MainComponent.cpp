@@ -69,7 +69,7 @@ try : ResizableLayout{this}, command_table_model_(command_set, profile), lr_ipc_
 }
 
 catch (const std::exception& e) {
-   MIDI2LR_E_RESPONSE;
+   rsj::ExceptionResponse(e);
    throw;
 }
 
@@ -87,7 +87,7 @@ namespace {
          label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE;
+         rsj::ExceptionResponse(e);
          throw;
       }
    }
@@ -277,7 +277,7 @@ void MainContentComponent::Init()
       activateLayout();
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -301,7 +301,7 @@ void MainContentComponent::paint(juce::Graphics& g)
       g.fillAll(juce::Colours::white);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -319,7 +319,7 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
       triggerAsyncUpdate();
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -332,7 +332,7 @@ void MainContentComponent::UpdateConnectionLabel(const char* text, const juce::C
       connection_label_.setColour(juce::Label::backgroundColourId, colour);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -352,7 +352,7 @@ void MainContentComponent::LrIpcOutCallback(const bool connected, const bool sen
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -373,7 +373,7 @@ void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element,
       lr_ipc_out_.SendCommand("FullRefresh 1\n");
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -390,7 +390,7 @@ void MainContentComponent::handleAsyncUpdate()
       command_table_.selectRow(gsl::narrow_cast<int>(row_to_select_));
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -403,7 +403,7 @@ void MainContentComponent::timerCallback()
       juce::Timer::stopTimer();
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

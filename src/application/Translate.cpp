@@ -69,7 +69,7 @@ void rsj::Translate(const std::string& lg)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE_F;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

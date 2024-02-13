@@ -90,7 +90,7 @@ class CommandSet {
             }
          }
          catch (const std::exception& e) {
-            MIDI2LR_E_RESPONSE;
+            rsj::ExceptionResponse(e);
             throw;
          }
       }

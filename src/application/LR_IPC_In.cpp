@@ -82,7 +82,7 @@ void LrIpcIn::Start()
       Connect(lr_ipc_in_shared_);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -118,7 +118,7 @@ void LrIpcIn::Stop()
    }
 
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -144,7 +144,7 @@ void LrIpcIn::Connect(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       });
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -217,7 +217,7 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -254,7 +254,7 @@ void LrIpcInShared::Read(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE_F;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

@@ -47,7 +47,7 @@ void MidiReceiver::Start()
       });
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -75,7 +75,7 @@ void MidiReceiver::RescanDevices()
       rsj::Log("Cleared input devices.");
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
    InitDevices(); /* initdevices has own try catch block */
@@ -101,7 +101,7 @@ void MidiReceiver::TryToOpen()
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -128,7 +128,7 @@ void MidiReceiver::InitDevices()
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -148,7 +148,7 @@ void MidiReceiver::DispatchCcMessage(const std::pair<rsj::MidiMessage, juce::Mid
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -160,7 +160,7 @@ void MidiReceiver::DispatchNoteOnPwMessage(
       for (const auto& cb : callbacks_) { cb(popped.first); }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -190,7 +190,7 @@ void MidiReceiver::DispatchMessages()
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

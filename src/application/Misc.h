@@ -19,16 +19,13 @@
 
 #include <exception>
 #include <limits>
+#include <source_location>
 #include <string>
 #include <string_view>
 
 #include <gsl/gsl>
 
 #include <juce_core/juce_core.h>
-
-#ifdef __cpp_lib_source_location
-#include <source_location>
-#endif
 
 #ifdef NDEBUG /* asserts disabled */
 constexpr bool kNdebug {true};
@@ -97,7 +94,6 @@ namespace rsj {
    /* char* overloads here are to allow catch clauses to avoid a juce::String conversion at the
     * caller location, thus avoiding a potential exception in the catch clause. string_view
     * overloads not used because those are ambiguous with the String versions. */
-#ifdef __cpp_lib_source_location
    void ExceptionResponse(const std::exception& e,
        const std::source_location& location = std::source_location::current()) noexcept;
    void LogAndAlertError(const juce::String& error_text,
@@ -112,18 +108,7 @@ namespace rsj {
        const std::source_location& location = std::source_location::current()) noexcept;
    void Log(gsl::cwzstring info,
        const std::source_location& location = std::source_location::current()) noexcept;
-#define MIDI2LR_E_RESPONSE   rsj::ExceptionResponse(e)
-#define MIDI2LR_E_RESPONSE_F rsj::ExceptionResponse(e)
-#else
-   void LogAndAlertError(const juce::String& error_text) noexcept;
-   void LogAndAlertError(const juce::String& alert_text, const juce::String& error_text) noexcept;
-   void LogAndAlertError(gsl::czstring error_text) noexcept;
-   void Log(const juce::String& info) noexcept;
-   void Log(gsl::czstring info) noexcept;
-   void Log(gsl::cwzstring info) noexcept;
-#define MIDI2LR_E_RESPONSE   rsj::ExceptionResponse(typeid(this).name(), MIDI2LR_FUNC, e)
-#define MIDI2LR_E_RESPONSE_F rsj::ExceptionResponse(__func__, MIDI2LR_FUNC, e)
-#endif
+
    /*****************************************************************************/
    /*************File Paths******************************************************/
    /*****************************************************************************/

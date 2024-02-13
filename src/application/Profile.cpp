@@ -75,7 +75,7 @@ void Profile::FromXml(const juce::XmlElement* root)
       profile_unsaved_ = false;
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -96,7 +96,7 @@ std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string
       return mm;
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -113,7 +113,7 @@ void Profile::InsertOrAssignI(const std::string& command, const rsj::MidiMessage
       profile_unsaved_ = true;
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -129,7 +129,7 @@ void Profile::InsertUnassigned(rsj::MidiMessageId message)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -145,7 +145,7 @@ void Profile::RemoveAllRows()
       profile_unsaved_ = false;
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -166,7 +166,7 @@ void Profile::RemoveMessage(rsj::MidiMessageId message)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -179,7 +179,7 @@ void Profile::RemoveRow(const size_t row)
       profile_unsaved_ = true;
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -194,7 +194,7 @@ void Profile::RemoveUnassignedMessages()
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -207,7 +207,7 @@ void Profile::Resort(const std::pair<int, bool> new_order)
       SortI();
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -231,7 +231,7 @@ void Profile::SortI()
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -287,7 +287,7 @@ void Profile::ToXmlFile(const juce::File& file)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

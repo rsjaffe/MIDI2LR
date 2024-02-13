@@ -84,7 +84,7 @@ void VersionChecker::handleAsyncUpdate()
           nullptr, juce::ModalCallbackFunction::create(response));
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
    }
 }
 
@@ -134,6 +134,6 @@ void VersionChecker::Run() noexcept
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
    }
 }

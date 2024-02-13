@@ -32,7 +32,7 @@ try : TextButtonAligned{CommandSet::UnassignedTranslated()}, command_set_(comman
 }
 
 catch (const std::exception& e) {
-   MIDI2LR_E_RESPONSE;
+   rsj::ExceptionResponse(e);
    throw;
 }
 
@@ -133,7 +133,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

@@ -60,7 +60,7 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -81,7 +81,7 @@ CommandSet::Impl::Impl()
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -93,7 +93,7 @@ const CommandSet::Impl& CommandSet::MakeImpl() const
       return kImpl;
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -111,7 +111,7 @@ size_t CommandSet::CommandTextIndex(const std::string& command) const
       return 0;
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

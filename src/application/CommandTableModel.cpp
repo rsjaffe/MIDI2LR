@@ -86,7 +86,7 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
       g.drawText(messageText, 0, 0, width, height, juce::Justification::centredLeft);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -102,7 +102,7 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/,
       if (row_is_selected) { g.fillAll(juce::Colours::lightblue); }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -156,7 +156,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, cons
       return UpdateCommandMenu(row_number, command_select);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -168,7 +168,7 @@ void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forward
       profile_.Resort(current_sort);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

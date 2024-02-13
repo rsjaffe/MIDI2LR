@@ -40,7 +40,7 @@ namespace {
    HWND h_lr_wnd {nullptr};
    std::once_flag of_getlanguage;
 
-BOOL CALLBACK EnumWindowsProc(const _In_ HWND hwnd, [[maybe_unused]] const _In_ LPARAM l_param)
+   BOOL CALLBACK EnumWindowsProc(const _In_ HWND hwnd, [[maybe_unused]] const _In_ LPARAM l_param)
    {
       if (!IsWindowVisible(hwnd)) { return TRUE; }
       std::array<WCHAR, 500> buffer {};
@@ -94,7 +94,7 @@ BOOL CALLBACK EnumWindowsProc(const _In_ HWND hwnd, [[maybe_unused]] const _In_ 
              rsj::ActiveModifiers::FromWindows(HIBYTE(vk_code_and_shift))};
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE_F;
+         rsj::ExceptionResponse(e);
          throw;
       }
       catch (...) {
@@ -127,7 +127,7 @@ BOOL CALLBACK EnumWindowsProc(const _In_ HWND hwnd, [[maybe_unused]] const _In_ 
                              == 0);
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE_F;
+         rsj::ExceptionResponse(e);
          throw;
       }
       catch (...) {
