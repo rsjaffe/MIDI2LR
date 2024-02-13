@@ -149,7 +149,7 @@ namespace {
             rsj::Log("Terminate called, no exception available.");
          }
       }
-      catch (...) { //-V565 //-V5002
+      catch (...) { //-V565 //-V5002  // NOLINT(bugprone-empty-catch)
       }
       std::_Exit(EXIT_FAILURE);
    }

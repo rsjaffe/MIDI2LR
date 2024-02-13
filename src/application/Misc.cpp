@@ -143,7 +143,7 @@ void rsj::Log(const juce::String& info, const std::source_location& location) no
                                   + '(' + juce::String(location.line()) + ") " + info);
       }
    }
-   catch (...) { //-V565 //-V5002
+   catch (...) { //-V565 //-V5002  // NOLINT(bugprone-empty-catch)
    }
 }
 
@@ -169,7 +169,7 @@ void rsj::LogAndAlertError(const juce::String& error_text,
       }
       rsj::Log(error_text, location);
    }
-   catch (...) { //-V565 //-V5002
+   catch (...) { //-V565 //-V5002  // NOLINT(bugprone-empty-catch)
    }
 }
 
@@ -185,7 +185,7 @@ void rsj::LogAndAlertError(const juce::String& alert_text, const juce::String& e
       }
       rsj::Log(error_text, location);
    }
-   catch (...) { //-V565 //-V5002
+   catch (...) { //-V565 //-V5002  // NOLINT(bugprone-empty-catch)
    }
 }
 
@@ -200,7 +200,7 @@ void rsj::LogAndAlertError(gsl::czstring error_text, const std::source_location&
       }
       rsj::Log(error_text, location);
    }
-   catch (...) { //-V565 //-V5002
+   catch (...) { //-V565 //-V5002  // NOLINT(bugprone-empty-catch)
    }
 }
 
@@ -211,7 +211,7 @@ void rsj::ExceptionResponse(const std::exception& e, const std::source_location&
       const auto error_text {std::string("Exception ") + e.what()};
       rsj::LogAndAlertError(alert_text, error_text, location);
    }
-   catch (...) { //-V565 //-V5002
+   catch (...) { //-V565 //-V5002  // NOLINT(bugprone-empty-catch)
    }
 }
 
@@ -227,7 +227,7 @@ void rsj::ExceptionResponse([[maybe_unused]] gsl::czstring id, gsl::czstring fu,
       const auto error_text {fmt::format(FMT_STRING("Exception {} {}."), e.what(), fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
-   catch (...) { //-V565
+   catch (...) { //-V565 //-V5002    // NOLINT(bugprone-empty-catch)
    }
 }
 #else
@@ -241,7 +241,7 @@ void rsj::ExceptionResponse(gsl::czstring id, gsl::czstring fu, const ::std::exc
       const auto error_text {fmt::format(FMT_STRING("Exception {} {}::{}."), e.what(), id, fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }
-   catch (...) { //-V565 //-V5002
+   catch (...) { //-V565 //-V5002   // NOLINT(bugprone-empty-catch)
    }
 }
 #endif
