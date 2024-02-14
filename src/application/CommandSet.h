@@ -116,6 +116,6 @@ class CommandSet {
 
 #pragma warning(push)
 #pragma warning(disable : 26426 26440 26444)
-CEREAL_CLASS_VERSION(CommandSet::Impl, 2)
+CEREAL_CLASS_VERSION(CommandSet::Impl, 2) //-V837
 #pragma warning(pop)
 #endif
