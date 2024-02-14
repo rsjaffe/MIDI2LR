@@ -602,6 +602,8 @@ LrTasks.startAsyncTask(
       QuickDevExpLargeDec             = CU.quickDevAdjust('Exposure',-50,'QuickDevExpLargeDec'),
       QuickDevExpSmall                = CU.quickDevAdjust('Exposure',16.5,'QuickDevExpSmall'),
       QuickDevExpSmallDec             = CU.quickDevAdjust('Exposure',-16.5,'QuickDevExpSmallDec'),
+      QuickDevExpSmHalf               = CU.quickDevAdjust('Exposure',8.25,'QuickDevExpSmHalf'),
+      QuickDevExpSmHalfDec            = CU.quickDevAdjust('Exposure',-8.25,'QuickDevExpSmHalfDec'),
       QuickDevHighlightsLarge         = CU.quickDevAdjust('Highlights',20,'QuickDevHighlightsLarge'),
       QuickDevHighlightsLargeDec      = CU.quickDevAdjust('Highlights',-20,'QuickDevHighlightsLargeDec'),
       QuickDevHighlightsSmall         = CU.quickDevAdjust('Highlights',5,'QuickDevHighlightsSmall'),
