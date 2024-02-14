@@ -201,9 +201,13 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
                 rsj::ReplaceInvisibleChars(line_copy)));
          }
          else { /* send associated messages to MIDI OUT devices */
+#ifdef _WIN32
             double original_value = 0.0;
             std::from_chars(value_view.data(), value_view.data() + value_view.size(),
                 original_value);
+#else  //Xcode doesn't support double from_chars yet (15.2)
+            const auto original_value {std::stod(std::string(value_view))};
+#endif
             const auto messages {profile_.GetMessagesForCommand(std::string(command_view))};
             for (const auto& msg : messages) {
                /* following needs to run for all controls: sets saved value */
