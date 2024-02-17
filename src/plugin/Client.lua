@@ -99,8 +99,8 @@ LrTasks.startAsyncTask(
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
     --local versions of global functions and tables, for speed
-    local LRValueToMIDIValue = CU.LRValueToMIDIValue
-    local MIDIValueToLRValue = CU.MIDIValueToLRValue
+    local LRValueToMIDIValue = Limits.LRValueToMIDIValue
+    local MIDIValueToLRValue = Limits.MIDIValueToLRValue
     local getValue = LrDevelopController.getValue
     local setValue = LrDevelopController.setValue
 
