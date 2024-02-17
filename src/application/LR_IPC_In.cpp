@@ -201,7 +201,7 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
                 rsj::ReplaceInvisibleChars(line_copy)));
          }
          else { /* send associated messages to MIDI OUT devices */
-#ifdef _WIN32
+#ifdef _MSC_VER
             double original_value = 0.0;
             std::from_chars(value_view.data(), value_view.data() + value_view.size(),
                 original_value);

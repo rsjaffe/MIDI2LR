@@ -187,29 +187,11 @@ local function RefreshMidiController()
       --]]-----------end debug section
       local photoval = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
       -- refresh crop values NOTE: this function is repeated in Client
-      local val_bottom = LrDevelopController.getValue("CropBottom")
-      local midi_val_bottom = LRValueToMIDIValue('CropBottom',val_bottom)
-      MIDI2LR.SERVER:send(string.format('CropBottomRight %g\nCropBottomLeft %g\nCropAll %g\n', midi_val_bottom, midi_val_bottom, midi_val_bottom))
-      LrTasks.yield()
-      local val_top = LrDevelopController.getValue("CropTop")
-      local midi_val_top = LRValueToMIDIValue('CropTop',val_top)
-      MIDI2LR.SERVER:send(string.format('CropTopRight %g\nCropTopLeft %g\n', midi_val_top, midi_val_top))
-      LrTasks.yield()
-      local val_left = LrDevelopController.getValue("CropLeft")
-      local val_right = LrDevelopController.getValue("CropRight")
-      local range_v = (1 - (val_bottom - val_top))
-      if range_v == 0.0 then
-        MIDI2LR.SERVER:send('CropMoveVertical 0\n')
-      else
-        MIDI2LR.SERVER:send(string.format('CropMoveVertical %g\n', val_top / range_v))
-      end
-      LrTasks.yield()
-      local range_h = (1 - (val_right - val_left))
-      if range_h == 0.0 then
-        MIDI2LR.SERVER:send('CropMoveHorizontal 0\n')
-      else
-        MIDI2LR.SERVER:send(string.format('CropMoveHorizontal %g\n', val_left / range_h))
-      end
+      local midi_val_bottom = LRValueToMIDIValue('CropBottom')
+      local midi_val_top = LRValueToMIDIValue('CropTop')
+      local midi_val_left = LRValueToMIDIValue('CropLeft')
+      MIDI2LR.SERVER:send(string.format('CropBottomRight %g\nCropBottomLeft %g\nCropAll %g\nCropTopRight %g\nCropTopLeft %g\nCropMoveVertical %g\nCropMoveHorizontal %g\n',
+          midi_val_bottom,midi_val_bottom,midi_val_bottom,midi_val_top,midi_val_top,midi_val_top,midi_val_left))
       local sel_mask = LrDevelopController.getSelectedMask()
       for param,altparam in pairs(Database.Parameters) do
         LrTasks.yield()

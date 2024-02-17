@@ -819,7 +819,7 @@ local function RatioCrop(param, midi_value, UpdateParam)
     if UpdateParam("CropTop",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(prior_c_bottom-new_top)*100,0)..pct)
     then
-      UpdateParam("CropLeft",LRValueToMIDIValue(new_left),true,true)
+      UpdateParam("CropLeft",LRValueToMIDIValue("CropLeft",new_left),true,true)
     end
   elseif param == "CropTopRight" then
     local new_top = MIDIValueToLRValue('CropTop',midi_value)
@@ -831,7 +831,7 @@ local function RatioCrop(param, midi_value, UpdateParam)
     if UpdateParam("CropTop",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(prior_c_bottom-new_top)*100,0)..pct)
     then
-      UpdateParam("CropRight",LRValueToMIDIValue(new_right),true,true)
+      UpdateParam("CropRight",LRValueToMIDIValue("CropRight",new_right),true,true)
     end
   elseif param == "CropBottomLeft" then
     local new_bottom = MIDIValueToLRValue('CropBottom',midi_value)
@@ -843,7 +843,7 @@ local function RatioCrop(param, midi_value, UpdateParam)
     if UpdateParam("CropBottom",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(new_bottom-prior_c_top)*100,0)..pct)
     then
-      UpdateParam("CropLeft",LRValueToMIDIValue(new_left),true,true)
+      UpdateParam("CropLeft",LRValueToMIDIValue("CropLeft",new_left),true,true)
     end
   elseif param == "CropBottomRight" then
     local new_bottom = MIDIValueToLRValue('CropBottom',midi_value)
@@ -855,7 +855,7 @@ local function RatioCrop(param, midi_value, UpdateParam)
     if UpdateParam("CropBottom",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(new_bottom-prior_c_top)*100,0)..pct)
     then
-      UpdateParam("CropRight",LRValueToMIDIValue(new_right),true,true)
+      UpdateParam("CropRight",LRValueToMIDIValue("CropRight",new_right),true,true)
     end
   elseif param == "CropAll" then
     local new_bottom = MIDIValueToLRValue('CropBottom',midi_value)
@@ -869,23 +869,32 @@ local function RatioCrop(param, midi_value, UpdateParam)
       new_top = new_bottom - new_right / ratio
       new_left = 0
     end
-    UpdateParam("CropBottom",midi_value,
+    if UpdateParam("CropBottom",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-new_left)*(new_bottom-new_top)*100,0)..pct)
-    UpdateParam("CropRight",LRValueToMIDIValue(new_right),true)
-    UpdateParam("CropTop",LRValueToMIDIValue(new_top),true)
-    UpdateParam("CropLeft",LRValueToMIDIValue(new_left),true)
-  elseif param == "CropMoveVertical" then
-    local new_top = (1 - (prior_c_bottom - prior_c_top)) * tonumber(midi_value)
-    local new_bottom = new_top - prior_c_top + prior_c_bottom
-    if UpdateParam("CropBottom",LRValueToMIDIValue(new_bottom),true)
     then
-      UpdateParam("CropTop", LRValueToMIDIValue(new_top),nil,true)
+      UpdateParam("CropRight",LRValueToMIDIValue("CropRight",new_right),true,true)
+      UpdateParam("CropTop",LRValueToMIDIValue("CropTop",new_top),true,true)
+      UpdateParam("CropLeft",LRValueToMIDIValue("CropLeft",new_left),true,true)
+    end
+  elseif param == "CropMoveVertical" then
+    local new_top = MIDIValueToLRValue('CropTop',midi_value)
+    local new_bottom = new_top - prior_c_top + prior_c_bottom
+    if new_bottom > 1 then
+      new_top = new_top - (1 - new_bottom)
+      new_bottom = 1
+    end
+    if UpdateParam('CropTop',LRValueToMIDIValue('CropTop',new_top)) then
+      UpdateParam('CropBottom',LRValueToMIDIValue('CropBottom',new_bottom),true,true)
     end
   elseif param == "CropMoveHorizontal" then
-    local new_left = (1 - (prior_c_right - prior_c_left)) * tonumber(midi_value)
+    local new_left = MIDIValueToLRValue('CropLeft',midi_value)
     local new_right = new_left - prior_c_left + prior_c_right
-    if UpdateParam("CropLeft",LRValueToMIDIValue(new_left),true) then
-      UpdateParam("CropRight", LRValueToMIDIValue(new_right),nil,true)
+    if new_right > 1 then
+      new_left = new_left - (1 - new_right)
+      new_right = 1
+    end
+    if UpdateParam("CropLeft",LRValueToMIDIValue('CropLeft',new_left)) then
+      UpdateParam("CropRight", LRValueToMIDIValue('CropRight',new_right),true,true)
     end
   end
 end
