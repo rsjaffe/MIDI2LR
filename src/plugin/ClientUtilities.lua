@@ -867,22 +867,30 @@ local function RatioCrop(param, midi_value, UpdateParam)
   elseif param == "CropMoveVertical" then
     local new_top = MIDIValueToLRValue('CropTop',midi_value)
     local new_bottom = new_top - prior_c_top + prior_c_bottom
-    if new_bottom > 1 then
-      new_top = new_top - (1 - new_bottom)
-      new_bottom = 1
-    end
-    if UpdateParam('CropTop',LRValueToMIDIValue('CropTop',new_top)) then
-      UpdateParam('CropBottom',LRValueToMIDIValue('CropBottom',new_bottom),true,true)
+    if new_bottom > 1 then -- preserve shape, don't move past border
+      if
+      UpdateParam('CropTop',1-(prior_c_bottom-prior_c_top))
+      then
+        UpdateParam('CropBottom',1,true,true)
+      end
+    else
+      if UpdateParam('CropTop',LRValueToMIDIValue('CropTop',new_top)) then
+        UpdateParam('CropBottom',LRValueToMIDIValue('CropBottom',new_bottom),true,true)
+      end
     end
   elseif param == "CropMoveHorizontal" then
     local new_left = MIDIValueToLRValue('CropLeft',midi_value)
     local new_right = new_left - prior_c_left + prior_c_right
-    if new_right > 1 then
-      new_left = new_left - (1 - new_right)
-      new_right = 1
-    end
-    if UpdateParam("CropLeft",LRValueToMIDIValue('CropLeft',new_left)) then
-      UpdateParam("CropRight", LRValueToMIDIValue('CropRight',new_right),true,true)
+    if new_right > 1 then -- preserve shape, don't move past border
+      if
+      UpdateParam('CropLeft',1-(prior_c_right-prior_c_left))
+      then
+        UpdateParam('CropRight',1,true,true)
+      end
+    else
+      if UpdateParam("CropLeft",LRValueToMIDIValue('CropLeft',new_left)) then
+        UpdateParam("CropRight", LRValueToMIDIValue('CropRight',new_right),true,true)
+      end
     end
   end
 end
