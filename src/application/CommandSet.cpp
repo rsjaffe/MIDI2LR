@@ -52,7 +52,7 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
          for (const auto& [cmd_abbrev, cmd_label] : cmd_abbrev_label) {
             cmd_by_number_.push_back(cmd_abbrev);
             cmd_label_by_number_.push_back(group_colon + cmd_label);
-            cmd_idx_[cmd_abbrev] = idx++;
+            cmd_idx_.emplace(cmd_abbrev, idx++);
             menu_items_temp.emplace_back(cmd_label);
          }
          menus_.emplace_back(cmd_group);

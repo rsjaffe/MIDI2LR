@@ -106,7 +106,8 @@ void CommandMenu::AddSubMenusToMainMenu(juce::PopupMenu& main_menu, size_t index
 {
    const auto& menus {command_set_.GetMenus()};
    const auto& menu_entries {command_set_.GetMenuEntries()};
-   for (size_t submenu_number = 0; submenu_number < menu_entries.size(); ++submenu_number) {
+   const auto menu_entries_size = menu_entries.size();
+   for (size_t submenu_number = 0; submenu_number < menu_entries_size; ++submenu_number) {
       juce::PopupMenu sub_menu;
       auto ticked {false};
       for (const auto& command : menu_entries[submenu_number]) {
