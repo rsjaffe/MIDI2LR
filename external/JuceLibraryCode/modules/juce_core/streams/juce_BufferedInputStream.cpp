@@ -185,7 +185,7 @@ String BufferedInputStream::readString()
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-struct BufferedInputStreamTests final : public UnitTest
+struct BufferedInputStreamTests   : public UnitTest
 {
     template <typename Fn, size_t... Ix, typename Values>
     static void applyImpl (Fn&& fn, std::index_sequence<Ix...>, Values&& values)

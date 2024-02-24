@@ -38,26 +38,23 @@
 // TODO Review use of raw pointers for connect(). Maybe use smart pointers but need to avoid
 //      run-time deallocation in audio thread.
 
-// Set flags FLOWGRAPH_ANDROID_INTERNAL and FLOWGRAPH_OUTER_NAMESPACE based on whether compiler
-// flag __ANDROID_NDK__ is defined. __ANDROID_NDK__ should be defined in oboe and not aaudio.
-
+// Set this to 1 if using it inside the Android framework.
+// This code is kept here so that it can be moved easily between Oboe and AAudio.
 #ifndef FLOWGRAPH_ANDROID_INTERNAL
-#ifdef __ANDROID_NDK__
 #define FLOWGRAPH_ANDROID_INTERNAL 0
-#else
-#define FLOWGRAPH_ANDROID_INTERNAL 1
-#endif // __ANDROID_NDK__
-#endif // FLOWGRAPH_ANDROID_INTERNAL
+#endif
 
+// Set this to a name that will prevent AAudio from calling into Oboe.
+// AAudio and Oboe both use a version of this flowgraph package.
+// There was a problem in the unit tests where AAudio would call a constructor
+// in AAudio and then call a destructor in Oboe! That caused memory corruption.
+// For more details, see Issue #930.
 #ifndef FLOWGRAPH_OUTER_NAMESPACE
-#ifdef __ANDROID_NDK__
 #define FLOWGRAPH_OUTER_NAMESPACE oboe
-#else
-#define FLOWGRAPH_OUTER_NAMESPACE aaudio
-#endif // __ANDROID_NDK__
-#endif // FLOWGRAPH_OUTER_NAMESPACE
+#endif
 
-namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph {
+namespace FLOWGRAPH_OUTER_NAMESPACE {
+namespace flowgraph {
 
 // Default block size that can be overridden when the FlowGraphPortFloat is created.
 // If it is too small then we will have too much overhead from switching between nodes.
@@ -73,7 +70,7 @@ class FlowGraphPortFloatInput;
  */
 class FlowGraphNode {
 public:
-    FlowGraphNode() = default;
+    FlowGraphNode() {}
     virtual ~FlowGraphNode() = default;
 
     /**
@@ -111,7 +108,7 @@ public:
     virtual void reset();
 
     void addInputPort(FlowGraphPort &port) {
-        mInputPorts.emplace_back(port);
+        mInputPorts.push_back(port);
     }
 
     bool isDataPulledAutomatically() const {
@@ -167,7 +164,7 @@ public:
             : mContainingNode(parent)
             , mSamplesPerFrame(samplesPerFrame) {
     }
-
+    
     virtual ~FlowGraphPort() = default;
 
     // Ports are often declared public. So let's make them non-copyable.
@@ -406,7 +403,7 @@ public:
     FlowGraphPortFloatInput input;
 
     /**
-     * Do nothing. The work happens in the read() method.
+     * Dummy processor. The work happens in the read() method.
      *
      * @param numFrames
      * @return number of frames actually processed
@@ -445,6 +442,7 @@ public:
     FlowGraphPortFloatOutput output;
 };
 
-} /* namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph */
+} /* namespace flowgraph */
+} /* namespace FLOWGRAPH_OUTER_NAMESPACE */
 
 #endif /* FLOWGRAPH_FLOW_GRAPH_NODE_H */

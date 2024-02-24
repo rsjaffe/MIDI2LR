@@ -23,6 +23,10 @@
   ==============================================================================
 */
 
+#if JUCE_MODULE_AVAILABLE_juce_audio_plugin_client
+ #include <juce_audio_plugin_client/AAX/juce_AAX_Modifier_Injector.h>
+#endif
+
 namespace juce
 {
 
@@ -419,7 +423,8 @@ static void setDPIAwareness()
         && SUCCEEDED (setProcessDPIAwareness (DPI_Awareness::DPI_Awareness_System_Aware)))
         return;
 
-    NullCheckedInvocation::invoke (setProcessDPIAware);
+    if (setProcessDPIAware != nullptr)
+        setProcessDPIAware();
 }
 
 static bool isPerMonitorDPIAwareProcess()
@@ -969,7 +974,7 @@ const int KeyPress::rewindKey               = 0x30003;
 
 
 //==============================================================================
-class WindowsBitmapImage final : public ImagePixelData
+class WindowsBitmapImage  : public ImagePixelData
 {
 public:
     WindowsBitmapImage (const Image::PixelFormat format,
@@ -1159,7 +1164,7 @@ namespace IconConverters
         if (icon == nullptr)
             return {};
 
-        struct ScopedICONINFO final : public ICONINFO
+        struct ScopedICONINFO   : public ICONINFO
         {
             ScopedICONINFO()
             {
@@ -1425,8 +1430,8 @@ static HMONITOR getMonitorFromOutput (ComSmartPtr<IDXGIOutput> output)
 using VBlankListener = ComponentPeer::VBlankListener;
 
 //==============================================================================
-class VSyncThread final : private Thread,
-                          private AsyncUpdater
+class VSyncThread : private Thread,
+                    private AsyncUpdater
 {
 public:
     VSyncThread (ComSmartPtr<IDXGIOutput> out,
@@ -1514,7 +1519,7 @@ private:
 };
 
 //==============================================================================
-class VBlankDispatcher final : public DeletedAtShutdown
+class VBlankDispatcher : public DeletedAtShutdown
 {
 public:
     void updateDisplay (VBlankListener& listener, HMONITOR monitor)
@@ -1654,12 +1659,37 @@ private:
 JUCE_IMPLEMENT_SINGLETON (VBlankDispatcher)
 
 //==============================================================================
-class HWNDComponentPeer final : public ComponentPeer,
-                                private VBlankListener,
-                                private Timer
-                               #if JUCE_MODULE_AVAILABLE_juce_audio_plugin_client
-                                , public ModifierKeyReceiver
-                               #endif
+class SimpleTimer  : private Timer
+{
+public:
+    SimpleTimer (int intervalMs, std::function<void()> callbackIn)
+        : callback (std::move (callbackIn))
+    {
+        jassert (callback);
+        startTimer (intervalMs);
+    }
+
+    ~SimpleTimer() override
+    {
+        stopTimer();
+    }
+
+private:
+    void timerCallback() override
+    {
+        callback();
+    }
+
+    std::function<void()> callback;
+};
+
+//==============================================================================
+class HWNDComponentPeer  : public ComponentPeer,
+                           private VBlankListener,
+                           private Timer
+                          #if JUCE_MODULE_AVAILABLE_juce_audio_plugin_client
+                           , public ModifierKeyReceiver
+                          #endif
 {
 public:
     enum RenderingEngineType
@@ -1697,10 +1727,7 @@ public:
         updateCurrentMonitorAndRefreshVBlankDispatcher();
 
         if (parentToAddTo != nullptr)
-        {
-            monitorUpdateTimer.emplace ([this] { updateCurrentMonitorAndRefreshVBlankDispatcher(); });
-            monitorUpdateTimer->startTimer (1000);
-        }
+            monitorUpdateTimer.emplace (1000, [this] { updateCurrentMonitorAndRefreshVBlankDispatcher(); });
 
         suspendResumeRegistration = ScopedSuspendResumeNotificationRegistration { hwnd };
     }
@@ -2170,7 +2197,7 @@ public:
     static ModifierKeys modifiersAtLastCallback;
 
     //==============================================================================
-    struct FileDropTarget final : public ComBaseClassHelper<IDropTarget>
+    struct FileDropTarget    : public ComBaseClassHelper<IDropTarget>
     {
         FileDropTarget (HWNDComponentPeer& p)   : peer (p) {}
 
@@ -2307,68 +2334,48 @@ public:
         JUCE_DECLARE_NON_COPYABLE (FileDropTarget)
     };
 
-    static bool offerKeyMessageToJUCEWindow (const MSG& msg)
+    static bool offerKeyMessageToJUCEWindow (MSG& m)
     {
-        // If this isn't a keyboard message, let the host deal with it.
+        auto* peer = getOwnerOfWindow (m.hwnd);
 
-        constexpr UINT messages[] { WM_KEYDOWN, WM_SYSKEYDOWN, WM_KEYUP, WM_SYSKEYUP, WM_CHAR, WM_SYSCHAR };
-
-        if (std::find (std::begin (messages), std::end (messages), msg.message) == std::end (messages))
+        if (peer == nullptr)
             return false;
 
-        auto* peer = getOwnerOfWindow (msg.hwnd);
         auto* focused = Component::getCurrentlyFocusedComponent();
 
-        if (focused == nullptr || peer == nullptr || focused->getPeer() != peer)
+        if (focused == nullptr || focused->getPeer() != peer)
             return false;
 
-        auto* hwnd = static_cast<HWND> (peer->getNativeHandle());
+        constexpr UINT keyMessages[] { WM_KEYDOWN,
+                                       WM_KEYUP,
+                                       WM_SYSKEYDOWN,
+                                       WM_SYSKEYUP,
+                                       WM_CHAR };
 
-        if (hwnd == nullptr)
+        const auto messageTypeMatches = [&] (UINT msg) { return m.message == msg; };
+
+        if (std::none_of (std::begin (keyMessages), std::end (keyMessages), messageTypeMatches))
             return false;
 
-        ScopedThreadDPIAwarenessSetter threadDpiAwarenessSetter { hwnd };
+        ScopedThreadDPIAwarenessSetter threadDpiAwarenessSetter { m.hwnd };
 
-        // If we've been sent a text character, process it as text.
+        if (m.message == WM_CHAR)
+            return peer->doKeyChar ((int) m.wParam, m.lParam);
 
-        if (msg.message == WM_CHAR || msg.message == WM_SYSCHAR)
-            return peer->doKeyChar ((int) msg.wParam, msg.lParam);
+        TranslateMessage (&m);
 
-        // The event was a keypress, rather than a text character
-
-        if (peer->findCurrentTextInputTarget() != nullptr)
+        switch (m.message)
         {
-            // If there's a focused text input target, we want to attempt "real" text input with an
-            // IME, and we want to prevent the host from eating keystrokes (spaces etc.).
+            case WM_KEYDOWN:
+            case WM_SYSKEYDOWN:
+                return peer->doKeyDown (m.wParam);
 
-            TranslateMessage (&msg);
-
-            // TranslateMessage may post WM_CHAR back to the window, so we remove those messages
-            // from the queue before the host gets to see them.
-            // This will dispatch pending WM_CHAR messages, so we may end up reentering
-            // offerKeyMessageToJUCEWindow and hitting the WM_CHAR case above.
-            // We always return true if WM_CHAR is posted so that the keypress is not forwarded
-            // to the host. Otherwise, the host may call TranslateMessage again on this message,
-            // resulting in duplicate WM_CHAR messages being posted.
-
-            MSG peeked{};
-            if (PeekMessage (&peeked, hwnd, WM_CHAR, WM_DEADCHAR, PM_REMOVE)
-                || PeekMessage (&peeked, hwnd, WM_SYSCHAR, WM_SYSDEADCHAR, PM_REMOVE))
-            {
-                return true;
-            }
-
-            // If TranslateMessage didn't add a WM_CHAR to the queue, fall back to processing the
-            // event as a plain keypress
+            case WM_KEYUP:
+            case WM_SYSKEYUP:
+                return peer->doKeyUp (m.wParam);
         }
 
-        // There's no text input target, or the key event wasn't translated, so we'll just see if we
-        // can use the plain keystroke event
-
-        if (msg.message == WM_KEYDOWN || msg.message == WM_SYSKEYDOWN)
-            return peer->doKeyDown (msg.wParam);
-
-        return peer->doKeyUp (msg.wParam);
+        return false;
     }
 
     double getPlatformScaleFactor() const noexcept override
@@ -2422,7 +2429,7 @@ private:
     static MultiTouchMapper<DWORD> currentTouches;
 
     //==============================================================================
-    struct TemporaryImage final : private Timer
+    struct TemporaryImage    : private Timer
     {
         TemporaryImage() {}
 
@@ -2452,7 +2459,7 @@ private:
     TemporaryImage offscreenImageGenerator;
 
     //==============================================================================
-    class WindowClassHolder final : private DeletedAtShutdown
+    class WindowClassHolder    : private DeletedAtShutdown
     {
     public:
         WindowClassHolder()
@@ -2542,7 +2549,7 @@ private:
                 case WM_POINTERHWHEEL:
                 case WM_POINTERUP:
                 case WM_POINTERACTIVATE:
-                    return isHWNDBlockedByModalComponents (m.hwnd);
+                    return isHWNDBlockedByModalComponents(m.hwnd);
                 case WM_NCLBUTTONDOWN:
                 case WM_NCLBUTTONDBLCLK:
                 case WM_NCRBUTTONDOWN:
@@ -3058,8 +3065,8 @@ private:
             // This avoids a rare stuck-button problem when focus is lost unexpectedly, but must
             // not be called as part of a move, in case it's actually a mouse-drag from another
             // app which ends up here when we get focus before the mouse is released..
-            if (isMouseDownEvent)
-                NullCheckedInvocation::invoke (getNativeRealtimeModifiers);
+            if (isMouseDownEvent && getNativeRealtimeModifiers != nullptr)
+                getNativeRealtimeModifiers();
 
             updateKeyModifiers();
 
@@ -3174,7 +3181,7 @@ private:
             doMouseEvent (getCurrentMousePos(), MouseInputSource::defaultPressure);
     }
 
-    std::tuple<ComponentPeer*, Point<float>> findPeerUnderMouse()
+    ComponentPeer* findPeerUnderMouse (Point<float>& localPos)
     {
         auto currentMousePos = getPOINTFromLParam ((LPARAM) GetMessagePos());
 
@@ -3185,7 +3192,8 @@ private:
         if (peer == nullptr)
             peer = this;
 
-        return std::tuple (peer, peer->globalToLocal (convertPhysicalScreenPointToLogical (pointFromPOINT (currentMousePos), hwnd).toFloat()));
+        localPos = peer->globalToLocal (convertPhysicalScreenPointToLogical (pointFromPOINT (currentMousePos), hwnd).toFloat());
+        return peer;
     }
 
     static MouseInputSource::InputSourceType getPointerType (WPARAM wParam)
@@ -3219,7 +3227,9 @@ private:
         wheel.isSmooth = false;
         wheel.isInertial = false;
 
-        if (const auto [peer, localPos] = findPeerUnderMouse(); peer != nullptr)
+        Point<float> localPos;
+
+        if (auto* peer = findPeerUnderMouse (localPos))
             peer->handleMouseWheel (getPointerType (wParam), localPos, getMouseEventTime(), wheel);
     }
 
@@ -3232,8 +3242,9 @@ private:
         if (getGestureInfo != nullptr && getGestureInfo ((HGESTUREINFO) lParam, &gi))
         {
             updateKeyModifiers();
+            Point<float> localPos;
 
-            if (const auto [peer, localPos] = findPeerUnderMouse(); peer != nullptr)
+            if (auto* peer = findPeerUnderMouse (localPos))
             {
                 switch (gi.dwID)
                 {
@@ -3944,8 +3955,8 @@ public:
     {
         // Ensure that non-client areas are scaled for per-monitor DPI awareness v1 - can't
         // do this in peerWindowProc as we have no window at this point
-        if (message == WM_NCCREATE)
-            NullCheckedInvocation::invoke (enableNonClientDPIScaling, h);
+        if (message == WM_NCCREATE && enableNonClientDPIScaling != nullptr)
+            enableNonClientDPIScaling (h);
 
         if (auto* peer = getOwnerOfWindow (h))
         {
@@ -4343,10 +4354,10 @@ private:
             case WM_IME_SETCONTEXT:
                 imeHandler.handleSetContext (h, wParam == TRUE);
                 lParam &= ~(LPARAM) ISC_SHOWUICOMPOSITIONWINDOW;
-                return ImmIsUIMessage (h, message, wParam, lParam);
+                break;
 
             case WM_IME_STARTCOMPOSITION:  imeHandler.handleStartComposition (*this); return 0;
-            case WM_IME_ENDCOMPOSITION:    imeHandler.handleEndComposition (*this, h); return 0;
+            case WM_IME_ENDCOMPOSITION:    imeHandler.handleEndComposition (*this, h); break;
             case WM_IME_COMPOSITION:       imeHandler.handleComposition (*this, h, lParam); return 0;
 
             case WM_GETDLGCODE:
@@ -4705,7 +4716,7 @@ private:
 
     RectangleList<int> deferredRepaints;
     ScopedSuspendResumeNotificationRegistration suspendResumeRegistration;
-    std::optional<TimedCallback> monitorUpdateTimer;
+    std::optional<SimpleTimer> monitorUpdateTimer;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (HWNDComponentPeer)
@@ -4731,14 +4742,29 @@ JUCE_IMPLEMENT_SINGLETON (HWNDComponentPeer::WindowClassHolder)
 //==============================================================================
 bool KeyPress::isKeyCurrentlyDown (const int keyCode)
 {
-    const auto k = [&]
-    {
-        if ((keyCode & extendedKeyModifier) != 0)
-            return keyCode;
+    auto k = (SHORT) keyCode;
 
-        const auto vk = BYTE (VkKeyScan ((WCHAR) keyCode) & 0xff);
-        return vk != (BYTE) -1 ? vk : keyCode;
-    }();
+    if ((keyCode & extendedKeyModifier) == 0)
+    {
+        if (k >= (SHORT) 'a' && k <= (SHORT) 'z')
+            k += (SHORT) 'A' - (SHORT) 'a';
+
+        // Only translate if extendedKeyModifier flag is not set
+        const SHORT translatedValues[] = { (SHORT) ',', VK_OEM_COMMA,
+                                           (SHORT) '+', VK_OEM_PLUS,
+                                           (SHORT) '-', VK_OEM_MINUS,
+                                           (SHORT) '.', VK_OEM_PERIOD,
+                                           (SHORT) ';', VK_OEM_1,
+                                           (SHORT) ':', VK_OEM_1,
+                                           (SHORT) '/', VK_OEM_2,
+                                           (SHORT) '?', VK_OEM_2,
+                                           (SHORT) '[', VK_OEM_4,
+                                           (SHORT) ']', VK_OEM_6 };
+
+        for (int i = 0; i < numElementsInArray (translatedValues); i += 2)
+            if (k == translatedValues[i])
+                k = translatedValues[i + 1];
+    }
 
     return HWNDComponentPeer::isKeyDown (k);
 }
@@ -4829,7 +4855,7 @@ void MouseInputSource::setRawMousePosition (Point<float> newPosition)
 }
 
 //==============================================================================
-class ScreenSaverDefeater final : public Timer
+class ScreenSaverDefeater   : public Timer
 {
 public:
     ScreenSaverDefeater()
@@ -5245,7 +5271,7 @@ private:
             case NoCursor:                      return std::make_unique<BuiltinImpl> (nullptr);
             case WaitCursor:                    cursorName = IDC_WAIT; break;
             case IBeamCursor:                   cursorName = IDC_IBEAM; break;
-            case PointingHandCursor:            cursorName = MAKEINTRESOURCE (32649); break;
+            case PointingHandCursor:            cursorName = MAKEINTRESOURCE(32649); break;
             case CrosshairCursor:               cursorName = IDC_CROSS; break;
 
             case LeftRightResizeCursor:

@@ -340,7 +340,8 @@ public:
             X11Symbols::getInstance()->xUngrabPointer (getDisplay(), CurrentTime);
         }
 
-        NullCheckedInvocation::invoke (completionCallback);
+        if (completionCallback != nullptr)
+            completionCallback();
 
         dragging = false;
     }

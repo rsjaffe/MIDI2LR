@@ -108,8 +108,8 @@ bool Base64::convertFromBase64 (OutputStream& binaryOutput, StringRef base64Text
 String Base64::toBase64 (const void* sourceData, size_t sourceDataSize)
 {
     MemoryOutputStream m ((sourceDataSize * 4) / 3 + 3);
-    [[maybe_unused]] bool ok = convertToBase64 (m, sourceData, sourceDataSize);
-    jassert (ok); // should always succeed for this simple case
+    bool ok = convertToBase64 (m, sourceData, sourceDataSize);
+    jassertquiet (ok); // should always succeed for this simple case
     return m.toString();
 }
 
@@ -123,7 +123,7 @@ String Base64::toBase64 (const String& text)
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-class Base64Tests final : public UnitTest
+class Base64Tests  : public UnitTest
 {
 public:
     Base64Tests()

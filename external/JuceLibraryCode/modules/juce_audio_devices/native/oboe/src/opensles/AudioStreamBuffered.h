@@ -22,7 +22,7 @@
 #include "common/OboeDebug.h"
 #include "oboe/AudioStream.h"
 #include "oboe/AudioStreamCallback.h"
-#include "oboe/FifoBuffer.h"
+#include "fifo/FifoBuffer.h"
 
 namespace oboe {
 

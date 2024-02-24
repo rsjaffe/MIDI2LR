@@ -202,7 +202,8 @@ void Label::editorShown (TextEditor* textEditor)
     if (checker.shouldBailOut())
         return;
 
-    NullCheckedInvocation::invoke (onEditorShow);
+    if (onEditorShow != nullptr)
+        onEditorShow();
 }
 
 void Label::editorAboutToBeHidden (TextEditor* textEditor)
@@ -213,7 +214,8 @@ void Label::editorAboutToBeHidden (TextEditor* textEditor)
     if (checker.shouldBailOut())
         return;
 
-    NullCheckedInvocation::invoke (onEditorHide);
+    if (onEditorHide != nullptr)
+        onEditorHide();
 }
 
 void Label::showEditor()
@@ -397,7 +399,7 @@ void Label::setMinimumHorizontalScale (const float newScale)
 //==============================================================================
 // We'll use a custom focus traverser here to make sure focus goes from the
 // text editor to another component rather than back to the label itself.
-class LabelKeyboardFocusTraverser final : public KeyboardFocusTraverser
+class LabelKeyboardFocusTraverser   : public KeyboardFocusTraverser
 {
 public:
     explicit LabelKeyboardFocusTraverser (Label& l)  : owner (l)  {}
@@ -461,7 +463,8 @@ void Label::callChangeListeners()
     if (checker.shouldBailOut())
         return;
 
-    NullCheckedInvocation::invoke (onTextChange);
+    if (onTextChange != nullptr)
+        onTextChange();
 }
 
 //==============================================================================
@@ -501,11 +504,11 @@ void Label::textEditorReturnKeyPressed (TextEditor& ed)
     }
 }
 
-void Label::textEditorEscapeKeyPressed ([[maybe_unused]] TextEditor& ed)
+void Label::textEditorEscapeKeyPressed (TextEditor& ed)
 {
     if (editor != nullptr)
     {
-        jassert (&ed == editor.get());
+        jassertquiet (&ed == editor.get());
 
         editor->setText (textValue.toString(), false);
         hideEditor (true);
@@ -518,7 +521,7 @@ void Label::textEditorFocusLost (TextEditor& ed)
 }
 
 //==============================================================================
-class LabelAccessibilityHandler final : public AccessibilityHandler
+class LabelAccessibilityHandler  : public AccessibilityHandler
 {
 public:
     explicit LabelAccessibilityHandler (Label& labelToWrap)
@@ -542,7 +545,7 @@ public:
     }
 
 private:
-    class LabelValueInterface final : public AccessibilityTextValueInterface
+    class LabelValueInterface  : public AccessibilityTextValueInterface
     {
     public:
         explicit LabelValueInterface (Label& labelToWrap)

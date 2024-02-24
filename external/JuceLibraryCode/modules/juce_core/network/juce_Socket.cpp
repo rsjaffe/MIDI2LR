@@ -82,38 +82,11 @@ namespace SocketHelpers
         return setOption (handle, SOL_SOCKET, property, value);
     }
 
-    static std::optional<int> getBufferSize (SocketHandle handle, int property)
+    static bool resetSocketOptions (SocketHandle handle, bool isDatagram, bool allowBroadcast) noexcept
     {
-        int result;
-        auto outParamSize = (socklen_t) sizeof (result);
-
-        if (getsockopt (handle, SOL_SOCKET, property, reinterpret_cast<char*> (&result), &outParamSize) != 0
-            || outParamSize != (socklen_t) sizeof (result))
-        {
-            return std::nullopt;
-        }
-
-        return result;
-    }
-
-    static bool resetSocketOptions (SocketHandle handle, bool isDatagram, bool allowBroadcast, const SocketOptions& options) noexcept
-    {
-        auto getCurrentBufferSizeWithMinimum = [handle] (int property)
-        {
-            constexpr auto minBufferSize = 65536;
-
-            if (auto currentBufferSize = getBufferSize (handle, property))
-                return std::max (*currentBufferSize, minBufferSize);
-
-            return minBufferSize;
-        };
-
-        const auto receiveBufferSize = options.getReceiveBufferSize().value_or (getCurrentBufferSizeWithMinimum (SO_RCVBUF));
-        const auto sendBufferSize    = options.getSendBufferSize()   .value_or (getCurrentBufferSizeWithMinimum (SO_SNDBUF));
-
         return handle != invalidSocket
-                && setOption (handle, SO_RCVBUF, receiveBufferSize)
-                && setOption (handle, SO_SNDBUF, sendBufferSize)
+                && setOption (handle, SO_RCVBUF, (int) 65536)
+                && setOption (handle, SO_SNDBUF, (int) 65536)
                 && (isDatagram ? ((! allowBroadcast) || setOption (handle, SO_BROADCAST, (int) 1))
                                : setOption (handle, IPPROTO_TCP, TCP_NODELAY, (int) 1));
     }
@@ -397,8 +370,7 @@ namespace SocketHelpers
                                CriticalSection& readLock,
                                const String& hostName,
                                int portNumber,
-                               int timeOutMillisecs,
-                               const SocketOptions& options) noexcept
+                               int timeOutMillisecs) noexcept
     {
         bool success = false;
 
@@ -449,7 +421,7 @@ namespace SocketHelpers
             {
                 auto h = (SocketHandle) handle.load();
                 setSocketBlockingState (h, true);
-                resetSocketOptions (h, false, false, options);
+                resetSocketOptions (h, false, false);
             }
         }
 
@@ -486,9 +458,8 @@ StreamingSocket::StreamingSocket()
     SocketHelpers::initSockets();
 }
 
-StreamingSocket::StreamingSocket (const String& host, int portNum, int h, const SocketOptions& optionsIn)
-    : options (optionsIn),
-      hostName (host),
+StreamingSocket::StreamingSocket (const String& host, int portNum, int h)
+    : hostName (host),
       portNumber (portNum),
       handle (h),
       connected (true)
@@ -496,7 +467,7 @@ StreamingSocket::StreamingSocket (const String& host, int portNum, int h, const 
     jassert (SocketHelpers::isValidPortNumber (portNum));
 
     SocketHelpers::initSockets();
-    SocketHelpers::resetSocketOptions ((SocketHandle) h, false, false, options);
+    SocketHelpers::resetSocketOptions ((SocketHandle) h, false, false);
 }
 
 StreamingSocket::~StreamingSocket()
@@ -564,12 +535,12 @@ bool StreamingSocket::connect (const String& remoteHostName, int remotePortNumbe
     isListener = false;
 
     connected = SocketHelpers::connectSocket (handle, readLock, remoteHostName,
-                                              remotePortNumber, timeOutMillisecs, options);
+                                              remotePortNumber, timeOutMillisecs);
 
     if (! connected)
         return false;
 
-    if (! SocketHelpers::resetSocketOptions ((SocketHandle) handle.load(), false, false, options))
+    if (! SocketHelpers::resetSocketOptions ((SocketHandle) handle.load(), false, false))
     {
         close();
         return false;
@@ -635,7 +606,7 @@ StreamingSocket* StreamingSocket::waitForNextConnection() const
 
         if (newSocket >= 0 && connected)
             return new StreamingSocket (inet_ntoa (((struct sockaddr_in*) &address)->sin_addr),
-                                        portNumber, newSocket, options);
+                                        portNumber, newSocket);
     }
 
     return nullptr;
@@ -658,8 +629,7 @@ bool StreamingSocket::isLocal() const noexcept
 
 //==============================================================================
 //==============================================================================
-DatagramSocket::DatagramSocket (bool canBroadcast, const SocketOptions& optionsIn)
-    : options { optionsIn }
+DatagramSocket::DatagramSocket (bool canBroadcast)
 {
     SocketHelpers::initSockets();
 
@@ -667,7 +637,7 @@ DatagramSocket::DatagramSocket (bool canBroadcast, const SocketOptions& optionsI
 
     if (handle >= 0)
     {
-        SocketHelpers::resetSocketOptions ((SocketHandle) handle.load(), true, canBroadcast, options);
+        SocketHelpers::resetSocketOptions ((SocketHandle) handle.load(), true, canBroadcast);
         SocketHelpers::makeReusable (handle);
     }
 }
@@ -824,7 +794,7 @@ JUCE_END_IGNORE_WARNINGS_MSVC
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-struct SocketTests final : public UnitTest
+struct SocketTests : public UnitTest
 {
     SocketTests()
         : UnitTest ("Sockets", UnitTestCategories::networking)

@@ -224,7 +224,7 @@ String TextDiff::Change::appliedTo (const String& text) const noexcept
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-class DiffTests final : public UnitTest
+class DiffTests  : public UnitTest
 {
 public:
     DiffTests()

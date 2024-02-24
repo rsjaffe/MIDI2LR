@@ -20,7 +20,9 @@
   ==============================================================================
 */
 
-namespace juce::universal_midi_packets
+namespace juce
+{
+namespace universal_midi_packets
 {
 
 uint32_t SysEx7::getNumPacketsRequiredForDataSize (uint32_t size)
@@ -47,4 +49,5 @@ SysEx7::PacketBytes SysEx7::getDataBytes (const PacketX2& packet)
     };
 }
 
-} // namespace juce::universal_midi_packets
+}
+}

@@ -25,12 +25,11 @@
 #include "SincResampler.h"
 #include "SincResamplerStereo.h"
 
-using namespace RESAMPLER_OUTER_NAMESPACE::resampler;
+using namespace resampler;
 
 MultiChannelResampler::MultiChannelResampler(const MultiChannelResampler::Builder &builder)
         : mNumTaps(builder.getNumTaps())
-        , mX(static_cast<size_t>(builder.getChannelCount())
-                * static_cast<size_t>(builder.getNumTaps()) * 2)
+        , mX(builder.getChannelCount() * builder.getNumTaps() * 2)
         , mSingleFrame(builder.getChannelCount())
         , mChannelCount(builder.getChannelCount())
         {
@@ -40,7 +39,7 @@ MultiChannelResampler::MultiChannelResampler(const MultiChannelResampler::Builde
     ratio.reduce();
     mNumerator = ratio.getNumerator();
     mDenominator = ratio.getDenominator();
-    mIntegerPhase = mDenominator; // so we start with a write needed
+    mIntegerPhase = mDenominator;
 }
 
 // static factory method
@@ -111,7 +110,7 @@ void MultiChannelResampler::writeFrame(const float *frame) {
     if (--mCursor < 0) {
         mCursor = getNumTaps() - 1;
     }
-    float *dest = &mX[static_cast<size_t>(mCursor) * static_cast<size_t>(getChannelCount())];
+    float *dest = &mX[mCursor * getChannelCount()];
     int offset = getNumTaps() * getChannelCount();
     for (int channel = 0; channel < getChannelCount(); channel++) {
         // Write twice so we avoid having to wrap when reading.
@@ -131,13 +130,14 @@ void MultiChannelResampler::generateCoefficients(int32_t inputRate,
                                               int32_t numRows,
                                               double phaseIncrement,
                                               float normalizedCutoff) {
-    mCoefficients.resize(static_cast<size_t>(getNumTaps()) * static_cast<size_t>(numRows));
+    mCoefficients.resize(getNumTaps() * numRows);
     int coefficientIndex = 0;
     double phase = 0.0; // ranges from 0.0 to 1.0, fraction between samples
     // Stretch the sinc function for low pass filtering.
-    const float cutoffScaler = (outputRate < inputRate)
-             ? (normalizedCutoff * (float)outputRate / inputRate)
-             : 1.0f; // Do not filter when upsampling.
+    const float cutoffScaler = normalizedCutoff *
+            ((outputRate < inputRate)
+             ? ((float)outputRate / inputRate)
+             : ((float)inputRate / outputRate));
     const int numTapsHalf = getNumTaps() / 2; // numTaps must be even.
     const float numTapsHalfInverse = 1.0f / numTapsHalf;
     for (int i = 0; i < numRows; i++) {
@@ -150,7 +150,7 @@ void MultiChannelResampler::generateCoefficients(int32_t inputRate,
 #if MCR_USE_KAISER
             float window = mKaiserWindow(tapPhase * numTapsHalfInverse);
 #else
-            float window = mCoshWindow(static_cast<double>(tapPhase) * numTapsHalfInverse);
+            float window = mCoshWindow(tapPhase * numTapsHalfInverse);
 #endif
             float coefficient = sinc(radians * cutoffScaler) * window;
             mCoefficients.at(coefficientIndex++) = coefficient;

@@ -377,7 +377,7 @@ Array<IPAddress> IPAddress::getAllAddresses (bool includeIPv6)
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-struct IPAddressTests final : public UnitTest
+struct IPAddressTests : public UnitTest
 {
     IPAddressTests()
         : UnitTest ("IPAddress", UnitTestCategories::networking)

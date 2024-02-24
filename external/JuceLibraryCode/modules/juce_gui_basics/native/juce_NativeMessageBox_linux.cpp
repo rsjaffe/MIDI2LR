@@ -31,7 +31,7 @@ std::unique_ptr<ScopedMessageBoxInterface> ScopedMessageBoxInterface::create (co
     // On Linux, we re-use the AlertWindow rather than using a platform-specific dialog.
     // For consistency with the NativeMessageBox on other platforms, the result code must
     // match the button index, hence this adapter.
-    class MessageBox final : public ScopedMessageBoxInterface
+    class MessageBox : public ScopedMessageBoxInterface
     {
     public:
         explicit MessageBox (const MessageBoxOptions& options)

@@ -57,7 +57,7 @@ static bool hasActiveSubMenu (const PopupMenu::Item& item) noexcept
 }
 
 //==============================================================================
-struct HeaderItemComponent final : public PopupMenu::CustomComponent
+struct HeaderItemComponent  : public PopupMenu::CustomComponent
 {
     HeaderItemComponent (const String& name, const Options& opts)
         : CustomComponent (false), options (opts)
@@ -96,7 +96,7 @@ struct HeaderItemComponent final : public PopupMenu::CustomComponent
 };
 
 //==============================================================================
-struct ItemComponent final : public Component
+struct ItemComponent  : public Component
 {
     ItemComponent (const PopupMenu::Item& i, const PopupMenu::Options& o, MenuWindow& parent)
         : item (i), parentWindow (parent), options (o), customComp (i.customComponent)
@@ -188,7 +188,7 @@ struct ItemComponent final : public Component
 
 private:
     //==============================================================================
-    class ItemAccessibilityHandler final : public AccessibilityHandler
+    class ItemAccessibilityHandler  : public AccessibilityHandler
     {
     public:
         explicit ItemAccessibilityHandler (ItemComponent& itemComponentToWrap)
@@ -322,7 +322,7 @@ private:
 };
 
 //==============================================================================
-struct MenuWindow final : public Component
+struct MenuWindow  : public Component
 {
     MenuWindow (const PopupMenu& menu,
                 MenuWindow* parentWindow,
@@ -822,7 +822,7 @@ struct MenuWindow final : public Component
             targetPoint = relativeTo->localPointToGlobal (targetPoint);
 
         auto* display = Desktop::getInstance().getDisplays().getDisplayForPoint (targetPoint * scaleFactor);
-        auto parentArea = display->userArea.getIntersection (display->safeAreaInsets.subtractedFrom (display->totalArea));
+        auto parentArea = display->safeAreaInsets.subtractedFrom (display->totalArea);
 
         if (auto* pc = options.getParentComponent())
         {
@@ -1195,19 +1195,22 @@ struct MenuWindow final : public Component
     {
         activeSubMenu.reset();
 
-        if (childComp == nullptr || ! hasActiveSubMenu (childComp->item))
-            return false;
+        if (childComp != nullptr
+             && hasActiveSubMenu (childComp->item))
+        {
+            activeSubMenu.reset (new HelperClasses::MenuWindow (*(childComp->item.subMenu), this,
+                                                                options.withTargetScreenArea (childComp->getScreenBounds())
+                                                                       .withMinimumWidth (0)
+                                                                       .withTargetComponent (nullptr),
+                                                                false, dismissOnMouseUp, managerOfChosenCommand, scaleFactor));
 
-        activeSubMenu.reset (new HelperClasses::MenuWindow (*(childComp->item.subMenu), this,
-                                                            options.forSubmenu()
-                                                                   .withTargetScreenArea (childComp->getScreenBounds())
-                                                                   .withMinimumWidth (0),
-                                                            false, dismissOnMouseUp, managerOfChosenCommand, scaleFactor));
+            activeSubMenu->setVisible (true); // (must be called before enterModalState on Windows to avoid DropShadower confusion)
+            activeSubMenu->enterModalState (false);
+            activeSubMenu->toFront (false);
+            return true;
+        }
 
-        activeSubMenu->setVisible (true); // (must be called before enterModalState on Windows to avoid DropShadower confusion)
-        activeSubMenu->enterModalState (false);
-        activeSubMenu->toFront (false);
-        return true;
+        return false;
     }
 
     void triggerCurrentlyHighlightedItem()
@@ -1328,7 +1331,7 @@ struct MenuWindow final : public Component
 };
 
 //==============================================================================
-class MouseSourceState final : public Timer
+class MouseSourceState  : public Timer
 {
 public:
     MouseSourceState (MenuWindow& w, MouseInputSource s)
@@ -1571,7 +1574,7 @@ private:
 };
 
 //==============================================================================
-struct NormalComponentWrapper final : public PopupMenu::CustomComponent
+struct NormalComponentWrapper : public PopupMenu::CustomComponent
 {
     NormalComponentWrapper (Component& comp, int w, int h, bool triggerMenuItemAutomaticallyWhenClicked)
         : PopupMenu::CustomComponent (triggerMenuItemAutomaticallyWhenClicked),
@@ -1972,7 +1975,7 @@ static PopupMenu::Options with (PopupMenu::Options options, Member&& member, Ite
 
 PopupMenu::Options PopupMenu::Options::withTargetComponent (Component* comp) const
 {
-    auto o = with (with (*this, &Options::targetComponent, comp), &Options::topLevelTarget, comp);
+    auto o = with (*this, &Options::targetComponent, comp);
 
     if (comp != nullptr)
         o.targetArea = comp->getScreenBounds();
@@ -2042,11 +2045,6 @@ PopupMenu::Options PopupMenu::Options::withInitiallySelectedItem (int idOfItemTo
     return with (*this, &Options::initiallySelectedItemId, idOfItemToBeSelected);
 }
 
-PopupMenu::Options PopupMenu::Options::forSubmenu() const
-{
-    return with (*this, &Options::targetComponent, nullptr);
-}
-
 Component* PopupMenu::createWindow (const Options& options,
                                     ApplicationCommandManager** managerOfChosenCommand) const
 {
@@ -2070,7 +2068,7 @@ Component* PopupMenu::createWindow (const Options& options,
 
 //==============================================================================
 // This invokes any command manager commands and deletes the menu window when it is dismissed
-struct PopupMenuCompletionCallback final : public ModalComponentManager::Callback
+struct PopupMenuCompletionCallback  : public ModalComponentManager::Callback
 {
     PopupMenuCompletionCallback() = default;
 

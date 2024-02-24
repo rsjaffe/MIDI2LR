@@ -242,13 +242,13 @@ void AccessibilityHandler::notifyAccessibilityEvent (AccessibilityEvent eventTyp
         sendAccessibilityAutomationEvent (*this, event);
 }
 
-struct SpVoiceWrapper final : public DeletedAtShutdown
+struct SpVoiceWrapper  : public DeletedAtShutdown
 {
     SpVoiceWrapper()
     {
-        [[maybe_unused]] auto hr = voice.CoCreateInstance (ComTypes::CLSID_SpVoice);
+        auto hr = voice.CoCreateInstance (ComTypes::CLSID_SpVoice);
 
-        jassert (SUCCEEDED (hr));
+        jassertquiet (SUCCEEDED (hr));
     }
 
     ~SpVoiceWrapper() override

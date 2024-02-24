@@ -20,7 +20,9 @@
   ==============================================================================
 */
 
-namespace juce::SampleRateHelpers
+namespace juce
+{
+namespace SampleRateHelpers
 {
 
 static inline const std::vector<double>& getAllSampleRates()
@@ -42,4 +44,5 @@ static inline const std::vector<double>& getAllSampleRates()
     return sampleRates;
 }
 
-} // namespace juce::SampleRateHelpers
+} // namespace SampleRateHelpers
+} // namespace juce

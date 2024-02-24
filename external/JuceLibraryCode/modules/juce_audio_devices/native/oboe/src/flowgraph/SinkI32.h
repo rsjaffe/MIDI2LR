@@ -21,7 +21,8 @@
 
 #include "FlowGraphNode.h"
 
-namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph {
+namespace FLOWGRAPH_OUTER_NAMESPACE {
+namespace flowgraph {
 
 class SinkI32 : public FlowGraphSink {
 public:
@@ -35,6 +36,7 @@ public:
     }
 };
 
-} /* namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph */
+} /* namespace flowgraph */
+} /* namespace FLOWGRAPH_OUTER_NAMESPACE */
 
 #endif //FLOWGRAPH_SINK_I32_H

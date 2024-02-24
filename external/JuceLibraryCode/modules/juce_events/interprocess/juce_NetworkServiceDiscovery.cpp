@@ -134,7 +134,8 @@ std::vector<NetworkServiceDiscovery::Service> NetworkServiceDiscovery::Available
 
 void NetworkServiceDiscovery::AvailableServiceList::handleAsyncUpdate()
 {
-    NullCheckedInvocation::invoke (onChange);
+    if (onChange != nullptr)
+        onChange();
 }
 
 void NetworkServiceDiscovery::AvailableServiceList::handleMessage (const XmlElement& xml)

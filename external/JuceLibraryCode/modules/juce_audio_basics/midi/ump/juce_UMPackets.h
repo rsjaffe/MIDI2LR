@@ -22,7 +22,9 @@
 
 #ifndef DOXYGEN
 
-namespace juce::universal_midi_packets
+namespace juce
+{
+namespace universal_midi_packets
 {
 
 /**
@@ -88,6 +90,7 @@ private:
     std::vector<uint32_t> storage;
 };
 
-} // namespace juce::universal_midi_packets
+}
+}
 
 #endif

@@ -842,7 +842,7 @@ FlexItem FlexItem::withAlignSelf (AlignSelf a) const noexcept        { auto fi =
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-class FlexBoxTests final : public UnitTest
+class FlexBoxTests : public UnitTest
 {
 public:
     FlexBoxTests() : UnitTest ("FlexBox", UnitTestCategories::gui) {}

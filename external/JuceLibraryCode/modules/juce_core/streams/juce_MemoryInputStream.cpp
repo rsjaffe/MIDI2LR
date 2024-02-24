@@ -104,7 +104,7 @@ void MemoryInputStream::skipNextBytes (int64 numBytesToSkip)
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-class MemoryStreamTests final : public UnitTest
+class MemoryStreamTests  : public UnitTest
 {
 public:
     MemoryStreamTests()

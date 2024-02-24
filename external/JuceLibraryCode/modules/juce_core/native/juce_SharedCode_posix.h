@@ -405,9 +405,6 @@ bool File::moveInternal (const File& dest) const
     if (rename (fullPath.toUTF8(), dest.getFullPathName().toUTF8()) == 0)
         return true;
 
-    if (isNonEmptyDirectory())
-        return false;
-
     if (hasWriteAccess() && copyInternal (dest))
     {
         if (deleteFile())

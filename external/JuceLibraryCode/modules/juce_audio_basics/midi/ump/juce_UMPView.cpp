@@ -20,7 +20,9 @@
   ==============================================================================
 */
 
-namespace juce::universal_midi_packets
+namespace juce
+{
+namespace universal_midi_packets
 {
 
 uint32_t View::size() const noexcept
@@ -29,4 +31,5 @@ uint32_t View::size() const noexcept
     return Utils::getNumWordsForMessageType (*ptr);
 }
 
-} // namespace juce::universal_midi_packets
+}
+}

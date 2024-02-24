@@ -23,7 +23,7 @@
 namespace juce
 {
 
-struct HashMapTest final : public UnitTest
+struct HashMapTest : public UnitTest
 {
     HashMapTest()
         : UnitTest ("HashMap", UnitTestCategories::containers)

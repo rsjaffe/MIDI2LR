@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-#ifndef RESAMPLER_POLYPHASE_RESAMPLER_H
-#define RESAMPLER_POLYPHASE_RESAMPLER_H
+#ifndef OBOE_POLYPHASE_RESAMPLER_H
+#define OBOE_POLYPHASE_RESAMPLER_H
 
 #include <memory>
 #include <vector>
 #include <sys/types.h>
 #include <unistd.h>
-
 #include "MultiChannelResampler.h"
-#include "ResamplerDefinitions.h"
 
-namespace RESAMPLER_OUTER_NAMESPACE::resampler {
+namespace resampler {
 /**
  * Resampler that is optimized for a reduced ratio of sample rates.
  * All of the coefficients for each possible phase value are pre-calculated.
@@ -48,6 +46,6 @@ protected:
 
 };
 
-} /* namespace RESAMPLER_OUTER_NAMESPACE::resampler */
+}
 
-#endif //RESAMPLER_POLYPHASE_RESAMPLER_H
+#endif //OBOE_POLYPHASE_RESAMPLER_H

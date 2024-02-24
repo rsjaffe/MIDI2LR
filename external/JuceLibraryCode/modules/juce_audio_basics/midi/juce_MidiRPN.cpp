@@ -158,7 +158,7 @@ MidiBuffer MidiRPNGenerator::generate (int midiChannel,
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-class MidiRPNDetectorTests final : public UnitTest
+class MidiRPNDetectorTests   : public UnitTest
 {
 public:
     MidiRPNDetectorTests()
@@ -364,7 +364,7 @@ public:
 static MidiRPNDetectorTests MidiRPNDetectorUnitTests;
 
 //==============================================================================
-class MidiRPNGeneratorTests final : public UnitTest
+class MidiRPNGeneratorTests   : public UnitTest
 {
 public:
     MidiRPNGeneratorTests()

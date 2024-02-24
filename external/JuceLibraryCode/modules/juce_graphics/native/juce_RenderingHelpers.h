@@ -23,10 +23,13 @@
   ==============================================================================
 */
 
-namespace juce::RenderingHelpers
+namespace juce
 {
 
 JUCE_BEGIN_IGNORE_WARNINGS_MSVC (4127)
+
+namespace RenderingHelpers
+{
 
 //==============================================================================
 /** Holds either a simple integer translation, or an affine transform.
@@ -2733,6 +2736,8 @@ protected:
     RenderingHelpers::SavedStateStack<SavedStateType> stack;
 };
 
+}
+
 JUCE_END_IGNORE_WARNINGS_MSVC
 
-} // namespace juce::RenderingHelpers
+} // namespace juce

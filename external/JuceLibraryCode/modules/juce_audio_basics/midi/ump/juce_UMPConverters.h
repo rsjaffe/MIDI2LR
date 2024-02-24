@@ -22,7 +22,9 @@
 
 #ifndef DOXYGEN
 
-namespace juce::universal_midi_packets
+namespace juce
+{
+namespace universal_midi_packets
 {
     /**
         Allows conversion from bytestream- or Universal MIDI Packet-formatted
@@ -180,6 +182,7 @@ namespace juce::universal_midi_packets
 
         Midi1ToBytestreamTranslator translator;
     };
-} // namespace juce::universal_midi_packets
+}
+}
 
 #endif

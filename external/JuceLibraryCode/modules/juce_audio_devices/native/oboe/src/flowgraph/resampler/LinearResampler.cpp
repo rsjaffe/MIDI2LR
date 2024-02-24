@@ -16,7 +16,7 @@
 
 #include "LinearResampler.h"
 
-using namespace RESAMPLER_OUTER_NAMESPACE::resampler;
+using namespace resampler;
 
 LinearResampler::LinearResampler(const MultiChannelResampler::Builder &builder)
         : MultiChannelResampler(builder) {

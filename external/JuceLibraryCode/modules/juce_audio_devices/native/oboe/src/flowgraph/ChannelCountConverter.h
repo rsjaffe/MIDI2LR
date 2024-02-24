@@ -22,7 +22,8 @@
 
 #include "FlowGraphNode.h"
 
-namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph {
+namespace FLOWGRAPH_OUTER_NAMESPACE {
+namespace flowgraph {
 
 /**
  * Change the number of number of channels without mixing.
@@ -47,6 +48,7 @@ namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph {
         FlowGraphPortFloatOutput output;
     };
 
-} /* namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph */
+} /* namespace flowgraph */
+} /* namespace FLOWGRAPH_OUTER_NAMESPACE */
 
 #endif //FLOWGRAPH_CHANNEL_COUNT_CONVERTER_H

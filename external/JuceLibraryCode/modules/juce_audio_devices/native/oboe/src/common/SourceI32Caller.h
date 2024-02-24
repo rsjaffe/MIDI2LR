@@ -34,8 +34,7 @@ class SourceI32Caller : public AudioSourceCaller {
 public:
     SourceI32Caller(int32_t channelCount, int32_t framesPerCallback)
     : AudioSourceCaller(channelCount, framesPerCallback, sizeof(int32_t)) {
-        mConversionBuffer = std::make_unique<int32_t[]>(static_cast<size_t>(channelCount)
-                * static_cast<size_t>(output.getFramesPerBuffer()));
+        mConversionBuffer = std::make_unique<int32_t[]>(channelCount * output.getFramesPerBuffer());
     }
 
     int32_t onProcess(int32_t numFrames) override;

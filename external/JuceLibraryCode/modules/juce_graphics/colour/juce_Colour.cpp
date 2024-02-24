@@ -562,7 +562,7 @@ String Colour::toDisplayString (const bool includeAlphaValue) const
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-class ColourTests final : public UnitTest
+class ColourTests  : public UnitTest
 {
 public:
     ColourTests()

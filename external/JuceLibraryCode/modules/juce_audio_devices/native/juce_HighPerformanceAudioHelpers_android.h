@@ -20,6 +20,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 //==============================================================================
 /**
     Some shared helpers methods for using the high-performance audio paths on
@@ -27,7 +30,7 @@
 
     @tags{Audio}
 */
-namespace juce::AndroidHighPerformanceAudioHelpers
+namespace AndroidHighPerformanceAudioHelpers
 {
     //==============================================================================
     static double getNativeSampleRate()
@@ -123,5 +126,6 @@ namespace juce::AndroidHighPerformanceAudioHelpers
         auto defaultBuffersToEnqueue = buffersToQueueForBufferDuration (nativeBufferSize, defaultBufferLength, currentSampleRate);
         return defaultBuffersToEnqueue * nativeBufferSize;
     }
+}
 
-} // namespace juce::AndroidHighPerformanceAudioHelpers
+} // namespace juce

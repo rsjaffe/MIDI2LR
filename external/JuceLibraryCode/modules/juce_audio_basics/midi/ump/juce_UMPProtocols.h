@@ -22,7 +22,9 @@
 
 #ifndef DOXYGEN
 
-namespace juce::universal_midi_packets
+namespace juce
+{
+namespace universal_midi_packets
 {
 
 /** The kinds of MIDI protocol that can be formatted into Universal MIDI Packets. */
@@ -40,6 +42,7 @@ enum class MidiProtocol
     UMP_MIDI_2_0,
 };
 
-} // namespace juce::universal_midi_packets
+}
+}
 
 #endif

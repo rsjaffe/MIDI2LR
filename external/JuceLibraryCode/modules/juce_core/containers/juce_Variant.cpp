@@ -314,7 +314,7 @@ struct var::VariantType
     static var objectClone (const var& original)
     {
         if (auto* d = original.getDynamicObject())
-            return d->clone().release();
+            return d->clone().get();
 
         jassertfalse; // can only clone DynamicObjects!
         return {};
@@ -401,7 +401,7 @@ struct var::VariantType
         }
     }
 
-    struct RefCountedArray final : public ReferenceCountedObject
+    struct RefCountedArray  : public ReferenceCountedObject
     {
         RefCountedArray (const Array<var>& a)  : array (a)  { incReferenceCount(); }
         RefCountedArray (Array<var>&& a)  : array (std::move (a)) { incReferenceCount(); }

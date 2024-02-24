@@ -168,14 +168,14 @@ AbstractFifo::ScopedWrite AbstractFifo::write (int numToWrite) noexcept    { ret
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-class AbstractFifoTests final : public UnitTest
+class AbstractFifoTests  : public UnitTest
 {
 public:
     AbstractFifoTests()
         : UnitTest ("Abstract Fifo", UnitTestCategories::containers)
     {}
 
-    struct WriteThread final : public Thread
+    struct WriteThread  : public Thread
     {
         WriteThread (AbstractFifo& f, int* b, Random rng)
             : Thread ("fifo writer"), fifo (f), buffer (b), random (rng)
@@ -183,12 +183,12 @@ public:
             startThread();
         }
 
-        ~WriteThread() override
+        ~WriteThread()
         {
             stopThread (5000);
         }
 
-        void run() override
+        void run()
         {
             int n = 0;
 

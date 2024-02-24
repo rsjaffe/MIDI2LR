@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-#ifndef RESAMPLER_POLYPHASE_RESAMPLER_STEREO_H
-#define RESAMPLER_POLYPHASE_RESAMPLER_STEREO_H
+#ifndef OBOE_POLYPHASE_RESAMPLER_STEREO_H
+#define OBOE_POLYPHASE_RESAMPLER_STEREO_H
 
 #include <sys/types.h>
 #include <unistd.h>
-
 #include "PolyphaseResampler.h"
-#include "ResamplerDefinitions.h"
 
-namespace RESAMPLER_OUTER_NAMESPACE::resampler {
+namespace resampler {
 
 class PolyphaseResamplerStereo : public PolyphaseResampler {
 public:
@@ -36,6 +34,6 @@ public:
     void readFrame(float *frame) override;
 };
 
-} /* namespace RESAMPLER_OUTER_NAMESPACE::resampler */
+}
 
-#endif //RESAMPLER_POLYPHASE_RESAMPLER_STEREO_H
+#endif //OBOE_POLYPHASE_RESAMPLER_STEREO_H

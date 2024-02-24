@@ -26,7 +26,7 @@
 namespace juce
 {
 
-struct AccessibilityTextHelpersTest final : public UnitTest
+struct AccessibilityTextHelpersTest : public UnitTest
 {
     AccessibilityTextHelpersTest()
         : UnitTest ("AccessibilityTextHelpers", UnitTestCategories::gui) {}
@@ -125,7 +125,7 @@ struct AccessibilityTextHelpersTest final : public UnitTest
 
     enum class CursorPosition { begin, end };
 
-    class MockAccessibilityTextInterface final : public AccessibilityTextInterface
+    class MockAccessibilityTextInterface : public AccessibilityTextInterface
     {
     public:
         MockAccessibilityTextInterface (String stringIn, Range<int> selectionIn, CursorPosition insertIn)

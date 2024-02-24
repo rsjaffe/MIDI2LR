@@ -16,7 +16,7 @@
 
 #include "IntegerRatio.h"
 
-using namespace RESAMPLER_OUTER_NAMESPACE::resampler;
+using namespace resampler;
 
 // Enough primes to cover the common sample rates.
 static const int kPrimes[] = {

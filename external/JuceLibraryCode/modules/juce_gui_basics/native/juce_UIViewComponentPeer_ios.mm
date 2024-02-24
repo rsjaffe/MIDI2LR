@@ -23,6 +23,8 @@
   ==============================================================================
 */
 
+#include "juce_CGMetalLayerRenderer_mac.h"
+
 #if TARGET_OS_SIMULATOR && JUCE_COREGRAPHICS_RENDER_WITH_MULTIPLE_PAINT_CALLS
  #warning JUCE_COREGRAPHICS_RENDER_WITH_MULTIPLE_PAINT_CALLS uses parts of the Metal API that are currently unsupported in the simulator - falling back to JUCE_COREGRAPHICS_RENDER_WITH_MULTIPLE_PAINT_CALLS=0
  #undef JUCE_COREGRAPHICS_RENDER_WITH_MULTIPLE_PAINT_CALLS
@@ -387,8 +389,8 @@ struct UIViewPeerControllerReceiver
 };
 
 //==============================================================================
-class UIViewComponentPeer final : public ComponentPeer,
-                                  public UIViewPeerControllerReceiver
+class UIViewComponentPeer  : public ComponentPeer,
+                             public UIViewPeerControllerReceiver
 {
 public:
     UIViewComponentPeer (Component&, int windowStyleFlags, UIView* viewToAttachTo);
@@ -543,7 +545,7 @@ private:
     }
 
     //==============================================================================
-    class AsyncRepaintMessage final : public CallbackMessage
+    class AsyncRepaintMessage  : public CallbackMessage
     {
     public:
         UIViewComponentPeer* const peer;
@@ -982,7 +984,7 @@ static bool attemptToConsumeKeys (JuceUIView* view, NSSet<UIPress*>* presses)
     return used;
 }
 
-- (void) pressesBegan: (NSSet<UIPress*>*) presses withEvent: (UIPressesEvent*) event
+- (void) pressesBegan:(NSSet<UIPress*>*) presses withEvent:(UIPressesEvent*) event
 {
     const auto handledEvent = [&]
     {
@@ -1031,13 +1033,13 @@ static bool doKeysUp (UIViewComponentPeer* owner, NSSet<UIPress*>* presses, UIPr
     return false;
 }
 
-- (void) pressesEnded: (NSSet<UIPress*>*) presses withEvent: (UIPressesEvent*) event
+- (void) pressesEnded:(NSSet<UIPress*>*) presses withEvent:(UIPressesEvent*) event
 {
     if (! doKeysUp (owner, presses, event))
         [super pressesEnded: presses withEvent: event];
 }
 
-- (void) pressesCancelled: (NSSet<UIPress*>*) presses withEvent: (UIPressesEvent*) event
+- (void) pressesCancelled:(NSSet<UIPress*>*) presses withEvent:(UIPressesEvent*) event
 {
     if (! doKeysUp (owner, presses, event))
         [super pressesCancelled: presses withEvent: event];
@@ -1927,11 +1929,11 @@ void UIViewComponentPeer::updateScreenBounds()
         {
             // this will re-centre the window, but leave its size unchanged
 
-            auto centreRelX = (float) oldArea.getCentreX() / (float) oldDesktop.getWidth();
-            auto centreRelY = (float) oldArea.getCentreY() / (float) oldDesktop.getHeight();
+            auto centreRelX = oldArea.getCentreX() / (float) oldDesktop.getWidth();
+            auto centreRelY = oldArea.getCentreY() / (float) oldDesktop.getHeight();
 
-            auto x = ((int) ((float) newDesktop.getWidth()  * centreRelX)) - (oldArea.getWidth()  / 2);
-            auto y = ((int) ((float) newDesktop.getHeight() * centreRelY)) - (oldArea.getHeight() / 2);
+            auto x = ((int) (newDesktop.getWidth()  * centreRelX)) - (oldArea.getWidth()  / 2);
+            auto y = ((int) (newDesktop.getHeight() * centreRelY)) - (oldArea.getHeight() / 2);
 
             component.setBounds (oldArea.withPosition (x, y));
         }
@@ -2230,7 +2232,7 @@ void UIViewComponentPeer::drawRectWithContext (CGContextRef cg, CGRect)
         CGContextClearRect (cg, CGContextGetClipBoundingBox (cg));
 
     CGContextConcatCTM (cg, CGAffineTransformMake (1, 0, 0, -1, 0, getComponent().getHeight()));
-    CoreGraphicsContext g (cg, (float) getComponent().getHeight());
+    CoreGraphicsContext g (cg, getComponent().getHeight());
 
     insideDrawRect = true;
     handlePaint (g);

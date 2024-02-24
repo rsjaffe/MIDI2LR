@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-#include "FlowGraphNode.h"
-#include "FlowgraphUtilities.h"
-#include "SinkI32.h"
-
 #if FLOWGRAPH_ANDROID_INTERNAL
 #include <audio_utils/primitives.h>
 #endif
+
+#include "FlowGraphNode.h"
+#include "FlowgraphUtilities.h"
+#include "SinkI32.h"
 
 using namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph;
 

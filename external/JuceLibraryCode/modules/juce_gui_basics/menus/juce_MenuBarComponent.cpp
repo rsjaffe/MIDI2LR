@@ -26,7 +26,7 @@
 namespace juce
 {
 
-class MenuBarComponent::AccessibleItemComponent final : public Component
+class MenuBarComponent::AccessibleItemComponent  : public Component
 {
 public:
     AccessibleItemComponent (MenuBarComponent& comp, const String& menuItemName)
@@ -41,7 +41,7 @@ public:
 private:
     std::unique_ptr<AccessibilityHandler> createAccessibilityHandler() override
     {
-        class ComponentHandler final : public AccessibilityHandler
+        class ComponentHandler  : public AccessibilityHandler
         {
         public:
             explicit ComponentHandler (AccessibleItemComponent& item)
@@ -447,7 +447,7 @@ void MenuBarComponent::timerCallback()
 //==============================================================================
 std::unique_ptr<AccessibilityHandler> MenuBarComponent::createAccessibilityHandler()
 {
-    struct MenuBarComponentAccessibilityHandler final : public AccessibilityHandler
+    struct MenuBarComponentAccessibilityHandler  : public AccessibilityHandler
     {
         explicit MenuBarComponentAccessibilityHandler (MenuBarComponent& menuBarComponent)
             : AccessibilityHandler (menuBarComponent, AccessibilityRole::menuBar)

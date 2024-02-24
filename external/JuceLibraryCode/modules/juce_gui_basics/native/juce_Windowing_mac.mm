@@ -53,7 +53,7 @@ static NSView* getNSViewForDragEvent (Component* sourceComp)
     return nil;
 }
 
-class NSDraggingSourceHelper final : public ObjCClass<NSObject<NSDraggingSource>>
+class NSDraggingSourceHelper   : public ObjCClass<NSObject<NSDraggingSource>>
 {
 public:
     static void setText (id self, const String& text)
@@ -312,7 +312,7 @@ public:
     }
 
 private:
-    struct DelegateClass final : public ObjCClass<NSObject>
+    struct DelegateClass  : public ObjCClass<NSObject>
     {
         DelegateClass()  : ObjCClass<NSObject> ("JUCEDelegate_")
         {
@@ -333,7 +333,7 @@ std::unique_ptr<Desktop::NativeDarkModeChangeDetectorImpl> Desktop::createNative
 }
 
 //==============================================================================
-class ScreenSaverDefeater final : public Timer
+class ScreenSaverDefeater   : public Timer
 {
 public:
     ScreenSaverDefeater()
@@ -394,7 +394,7 @@ bool Desktop::isScreenSaverEnabled()
 }
 
 //==============================================================================
-struct DisplaySettingsChangeCallback final : private DeletedAtShutdown
+struct DisplaySettingsChangeCallback  : private DeletedAtShutdown
 {
     DisplaySettingsChangeCallback()
     {
@@ -410,7 +410,8 @@ struct DisplaySettingsChangeCallback final : private DeletedAtShutdown
     static void displayReconfigurationCallback (CGDirectDisplayID, CGDisplayChangeSummaryFlags, void* userInfo)
     {
         if (auto* thisPtr = static_cast<DisplaySettingsChangeCallback*> (userInfo))
-            NullCheckedInvocation::invoke (thisPtr->forceDisplayUpdate);
+            if (thisPtr->forceDisplayUpdate != nullptr)
+                thisPtr->forceDisplayUpdate();
     }
 
     std::function<void()> forceDisplayUpdate;
@@ -445,17 +446,6 @@ static Displays::Display getDisplayFromScreen (NSScreen* s, CGFloat& mainScreenB
 
     NSSize dpi = [[[s deviceDescription] objectForKey: NSDeviceResolution] sizeValue];
     d.dpi = (dpi.width + dpi.height) / 2.0;
-
-   #if defined (MAC_OS_VERSION_12_0) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_VERSION_12_0
-    if (@available (macOS 12.0, *))
-    {
-        const auto safeInsets = [s safeAreaInsets];
-        d.safeAreaInsets = detail::WindowingHelpers::roundToInt (BorderSize<double> { safeInsets.top,
-                                                                                      safeInsets.left,
-                                                                                      safeInsets.bottom,
-                                                                                      safeInsets.right }.multipliedBy (1.0 / (double) masterScale));
-    }
-   #endif
 
     return d;
 }
@@ -583,6 +573,15 @@ void SystemClipboard::copyTextToClipboard (const String& text)
 String SystemClipboard::getTextFromClipboard()
 {
     return nsStringToJuce ([[NSPasteboard generalPasteboard] stringForType: NSPasteboardTypeString]);
+}
+
+void Process::setDockIconVisible (bool isVisible)
+{
+    ProcessSerialNumber psn { 0, kCurrentProcess };
+
+    [[maybe_unused]] OSStatus err = TransformProcessType (&psn, isVisible ? kProcessTransformToForegroundApplication
+                                                                          : kProcessTransformToUIElementApplication);
+    jassert (err == 0);
 }
 
 } // namespace juce

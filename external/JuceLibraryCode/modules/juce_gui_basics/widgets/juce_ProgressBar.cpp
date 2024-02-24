@@ -133,7 +133,7 @@ void ProgressBar::timerCallback()
 //==============================================================================
 std::unique_ptr<AccessibilityHandler> ProgressBar::createAccessibilityHandler()
 {
-    class ProgressBarAccessibilityHandler final : public AccessibilityHandler
+    class ProgressBarAccessibilityHandler  : public AccessibilityHandler
     {
     public:
         explicit ProgressBarAccessibilityHandler (ProgressBar& progressBarToWrap)
@@ -148,7 +148,7 @@ std::unique_ptr<AccessibilityHandler> ProgressBar::createAccessibilityHandler()
         String getHelp() const override   { return progressBar.getTooltip(); }
 
     private:
-        class ValueInterface final : public AccessibilityRangedNumericValueInterface
+        class ValueInterface  : public AccessibilityRangedNumericValueInterface
         {
         public:
             explicit ValueInterface (ProgressBar& progressBarToWrap)

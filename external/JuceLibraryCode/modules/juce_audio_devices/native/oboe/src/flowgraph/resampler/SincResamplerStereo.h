@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-#ifndef RESAMPLER_SINC_RESAMPLER_STEREO_H
-#define RESAMPLER_SINC_RESAMPLER_STEREO_H
+#ifndef OBOE_SINC_RESAMPLER_STEREO_H
+#define OBOE_SINC_RESAMPLER_STEREO_H
 
 #include <sys/types.h>
 #include <unistd.h>
-
 #include "SincResampler.h"
-#include "ResamplerDefinitions.h"
 
-namespace RESAMPLER_OUTER_NAMESPACE::resampler {
+namespace resampler {
 
 class SincResamplerStereo : public SincResampler {
 public:
@@ -37,6 +35,5 @@ public:
 
 };
 
-} /* namespace RESAMPLER_OUTER_NAMESPACE::resampler */
-
-#endif //RESAMPLER_SINC_RESAMPLER_STEREO_H
+}
+#endif //OBOE_SINC_RESAMPLER_STEREO_H

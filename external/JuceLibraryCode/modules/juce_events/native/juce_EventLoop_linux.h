@@ -20,9 +20,11 @@
   ==============================================================================
 */
 
-namespace juce::LinuxEventLoop
+namespace juce
 {
 
+namespace LinuxEventLoop
+{
     /** Registers a callback that will be called when a file descriptor is ready for I/O.
 
         This will add the given file descriptor to the internal set of file descriptors
@@ -43,5 +45,6 @@ namespace juce::LinuxEventLoop
         @see registerFdCallback
     */
     void unregisterFdCallback (int fd);
+}
 
-} // namespace juce::LinuxEventLoop
+} // namespace juce

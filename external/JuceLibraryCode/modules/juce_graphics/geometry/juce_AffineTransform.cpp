@@ -245,7 +245,7 @@ float AffineTransform::getScaleFactor() const noexcept
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-class AffineTransformTests final : public UnitTest
+class AffineTransformTests  : public UnitTest
 {
 public:
     AffineTransformTests()

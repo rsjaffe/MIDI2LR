@@ -100,8 +100,8 @@ struct MidiServiceType
 };
 
 //==============================================================================
-struct Win32MidiService final : public MidiServiceType,
-                                private Timer
+struct Win32MidiService  : public MidiServiceType,
+                           private Timer
 {
     Win32MidiService() = default;
 
@@ -131,7 +131,7 @@ private:
     struct Win32InputWrapper;
 
     //==============================================================================
-    struct MidiInCollector final : public ReferenceCountedObject
+    struct MidiInCollector  : public ReferenceCountedObject
     {
         MidiInCollector (Win32MidiService& s, MidiDeviceInfo d)
             : deviceInfo (d), midiService (s)
@@ -370,8 +370,6 @@ private:
     template <class WrapperType>
     struct Win32MidiDeviceQuery
     {
-        virtual ~Win32MidiDeviceQuery() = default;
-
         static Array<MidiDeviceInfo> getAvailableDevices()
         {
             StringArray deviceNames, deviceIDs;
@@ -421,8 +419,8 @@ private:
         }
     };
 
-    struct Win32InputWrapper final : public MidiInput::Pimpl,
-                                     public Win32MidiDeviceQuery<Win32InputWrapper>
+    struct Win32InputWrapper  : public MidiInput::Pimpl,
+                                public Win32MidiDeviceQuery<Win32InputWrapper>
     {
         Win32InputWrapper (Win32MidiService& parentService, MidiInput& midiInput, const String& deviceIdentifier, MidiInputCallback& c)
             : input (midiInput), callback (c)
@@ -519,7 +517,7 @@ private:
     };
 
     //==============================================================================
-    struct MidiOutHandle final : public ReferenceCountedObject
+    struct MidiOutHandle    : public ReferenceCountedObject
     {
         using Ptr = ReferenceCountedObjectPtr<MidiOutHandle>;
 
@@ -545,8 +543,8 @@ private:
     };
 
     //==============================================================================
-    struct Win32OutputWrapper final : public MidiOutput::Pimpl,
-                                      public Win32MidiDeviceQuery<Win32OutputWrapper>
+    struct Win32OutputWrapper  : public MidiOutput::Pimpl,
+                                 public Win32MidiDeviceQuery<Win32OutputWrapper>
     {
         Win32OutputWrapper (Win32MidiService& p, const String& deviceIdentifier)
             : parent (p)
@@ -709,7 +707,7 @@ private:
         const ScopedLock sl (activeCollectorLock);
 
         for (int i = activeCollectors.size(); --i >= 0;)
-            if (activeCollectors.getObjectPointer (i)->getReferenceCount() == 1)
+            if (activeCollectors.getObjectPointer(i)->getReferenceCount() == 1)
                 activeCollectors.remove (i);
     }
 
@@ -747,7 +745,7 @@ using namespace ABI::Windows::Devices::Enumeration;
 using namespace ABI::Windows::Storage::Streams;
 
 //==============================================================================
-struct WinRTMidiService final : public MidiServiceType
+struct WinRTMidiService  : public MidiServiceType
 {
 public:
     //==============================================================================
@@ -1010,7 +1008,7 @@ private:
 
     private:
         //==============================================================================
-        struct DeviceEnumerationThread final : public Thread
+        struct DeviceEnumerationThread   : public Thread
         {
             DeviceEnumerationThread (DeviceCallbackHandler& h,
                                      ComSmartPtr<IDeviceWatcher>& w,
@@ -1065,7 +1063,7 @@ private:
     };
 
     //==============================================================================
-    struct BLEDeviceWatcher final : private DeviceCallbackHandler
+    struct BLEDeviceWatcher final   : private DeviceCallbackHandler
     {
         struct DeviceInfo
         {
@@ -1255,7 +1253,7 @@ private:
 
     //==============================================================================
     template <typename COMFactoryType>
-    struct MidiIODeviceWatcher final : private DeviceCallbackHandler
+    struct MidiIODeviceWatcher final   : private DeviceCallbackHandler
     {
         MidiIODeviceWatcher (ComSmartPtr<COMFactoryType>& comFactory)
             : factory (comFactory)
@@ -1505,7 +1503,7 @@ private:
 
     //==============================================================================
     template <typename MIDIIOStaticsType, typename MIDIPort>
-    class WinRTIOWrapper : private BLEDeviceWatcher::Listener
+    class WinRTIOWrapper   : private BLEDeviceWatcher::Listener
     {
     public:
         WinRTIOWrapper (BLEDeviceWatcher& bleWatcher,
@@ -1588,8 +1586,8 @@ private:
     };
 
     //==============================================================================
-    struct WinRTInputWrapper final : public MidiInput::Pimpl,
-                                     private WinRTIOWrapper<IMidiInPortStatics, IMidiInPort>
+    struct WinRTInputWrapper final  : public MidiInput::Pimpl,
+                                      private WinRTIOWrapper<IMidiInPortStatics, IMidiInPort>
 
     {
         WinRTInputWrapper (WinRTMidiService& service, MidiInput& input, const String& deviceIdentifier, MidiInputCallback& cb)
@@ -1751,8 +1749,8 @@ private:
     };
 
     //==============================================================================
-    struct WinRTOutputWrapper final : public MidiOutput::Pimpl,
-                                      private WinRTIOWrapper <IMidiOutPortStatics, IMidiOutPort>
+    struct WinRTOutputWrapper final  : public MidiOutput::Pimpl,
+                                       private WinRTIOWrapper <IMidiOutPortStatics, IMidiOutPort>
     {
         WinRTOutputWrapper (WinRTMidiService& service, const String& deviceIdentifier)
             : WinRTIOWrapper <IMidiOutPortStatics, IMidiOutPort> (*service.bleDeviceWatcher, *service.outputDeviceWatcher, deviceIdentifier)
@@ -1836,7 +1834,7 @@ private:
  extern RTL_OSVERSIONINFOW getWindowsVersionInfo();
 #endif
 
-struct MidiService final : public DeletedAtShutdown
+struct MidiService :  public DeletedAtShutdown
 {
     MidiService()
     {

@@ -35,7 +35,7 @@ static struct OwnedArrayTest : public UnitTest
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Base)
     };
 
-    struct Derived final : public Base
+    struct Derived : Base
     {
         Derived() = default;
 

@@ -113,7 +113,8 @@ void SidePanel::showOrHide (bool show)
 
 void SidePanel::moved()
 {
-    NullCheckedInvocation::invoke (onPanelMove);
+    if (onPanelMove != nullptr)
+        onPanelMove();
 }
 
 void SidePanel::resized()
@@ -252,7 +253,8 @@ void SidePanel::changeListenerCallback (ChangeBroadcaster*)
 {
     if (! Desktop::getInstance().getAnimator().isAnimating (this))
     {
-        NullCheckedInvocation::invoke (onPanelShowHide, isShowing);
+        if (onPanelShowHide != nullptr)
+            onPanelShowHide (isShowing);
 
         if (isVisible() && ! isShowing)
             setVisible (false);

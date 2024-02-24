@@ -294,7 +294,7 @@ bool GZIPDecompressorInputStream::setPosition (int64 newPos)
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-struct GZIPDecompressorInputStreamTests final : public UnitTest
+struct GZIPDecompressorInputStreamTests   : public UnitTest
 {
     GZIPDecompressorInputStreamTests()
         : UnitTest ("GZIPDecompressorInputStreamTests", UnitTestCategories::streams)

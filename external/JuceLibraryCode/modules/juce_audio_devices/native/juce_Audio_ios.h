@@ -64,8 +64,6 @@ public:
 
     int getXRunCount() const noexcept override;
 
-    AudioWorkgroup getWorkgroup() const override;
-
     //==============================================================================
     void setMidiMessageCollector (MidiMessageCollector*);
     AudioPlayHead* getAudioPlayHead() const;

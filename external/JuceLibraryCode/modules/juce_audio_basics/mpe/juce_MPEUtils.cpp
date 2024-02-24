@@ -284,7 +284,7 @@ void MPEChannelRemapper::zeroArrays()
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-struct MPEUtilsUnitTests final : public UnitTest
+struct MPEUtilsUnitTests  : public UnitTest
 {
     MPEUtilsUnitTests()
         : UnitTest ("MPE Utilities", UnitTestCategories::midi)

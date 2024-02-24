@@ -27,7 +27,7 @@ namespace juce
 {
 
 //==============================================================================
-struct OutlineWindowComponent final : public Component
+struct OutlineWindowComponent  : public Component
 {
     OutlineWindowComponent (Component* c, FocusOutline::OutlineWindowProperties& p)
       : target (c), props (p)

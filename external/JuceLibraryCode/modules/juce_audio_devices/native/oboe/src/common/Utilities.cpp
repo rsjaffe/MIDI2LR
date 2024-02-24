@@ -66,9 +66,6 @@ int32_t convertFormatToSizeInBytes(AudioFormat format) {
         case AudioFormat::I32:
             size = sizeof(int32_t);
             break;
-        case AudioFormat::IEC61937:
-            size = sizeof(int16_t);
-            break;
         default:
             break;
     }
@@ -109,7 +106,6 @@ const char *convertToText<AudioFormat>(AudioFormat format) {
         case AudioFormat::Float:        return "Float";
         case AudioFormat::I24:          return "I24";
         case AudioFormat::I32:          return "I32";
-        case AudioFormat::IEC61937:     return "IEC61937";
         default:                        return "Unrecognized format";
     }
 }
@@ -312,22 +308,6 @@ int getSdkVersion() {
     }
 #endif
     return sCachedSdkVersion;
-}
-
-bool isAtLeastPreReleaseCodename(const std::string& codename) {
-    std::string buildCodename = getPropertyString("ro.build.version.codename");
-    // Special case "REL", which means the build is not a pre-release build.
-    if ("REL" == buildCodename) {
-        return false;
-    }
-
-    // Otherwise lexically compare them. Return true if the build codename is equal to or
-    // greater than the requested codename.
-    return buildCodename.compare(codename) >= 0;
-}
-
-int getChannelCountFromChannelMask(ChannelMask channelMask) {
-    return __builtin_popcount(static_cast<uint32_t>(channelMask));
 }
 
 }// namespace oboe

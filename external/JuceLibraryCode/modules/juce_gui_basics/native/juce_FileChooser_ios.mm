@@ -27,7 +27,7 @@
 - (void) setParent: (FileChooser::Native*) ptr;
 @end
 
-@interface FileChooserDelegateClass : NSObject<UIDocumentPickerDelegate, UIAdaptivePresentationControllerDelegate>
+@interface FileChooserDelegateClass : NSObject<UIDocumentPickerDelegate>
 - (id) initWithOwner: (FileChooser::Native*) owner;
 @end
 
@@ -40,9 +40,10 @@ namespace juce
 #endif
 
 //==============================================================================
-class FileChooser::Native final : public FileChooser::Pimpl,
-                                  public detail::NativeModalWrapperComponent,
-                                  public std::enable_shared_from_this<Native>
+class FileChooser::Native  : public FileChooser::Pimpl,
+                             public detail::NativeModalWrapperComponent,
+                             public AsyncUpdater,
+                             public std::enable_shared_from_this<Native>
 {
 public:
     static std::shared_ptr<Native> make (FileChooser& fileChooser, int flags)
@@ -85,9 +86,16 @@ public:
        #endif
     }
 
+    void handleAsyncUpdate() override
+    {
+        pickerWasCancelled();
+    }
+
     //==============================================================================
     void didPickDocumentsAtURLs (NSArray<NSURL*>* urls)
     {
+        cancelPendingUpdate();
+
         const auto isWriting =  controller.get().documentPickerMode == UIDocumentPickerModeExportToService
                              || controller.get().documentPickerMode == UIDocumentPickerModeMoveToService;
         const auto accessOptions = isWriting ? 0 : NSFileCoordinatorReadingWithoutChanges;
@@ -215,14 +223,12 @@ private:
 
         [controller.get() setDelegate: delegate.get()];
 
-        if (auto* pc = [controller.get() presentationController])
-            [pc setDelegate: delegate.get()];
-
         displayNativeWindowModally (fileChooser.parent);
     }
 
     void passResultsToInitiator (Array<URL> urls)
     {
+        cancelPendingUpdate();
         exitModalState (0);
 
         // If the caller attempts to show a platform-native dialog box inside the results callback (e.g. in the DialogsDemo)
@@ -304,7 +310,7 @@ private:
 
     //==============================================================================
     FileChooser& owner;
-    NSUniquePtr<NSObject<UIDocumentPickerDelegate, UIAdaptivePresentationControllerDelegate>> delegate;
+    NSUniquePtr<NSObject<UIDocumentPickerDelegate>> delegate;
     NSUniquePtr<FileChooserControllerClass> controller;
 
     //==============================================================================
@@ -345,6 +351,14 @@ std::shared_ptr<FileChooser::Pimpl> FileChooser::showPlatformDialog (FileChooser
     ptr = parent->weak_from_this();
 }
 
+- (void) viewDidDisappear: (BOOL) animated
+{
+    [super viewDidDisappear: animated];
+
+    if (auto nativeParent = ptr.lock())
+        nativeParent->triggerAsyncUpdate();
+}
+
 @end
 
 @implementation FileChooserDelegateClass
@@ -374,12 +388,6 @@ JUCE_END_IGNORE_WARNINGS_GCC_LIKE
 }
 
 - (void) documentPickerWasCancelled: (UIDocumentPickerViewController*) controller
-{
-    if (owner != nullptr)
-        owner->pickerWasCancelled();
-}
-
-- (void) presentationControllerDidDismiss: (UIPresentationController *) presentationController
 {
     if (owner != nullptr)
         owner->pickerWasCancelled();

@@ -23,7 +23,7 @@
 namespace juce
 {
 
-struct ADSRTests final : public UnitTest
+struct ADSRTests  : public UnitTest
 {
     ADSRTests()  : UnitTest ("ADSR", UnitTestCategories::audio)  {}
 

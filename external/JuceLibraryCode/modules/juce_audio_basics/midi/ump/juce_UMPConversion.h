@@ -22,7 +22,9 @@
 
 #ifndef DOXYGEN
 
-namespace juce::universal_midi_packets
+namespace juce
+{
+namespace universal_midi_packets
 {
 
 /** Represents a MIDI message that happened at a particular time.
@@ -350,6 +352,7 @@ struct Conversion
     }
 };
 
-} // namespace juce::universal_midi_packets
+}
+}
 
 #endif

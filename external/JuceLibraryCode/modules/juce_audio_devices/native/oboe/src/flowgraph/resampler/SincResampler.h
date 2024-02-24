@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-#ifndef RESAMPLER_SINC_RESAMPLER_H
-#define RESAMPLER_SINC_RESAMPLER_H
+#ifndef OBOE_SINC_RESAMPLER_H
+#define OBOE_SINC_RESAMPLER_H
 
 #include <memory>
 #include <sys/types.h>
 #include <unistd.h>
-
 #include "MultiChannelResampler.h"
-#include "ResamplerDefinitions.h"
 
-namespace RESAMPLER_OUTER_NAMESPACE::resampler {
+namespace resampler {
 
 /**
  * Resampler that can interpolate between coefficients.
@@ -45,6 +43,5 @@ protected:
     double             mPhaseScaler = 1.0;
 };
 
-} /* namespace RESAMPLER_OUTER_NAMESPACE::resampler */
-
-#endif //RESAMPLER_SINC_RESAMPLER_H
+}
+#endif //OBOE_SINC_RESAMPLER_H

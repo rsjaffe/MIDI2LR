@@ -164,7 +164,8 @@ private:
             }
 
             if (message == WM_SETTINGCHANGE)
-                NullCheckedInvocation::invoke (settingChangeCallback);
+                if (settingChangeCallback != nullptr)
+                    settingChangeCallback();
         }
 
         return DefWindowProc (h, message, wParam, lParam);
@@ -199,7 +200,7 @@ private:
     {
         if (data != nullptr && data->dwData == broadcastMessageMagicNumber)
         {
-            struct BroadcastMessage final : public CallbackMessage
+            struct BroadcastMessage  : public CallbackMessage
             {
                 BroadcastMessage (CharPointer_UTF32 text, size_t length) : message (text, length) {}
                 void messageCallback() override { MessageManager::getInstance()->deliverBroadcastMessage (message); }

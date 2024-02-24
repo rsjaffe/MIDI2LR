@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef FLOWGRAPH_SAMPLE_RATE_CONVERTER_H
-#define FLOWGRAPH_SAMPLE_RATE_CONVERTER_H
+#ifndef OBOE_SAMPLE_RATE_CONVERTER_H
+#define OBOE_SAMPLE_RATE_CONVERTER_H
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -23,12 +23,12 @@
 #include "FlowGraphNode.h"
 #include "resampler/MultiChannelResampler.h"
 
-namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph {
+namespace FLOWGRAPH_OUTER_NAMESPACE {
+namespace flowgraph {
 
 class SampleRateConverter : public FlowGraphFilter {
 public:
-    explicit SampleRateConverter(int32_t channelCount,
-                                 resampler::MultiChannelResampler &mResampler);
+    explicit SampleRateConverter(int32_t channelCount, resampler::MultiChannelResampler &mResampler);
 
     virtual ~SampleRateConverter() = default;
 
@@ -58,6 +58,7 @@ private:
 
 };
 
-} /* namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph */
+} /* namespace flowgraph */
+} /* namespace FLOWGRAPH_OUTER_NAMESPACE */
 
-#endif //FLOWGRAPH_SAMPLE_RATE_CONVERTER_H
+#endif //OBOE_SAMPLE_RATE_CONVERTER_H

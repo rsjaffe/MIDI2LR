@@ -28,7 +28,7 @@ namespace juce
 
 ComboBox::ComboBox (const String& name)
     : Component (name),
-      noChoicesMessage (TRANS ("(no choices)"))
+      noChoicesMessage (TRANS("(no choices)"))
 {
     setRepaintsOnMouseActivity (true);
     lookAndFeelChanged();
@@ -625,7 +625,8 @@ void ComboBox::handleAsyncUpdate()
     if (checker.shouldBailOut())
         return;
 
-    NullCheckedInvocation::invoke (onChange);
+    if (onChange != nullptr)
+        onChange();
 
     if (checker.shouldBailOut())
         return;
@@ -650,7 +651,7 @@ void ComboBox::setSelectedId (const int newItemId, const bool dontSendChange)   
 void ComboBox::setText (const String& newText, const bool dontSendChange)        { setText (newText, dontSendChange ? dontSendNotification : sendNotification); }
 
 //==============================================================================
-class ComboBoxAccessibilityHandler final : public AccessibilityHandler
+class ComboBoxAccessibilityHandler  : public AccessibilityHandler
 {
 public:
     explicit ComboBoxAccessibilityHandler (ComboBox& comboBoxToWrap)
@@ -673,7 +674,7 @@ public:
     String getHelp() const override   { return comboBox.getTooltip(); }
 
 private:
-    class ComboBoxValueInterface final : public AccessibilityTextValueInterface
+    class ComboBoxValueInterface  : public AccessibilityTextValueInterface
     {
     public:
         explicit ComboBoxValueInterface (ComboBox& comboBoxToWrap)

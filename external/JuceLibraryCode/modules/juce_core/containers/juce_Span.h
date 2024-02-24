@@ -114,10 +114,6 @@ public:
 
     constexpr Span& operator= (const Span&) = default;
 
-    constexpr Span (Span&&) noexcept = default;
-
-    constexpr Span& operator= (Span&&) noexcept = default;
-
     using Base::size;
 
     constexpr Value* begin() const { return ptr; }

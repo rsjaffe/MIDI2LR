@@ -22,7 +22,9 @@
 
 #ifndef DOXYGEN
 
-namespace juce::universal_midi_packets
+namespace juce
+{
+namespace universal_midi_packets
 {
 
 /**
@@ -185,6 +187,7 @@ using PacketX2 = Packet<2>;
 using PacketX3 = Packet<3>;
 using PacketX4 = Packet<4>;
 
-} // namespace juce::universal_midi_packets
+}
+}
 
 #endif

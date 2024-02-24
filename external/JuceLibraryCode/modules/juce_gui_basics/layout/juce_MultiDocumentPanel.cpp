@@ -128,7 +128,9 @@ void MultiDocumentPanel::closeLastDocumentRecursive (SafePointer<MultiDocumentPa
 {
     if (parent->components.isEmpty())
     {
-        NullCheckedInvocation::invoke (callback, true);
+        if (callback != nullptr)
+            callback (true);
+
         return;
     }
 
@@ -141,7 +143,9 @@ void MultiDocumentPanel::closeLastDocumentRecursive (SafePointer<MultiDocumentPa
 
         if (! closeResult)
         {
-            NullCheckedInvocation::invoke (callback, false);
+            if (callback != nullptr)
+                callback (false);
+
             return;
         }
 
@@ -432,7 +436,9 @@ void MultiDocumentPanel::closeDocumentAsync (Component* component,
 
     if (component == nullptr)
     {
-        NullCheckedInvocation::invoke (callback, true);
+        if (callback != nullptr)
+            callback (true);
+
         return;
     }
 
@@ -449,7 +455,8 @@ void MultiDocumentPanel::closeDocumentAsync (Component* component,
                 if (closedSuccessfully)
                     parent->closeDocumentInternal (component);
 
-                NullCheckedInvocation::invoke (callback, closedSuccessfully);
+                if (callback != nullptr)
+                    callback (closedSuccessfully);
             });
 
             return;
@@ -462,7 +469,8 @@ void MultiDocumentPanel::closeDocumentAsync (Component* component,
         jassertfalse;
     }
 
-    NullCheckedInvocation::invoke (callback, true);
+    if (callback != nullptr)
+        callback (true);
 
     JUCE_END_IGNORE_WARNINGS_MSVC
 }

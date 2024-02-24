@@ -26,10 +26,10 @@
 namespace juce
 {
 
-struct Button::CallbackHelper final : public Timer,
-                                      public ApplicationCommandManagerListener,
-                                      public Value::Listener,
-                                      public KeyListener
+struct Button::CallbackHelper  : public Timer,
+                                 public ApplicationCommandManagerListener,
+                                 public Value::Listener,
+                                 public KeyListener
 {
     CallbackHelper (Button& b) : button (b)   {}
 
@@ -122,7 +122,7 @@ void Button::updateAutomaticTooltip (const ApplicationCommandInfo& info)
             tt << " [";
 
             if (key.length() == 1)
-                tt << TRANS ("shortcut") << ": '" << key << "']";
+                tt << TRANS("shortcut") << ": '" << key << "']";
             else
                 tt << key << ']';
         }
@@ -421,7 +421,8 @@ void Button::sendClickMessage (const ModifierKeys& modifiers)
     if (checker.shouldBailOut())
         return;
 
-    NullCheckedInvocation::invoke (onClick);
+    if (onClick != nullptr)
+        onClick();
 }
 
 void Button::sendStateMessage()
@@ -438,7 +439,8 @@ void Button::sendStateMessage()
     if (checker.shouldBailOut())
         return;
 
-    NullCheckedInvocation::invoke (onStateChange);
+    if (onStateChange != nullptr)
+        onStateChange();
 }
 
 //==============================================================================

@@ -28,7 +28,7 @@ namespace juce
 
 #if JUCE_UNIT_TESTS
 
-class CachedValueTests final : public UnitTest
+class CachedValueTests  : public UnitTest
 {
 public:
     CachedValueTests()

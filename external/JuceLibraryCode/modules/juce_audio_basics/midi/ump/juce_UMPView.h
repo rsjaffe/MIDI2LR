@@ -22,7 +22,9 @@
 
 #ifndef DOXYGEN
 
-namespace juce::universal_midi_packets
+namespace juce
+{
+namespace universal_midi_packets
 {
 
 /**
@@ -31,7 +33,7 @@ namespace juce::universal_midi_packets
     The packet must be well-formed for member functions to work correctly.
 
     Specifically, the constructor argument must be the beginning of a region of
-    uint32_t that contains at least `getNumWordsForMessageType (*data)` items,
+    uint32_t that contains at least `getNumWordsForMessageType(*data)` items,
     where `data` is the constructor argument.
 
     NOTE: Instances of this class do not own the memory that they point to!
@@ -84,6 +86,7 @@ private:
     const uint32_t* ptr = nullptr;
 };
 
-} // namespace juce::universal_midi_packets
+}
+}
 
 #endif

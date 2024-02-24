@@ -746,9 +746,6 @@ private:
 
 } // namespace
 
-namespace detail
-{
-
 void MimeTypeTable::registerCustomMimeTypeForFileExtension (const String& mimeType, const String& fileExtension)
 {
     Table::get().addEntry ({ fileExtension.toRawUTF8(), mimeType.toRawUTF8() });
@@ -763,7 +760,5 @@ StringArray MimeTypeTable::getFileExtensionsForMimeType (const String& mimeType)
 {
     return Table::get().getExtensionsForType (mimeType);
 }
-
-} // namespace detail
 
 } // namespace juce

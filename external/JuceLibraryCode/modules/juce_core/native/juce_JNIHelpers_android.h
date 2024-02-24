@@ -31,15 +31,8 @@ template <typename JavaType>
 class LocalRef
 {
 public:
-    LocalRef() noexcept = default;
-
-    /*  This constructor must not be used to wrap local references that were not created through
-        JNI, i.e. for native function callback parameters.
-    */
-    explicit LocalRef (JavaType o) noexcept
-        : LocalRef (o, false)
-    {}
-
+    LocalRef() noexcept                          : obj (nullptr) {}
+    explicit LocalRef (JavaType o) noexcept      : obj (o) {}
     LocalRef (const LocalRef& other) noexcept    : obj (retain (other.obj)) {}
     LocalRef (LocalRef&& other) noexcept         : obj (nullptr) { std::swap (obj, other.obj); }
     ~LocalRef()                                  { clear(); }
@@ -55,82 +48,30 @@ public:
 
     LocalRef& operator= (const LocalRef& other)
     {
-        auto tmp = other;
-        std::swap (tmp.obj, obj);
+        JavaType newObj = retain (other.obj);
+        clear();
+        obj = newObj;
         return *this;
     }
 
-    LocalRef& operator= (LocalRef&& other) noexcept
+    LocalRef& operator= (LocalRef&& other)
     {
-        auto tmp = std::move (other);
-        std::swap (tmp.obj, obj);
+        clear();
+        std::swap (other.obj, obj);
         return *this;
     }
-
-    bool operator== (std::nullptr_t) const noexcept { return obj == nullptr; }
-    bool operator!= (std::nullptr_t) const noexcept { return obj != nullptr; }
 
     operator JavaType() const noexcept   { return obj; }
-
     JavaType get() const noexcept        { return obj; }
 
-    auto release()
-    {
-        return std::exchange (obj, nullptr);
-    }
-
-    /** Creates a new internal local reference. */
-    static auto addOwner (JavaType o)
-    {
-        return LocalRef { o, true };
-    }
-
-    /** Takes ownership of the passed in local reference, and deletes it when the LocalRef goes out
-        of scope.
-    */
-    static auto becomeOwner (JavaType o)
-    {
-        return LocalRef { o, false };
-    }
-
 private:
+    JavaType obj;
+
     static JavaType retain (JavaType obj)
     {
         return obj == nullptr ? nullptr : (JavaType) getEnv()->NewLocalRef (obj);
     }
-
-    /*  We cannot delete local references that were not created by JNI, e.g. references that were
-        created by the VM and passed into the native function.
-
-        For these references we should use createNewLocalRef = true, which will create a new
-        local reference that this wrapper is allowed to delete.
-
-        Doing otherwise will result in an "Attempt to remove non-JNI local reference" warning in the
-        VM, which could even cause crashes in future VM implementations.
-    */
-    LocalRef (JavaType o, bool createNewLocalRef) noexcept
-        : obj (createNewLocalRef ? retain (o) : o)
-    {}
-
-    JavaType obj = nullptr;
 };
-
-/*  Creates a new local reference that shares ownership with the passed in pointer.
-
-    Can be used for wrapping function parameters that were created outside the JNI.
-*/
-template <class JavaType>
-auto addLocalRefOwner (JavaType t)
-{
-    return LocalRef<JavaType>::addOwner (t);
-}
-
-/*   Wraps a local reference and destroys it when it goes out of scope. */
-template <class JavaType>
-auto becomeLocalRefOwner (JavaType t)
-{
-    return LocalRef<JavaType>::becomeOwner (t);
-}
 
 //==============================================================================
 template <typename JavaType>
@@ -905,7 +846,7 @@ namespace
                                                             javaString ("").get()));
 
         for (int i = 0; i < juceArray.size(); ++i)
-            env->SetObjectArrayElement (result.get(), i, javaString (juceArray [i]).get());
+            env->SetObjectArrayElement (result, i, javaString (juceArray [i]).get());
 
         return result;
     }

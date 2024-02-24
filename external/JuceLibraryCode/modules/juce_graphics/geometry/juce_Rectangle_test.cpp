@@ -26,7 +26,7 @@
 namespace juce
 {
 
-struct RectangleUnitTest final : public UnitTest
+struct RectangleUnitTest  : public UnitTest
 {
     RectangleUnitTest() : UnitTest ("Rectangle", UnitTestCategories::graphics) {}
 

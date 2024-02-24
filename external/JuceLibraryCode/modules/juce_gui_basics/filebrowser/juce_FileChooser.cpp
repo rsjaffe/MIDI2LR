@@ -27,8 +27,8 @@ namespace juce
 {
 
 //==============================================================================
-class FileChooser::NonNative final : public std::enable_shared_from_this<NonNative>,
-                                     public FileChooser::Pimpl
+class FileChooser::NonNative    : public std::enable_shared_from_this<NonNative>,
+                                  public FileChooser::Pimpl
 {
 public:
     NonNative (FileChooser& fileChooser, int flags, FilePreviewComponent* preview)
@@ -259,14 +259,15 @@ URL FileChooser::getURLResult() const
 
 void FileChooser::finished (const Array<URL>& asyncResults)
 {
-    const auto callback = std::exchange (asyncCallback, nullptr);
+     std::function<void (const FileChooser&)> callback;
+     std::swap (callback, asyncCallback);
 
-    results = asyncResults;
+     results = asyncResults;
 
-    pimpl.reset();
+     pimpl.reset();
 
-    if (callback)
-        callback (*this);
+     if (callback)
+         callback (*this);
 }
 
 #if ! JUCE_ANDROID

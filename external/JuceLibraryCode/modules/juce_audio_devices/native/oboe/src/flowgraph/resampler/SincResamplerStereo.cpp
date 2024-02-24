@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-#include <algorithm>   // Do NOT delete. Needed for LLVM. See #1746
 #include <cassert>
 #include <math.h>
 
 #include "SincResamplerStereo.h"
 
-using namespace RESAMPLER_OUTER_NAMESPACE::resampler;
+using namespace resampler;
 
 #define STEREO  2
 
@@ -55,12 +54,13 @@ void SincResamplerStereo::readFrame(float *frame) {
     // Determine indices into coefficients table.
     double tablePhase = getIntegerPhase() * mPhaseScaler;
     int index1 = static_cast<int>(floor(tablePhase));
-    float *coefficients1 = &mCoefficients[static_cast<size_t>(index1)
-            * static_cast<size_t>(getNumTaps())];
+    float *coefficients1 = &mCoefficients[index1 * getNumTaps()];
     int index2 = (index1 + 1);
-    float *coefficients2 = &mCoefficients[static_cast<size_t>(index2)
-            * static_cast<size_t>(getNumTaps())];
-    float *xFrame = &mX[static_cast<size_t>(mCursor) * static_cast<size_t>(getChannelCount())];
+    if (index2 >= mNumRows) { // no guard row needed because we wrap the indices
+        index2 = 0;
+    }
+    float *coefficients2 = &mCoefficients[index2 * getNumTaps()];
+    float *xFrame = &mX[mCursor * getChannelCount()];
     for (int i = 0; i < mNumTaps; i++) {
         float coefficient1 = *coefficients1++;
         float coefficient2 = *coefficients2++;

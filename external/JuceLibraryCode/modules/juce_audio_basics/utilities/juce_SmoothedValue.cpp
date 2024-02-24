@@ -28,7 +28,7 @@ namespace juce
 static CommonSmoothedValueTests <SmoothedValue<float, ValueSmoothingTypes::Linear>> commonLinearSmoothedValueTests;
 static CommonSmoothedValueTests <SmoothedValue<float, ValueSmoothingTypes::Multiplicative>> commonMultiplicativeSmoothedValueTests;
 
-class SmoothedValueTests final : public UnitTest
+class SmoothedValueTests  : public UnitTest
 {
 public:
     SmoothedValueTests()

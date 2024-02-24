@@ -33,7 +33,7 @@ using MenuTrackingChangedCallback = void (*)(bool);
 MenuTrackingChangedCallback menuTrackingChangedCallback = nullptr;
 
 //==============================================================================
-struct AppDelegateClass final : public ObjCClass<NSObject>
+struct AppDelegateClass   : public ObjCClass<NSObject>
 {
     AppDelegateClass()  : ObjCClass ("JUCEAppDelegate_")
     {
@@ -110,12 +110,14 @@ struct AppDelegateClass final : public ObjCClass<NSObject>
 
         addMethod (@selector (mainMenuTrackingBegan:), [] (id /*self*/, SEL, NSNotification*)
         {
-            NullCheckedInvocation::invoke (menuTrackingChangedCallback, true);
+            if (menuTrackingChangedCallback != nullptr)
+                menuTrackingChangedCallback (true);
         });
 
         addMethod (@selector (mainMenuTrackingEnded:), [] (id /*self*/, SEL, NSNotification*)
         {
-            NullCheckedInvocation::invoke (menuTrackingChangedCallback, false);
+            if (menuTrackingChangedCallback != nullptr)
+                menuTrackingChangedCallback (false);
         });
 
         // (used as a way of running a dummy thread)
@@ -353,7 +355,7 @@ void MessageManager::stopDispatchLoop()
     }
     else
     {
-        struct QuitCallback final : public CallbackMessage
+        struct QuitCallback  : public CallbackMessage
         {
             QuitCallback() {}
             void messageCallback() override    { MessageManager::getInstance()->stopDispatchLoop(); }
@@ -463,7 +465,7 @@ private:
     MountedVolumeListChangeDetector& owner;
     id delegate;
 
-    struct ObserverClass final : public ObjCClass<NSObject>
+    struct ObserverClass   : public ObjCClass<NSObject>
     {
         ObserverClass()  : ObjCClass<NSObject> ("JUCEDriveObserver_")
         {

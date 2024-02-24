@@ -28,7 +28,7 @@ namespace juce::detail
 
 std::unique_ptr<ScopedMessageBoxInterface> ScopedMessageBoxInterface::create (const MessageBoxOptions& options)
 {
-    class AndroidMessageBox final : public ScopedMessageBoxInterface
+    class AndroidMessageBox : public ScopedMessageBoxInterface
     {
     public:
         explicit AndroidMessageBox (const MessageBoxOptions& o) : opts (o) {}

@@ -87,94 +87,74 @@ public:
         using. Otherwise, if this is the first SharedResourcePointer to be created,
         then a shared object will be created automatically.
     */
-    SharedResourcePointer() = default;
+    SharedResourcePointer()
+    {
+        initialise();
+    }
 
-    /** Copy constructor. */
-    SharedResourcePointer (const SharedResourcePointer&) = default;
-
-    /** Move constructor. */
-    SharedResourcePointer (SharedResourcePointer&&) noexcept = default;
+    SharedResourcePointer (const SharedResourcePointer&)
+    {
+        initialise();
+    }
 
     /** Destructor.
         If no other SharedResourcePointer objects exist, this will also delete
         the shared object to which it refers.
     */
-    ~SharedResourcePointer() = default;
+    ~SharedResourcePointer()
+    {
+        auto& holder = getSharedObjectHolder();
+        const SpinLock::ScopedLockType sl (holder.lock);
 
-    /** Returns a pointer to the shared object. */
-    operator SharedObjectType*() const noexcept         { return sharedObject.get(); }
+        if (--(holder.refCount) == 0)
+            holder.sharedInstance = nullptr;
+    }
 
-    /** Returns a reference to the shared object. */
+    /** Returns the shared object. */
+    operator SharedObjectType*() const noexcept         { return sharedObject; }
+
+    /** Returns the shared object. */
     SharedObjectType& get() const noexcept              { return *sharedObject; }
 
-    /** Returns a reference to the shared object. */
+    /** Returns the object that this pointer references. */
     SharedObjectType& getObject() const noexcept        { return *sharedObject; }
 
-    /** Returns a pointer to the shared object. */
-    SharedObjectType* operator->() const noexcept       { return sharedObject.get(); }
+    /** Returns the shared object pointer. */
+    SharedObjectType* operator->() const noexcept       { return sharedObject; }
 
-    /** Returns a reference to the shared object. */
-    SharedObjectType& operator*() const noexcept        { return *sharedObject; }
-
-   #ifndef DOXYGEN
-    [[deprecated ("If you are relying on this function please inform the JUCE team as we are planing on removing this in a subsequent release")]]
-    int getReferenceCount() const noexcept              { return (int) sharedObject.use_count(); }
-   #endif
-
-    /** Returns the SharedResourcePointer if one already exists, or a null optional otherwise. */
-    static std::optional<SharedResourcePointer> getSharedObjectWithoutCreating()
-    {
-        if (auto sharedPtr = weak().lock())
-            return SharedResourcePointer { std::move (sharedPtr) };
-
-        return {};
-    }
+    /** Returns the number of SharedResourcePointers that are currently holding the shared object. */
+    int getReferenceCount() const noexcept              { return getSharedObjectHolder().refCount; }
 
 private:
-    explicit SharedResourcePointer (std::shared_ptr<SharedObjectType>&& other) noexcept
-        : sharedObject (std::move (other))
+    struct SharedObjectHolder
     {
-        jassert (sharedObject != nullptr);
-    }
-
-    class Weak
-    {
-    public:
-        std::shared_ptr<SharedObjectType> lock()
-        {
-            const SpinLock::ScopedLockType lock { mutex };
-            return ptr.lock();
-        }
-
-        std::shared_ptr<SharedObjectType> lockOrCreate()
-        {
-            const SpinLock::ScopedLockType lock { mutex };
-
-            if (auto locked = ptr.lock())
-                return locked;
-
-            const std::shared_ptr<SharedObjectType> shared (new SharedObjectType());
-            ptr = shared;
-            return shared;
-        }
-
-    private:
-        SpinLock mutex;
-        std::weak_ptr<SharedObjectType> ptr;
+        SpinLock lock;
+        std::unique_ptr<SharedObjectType> sharedInstance;
+        int refCount;
     };
 
-    inline static Weak& weak()
+    static SharedObjectHolder& getSharedObjectHolder() noexcept
     {
-        static Weak weak;
-        return weak;
+        static void* holder [(sizeof (SharedObjectHolder) + sizeof(void*) - 1) / sizeof(void*)] = { nullptr };
+        return *reinterpret_cast<SharedObjectHolder*> (holder);
     }
 
-    std::shared_ptr<SharedObjectType> sharedObject = weak().lockOrCreate();
+    SharedObjectType* sharedObject;
+
+    void initialise()
+    {
+        auto& holder = getSharedObjectHolder();
+        const SpinLock::ScopedLockType sl (holder.lock);
+
+        if (++(holder.refCount) == 1)
+            holder.sharedInstance.reset (new SharedObjectType());
+
+        sharedObject = holder.sharedInstance.get();
+    }
 
     // There's no need to assign to a SharedResourcePointer because every
     // instance of the class is exactly the same!
     SharedResourcePointer& operator= (const SharedResourcePointer&) = delete;
-    SharedResourcePointer& operator= (SharedResourcePointer&&) noexcept = delete;
 
     JUCE_LEAK_DETECTOR (SharedResourcePointer)
 };

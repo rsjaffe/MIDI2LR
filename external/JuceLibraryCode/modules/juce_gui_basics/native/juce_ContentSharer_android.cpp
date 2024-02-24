@@ -274,18 +274,8 @@ public:
                                AndroidIntent.setType,
                                javaString (getCommonMimeType (mimeTypes)).get());
 
-        const auto permissions = [&]
-        {
-            constexpr int grantReadUriPermission   = 1;
-            constexpr int grantPrefixUriPermission = 128;
-
-            if (getAndroidSDKVersion() < 21)
-                return grantReadUriPermission;
-
-            return grantReadUriPermission | grantPrefixUriPermission;
-        };
-
-        env->CallObjectMethod (intent, AndroidIntent.setFlags, permissions);
+        constexpr int grantReadPermission = 1;
+        env->CallObjectMethod (intent, AndroidIntent.setFlags, grantReadPermission);
 
         env->CallObjectMethod (intent,
                                AndroidIntent.putParcelableArrayListExtra,
@@ -346,8 +336,8 @@ public:
 
     static jobjectArray JNICALL contentSharerGetStreamTypes (JNIEnv*, jobject /*contentProvider*/, jobject uri, jstring mimeTypeFilter)
     {
-        return getInstance().getStreamTypes (addLocalRefOwner (uri),
-                                             addLocalRefOwner (mimeTypeFilter));
+        return getInstance().getStreamTypes (LocalRef<jobject> (static_cast<jobject> (uri)),
+                                             LocalRef<jstring> (static_cast<jstring> (mimeTypeFilter)));
     }
 
 private:
@@ -492,8 +482,7 @@ private:
         if (extension.isEmpty())
             return nullptr;
 
-        return juceStringArrayToJava (filterMimeTypes (detail::MimeTypeTable::getMimeTypesForFileExtension (extension),
-                                                       juceString (mimeTypeFilter.get()))).release();
+        return juceStringArrayToJava (filterMimeTypes (MimeTypeTable::getMimeTypesForFileExtension (extension), juceString (mimeTypeFilter.get())));
     }
 
     std::unique_ptr<ActivityLauncher> doIntent (const LocalRef<jobject>& intent,
@@ -699,7 +688,7 @@ DECLARE_JNI_CLASS (AndroidReceiver, "com/rmsl/juce/Receiver")
 #undef JNI_CLASS_MEMBERS
 
     //==============================================================================
-class AndroidContentSharerPrepareFilesTask final : private AsyncUpdater
+class AndroidContentSharerPrepareFilesTask : private AsyncUpdater
 {
 public:
     AndroidContentSharerPrepareFilesTask (const Array<URL>& fileUrls,
@@ -787,7 +776,7 @@ private:
 
         if (std::none_of (extensions.begin(), extensions.end(), [] (const String& s) { return s.isEmpty(); }))
             for (const auto& extension : extensions)
-                for (const auto& mime : detail::MimeTypeTable::getMimeTypesForFileExtension (extension))
+                for (const auto& mime : MimeTypeTable::getMimeTypesForFileExtension (extension))
                     mimes.insert (mime);
 
         for (const auto& mime : mimes)
@@ -886,7 +875,7 @@ private:
 
 auto detail::ScopedContentSharerInterface::shareFiles (const Array<URL>& urls, Component*) -> std::unique_ptr<ScopedContentSharerInterface>
 {
-    class NativeScopedContentSharerInterface final : public detail::ScopedContentSharerInterface
+    class NativeScopedContentSharerInterface : public detail::ScopedContentSharerInterface
     {
     public:
         explicit NativeScopedContentSharerInterface (Array<URL> f)
@@ -925,7 +914,7 @@ auto detail::ScopedContentSharerInterface::shareFiles (const Array<URL>& urls, C
 
 auto detail::ScopedContentSharerInterface::shareText (const String& text, Component*) -> std::unique_ptr<ScopedContentSharerInterface>
 {
-    class NativeScopedContentSharerInterface final : public detail::ScopedContentSharerInterface
+    class NativeScopedContentSharerInterface : public detail::ScopedContentSharerInterface
     {
     public:
         explicit NativeScopedContentSharerInterface (String t)

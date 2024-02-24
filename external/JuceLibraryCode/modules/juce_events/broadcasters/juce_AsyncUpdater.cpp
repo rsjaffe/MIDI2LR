@@ -23,7 +23,7 @@
 namespace juce
 {
 
-class AsyncUpdater::AsyncUpdaterMessage final : public CallbackMessage
+class AsyncUpdater::AsyncUpdaterMessage  : public CallbackMessage
 {
 public:
     AsyncUpdaterMessage (AsyncUpdater& au)  : owner (au) {}

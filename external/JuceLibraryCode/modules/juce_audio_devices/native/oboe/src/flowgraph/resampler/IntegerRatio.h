@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-#ifndef RESAMPLER_INTEGER_RATIO_H
-#define RESAMPLER_INTEGER_RATIO_H
+#ifndef OBOE_INTEGER_RATIO_H
+#define OBOE_INTEGER_RATIO_H
 
 #include <sys/types.h>
 
-#include "ResamplerDefinitions.h"
-
-namespace RESAMPLER_OUTER_NAMESPACE::resampler {
+namespace resampler {
 
 /**
  * Represent the ratio of two integers.
@@ -49,6 +47,6 @@ private:
     int32_t mDenominator;
 };
 
-} /* namespace RESAMPLER_OUTER_NAMESPACE::resampler */
+}
 
-#endif //RESAMPLER_INTEGER_RATIO_H
+#endif //OBOE_INTEGER_RATIO_H

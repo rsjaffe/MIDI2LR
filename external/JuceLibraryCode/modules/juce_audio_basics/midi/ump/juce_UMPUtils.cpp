@@ -20,7 +20,9 @@
   ==============================================================================
 */
 
-namespace juce::universal_midi_packets
+namespace juce
+{
+namespace universal_midi_packets
 {
 
 uint32_t Utils::getNumWordsForMessageType (uint32_t mt)
@@ -53,4 +55,5 @@ uint32_t Utils::getNumWordsForMessageType (uint32_t mt)
     return 1;
 }
 
-} // namespace juce::universal_midi_packets
+}
+}

@@ -293,7 +293,8 @@ private:
 
     void valueChanged (Value&) override
     {
-        NullCheckedInvocation::invoke (onDefaultChange);
+        if (onDefaultChange != nullptr)
+            onDefaultChange();
     }
 
     void referToWithDefault (ValueTree v,

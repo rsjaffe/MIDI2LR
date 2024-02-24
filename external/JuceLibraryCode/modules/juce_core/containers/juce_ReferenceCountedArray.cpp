@@ -25,7 +25,7 @@ namespace juce
 
 #if JUCE_UNIT_TESTS
 
-class ReferenceCountedArrayTests final : public UnitTest
+class ReferenceCountedArrayTests   : public UnitTest
 {
 public:
     ReferenceCountedArrayTests()
@@ -134,7 +134,7 @@ private:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TestBaseObj)
     };
 
-    struct TestDerivedObj final : public TestBaseObj
+    struct TestDerivedObj : public TestBaseObj
     {
         using Ptr = ReferenceCountedObjectPtr<TestDerivedObj>;
 
@@ -143,7 +143,7 @@ private:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TestDerivedObj)
     };
 
-    struct DestructorObj final : public ReferenceCountedObject
+    struct DestructorObj : public ReferenceCountedObject
     {
         DestructorObj (ReferenceCountedArrayTests& p,
                        ReferenceCountedArray<DestructorObj>& arr)

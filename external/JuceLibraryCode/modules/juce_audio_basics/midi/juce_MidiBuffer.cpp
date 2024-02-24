@@ -252,7 +252,7 @@ JUCE_END_IGNORE_WARNINGS_GCC_LIKE
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-struct MidiBufferTest final : public UnitTest
+struct MidiBufferTest  : public UnitTest
 {
     MidiBufferTest()
         : UnitTest ("MidiBuffer", UnitTestCategories::midi)

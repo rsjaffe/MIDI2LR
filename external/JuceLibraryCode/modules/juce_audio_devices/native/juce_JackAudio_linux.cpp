@@ -59,12 +59,12 @@ JUCE_DECL_JACK_FUNCTION (int, jack_activate, (jack_client_t* client), (client))
 JUCE_DECL_JACK_FUNCTION (int, jack_deactivate, (jack_client_t* client), (client))
 JUCE_DECL_JACK_FUNCTION (jack_nframes_t, jack_get_buffer_size, (jack_client_t* client), (client))
 JUCE_DECL_JACK_FUNCTION (jack_nframes_t, jack_get_sample_rate, (jack_client_t* client), (client))
-JUCE_DECL_VOID_JACK_FUNCTION (jack_on_shutdown, (jack_client_t* client, void (*function) (void* arg), void* arg), (client, function, arg))
+JUCE_DECL_VOID_JACK_FUNCTION (jack_on_shutdown, (jack_client_t* client, void (*function)(void* arg), void* arg), (client, function, arg))
 JUCE_DECL_VOID_JACK_FUNCTION (jack_on_info_shutdown, (jack_client_t* client, JackInfoShutdownCallback function, void* arg), (client, function, arg))
 JUCE_DECL_JACK_FUNCTION (void* , jack_port_get_buffer, (jack_port_t* port, jack_nframes_t nframes), (port, nframes))
 JUCE_DECL_JACK_FUNCTION (jack_nframes_t, jack_port_get_total_latency, (jack_client_t* client, jack_port_t* port), (client, port))
 JUCE_DECL_JACK_FUNCTION (jack_port_t* , jack_port_register, (jack_client_t* client, const char* port_name, const char* port_type, unsigned long flags, unsigned long buffer_size), (client, port_name, port_type, flags, buffer_size))
-JUCE_DECL_VOID_JACK_FUNCTION (jack_set_error_function, (void (*func) (const char*)), (func))
+JUCE_DECL_VOID_JACK_FUNCTION (jack_set_error_function, (void (*func)(const char*)), (func))
 JUCE_DECL_JACK_FUNCTION (int, jack_set_process_callback, (jack_client_t* client, JackProcessCallback process_callback, void* arg), (client, process_callback, arg))
 JUCE_DECL_JACK_FUNCTION (const char**, jack_get_ports, (jack_client_t* client, const char* port_name_pattern, const char* type_name_pattern, unsigned long flags), (client, port_name_pattern, type_name_pattern, flags))
 JUCE_DECL_JACK_FUNCTION (int, jack_connect, (jack_client_t* client, const char* source_port, const char* destination_port), (client, source_port, destination_port))
@@ -158,7 +158,7 @@ struct JackPortIterator
 };
 
 //==============================================================================
-class JackAudioIODevice final : public AudioIODevice
+class JackAudioIODevice   : public AudioIODevice
 {
 public:
     JackAudioIODevice (const String& inName,
@@ -346,8 +346,8 @@ public:
 
         if (client != nullptr)
         {
-            [[maybe_unused]] const auto result = juce::jack_deactivate (client);
-            jassert (result == 0);
+            const auto result = juce::jack_deactivate (client);
+            jassertquiet (result == 0);
 
             juce::jack_set_xrun_callback (client, xrunCallback, nullptr);
             juce::jack_set_process_callback (client, processCallback, nullptr);
@@ -416,7 +416,7 @@ public:
 
 private:
     //==============================================================================
-    class MainThreadDispatcher final : private AsyncUpdater
+    class MainThreadDispatcher  : private AsyncUpdater
     {
     public:
         explicit MainThreadDispatcher (JackAudioIODevice& device)  : ref (device) {}
@@ -517,7 +517,8 @@ private:
             if (oldCallback != nullptr)
                 start (oldCallback);
 
-            NullCheckedInvocation::invoke (notifyChannelsChanged);
+            if (notifyChannelsChanged != nullptr)
+                notifyChannelsChanged();
         }
     }
 
@@ -543,9 +544,9 @@ private:
         }
     }
 
-    static void infoShutdownCallback ([[maybe_unused]] jack_status_t code, [[maybe_unused]] const char* reason, void* arg)
+    static void infoShutdownCallback (jack_status_t code, [[maybe_unused]] const char* reason, void* arg)
     {
-        jassert (code == 0);
+        jassertquiet (code == 0);
 
         JUCE_JACK_LOG ("Shutting down with message:");
         JUCE_JACK_LOG (reason);
@@ -579,7 +580,7 @@ private:
 //==============================================================================
 class JackAudioIODeviceType;
 
-class JackAudioIODeviceType final : public AudioIODeviceType
+class JackAudioIODeviceType  : public AudioIODeviceType
 {
 public:
     JackAudioIODeviceType()

@@ -108,7 +108,7 @@ void MemoryAudioSource::setLooping (bool shouldLoop)
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-struct MemoryAudioSourceTests final : public UnitTest
+struct MemoryAudioSourceTests  : public UnitTest
 {
     MemoryAudioSourceTests()  : UnitTest ("MemoryAudioSource", UnitTestCategories::audio)  {}
 

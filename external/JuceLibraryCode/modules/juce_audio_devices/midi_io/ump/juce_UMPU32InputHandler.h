@@ -22,7 +22,9 @@
 
 #ifndef DOXYGEN
 
-namespace juce::universal_midi_packets
+namespace juce
+{
+namespace universal_midi_packets
 {
 
 /**
@@ -147,7 +149,7 @@ struct U32ToUMPHandler : public U32InputHandler
     GenericUMPConverter converter;
 };
 
-} // namespace juce::universal_midi_packets
-
+}
+}
 
 #endif

@@ -20,7 +20,9 @@
   ==============================================================================
 */
 
-namespace juce::universal_midi_packets
+namespace juce
+{
+namespace universal_midi_packets
 {
 
 PacketX2 Midi1ToMidi2DefaultTranslator::processNoteOnOrOff (const HelperValues helpers)
@@ -195,4 +197,5 @@ bool Midi1ToMidi2DefaultTranslator::PnAccumulator::addByte (uint8_t cc, std::byt
     return true;
 }
 
-} // namespace juce::universal_midi_packets
+}
+}

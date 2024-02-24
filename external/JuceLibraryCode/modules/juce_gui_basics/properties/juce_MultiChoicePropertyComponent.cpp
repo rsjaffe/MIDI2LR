@@ -49,8 +49,8 @@ static void updateButtonTickColour (ToggleButton* button, bool usingDefault)
 }
 
 //==============================================================================
-class MultiChoicePropertyComponent::MultiChoiceRemapperSource final : public Value::ValueSource,
-                                                                      private Value::Listener
+class MultiChoicePropertyComponent::MultiChoiceRemapperSource    : public Value::ValueSource,
+                                                                   private Value::Listener
 {
 public:
     MultiChoiceRemapperSource (const Value& source, var v, int c)
@@ -107,8 +107,8 @@ private:
 };
 
 //==============================================================================
-class MultiChoicePropertyComponent::MultiChoiceRemapperSourceWithDefault final : public Value::ValueSource,
-                                                                                 private Value::Listener
+class MultiChoicePropertyComponent::MultiChoiceRemapperSourceWithDefault    : public Value::ValueSource,
+                                                                              private Value::Listener
 {
 public:
     MultiChoiceRemapperSourceWithDefault (const ValueTreePropertyWithDefault& val,
@@ -209,12 +209,12 @@ int MultiChoicePropertyComponent::getTotalButtonsHeight (int numButtons)
 
 MultiChoicePropertyComponent::MultiChoicePropertyComponent (const String& propertyName,
                                                             const StringArray& choices,
-                                                            [[maybe_unused]] const Array<var>& correspondingValues)
+                                                            const Array<var>& correspondingValues)
     : PropertyComponent (propertyName, jmin (getTotalButtonsHeight (choices.size()), collapsedHeight))
 {
     // The array of corresponding values must contain one value for each of the items in
     // the choices array!
-    jassert (choices.size() == correspondingValues.size());
+    jassertquiet (choices.size() == correspondingValues.size());
 
     for (auto choice : choices)
         addAndMakeVisible (choiceButtons.add (new ToggleButton (choice)));
@@ -334,7 +334,8 @@ void MultiChoicePropertyComponent::setExpanded (bool shouldBeExpanded) noexcept
     if (auto* propertyPanel = findParentComponentOfClass<PropertyPanel>())
         propertyPanel->resized();
 
-    NullCheckedInvocation::invoke (onHeightChange);
+    if (onHeightChange != nullptr)
+        onHeightChange();
 
     expandButton.setTransform (AffineTransform::rotation (expanded ? MathConstants<float>::pi : MathConstants<float>::twoPi,
                                                           (float) expandButton.getBounds().getCentreX(),

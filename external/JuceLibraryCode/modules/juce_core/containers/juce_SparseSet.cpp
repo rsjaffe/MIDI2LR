@@ -25,7 +25,7 @@ namespace juce
 
 #if JUCE_UNIT_TESTS
 
-class SparseSetTests final : public UnitTest
+class SparseSetTests  : public UnitTest
 {
 public:
     SparseSetTests()

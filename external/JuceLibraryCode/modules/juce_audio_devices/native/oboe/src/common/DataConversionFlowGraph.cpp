@@ -23,6 +23,7 @@
 #include "SourceI24Caller.h"
 #include "SourceI32Caller.h"
 
+#include <flowgraph/ClipToRange.h>
 #include <flowgraph/MonoToMultiConverter.h>
 #include <flowgraph/MultiToMonoConverter.h>
 #include <flowgraph/RampLinear.h>

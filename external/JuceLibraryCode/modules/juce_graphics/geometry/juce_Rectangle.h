@@ -324,8 +324,8 @@ public:
     }
 
     /** Returns a rectangle which is the same as this one moved by a given amount. */
-    [[nodiscard]] Rectangle translated (ValueType deltaX,
-                                        ValueType deltaY) const noexcept
+    Rectangle translated (ValueType deltaX,
+                          ValueType deltaY) const noexcept
     {
         return { pos.x + deltaX, pos.y + deltaY, w, h };
     }
@@ -448,8 +448,8 @@ public:
         Effectively, the rectangle returned is (x - deltaX, y - deltaY, w + deltaX * 2, h + deltaY * 2).
         @see expand, reduce, reduced
     */
-    [[nodiscard]] Rectangle expanded (ValueType deltaX,
-                                      ValueType deltaY) const noexcept
+    Rectangle expanded (ValueType deltaX,
+                        ValueType deltaY) const noexcept
     {
         auto nw = jmax (ValueType(), w + deltaX * 2);
         auto nh = jmax (ValueType(), h + deltaY * 2);
@@ -461,7 +461,7 @@ public:
         Effectively, the rectangle returned is (x - delta, y - delta, w + delta * 2, h + delta * 2).
         @see expand, reduce, reduced
     */
-    [[nodiscard]] Rectangle expanded (ValueType delta) const noexcept
+    Rectangle expanded (ValueType delta) const noexcept
     {
         return expanded (delta, delta);
     }
@@ -482,8 +482,8 @@ public:
         Effectively, the rectangle returned is (x + deltaX, y + deltaY, w - deltaX * 2, h - deltaY * 2).
         @see reduce, expand, expanded
     */
-    [[nodiscard]] Rectangle reduced (ValueType deltaX,
-                                     ValueType deltaY) const noexcept
+    Rectangle reduced (ValueType deltaX,
+                       ValueType deltaY) const noexcept
     {
         return expanded (-deltaX, -deltaY);
     }
@@ -493,7 +493,7 @@ public:
         Effectively, the rectangle returned is (x + delta, y + delta, w - delta * 2, h - delta * 2).
         @see reduce, expand, expanded
     */
-    [[nodiscard]] Rectangle reduced (ValueType delta) const noexcept
+    Rectangle reduced (ValueType delta) const noexcept
     {
         return reduced (delta, delta);
     }
@@ -741,7 +741,7 @@ public:
     */
     bool enlargeIfAdjacent (Rectangle other) noexcept
     {
-        if (exactlyEqual (pos.x, other.pos.x) && exactlyEqual (getRight(), other.getRight())
+        if (pos.x == other.pos.x && getRight() == other.getRight()
              && (other.getBottom() >= pos.y && other.pos.y <= getBottom()))
         {
             auto newY = jmin (pos.y, other.pos.y);
@@ -750,7 +750,7 @@ public:
             return true;
         }
 
-        if (exactlyEqual (pos.y, other.pos.y) && exactlyEqual (getBottom(), other.getBottom())
+        if (pos.y == other.pos.y && getBottom() == other.getBottom()
              && (other.getRight() >= pos.x && other.pos.x <= getRight()))
         {
             auto newX = jmin (pos.x, other.pos.x);
@@ -815,7 +815,7 @@ public:
 
         This should only be used on floating point rectangles.
     */
-    [[nodiscard]] Rectangle transformedBy (const AffineTransform& transform) const noexcept
+    Rectangle transformedBy (const AffineTransform& transform) const noexcept
     {
         using FloatType = TypeHelpers::SmallestFloatType<ValueType>;
 
