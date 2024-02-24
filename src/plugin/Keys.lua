@@ -1,7 +1,7 @@
 --[[----------------------------------------------------------------------------
 
 Keys.lua
- 
+
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
@@ -13,7 +13,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local LrStringUtils = import 'LrStringUtils'
@@ -21,7 +21,7 @@ local LrView = import 'LrView'
 
 local legalanswers = {}
 local maxlength = 0
-local completion = { 
+local completion = {
   'apostrophe',
   'backslash',
   'backspace',
@@ -111,13 +111,13 @@ local function StartDialog(obstable,f)
       obstable['Keyscontrol'..i] = false --was saved under older version MIDI2LR where control meant command
       obstable['Keyscommand'..i] = true
     end
-    if WIN_ENV then    
+    if WIN_ENV then
       internalview1[#internalview1+1] = f:row{
         f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
         f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
         f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
         f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
-        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } 
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} }
     else
       internalview1[#internalview1+1] = f:row{
         f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
@@ -125,7 +125,7 @@ local function StartDialog(obstable,f)
         f:checkbox{title = command, value = LrView.bind('Keyscommand'..i)},
         f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
         f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
-        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } 
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} }
     end
   end
   local internalview2 = {}
@@ -138,22 +138,22 @@ local function StartDialog(obstable,f)
     if WIN_ENV == nil and ProgramPreferences.Keys[i]['command'] == nil and ProgramPreferences.Keys[i]['control'] then
       obstable['Keyscontrol'..i] = false --was saved under older version MIDI2LR where control meant command
       obstable['Keyscommand'..i] = true
-    end    
-    if WIN_ENV then     
+    end
+    if WIN_ENV then
       internalview2[#internalview2+1] = f:row{
         f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
         f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
         f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
         f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
-        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } 
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} }
     else
       internalview2[#internalview2+1] = f:row{
         f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
         f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
-        f:checkbox{title = command, value = LrView.bind('Keyscommand'..i)},      
+        f:checkbox{title = command, value = LrView.bind('Keyscommand'..i)},
         f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
         f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
-        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } 
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} }
     end
 
   end
@@ -164,24 +164,33 @@ local function EndDialog(obstable, status)
   if status == 'ok' then
     ProgramPreferences.Keys = {} -- empty out prior settings
     for i = 1,40 do
-      ProgramPreferences.Keys[i] = {}
-      if obstable['Keyskey'..i] ~= nil and obstable['Keyskey'..i] ~= '' and validate(obstable['Keyskey'..i]) == true then
-        ProgramPreferences.Keys[i]['alt'] = obstable['Keysalt'..i] or false
-        ProgramPreferences.Keys[i]['command'] = obstable['Keyscommand'..i] or false
-        ProgramPreferences.Keys[i]['control'] = obstable['Keyscontrol'..i] or false
-        ProgramPreferences.Keys[i]['key'] = obstable['Keyskey'..i]
-        ProgramPreferences.Keys[i]['shift'] = obstable['Keysshift'..i] or false
-        if ProgramPreferences.Keys[i]['key'] == 'apostrophe' then
-          ProgramPreferences.Keys[i]['key']  = '\''
-        elseif ProgramPreferences.Keys[i]['key'] == 'backslash' then
-          ProgramPreferences.Keys[i]['key'] = '\\'
+      local key = obstable['Keyskey'..i]
+      local alt = obstable['Keysalt'..i]
+      local command = obstable['Keyscommand'..i]
+      local control = obstable['Keyscontrol'..i]
+      local shift = obstable['Keysshift'..i]
+
+      if key ~= nil and key ~= '' and validate(key) == true then
+        if key == 'apostrophe' then
+          key  = '\''
+        elseif key == 'backslash' then
+          key = '\\'
         end
+        ProgramPreferences.Keys[i] = {
+          alt = alt or false,
+          command = command or false,
+          control = control or false,
+          key = key,
+          shift = shift or false
+        }
       else
-        ProgramPreferences.Keys[i]['alt'] = false
-        ProgramPreferences.Keys[i]['command'] = false
-        ProgramPreferences.Keys[i]['control'] = false
-        ProgramPreferences.Keys[i]['key'] = ''
-        ProgramPreferences.Keys[i]['shift'] = false
+        ProgramPreferences.Keys[i] = {
+          alt = false,
+          command = false,
+          control = false,
+          key = '',
+          shift = false
+        }
       end
     end
   end

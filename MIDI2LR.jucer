@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="6.0.2.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="6.1.0.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               companyWebsite="http://rsjaffe.github.io/MIDI2LR/" companyEmail="rsjaffe@gmail.com"
               displaySplashScreen="0" reportAppUsage="0" splashScreenColour="Dark"
@@ -108,10 +108,12 @@
         <CONFIGURATION name="Debug" osxCompatibility="12.0 SDK" osxArchitecture="64BitIntel"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="../../external/asio/"
                        codeSigningIdentity="Developer ID Application" recommendedWarnings="LLVM"
-                       isDebug="1" linkTimeOptimisation="0" optimisation="1" macOSDeploymentTarget="12.0"/>
+                       isDebug="1" linkTimeOptimisation="0" optimisation="1" macOSDeploymentTarget="12.0"
+                       fastMath="1"/>
         <CONFIGURATION name="Release" osxCompatibility="12.0 SDK" osxArchitecture="64BitIntel"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="../../external/asio/"
-                       codeSigningIdentity="Developer ID Application" macOSDeploymentTarget="12.0"/>
+                       codeSigningIdentity="Developer ID Application" macOSDeploymentTarget="12.0"
+                       fastMath="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="external/JuceLibraryCode/modules"/>
@@ -126,8 +128,8 @@
     <VS2022 targetFolder="build/Windows" extraDefs="_WIN32_WINNT=0x0A000007;WINVER=0x0A000007;NOMINMAX;WIN32_LEAN_AND_MEAN; _SILENCE_CXX23_ALIGNED_STORAGE_DEPRECATION_WARNING;_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING"
             smallIcon="WdgQGt" bigIcon="WdgQGt">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug"/>
-        <CONFIGURATION isDebug="0" name="Release" useRuntimeLibDLL="0"/>
+        <CONFIGURATION isDebug="1" name="Debug" fastMath="1"/>
+        <CONFIGURATION isDebug="0" name="Release" useRuntimeLibDLL="0" fastMath="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="external\JuceLibraryCode\modules"/>

@@ -19,6 +19,7 @@
 #include <filesystem>
 #include <fstream>
 #include <memory>
+#include <numeric>
 #include <utility>
 
 #include <cereal/archives/xml.hpp>
@@ -35,25 +36,31 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
    /* manually insert unmapped at first position */
    try {
       rsj::Translate(m_impl_.language_); /* so UnassignedTranslated translated properly */
+      const auto command_count {
+          std::accumulate(m_impl_.allcommands_.begin(), m_impl_.allcommands_.end(), size_t {1},
+              [](size_t sum, const auto& pair) { return sum + pair.second.size(); })};
+      cmd_by_number_.reserve(command_count);
+      cmd_label_by_number_.reserve(command_count);
       cmd_by_number_.push_back(kUnassigned);
       cmd_label_by_number_.push_back(UnassignedTranslated());
       cmd_idx_[kUnassigned] = 0;
       size_t idx {1};
       for (const auto& [cmd_group, cmd_abbrev_label] : m_impl_.allcommands_) {
          std::vector<MenuStringT> menu_items_temp {};
+         menu_items_temp.reserve(cmd_abbrev_label.size());
          const auto group_colon {cmd_group + " : "}; /* concatenation optimization */
          for (const auto& [cmd_abbrev, cmd_label] : cmd_abbrev_label) {
             cmd_by_number_.push_back(cmd_abbrev);
             cmd_label_by_number_.push_back(group_colon + cmd_label);
-            cmd_idx_[cmd_abbrev] = idx++;
-            menu_items_temp.push_back(cmd_label);
+            cmd_idx_.emplace(cmd_abbrev, idx++);
+            menu_items_temp.emplace_back(cmd_label);
          }
-         menus_.push_back(cmd_group);
+         menus_.emplace_back(cmd_group);
          menu_entries_.push_back(std::move(menu_items_temp));
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -74,7 +81,7 @@ CommandSet::Impl::Impl()
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -86,7 +93,7 @@ const CommandSet::Impl& CommandSet::MakeImpl() const
       return kImpl;
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -104,7 +111,7 @@ size_t CommandSet::CommandTextIndex(const std::string& command) const
       return 0;
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

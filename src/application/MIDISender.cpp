@@ -35,7 +35,7 @@ void MidiSender::Start()
       InitDevices();
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -64,7 +64,7 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -119,7 +119,7 @@ void MidiSender::RescanDevices()
       InitDevices();
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -153,7 +153,7 @@ void MidiSender::InitDevices()
       } /* devices that are skipped have their pointers deleted and are automatically closed*/
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

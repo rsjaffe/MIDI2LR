@@ -207,7 +207,7 @@ namespace {
          return 0;
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE_F;
+         rsj::ExceptionResponse(e);
          throw;
       }
    }
@@ -224,7 +224,7 @@ namespace {
          }
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE_F;
+         rsj::ExceptionResponse(e);
          throw;
       }
    }
@@ -242,7 +242,7 @@ namespace {
          std::call_once(of_check_permission, [lr_pid]() { rsj::CheckPermission(lr_pid); });
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE_F;
+         rsj::ExceptionResponse(e);
          throw;
       }
    }

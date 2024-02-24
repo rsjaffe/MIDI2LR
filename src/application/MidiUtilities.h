@@ -192,9 +192,10 @@ template<> struct std::hash<rsj::MidiMessageId> {
    size_t operator()(rsj::MidiMessageId k) const noexcept
    {
       /* channel is one byte, messagetype is one byte, controller (data) is two bytes */
-      return hash<int_fast32_t>()(static_cast<int_fast32_t>(k.channel)
-                                  | static_cast<int_fast32_t>(k.msg_id_type) << 8
-                                  | static_cast<int_fast32_t>(k.control_number) << 16);
+      static std::hash<int_fast32_t> hasher;
+      return hasher(static_cast<int_fast32_t>(k.channel)
+                    | static_cast<int_fast32_t>(k.msg_id_type) << 8
+                    | static_cast<int_fast32_t>(k.control_number) << 16);
    }
 };
 

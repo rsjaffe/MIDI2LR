@@ -32,6 +32,12 @@ local LrTasks             = import 'LrTasks'
 --[[-----------debug section, enable by adding - to beginning this line
 local LrMobdebug = import 'LrMobdebug'
 --]]-----------end debug section
+--local versions of global functions and tables, for speed
+local LRValueToMIDIValue = Limits.LRValueToMIDIValue
+local MIDIValueToLRValue = Limits.MIDIValueToLRValue
+local getValue = LrDevelopController.getValue
+local setValue = LrDevelopController.setValue
+local resetToDefault = LrDevelopController.resetToDefault
 --modules may be library develop map book slideshow print web
 local needsModule = {
   [LrDevelopController.addAdjustmentChangeObserver]    = {module = 'develop', photoSelected = false },
@@ -325,30 +331,30 @@ local function fApplyFilter(filternumber)
 end
 --see AppData\Roaming\Adobe\Lightroom\Filter Presets\Filters Off.lrtemplate
 local nofilter = { --version = 2
-		columnBrowserActive = false,
-		customLabel = false,
-		datePreset = "all",
-		dateSearchActive = false,
-		filtersActive = false,
-		label1 = false,
-		label2 = false,
-		label3 = false,
-		label4 = false,
-		label5 = false,
-		labelOp = "any",
-		--minRating = "<nil>",
-		noLabel = false,
-		--pick = "<nil>",
-		--edit = "<nil>",
-		ratingOp = ">=",
-		searchOp = "all",
-		searchString = "",
-		searchStringActive = false,
-		searchTarget = "all",
-		--usage = "<nil>",
-		--whichCopies = "<nil>",
-		visualSearchActive = false,
-	}
+  columnBrowserActive = false,
+  customLabel = false,
+  datePreset = "all",
+  dateSearchActive = false,
+  filtersActive = false,
+  label1 = false,
+  label2 = false,
+  label3 = false,
+  label4 = false,
+  label5 = false,
+  labelOp = "any",
+  --minRating = "<nil>",
+  noLabel = false,
+  --pick = "<nil>",
+  --edit = "<nil>",
+  ratingOp = ">=",
+  searchOp = "all",
+  searchString = "",
+  searchStringActive = false,
+  searchTarget = "all",
+  --usage = "<nil>",
+  --whichCopies = "<nil>",
+  visualSearchActive = false,
+}
 
 local function RemoveFilters()
   LrApplication.activeCatalog():setViewFilter(nofilter)
@@ -373,10 +379,10 @@ end
 
 local function fToggle01(param)
   return function()
-    if execFOM(LrDevelopController.getValue, param) == 0 then
-      LrDevelopController.setValue(param,1)
+    if execFOM(getValue, param) == 0 then
+      setValue(param,1)
     else
-      LrDevelopController.setValue(param,0)
+      setValue(param,0)
     end
   end
 end
@@ -387,10 +393,10 @@ local function fToggle01Async(param)
         --[[-----------debug section, enable by adding - to beginning this line
         LrMobdebug.on()
         --]]-----------end debug section
-        if execFOM(LrDevelopController.getValue, param) == 0 then
-          LrDevelopController.setValue(param,1)
+        if execFOM(getValue, param) == 0 then
+          setValue(param,1)
         else
-          LrDevelopController.setValue(param,0)
+          setValue(param,0)
         end
       end )
   end
@@ -398,9 +404,9 @@ end
 
 local function fToggle1ModN(param, N)
   return function()
-    local v = execFOM(LrDevelopController.getValue, param)
+    local v = execFOM(getValue, param)
     v = (v % N) + 1
-    LrDevelopController.setValue(param,v)
+    setValue(param,v)
   end
 end
 
@@ -483,24 +489,6 @@ local function ApplySettings(settings)
   )
 end
 
-local function MIDIValueToLRValue(param, midi_value)
-  -- must be called when in develop module with photo selected
-  -- map midi range to develop parameter range
-  -- expects midi_value 0.0-1.0, doesn't protect against out-of-range
-  local min,max = Limits.GetMinMax(param)
-  return midi_value * (max-min) + min
-end
-
-local function LRValueToMIDIValue(param)
-  -- needs to be called in Develop module with photo selected
-  -- map develop parameter range to midi range
-  local min,max = Limits.GetMinMax(param)
-  local retval = (LrDevelopController.getValue(param)-min)/(max-min)
-  if retval > 1 then return 1 end
-  if retval < 0 then return 0 end
-  return retval
-end
-
 local function fSimulateKeys(keys, developonly, tool)
   return function()
     if developonly then
@@ -533,7 +521,7 @@ local function PointCurveUpDown(blacks, moveup, color)
     local  factor  = 0
     local setting = 'ToneCurvePV2012'
     if color then setting = setting..color end
-    local points = LrDevelopController.getValue(setting)
+    local points = getValue(setting)
     local newpoints = {}
     local xval = 0
     local testamount = 0
@@ -588,7 +576,7 @@ local function PointCurveUpDown(blacks, moveup, color)
       end
     end
     fChangePanel('tonePanel')
-    LrDevelopController.setValue(setting, newpoints)
+    setValue(setting, newpoints)
     if ProgramPreferences.ClientShowBezelOnChange then
       if blacks then
         LrDialogs.showBezel(moveup and curBlkUp or curBlkDn)
@@ -611,49 +599,49 @@ local function cg_hsl_copy()
   if currentView == '3-way' then
     return
   end
-  cg_hsl = {LrDevelopController.getValue(cg_hsl_parms[currentView][1]),
-    LrDevelopController.getValue(cg_hsl_parms[currentView][2]),
-    LrDevelopController.getValue(cg_hsl_parms[currentView][3])}
+  cg_hsl = {getValue(cg_hsl_parms[currentView][1]),
+    getValue(cg_hsl_parms[currentView][2]),
+    getValue(cg_hsl_parms[currentView][3])}
 end
 
 local function cg_hsl_paste()
   local currentView = LrDevelopController.getActiveColorGradingView()
   if currentView == '3-way' then
-    LrDevelopController.setValue(cg_hsl_parms.highlight[1],cg_hsl[1])
-    LrDevelopController.setValue(cg_hsl_parms.highlight[2],cg_hsl[2])
-    LrDevelopController.setValue(cg_hsl_parms.highlight[3],cg_hsl[3])
-    LrDevelopController.setValue(cg_hsl_parms.midtone[1],cg_hsl[1])
-    LrDevelopController.setValue(cg_hsl_parms.midtone[2],cg_hsl[2])
-    LrDevelopController.setValue(cg_hsl_parms.midtone[3],cg_hsl[3])
-    LrDevelopController.setValue(cg_hsl_parms.shadow[1],cg_hsl[1])
-    LrDevelopController.setValue(cg_hsl_parms.shadow[2],cg_hsl[2])
-    LrDevelopController.setValue(cg_hsl_parms.shadow[3],cg_hsl[3])
+    setValue(cg_hsl_parms.highlight[1],cg_hsl[1])
+    setValue(cg_hsl_parms.highlight[2],cg_hsl[2])
+    setValue(cg_hsl_parms.highlight[3],cg_hsl[3])
+    setValue(cg_hsl_parms.midtone[1],cg_hsl[1])
+    setValue(cg_hsl_parms.midtone[2],cg_hsl[2])
+    setValue(cg_hsl_parms.midtone[3],cg_hsl[3])
+    setValue(cg_hsl_parms.shadow[1],cg_hsl[1])
+    setValue(cg_hsl_parms.shadow[2],cg_hsl[2])
+    setValue(cg_hsl_parms.shadow[3],cg_hsl[3])
     Limits.RefreshMidiController()
     return
   end
-  LrDevelopController.setValue(cg_hsl_parms[currentView][1],cg_hsl[1])
-  LrDevelopController.setValue(cg_hsl_parms[currentView][2],cg_hsl[2])
-  LrDevelopController.setValue(cg_hsl_parms[currentView][3],cg_hsl[3])
+  setValue(cg_hsl_parms[currentView][1],cg_hsl[1])
+  setValue(cg_hsl_parms[currentView][2],cg_hsl[2])
+  setValue(cg_hsl_parms[currentView][3],cg_hsl[3])
   Limits.RefreshMidiController()
 end
 
 local function cg_reset_3way()
-  LrDevelopController.resetToDefault('SplitToningHighlightHue')
-  LrDevelopController.resetToDefault('SplitToningHighlightSaturation')
-  LrDevelopController.resetToDefault('ColorGradeHighlightLum')
-  LrDevelopController.resetToDefault('ColorGradeMidtoneHue')
-  LrDevelopController.resetToDefault('ColorGradeMidtoneSat')
-  LrDevelopController.resetToDefault('ColorGradeMidtoneLum')
-  LrDevelopController.resetToDefault('SplitToningShadowHue')
-  LrDevelopController.resetToDefault('SplitToningShadowSaturation')
-  LrDevelopController.resetToDefault('ColorGradeShadowLum')
+  resetToDefault('SplitToningHighlightHue')
+  resetToDefault('SplitToningHighlightSaturation')
+  resetToDefault('ColorGradeHighlightLum')
+  resetToDefault('ColorGradeMidtoneHue')
+  resetToDefault('ColorGradeMidtoneSat')
+  resetToDefault('ColorGradeMidtoneLum')
+  resetToDefault('SplitToningShadowHue')
+  resetToDefault('SplitToningShadowSaturation')
+  resetToDefault('ColorGradeShadowLum')
   Limits.RefreshMidiController()
 end
 
 local function cg_reset_all()
-  LrDevelopController.resetToDefault('ColorGradeGlobalHue')
-  LrDevelopController.resetToDefault('ColorGradeGlobalSat')
-  LrDevelopController.resetToDefault('ColorGradeGlobalLum')
+  resetToDefault('ColorGradeGlobalHue')
+  resetToDefault('ColorGradeGlobalSat')
+  resetToDefault('ColorGradeGlobalLum')
   cg_reset_3way()
 end
 
@@ -664,30 +652,30 @@ local function cg_reset_current()
     return
   end
   if currentView == 'global' then
-    LrDevelopController.resetToDefault('ColorGradeGlobalHue')
-    LrDevelopController.resetToDefault('ColorGradeGlobalSat')
-    LrDevelopController.resetToDefault('ColorGradeGlobalLum')
+    resetToDefault('ColorGradeGlobalHue')
+    resetToDefault('ColorGradeGlobalSat')
+    resetToDefault('ColorGradeGlobalLum')
     Limits.RefreshMidiController()
     return
   end
   if currentView == 'highlight' then
-    LrDevelopController.resetToDefault('SplitToningHighlightHue')
-    LrDevelopController.resetToDefault('SplitToningHighlightSaturation')
-    LrDevelopController.resetToDefault('ColorGradeHighlightLum')
+    resetToDefault('SplitToningHighlightHue')
+    resetToDefault('SplitToningHighlightSaturation')
+    resetToDefault('ColorGradeHighlightLum')
     Limits.RefreshMidiController()
     return
   end
   if currentView == 'midtone' then
-    LrDevelopController.resetToDefault('ColorGradeMidtoneHue')
-    LrDevelopController.resetToDefault('ColorGradeMidtoneSat')
-    LrDevelopController.resetToDefault('ColorGradeMidtoneLum')
+    resetToDefault('ColorGradeMidtoneHue')
+    resetToDefault('ColorGradeMidtoneSat')
+    resetToDefault('ColorGradeMidtoneLum')
     Limits.RefreshMidiController()
     return
   end
   if currentView == 'shadow' then
-    LrDevelopController.resetToDefault('SplitToningShadowHue')
-    LrDevelopController.resetToDefault('SplitToningShadowSaturation')
-    LrDevelopController.resetToDefault('ColorGradeShadowLum')
+    resetToDefault('SplitToningShadowHue')
+    resetToDefault('SplitToningShadowSaturation')
+    resetToDefault('ColorGradeShadowLum')
     Limits.RefreshMidiController()
     return
   end
@@ -696,10 +684,11 @@ end
 local patrans = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ProfileAmount=Profile amount')
 local lastprofileadj = 0
 local function ProfileAmount(value)
-  if lastprofileadj + .1 > os.clock() then --throttle to 10x/second
+  local now = os.clock()
+  if lastprofileadj + .1 > now then --throttle to 10x/second
     return
   end
-  lastprofileadj = os.clock()
+  lastprofileadj = now
   local val = value -- make available to async task
   LrTasks.startAsyncTask ( function ()
       --[[-----------debug section, enable by adding - to beginning this line
@@ -731,14 +720,14 @@ local function ProfileAmount(value)
 end
 
 local function ResetAllGrayMixer()
-  LrDevelopController.resetToDefault('GrayMixerRed')
-  LrDevelopController.resetToDefault('GrayMixerOrange')
-  LrDevelopController.resetToDefault('GrayMixerYellow')
-  LrDevelopController.resetToDefault('GrayMixerGreen')
-  LrDevelopController.resetToDefault('GrayMixerAqua')
-  LrDevelopController.resetToDefault('GrayMixerBlue')
-  LrDevelopController.resetToDefault('GrayMixerPurple')
-  LrDevelopController.resetToDefault('GrayMixerMagenta')
+  resetToDefault('GrayMixerRed')
+  resetToDefault('GrayMixerOrange')
+  resetToDefault('GrayMixerYellow')
+  resetToDefault('GrayMixerGreen')
+  resetToDefault('GrayMixerAqua')
+  resetToDefault('GrayMixerBlue')
+  resetToDefault('GrayMixerPurple')
+  resetToDefault('GrayMixerMagenta')
   if ProgramPreferences.ClientShowBezelOnChange then
     local bezelname = (Database.CmdTrans.ResetAllGrayMixer and Database.CmdTrans.ResetAllGrayMixer[Database.LatestPVSupported]) or "ResetAllGrayMixer"
     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
@@ -746,14 +735,14 @@ local function ResetAllGrayMixer()
 end
 
 local function ResetAllHueAdjustment()
-  LrDevelopController.resetToDefault('HueAdjustmentRed')
-  LrDevelopController.resetToDefault('HueAdjustmentOrange')
-  LrDevelopController.resetToDefault('HueAdjustmentYellow')
-  LrDevelopController.resetToDefault('HueAdjustmentGreen')
-  LrDevelopController.resetToDefault('HueAdjustmentAqua')
-  LrDevelopController.resetToDefault('HueAdjustmentBlue')
-  LrDevelopController.resetToDefault('HueAdjustmentPurple')
-  LrDevelopController.resetToDefault('HueAdjustmentMagenta')
+  resetToDefault('HueAdjustmentRed')
+  resetToDefault('HueAdjustmentOrange')
+  resetToDefault('HueAdjustmentYellow')
+  resetToDefault('HueAdjustmentGreen')
+  resetToDefault('HueAdjustmentAqua')
+  resetToDefault('HueAdjustmentBlue')
+  resetToDefault('HueAdjustmentPurple')
+  resetToDefault('HueAdjustmentMagenta')
   if ProgramPreferences.ClientShowBezelOnChange then
     local bezelname = (Database.CmdTrans.ResetAllHueAdjustment and Database.CmdTrans.ResetAllHueAdjustment[Database.LatestPVSupported]) or "ResetAllHueAdjustment"
     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
@@ -761,14 +750,14 @@ local function ResetAllHueAdjustment()
 end
 
 local function ResetAllLuminanceAdjustment()
-  LrDevelopController.resetToDefault('LuminanceAdjustmentRed')
-  LrDevelopController.resetToDefault('LuminanceAdjustmentOrange')
-  LrDevelopController.resetToDefault('LuminanceAdjustmentYellow')
-  LrDevelopController.resetToDefault('LuminanceAdjustmentGreen')
-  LrDevelopController.resetToDefault('LuminanceAdjustmentAqua')
-  LrDevelopController.resetToDefault('LuminanceAdjustmentBlue')
-  LrDevelopController.resetToDefault('LuminanceAdjustmentPurple')
-  LrDevelopController.resetToDefault('LuminanceAdjustmentMagenta')
+  resetToDefault('LuminanceAdjustmentRed')
+  resetToDefault('LuminanceAdjustmentOrange')
+  resetToDefault('LuminanceAdjustmentYellow')
+  resetToDefault('LuminanceAdjustmentGreen')
+  resetToDefault('LuminanceAdjustmentAqua')
+  resetToDefault('LuminanceAdjustmentBlue')
+  resetToDefault('LuminanceAdjustmentPurple')
+  resetToDefault('LuminanceAdjustmentMagenta')
   if ProgramPreferences.ClientShowBezelOnChange then
     local bezelname = (Database.CmdTrans.ResetAllLuminanceAdjustment and Database.CmdTrans.ResetAllLuminanceAdjustment[Database.LatestPVSupported]) or "ResetAllLuminanceAdjustment"
     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
@@ -776,14 +765,14 @@ local function ResetAllLuminanceAdjustment()
 end
 
 local function ResetAllSaturationAdjustment()
-  LrDevelopController.resetToDefault('SaturationAdjustmentRed')
-  LrDevelopController.resetToDefault('SaturationAdjustmentOrange')
-  LrDevelopController.resetToDefault('SaturationAdjustmentYellow')
-  LrDevelopController.resetToDefault('SaturationAdjustmentGreen')
-  LrDevelopController.resetToDefault('SaturationAdjustmentAqua')
-  LrDevelopController.resetToDefault('SaturationAdjustmentBlue')
-  LrDevelopController.resetToDefault('SaturationAdjustmentPurple')
-  LrDevelopController.resetToDefault('SaturationAdjustmentMagenta')
+  resetToDefault('SaturationAdjustmentRed')
+  resetToDefault('SaturationAdjustmentOrange')
+  resetToDefault('SaturationAdjustmentYellow')
+  resetToDefault('SaturationAdjustmentGreen')
+  resetToDefault('SaturationAdjustmentAqua')
+  resetToDefault('SaturationAdjustmentBlue')
+  resetToDefault('SaturationAdjustmentPurple')
+  resetToDefault('SaturationAdjustmentMagenta')
   if ProgramPreferences.ClientShowBezelOnChange then
     local bezelname = (Database.CmdTrans.ResetAllSaturationAdjustment and Database.CmdTrans.ResetAllSaturationAdjustment[Database.LatestPVSupported]) or "ResetAllSaturationAdjustment"
     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(0, 0))
@@ -797,59 +786,67 @@ if LrLocalization.currentLanguage() == 'fr' then
   pct = ' %'
 end
 
-local function RatioCrop(param, value, UpdateParam)
+local function RatioCrop(param, midi_value, UpdateParam)
   if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   if LrApplicationView.getCurrentModuleName() ~= 'develop' then
     LrApplicationView.switchToModule('develop')
   end
   LrDevelopController.selectTool('crop')
-  local prior_c_bottom = LrDevelopController.getValue("CropBottom") --starts at 1
-  local prior_c_top = LrDevelopController.getValue("CropTop") -- starts at 0
-  local prior_c_left = LrDevelopController.getValue("CropLeft") -- starts at 0
-  local prior_c_right = LrDevelopController.getValue("CropRight") -- starts at 1
+  local prior_c_bottom = getValue("CropBottom") --starts at 1
+  local prior_c_top = getValue("CropTop") -- starts at 0
+  local prior_c_left = getValue("CropLeft") -- starts at 0
+  local prior_c_right = getValue("CropRight") -- starts at 1
   local ratio = (prior_c_right - prior_c_left) / (prior_c_bottom - prior_c_top)
   if param == "CropTopLeft" then
-    local new_top = tonumber(value)
+    local new_top = MIDIValueToLRValue('CropTop',midi_value)
     local new_left = prior_c_right - ratio * (prior_c_bottom - new_top)
     if new_left < 0 then
       new_top = prior_c_bottom - prior_c_right / ratio
       new_left = 0
     end
-    UpdateParam("CropTop",new_top,
+    if UpdateParam("CropTop",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(prior_c_bottom-new_top)*100,0)..pct)
-    UpdateParam("CropLeft",new_left,true)
+    then
+      UpdateParam("CropLeft",LRValueToMIDIValue("CropLeft",new_left),true,true)
+    end
   elseif param == "CropTopRight" then
-    local new_top = tonumber(value)
+    local new_top = MIDIValueToLRValue('CropTop',midi_value)
     local new_right = prior_c_left + ratio * (prior_c_bottom - new_top)
     if new_right > 1 then
       new_top = prior_c_bottom - (1 - prior_c_left) / ratio
       new_right = 1
     end
-    UpdateParam("CropTop",new_top,
+    if UpdateParam("CropTop",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(prior_c_bottom-new_top)*100,0)..pct)
-    UpdateParam("CropRight",new_right,true)
+    then
+      UpdateParam("CropRight",LRValueToMIDIValue("CropRight",new_right),true,true)
+    end
   elseif param == "CropBottomLeft" then
-    local new_bottom = tonumber(value)
+    local new_bottom = MIDIValueToLRValue('CropBottom',midi_value)
     local new_left = prior_c_right - ratio * (new_bottom - prior_c_top)
     if new_left < 0 then
       new_bottom = prior_c_right / ratio + prior_c_top
       new_left = 0
     end
-    UpdateParam("CropBottom",new_bottom,
+    if UpdateParam("CropBottom",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((prior_c_right-new_left)*(new_bottom-prior_c_top)*100,0)..pct)
-    UpdateParam("CropLeft",new_left,true)
+    then
+      UpdateParam("CropLeft",LRValueToMIDIValue("CropLeft",new_left),true,true)
+    end
   elseif param == "CropBottomRight" then
-    local new_bottom = tonumber(value)
+    local new_bottom = MIDIValueToLRValue('CropBottom',midi_value)
     local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
     if new_right > 1 then
       new_bottom = (1 - prior_c_left) / ratio + prior_c_top
       new_right = 1
     end
-    UpdateParam("CropBottom",new_bottom,
+    if UpdateParam("CropBottom",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-prior_c_left)*(new_bottom-prior_c_top)*100,0)..pct)
-    UpdateParam("CropRight",new_right,true)
+    then
+      UpdateParam("CropRight",LRValueToMIDIValue("CropRight",new_right),true,true)
+    end
   elseif param == "CropAll" then
-    local new_bottom = tonumber(value)
+    local new_bottom = MIDIValueToLRValue('CropBottom',midi_value)
     local new_right = prior_c_left + ratio * (new_bottom - prior_c_top)
     if new_right > 1 then
       new_right = 1
@@ -860,21 +857,41 @@ local function RatioCrop(param, value, UpdateParam)
       new_top = new_bottom - new_right / ratio
       new_left = 0
     end
-    UpdateParam("CropBottom",new_bottom,
+    if UpdateParam("CropBottom",midi_value,
       cropbezel..LrStringUtils.numberToStringWithSeparators((new_right-new_left)*(new_bottom-new_top)*100,0)..pct)
-    UpdateParam("CropRight",new_right,true)
-    UpdateParam("CropTop",new_top,true)
-    UpdateParam("CropLeft",new_left,true)
+    then
+      UpdateParam("CropRight",LRValueToMIDIValue("CropRight",new_right),true,true)
+      UpdateParam("CropTop",LRValueToMIDIValue("CropTop",new_top),true,true)
+      UpdateParam("CropLeft",LRValueToMIDIValue("CropLeft",new_left),true,true)
+    end
   elseif param == "CropMoveVertical" then
-    local new_top = (1 - (prior_c_bottom - prior_c_top)) * tonumber(value)
+    local new_top = MIDIValueToLRValue('CropTop',midi_value)
     local new_bottom = new_top - prior_c_top + prior_c_bottom
-    UpdateParam("CropBottom",new_bottom,true)
-    UpdateParam("CropTop", new_top)
+    if new_bottom > 1 then -- preserve shape, don't move past border
+      if
+      UpdateParam('CropTop',1-(prior_c_bottom-prior_c_top))
+      then
+        UpdateParam('CropBottom',1,true,true)
+      end
+    else
+      if UpdateParam('CropTop',LRValueToMIDIValue('CropTop',new_top)) then
+        UpdateParam('CropBottom',LRValueToMIDIValue('CropBottom',new_bottom),true,true)
+      end
+    end
   elseif param == "CropMoveHorizontal" then
-    local new_left = (1 - (prior_c_right - prior_c_left)) * tonumber(value)
+    local new_left = MIDIValueToLRValue('CropLeft',midi_value)
     local new_right = new_left - prior_c_left + prior_c_right
-    UpdateParam("CropLeft",new_left,true)
-    UpdateParam("CropRight", new_right)
+    if new_right > 1 then -- preserve shape, don't move past border
+      if
+      UpdateParam('CropLeft',1-(prior_c_right-prior_c_left))
+      then
+        UpdateParam('CropRight',1,true,true)
+      end
+    else
+      if UpdateParam("CropLeft",LRValueToMIDIValue('CropLeft',new_left)) then
+        UpdateParam("CropRight", LRValueToMIDIValue('CropRight',new_right),true,true)
+      end
+    end
   end
 end
 
@@ -918,8 +935,7 @@ end
 return {
   ApplySettings = ApplySettings,
   HoldAltOptToggle = HoldAltOptToggle,
-  LRValueToMIDIValue = LRValueToMIDIValue,
-  MIDIValueToLRValue = MIDIValueToLRValue,
+  PointCurveUpDown = PointCurveUpDown,
   ProfileAmount = ProfileAmount,
   QuickCropAspect = QuickCropAspect,
   RatioCrop = RatioCrop,
@@ -950,5 +966,4 @@ return {
   showBezel = showBezel,
   wrapFOM = wrapFOM,
   wrapForEachPhoto = wrapForEachPhoto,
-  PointCurveUpDown = PointCurveUpDown,
 }

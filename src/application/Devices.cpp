@@ -51,7 +51,7 @@ void Devices::LoadDeviceXml()
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       device_xml_.reset();
    }
 }
@@ -106,7 +106,7 @@ Devices::~Devices()
       device_xml_->writeTo(source);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
    }
    catch (...) {
       rsj::LogAndAlertError("Non-standard exception in ~Devices.");
@@ -131,7 +131,7 @@ bool Devices::Add(const juce::MidiDeviceInfo& info, const juce::String& io)
       return success;
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -144,7 +144,7 @@ bool Devices::Enabled(const juce::MidiDeviceInfo& info, juce::String io) const
       return it->second;
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -156,7 +156,7 @@ bool Devices::EnabledOrNew(const juce::MidiDeviceInfo& info, const juce::String&
       return Enabled(info, io);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

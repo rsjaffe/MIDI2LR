@@ -34,16 +34,18 @@ local numseries = 64 -- number of keywords allowed
 local function GetKeywordChildren(Keyword, Name)
   local KeywordChildren = Keyword:getChildren()
   for _,v in ipairs(KeywordChildren) do
-    table.insert(KeywordList, {title=Name..'\226\134\146'..string.lower(v:getName()), value=v.localIdentifier } )
-    GetKeywordChildren(v, Name..'\226\134\146'..string.lower(v:getName()))
+    local childName = Name..'\226\134\146'..string.lower(v:getName())
+    table.insert(KeywordList, {title=childName, value=v.localIdentifier } )
+    GetKeywordChildren(v, childName)
     LrTasks.yield()
   end
 end
 
+
 local function GetKeywords()
   LrTasks.startAsyncTask(
     function()
-          --[[-----------debug section, enable by adding - to beginning this line
+      --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
       ListReady = false
@@ -69,7 +71,7 @@ end
 
 local function ApplyKeyword(Keyword)
   LrTasks.startAsyncTask( function(context)
-          --[[-----------debug section, enable by adding - to beginning this line
+      --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
       local LrCat = LrApplication.activeCatalog()
@@ -90,7 +92,7 @@ end
 
 local function ToggleKeyword(Keyword)
   LrTasks.startAsyncTask( function(context)
-          --[[-----------debug section, enable by adding - to beginning this line
+      --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
       local LrCat = LrApplication.activeCatalog()

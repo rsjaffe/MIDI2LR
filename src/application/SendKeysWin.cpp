@@ -42,7 +42,7 @@ namespace {
 
    BOOL CALLBACK EnumWindowsProc(const _In_ HWND hwnd, [[maybe_unused]] const _In_ LPARAM l_param)
    {
-      if (!IsWindowVisible(hwnd)) { return true; }
+      if (!IsWindowVisible(hwnd)) { return TRUE; }
       std::array<WCHAR, 500> buffer {};
       const auto length {GetWindowTextW(hwnd, buffer.data(), gsl::narrow_cast<int>(buffer.size()))};
       if (length) {
@@ -55,14 +55,14 @@ namespace {
          } /* try to find Lightroom Classic. Use Lightroom as fallback */
          const auto title {std::wstring_view(buffer.data(), length)};
          const auto lr_start {title.find(L"Lightroom")};
-         if (lr_start != std::string_view::npos) {
+         if (lr_start != std::wstring_view::npos) {
             h_lr_wnd = hwnd;
-            if (title.find(L"Lightroom Classic", lr_start) != std::string_view::npos) {
-               return false; /* found full title, stop EnumWindows */
+            if (title.find(L"Lightroom Classic", lr_start) != std::wstring_view::npos) {
+               return FALSE; /* found full title, stop EnumWindows */
             }
          }
       }
-      return true;
+      return TRUE;
    }
 
    HKL GetLanguage()
@@ -94,7 +94,7 @@ namespace {
              rsj::ActiveModifiers::FromWindows(HIBYTE(vk_code_and_shift))};
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE_F;
+         rsj::ExceptionResponse(e);
          throw;
       }
       catch (...) {
@@ -111,7 +111,7 @@ namespace {
          INPUT ip {
              .type = INPUT_KEYBOARD, .ki = {0, 0, 0, 0, 0}
          };
-         std::vector<INPUT> stroke_vector {};
+         std::vector<INPUT> stroke_vector(strokes.size() * 2);
          const auto push_stroke {[&](const auto stroke) {
             ip.ki.wVk = stroke;
             stroke_vector.push_back(ip);
@@ -127,7 +127,7 @@ namespace {
                              == 0);
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE_F;
+         rsj::ExceptionResponse(e);
          throw;
       }
       catch (...) {
@@ -206,6 +206,7 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
          std::tie(vk, vk_mod) = KeyToVk(key);
       } /* construct virtual keystroke sequence */
       std::vector<WORD> strokes {vk};
+      strokes.reserve(5); /* maximum possible size */
       /* start with actual key, then mods */
       if (mods.shift || vk_mod.shift) { strokes.push_back(VK_SHIFT); }
       if (vk_mod.control && vk_mod.alt_opt) {

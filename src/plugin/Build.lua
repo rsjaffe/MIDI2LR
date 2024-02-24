@@ -46,10 +46,7 @@ for _,v in ipairs(Database.DataBase) do
     headers[#headers+1] = menulocation
     buildingstring = "\n[back to top](#top)\n\n| <a id=\""..#headers.."\">"..menulocation.."</a> |  |\n| ---- | ---- |\n"
   end
-  local experimental = ""
-  if v.Experimental  then 
-    experimental = "<strong>\226\128\187</strong>"
-  end
+  local experimental = v.Experimental and "<strong>\226\128\187</strong>" or ""
   buildingstring = buildingstring.."| "..v.Translation..experimental.." | "..v.Explanation
   if v.Type == 'button' then
     buildingstring = buildingstring.." *button*"

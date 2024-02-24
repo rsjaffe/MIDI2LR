@@ -17,7 +17,7 @@
  */
 #include <functional>
 #include <future>
-#include <map> /* map faster than unordered_map for very few members */
+#include <map> /* map faster than unordered_map for very few members https://playfulprogramming.blogspot.com/2017/08/performance-of-flat-maps.html */
 #include <memory>
 #include <vector>
 

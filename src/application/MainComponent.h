@@ -70,8 +70,13 @@ class MainContentComponent final :
    juce::Label connection_label_ {"Connection", juce::translate("Not connected to Lightroom")};
    juce::Label profile_name_label_ {"ProfileNameLabel", ""};
    juce::Label title_label_ {"Title", "MIDI2LR"};
+#ifndef MIDI2LR_BETA
    juce::Label version_label_ {
        "Version", juce::translate("Version ") + juce::String {ProjectInfo::versionString}};
+#else
+   juce::Label version_label_ {
+       "Version", juce::String("BETA TEST ONLY ") + juce::String {ProjectInfo::versionString}};
+#endif
    juce::String last_command_;
    juce::TextButton disconnect_button_ {juce::translate("Halt sending to Lightroom")};
    juce::TextButton load_button_ {juce::translate("Load")};

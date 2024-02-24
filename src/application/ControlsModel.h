@@ -122,7 +122,7 @@ namespace rsj {
             }
          }
          catch (const std::exception& e) {
-            MIDI2LR_E_RESPONSE;
+            rsj::ExceptionResponse(e);
             throw;
          }
       }
@@ -317,7 +317,7 @@ class ControlsModel {
          if (version == 1) { archive(all_controls_); }
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE;
+         rsj::ExceptionResponse(e);
          throw;
       }
    }
@@ -353,7 +353,7 @@ template<class Archive> void ChannelModel::load(Archive& archive, const uint32_t
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -386,15 +386,15 @@ template<class Archive> void ChannelModel::save(Archive& archive, const uint32_t
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
 
 #pragma warning(push)
 #pragma warning(disable : 26426 26440 26444)
-CEREAL_CLASS_VERSION(ChannelModel, 3)
-CEREAL_CLASS_VERSION(ControlsModel, 1)
-CEREAL_CLASS_VERSION(rsj::SettingsStruct, 1)
+CEREAL_CLASS_VERSION(ChannelModel, 3) //-V837
+CEREAL_CLASS_VERSION(ControlsModel, 1) //-V837
+CEREAL_CLASS_VERSION(rsj::SettingsStruct, 1) //-V837
 #pragma warning(pop)
 #endif

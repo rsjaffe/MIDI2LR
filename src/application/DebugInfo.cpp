@@ -258,7 +258,7 @@ namespace {
          return "Unable to get KLID.";
       }
       catch (const std::exception& e) {
-         MIDI2LR_E_RESPONSE_F;
+         rsj::ExceptionResponse(e);
          throw;
       }
    }
@@ -307,7 +307,7 @@ DebugInfo::DebugInfo(std::string_view profile_directory) noexcept
          info_.emplace_back(kErr);
          rsj::Log(kErr);
       }
-      catch (...) { //-V565 //-V5002
+      catch (...) { //-V565 //-V5002  // NOLINT(bugprone-empty-catch)
       }
    }
 }

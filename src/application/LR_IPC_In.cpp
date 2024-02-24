@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <atomic>
+#include <charconv>
 #include <exception>
 #include <string>
 #include <string_view> //ReSharper false alarm
@@ -81,7 +82,7 @@ void LrIpcIn::Start()
       Connect(lr_ipc_in_shared_);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -94,10 +95,16 @@ void LrIpcIn::Stop()
          asio::error_code ec;
          /* For portable behaviour with respect to graceful closure of a connected socket, call
           * shutdown() before closing the socket. */
-         std::ignore = sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
-         if (ec) {
-            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket shutdown error {}."), ec.message()));
-            ec.clear();
+         try { /* ignore exceptions from shutdown, always close */
+            std::ignore = sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+            if (ec) {
+               rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket shutdown error {}."),
+                   ec.message()));
+               ec.clear();
+            }
+         }
+         catch (const std::exception& e) {
+            rsj::Log(fmt::format(FMT_STRING("Exception during socket shutdown: {}"), e.what()));
          }
          std::ignore = sock.close(ec);
          if (ec) {
@@ -109,8 +116,9 @@ void LrIpcIn::Stop()
          rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcIn destructor."), m));
       }
    }
+
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -136,7 +144,7 @@ void LrIpcIn::Connect(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       });
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -146,6 +154,7 @@ namespace {
    {
       rsj::Trim(msg);
       const auto first_delimiter {msg.find_first_of(" \t\n")};
+      if (first_delimiter == std::string_view::npos) { return {msg, {}}; }
       auto value_view {msg.substr(first_delimiter + 1)};
       rsj::TrimL(value_view);
       const auto command_view {msg.substr(0, first_delimiter)};
@@ -159,8 +168,7 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       for (auto line_copy = lr_ipc_shared->line_.pop(); line_copy != kTerminate;
            line_copy = lr_ipc_shared->line_.pop()) {
          auto [command_view, value_view] {SplitLine(line_copy)};
-         const auto command {std::string(command_view)};
-         if (command == "TerminateApplication"s) {
+         if (command_view == "TerminateApplication") {
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
             return;
          }
@@ -169,14 +177,15 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
                                             "\"{}\"."),
                 rsj::ReplaceInvisibleChars(line_copy)));
          }
-         else if (command == "SwitchProfile"s) {
+         else if (command_view == "SwitchProfile") {
             profile_manager_.SwitchToProfile(std::string(value_view));
          }
-         else if (command == "Log"s) {
+         else if (command_view == "Log") {
             rsj::Log(fmt::format(FMT_STRING("Plugin: {}."), value_view));
          }
-         else if (command == "SendKey"s) {
-            const auto modifiers {std::stoi(std::string(value_view))};
+         else if (command_view == "SendKey") {
+            int modifiers = 0;
+            std::from_chars(value_view.data(), value_view.data() + value_view.size(), modifiers);
             /* trim twice on purpose: first modifiers digits, then one space (fixed delimiter) */
             const auto first_not_digit {value_view.find_first_not_of("0123456789")};
             if (first_not_digit != std::string_view::npos) {
@@ -192,8 +201,15 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
                 rsj::ReplaceInvisibleChars(line_copy)));
          }
          else { /* send associated messages to MIDI OUT devices */
+#ifdef _MSC_VER
+            double original_value = 0.0;
+            std::from_chars(value_view.data(), value_view.data() + value_view.size(),
+                original_value);
+#else  //Xcode doesn't support double from_chars yet (15.2)
             const auto original_value {std::stod(std::string(value_view))};
-            for (const auto& msg : profile_.GetMessagesForCommand(command)) {
+#endif
+            const auto messages {profile_.GetMessagesForCommand(std::string(command_view))};
+            for (const auto& msg : messages) {
                /* following needs to run for all controls: sets saved value */
                const auto value {controls_model_.PluginToController(msg, original_value)};
                if (msg.msg_id_type != rsj::MessageType::kCc
@@ -205,7 +221,7 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -242,7 +258,7 @@ void LrIpcInShared::Read(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE_F;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

@@ -129,7 +129,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

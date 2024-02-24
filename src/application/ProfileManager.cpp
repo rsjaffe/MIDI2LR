@@ -44,11 +44,12 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       profile_location_ = directory;
       auto file_array {directory.findChildFiles(juce::File::findFiles, false, "*.xml")};
       file_array.sort();
-      profiles_.clear();
-      for (const auto& file : file_array) { profiles_.push_back(file.getFileName()); }
+      profiles_.resize(file_array.size());
+      std::ranges::transform(file_array, profiles_.begin(),
+          [](const auto& file) { return file.getFileName(); });
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -62,7 +63,7 @@ void ProfileManager::SwitchToProfile(int profile_index)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -84,7 +85,7 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -92,13 +93,12 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
 void ProfileManager::SwitchToNextProfile()
 {
    try {
-      if (std::cmp_equal(++current_profile_index_, profiles_.size())) {
-         current_profile_index_ = 0;
-      }
+      const auto profiles_size {gsl::narrow_cast<int>(profiles_.size())};
+      current_profile_index_ = (current_profile_index_ + 1) % profiles_size;
       SwitchToProfile(current_profile_index_);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -106,13 +106,12 @@ void ProfileManager::SwitchToNextProfile()
 void ProfileManager::SwitchToPreviousProfile()
 {
    try {
-      if (--current_profile_index_ < 0) {
-         current_profile_index_ = gsl::narrow_cast<int>(profiles_.size()) - 1;
-      }
+      const auto profiles_size {gsl::narrow_cast<int>(profiles_.size())};
+      current_profile_index_ = (current_profile_index_ + profiles_size - 1) % profiles_size;
       SwitchToProfile(current_profile_index_);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -134,7 +133,7 @@ void ProfileManager::MapCommand(rsj::MidiMessageId msg)
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -152,7 +151,7 @@ void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
       MapCommand(cc);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -167,7 +166,7 @@ void ProfileManager::ConnectionCallback(const bool connected, const bool blocked
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -189,7 +188,7 @@ void ProfileManager::handleAsyncUpdate()
       }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }

@@ -73,11 +73,12 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
       g.setColour(juce::Colours::black);
       g.setFont(std::min(16.0F, static_cast<float>(height) * 0.7F));
       if (column_id != 1) { return; }
-      if (std::cmp_less_equal(profile_.Size(), row_number)) {
+      if (const auto profile_size = profile_.Size();
+          std::cmp_less_equal(profile_size, row_number)) {
          g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
          rsj::Log(fmt::format(FMT_STRING("Unknown control CommandTableModel::paintCell. {} rows "
                                          "in profile, row number to be painted is {}."),
-             profile_.Size(), row_number));
+             profile_size, row_number));
          return;
       }
       const auto cmd {profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))};
@@ -85,7 +86,7 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
       g.drawText(messageText, 0, 0, width, height, juce::Justification::centredLeft);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -101,7 +102,7 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/,
       if (row_is_selected) { g.fillAll(juce::Colours::lightblue); }
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -111,23 +112,20 @@ CommandMenu* CommandTableModel::CreateNewCommandMenu(int row_number,
 {
    /* create a new command menu, delete old one if it exists */
    delete existing_component; // NOLINT(cppcoreguidelines-owning-memory)
-   auto new_select {std::make_unique<CommandMenu>(
-       profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)), command_set_, profile_)};
-   new_select->SetSelectedItem(
-       command_set_.CommandTextIndex(profile_.GetCommandForMessage(
-           profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
-       + 1);
+   const auto& msg = profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
+   auto new_select {std::make_unique<CommandMenu>(msg, command_set_, profile_)};
+   new_select->SetSelectedItem(command_set_.CommandTextIndex(profile_.GetCommandForMessage(msg))
+                               + 1);
    return new_select.release();
 }
 
 CommandMenu* CommandTableModel::UpdateCommandMenu(int row_number, CommandMenu* command_select) const
 {
    /* Updates the existing command menu */
-   command_select->SetMsg(profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)));
-   command_select->SetSelectedItem(
-       command_set_.CommandTextIndex(profile_.GetCommandForMessage(
-           profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
-       + 1);
+   const auto& msg = profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
+   command_select->SetMsg(msg);
+   command_select->SetSelectedItem(command_set_.CommandTextIndex(profile_.GetCommandForMessage(msg))
+                                   + 1);
    return command_select;
 }
 
@@ -158,7 +156,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, cons
       return UpdateCommandMenu(row_number, command_select);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
@@ -170,7 +168,7 @@ void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forward
       profile_.Resort(current_sort);
    }
    catch (const std::exception& e) {
-      MIDI2LR_E_RESPONSE;
+      rsj::ExceptionResponse(e);
       throw;
    }
 }
