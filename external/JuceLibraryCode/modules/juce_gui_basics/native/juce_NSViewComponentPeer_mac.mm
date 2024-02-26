@@ -23,8 +23,6 @@
   ==============================================================================
 */
 
-#include "juce_CGMetalLayerRenderer_mac.h"
-
 @interface NSEvent (DeviceDelta)
 - (float)deviceDeltaX;
 - (float)deviceDeltaY;
@@ -122,7 +120,7 @@ static constexpr int translateVirtualToAsciiKeyCode (int keyCode) noexcept
 constexpr int extendedKeyModifier = 0x30000;
 
 //==============================================================================
-class JuceCALayerDelegate : public ObjCClass<NSObject<CALayerDelegate>>
+class JuceCALayerDelegate final : public ObjCClass<NSObject<CALayerDelegate>>
 {
 public:
     struct Callback
@@ -168,8 +166,8 @@ private:
 };
 
 //==============================================================================
-class NSViewComponentPeer  : public ComponentPeer,
-                             private JuceCALayerDelegate::Callback
+class NSViewComponentPeer final : public ComponentPeer,
+                                  private JuceCALayerDelegate::Callback
 {
 public:
     NSViewComponentPeer (Component& comp, const int windowStyleFlags, NSView* viewToAttachTo)
@@ -1039,8 +1037,8 @@ public:
             if (! clip.isEmpty())
             {
                 Image temp (component.isOpaque() ? Image::RGB : Image::ARGB,
-                            roundToInt (clipW * displayScale),
-                            roundToInt (clipH * displayScale),
+                            roundToInt ((float) clipW * displayScale),
+                            roundToInt ((float) clipH * displayScale),
                             ! component.isOpaque());
 
                 {
@@ -1714,7 +1712,7 @@ public:
     NSWindow* window = nil;
     NSView* view = nil;
     WeakReference<Component> safeComponent;
-    bool isSharedWindow = false;
+    const bool isSharedWindow = false;
    #if USE_COREGRAPHICS_RENDERING
     bool usingCoreGraphics = true;
    #else
@@ -1759,7 +1757,7 @@ private:
     // avoid unnecessarily duplicating display-link threads.
     SharedResourcePointer<PerScreenDisplayLinks> sharedDisplayLinks;
 
-    class AsyncRepainter : private AsyncUpdater
+    class AsyncRepainter final : private AsyncUpdater
     {
     public:
         explicit AsyncRepainter (NSViewComponentPeer& o) : owner (o) {}
@@ -1896,7 +1894,7 @@ private:
             case NSEventTypeRightMouseUp:
             case NSEventTypeOtherMouseUp:
             case NSEventTypeOtherMouseDragged:
-                if (Desktop::getInstance().getDraggingMouseSource(0) != nullptr)
+                if (Desktop::getInstance().getDraggingMouseSource (0) != nullptr)
                     return false;
                 break;
 
@@ -2000,16 +1998,95 @@ private:
        #endif
     }
 
+    /*  Used to store and restore the values of the NSWindowStyleMaskClosable and
+        NSWindowStyleMaskMiniaturizable flags.
+    */
+    struct StoredStyleFlags
+    {
+        StoredStyleFlags (NSWindowStyleMask m)
+            : stored { m }
+        {}
+
+        static auto getStoredFlags()
+        {
+            return std::array<NSWindowStyleMask, 2> { NSWindowStyleMaskClosable,
+                                                      NSWindowStyleMaskMiniaturizable };
+        }
+
+        auto withFlagsRestored (NSWindowStyleMask m) const
+        {
+            for (const auto& f : getStoredFlags())
+                m = withFlagFromStored (m, f);
+
+            return m;
+        }
+
+    private:
+        NSWindowStyleMask withFlagFromStored (NSWindowStyleMask m, NSWindowStyleMask flag) const
+        {
+            return (m & ~flag) | (stored & flag);
+        }
+
+        NSWindowStyleMask stored;
+    };
+
+    void modalComponentManagerChanged()
+    {
+        // We are only changing the style flags if we absolutely have to. Plugin windows generally
+        // don't like to be modified. Windows created under plugin hosts running in an external
+        // subprocess are particularly touchy, and may make the window invisible even if we call
+        // [window setStyleMask [window setStyleMask]].
+        if (isSharedWindow || ! hasNativeTitleBar())
+            return;
+
+        const auto newStyleMask = [&]() -> std::optional<NSWindowStyleMask>
+        {
+            const auto currentStyleMask = [window styleMask];
+
+            if (ModalComponentManager::getInstance()->getNumModalComponents() > 0)
+            {
+                if (! storedFlags)
+                    storedFlags.emplace (currentStyleMask);
+
+                auto updatedMask = (storedFlags->withFlagsRestored (currentStyleMask)) & ~NSWindowStyleMaskMiniaturizable;
+
+                if (component.isCurrentlyBlockedByAnotherModalComponent())
+                    updatedMask &= ~NSWindowStyleMaskClosable;
+
+                return updatedMask;
+            }
+
+            if (storedFlags)
+            {
+                const auto flagsToApply = storedFlags->withFlagsRestored (currentStyleMask);
+                storedFlags.reset();
+                return flagsToApply;
+            }
+
+            return {};
+        }();
+
+        if (newStyleMask && *newStyleMask != [window styleMask])
+            [window setStyleMask: *newStyleMask];
+    }
+
     //==============================================================================
     std::vector<ScopedNotificationCenterObserver> scopedObservers;
     std::vector<ScopedNotificationCenterObserver> windowObservers;
+
+    std::optional<StoredStyleFlags> storedFlags;
+    ErasedScopeGuard modalChangeListenerScope =
+        detail::ComponentHelpers::ModalComponentManagerChangeNotifier::getInstance().addListener ([this]
+                                                                                                  {
+                                                                                                      modalComponentManagerChanged();
+                                                                                                  });
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NSViewComponentPeer)
 };
 
 //==============================================================================
 template <typename Base>
-struct NSViewComponentPeerWrapper  : public Base
+struct NSViewComponentPeerWrapper : public Base
 {
     explicit NSViewComponentPeerWrapper (const char* baseName)
         : Base (baseName)
@@ -2033,7 +2110,7 @@ struct NSViewComponentPeerWrapper  : public Base
 };
 
 //==============================================================================
-struct JuceNSViewClass   : public NSViewComponentPeerWrapper<ObjCClass<NSView>>
+struct JuceNSViewClass final : public NSViewComponentPeerWrapper<ObjCClass<NSView>>
 {
     JuceNSViewClass()  : NSViewComponentPeerWrapper ("JUCEView_")
     {
@@ -2103,6 +2180,10 @@ struct JuceNSViewClass   : public NSViewComponentPeerWrapper<ObjCClass<NSView>>
 
         addMethod (@selector (draggingEnded:),                  draggingExited);
         addMethod (@selector (draggingExited:),                 draggingExited);
+
+        JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wundeclared-selector")
+        addMethod (@selector (clipsToBounds), [] (id, SEL) { return YES; });
+        JUCE_END_IGNORE_WARNINGS_GCC_LIKE
 
         addMethod (@selector (acceptsFirstMouse:), [] (id, SEL, NSEvent*) { return YES; });
 
@@ -2600,7 +2681,7 @@ private:
 };
 
 //==============================================================================
-struct JuceNSWindowClass   : public NSViewComponentPeerWrapper<ObjCClass<NSWindow>>
+struct JuceNSWindowClass final : public NSViewComponentPeerWrapper<ObjCClass<NSWindow>>
 {
     JuceNSWindowClass()  : NSViewComponentPeerWrapper ("JUCEWindow_")
     {

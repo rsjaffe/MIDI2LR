@@ -106,7 +106,7 @@ LookAndFeel_V4::ColourScheme LookAndFeel_V4::getLightColourScheme()
 }
 
 //==============================================================================
-class LookAndFeel_V4_DocumentWindowButton   : public Button
+class LookAndFeel_V4_DocumentWindowButton final : public Button
 {
 public:
     LookAndFeel_V4_DocumentWindowButton (const String& name, Colour c, const Path& normal, const Path& toggled)
@@ -1431,6 +1431,7 @@ void LookAndFeel_V4::initialiseColours()
         Toolbar::buttonMouseDownBackgroundColourId, currentColourScheme.getUIColour (ColourScheme::UIColour::widgetBackground).contrasting (0.5f).getARGB(),
         Toolbar::labelTextColourId,                 currentColourScheme.getUIColour (ColourScheme::UIColour::defaultText).getARGB(),
         Toolbar::editingModeOutlineColourId,        currentColourScheme.getUIColour (ColourScheme::UIColour::outline).getARGB(),
+        Toolbar::customisationDialogBackgroundColourId, currentColourScheme.getUIColour (ColourScheme::UIColour::widgetBackground).getARGB(),
 
         DrawableButton::textColourId,               currentColourScheme.getUIColour (ColourScheme::UIColour::defaultText).getARGB(),
         DrawableButton::textColourOnId,             currentColourScheme.getUIColour (ColourScheme::UIColour::highlightedText).getARGB(),

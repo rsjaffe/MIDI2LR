@@ -244,7 +244,7 @@ static DebugFlagsInitialiser debugFlagsInitialiser;
 #if JUCE_MINGW
  static uint64 getWindowsVersion()
  {
-     auto filename = _T("kernel32.dll");
+     auto filename = _T ("kernel32.dll");
      DWORD handle = 0;
 
      if (auto size = GetFileVersionInfoSize (filename, &handle))
@@ -256,7 +256,7 @@ static DebugFlagsInitialiser debugFlagsInitialiser;
              VS_FIXEDFILEINFO* info = nullptr;
              UINT verSize = 0;
 
-             if (VerQueryValue (data, (LPCTSTR) _T("\\"), (void**) &info, &verSize))
+             if (VerQueryValue (data, (LPCTSTR) _T ("\\"), (void**) &info, &verSize))
                  if (size > 0 && info != nullptr && info->dwSignature == 0xfeef04bd)
                      return ((uint64) info->dwFileVersionMS << 32) | (uint64) info->dwFileVersionLS;
          }
@@ -319,44 +319,19 @@ SystemStats::OperatingSystemType SystemStats::getOperatingSystemType()
 
 String SystemStats::getOperatingSystemName()
 {
-    const char* name = "Unknown OS";
+    const auto type = getOperatingSystemType();
 
-    switch (getOperatingSystemType())
-    {
-        case Windows11:         name = "Windows 11";        break;
-        case Windows10:         name = "Windows 10";        break;
-        case Windows8_1:        name = "Windows 8.1";       break;
-        case Windows8_0:        name = "Windows 8.0";       break;
-        case Windows7:          name = "Windows 7";         break;
-        case WinVista:          name = "Windows Vista";     break;
-        case WinXP:             name = "Windows XP";        break;
-        case Win2000:           name = "Windows 2000";      break;
+    if (type == Windows11)      return "Windows 11";
+    if (type == Windows10)      return "Windows 10";
+    if (type == Windows8_1)     return "Windows 8.1";
+    if (type == Windows8_0)     return "Windows 8.0";
+    if (type == Windows7)       return "Windows 7";
+    if (type == WinVista)       return "Windows Vista";
+    if (type == WinXP)          return "Windows XP";
+    if (type == Win2000)        return "Windows 2000";
 
-        case MacOSX:            JUCE_FALLTHROUGH
-        case Windows:           JUCE_FALLTHROUGH
-        case Linux:             JUCE_FALLTHROUGH
-        case Android:           JUCE_FALLTHROUGH
-        case iOS:               JUCE_FALLTHROUGH
-
-        case MacOSX_10_7:       JUCE_FALLTHROUGH
-        case MacOSX_10_8:       JUCE_FALLTHROUGH
-        case MacOSX_10_9:       JUCE_FALLTHROUGH
-        case MacOSX_10_10:      JUCE_FALLTHROUGH
-        case MacOSX_10_11:      JUCE_FALLTHROUGH
-        case MacOSX_10_12:      JUCE_FALLTHROUGH
-        case MacOSX_10_13:      JUCE_FALLTHROUGH
-        case MacOSX_10_14:      JUCE_FALLTHROUGH
-        case MacOSX_10_15:      JUCE_FALLTHROUGH
-        case MacOS_11:          JUCE_FALLTHROUGH
-        case MacOS_12:          JUCE_FALLTHROUGH
-        case MacOS_13:          JUCE_FALLTHROUGH
-
-        case UnknownOS:         JUCE_FALLTHROUGH
-        case WASM:              JUCE_FALLTHROUGH
-        default:                jassertfalse; break; // !! new type of OS?
-    }
-
-    return name;
+    jassertfalse;
+    return "Unknown OS";
 }
 
 String SystemStats::getDeviceDescription()

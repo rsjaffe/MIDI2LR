@@ -360,6 +360,14 @@ File File::getParentDirectory() const
     return createFileWithoutCheckingPath (getPathUpToLastSlash());
 }
 
+bool File::isNonEmptyDirectory() const
+{
+    if (! isDirectory())
+        return false;
+
+    return RangedDirectoryIterator (*this, false, "*", findFilesAndDirectories) != RangedDirectoryIterator();
+}
+
 //==============================================================================
 String File::getFileName() const
 {
@@ -1037,7 +1045,7 @@ MemoryMappedFile::MemoryMappedFile (const File& file, const Range<int64>& fileRa
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-class FileTests  : public UnitTest
+class FileTests final : public UnitTest
 {
 public:
     FileTests()
@@ -1055,7 +1063,7 @@ public:
         expect (! File().existsAsFile());
         expect (! File().isDirectory());
        #if ! JUCE_WINDOWS
-        expect (File("/").isDirectory());
+        expect (File ("/").isDirectory());
        #endif
         expect (home.isDirectory());
         expect (home.exists());
