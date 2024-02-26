@@ -420,13 +420,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          using namespace std::string_literals;
          const auto& lang {command_set_.GetLanguage()};
          const std::unordered_map<std::string, std::pair<std::string, std::string>> font_map {
-             {    "ko"s,                                {"NotoSansKR-Regular.otf", ""}},
-             { "zh_TW"s,                                {"NotoSansTC-Regular.otf", ""}},
-             { "zh_tw"s,                                {"NotoSansTC-Regular.otf", ""}},
-             { "zh_CN"s,                                {"NotoSansSC-Regular.otf", ""}},
-             { "zh_cn"s,                                {"NotoSansSC-Regular.otf", ""}},
-             {    "ja"s,                                {"NotoSansJP-Regular.otf", ""}},
-             {"default", {"NotoSans-Regular-MIDI2LR.ttf", "NotoSans-Bold-MIDI2LR.ttf"}}
+             {     "ko"s,                                {"NotoSansKR-Regular.otf", ""}},
+             {  "zh_TW"s,                                {"NotoSansTC-Regular.otf", ""}},
+             {  "zh_tw"s,                                {"NotoSansTC-Regular.otf", ""}},
+             {  "zh_CN"s,                                {"NotoSansSC-Regular.otf", ""}},
+             {  "zh_cn"s,                                {"NotoSansSC-Regular.otf", ""}},
+             {     "ja"s,                                {"NotoSansJP-Regular.otf", ""}},
+             {"default"s, {"NotoSans-Regular-MIDI2LR.ttf", "NotoSans-Bold-MIDI2LR.ttf"}}
          };
          auto font_pair = font_map.find(lang);
          if (font_pair == font_map.end()) { font_pair = font_map.find("default"); }

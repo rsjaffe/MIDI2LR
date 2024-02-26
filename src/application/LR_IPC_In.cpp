@@ -41,7 +41,6 @@
 #include "SendKeys.h"
 
 using namespace std::literals::chrono_literals;
-using namespace std::string_literals;
 
 namespace {
    constexpr auto kEmptyWait {100ms};
@@ -75,10 +74,10 @@ void LrIpcIn::Start()
    try {
       process_line_future_ =
           std::async(std::launch::async, [this, shared = lr_ipc_in_shared_]() mutable {
-             rsj::LabelThread(MIDI2LR_UC_LITERAL("LrIpcIn ProcessLine thread"));
-             MIDI2LR_FAST_FLOATS;
-             ProcessLine(std::move(shared));
-          });
+         rsj::LabelThread(MIDI2LR_UC_LITERAL("LrIpcIn ProcessLine thread"));
+         MIDI2LR_FAST_FLOATS;
+         ProcessLine(std::move(shared));
+      });
       Connect(lr_ipc_in_shared_);
    }
    catch (const std::exception& e) {
@@ -165,8 +164,8 @@ namespace {
 void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 {
    try {
-      for (auto line_copy = lr_ipc_shared->line_.pop(); line_copy != kTerminate;
-           line_copy = lr_ipc_shared->line_.pop()) {
+      std::string line_copy;
+      while ((line_copy = lr_ipc_shared->line_.pop()) != kTerminate) {
          auto [command_view, value_view] {SplitLine(line_copy)};
          if (command_view == "TerminateApplication") {
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
@@ -205,7 +204,7 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
             double original_value = 0.0;
             std::from_chars(value_view.data(), value_view.data() + value_view.size(),
                 original_value);
-#else  //Xcode doesn't support double from_chars yet (15.2)
+#else // Xcode doesn't support double from_chars yet (15.2)
             const auto original_value {std::stod(std::string(value_view))};
 #endif
             const auto messages {profile_.GetMessagesForCommand(std::string(command_view))};
@@ -228,6 +227,7 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 
 void LrIpcInShared::Read(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 {
+   using namespace std::string_literals;
    try {
       if (!lr_ipc_shared->thread_should_exit_.load(std::memory_order_acquire)) {
          asio::async_read_until(lr_ipc_shared->socket_, lr_ipc_shared->streambuf_, '\n',

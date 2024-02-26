@@ -155,7 +155,7 @@ void LrIpcOut::Connect(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
                    ec2.message()));
             }
          }
-          });
+      });
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(e);

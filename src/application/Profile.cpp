@@ -37,7 +37,6 @@ void Profile::FromXml(const juce::XmlElement* root)
    /* external use only, but will either use external versions of Profile calls to lock individual
     * accesses or manually lock any internal calls instead of using mutex for entire method */
    try {
-      using namespace std::string_literals;
       if (!root || root->getTagName().compare("settings") != 0) { return; }
       RemoveAllRows();
       for (const auto* setting : root->getChildIterator()) {
@@ -67,6 +66,7 @@ void Profile::FromXml(const juce::XmlElement* root)
             InsertOrAssign(command, pb);
          }
          else { /* no action needed */
+            continue;
          }
       }
       auto guard {std::unique_lock {mutex_}};
@@ -215,7 +215,7 @@ void Profile::Resort(const std::pair<int, bool> new_order)
 void Profile::SortI()
 {
    try {
-      const auto projection {
+      const auto CommandNumber {
           [this](const auto& a) { return command_set_.CommandTextIndex(a.second); }};
       if (current_sort_.first == 1) {
          if (current_sort_.second) { std::ranges::sort(mm_abbrv_table_); }
@@ -224,10 +224,10 @@ void Profile::SortI()
          }
       }
       else if (current_sort_.second) {
-         std::ranges::stable_sort(mm_abbrv_table_, {}, projection);
+         std::ranges::stable_sort(mm_abbrv_table_, {}, CommandNumber);
       }
       else {
-         std::ranges::stable_sort(mm_abbrv_table_ | std::views::reverse, {}, projection);
+         std::ranges::stable_sort(mm_abbrv_table_ | std::views::reverse, {}, CommandNumber);
       }
    }
    catch (const std::exception& e) {

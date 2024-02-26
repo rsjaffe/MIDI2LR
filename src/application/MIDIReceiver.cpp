@@ -168,7 +168,8 @@ void MidiReceiver::DispatchNoteOnPwMessage(
 void MidiReceiver::DispatchMessages()
 {
    try {
-      for (auto popped {messages_.pop()}; popped.first != kTerminate; popped = messages_.pop()) {
+      std::pair<rsj::MidiMessage, juce::MidiInput*> popped;
+      while ((popped = messages_.pop()).first != kTerminate) {
 #ifdef _WIN32
          SetThreadExecutionState(0x00000002UL | 0x00000001UL);
 #endif

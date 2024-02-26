@@ -81,7 +81,11 @@ class ProfileManager final : juce::AsyncUpdater {
    juce::File profile_location_;
    LrIpcOut& lr_ipc_out_;
    std::vector<juce::String> profiles_;
+#ifdef __cpp_lib_copyable_function
+   std::vector<std::copyable_function<void(juce::XmlElement*, const juce::String&)>> callbacks_;
+#else
    std::vector<std::function<void(juce::XmlElement*, const juce::String&)>> callbacks_;
+#endif
    SwitchState switch_state_ {SwitchState::kNone};
 };
 

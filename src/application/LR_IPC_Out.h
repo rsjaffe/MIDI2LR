@@ -90,7 +90,11 @@ class LrIpcOut {
    mutable std::mutex callback_mtx_;
    std::atomic<bool> thread_should_exit_ {false};
    std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared_;
+#ifdef __cpp_lib_copyable_function
+   std::vector<std::copyable_function<void(bool, bool)>> callbacks_ {};
+#else
    std::vector<std::function<void(bool, bool)>> callbacks_ {};
+#endif
 };
 
 #endif
