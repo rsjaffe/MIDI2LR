@@ -164,7 +164,7 @@ namespace {
 void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 {
    try {
-      std::string line_copy;
+      decltype(lr_ipc_shared->line_)::value_type line_copy;
       while ((line_copy = lr_ipc_shared->line_.pop()) != kTerminate) {
          auto [command_view, value_view] {SplitLine(line_copy)};
          if (command_view == "TerminateApplication") {
