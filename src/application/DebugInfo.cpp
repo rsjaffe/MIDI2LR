@@ -251,14 +251,14 @@ namespace {
             catch (...) {
                auto msg {fmt::format(FMT_STRING("Exception when finding KLID name. KLID: 0x{}."),
                    klid_ascii.data())};
-               rsj::Log(msg);
+               rsj::Log(msg, std::source_location::current());
                return msg;
             }
          }
          return "Unable to get KLID.";
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
          throw;
       }
    }
@@ -305,7 +305,7 @@ DebugInfo::DebugInfo(std::string_view profile_directory) noexcept
       try {
          static constexpr auto kErr {"Failed to obtain app info. Exception."};
          info_.emplace_back(kErr);
-         rsj::Log(kErr);
+         rsj::Log(kErr, std::source_location::current());
       }
       catch (...) { //-V565 //-V5002  // NOLINT(bugprone-empty-catch)
       }

@@ -40,7 +40,7 @@ try : juce
    }
 
 catch (const std::exception& e) {
-   rsj::ExceptionResponse(e);
+   rsj::ExceptionResponse(e, std::source_location::current());
    throw;
 }
 
@@ -51,7 +51,7 @@ void MainWindow::timerCallback()
       if (!juce::ResizableWindow::isMinimised()) { juce::DocumentWindow::minimiseButtonPressed(); }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

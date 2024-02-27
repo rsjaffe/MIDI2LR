@@ -63,7 +63,8 @@ void SettingsComponent::Init()
       pickup_enabled_.onClick = [this] {
          const auto pickup_state {pickup_enabled_.getToggleState()};
          settings_manager_.SetPickupEnabled(pickup_state);
-         rsj::Log(pickup_state ? "Pickup set to enabled." : "Pickup set to disabled.");
+         rsj::Log(pickup_state ? "Pickup set to enabled." : "Pickup set to disabled.",
+             std::source_location::current());
       };
 
       /* profile */
@@ -83,7 +84,8 @@ void SettingsComponent::Init()
             const auto profile_location {chooser.getResult().getFullPathName()};
             settings_manager_.SetProfileDirectory(profile_location);
             rsj::Log(fmt::format(FMT_STRING("Profile location set to {}."),
-                profile_location.toStdString()));
+                         profile_location.toStdString()),
+                std::source_location::current());
             profile_location_label_.setText(profile_location,
                 juce::NotificationType::dontSendNotification);
          }
@@ -125,13 +127,14 @@ void SettingsComponent::Init()
          settings_manager_.SetAutoHideTime(
              gsl::narrow<int>(std::lrint(autohide_setting_.getValue())));
          rsj::Log(fmt::format(FMT_STRING("Autohide time set to {} seconds."),
-             settings_manager_.GetAutoHideTime()));
+                      settings_manager_.GetAutoHideTime()),
+             std::source_location::current());
       };
       /* turn it on */
       activateLayout();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -142,7 +145,7 @@ void SettingsComponent::paint(juce::Graphics& g)
       g.fillAll(juce::Colours::white); /* clear the background */
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

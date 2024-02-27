@@ -60,7 +60,7 @@ namespace rsj {
                    "The file, 'settings.xml', is marked as a version not supported by the current "
                    "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."};
                rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                   fmt::format(msg, version));
+                   fmt::format(msg, version), std::source_location::current());
             }
             break;
          }
@@ -116,13 +116,13 @@ namespace rsj {
                       "current "
                       "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."};
                   rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                      fmt::format(msg, version));
+                      fmt::format(msg, version), std::source_location::current());
                }
                break;
             }
          }
          catch (const std::exception& e) {
-            rsj::ExceptionResponse(e);
+            rsj::ExceptionResponse(e, std::source_location::current());
             throw;
          }
       }
@@ -317,7 +317,7 @@ class ControlsModel {
          if (version == 1) { archive(all_controls_); }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
          throw;
       }
    }
@@ -347,13 +347,13 @@ template<class Archive> void ChannelModel::load(Archive& archive, const uint32_t
                 "The file, 'settings.xml', is marked as a version not supported by the current "
                 "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
             rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                fmt::format(msg, version));
+                fmt::format(msg, version), std::source_location::current());
          }
          break;
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -380,21 +380,21 @@ template<class Archive> void ChannelModel::save(Archive& archive, const uint32_t
                 "The file, 'settings.xml', is marked as a version not supported by the current "
                 "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
             rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                fmt::format(msg, version));
+                fmt::format(msg, version), std::source_location::current());
          }
          break;
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
 
 #pragma warning(push)
 #pragma warning(disable : 26426 26440 26444)
-CEREAL_CLASS_VERSION(ChannelModel, 3) //-V837
-CEREAL_CLASS_VERSION(ControlsModel, 1) //-V837
+CEREAL_CLASS_VERSION(ChannelModel, 3)        //-V837
+CEREAL_CLASS_VERSION(ControlsModel, 1)       //-V837
 CEREAL_CLASS_VERSION(rsj::SettingsStruct, 1) //-V837
 #pragma warning(pop)
 #endif

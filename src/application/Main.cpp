@@ -85,18 +85,19 @@ namespace {
             wil::SetResultLoggingCallback([](const wil::FailureInfo& failure) noexcept {
                std::array<wchar_t, 2048> dbg {};
                if (SUCCEEDED(wil::GetFailureLogString(dbg.data(), dbg.size(), failure))) {
-                  rsj::Log(dbg.data());
+                  rsj::Log(dbg.data(), std::source_location::current());
                }
                else {
-                  rsj::Log(L"Call to wil::GetFailureLogString failed.");
+                  rsj::Log(L"Call to wil::GetFailureLogString failed.",
+                      std::source_location::current());
                }
             });
          }
          catch (const std::exception& e) {
-            rsj::ExceptionResponse(e);
+            rsj::ExceptionResponse(e, std::source_location::current());
          }
          catch (...) {
-            rsj::Log("Unable to set up wil logger.");
+            rsj::Log("Unable to set up wil logger.", std::source_location::current());
          }
 #endif
       }
@@ -108,10 +109,10 @@ namespace {
             wil::SetResultLoggingCallback(nullptr);
          }
          catch (const std::exception& e) {
-            rsj::ExceptionResponse(e);
+            rsj::ExceptionResponse(e, std::source_location::current());
          }
          catch (...) {
-            rsj::Log("Unable to reset wil logging callback.");
+            rsj::Log("Unable to reset wil logging callback.", std::source_location::current());
          }
 #endif
          juce::Logger::setCurrentLogger(nullptr);
@@ -139,14 +140,16 @@ namespace {
                std::rethrow_exception(exc);
             }
             catch (const std::exception& e) {
-               rsj::Log(fmt::format(FMT_STRING("Terminate called, exception {}."), e.what()));
+               rsj::Log(fmt::format(FMT_STRING("Terminate called, exception {}."), e.what()),
+                   std::source_location::current());
             }
             catch (...) {
-               rsj::Log("Terminate called, unknown exception type.");
+               rsj::Log("Terminate called, unknown exception type.",
+                   std::source_location::current());
             }
          }
          else {
-            rsj::Log("Terminate called, no exception available.");
+            rsj::Log("Terminate called, no exception available.", std::source_location::current());
          }
       }
       catch (...) { //-V565 //-V5002  // NOLINT(bugprone-empty-catch)
@@ -168,7 +171,8 @@ namespace {
       }
       else {
          rsj::Log(fmt::format(FMT_STRING("Unable to load {} font file {}."),
-             is_primary ? "primary" : "bold", font_name.toStdString()));
+                      is_primary ? "primary" : "bold", font_name.toStdString()),
+             std::source_location::current());
       }
    }
 
@@ -217,7 +221,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
          throw;
       }
    }
@@ -255,7 +259,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          });
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
          throw;
       }
    }
@@ -280,7 +284,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                                       line_number, std::uncaught_exceptions()),
                 fmt::format(FMT_STRING("Unhandled exception {}, {} line {}. Total uncaught {}."),
                     e->what(), source_filename.toStdString(), line_number,
-                    std::uncaught_exceptions()));
+                    std::uncaught_exceptions()),
+                std::source_location::current());
          }
          else {
             const auto msgt {juce::translate("unhandled exception").toStdString()
@@ -288,7 +293,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             rsj::LogAndAlertError(fmt::format(msgt, source_filename.toStdString(), line_number,
                                       std::uncaught_exceptions()),
                 fmt::format(FMT_STRING("Unhandled exception {} line {}. Total uncaught {}."),
-                    source_filename.toStdString(), line_number, std::uncaught_exceptions()));
+                    source_filename.toStdString(), line_number, std::uncaught_exceptions()),
+                std::source_location::current());
          }
       }
       catch (...) {
@@ -320,7 +326,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          MIDI2LR_FAST_FLOATS;
          if constexpr (kNdebug) { io_context_.run(); }
          else {
-            rsj::Log(fmt::format(FMT_STRING("{} ran {} handlers."), threadName, io_context_.run()));
+            rsj::Log(fmt::format(FMT_STRING("{} ran {} handlers."), threadName, io_context_.run()),
+                std::source_location::current());
          }
       });
    }
@@ -368,10 +375,11 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          const auto profile_file {juce::File(file_name.data())};
          profile_.ToXmlFile(profile_file);
          rsj::Log(fmt::format(FMT_STRING("Default profile saved to {}."),
-             profile_file.getFullPathName().toStdString()));
+                      profile_file.getFullPathName().toStdString()),
+             std::source_location::current());
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
       }
    }
 
@@ -384,15 +392,16 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             const auto oarchive {std::make_unique<cereal::XMLOutputArchive>(outfile)};
             (*oarchive)(controls_model_);
             rsj::Log(fmt::format(FMT_STRING("ControlsModel archive in Main saved to {}."),
-                p.string()));
+                         p.string()),
+                std::source_location::current());
          }
          else {
             rsj::LogAndAlertError(juce::translate("Unable to save settings.xml"),
-                "Unable to save settings.xml");
+                "Unable to save settings.xml", std::source_location::current());
          }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
       }
    }
 
@@ -405,11 +414,12 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             const auto iarchive {std::make_unique<cereal::XMLInputArchive>(in_file)};
             (*iarchive)(controls_model_);
             rsj::Log(fmt::format(FMT_STRING("ControlsModel archive in Main loaded from {}."),
-                px.string()));
+                         px.string()),
+                std::source_location::current());
          }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
          throw;
       }
    }
@@ -436,7 +446,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          if (!bold_font_name.empty()) { LoadFont(bold_font_name, false); }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
       }
    }
 

@@ -78,7 +78,8 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
          g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
          rsj::Log(fmt::format(FMT_STRING("Unknown control CommandTableModel::paintCell. {} rows "
                                          "in profile, row number to be painted is {}."),
-             profile_size, row_number));
+                      profile_size, row_number),
+             std::source_location::current());
          return;
       }
       const auto cmd {profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))};
@@ -86,7 +87,7 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
       g.drawText(messageText, 0, 0, width, height, juce::Justification::centredLeft);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -102,7 +103,7 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/,
       if (row_is_selected) { g.fillAll(juce::Colours::lightblue); }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -156,7 +157,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, cons
       return UpdateCommandMenu(row_number, command_select);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -168,7 +169,7 @@ void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forward
       profile_.Resort(current_sort);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

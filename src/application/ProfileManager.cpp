@@ -49,7 +49,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
           [](const auto& file) { return file.getFileName(); });
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -63,7 +63,7 @@ void ProfileManager::SwitchToProfile(int profile_index)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -85,7 +85,7 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -98,7 +98,7 @@ void ProfileManager::SwitchToNextProfile()
       SwitchToProfile(current_profile_index_);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -111,7 +111,7 @@ void ProfileManager::SwitchToPreviousProfile()
       SwitchToProfile(current_profile_index_);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -133,7 +133,7 @@ void ProfileManager::MapCommand(rsj::MidiMessageId msg)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -151,7 +151,7 @@ void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
       MapCommand(cc);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -166,7 +166,7 @@ void ProfileManager::ConnectionCallback(const bool connected, const bool blocked
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -188,7 +188,7 @@ void ProfileManager::handleAsyncUpdate()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

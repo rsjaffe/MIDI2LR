@@ -69,7 +69,7 @@ try : ResizableLayout{this}, command_table_model_(command_set, profile), lr_ipc_
 }
 
 catch (const std::exception& e) {
-   rsj::ExceptionResponse(e);
+   rsj::ExceptionResponse(e, std::source_location::current());
    throw;
 }
 
@@ -87,7 +87,7 @@ namespace {
          label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
          throw;
       }
    }
@@ -160,7 +160,8 @@ void MainContentComponent::Init()
             }
             else {
                rsj::Log(fmt::format(FMT_STRING("Unable to load profile {}."),
-                   chooser.getResult().getFullPathName().toStdString()));
+                            chooser.getResult().getFullPathName().toStdString()),
+                   std::source_location::current());
             }
          }
       };
@@ -238,11 +239,11 @@ void MainContentComponent::Init()
       disconnect_button_.onClick = [this] {
          if (disconnect_button_.getToggleState()) {
             lr_ipc_out_.SendingStop();
-            rsj::Log("Sending halted.");
+            rsj::Log("Sending halted.", std::source_location::current());
          }
          else {
             lr_ipc_out_.SendingRestart();
-            rsj::Log("Sending restarted.");
+            rsj::Log("Sending restarted.", std::source_location::current());
          }
       };
 
@@ -277,7 +278,7 @@ void MainContentComponent::Init()
       activateLayout();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -301,7 +302,7 @@ void MainContentComponent::paint(juce::Graphics& g)
       g.fillAll(juce::Colours::white);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -319,7 +320,7 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
       triggerAsyncUpdate();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -332,7 +333,7 @@ void MainContentComponent::UpdateConnectionLabel(const char* text, const juce::C
       connection_label_.setColour(juce::Label::backgroundColourId, colour);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -352,7 +353,7 @@ void MainContentComponent::LrIpcOutCallback(const bool connected, const bool sen
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -373,7 +374,7 @@ void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element,
       lr_ipc_out_.SendCommand("FullRefresh 1\n");
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -390,7 +391,7 @@ void MainContentComponent::handleAsyncUpdate()
       command_table_.selectRow(gsl::narrow_cast<int>(row_to_select_));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -403,7 +404,7 @@ void MainContentComponent::timerCallback()
       juce::Timer::stopTimer();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

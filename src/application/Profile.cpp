@@ -75,7 +75,7 @@ void Profile::FromXml(const juce::XmlElement* root)
       profile_unsaved_ = false;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -96,7 +96,7 @@ std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string
       return mm;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -113,7 +113,7 @@ void Profile::InsertOrAssignI(const std::string& command, const rsj::MidiMessage
       profile_unsaved_ = true;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -129,7 +129,7 @@ void Profile::InsertUnassigned(rsj::MidiMessageId message)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -145,7 +145,7 @@ void Profile::RemoveAllRows()
       profile_unsaved_ = false;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -162,11 +162,12 @@ void Profile::RemoveMessage(rsj::MidiMessageId message)
       else {
          rsj::Log(fmt::format(FMT_STRING("Error in Profile::RemoveMessage. Message not found. "
                                          "Message is: channel {} control number {} type {}."),
-             message.channel, message.control_number, message.msg_id_type));
+                      message.channel, message.control_number, message.msg_id_type),
+             std::source_location::current());
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -179,7 +180,7 @@ void Profile::RemoveRow(const size_t row)
       profile_unsaved_ = true;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -194,7 +195,7 @@ void Profile::RemoveUnassignedMessages()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -207,7 +208,7 @@ void Profile::Resort(const std::pair<int, bool> new_order)
       SortI();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -231,7 +232,7 @@ void Profile::SortI()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -277,7 +278,8 @@ void Profile::ToXmlFile(const juce::File& file)
             rsj::LogAndAlertError(juce::translate("Unable to save file. Choose a different "
                                                   "location and try again.")
                                       + ' ' + p,
-                "Unable to save file. Choose a different location and try again. " + p);
+                "Unable to save file. Choose a different location and try again. " + p,
+                std::source_location::current());
          }
          else {
             /*could use shared_mutex above if it were upgradable to unique here*/
@@ -287,7 +289,7 @@ void Profile::ToXmlFile(const juce::File& file)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

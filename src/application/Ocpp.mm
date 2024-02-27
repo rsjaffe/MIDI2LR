@@ -52,19 +52,22 @@ void rsj::CheckPermission(pid_t pid)
       AEDisposeDesc(&addressDesc);
       switch (status) {
       case errAEEventWouldRequireUserConsent:
-         rsj::Log(fmt::format(
-             FMT_STRING("Automation permission pending for {}."), bundleIdentifierCString));
+         rsj::Log(fmt::format(FMT_STRING("Automation permission pending for {}."),
+                      bundleIdentifierCString),
+             std::source_location::current());
          break;
       case noErr:
-         rsj::Log(fmt::format(
-             FMT_STRING("Automation permission granted for {}."), bundleIdentifierCString));
+         rsj::Log(fmt::format(FMT_STRING("Automation permission granted for {}."),
+                      bundleIdentifierCString),
+             std::source_location::current());
          break;
       case errAEEventNotPermitted:
          {
-            rsj::Log(fmt::format(
-                FMT_STRING("Automation permission denied for {}."), bundleIdentifierCString));
-            const auto title {juce::translate(
-                "MIDI2LR needs your authorization to send keystrokes to Lightroom")};
+            rsj::Log(fmt::format(FMT_STRING("Automation permission denied for {}."),
+                         bundleIdentifierCString),
+                std::source_location::current());
+            const auto title {juce::translate("MIDI2LR needs your authorization to send keystrokes "
+                                              "to Lightroom")};
             const auto message {juce::translate(
                 "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these "
                 "steps:\r\n1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) "
@@ -73,18 +76,21 @@ void rsj::CheckPermission(pid_t pid)
             break;
          }
       case procNotFound:
-         rsj::Log(
-             fmt::format(FMT_STRING("Application not found. Automation permission unknown for {}."),
-                 bundleIdentifierCString));
+         rsj::Log(fmt::format(FMT_STRING("Application not found. Automation permission unknown for "
+                                         "{}."),
+                      bundleIdentifierCString),
+             std::source_location::current());
          break;
       default:
-         rsj::Log(fmt::format(
-             FMT_STRING("Unexpected return value when checking automation permission for {}."),
-             bundleIdentifierCString));
+         rsj::Log(fmt::format(FMT_STRING("Unexpected return value when checking automation "
+                                         "permission for {}."),
+                      bundleIdentifierCString),
+             std::source_location::current());
          break;
       }
    }
    else {
-      rsj::Log(fmt::format(FMT_STRING("AECreateDesc returned error {}."), aeresult));
+      rsj::Log(fmt::format(FMT_STRING("AECreateDesc returned error {}."), aeresult),
+          std::source_location::current());
    }
 }

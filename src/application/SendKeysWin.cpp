@@ -50,8 +50,9 @@ namespace {
          if (std::cmp_greater_equal(length + 1, buffer.size())) {
             rsj::Log(fmt::format(FMT_STRING(L"EnumWindowsProc window text length > {}, truncated "
                                             L"text is {}."),
-                buffer.size(), buffer.data())
-                         .data());
+                         buffer.size(), buffer.data())
+                         .data(),
+                std::source_location::current());
          } /* try to find Lightroom Classic. Use Lightroom as fallback */
          const auto title {std::wstring_view(buffer.data(), length)};
          const auto lr_start {title.find(L"Lightroom")};
@@ -69,14 +70,17 @@ namespace {
    {
       std::call_once(of_getlanguage, [] {
          LOG_IF_WIN32_BOOL_FALSE(EnumWindows(&EnumWindowsProc, 0));
-         if (!h_lr_wnd) { rsj::Log("Unable to find Lightroom in EnumWindows."); }
+         if (!h_lr_wnd) {
+            rsj::Log("Unable to find Lightroom in EnumWindows.", std::source_location::current());
+         }
       });
       if (h_lr_wnd) { /* get language that LR is using (if hLrWnd is found) */
          if (const auto thread_id {GetWindowThreadProcessId(h_lr_wnd, nullptr)}) {
             return GetKeyboardLayout(thread_id);
          }
          h_lr_wnd = nullptr;
-         rsj::Log("Unable to find lightroom thread id in GetLanguage.");
+         rsj::Log("Unable to find lightroom thread id in GetLanguage.",
+             std::source_location::current());
       }
       /* EnumWindows failed, use keyboard of MIDI2LR application */
       return GetKeyboardLayout(0);
@@ -94,7 +98,7 @@ namespace {
              rsj::ActiveModifiers::FromWindows(HIBYTE(vk_code_and_shift))};
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
          throw;
       }
       catch (...) {
@@ -127,7 +131,7 @@ namespace {
                              == 0);
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
          throw;
       }
       catch (...) {
@@ -225,12 +229,16 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
       WinSendKeyStrokes(strokes);
    }
    catch (const std::exception& e) {
-      rsj::LogAndAlertError(fmt::format(
-          "Exception in key sending function for key: \"{}\". Exception: {}.", key, e.what()));
+      rsj::LogAndAlertError(fmt::format("Exception in key sending function for key: \"{}\". "
+                                        "Exception: {}.",
+                                key, e.what()),
+          std::source_location::current());
    }
    catch (...) {
-      rsj::LogAndAlertError(fmt::format(
-          FMT_STRING("Non-standard exception in key sending function for key: \"{}\"."), key));
+      rsj::LogAndAlertError(fmt::format(FMT_STRING("Non-standard exception in key sending function "
+                                                   "for key: \"{}\"."),
+                                key),
+          std::source_location::current());
    }
 }
 

@@ -45,7 +45,7 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber, const
       return static_cast<double>(new_v) / static_cast<double>(high_limit);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -121,7 +121,7 @@ double ChannelModel::ControllerToPlugin(const rsj::MessageType controltype, cons
           controltype));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -158,7 +158,7 @@ int ChannelModel::SetToCenter(const rsj::MessageType controltype, const int cont
       return retval;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -222,7 +222,7 @@ int ChannelModel::MeasureChange(const rsj::MessageType controltype, const int co
           controltype));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -286,7 +286,7 @@ int ChannelModel::PluginToController(const rsj::MessageType controltype, const i
           controltype));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -303,7 +303,7 @@ void ChannelModel::SetCc(const int controlnumber, const int min, const int max,
       SetCcMax(controlnumber, max);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -320,7 +320,7 @@ void ChannelModel::SetCcAll(const int controlnumber, const int min, const int ma
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -345,7 +345,7 @@ void ChannelModel::SetCcMax(const int controlnumber, const int value)
 #endif
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -367,7 +367,7 @@ void ChannelModel::SetCcMin(const int controlnumber, const int value)
 #endif
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -402,7 +402,7 @@ void ChannelModel::ActiveToSaved() const
       SaveSettings(kMaxMidi + 1, kMaxNrpn, kMaxNrpn);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -426,7 +426,7 @@ void ChannelModel::CcDefaults()
 #endif
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -440,7 +440,7 @@ void ChannelModel::SavedToActive()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -454,7 +454,7 @@ ChannelModel::ChannelModel()
       CcDefaults();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

@@ -81,7 +81,7 @@ void LrIpcIn::Start()
       Connect(lr_ipc_in_shared_);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -98,26 +98,30 @@ void LrIpcIn::Stop()
             std::ignore = sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
             if (ec) {
                rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket shutdown error {}."),
-                   ec.message()));
+                            ec.message()),
+                   std::source_location::current());
                ec.clear();
             }
          }
          catch (const std::exception& e) {
-            rsj::Log(fmt::format(FMT_STRING("Exception during socket shutdown: {}"), e.what()));
+            rsj::Log(fmt::format(FMT_STRING("Exception during socket shutdown: {}"), e.what()),
+                std::source_location::current());
          }
          std::ignore = sock.close(ec);
          if (ec) {
-            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message()));
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message()),
+                std::source_location::current());
          }
       }
       /* clear input queue after port closed */
       if (const auto m {lr_ipc_in_shared_->line_.clear_count_emplace(kTerminate)}) {
-         rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcIn destructor."), m));
+         rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcIn destructor."), m),
+             std::source_location::current());
       }
    }
 
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -129,21 +133,23 @@ void LrIpcIn::Connect(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
                                                kLrInPort),
           [lr_ipc_shared](const asio::error_code& error) mutable {
          if (!error) {
-            rsj::Log("Socket connected in LR_IPC_In.");
+            rsj::Log("Socket connected in LR_IPC_In.", std::source_location::current());
             LrIpcInShared::Read(std::move(lr_ipc_shared));
          }
          else {
-            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In did not connect. {}."), error.message()));
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In did not connect. {}."), error.message()),
+                std::source_location::current());
             asio::error_code ec2;
             std::ignore = lr_ipc_shared->socket_.close(ec2);
             if (ec2) {
-               rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec2.message()));
+               rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec2.message()),
+                   std::source_location::current());
             }
          }
       });
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -174,13 +180,15 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
          if (value_view.empty()) {
             rsj::Log(fmt::format(FMT_STRING("No value attached to message. Message from plugin was "
                                             "\"{}\"."),
-                rsj::ReplaceInvisibleChars(line_copy)));
+                         rsj::ReplaceInvisibleChars(line_copy)),
+                std::source_location::current());
          }
          else if (command_view == "SwitchProfile") {
             profile_manager_.SwitchToProfile(std::string(value_view));
          }
          else if (command_view == "Log") {
-            rsj::Log(fmt::format(FMT_STRING("Plugin: {}."), value_view));
+            rsj::Log(fmt::format(FMT_STRING("Plugin: {}."), value_view),
+                std::source_location::current());
          }
          else if (command_view == "SendKey") {
             int modifiers = 0;
@@ -197,7 +205,8 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
             }
             rsj::LogAndAlertError(fmt::format(FMT_STRING("SendKey couldn't identify keystroke. "
                                                          "Message from plugin was \"{}\"."),
-                rsj::ReplaceInvisibleChars(line_copy)));
+                                      rsj::ReplaceInvisibleChars(line_copy)),
+                std::source_location::current());
          }
          else { /* send associated messages to MIDI OUT devices */
 #ifdef _MSC_VER
@@ -220,7 +229,7 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -248,7 +257,8 @@ void LrIpcInShared::Read(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
                Read(std::move(lr_ipc_shared));
             }
             else {
-               rsj::Log(fmt::format(FMT_STRING("LR_IPC_In Read error: {}."), error.message()));
+               rsj::Log(fmt::format(FMT_STRING("LR_IPC_In Read error: {}."), error.message()),
+                   std::source_location::current());
 
                if (error == asio::error::misc_errors::eof) { /* LR closed socket */
                   juce::JUCEApplication::getInstance()->systemRequestedQuit();
@@ -258,7 +268,7 @@ void LrIpcInShared::Read(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

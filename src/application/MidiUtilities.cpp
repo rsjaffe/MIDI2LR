@@ -129,7 +129,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

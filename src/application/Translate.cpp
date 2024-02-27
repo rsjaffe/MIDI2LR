@@ -69,7 +69,7 @@ void rsj::Translate(const std::string& lg)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

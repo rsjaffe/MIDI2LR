@@ -203,11 +203,11 @@ namespace {
             proc_pidpath(pid, path_buffer.data(), path_buffer.size());
             if (path_buffer[0] && std::strstr(path_buffer.data(), kLrc)) { return pid; }
          }
-         rsj::LogAndAlertError("Lightroom PID not found.");
+         rsj::LogAndAlertError("Lightroom PID not found.", std::source_location::current());
          return 0;
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
          throw;
       }
    }
@@ -224,7 +224,7 @@ namespace {
          }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
          throw;
       }
    }
@@ -242,7 +242,7 @@ namespace {
          std::call_once(of_check_permission, [lr_pid]() { rsj::CheckPermission(lr_pid); });
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
          throw;
       }
    }
@@ -381,7 +381,8 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
       Expects(!key.empty());
       static const pid_t lr_pid {GetPid()};
       if (!lr_pid) {
-         rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp.");
+         rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp.",
+             std::source_location::current());
          return;
       }
       CGKeyCode vk {0};
@@ -413,8 +414,10 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
                flags |= kCGEventFlagMaskShift;
             }
             else {
-               rsj::LogAndAlertError(fmt::format(
-                   FMT_STRING("Unsupported character was used: \"{}\", no ANSI equivalent."), key));
+               rsj::LogAndAlertError(fmt::format(FMT_STRING("Unsupported character was used: "
+                                                            "\"{}\", no ANSI equivalent."),
+                                         key),
+                   std::source_location::current());
                return;
             }
          }
@@ -424,17 +427,20 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
       if (mods.control) { flags |= kCGEventFlagMaskControl; }
       if (mods.shift) { flags |= kCGEventFlagMaskShift; }
       if (!juce::MessageManager::callAsync([vk, flags] { MacKeyDownUp(lr_pid, vk, flags); })) {
-         rsj::Log("Unable to post keystroke to message queue.");
+         rsj::Log("Unable to post keystroke to message queue.", std::source_location::current());
       }
    }
    catch (const std::exception& e) {
       rsj::LogAndAlertError(fmt::format(FMT_STRING("Exception in key sending function for key: "
                                                    "\"{}\". Exception: {}."),
-          key, e.what()));
+                                key, e.what()),
+          std::source_location::current());
    }
    catch (...) {
-      rsj::LogAndAlertError(fmt::format(
-          FMT_STRING("Non-standard exception in key sending function for key: \"{}\"."), key));
+      rsj::LogAndAlertError(fmt::format(FMT_STRING("Non-standard exception in key sending function "
+                                                   "for key: \"{}\"."),
+                                key),
+          std::source_location::current());
    }
 }
 #endif

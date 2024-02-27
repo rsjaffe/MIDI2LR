@@ -89,7 +89,7 @@ namespace {
       return result;
    }
    catch (const ::std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -106,7 +106,7 @@ namespace {
       return result;
    }
    catch (const ::std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

@@ -72,7 +72,7 @@ class CommandSet {
       Impl& operator=(const Impl& other) = delete;
       Impl& operator=(Impl&& other) = delete;
 
-      template<class Archive> void serialize(Archive& archive, std::uint32_t const version)
+      template<class Archive> void serialize(Archive& archive, const std::uint32_t version)
       {
          try {
             if (std::cmp_equal(version, 2)) {
@@ -86,11 +86,11 @@ class CommandSet {
                    "The file, 'MenuTrans.xml', is marked as a version not supported by the current "
                    "version of MIDI2LR, and won't be loaded. File version: {}."};
                rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                   fmt::format(msg, version));
+                   fmt::format(msg, version), std::source_location::current());
             }
          }
          catch (const std::exception& e) {
-            rsj::ExceptionResponse(e);
+            rsj::ExceptionResponse(e, std::source_location::current());
             throw;
          }
       }

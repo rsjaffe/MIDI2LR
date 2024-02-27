@@ -84,7 +84,7 @@ void VersionChecker::handleAsyncUpdate()
           nullptr, juce::ModalCallbackFunction::create(response));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
    }
 }
 
@@ -106,8 +106,9 @@ namespace {
    {
       rsj::Log(fmt::format(FMT_STRING("Version available {}, version last checked {}, current "
                                       "version {}."),
-          IntToVersion(new_version), IntToVersion(last_checked),
-          IntToVersion(ProjectInfo::versionNumber)));
+                   IntToVersion(new_version), IntToVersion(last_checked),
+                   IntToVersion(ProjectInfo::versionNumber)),
+          std::source_location::current());
    }
 } // namespace
 
@@ -130,10 +131,11 @@ void VersionChecker::Run() noexcept
          }
       }
       else {
-         rsj::Log("Unable to download MIDI2LR/version.xml and parse into valid XML document.");
+         rsj::Log("Unable to download MIDI2LR/version.xml and parse into valid XML document.",
+             std::source_location::current());
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
    }
 }

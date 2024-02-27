@@ -37,7 +37,7 @@ try : juce
    }
 
 catch (const std::exception& e) {
-   rsj::ExceptionResponse(e);
+   rsj::ExceptionResponse(e, std::source_location::current());
    throw;
 }
 
@@ -108,7 +108,7 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
       return false;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
