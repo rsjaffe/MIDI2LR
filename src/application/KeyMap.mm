@@ -163,10 +163,10 @@ std::unordered_map<UniChar, rsj::KeyData> rsj::GetKeyMap()
    for (int i = 0; i < 4; ++i) {
       if (FillInSucceeded()) { break; }
       std::this_thread::sleep_for(20ms);
-      rsj::Log("20ms sleep for message queue waiting for FillInMessageLoop to run.");
+      rsj::Log("20ms sleep for message queue waiting for FillInMessageLoop to run.",  
+          std::source_location::current());
    }
    rsj::Log(fmt::format(FMT_STRING("Making KeyMap. Keyboard type {}. KeyMap is {}."),
-                GetKeyboardLayout(), FillInSucceeded()),
-       std::source_location::current(), std::source_location::current());
+                GetKeyboardLayout(), FillInSucceeded()), std::source_location::current());
    return InternalKeyMap();
 }
