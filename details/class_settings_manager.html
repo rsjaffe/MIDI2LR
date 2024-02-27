@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -141,6 +141,8 @@ Public Member Functions</h2></td></tr>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a0f59381a05adefe4ed87846127092ba8" id="r_a0f59381a05adefe4ed87846127092ba8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8">ConnectionCallback</a> (bool, bool)</td></tr>
 <tr class="separator:a0f59381a05adefe4ed87846127092ba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a359f7e820ba38130ba65470ea328f524" id="r_a359f7e820ba38130ba65470ea328f524"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#a359f7e820ba38130ba65470ea328f524">WriteDebugInfo</a> () const</td></tr>
+<tr class="separator:a359f7e820ba38130ba65470ea328f524"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -177,32 +179,33 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   25</span>    : <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a> {lr_ipc_out}, <a class="code hl_variable" href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">profile_manager_</a> {profile_manager}</div>
-<div class="line"><span class="lineno">   26</span>{</div>
-<div class="line"><span class="lineno">   27</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   28</span>      juce::PropertiesFile::Options file_options;</div>
-<div class="line"><span class="lineno">   29</span>      file_options.applicationName = <span class="stringliteral">&quot;MIDI2LR&quot;</span>;</div>
-<div class="line"><span class="lineno">   30</span>      file_options.commonToAllUsers = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   31</span>      file_options.filenameSuffix = <span class="stringliteral">&quot;xml&quot;</span>;</div>
-<div class="line"><span class="lineno">   32</span>      file_options.osxLibrarySubFolder = <span class="stringliteral">&quot;Application Support/MIDI2LR&quot;</span>;</div>
-<div class="line"><span class="lineno">   33</span>      file_options.storageFormat = juce::PropertiesFile::storeAsXML;</div>
-<div class="line"><span class="lineno">   34</span>      <a class="code hl_variable" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a> = std::make_unique&lt;juce::PropertiesFile&gt;(file_options);</div>
-<div class="line"><span class="lineno">   35</span>      <span class="comment">/* add a listener to LR_IPC_OUT so that we can send plugin settings on connection */</span></div>
-<div class="line"><span class="lineno">   36</span>      <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#a868d8f460f4f2140e177d74d1210f254">AddCallback</a>(<span class="keyword">this</span>, &amp;<a class="code hl_function" href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8">SettingsManager::ConnectionCallback</a>);</div>
-<div class="line"><span class="lineno">   37</span>      <a class="code hl_variable" href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">profile_manager_</a>.<a class="code hl_function" href="class_profile_manager.html#acb0cff45331b1e60e58b247efcfb5bf8">SetProfileDirectory</a>(<a class="code hl_function" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>());</div>
-<div class="line"><span class="lineno">   38</span>   }</div>
-<div class="line"><span class="lineno">   39</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   40</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">   41</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">   42</span>   }</div>
-<div class="line"><span class="lineno">   43</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">   26</span>    : <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a> {lr_ipc_out}, <a class="code hl_variable" href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">profile_manager_</a> {profile_manager}</div>
+<div class="line"><span class="lineno">   27</span>{</div>
+<div class="line"><span class="lineno">   28</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   29</span>      juce::PropertiesFile::Options file_options;</div>
+<div class="line"><span class="lineno">   30</span>      file_options.applicationName = <span class="stringliteral">&quot;MIDI2LR&quot;</span>;</div>
+<div class="line"><span class="lineno">   31</span>      file_options.commonToAllUsers = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   32</span>      file_options.filenameSuffix = <span class="stringliteral">&quot;xml&quot;</span>;</div>
+<div class="line"><span class="lineno">   33</span>      file_options.osxLibrarySubFolder = <span class="stringliteral">&quot;Application Support/MIDI2LR&quot;</span>;</div>
+<div class="line"><span class="lineno">   34</span>      file_options.storageFormat = juce::PropertiesFile::storeAsXML;</div>
+<div class="line"><span class="lineno">   35</span>      <a class="code hl_variable" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a> = std::make_unique&lt;juce::PropertiesFile&gt;(file_options);</div>
+<div class="line"><span class="lineno">   36</span>      <span class="comment">/* add a listener to LR_IPC_OUT so that we can send plugin settings on connection */</span></div>
+<div class="line"><span class="lineno">   37</span>      <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#a868d8f460f4f2140e177d74d1210f254">AddCallback</a>(<span class="keyword">this</span>, &amp;<a class="code hl_function" href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8">SettingsManager::ConnectionCallback</a>);</div>
+<div class="line"><span class="lineno">   38</span>      <a class="code hl_variable" href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">profile_manager_</a>.<a class="code hl_function" href="class_profile_manager.html#acb0cff45331b1e60e58b247efcfb5bf8">SetProfileDirectory</a>(<a class="code hl_function" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>());</div>
+<div class="line"><span class="lineno">   39</span>   }</div>
+<div class="line"><span class="lineno">   40</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">   41</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   42</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   43</span>   }</div>
+<div class="line"><span class="lineno">   44</span>}</div>
 <div class="ttc" id="aclass_lr_ipc_out_html_a868d8f460f4f2140e177d74d1210f254"><div class="ttname"><a href="class_lr_ipc_out.html#a868d8f460f4f2140e177d74d1210f254">LrIpcOut::AddCallback</a></div><div class="ttdeci">void AddCallback(_In_ T *const object, _In_ void(T::*const mf)(bool, bool))</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:51</div></div>
 <div class="ttc" id="aclass_profile_manager_html_acb0cff45331b1e60e58b247efcfb5bf8"><div class="ttname"><a href="class_profile_manager.html#acb0cff45331b1e60e58b247efcfb5bf8">ProfileManager::SetProfileDirectory</a></div><div class="ttdeci">void SetProfileDirectory(const juce::File &amp;directory)</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:41</div></div>
-<div class="ttc" id="aclass_settings_manager_html_a0f59381a05adefe4ed87846127092ba8"><div class="ttname"><a href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8">SettingsManager::ConnectionCallback</a></div><div class="ttdeci">void ConnectionCallback(bool, bool)</div><div class="ttdef"><b>Definition</b> SettingsManager.cpp:50</div></div>
-<div class="ttc" id="aclass_settings_manager_html_ace80bfa9373c5f1613b202e612fef025"><div class="ttname"><a href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">SettingsManager::properties_file_</a></div><div class="ttdeci">std::unique_ptr&lt; juce::PropertiesFile &gt; properties_file_</div><div class="ttdef"><b>Definition</b> SettingsManager.h:94</div></div>
-<div class="ttc" id="aclass_settings_manager_html_ad065363b99b0db676f60ebfc249f2e22"><div class="ttname"><a href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">SettingsManager::lr_ipc_out_</a></div><div class="ttdeci">LrIpcOut &amp; lr_ipc_out_</div><div class="ttdef"><b>Definition</b> SettingsManager.h:92</div></div>
+<div class="ttc" id="aclass_settings_manager_html_a0f59381a05adefe4ed87846127092ba8"><div class="ttname"><a href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8">SettingsManager::ConnectionCallback</a></div><div class="ttdeci">void ConnectionCallback(bool, bool)</div><div class="ttdef"><b>Definition</b> SettingsManager.cpp:62</div></div>
+<div class="ttc" id="aclass_settings_manager_html_ace80bfa9373c5f1613b202e612fef025"><div class="ttname"><a href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">SettingsManager::properties_file_</a></div><div class="ttdeci">std::unique_ptr&lt; juce::PropertiesFile &gt; properties_file_</div><div class="ttdef"><b>Definition</b> SettingsManager.h:95</div></div>
+<div class="ttc" id="aclass_settings_manager_html_ad065363b99b0db676f60ebfc249f2e22"><div class="ttname"><a href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">SettingsManager::lr_ipc_out_</a></div><div class="ttdeci">LrIpcOut &amp; lr_ipc_out_</div><div class="ttdef"><b>Definition</b> SettingsManager.h:93</div></div>
 <div class="ttc" id="aclass_settings_manager_html_adc8d58846516e741e4c3940945100c83"><div class="ttname"><a href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">SettingsManager::GetProfileDirectory</a></div><div class="ttdeci">juce::String GetProfileDirectory() const noexcept</div><div class="ttdef"><b>Definition</b> SettingsManager.h:57</div></div>
-<div class="ttc" id="aclass_settings_manager_html_afcb8cc77d01b25a3ff7b2713dbb84011"><div class="ttname"><a href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">SettingsManager::profile_manager_</a></div><div class="ttdeci">ProfileManager &amp; profile_manager_</div><div class="ttdef"><b>Definition</b> SettingsManager.h:93</div></div>
+<div class="ttc" id="aclass_settings_manager_html_afcb8cc77d01b25a3ff7b2713dbb84011"><div class="ttname"><a href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">SettingsManager::profile_manager_</a></div><div class="ttdeci">ProfileManager &amp; profile_manager_</div><div class="ttdef"><b>Definition</b> SettingsManager.h:94</div></div>
+<div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -317,38 +320,30 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   51</span>{</div>
-<div class="line"><span class="lineno">   52</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   53</span>      <span class="keywordflow">if</span> (connected &amp;&amp; !blocked) {</div>
-<div class="line"><span class="lineno">   54</span>         <span class="keywordflow">if</span> (<a class="code hl_function" href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">GetPickupEnabled</a>()) {</div>
-<div class="line"><span class="lineno">   55</span>            <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(<span class="stringliteral">&quot;Pickup 1\n&quot;</span>);</div>
-<div class="line"><span class="lineno">   56</span>            <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Pickup is enabled.&quot;</span>);</div>
-<div class="line"><span class="lineno">   57</span>         }</div>
-<div class="line"><span class="lineno">   58</span>         <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   59</span>            <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(<span class="stringliteral">&quot;Pickup 0\n&quot;</span>);</div>
-<div class="line"><span class="lineno">   60</span>            <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Pickup is disabled.&quot;</span>);</div>
-<div class="line"><span class="lineno">   61</span>         }</div>
-<div class="line"><span class="lineno">   62</span>         <span class="keyword">static</span> std::once_flag of; <span class="comment">/* add debug info once to logs */</span></div>
-<div class="line"><span class="lineno">   63</span>         std::call_once(of, [<span class="keyword">this</span>] {</div>
-<div class="line"><span class="lineno">   64</span>            <span class="keyword">const</span> <a class="code hl_class" href="class_debug_info.html">DebugInfo</a> db {<a class="code hl_function" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>().toStdString()};</div>
-<div class="line"><span class="lineno">   65</span>            <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(<span class="stringliteral">&quot;AppInfoClear 1\n&quot;</span>);</div>
-<div class="line"><span class="lineno">   66</span>            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; info : db.GetInfo()) {</div>
-<div class="line"><span class="lineno">   67</span>               <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;AppInfo {}\n&quot;</span>), info));</div>
-<div class="line"><span class="lineno">   68</span>            }</div>
-<div class="line"><span class="lineno">   69</span>            <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(<span class="stringliteral">&quot;AppInfoDone 1\n&quot;</span>);</div>
-<div class="line"><span class="lineno">   70</span>            <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(<span class="stringliteral">&quot;GetPluginInfo 1\n&quot;</span>);</div>
-<div class="line"><span class="lineno">   71</span>         });</div>
-<div class="line"><span class="lineno">   72</span>      }</div>
-<div class="line"><span class="lineno">   73</span>   }</div>
-<div class="line"><span class="lineno">   74</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   75</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">   76</span>      <span class="keywordflow">throw</span>;</div>
+<div class="fragment"><div class="line"><span class="lineno">   63</span>{</div>
+<div class="line"><span class="lineno">   64</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   65</span>      <span class="keywordflow">if</span> (connected &amp;&amp; !blocked) {</div>
+<div class="line"><span class="lineno">   66</span>         <span class="keywordflow">if</span> (<a class="code hl_function" href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">GetPickupEnabled</a>()) {</div>
+<div class="line"><span class="lineno">   67</span>            <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(<span class="stringliteral">&quot;Pickup 1\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   68</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Pickup is enabled.&quot;</span>);</div>
+<div class="line"><span class="lineno">   69</span>         }</div>
+<div class="line"><span class="lineno">   70</span>         <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   71</span>            <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(<span class="stringliteral">&quot;Pickup 0\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   72</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Pickup is disabled.&quot;</span>);</div>
+<div class="line"><span class="lineno">   73</span>         }</div>
+<div class="line"><span class="lineno">   74</span>         <span class="keyword">static</span> std::once_flag of; <span class="comment">/* add debug info once to logs */</span></div>
+<div class="line"><span class="lineno">   75</span>         std::call_once(of, std::bind_front(&amp;<a class="code hl_function" href="class_settings_manager.html#a359f7e820ba38130ba65470ea328f524">SettingsManager::WriteDebugInfo</a>, <span class="keyword">this</span>));</div>
+<div class="line"><span class="lineno">   76</span>      }</div>
 <div class="line"><span class="lineno">   77</span>   }</div>
-<div class="line"><span class="lineno">   78</span>}</div>
-<div class="ttc" id="aclass_debug_info_html"><div class="ttname"><a href="class_debug_info.html">DebugInfo</a></div><div class="ttdef"><b>Definition</b> DebugInfo.h:25</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_ae1e40469ef8e53e58ef1c833774f8dac"><div class="ttname"><a href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">LrIpcOut::SendCommand</a></div><div class="ttdeci">void SendCommand(std::string &amp;&amp;command)</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:67</div></div>
+<div class="line"><span class="lineno">   78</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">   79</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   80</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   81</span>   }</div>
+<div class="line"><span class="lineno">   82</span>}</div>
+<div class="ttc" id="aclass_lr_ipc_out_html_aaca9ebc83a482fcfc6dcc054d3bb2e46"><div class="ttname"><a href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">LrIpcOut::SendCommand</a></div><div class="ttdeci">void SendCommand(std::string &amp;&amp;command) const</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:67</div></div>
+<div class="ttc" id="aclass_settings_manager_html_a359f7e820ba38130ba65470ea328f524"><div class="ttname"><a href="class_settings_manager.html#a359f7e820ba38130ba65470ea328f524">SettingsManager::WriteDebugInfo</a></div><div class="ttdeci">void WriteDebugInfo() const</div><div class="ttdef"><b>Definition</b> SettingsManager.cpp:46</div></div>
 <div class="ttc" id="aclass_settings_manager_html_ad3c2351b353983433605b1c936b2f77b"><div class="ttname"><a href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">SettingsManager::GetPickupEnabled</a></div><div class="ttdeci">bool GetPickupEnabled() const noexcept</div><div class="ttdef"><b>Definition</b> SettingsManager.h:52</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:217</div></div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -654,7 +649,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><span class="lineno">   76</span>   {</div>
 <div class="line"><span class="lineno">   77</span>      <a class="code hl_variable" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;setValue(<span class="stringliteral">&quot;pickup_enabled&quot;</span>, enabled);</div>
-<div class="line"><span class="lineno">   78</span>      <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Pickup {}\n&quot;</span>), enabled ? <span class="charliteral">&#39;1&#39;</span> : <span class="stringliteral">&#39;0&#39;</span>));</div>
+<div class="line"><span class="lineno">   78</span>      <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Pickup {}\n&quot;</span>), enabled ? <span class="charliteral">&#39;1&#39;</span> : <span class="stringliteral">&#39;0&#39;</span>));</div>
 <div class="line"><span class="lineno">   79</span>   }</div>
 </div><!-- fragment -->
 </div>
@@ -686,6 +681,41 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   83</span>      <a class="code hl_variable" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a>-&gt;setValue(<span class="stringliteral">&quot;profile_directory&quot;</span>, profile_directory);</div>
 <div class="line"><span class="lineno">   84</span>      <a class="code hl_variable" href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">profile_manager_</a>.<a class="code hl_function" href="class_profile_manager.html#acb0cff45331b1e60e58b247efcfb5bf8">SetProfileDirectory</a>(profile_directory);</div>
 <div class="line"><span class="lineno">   85</span>   }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a359f7e820ba38130ba65470ea328f524" name="a359f7e820ba38130ba65470ea328f524"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a359f7e820ba38130ba65470ea328f524">&#9670;&#160;</a></span>WriteDebugInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SettingsManager::WriteDebugInfo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><span class="lineno">   47</span>{</div>
+<div class="line"><span class="lineno">   48</span>   <span class="keyword">const</span> <a class="code hl_class" href="class_debug_info.html">DebugInfo</a> db {<a class="code hl_function" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>().toStdString()};</div>
+<div class="line"><span class="lineno">   49</span>   <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(<span class="stringliteral">&quot;AppInfoClear 1\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   50</span>   <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; info : db.GetInfo()) {</div>
+<div class="line"><span class="lineno">   51</span>      <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;AppInfo {}\n&quot;</span>), info));</div>
+<div class="line"><span class="lineno">   52</span>   }</div>
+<div class="line"><span class="lineno">   53</span>   <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(<span class="stringliteral">&quot;AppInfoDone 1\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   54</span>   <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(<span class="stringliteral">&quot;GetPluginInfo 1\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   55</span>}</div>
+<div class="ttc" id="aclass_debug_info_html"><div class="ttname"><a href="class_debug_info.html">DebugInfo</a></div><div class="ttdef"><b>Definition</b> DebugInfo.h:25</div></div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -124,18 +124,18 @@ $(document).ready(function(){initNavTree('_command_table_8h_source.html',''); in
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> <span class="keyword">public</span>:</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>   <a class="code hl_function" href="class_command_table.html#ac3b6a10db22daaf27dcfeb486438c583">CommandTable</a>(<span class="keyword">const</span> juce::String&amp; component_name, CommandTableModel* model);</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>   ~<a class="code hl_function" href="class_command_table.html#a747467d4aa42edf85685f56043477cd9">CommandTable</a>() {juce::TableListBox::setModel(<span class="keywordtype">nullptr</span>); } <span class="comment">// NOLINT(modernize-use-override)</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>   <a class="code hl_function" href="class_command_table.html#a4406188275d88e04cd083a6f6606c222">CommandTable</a>(<span class="keyword">const</span> CommandTable&amp; other) = <span class="keyword">delete</span>;</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>   <a class="code hl_function" href="class_command_table.html#a53767aa4eab7b11ae8b66a428d247933">CommandTable</a>(CommandTable&amp;&amp; other) = <span class="keyword">delete</span>;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>   CommandTable&amp; <a class="code hl_function" href="class_command_table.html#a60d706842439125b106d6103cbf2623f">operator</a>=(<span class="keyword">const</span> CommandTable&amp; other) = <span class="keyword">delete</span>;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>   CommandTable&amp; <a class="code hl_function" href="class_command_table.html#a1fca8f555ec3fa21b99b9dde477076af">operator</a>=(CommandTable&amp;&amp; other) = <span class="keyword">delete</span>;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>   <span class="keywordtype">bool</span> <a class="code hl_function" href="class_command_table.html#aea6a2bcb32061db4b0c659c2d17e6cc1">keyPressed</a>(<span class="keyword">const</span> juce::KeyPress&amp; k) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>};</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
-<div class="ttc" id="a_misc_8h_html_a1aad892091274a40fc7b75e00494837a"><div class="ttname"><a href="_misc_8h.html#a1aad892091274a40fc7b75e00494837a">MIDI2LR_E_RESPONSE</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE</div><div class="ttdef"><b>Definition</b> Misc.h:125</div></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>   ~<a class="code hl_function" href="class_command_table.html#a747467d4aa42edf85685f56043477cd9">CommandTable</a>() { juce::TableListBox::setModel(<span class="keywordtype">nullptr</span>); } <span class="comment">// NOLINT(modernize-use-override)</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>   <a class="code hl_function" href="class_command_table.html#a4406188275d88e04cd083a6f6606c222">CommandTable</a>(<span class="keyword">const</span> CommandTable&amp; other) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>   <a class="code hl_function" href="class_command_table.html#a53767aa4eab7b11ae8b66a428d247933">CommandTable</a>(CommandTable&amp;&amp; other) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>   CommandTable&amp; <a class="code hl_function" href="class_command_table.html#a60d706842439125b106d6103cbf2623f">operator</a>=(<span class="keyword">const</span> CommandTable&amp; other) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>   CommandTable&amp; <a class="code hl_function" href="class_command_table.html#a1fca8f555ec3fa21b99b9dde477076af">operator</a>=(CommandTable&amp;&amp; other) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>   <span class="keywordtype">bool</span> <a class="code hl_function" href="class_command_table.html#aea6a2bcb32061db4b0c659c2d17e6cc1">keyPressed</a>(<span class="keyword">const</span> juce::KeyPress&amp; k) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>};</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
 <div class="ttc" id="aclass_command_table_html_a1fca8f555ec3fa21b99b9dde477076af"><div class="ttname"><a href="class_command_table.html#a1fca8f555ec3fa21b99b9dde477076af">CommandTable::operator=</a></div><div class="ttdeci">CommandTable &amp; operator=(CommandTable &amp;&amp;other)=delete</div></div>
 <div class="ttc" id="aclass_command_table_html_a4406188275d88e04cd083a6f6606c222"><div class="ttname"><a href="class_command_table.html#a4406188275d88e04cd083a6f6606c222">CommandTable::CommandTable</a></div><div class="ttdeci">CommandTable(const CommandTable &amp;other)=delete</div></div>
 <div class="ttc" id="aclass_command_table_html_a53767aa4eab7b11ae8b66a428d247933"><div class="ttname"><a href="class_command_table.html#a53767aa4eab7b11ae8b66a428d247933">CommandTable::CommandTable</a></div><div class="ttdeci">CommandTable(CommandTable &amp;&amp;other)=delete</div></div>

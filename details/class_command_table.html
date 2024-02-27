@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -167,9 +167,10 @@ Private Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   37</span>   }</div>
 <div class="line"><span class="lineno">   38</span> </div>
 <div class="line"><span class="lineno">   39</span><span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   40</span>   MIDI2LR_E_RESPONSE;</div>
+<div class="line"><span class="lineno">   40</span>   <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
 <div class="line"><span class="lineno">   41</span>   <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   42</span>}</div>
+<div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -195,7 +196,7 @@ Private Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   26</span>{juce::TableListBox::setModel(<span class="keyword">nullptr</span>); } <span class="comment">// NOLINT(modernize-use-override)</span></div>
+<div class="fragment"><div class="line"><span class="lineno">   26</span>{ juce::TableListBox::setModel(<span class="keyword">nullptr</span>); } <span class="comment">// NOLINT(modernize-use-override)</span></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -341,11 +342,11 @@ Private Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  108</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">  109</span>   }</div>
 <div class="line"><span class="lineno">  110</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  111</span>      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><span class="lineno">  111</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
 <div class="line"><span class="lineno">  112</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  113</span>   }</div>
 <div class="line"><span class="lineno">  114</span>}</div>
-<div class="ttc" id="aclass_command_table_model_html"><div class="ttname"><a href="class_command_table_model.html">CommandTableModel</a></div><div class="ttdef"><b>Definition</b> CommandTableModel.h:25</div></div>
+<div class="ttc" id="aclass_command_table_model_html"><div class="ttname"><a href="class_command_table_model.html">CommandTableModel</a></div><div class="ttdef"><b>Definition</b> CommandTableModel.h:26</div></div>
 </div><!-- fragment -->
 </div>
 </div>

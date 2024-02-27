@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -305,7 +305,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   63</span>      <a class="code hl_variable" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>.onClick = [<span class="keyword">this</span>] {</div>
 <div class="line"><span class="lineno">   64</span>         <span class="keyword">const</span> <span class="keyword">auto</span> pickup_state {<a class="code hl_variable" href="class_settings_component.html#a712c728c2cb956ac307dd6081cbe19e6">pickup_enabled_</a>.getToggleState()};</div>
 <div class="line"><span class="lineno">   65</span>         <a class="code hl_variable" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#a838cdaffb2fccb100bd18985d6ea1337">SetPickupEnabled</a>(pickup_state);</div>
-<div class="line"><span class="lineno">   66</span>         <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(pickup_state ? <span class="stringliteral">&quot;Pickup set to enabled.&quot;</span> : <span class="stringliteral">&quot;Pickup set to disabled.&quot;</span>);</div>
+<div class="line"><span class="lineno">   66</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(pickup_state ? <span class="stringliteral">&quot;Pickup set to enabled.&quot;</span> : <span class="stringliteral">&quot;Pickup set to disabled.&quot;</span>);</div>
 <div class="line"><span class="lineno">   67</span>      };</div>
 <div class="line"><span class="lineno">   68</span> </div>
 <div class="line"><span class="lineno">   69</span>      <span class="comment">/* profile */</span></div>
@@ -324,7 +324,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   82</span>         <span class="keywordflow">if</span> (chooser.browseForDirectory()) {</div>
 <div class="line"><span class="lineno">   83</span>            <span class="keyword">const</span> <span class="keyword">auto</span> profile_location {chooser.getResult().getFullPathName()};</div>
 <div class="line"><span class="lineno">   84</span>            <a class="code hl_variable" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b">SetProfileDirectory</a>(profile_location);</div>
-<div class="line"><span class="lineno">   85</span>            <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Profile location set to {}.&quot;</span>),</div>
+<div class="line"><span class="lineno">   85</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Profile location set to {}.&quot;</span>),</div>
 <div class="line"><span class="lineno">   86</span>                profile_location.toStdString()));</div>
 <div class="line"><span class="lineno">   87</span>            <a class="code hl_variable" href="class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5">profile_location_label_</a>.setText(profile_location,</div>
 <div class="line"><span class="lineno">   88</span>                juce::NotificationType::dontSendNotification);</div>
@@ -366,14 +366,14 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  124</span>      <a class="code hl_variable" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>.onValueChange = [<span class="keyword">this</span>] {</div>
 <div class="line"><span class="lineno">  125</span>         <a class="code hl_variable" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#ae7ffc72fc568559369271dd1497da53b">SetAutoHideTime</a>(</div>
 <div class="line"><span class="lineno">  126</span>             gsl::narrow&lt;int&gt;(std::lrint(<a class="code hl_variable" href="class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00">autohide_setting_</a>.getValue())));</div>
-<div class="line"><span class="lineno">  127</span>         <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Autohide time set to {} seconds.&quot;</span>),</div>
+<div class="line"><span class="lineno">  127</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Autohide time set to {} seconds.&quot;</span>),</div>
 <div class="line"><span class="lineno">  128</span>             <a class="code hl_variable" href="class_settings_component.html#a71e699cb860b9982aeb53352614f12ba">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd">GetAutoHideTime</a>()));</div>
 <div class="line"><span class="lineno">  129</span>      };</div>
 <div class="line"><span class="lineno">  130</span>      <span class="comment">/* turn it on */</span></div>
 <div class="line"><span class="lineno">  131</span>      activateLayout();</div>
 <div class="line"><span class="lineno">  132</span>   }</div>
 <div class="line"><span class="lineno">  133</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  134</span>      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><span class="lineno">  134</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
 <div class="line"><span class="lineno">  135</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  136</span>   }</div>
 <div class="line"><span class="lineno">  137</span>}</div>
@@ -392,7 +392,8 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="aclass_settings_manager_html_adc8d58846516e741e4c3940945100c83"><div class="ttname"><a href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">SettingsManager::GetProfileDirectory</a></div><div class="ttdeci">juce::String GetProfileDirectory() const noexcept</div><div class="ttdef"><b>Definition</b> SettingsManager.h:57</div></div>
 <div class="ttc" id="aclass_settings_manager_html_ae7ffc72fc568559369271dd1497da53b"><div class="ttname"><a href="class_settings_manager.html#ae7ffc72fc568559369271dd1497da53b">SettingsManager::SetAutoHideTime</a></div><div class="ttdeci">void SetAutoHideTime(int new_time)</div><div class="ttdef"><b>Definition</b> SettingsManager.h:63</div></div>
 <div class="ttc" id="aclass_settings_manager_html_af9bc82888f253394d2ae8c9015bab30b"><div class="ttname"><a href="class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b">SettingsManager::SetProfileDirectory</a></div><div class="ttdeci">void SetProfileDirectory(const juce::String &amp;profile_directory)</div><div class="ttdef"><b>Definition</b> SettingsManager.h:81</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:217</div></div>
+<div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -476,7 +477,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  142</span>      g.fillAll(juce::Colours::white); <span class="comment">/* clear the background */</span></div>
 <div class="line"><span class="lineno">  143</span>   }</div>
 <div class="line"><span class="lineno">  144</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  145</span>      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><span class="lineno">  145</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
 <div class="line"><span class="lineno">  146</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  147</span>   }</div>
 <div class="line"><span class="lineno">  148</span>}</div>

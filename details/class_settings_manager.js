@@ -17,6 +17,7 @@ var class_settings_manager =
     [ "SetLastVersionFound", "class_settings_manager.html#af7e05f1e26aac16f6f0b402a85bc5088", null ],
     [ "SetPickupEnabled", "class_settings_manager.html#a838cdaffb2fccb100bd18985d6ea1337", null ],
     [ "SetProfileDirectory", "class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b", null ],
+    [ "WriteDebugInfo", "class_settings_manager.html#a359f7e820ba38130ba65470ea328f524", null ],
     [ "lr_ipc_out_", "class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22", null ],
     [ "profile_manager_", "class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011", null ],
     [ "properties_file_", "class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025", null ]

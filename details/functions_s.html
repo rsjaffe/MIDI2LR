@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -101,13 +101,18 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 <li>saved_table_mtx_&#160;:&#160;<a class="el" href="class_profile.html#a4661e1aeb678d3add27fd9aa993b4a39">Profile</a></li>
 <li>SavedToActive()&#160;:&#160;<a class="el" href="class_channel_model.html#a71495c165527c071c1793b8634b23bb5">ChannelModel</a></li>
 <li>SaveProfile()&#160;:&#160;<a class="el" href="class_main_content_component.html#a2fb8d7fa655cfa994655430c40121f46">MainContentComponent</a>, <a class="el" href="class_main_window.html#ae9240e620958e54dd19073a49ffaddc4">MainWindow</a></li>
+<li>SaveSettings()&#160;:&#160;<a class="el" href="class_channel_model.html#a17aa3b39d2accd2ad563dabcdb6ea5e6">ChannelModel</a></li>
 <li>selected_item_&#160;:&#160;<a class="el" href="class_command_menu.html#a2f031de592778295c9c404b7f421530d">CommandMenu</a></li>
 <li>Send()&#160;:&#160;<a class="el" href="class_midi_sender.html#a5c5560cc6e3d337b64d8dd52be2ae4df">MidiSender</a></li>
-<li>SendCommand()&#160;:&#160;<a class="el" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">LrIpcOut</a></li>
+<li>SendCommand()&#160;:&#160;<a class="el" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">LrIpcOut</a></li>
+<li>SendControllerEvent()&#160;:&#160;<a class="el" href="class_midi_sender.html#a9ff3183e540ead837b6a0671de7ff7dc">MidiSender</a></li>
 <li>sending_stopped_&#160;:&#160;<a class="el" href="class_lr_ipc_out.html#aa4648a7022acb4cf386148fb59858e6d">LrIpcOut</a></li>
 <li>SendingRestart()&#160;:&#160;<a class="el" href="class_lr_ipc_out.html#a200242025149e706c1563b3d8ad10aca">LrIpcOut</a></li>
 <li>SendingStop()&#160;:&#160;<a class="el" href="class_lr_ipc_out.html#a57f84fbcf5b7c27655ca8a1c7c033ea9">LrIpcOut</a></li>
+<li>SendNoteOn()&#160;:&#160;<a class="el" href="class_midi_sender.html#a1f829f834181e533c8876236e6895884">MidiSender</a></li>
+<li>SendNrpn()&#160;:&#160;<a class="el" href="class_midi_sender.html#a6e914badb87eff4abb80018206e54fde">MidiSender</a></li>
 <li>SendOut()&#160;:&#160;<a class="el" href="class_lr_ipc_out_shared.html#ab7de6674f1846144167caf044593c9f2">LrIpcOutShared</a></li>
+<li>SendPitchWheel()&#160;:&#160;<a class="el" href="class_midi_sender.html#a46ea792cade89dc1fd5d101199ecc5de">MidiSender</a></li>
 <li>serialize()&#160;:&#160;<a class="el" href="class_command_set_1_1_impl.html#a00f817617c3b85720777f2e37a5f7a04">CommandSet::Impl</a>, <a class="el" href="class_controls_model.html#a44e99cb628f119f8c24169f4d1b22956">ControlsModel</a>, <a class="el" href="structrsj_1_1_settings_struct.html#aca6e37ddfcd94ad610f7163556203118">rsj::SettingsStruct</a></li>
 <li>SetAppFont()&#160;:&#160;<a class="el" href="class_m_i_d_i2_l_r_application.html#aec2e87f4f7ff251662ad3d210c18e435">MIDI2LRApplication</a></li>
 <li>SetAutoHideTime()&#160;:&#160;<a class="el" href="class_settings_manager.html#ae7ffc72fc568559369271dd1497da53b">SettingsManager</a></li>
@@ -133,7 +138,13 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 <li>SettingsManager()&#160;:&#160;<a class="el" href="class_settings_manager.html#a53b353bfd1b025f80dff7918f129b839">SettingsManager</a></li>
 <li>SettingsStruct()&#160;:&#160;<a class="el" href="structrsj_1_1_settings_struct.html#ac531b13467b60a31539d8952d1ca8515">rsj::SettingsStruct</a></li>
 <li>SetToCenter()&#160;:&#160;<a class="el" href="class_channel_model.html#a115f37806d5a633997ca1ee44af280f4">ChannelModel</a>, <a class="el" href="class_controls_model.html#a91de33d0cca3f06e32e3d7a54d9af8f3">ControlsModel</a></li>
+<li>SetupUi()&#160;:&#160;<a class="el" href="class_m_i_d_i2_l_r_application.html#ac5968be64a7a449ef366ecbb284aff83">MIDI2LRApplication</a></li>
 <li>shift&#160;:&#160;<a class="el" href="structrsj_1_1_active_modifiers.html#a672648dd23bcb5b479057549137ccc13">rsj::ActiveModifiers</a>, <a class="el" href="structrsj_1_1_key_data.html#a3313ae580916016fa62cbf78d45f7ed3">rsj::KeyData</a></li>
+<li>ShouldOpenDevice()&#160;:&#160;<a class="el" href="class_midi_sender.html#ae35ee826fc1fef10b66b4da68f98e909">MidiSender</a></li>
+<li>ShouldSetRecenter()&#160;:&#160;<a class="el" href="class_lr_ipc_out.html#aa97e4597619ac1c6ce2ccf6528ea1e7e">LrIpcOut</a></li>
+<li>ShowCCDialog()&#160;:&#160;<a class="el" href="class_command_menu.html#a7d62a89e2c6991ba54d08173fcdde8c5">CommandMenu</a></li>
+<li>ShowDialogBasedOnMessageType()&#160;:&#160;<a class="el" href="class_command_menu.html#ae6d7de0d0404837ce694905a3523ebf0">CommandMenu</a></li>
+<li>ShowPWDialog()&#160;:&#160;<a class="el" href="class_command_menu.html#a8fd4c327b89c0701a07f28cbd3f2e758">CommandMenu</a></li>
 <li>shutdown()&#160;:&#160;<a class="el" href="class_m_i_d_i2_l_r_application.html#ab5c41060c26b2d07197651ad3f74f62f">MIDI2LRApplication</a></li>
 <li>signbutton&#160;:&#160;<a class="el" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">CCoptions</a></li>
 <li>Size()&#160;:&#160;<a class="el" href="class_profile.html#a6f55aadcd33c6023b1e544b436d57de2">Profile</a></li>
@@ -142,9 +153,11 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 <li>socket_&#160;:&#160;<a class="el" href="class_lr_ipc_in_shared.html#a0cf2102a540ac1b2071e80591b399842">LrIpcInShared</a>, <a class="el" href="class_lr_ipc_out_shared.html#ac1ffdb8efd520814d4992d6ea52b2b42">LrIpcOutShared</a></li>
 <li>SortI()&#160;:&#160;<a class="el" href="class_profile.html#aeba39bf32fc079f948b4669c64887867">Profile</a></li>
 <li>sortOrderChanged()&#160;:&#160;<a class="el" href="class_command_table_model.html#a7bf944adbb8e47f698fdce34e68aab00">CommandTableModel</a></li>
-<li>StandardLabelSettings()&#160;:&#160;<a class="el" href="class_main_content_component.html#a35ec9fb3b783b4942f25e4b433a9b688">MainContentComponent</a></li>
 <li>Start()&#160;:&#160;<a class="el" href="class_lr_ipc_in.html#a5210ba8aacb2a42f2cae043f99315b0e">LrIpcIn</a>, <a class="el" href="class_lr_ipc_out.html#aa5336d91bcd716000f5c2e55a5c4d641">LrIpcOut</a>, <a class="el" href="class_midi_receiver.html#ab5aff92f9c0bfbca3f3f4862b6f0091d">MidiReceiver</a>, <a class="el" href="class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f">MidiSender</a>, <a class="el" href="class_version_checker.html#a74e37d7e17c6fb7d7489244ed2a62b80">VersionChecker</a></li>
+<li>StartServices()&#160;:&#160;<a class="el" href="class_m_i_d_i2_l_r_application.html#ae635d61b448f540765f8fef5e257fdbe">MIDI2LRApplication</a></li>
+<li>StartThread()&#160;:&#160;<a class="el" href="class_m_i_d_i2_l_r_application.html#a01fce0056c9a395cbebe896dd0933d0f">MIDI2LRApplication</a></li>
 <li>Stop()&#160;:&#160;<a class="el" href="class_lr_ipc_in.html#a5f701822ea96e3ae3f192b19dc0054b5">LrIpcIn</a>, <a class="el" href="class_lr_ipc_out.html#adf0bc1da59e8d2d619c5fbf99b4a5d21">LrIpcOut</a>, <a class="el" href="class_midi_receiver.html#a87e67d9486889627dcae6362fc77effa">MidiReceiver</a>, <a class="el" href="class_version_checker.html#ab1b7878540fe2fead5f916d82b0431ff">VersionChecker</a></li>
+<li>StopServices()&#160;:&#160;<a class="el" href="class_m_i_d_i2_l_r_application.html#a467b015f87effe5ac72c41eb15adde23">MIDI2LRApplication</a></li>
 <li>streambuf_&#160;:&#160;<a class="el" href="class_lr_ipc_in_shared.html#a7d1418c124ac5228cd6e21975e8178d5">LrIpcInShared</a></li>
 <li>swap()&#160;:&#160;<a class="el" href="classrsj_1_1_concurrent_queue.html#af5bb80ca816dbaf0d35535fef3b2c9a9">rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;</a></li>
 <li>switch_state_&#160;:&#160;<a class="el" href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">ProfileManager</a></li>

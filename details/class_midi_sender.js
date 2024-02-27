@@ -9,6 +9,11 @@ var class_midi_sender =
     [ "operator=", "class_midi_sender.html#ac090be8723fae1e2ce0c6e679cdd201b", null ],
     [ "RescanDevices", "class_midi_sender.html#ac40f8961fcc5ab57f6c59c6220c9c2c9", null ],
     [ "Send", "class_midi_sender.html#a5c5560cc6e3d337b64d8dd52be2ae4df", null ],
+    [ "SendControllerEvent", "class_midi_sender.html#a9ff3183e540ead837b6a0671de7ff7dc", null ],
+    [ "SendNoteOn", "class_midi_sender.html#a1f829f834181e533c8876236e6895884", null ],
+    [ "SendNrpn", "class_midi_sender.html#a6e914badb87eff4abb80018206e54fde", null ],
+    [ "SendPitchWheel", "class_midi_sender.html#a46ea792cade89dc1fd5d101199ecc5de", null ],
+    [ "ShouldOpenDevice", "class_midi_sender.html#ae35ee826fc1fef10b66b4da68f98e909", null ],
     [ "Start", "class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f", null ],
     [ "devices_", "class_midi_sender.html#a9d91dc34a4a0ce3c9c08ab9b46047711", null ],
     [ "output_devices_", "class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598", null ]

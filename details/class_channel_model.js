@@ -18,6 +18,7 @@ var class_channel_model =
     [ "PluginToController", "class_channel_model.html#a3a505d8e6a81c7dfda4552674d36dffd", null ],
     [ "save", "class_channel_model.html#ab22926312fe02dd48b18d8fbeeeafc0e", null ],
     [ "SavedToActive", "class_channel_model.html#a71495c165527c071c1793b8634b23bb5", null ],
+    [ "SaveSettings", "class_channel_model.html#a17aa3b39d2accd2ad563dabcdb6ea5e6", null ],
     [ "SetCc", "class_channel_model.html#ad3d5091729e8a4c711be64f63274dc17", null ],
     [ "SetCcAll", "class_channel_model.html#aea324e250c2164af1bab6be35c62dce8", null ],
     [ "SetCcMax", "class_channel_model.html#a459a91ef3bc89d8354865861cb697389", null ],

@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -219,11 +219,12 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   40</span>   }</div>
 <div class="line"><span class="lineno">   41</span> </div>
 <div class="line"><span class="lineno">   42</span><span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   43</span>   MIDI2LR_E_RESPONSE;</div>
+<div class="line"><span class="lineno">   43</span>   <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
 <div class="line"><span class="lineno">   44</span>   <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   45</span>}</div>
 <div class="ttc" id="aclass_main_window_html_aab0d0a63b289dadf16e5354240e1ee6a"><div class="ttname"><a href="class_main_window.html#aab0d0a63b289dadf16e5354240e1ee6a">MainWindow::window_content_</a></div><div class="ttdeci">std::unique_ptr&lt; MainContentComponent &gt; window_content_</div><div class="ttdef"><b>Definition</b> MainWindow.h:60</div></div>
 <div class="ttc" id="aclass_settings_manager_html_a3f72426f5881bed364d70b41f52844cd"><div class="ttname"><a href="class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd">SettingsManager::GetAutoHideTime</a></div><div class="ttdeci">int GetAutoHideTime() const noexcept</div><div class="ttdef"><b>Definition</b> SettingsManager.h:37</div></div>
+<div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -439,7 +440,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   51</span>      <span class="keywordflow">if</span> (!juce::ResizableWindow::isMinimised()) { juce::DocumentWindow::minimiseButtonPressed(); }</div>
 <div class="line"><span class="lineno">   52</span>   }</div>
 <div class="line"><span class="lineno">   53</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   54</span>      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><span class="lineno">   54</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
 <div class="line"><span class="lineno">   55</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   56</span>   }</div>
 <div class="line"><span class="lineno">   57</span>}</div>

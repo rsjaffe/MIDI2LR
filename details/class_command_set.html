@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -215,34 +215,41 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   33</span>                       : <a class="code hl_variable" href="class_command_set.html#aa95cf428f9aaed467daf95fe4036dd17">m_impl_</a>(<a class="code hl_function" href="class_command_set.html#aec94deb6175081074094fd15e3640928">MakeImpl</a>())</div>
-<div class="line"><span class="lineno">   34</span>{</div>
-<div class="line"><span class="lineno">   35</span>   <span class="comment">/* manually insert unmapped at first position */</span></div>
-<div class="line"><span class="lineno">   36</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   37</span>      <a class="code hl_function" href="namespacersj.html#a1f28ca0bb51c870e4960af1ae31316b7">rsj::Translate</a>(<a class="code hl_variable" href="class_command_set.html#aa95cf428f9aaed467daf95fe4036dd17">m_impl_</a>.<a class="code hl_variable" href="class_command_set_1_1_impl.html#a2041dd12563a7559e2e0437102d0dd8e">language_</a>); <span class="comment">/* so UnassignedTranslated translated properly */</span></div>
-<div class="line"><span class="lineno">   38</span>      <a class="code hl_variable" href="class_command_set.html#a8612e7e0a7ac8dd5599800d4b2b96848">cmd_by_number_</a>.push_back(<a class="code hl_variable" href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">kUnassigned</a>);</div>
-<div class="line"><span class="lineno">   39</span>      <a class="code hl_variable" href="class_command_set.html#a8c4764390c25e777bced2173d30cc213">cmd_label_by_number_</a>.push_back(<a class="code hl_function" href="class_command_set.html#a4ad998f5253ea2a717742983ec05e07c">UnassignedTranslated</a>());</div>
-<div class="line"><span class="lineno">   40</span>      <a class="code hl_variable" href="class_command_set.html#abc89c3b319a7b00b1e32177a4bd09386">cmd_idx_</a>[<a class="code hl_variable" href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">kUnassigned</a>] = 0;</div>
-<div class="line"><span class="lineno">   41</span>      <span class="keywordtype">size_t</span> idx = 1;</div>
-<div class="line"><span class="lineno">   42</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [cmd_group, cmd_abbrev_label] : <a class="code hl_variable" href="class_command_set.html#aa95cf428f9aaed467daf95fe4036dd17">m_impl_</a>.allcommands_) {</div>
-<div class="line"><span class="lineno">   43</span>         std::vector&lt;MenuStringT&gt; menu_items_temp {};</div>
-<div class="line"><span class="lineno">   44</span>         <span class="keyword">const</span> <span class="keyword">auto</span> group_colon {cmd_group + <span class="stringliteral">&quot; : &quot;</span>}; <span class="comment">/* concatenation optimization */</span></div>
-<div class="line"><span class="lineno">   45</span>         <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [cmd_abbrev, cmd_label] : cmd_abbrev_label) {</div>
-<div class="line"><span class="lineno">   46</span>            <a class="code hl_variable" href="class_command_set.html#a8612e7e0a7ac8dd5599800d4b2b96848">cmd_by_number_</a>.push_back(cmd_abbrev);</div>
-<div class="line"><span class="lineno">   47</span>            <a class="code hl_variable" href="class_command_set.html#a8c4764390c25e777bced2173d30cc213">cmd_label_by_number_</a>.push_back(group_colon + cmd_label);</div>
-<div class="line"><span class="lineno">   48</span>            <a class="code hl_variable" href="class_command_set.html#abc89c3b319a7b00b1e32177a4bd09386">cmd_idx_</a>[cmd_abbrev] = idx++;</div>
-<div class="line"><span class="lineno">   49</span>            menu_items_temp.push_back(cmd_label);</div>
-<div class="line"><span class="lineno">   50</span>         }</div>
-<div class="line"><span class="lineno">   51</span>         <a class="code hl_variable" href="class_command_set.html#ad812d4f0c25e9b26f3c2917a665d6e14">menus_</a>.push_back(cmd_group);</div>
-<div class="line"><span class="lineno">   52</span>         <a class="code hl_variable" href="class_command_set.html#aed716952b7f36580c2eef3ac4befc27d">menu_entries_</a>.push_back(std::move(menu_items_temp));</div>
-<div class="line"><span class="lineno">   53</span>      }</div>
-<div class="line"><span class="lineno">   54</span>   }</div>
-<div class="line"><span class="lineno">   55</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   56</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">   57</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">   58</span>   }</div>
-<div class="line"><span class="lineno">   59</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">   34</span>                       : <a class="code hl_variable" href="class_command_set.html#aa95cf428f9aaed467daf95fe4036dd17">m_impl_</a>(<a class="code hl_function" href="class_command_set.html#aec94deb6175081074094fd15e3640928">MakeImpl</a>())</div>
+<div class="line"><span class="lineno">   35</span>{</div>
+<div class="line"><span class="lineno">   36</span>   <span class="comment">/* manually insert unmapped at first position */</span></div>
+<div class="line"><span class="lineno">   37</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   38</span>      <a class="code hl_function" href="namespacersj.html#a1f28ca0bb51c870e4960af1ae31316b7">rsj::Translate</a>(<a class="code hl_variable" href="class_command_set.html#aa95cf428f9aaed467daf95fe4036dd17">m_impl_</a>.<a class="code hl_variable" href="class_command_set_1_1_impl.html#a2041dd12563a7559e2e0437102d0dd8e">language_</a>); <span class="comment">/* so UnassignedTranslated translated properly */</span></div>
+<div class="line"><span class="lineno">   39</span>      <span class="keyword">const</span> <span class="keyword">auto</span> command_count {</div>
+<div class="line"><span class="lineno">   40</span>          std::accumulate(<a class="code hl_variable" href="class_command_set.html#aa95cf428f9aaed467daf95fe4036dd17">m_impl_</a>.<a class="code hl_variable" href="class_command_set_1_1_impl.html#a5c16feb21c0e0afd6452dae19763fe4e">allcommands_</a>.begin(), <a class="code hl_variable" href="class_command_set.html#aa95cf428f9aaed467daf95fe4036dd17">m_impl_</a>.<a class="code hl_variable" href="class_command_set_1_1_impl.html#a5c16feb21c0e0afd6452dae19763fe4e">allcommands_</a>.end(), <span class="keywordtype">size_t</span> {1},</div>
+<div class="line"><span class="lineno">   41</span>              [](<span class="keywordtype">size_t</span> sum, <span class="keyword">const</span> <span class="keyword">auto</span>&amp; pair) { return sum + pair.second.size(); })};</div>
+<div class="line"><span class="lineno">   42</span>      <a class="code hl_variable" href="class_command_set.html#a8612e7e0a7ac8dd5599800d4b2b96848">cmd_by_number_</a>.reserve(command_count);</div>
+<div class="line"><span class="lineno">   43</span>      <a class="code hl_variable" href="class_command_set.html#a8c4764390c25e777bced2173d30cc213">cmd_label_by_number_</a>.reserve(command_count);</div>
+<div class="line"><span class="lineno">   44</span>      <a class="code hl_variable" href="class_command_set.html#a8612e7e0a7ac8dd5599800d4b2b96848">cmd_by_number_</a>.push_back(<a class="code hl_variable" href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">kUnassigned</a>);</div>
+<div class="line"><span class="lineno">   45</span>      <a class="code hl_variable" href="class_command_set.html#a8c4764390c25e777bced2173d30cc213">cmd_label_by_number_</a>.push_back(<a class="code hl_function" href="class_command_set.html#a4ad998f5253ea2a717742983ec05e07c">UnassignedTranslated</a>());</div>
+<div class="line"><span class="lineno">   46</span>      <a class="code hl_variable" href="class_command_set.html#abc89c3b319a7b00b1e32177a4bd09386">cmd_idx_</a>[<a class="code hl_variable" href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">kUnassigned</a>] = 0;</div>
+<div class="line"><span class="lineno">   47</span>      <span class="keywordtype">size_t</span> idx {1};</div>
+<div class="line"><span class="lineno">   48</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [cmd_group, cmd_abbrev_label] : <a class="code hl_variable" href="class_command_set.html#aa95cf428f9aaed467daf95fe4036dd17">m_impl_</a>.allcommands_) {</div>
+<div class="line"><span class="lineno">   49</span>         std::vector&lt;MenuStringT&gt; menu_items_temp {};</div>
+<div class="line"><span class="lineno">   50</span>         menu_items_temp.reserve(cmd_abbrev_label.size());</div>
+<div class="line"><span class="lineno">   51</span>         <span class="keyword">const</span> <span class="keyword">auto</span> group_colon {cmd_group + <span class="stringliteral">&quot; : &quot;</span>}; <span class="comment">/* concatenation optimization */</span></div>
+<div class="line"><span class="lineno">   52</span>         <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [cmd_abbrev, cmd_label] : cmd_abbrev_label) {</div>
+<div class="line"><span class="lineno">   53</span>            <a class="code hl_variable" href="class_command_set.html#a8612e7e0a7ac8dd5599800d4b2b96848">cmd_by_number_</a>.push_back(cmd_abbrev);</div>
+<div class="line"><span class="lineno">   54</span>            <a class="code hl_variable" href="class_command_set.html#a8c4764390c25e777bced2173d30cc213">cmd_label_by_number_</a>.push_back(group_colon + cmd_label);</div>
+<div class="line"><span class="lineno">   55</span>            <a class="code hl_variable" href="class_command_set.html#abc89c3b319a7b00b1e32177a4bd09386">cmd_idx_</a>.emplace(cmd_abbrev, idx++);</div>
+<div class="line"><span class="lineno">   56</span>            menu_items_temp.emplace_back(cmd_label);</div>
+<div class="line"><span class="lineno">   57</span>         }</div>
+<div class="line"><span class="lineno">   58</span>         <a class="code hl_variable" href="class_command_set.html#ad812d4f0c25e9b26f3c2917a665d6e14">menus_</a>.emplace_back(cmd_group);</div>
+<div class="line"><span class="lineno">   59</span>         <a class="code hl_variable" href="class_command_set.html#aed716952b7f36580c2eef3ac4befc27d">menu_entries_</a>.push_back(std::move(menu_items_temp));</div>
+<div class="line"><span class="lineno">   60</span>      }</div>
+<div class="line"><span class="lineno">   61</span>   }</div>
+<div class="line"><span class="lineno">   62</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">   63</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   64</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   65</span>   }</div>
+<div class="line"><span class="lineno">   66</span>}</div>
 <div class="ttc" id="aclass_command_set_1_1_impl_html_a2041dd12563a7559e2e0437102d0dd8e"><div class="ttname"><a href="class_command_set_1_1_impl.html#a2041dd12563a7559e2e0437102d0dd8e">CommandSet::Impl::language_</a></div><div class="ttdeci">std::string language_</div><div class="ttdef"><b>Definition</b> CommandSet.h:98</div></div>
+<div class="ttc" id="aclass_command_set_1_1_impl_html_a5c16feb21c0e0afd6452dae19763fe4e"><div class="ttname"><a href="class_command_set_1_1_impl.html#a5c16feb21c0e0afd6452dae19763fe4e">CommandSet::Impl::allcommands_</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt; &gt; allcommands_</div><div class="ttdef"><b>Definition</b> CommandSet.h:100</div></div>
 <div class="ttc" id="aclass_command_set_html_a0311fc90ec6127582c5f97593130f41f"><div class="ttname"><a href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">CommandSet::kUnassigned</a></div><div class="ttdeci">static const std::string kUnassigned</div><div class="ttdef"><b>Definition</b> CommandSet.h:63</div></div>
 <div class="ttc" id="aclass_command_set_html_a4ad998f5253ea2a717742983ec05e07c"><div class="ttname"><a href="class_command_set.html#a4ad998f5253ea2a717742983ec05e07c">CommandSet::UnassignedTranslated</a></div><div class="ttdeci">static const auto &amp; UnassignedTranslated()</div><div class="ttdef"><b>Definition</b> CommandSet.h:57</div></div>
 <div class="ttc" id="aclass_command_set_html_a8612e7e0a7ac8dd5599800d4b2b96848"><div class="ttname"><a href="class_command_set.html#a8612e7e0a7ac8dd5599800d4b2b96848">CommandSet::cmd_by_number_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; cmd_by_number_</div><div class="ttdef"><b>Definition</b> CommandSet.h:112</div></div>
@@ -250,9 +257,10 @@ Friends</h2></td></tr>
 <div class="ttc" id="aclass_command_set_html_aa95cf428f9aaed467daf95fe4036dd17"><div class="ttname"><a href="class_command_set.html#aa95cf428f9aaed467daf95fe4036dd17">CommandSet::m_impl_</a></div><div class="ttdeci">const Impl &amp; m_impl_</div><div class="ttdef"><b>Definition</b> CommandSet.h:109</div></div>
 <div class="ttc" id="aclass_command_set_html_abc89c3b319a7b00b1e32177a4bd09386"><div class="ttname"><a href="class_command_set.html#abc89c3b319a7b00b1e32177a4bd09386">CommandSet::cmd_idx_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, size_t &gt; cmd_idx_</div><div class="ttdef"><b>Definition</b> CommandSet.h:110</div></div>
 <div class="ttc" id="aclass_command_set_html_ad812d4f0c25e9b26f3c2917a665d6e14"><div class="ttname"><a href="class_command_set.html#ad812d4f0c25e9b26f3c2917a665d6e14">CommandSet::menus_</a></div><div class="ttdeci">std::vector&lt; MenuStringT &gt; menus_</div><div class="ttdef"><b>Definition</b> CommandSet.h:111</div></div>
-<div class="ttc" id="aclass_command_set_html_aec94deb6175081074094fd15e3640928"><div class="ttname"><a href="class_command_set.html#aec94deb6175081074094fd15e3640928">CommandSet::MakeImpl</a></div><div class="ttdeci">const Impl &amp; MakeImpl() const</div><div class="ttdef"><b>Definition</b> CommandSet.cpp:82</div></div>
+<div class="ttc" id="aclass_command_set_html_aec94deb6175081074094fd15e3640928"><div class="ttname"><a href="class_command_set.html#aec94deb6175081074094fd15e3640928">CommandSet::MakeImpl</a></div><div class="ttdeci">const Impl &amp; MakeImpl() const</div><div class="ttdef"><b>Definition</b> CommandSet.cpp:89</div></div>
 <div class="ttc" id="aclass_command_set_html_aed716952b7f36580c2eef3ac4befc27d"><div class="ttname"><a href="class_command_set.html#aed716952b7f36580c2eef3ac4befc27d">CommandSet::menu_entries_</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; MenuStringT &gt; &gt; menu_entries_</div><div class="ttdef"><b>Definition</b> CommandSet.h:114</div></div>
 <div class="ttc" id="anamespacersj_html_a1f28ca0bb51c870e4960af1ae31316b7"><div class="ttname"><a href="namespacersj.html#a1f28ca0bb51c870e4960af1ae31316b7">rsj::Translate</a></div><div class="ttdeci">void Translate(const std::string &amp;lg)</div><div class="ttdef"><b>Definition</b> Translate.cpp:35</div></div>
+<div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -354,23 +362,23 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   95</span>{</div>
-<div class="line"><span class="lineno">   96</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   97</span>      <span class="keyword">using namespace </span>std::string_literals;</div>
-<div class="line"><span class="lineno">   98</span>      <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> found {<a class="code hl_variable" href="class_command_set.html#abc89c3b319a7b00b1e32177a4bd09386">cmd_idx_</a>.find(command)}; found != <a class="code hl_variable" href="class_command_set.html#abc89c3b319a7b00b1e32177a4bd09386">cmd_idx_</a>.end()) {</div>
-<div class="line"><span class="lineno">   99</span>         <span class="keywordflow">return</span> found-&gt;second;</div>
-<div class="line"><span class="lineno">  100</span>      }</div>
-<div class="line"><span class="lineno">  101</span>      <span class="keywordflow">if</span> (command != <span class="stringliteral">&quot;Unmapped&quot;</span>s) { <span class="comment">/*Old version of Unassigned*/</span></div>
-<div class="line"><span class="lineno">  102</span>         <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Command not found in CommandTextIndex: {}.&quot;</span>), command));</div>
-<div class="line"><span class="lineno">  103</span>      }</div>
-<div class="line"><span class="lineno">  104</span>      <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">  105</span>   }</div>
-<div class="line"><span class="lineno">  106</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  107</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  108</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  109</span>   }</div>
-<div class="line"><span class="lineno">  110</span>}</div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:217</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  102</span>{</div>
+<div class="line"><span class="lineno">  103</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  104</span>      <span class="keyword">using namespace </span>std::string_literals;</div>
+<div class="line"><span class="lineno">  105</span>      <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> found {<a class="code hl_variable" href="class_command_set.html#abc89c3b319a7b00b1e32177a4bd09386">cmd_idx_</a>.find(command)}; found != <a class="code hl_variable" href="class_command_set.html#abc89c3b319a7b00b1e32177a4bd09386">cmd_idx_</a>.end()) {</div>
+<div class="line"><span class="lineno">  106</span>         <span class="keywordflow">return</span> found-&gt;second;</div>
+<div class="line"><span class="lineno">  107</span>      }</div>
+<div class="line"><span class="lineno">  108</span>      <span class="keywordflow">if</span> (command != <span class="stringliteral">&quot;Unmapped&quot;</span>s) { <span class="comment">/*Old version of Unassigned*/</span></div>
+<div class="line"><span class="lineno">  109</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Command not found in CommandTextIndex: {}.&quot;</span>), command));</div>
+<div class="line"><span class="lineno">  110</span>      }</div>
+<div class="line"><span class="lineno">  111</span>      <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  112</span>   }</div>
+<div class="line"><span class="lineno">  113</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  114</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  115</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  116</span>   }</div>
+<div class="line"><span class="lineno">  117</span>}</div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -528,16 +536,16 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   83</span>{</div>
-<div class="line"><span class="lineno">   84</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   85</span>      <span class="keyword">static</span> <span class="keyword">const</span> Impl kImpl;</div>
-<div class="line"><span class="lineno">   86</span>      <span class="keywordflow">return</span> kImpl;</div>
-<div class="line"><span class="lineno">   87</span>   }</div>
-<div class="line"><span class="lineno">   88</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   89</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">   90</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">   91</span>   }</div>
-<div class="line"><span class="lineno">   92</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">   90</span>{</div>
+<div class="line"><span class="lineno">   91</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   92</span>      <span class="keyword">static</span> <span class="keyword">const</span> Impl kImpl;</div>
+<div class="line"><span class="lineno">   93</span>      <span class="keywordflow">return</span> kImpl;</div>
+<div class="line"><span class="lineno">   94</span>   }</div>
+<div class="line"><span class="lineno">   95</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">   96</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   97</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   98</span>   }</div>
+<div class="line"><span class="lineno">   99</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>

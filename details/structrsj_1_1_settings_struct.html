@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -225,13 +225,13 @@ template&lt;class Archive , cereal::traits::DisableIf&lt; cereal::traits::is_tex
 <div class="line"><span class="lineno">   59</span>               <span class="keyword">constexpr</span> <span class="keyword">auto</span> msg {</div>
 <div class="line"><span class="lineno">   60</span>                   <span class="stringliteral">&quot;The file, &#39;settings.xml&#39;, is marked as a version not supported by the current &quot;</span></div>
 <div class="line"><span class="lineno">   61</span>                   <span class="stringliteral">&quot;version of MIDI2LR SettingsStruct, and won&#39;t be loaded. File version: {}.&quot;</span>};</div>
-<div class="line"><span class="lineno">   62</span>               <a class="code hl_function" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(fmt::format(juce::translate(msg).toStdString(), version),</div>
+<div class="line"><span class="lineno">   62</span>               <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(fmt::format(juce::translate(msg).toStdString(), version),</div>
 <div class="line"><span class="lineno">   63</span>                   fmt::format(msg, version));</div>
 <div class="line"><span class="lineno">   64</span>            }</div>
 <div class="line"><span class="lineno">   65</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><span class="lineno">   66</span>         }</div>
 <div class="line"><span class="lineno">   67</span>      }</div>
-<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:260</div></div>
+<div class="ttc" id="anamespacersj_html_a85a33831e4cc942fc6995a04c74361ab"><div class="ttname"><a href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:160</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -315,14 +315,14 @@ template&lt;class Archive , cereal::traits::EnableIf&lt; cereal::traits::is_text
 <div class="line"><span class="lineno">  115</span>                      <span class="stringliteral">&quot;The file, &#39;settings.xml&#39;, is marked as a version not supported by the &quot;</span></div>
 <div class="line"><span class="lineno">  116</span>                      <span class="stringliteral">&quot;current &quot;</span></div>
 <div class="line"><span class="lineno">  117</span>                      <span class="stringliteral">&quot;version of MIDI2LR SettingsStruct, and won&#39;t be loaded. File version: {}.&quot;</span>};</div>
-<div class="line"><span class="lineno">  118</span>                  <a class="code hl_function" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(fmt::format(juce::translate(msg).toStdString(), version),</div>
+<div class="line"><span class="lineno">  118</span>                  <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(fmt::format(juce::translate(msg).toStdString(), version),</div>
 <div class="line"><span class="lineno">  119</span>                      fmt::format(msg, version));</div>
 <div class="line"><span class="lineno">  120</span>               }</div>
 <div class="line"><span class="lineno">  121</span>               <span class="keywordflow">break</span>;</div>
 <div class="line"><span class="lineno">  122</span>            }</div>
 <div class="line"><span class="lineno">  123</span>         }</div>
 <div class="line"><span class="lineno">  124</span>         <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  125</span>            MIDI2LR_E_RESPONSE;</div>
+<div class="line"><span class="lineno">  125</span>            <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
 <div class="line"><span class="lineno">  126</span>            <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  127</span>         }</div>
 <div class="line"><span class="lineno">  128</span>      }</div>
@@ -330,6 +330,7 @@ template&lt;class Archive , cereal::traits::EnableIf&lt; cereal::traits::is_text
 <div class="ttc" id="anamespacersj_html_a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d"><div class="ttname"><a href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d">rsj::CCmethod::kTwosComplement</a></div><div class="ttdeci">@ kTwosComplement</div></div>
 <div class="ttc" id="anamespacersj_html_a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a"><div class="ttname"><a href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a></div><div class="ttdeci">@ kAbsolute</div></div>
 <div class="ttc" id="anamespacersj_html_a1b0f7334f0d860bf0d3aebeaca930efdae9ce2420e8dde33acbb2a8a8c4fc8fbf"><div class="ttname"><a href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdae9ce2420e8dde33acbb2a8a8c4fc8fbf">rsj::CCmethod::kSignMagnitude</a></div><div class="ttdeci">@ kSignMagnitude</div></div>
+<div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -93,6 +93,7 @@ $(document).ready(function(){initNavTree('class_lr_ipc_out.html',''); initResiza
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-types">Private Types</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_lr_ipc_out-members.html">List of all members</a>  </div>
@@ -119,10 +120,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac2f21a867e2e8a5a9b928acd479ecb9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e79416c3bcfbae745b2b4e184de4c5c" id="r_a4e79416c3bcfbae745b2b4e184de4c5c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_lr_ipc_out.html">LrIpcOut</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#a4e79416c3bcfbae745b2b4e184de4c5c">operator=</a> (<a class="el" href="class_lr_ipc_out.html">LrIpcOut</a> &amp;&amp;other)=delete</td></tr>
 <tr class="separator:a4e79416c3bcfbae745b2b4e184de4c5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b8db52b73d7be8a488e3c795b5a6df8" id="r_a6b8db52b73d7be8a488e3c795b5a6df8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#a6b8db52b73d7be8a488e3c795b5a6df8">SendCommand</a> (const std::string &amp;command)</td></tr>
-<tr class="separator:a6b8db52b73d7be8a488e3c795b5a6df8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1e40469ef8e53e58ef1c833774f8dac" id="r_ae1e40469ef8e53e58ef1c833774f8dac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a> (std::string &amp;&amp;command)</td></tr>
-<tr class="separator:ae1e40469ef8e53e58ef1c833774f8dac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97757e6d059b55c8672dbe2130fc4d78" id="r_a97757e6d059b55c8672dbe2130fc4d78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#a97757e6d059b55c8672dbe2130fc4d78">SendCommand</a> (const std::string &amp;command) const</td></tr>
+<tr class="separator:a97757e6d059b55c8672dbe2130fc4d78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaca9ebc83a482fcfc6dcc054d3bb2e46" id="r_aaca9ebc83a482fcfc6dcc054d3bb2e46"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a> (std::string &amp;&amp;command) const</td></tr>
+<tr class="separator:aaca9ebc83a482fcfc6dcc054d3bb2e46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a200242025149e706c1563b3d8ad10aca" id="r_a200242025149e706c1563b3d8ad10aca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#a200242025149e706c1563b3d8ad10aca">SendingRestart</a> ()</td></tr>
 <tr class="separator:a200242025149e706c1563b3d8ad10aca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57f84fbcf5b7c27655ca8a1c7c033ea9" id="r_a57f84fbcf5b7c27655ca8a1c7c033ea9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#a57f84fbcf5b7c27655ca8a1c7c033ea9">SendingStop</a> ()</td></tr>
@@ -132,6 +133,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adf0bc1da59e8d2d619c5fbf99b4a5d21" id="r_adf0bc1da59e8d2d619c5fbf99b4a5d21"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#adf0bc1da59e8d2d619c5fbf99b4a5d21">Stop</a> ()</td></tr>
 <tr class="separator:adf0bc1da59e8d2d619c5fbf99b4a5d21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-types" name="pri-types"></a>
+Private Types</h2></td></tr>
+<tr class="memitem:a040ef9dfcb2e00240b75a79aca4f497b" id="r_a040ef9dfcb2e00240b75a79aca4f497b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#a040ef9dfcb2e00240b75a79aca4f497b">RepeatCmdIterator</a> = const std::unordered_map&lt; std::string, std::pair&lt; std::string, std::string &gt; &gt;::const_iterator</td></tr>
+<tr class="separator:a040ef9dfcb2e00240b75a79aca4f497b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:ad2d0705a749d9ac0db4c30ddc6a1e029" id="r_ad2d0705a749d9ac0db4c30ddc6a1e029"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#ad2d0705a749d9ac0db4c30ddc6a1e029">Connect</a> (std::shared_ptr&lt; <a class="el" href="class_lr_ipc_out_shared.html">LrIpcOutShared</a> &gt; lr_ipc_out_shared)</td></tr>
@@ -140,8 +146,18 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a85c22f4700b2a288e2238fac502153e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2bf8e781dad6bc1326560dcdd0dc8ed5" id="r_a2bf8e781dad6bc1326560dcdd0dc8ed5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#a2bf8e781dad6bc1326560dcdd0dc8ed5">MidiCmdCallback</a> (<a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> mm)</td></tr>
 <tr class="separator:a2bf8e781dad6bc1326560dcdd0dc8ed5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cacef7ed041a56e38f310cfe1d07f11" id="r_a3cacef7ed041a56e38f310cfe1d07f11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#a3cacef7ed041a56e38f310cfe1d07f11">ProcessChange</a> (const <a class="el" href="class_lr_ipc_out.html#a040ef9dfcb2e00240b75a79aca4f497b">RepeatCmdIterator</a> &amp;repeats, const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;mm) const</td></tr>
+<tr class="separator:a3cacef7ed041a56e38f310cfe1d07f11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91e20f993aaf26042b3cb6185fcbff3b" id="r_a91e20f993aaf26042b3cb6185fcbff3b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#a91e20f993aaf26042b3cb6185fcbff3b">ProcessMessage</a> (const <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> &amp;message, const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;mm)</td></tr>
+<tr class="separator:a91e20f993aaf26042b3cb6185fcbff3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ea37bf546266ffe29bd2332d6a014b1" id="r_a4ea37bf546266ffe29bd2332d6a014b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#a4ea37bf546266ffe29bd2332d6a014b1">ProcessNonRepeatedCommand</a> (const std::string &amp;command_to_send, const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;mm) const</td></tr>
+<tr class="separator:a4ea37bf546266ffe29bd2332d6a014b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7429419993623443e36d134737a3394" id="r_ae7429419993623443e36d134737a3394"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#ae7429419993623443e36d134737a3394">ProcessRepeatedCommand</a> (const <a class="el" href="class_lr_ipc_out.html#a040ef9dfcb2e00240b75a79aca4f497b">RepeatCmdIterator</a> &amp;repeats, const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;mm, const <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> &amp;message)</td></tr>
+<tr class="separator:ae7429419993623443e36d134737a3394"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3565108b8df687e7ad7358d057ed6eb" id="r_ae3565108b8df687e7ad7358d057ed6eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#ae3565108b8df687e7ad7358d057ed6eb">SetRecenter</a> (<a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> mm)</td></tr>
 <tr class="separator:ae3565108b8df687e7ad7358d057ed6eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa97e4597619ac1c6ce2ccf6528ea1e7e" id="r_aa97e4597619ac1c6ce2ccf6528ea1e7e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#aa97e4597619ac1c6ce2ccf6528ea1e7e">ShouldSetRecenter</a> (const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;mm) const</td></tr>
+<tr class="separator:aa97e4597619ac1c6ce2ccf6528ea1e7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -170,6 +186,29 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:aa76f983ed7b1aa0bcdb7b68291b25e4a" id="r_aa76f983ed7b1aa0bcdb7b68291b25e4a"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lr_ipc_out.html#aa76f983ed7b1aa0bcdb7b68291b25e4a">wrap_</a></td></tr>
 <tr class="separator:aa76f983ed7b1aa0bcdb7b68291b25e4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a040ef9dfcb2e00240b75a79aca4f497b" name="a040ef9dfcb2e00240b75a79aca4f497b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a040ef9dfcb2e00240b75a79aca4f497b">&#9670;&#160;</a></span>RepeatCmdIterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="class_lr_ipc_out.html#a040ef9dfcb2e00240b75a79aca4f497b">LrIpcOut::RepeatCmdIterator</a> =  const std::unordered_map&lt;std::string, std::pair&lt;std::string, std::string&gt; &gt;::const_iterator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa3f33b7a97b82f70c4bbd8b35e252930" name="aa3f33b7a97b82f70c4bbd8b35e252930"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa3f33b7a97b82f70c4bbd8b35e252930">&#9670;&#160;</a></span>LrIpcOut() <span class="overload">[1/3]</span></h2>
@@ -228,14 +267,14 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   65</span>}</div>
 <div class="ttc" id="aclass_command_set_html_a2a6b02655001375e98dd89834c32c310"><div class="ttname"><a href="class_command_set.html#a2a6b02655001375e98dd89834c32c310">CommandSet::GetRepeats</a></div><div class="ttdeci">const auto &amp; GetRepeats() const noexcept</div><div class="ttdef"><b>Definition</b> CommandSet.h:53</div></div>
 <div class="ttc" id="aclass_command_set_html_a4a393ca8e7515bb22353ad26fd82cea1"><div class="ttname"><a href="class_command_set.html#a4a393ca8e7515bb22353ad26fd82cea1">CommandSet::GetWraps</a></div><div class="ttdeci">const auto &amp; GetWraps() const noexcept</div><div class="ttdef"><b>Definition</b> CommandSet.h:55</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_a122d235bb2afab84a51143ee5c1000ff"><div class="ttname"><a href="class_lr_ipc_out.html#a122d235bb2afab84a51143ee5c1000ff">LrIpcOut::recenter_timer_</a></div><div class="ttdeci">asio::steady_timer recenter_timer_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:73</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_a2247d4e3021051dd2179e6b886c93fae"><div class="ttname"><a href="class_lr_ipc_out.html#a2247d4e3021051dd2179e6b886c93fae">LrIpcOut::lr_ipc_out_shared_</a></div><div class="ttdeci">std::shared_ptr&lt; LrIpcOutShared &gt; lr_ipc_out_shared_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:83</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_a2bf8e781dad6bc1326560dcdd0dc8ed5"><div class="ttname"><a href="class_lr_ipc_out.html#a2bf8e781dad6bc1326560dcdd0dc8ed5">LrIpcOut::MidiCmdCallback</a></div><div class="ttdeci">void MidiCmdCallback(rsj::MidiMessage mm)</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:177</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_a70ca7c622a8e55bdb8de678e1d89ddf1"><div class="ttname"><a href="class_lr_ipc_out.html#a70ca7c622a8e55bdb8de678e1d89ddf1">LrIpcOut::controls_model_</a></div><div class="ttdeci">ControlsModel &amp; controls_model_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:80</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_a8e7931bf88e634e6ef88d581ff8ab2fd"><div class="ttname"><a href="class_lr_ipc_out.html#a8e7931bf88e634e6ef88d581ff8ab2fd">LrIpcOut::midi_sender_</a></div><div class="ttdeci">const MidiSender &amp; midi_sender_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:76</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_a918bc9c12e61d6a21a53cace2994eaa1"><div class="ttname"><a href="class_lr_ipc_out.html#a918bc9c12e61d6a21a53cace2994eaa1">LrIpcOut::profile_</a></div><div class="ttdeci">const Profile &amp; profile_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:77</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_aa3a137db476a517020dd53728e68978a"><div class="ttname"><a href="class_lr_ipc_out.html#aa3a137db476a517020dd53728e68978a">LrIpcOut::repeat_cmd_</a></div><div class="ttdeci">const std::unordered_map&lt; std::string, std::pair&lt; std::string, std::string &gt; &gt; &amp; repeat_cmd_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:78</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_aa76f983ed7b1aa0bcdb7b68291b25e4a"><div class="ttname"><a href="class_lr_ipc_out.html#aa76f983ed7b1aa0bcdb7b68291b25e4a">LrIpcOut::wrap_</a></div><div class="ttdeci">const std::vector&lt; std::string &gt; &amp; wrap_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:79</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_a122d235bb2afab84a51143ee5c1000ff"><div class="ttname"><a href="class_lr_ipc_out.html#a122d235bb2afab84a51143ee5c1000ff">LrIpcOut::recenter_timer_</a></div><div class="ttdeci">asio::steady_timer recenter_timer_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:82</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_a2247d4e3021051dd2179e6b886c93fae"><div class="ttname"><a href="class_lr_ipc_out.html#a2247d4e3021051dd2179e6b886c93fae">LrIpcOut::lr_ipc_out_shared_</a></div><div class="ttdeci">std::shared_ptr&lt; LrIpcOutShared &gt; lr_ipc_out_shared_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:92</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_a2bf8e781dad6bc1326560dcdd0dc8ed5"><div class="ttname"><a href="class_lr_ipc_out.html#a2bf8e781dad6bc1326560dcdd0dc8ed5">LrIpcOut::MidiCmdCallback</a></div><div class="ttdeci">void MidiCmdCallback(rsj::MidiMessage mm)</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:182</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_a70ca7c622a8e55bdb8de678e1d89ddf1"><div class="ttname"><a href="class_lr_ipc_out.html#a70ca7c622a8e55bdb8de678e1d89ddf1">LrIpcOut::controls_model_</a></div><div class="ttdeci">ControlsModel &amp; controls_model_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:89</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_a8e7931bf88e634e6ef88d581ff8ab2fd"><div class="ttname"><a href="class_lr_ipc_out.html#a8e7931bf88e634e6ef88d581ff8ab2fd">LrIpcOut::midi_sender_</a></div><div class="ttdeci">const MidiSender &amp; midi_sender_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:85</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_a918bc9c12e61d6a21a53cace2994eaa1"><div class="ttname"><a href="class_lr_ipc_out.html#a918bc9c12e61d6a21a53cace2994eaa1">LrIpcOut::profile_</a></div><div class="ttdeci">const Profile &amp; profile_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:86</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_aa3a137db476a517020dd53728e68978a"><div class="ttname"><a href="class_lr_ipc_out.html#aa3a137db476a517020dd53728e68978a">LrIpcOut::repeat_cmd_</a></div><div class="ttdeci">const std::unordered_map&lt; std::string, std::pair&lt; std::string, std::string &gt; &gt; &amp; repeat_cmd_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:87</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_aa76f983ed7b1aa0bcdb7b68291b25e4a"><div class="ttname"><a href="class_lr_ipc_out.html#aa76f983ed7b1aa0bcdb7b68291b25e4a">LrIpcOut::wrap_</a></div><div class="ttdeci">const std::vector&lt; std::string &gt; &amp; wrap_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:88</div></div>
 <div class="ttc" id="aclass_midi_receiver_html_a7636111b57bff4fea30a0b1672bc3402"><div class="ttname"><a href="class_midi_receiver.html#a7636111b57bff4fea30a0b1672bc3402">MidiReceiver::AddCallback</a></div><div class="ttdeci">void AddCallback(_In_ T *const object, _In_ void(T::*const mf)(rsj::MidiMessage))</div><div class="ttdef"><b>Definition</b> MIDIReceiver.h:49</div></div>
 </div><!-- fragment -->
 </div>
@@ -359,8 +398,8 @@ template&lt;class T &gt; </div>
 <div class="line"><span class="lineno">   55</span>         <a class="code hl_variable" href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">callbacks_</a>.emplace_back(std::bind_front(mf, <span class="keywordtype">object</span>));</div>
 <div class="line"><span class="lineno">   56</span>      }</div>
 <div class="line"><span class="lineno">   57</span>   }</div>
-<div class="ttc" id="aclass_lr_ipc_out_html_a5d5eac6e8138cd79785505827ce77faa"><div class="ttname"><a href="class_lr_ipc_out.html#a5d5eac6e8138cd79785505827ce77faa">LrIpcOut::callback_mtx_</a></div><div class="ttdeci">std::mutex callback_mtx_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:81</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_abb27f1d461176785f1efb3456fed7517"><div class="ttname"><a href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">LrIpcOut::callbacks_</a></div><div class="ttdeci">std::vector&lt; std::function&lt; void(bool, bool)&gt; &gt; callbacks_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:84</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_a5d5eac6e8138cd79785505827ce77faa"><div class="ttname"><a href="class_lr_ipc_out.html#a5d5eac6e8138cd79785505827ce77faa">LrIpcOut::callback_mtx_</a></div><div class="ttdeci">std::mutex callback_mtx_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:90</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_abb27f1d461176785f1efb3456fed7517"><div class="ttname"><a href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">LrIpcOut::callbacks_</a></div><div class="ttdeci">std::vector&lt; std::function&lt; void(bool, bool)&gt; &gt; callbacks_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:93</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -387,34 +426,35 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  135</span>{</div>
-<div class="line"><span class="lineno">  136</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  137</span>      lr_ipc_out_shared-&gt;socket_.async_connect(</div>
-<div class="line"><span class="lineno">  138</span>          asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrOutPort),</div>
-<div class="line"><span class="lineno">  139</span>          [<span class="keyword">this</span>, lr_ipc_out_shared](<span class="keyword">const</span> asio::error_code&amp; error) <span class="keyword">mutable</span> {</div>
-<div class="line"><span class="lineno">  140</span>         <span class="keywordflow">if</span> (!error) {</div>
-<div class="line"><span class="lineno">  141</span>            <a class="code hl_function" href="class_lr_ipc_out.html#a85c22f4700b2a288e2238fac502153e4">ConnectionMade</a>();</div>
-<div class="line"><span class="lineno">  142</span>            <a class="code hl_function" href="class_lr_ipc_out_shared.html#ab7de6674f1846144167caf044593c9f2">LrIpcOutShared::SendOut</a>(std::move(lr_ipc_out_shared));</div>
-<div class="line"><span class="lineno">  143</span>         }</div>
-<div class="line"><span class="lineno">  144</span>         <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  145</span>            <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_Out did not connect. {}.&quot;</span>), error.message()));</div>
-<div class="line"><span class="lineno">  146</span>            asio::error_code ec2;</div>
-<div class="line"><span class="lineno">  147</span>            lr_ipc_out_shared-&gt;socket_.close(ec2);</div>
-<div class="line"><span class="lineno">  148</span>            <span class="keywordflow">if</span> (ec2) {</div>
-<div class="line"><span class="lineno">  149</span>               <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_Out socket close error {}.&quot;</span>),</div>
-<div class="line"><span class="lineno">  150</span>                   ec2.message()));</div>
-<div class="line"><span class="lineno">  151</span>            }</div>
-<div class="line"><span class="lineno">  152</span>         }</div>
-<div class="line"><span class="lineno">  153</span>          });</div>
-<div class="line"><span class="lineno">  154</span>   }</div>
-<div class="line"><span class="lineno">  155</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  156</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  157</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  158</span>   }</div>
-<div class="line"><span class="lineno">  159</span>}</div>
-<div class="ttc" id="aclass_lr_ipc_out_html_a85c22f4700b2a288e2238fac502153e4"><div class="ttname"><a href="class_lr_ipc_out.html#a85c22f4700b2a288e2238fac502153e4">LrIpcOut::ConnectionMade</a></div><div class="ttdeci">void ConnectionMade()</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:161</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_shared_html_ab7de6674f1846144167caf044593c9f2"><div class="ttname"><a href="class_lr_ipc_out_shared.html#ab7de6674f1846144167caf044593c9f2">LrIpcOutShared::SendOut</a></div><div class="ttdeci">static void SendOut(std::shared_ptr&lt; LrIpcOutShared &gt; lr_ipc_out_shared)</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:223</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:217</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  140</span>{</div>
+<div class="line"><span class="lineno">  141</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  142</span>      lr_ipc_out_shared-&gt;socket_.async_connect(</div>
+<div class="line"><span class="lineno">  143</span>          asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrOutPort),</div>
+<div class="line"><span class="lineno">  144</span>          [<span class="keyword">this</span>, lr_ipc_out_shared](<span class="keyword">const</span> asio::error_code&amp; error) <span class="keyword">mutable</span> {</div>
+<div class="line"><span class="lineno">  145</span>         <span class="keywordflow">if</span> (!error) {</div>
+<div class="line"><span class="lineno">  146</span>            <a class="code hl_function" href="class_lr_ipc_out.html#a85c22f4700b2a288e2238fac502153e4">ConnectionMade</a>();</div>
+<div class="line"><span class="lineno">  147</span>            <a class="code hl_function" href="class_lr_ipc_out_shared.html#ab7de6674f1846144167caf044593c9f2">LrIpcOutShared::SendOut</a>(std::move(lr_ipc_out_shared));</div>
+<div class="line"><span class="lineno">  148</span>         }</div>
+<div class="line"><span class="lineno">  149</span>         <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  150</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_Out did not connect. {}.&quot;</span>), error.message()));</div>
+<div class="line"><span class="lineno">  151</span>            asio::error_code ec2;</div>
+<div class="line"><span class="lineno">  152</span>            std::ignore = lr_ipc_out_shared-&gt;socket_.close(ec2);</div>
+<div class="line"><span class="lineno">  153</span>            <span class="keywordflow">if</span> (ec2) {</div>
+<div class="line"><span class="lineno">  154</span>               <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_Out socket close error {}.&quot;</span>),</div>
+<div class="line"><span class="lineno">  155</span>                   ec2.message()));</div>
+<div class="line"><span class="lineno">  156</span>            }</div>
+<div class="line"><span class="lineno">  157</span>         }</div>
+<div class="line"><span class="lineno">  158</span>          });</div>
+<div class="line"><span class="lineno">  159</span>   }</div>
+<div class="line"><span class="lineno">  160</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  161</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  162</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  163</span>   }</div>
+<div class="line"><span class="lineno">  164</span>}</div>
+<div class="ttc" id="aclass_lr_ipc_out_html_a85c22f4700b2a288e2238fac502153e4"><div class="ttname"><a href="class_lr_ipc_out.html#a85c22f4700b2a288e2238fac502153e4">LrIpcOut::ConnectionMade</a></div><div class="ttdeci">void ConnectionMade()</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:166</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_shared_html_ab7de6674f1846144167caf044593c9f2"><div class="ttname"><a href="class_lr_ipc_out_shared.html#ab7de6674f1846144167caf044593c9f2">LrIpcOutShared::SendOut</a></div><div class="ttdeci">static void SendOut(std::shared_ptr&lt; LrIpcOutShared &gt; lr_ipc_out_shared)</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:248</div></div>
+<div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -440,22 +480,22 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  162</span>{</div>
-<div class="line"><span class="lineno">  163</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  164</span>      {</div>
-<div class="line"><span class="lineno">  165</span>         std::scoped_lock lk(<a class="code hl_variable" href="class_lr_ipc_out.html#a5d5eac6e8138cd79785505827ce77faa">callback_mtx_</a>);</div>
-<div class="line"><span class="lineno">  166</span>         <a class="code hl_variable" href="class_lr_ipc_out.html#ab347667ef76e3475d23e18e937928726">connected_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  167</span>         <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; cb : <a class="code hl_variable" href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">callbacks_</a>) { cb(<span class="keyword">true</span>, <a class="code hl_variable" href="class_lr_ipc_out.html#aa4648a7022acb4cf386148fb59858e6d">sending_stopped_</a>); }</div>
-<div class="line"><span class="lineno">  168</span>      }</div>
-<div class="line"><span class="lineno">  169</span>      <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Socket connected in LR_IPC_Out.&quot;</span>);</div>
-<div class="line"><span class="lineno">  170</span>   }</div>
-<div class="line"><span class="lineno">  171</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  172</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  173</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  174</span>   }</div>
-<div class="line"><span class="lineno">  175</span>}</div>
-<div class="ttc" id="aclass_lr_ipc_out_html_aa4648a7022acb4cf386148fb59858e6d"><div class="ttname"><a href="class_lr_ipc_out.html#aa4648a7022acb4cf386148fb59858e6d">LrIpcOut::sending_stopped_</a></div><div class="ttdeci">bool sending_stopped_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:75</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_ab347667ef76e3475d23e18e937928726"><div class="ttname"><a href="class_lr_ipc_out.html#ab347667ef76e3475d23e18e937928726">LrIpcOut::connected_</a></div><div class="ttdeci">bool connected_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:74</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  167</span>{</div>
+<div class="line"><span class="lineno">  168</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  169</span>      {</div>
+<div class="line"><span class="lineno">  170</span>         std::scoped_lock lk(<a class="code hl_variable" href="class_lr_ipc_out.html#a5d5eac6e8138cd79785505827ce77faa">callback_mtx_</a>);</div>
+<div class="line"><span class="lineno">  171</span>         <a class="code hl_variable" href="class_lr_ipc_out.html#ab347667ef76e3475d23e18e937928726">connected_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  172</span>         <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; cb : <a class="code hl_variable" href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">callbacks_</a>) { cb(<span class="keyword">true</span>, <a class="code hl_variable" href="class_lr_ipc_out.html#aa4648a7022acb4cf386148fb59858e6d">sending_stopped_</a>); }</div>
+<div class="line"><span class="lineno">  173</span>      }</div>
+<div class="line"><span class="lineno">  174</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Socket connected in LR_IPC_Out.&quot;</span>);</div>
+<div class="line"><span class="lineno">  175</span>   }</div>
+<div class="line"><span class="lineno">  176</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  177</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  178</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  179</span>   }</div>
+<div class="line"><span class="lineno">  180</span>}</div>
+<div class="ttc" id="aclass_lr_ipc_out_html_aa4648a7022acb4cf386148fb59858e6d"><div class="ttname"><a href="class_lr_ipc_out.html#aa4648a7022acb4cf386148fb59858e6d">LrIpcOut::sending_stopped_</a></div><div class="ttdeci">bool sending_stopped_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:84</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_ab347667ef76e3475d23e18e937928726"><div class="ttname"><a href="class_lr_ipc_out.html#ab347667ef76e3475d23e18e937928726">LrIpcOut::connected_</a></div><div class="ttdeci">bool connected_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:83</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -482,63 +522,19 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  178</span>{</div>
-<div class="line"><span class="lineno">  179</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  180</span>      <span class="keyword">const</span> <a class="code hl_struct" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> message {mm};</div>
-<div class="line"><span class="lineno">  181</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_lr_ipc_out.html#a918bc9c12e61d6a21a53cace2994eaa1">profile_</a>.<a class="code hl_function" href="class_profile.html#a56598e659bf13a43596c2e119bc2cdcb">MessageExistsInMap</a>(message)) {</div>
-<div class="line"><span class="lineno">  182</span>         <span class="keyword">const</span> <span class="keyword">auto</span> command_to_send {<a class="code hl_variable" href="class_lr_ipc_out.html#a918bc9c12e61d6a21a53cace2994eaa1">profile_</a>.<a class="code hl_function" href="class_profile.html#a52eacd441b3cbaa1ecad3eb260115809">GetCommandForMessage</a>(message)};</div>
-<div class="line"><span class="lineno">  183</span>         <span class="keywordflow">if</span> (rollbear::none_of(<span class="stringliteral">&quot;PrevPro&quot;</span>, <span class="stringliteral">&quot;NextPro&quot;</span>, <a class="code hl_variable" href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">CommandSet::kUnassigned</a>)</div>
-<div class="line"><span class="lineno">  184</span>             == command_to_send) { <span class="comment">/* handled elsewhere */</span></div>
-<div class="line"><span class="lineno">  185</span>            <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> a {<a class="code hl_variable" href="class_lr_ipc_out.html#aa3a137db476a517020dd53728e68978a">repeat_cmd_</a>.find(command_to_send)}; a != <a class="code hl_variable" href="class_lr_ipc_out.html#aa3a137db476a517020dd53728e68978a">repeat_cmd_</a>.end())</div>
-<div class="line"><span class="lineno">  186</span>                [[unlikely]] {</div>
-<div class="line"><span class="lineno">  187</span>               <span class="keyword">static</span> TimePoint next_response {};</div>
-<div class="line"><span class="lineno">  188</span>               <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> now {Clock::now()}; next_response &lt; now) {</div>
-<div class="line"><span class="lineno">  189</span>                  next_response = now + kDelay;</div>
-<div class="line"><span class="lineno">  190</span>                  <span class="keywordflow">if</span> ((mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a> == <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::MessageType::kCc</a></div>
-<div class="line"><span class="lineno">  191</span>                          &amp;&amp; <a class="code hl_variable" href="class_lr_ipc_out.html#a70ca7c622a8e55bdb8de678e1d89ddf1">controls_model_</a>.<a class="code hl_function" href="class_controls_model.html#a0d0e3cd4d2c696c20e959afc76cb3f3d">GetCcMethod</a>(message) == <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a>)</div>
-<div class="line"><span class="lineno">  192</span>                      || mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a> == <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee">rsj::MessageType::kPw</a>) {</div>
-<div class="line"><span class="lineno">  193</span>                     <a class="code hl_function" href="class_lr_ipc_out.html#ae3565108b8df687e7ad7358d057ed6eb">SetRecenter</a>(message);</div>
-<div class="line"><span class="lineno">  194</span>                  }</div>
-<div class="line"><span class="lineno">  195</span>                  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> change {<a class="code hl_variable" href="class_lr_ipc_out.html#a70ca7c622a8e55bdb8de678e1d89ddf1">controls_model_</a>.<a class="code hl_function" href="class_controls_model.html#ac9eb2558b85b17377b6903572cbf127f">MeasureChange</a>(mm)}; change &gt; 0) {</div>
-<div class="line"><span class="lineno">  196</span>                     <a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(a-&gt;second.first); <span class="comment">/* turned clockwise */</span></div>
-<div class="line"><span class="lineno">  197</span>                  }</div>
-<div class="line"><span class="lineno">  198</span>                  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (change &lt; 0) {</div>
-<div class="line"><span class="lineno">  199</span>                     <a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(a-&gt;second.second); <span class="comment">/* turned counterclockwise */</span></div>
-<div class="line"><span class="lineno">  200</span>                  }</div>
-<div class="line"><span class="lineno">  201</span>                  <span class="keywordflow">else</span> { <span class="comment">/* do nothing if change == 0 */</span></div>
-<div class="line"><span class="lineno">  202</span>                  }</div>
-<div class="line"><span class="lineno">  203</span>               }</div>
-<div class="line"><span class="lineno">  204</span>            }</div>
-<div class="line"><span class="lineno">  205</span>            <span class="keywordflow">else</span> { <span class="comment">/* not repeated command */</span></div>
-<div class="line"><span class="lineno">  206</span><span class="preprocessor">#ifdef __cpp_lib_ranges_contains</span></div>
-<div class="line"><span class="lineno">  207</span>               <span class="keyword">const</span> <span class="keyword">auto</span> wrap {std::ranges::contains(<a class="code hl_variable" href="class_lr_ipc_out.html#aa76f983ed7b1aa0bcdb7b68291b25e4a">wrap_</a>, command_to_send)};</div>
-<div class="line"><span class="lineno">  208</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  209</span>               <span class="keyword">const</span> <span class="keyword">auto</span> wrap {std::ranges::find(<a class="code hl_variable" href="class_lr_ipc_out.html#aa76f983ed7b1aa0bcdb7b68291b25e4a">wrap_</a>, command_to_send) != <a class="code hl_variable" href="class_lr_ipc_out.html#aa76f983ed7b1aa0bcdb7b68291b25e4a">wrap_</a>.end()};</div>
-<div class="line"><span class="lineno">  210</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  211</span>               <span class="keyword">const</span> <span class="keyword">auto</span> computed_value {<a class="code hl_variable" href="class_lr_ipc_out.html#a70ca7c622a8e55bdb8de678e1d89ddf1">controls_model_</a>.<a class="code hl_function" href="class_controls_model.html#a8b0b5810dcbe5298b424217e05eafc0b">ControllerToPlugin</a>(mm, wrap)};</div>
-<div class="line"><span class="lineno">  212</span>               <a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} {}\n&quot;</span>), command_to_send, computed_value));</div>
-<div class="line"><span class="lineno">  213</span>            }</div>
-<div class="line"><span class="lineno">  214</span>         }</div>
-<div class="line"><span class="lineno">  215</span>      }</div>
-<div class="line"><span class="lineno">  216</span>   }</div>
-<div class="line"><span class="lineno">  217</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  218</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  219</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  220</span>   }</div>
-<div class="line"><span class="lineno">  221</span>}</div>
-<div class="ttc" id="aclass_command_set_html_a0311fc90ec6127582c5f97593130f41f"><div class="ttname"><a href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">CommandSet::kUnassigned</a></div><div class="ttdeci">static const std::string kUnassigned</div><div class="ttdef"><b>Definition</b> CommandSet.h:63</div></div>
-<div class="ttc" id="aclass_controls_model_html_a0d0e3cd4d2c696c20e959afc76cb3f3d"><div class="ttname"><a href="class_controls_model.html#a0d0e3cd4d2c696c20e959afc76cb3f3d">ControlsModel::GetCcMethod</a></div><div class="ttdeci">rsj::CCmethod GetCcMethod(int channel, int controlnumber) const</div><div class="ttdef"><b>Definition</b> ControlsModel.h:243</div></div>
-<div class="ttc" id="aclass_controls_model_html_a8b0b5810dcbe5298b424217e05eafc0b"><div class="ttname"><a href="class_controls_model.html#a8b0b5810dcbe5298b424217e05eafc0b">ControlsModel::ControllerToPlugin</a></div><div class="ttdeci">double ControllerToPlugin(rsj::MidiMessage mm, bool wrap)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:224</div></div>
-<div class="ttc" id="aclass_controls_model_html_ac9eb2558b85b17377b6903572cbf127f"><div class="ttname"><a href="class_controls_model.html#ac9eb2558b85b17377b6903572cbf127f">ControlsModel::MeasureChange</a></div><div class="ttdeci">int MeasureChange(rsj::MidiMessage mm)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:230</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_ae1e40469ef8e53e58ef1c833774f8dac"><div class="ttname"><a href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">LrIpcOut::SendCommand</a></div><div class="ttdeci">void SendCommand(std::string &amp;&amp;command)</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:67</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_ae3565108b8df687e7ad7358d057ed6eb"><div class="ttname"><a href="class_lr_ipc_out.html#ae3565108b8df687e7ad7358d057ed6eb">LrIpcOut::SetRecenter</a></div><div class="ttdeci">void SetRecenter(rsj::MidiMessageId mm)</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:245</div></div>
-<div class="ttc" id="aclass_profile_html_a52eacd441b3cbaa1ecad3eb260115809"><div class="ttname"><a href="class_profile.html#a52eacd441b3cbaa1ecad3eb260115809">Profile::GetCommandForMessage</a></div><div class="ttdeci">const std::string &amp; GetCommandForMessage(rsj::MidiMessageId message) const</div><div class="ttdef"><b>Definition</b> Profile.h:89</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  183</span>{</div>
+<div class="line"><span class="lineno">  184</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  185</span>      <span class="keyword">const</span> <a class="code hl_struct" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> message {mm};</div>
+<div class="line"><span class="lineno">  186</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_lr_ipc_out.html#a918bc9c12e61d6a21a53cace2994eaa1">profile_</a>.<a class="code hl_function" href="class_profile.html#a56598e659bf13a43596c2e119bc2cdcb">MessageExistsInMap</a>(message)) { <a class="code hl_function" href="class_lr_ipc_out.html#a91e20f993aaf26042b3cb6185fcbff3b">ProcessMessage</a>(message, mm); }</div>
+<div class="line"><span class="lineno">  187</span>   }</div>
+<div class="line"><span class="lineno">  188</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  189</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  190</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  191</span>   }</div>
+<div class="line"><span class="lineno">  192</span>}</div>
+<div class="ttc" id="aclass_lr_ipc_out_html_a91e20f993aaf26042b3cb6185fcbff3b"><div class="ttname"><a href="class_lr_ipc_out.html#a91e20f993aaf26042b3cb6185fcbff3b">LrIpcOut::ProcessMessage</a></div><div class="ttdeci">void ProcessMessage(const rsj::MidiMessageId &amp;message, const rsj::MidiMessage &amp;mm)</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:194</div></div>
 <div class="ttc" id="aclass_profile_html_a56598e659bf13a43596c2e119bc2cdcb"><div class="ttname"><a href="class_profile.html#a56598e659bf13a43596c2e119bc2cdcb">Profile::MessageExistsInMap</a></div><div class="ttdeci">bool MessageExistsInMap(rsj::MidiMessageId message) const</div><div class="ttdef"><b>Definition</b> Profile.h:124</div></div>
-<div class="ttc" id="anamespacersj_html_a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a"><div class="ttname"><a href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a></div><div class="ttdeci">@ kAbsolute</div></div>
-<div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::MessageType::kCc</a></div><div class="ttdeci">@ kCc</div></div>
-<div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee">rsj::MessageType::kPw</a></div><div class="ttdeci">@ kPw</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html_ad1b6e1d738eafd7f0ef54b56914e1448"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">rsj::MidiMessage::message_type_byte</a></div><div class="ttdeci">MessageType message_type_byte</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:125</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a></div><div class="ttdef"><b>Definition</b> MidiUtilities.h:146</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a></div><div class="ttdef"><b>Definition</b> MidiUtilities.h:145</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -594,8 +590,204 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a6b8db52b73d7be8a488e3c795b5a6df8" name="a6b8db52b73d7be8a488e3c795b5a6df8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b8db52b73d7be8a488e3c795b5a6df8">&#9670;&#160;</a></span>SendCommand() <span class="overload">[1/2]</span></h2>
+<a id="a3cacef7ed041a56e38f310cfe1d07f11" name="a3cacef7ed041a56e38f310cfe1d07f11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cacef7ed041a56e38f310cfe1d07f11">&#9670;&#160;</a></span>ProcessChange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LrIpcOut::ProcessChange </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_lr_ipc_out.html#a040ef9dfcb2e00240b75a79aca4f497b">RepeatCmdIterator</a> &amp;&#160;</td>
+          <td class="paramname"><em>repeats</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;&#160;</td>
+          <td class="paramname"><em>mm</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><span class="lineno">  227</span>{</div>
+<div class="line"><span class="lineno">  228</span>   <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> change {<a class="code hl_variable" href="class_lr_ipc_out.html#a70ca7c622a8e55bdb8de678e1d89ddf1">controls_model_</a>.<a class="code hl_function" href="class_controls_model.html#ac9eb2558b85b17377b6903572cbf127f">MeasureChange</a>(mm)}; change &gt; 0) {</div>
+<div class="line"><span class="lineno">  229</span>      <a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(repeats-&gt;second.first); <span class="comment">/* turned clockwise */</span></div>
+<div class="line"><span class="lineno">  230</span>   }</div>
+<div class="line"><span class="lineno">  231</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (change &lt; 0) {</div>
+<div class="line"><span class="lineno">  232</span>      <a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(repeats-&gt;second.second); <span class="comment">/* turned counterclockwise */</span></div>
+<div class="line"><span class="lineno">  233</span>   }</div>
+<div class="line"><span class="lineno">  234</span>}</div>
+<div class="ttc" id="aclass_controls_model_html_ac9eb2558b85b17377b6903572cbf127f"><div class="ttname"><a href="class_controls_model.html#ac9eb2558b85b17377b6903572cbf127f">ControlsModel::MeasureChange</a></div><div class="ttdeci">int MeasureChange(rsj::MidiMessage mm)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:231</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_aaca9ebc83a482fcfc6dcc054d3bb2e46"><div class="ttname"><a href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">LrIpcOut::SendCommand</a></div><div class="ttdeci">void SendCommand(std::string &amp;&amp;command) const</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:67</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a91e20f993aaf26042b3cb6185fcbff3b" name="a91e20f993aaf26042b3cb6185fcbff3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91e20f993aaf26042b3cb6185fcbff3b">&#9670;&#160;</a></span>ProcessMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LrIpcOut::ProcessMessage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> &amp;&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;&#160;</td>
+          <td class="paramname"><em>mm</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><span class="lineno">  195</span>{</div>
+<div class="line"><span class="lineno">  196</span>   <span class="keyword">const</span> <span class="keyword">auto</span> command_to_send {<a class="code hl_variable" href="class_lr_ipc_out.html#a918bc9c12e61d6a21a53cace2994eaa1">profile_</a>.<a class="code hl_function" href="class_profile.html#a52eacd441b3cbaa1ecad3eb260115809">GetCommandForMessage</a>(message)};</div>
+<div class="line"><span class="lineno">  197</span>   <span class="keywordflow">if</span> (rollbear::none_of(<span class="stringliteral">&quot;PrevPro&quot;</span>, <span class="stringliteral">&quot;NextPro&quot;</span>, <a class="code hl_variable" href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">CommandSet::kUnassigned</a>) == command_to_send) {</div>
+<div class="line"><span class="lineno">  198</span>      <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> repeats {<a class="code hl_variable" href="class_lr_ipc_out.html#aa3a137db476a517020dd53728e68978a">repeat_cmd_</a>.find(command_to_send)}; repeats == <a class="code hl_variable" href="class_lr_ipc_out.html#aa3a137db476a517020dd53728e68978a">repeat_cmd_</a>.end()) {</div>
+<div class="line"><span class="lineno">  199</span>         <a class="code hl_function" href="class_lr_ipc_out.html#a4ea37bf546266ffe29bd2332d6a014b1">ProcessNonRepeatedCommand</a>(command_to_send, mm);</div>
+<div class="line"><span class="lineno">  200</span>      }</div>
+<div class="line"><span class="lineno">  201</span>      <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  202</span>         <a class="code hl_function" href="class_lr_ipc_out.html#ae7429419993623443e36d134737a3394">ProcessRepeatedCommand</a>(repeats, mm, message);</div>
+<div class="line"><span class="lineno">  203</span>      }</div>
+<div class="line"><span class="lineno">  204</span>   }</div>
+<div class="line"><span class="lineno">  205</span>}</div>
+<div class="ttc" id="aclass_command_set_html_a0311fc90ec6127582c5f97593130f41f"><div class="ttname"><a href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">CommandSet::kUnassigned</a></div><div class="ttdeci">static const std::string kUnassigned</div><div class="ttdef"><b>Definition</b> CommandSet.h:63</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_a4ea37bf546266ffe29bd2332d6a014b1"><div class="ttname"><a href="class_lr_ipc_out.html#a4ea37bf546266ffe29bd2332d6a014b1">LrIpcOut::ProcessNonRepeatedCommand</a></div><div class="ttdeci">void ProcessNonRepeatedCommand(const std::string &amp;command_to_send, const rsj::MidiMessage &amp;mm) const</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:236</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_ae7429419993623443e36d134737a3394"><div class="ttname"><a href="class_lr_ipc_out.html#ae7429419993623443e36d134737a3394">LrIpcOut::ProcessRepeatedCommand</a></div><div class="ttdeci">void ProcessRepeatedCommand(const RepeatCmdIterator &amp;repeats, const rsj::MidiMessage &amp;mm, const rsj::MidiMessageId &amp;message)</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:207</div></div>
+<div class="ttc" id="aclass_profile_html_a52eacd441b3cbaa1ecad3eb260115809"><div class="ttname"><a href="class_profile.html#a52eacd441b3cbaa1ecad3eb260115809">Profile::GetCommandForMessage</a></div><div class="ttdeci">const std::string &amp; GetCommandForMessage(rsj::MidiMessageId message) const</div><div class="ttdef"><b>Definition</b> Profile.h:89</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a4ea37bf546266ffe29bd2332d6a014b1" name="a4ea37bf546266ffe29bd2332d6a014b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ea37bf546266ffe29bd2332d6a014b1">&#9670;&#160;</a></span>ProcessNonRepeatedCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LrIpcOut::ProcessNonRepeatedCommand </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>command_to_send</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;&#160;</td>
+          <td class="paramname"><em>mm</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><span class="lineno">  238</span>{</div>
+<div class="line"><span class="lineno">  239</span><span class="preprocessor">#ifdef __cpp_lib_ranges_contains</span></div>
+<div class="line"><span class="lineno">  240</span>   <span class="keyword">const</span> <span class="keyword">auto</span> wrap {std::ranges::contains(<a class="code hl_variable" href="class_lr_ipc_out.html#aa76f983ed7b1aa0bcdb7b68291b25e4a">wrap_</a>, command_to_send)};</div>
+<div class="line"><span class="lineno">  241</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  242</span>   <span class="keyword">const</span> <span class="keyword">auto</span> wrap {std::ranges::find(<a class="code hl_variable" href="class_lr_ipc_out.html#aa76f983ed7b1aa0bcdb7b68291b25e4a">wrap_</a>, command_to_send) != <a class="code hl_variable" href="class_lr_ipc_out.html#aa76f983ed7b1aa0bcdb7b68291b25e4a">wrap_</a>.end()};</div>
+<div class="line"><span class="lineno">  243</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  244</span>   <span class="keyword">const</span> <span class="keyword">auto</span> computed_value {<a class="code hl_variable" href="class_lr_ipc_out.html#a70ca7c622a8e55bdb8de678e1d89ddf1">controls_model_</a>.<a class="code hl_function" href="class_controls_model.html#a8b0b5810dcbe5298b424217e05eafc0b">ControllerToPlugin</a>(mm, wrap)};</div>
+<div class="line"><span class="lineno">  245</span>   <a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} {}\n&quot;</span>), command_to_send, computed_value));</div>
+<div class="line"><span class="lineno">  246</span>}</div>
+<div class="ttc" id="aclass_controls_model_html_a8b0b5810dcbe5298b424217e05eafc0b"><div class="ttname"><a href="class_controls_model.html#a8b0b5810dcbe5298b424217e05eafc0b">ControlsModel::ControllerToPlugin</a></div><div class="ttdeci">double ControllerToPlugin(rsj::MidiMessage mm, bool wrap)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:225</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ae7429419993623443e36d134737a3394" name="ae7429419993623443e36d134737a3394"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7429419993623443e36d134737a3394">&#9670;&#160;</a></span>ProcessRepeatedCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LrIpcOut::ProcessRepeatedCommand </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_lr_ipc_out.html#a040ef9dfcb2e00240b75a79aca4f497b">RepeatCmdIterator</a> &amp;&#160;</td>
+          <td class="paramname"><em>repeats</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;&#160;</td>
+          <td class="paramname"><em>mm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> &amp;&#160;</td>
+          <td class="paramname"><em>message</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><span class="lineno">  209</span>{</div>
+<div class="line"><span class="lineno">  210</span>   <span class="keyword">static</span> TimePoint next_response {};</div>
+<div class="line"><span class="lineno">  211</span>   <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> now {Clock::now()}; next_response &lt; now) {</div>
+<div class="line"><span class="lineno">  212</span>      next_response = now + kDelay;</div>
+<div class="line"><span class="lineno">  213</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="class_lr_ipc_out.html#aa97e4597619ac1c6ce2ccf6528ea1e7e">ShouldSetRecenter</a>(mm)) { <a class="code hl_function" href="class_lr_ipc_out.html#ae3565108b8df687e7ad7358d057ed6eb">SetRecenter</a>(message); }</div>
+<div class="line"><span class="lineno">  214</span>      <a class="code hl_function" href="class_lr_ipc_out.html#a3cacef7ed041a56e38f310cfe1d07f11">ProcessChange</a>(repeats, mm);</div>
+<div class="line"><span class="lineno">  215</span>   }</div>
+<div class="line"><span class="lineno">  216</span>}</div>
+<div class="ttc" id="aclass_lr_ipc_out_html_a3cacef7ed041a56e38f310cfe1d07f11"><div class="ttname"><a href="class_lr_ipc_out.html#a3cacef7ed041a56e38f310cfe1d07f11">LrIpcOut::ProcessChange</a></div><div class="ttdeci">void ProcessChange(const RepeatCmdIterator &amp;repeats, const rsj::MidiMessage &amp;mm) const</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:226</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_aa97e4597619ac1c6ce2ccf6528ea1e7e"><div class="ttname"><a href="class_lr_ipc_out.html#aa97e4597619ac1c6ce2ccf6528ea1e7e">LrIpcOut::ShouldSetRecenter</a></div><div class="ttdeci">bool ShouldSetRecenter(const rsj::MidiMessage &amp;mm) const</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:218</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_ae3565108b8df687e7ad7358d057ed6eb"><div class="ttname"><a href="class_lr_ipc_out.html#ae3565108b8df687e7ad7358d057ed6eb">LrIpcOut::SetRecenter</a></div><div class="ttdeci">void SetRecenter(rsj::MidiMessageId mm)</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:270</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a97757e6d059b55c8672dbe2130fc4d78" name="a97757e6d059b55c8672dbe2130fc4d78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97757e6d059b55c8672dbe2130fc4d78">&#9670;&#160;</a></span>SendCommand() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -605,7 +797,7 @@ template&lt;class T &gt; </div>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>command</em></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -615,8 +807,8 @@ template&lt;class T &gt; </div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="ae1e40469ef8e53e58ef1c833774f8dac" name="ae1e40469ef8e53e58ef1c833774f8dac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1e40469ef8e53e58ef1c833774f8dac">&#9670;&#160;</a></span>SendCommand() <span class="overload">[2/2]</span></h2>
+<a id="aaca9ebc83a482fcfc6dcc054d3bb2e46" name="aaca9ebc83a482fcfc6dcc054d3bb2e46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaca9ebc83a482fcfc6dcc054d3bb2e46">&#9670;&#160;</a></span>SendCommand() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -626,7 +818,7 @@ template&lt;class T &gt; </div>
           <td>(</td>
           <td class="paramtype">std::string &amp;&amp;&#160;</td>
           <td class="paramname"><em>command</em></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -657,10 +849,10 @@ template&lt;class T &gt; </div>
 <div class="line"><span class="lineno">   82</span>         <a class="code hl_variable" href="class_lr_ipc_out.html#aa4648a7022acb4cf386148fb59858e6d">sending_stopped_</a> = <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">   83</span>         <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; cb : <a class="code hl_variable" href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">callbacks_</a>) { cb(<a class="code hl_variable" href="class_lr_ipc_out.html#ab347667ef76e3475d23e18e937928726">connected_</a>, <span class="keyword">false</span>); }</div>
 <div class="line"><span class="lineno">   84</span>      }</div>
-<div class="line"><span class="lineno">   85</span>      <a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(<span class="stringliteral">&quot;FullRefresh 1\n&quot;</span>); <span class="comment">/* synchronize controls */</span></div>
+<div class="line"><span class="lineno">   85</span>      <a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(<span class="stringliteral">&quot;FullRefresh 1\n&quot;</span>); <span class="comment">/* synchronize controls */</span></div>
 <div class="line"><span class="lineno">   86</span>   }</div>
 <div class="line"><span class="lineno">   87</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   88</span>      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><span class="lineno">   88</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
 <div class="line"><span class="lineno">   89</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   90</span>   }</div>
 <div class="line"><span class="lineno">   91</span>}</div>
@@ -688,7 +880,7 @@ template&lt;class T &gt; </div>
 <div class="line"><span class="lineno">   98</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; cb : <a class="code hl_variable" href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">callbacks_</a>) { cb(<a class="code hl_variable" href="class_lr_ipc_out.html#ab347667ef76e3475d23e18e937928726">connected_</a>, <span class="keyword">true</span>); }</div>
 <div class="line"><span class="lineno">   99</span>   }</div>
 <div class="line"><span class="lineno">  100</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  101</span>      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><span class="lineno">  101</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
 <div class="line"><span class="lineno">  102</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  103</span>   }</div>
 <div class="line"><span class="lineno">  104</span>}</div>
@@ -718,23 +910,62 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  246</span>{</div>
-<div class="line"><span class="lineno">  247</span>   <span class="comment">/* by capturing mm by copy, don&#39;t have to worry about later calls changing it--those will just</span></div>
-<div class="line"><span class="lineno">  248</span><span class="comment">    * cancel and reschedule new one */</span></div>
-<div class="line"><span class="lineno">  249</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  250</span>      <a class="code hl_variable" href="class_lr_ipc_out.html#a122d235bb2afab84a51143ee5c1000ff">recenter_timer_</a>.expires_after(kRecenterTimer);</div>
-<div class="line"><span class="lineno">  251</span>      <a class="code hl_variable" href="class_lr_ipc_out.html#a122d235bb2afab84a51143ee5c1000ff">recenter_timer_</a>.async_wait([<span class="keyword">this</span>, mm](<span class="keyword">const</span> asio::error_code&amp; error) {</div>
-<div class="line"><span class="lineno">  252</span>         <span class="keywordflow">if</span> (!error &amp;&amp; !<a class="code hl_variable" href="class_lr_ipc_out.html#ab4396e5e479bf52e5ae1ba1e4b48857e">thread_should_exit_</a>.load(std::memory_order_acquire)) {</div>
-<div class="line"><span class="lineno">  253</span>            midi_sender_.Send(mm, controls_model_.SetToCenter(mm));</div>
-<div class="line"><span class="lineno">  254</span>         }</div>
-<div class="line"><span class="lineno">  255</span>      });</div>
-<div class="line"><span class="lineno">  256</span>   }</div>
-<div class="line"><span class="lineno">  257</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  258</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  259</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  260</span>   }</div>
-<div class="line"><span class="lineno">  261</span>}</div>
-<div class="ttc" id="aclass_lr_ipc_out_html_ab4396e5e479bf52e5ae1ba1e4b48857e"><div class="ttname"><a href="class_lr_ipc_out.html#ab4396e5e479bf52e5ae1ba1e4b48857e">LrIpcOut::thread_should_exit_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; thread_should_exit_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:82</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  271</span>{</div>
+<div class="line"><span class="lineno">  272</span>   <span class="comment">/* by capturing mm by copy, don&#39;t have to worry about later calls changing it--those will just</span></div>
+<div class="line"><span class="lineno">  273</span><span class="comment">    * cancel and reschedule new one */</span></div>
+<div class="line"><span class="lineno">  274</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  275</span>      <a class="code hl_variable" href="class_lr_ipc_out.html#a122d235bb2afab84a51143ee5c1000ff">recenter_timer_</a>.expires_after(kRecenterTimer);</div>
+<div class="line"><span class="lineno">  276</span>      <a class="code hl_variable" href="class_lr_ipc_out.html#a122d235bb2afab84a51143ee5c1000ff">recenter_timer_</a>.async_wait([<span class="keyword">this</span>, mm](<span class="keyword">const</span> asio::error_code&amp; error) {</div>
+<div class="line"><span class="lineno">  277</span>         <span class="keywordflow">if</span> (!error &amp;&amp; !<a class="code hl_variable" href="class_lr_ipc_out.html#ab4396e5e479bf52e5ae1ba1e4b48857e">thread_should_exit_</a>.load(std::memory_order_acquire)) {</div>
+<div class="line"><span class="lineno">  278</span>            midi_sender_.Send(mm, controls_model_.SetToCenter(mm));</div>
+<div class="line"><span class="lineno">  279</span>         }</div>
+<div class="line"><span class="lineno">  280</span>      });</div>
+<div class="line"><span class="lineno">  281</span>   }</div>
+<div class="line"><span class="lineno">  282</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  283</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  284</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  285</span>   }</div>
+<div class="line"><span class="lineno">  286</span>}</div>
+<div class="ttc" id="aclass_lr_ipc_out_html_ab4396e5e479bf52e5ae1ba1e4b48857e"><div class="ttname"><a href="class_lr_ipc_out.html#ab4396e5e479bf52e5ae1ba1e4b48857e">LrIpcOut::thread_should_exit_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; thread_should_exit_</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:91</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aa97e4597619ac1c6ce2ccf6528ea1e7e" name="aa97e4597619ac1c6ce2ccf6528ea1e7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa97e4597619ac1c6ce2ccf6528ea1e7e">&#9670;&#160;</a></span>ShouldSetRecenter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool LrIpcOut::ShouldSetRecenter </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message.html">rsj::MidiMessage</a> &amp;&#160;</td>
+          <td class="paramname"><em>mm</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><span class="lineno">  219</span>{</div>
+<div class="line"><span class="lineno">  220</span>   <span class="keywordflow">return</span> (mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a> == <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::MessageType::kCc</a></div>
+<div class="line"><span class="lineno">  221</span>              &amp;&amp; <a class="code hl_variable" href="class_lr_ipc_out.html#a70ca7c622a8e55bdb8de678e1d89ddf1">controls_model_</a>.<a class="code hl_function" href="class_controls_model.html#a0d0e3cd4d2c696c20e959afc76cb3f3d">GetCcMethod</a>(mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a>)</div>
+<div class="line"><span class="lineno">  222</span>                     == <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a>)</div>
+<div class="line"><span class="lineno">  223</span>          || mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a> == <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee">rsj::MessageType::kPw</a>;</div>
+<div class="line"><span class="lineno">  224</span>}</div>
+<div class="ttc" id="aclass_controls_model_html_a0d0e3cd4d2c696c20e959afc76cb3f3d"><div class="ttname"><a href="class_controls_model.html#a0d0e3cd4d2c696c20e959afc76cb3f3d">ControlsModel::GetCcMethod</a></div><div class="ttdeci">rsj::CCmethod GetCcMethod(int channel, int controlnumber) const</div><div class="ttdef"><b>Definition</b> ControlsModel.h:244</div></div>
+<div class="ttc" id="anamespacersj_html_a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a"><div class="ttname"><a href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a></div><div class="ttdeci">@ kAbsolute</div></div>
+<div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::MessageType::kCc</a></div><div class="ttdeci">@ kCc</div></div>
+<div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee">rsj::MessageType::kPw</a></div><div class="ttdeci">@ kPw</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_a40cce06213f004a2b07928898e112491"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">rsj::MidiMessage::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:126</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_a9fe338912f9e54437351926dcc6df9e1"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">rsj::MidiMessage::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:125</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_ad1b6e1d738eafd7f0ef54b56914e1448"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">rsj::MidiMessage::message_type_byte</a></div><div class="ttdeci">MessageType message_type_byte</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:124</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -761,7 +992,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><span class="lineno">   64</span>{ <a class="code hl_function" href="class_lr_ipc_out.html#ad2d0705a749d9ac0db4c30ddc6a1e029">Connect</a>(<a class="code hl_variable" href="class_lr_ipc_out.html#a2247d4e3021051dd2179e6b886c93fae">lr_ipc_out_shared_</a>); }</div>
-<div class="ttc" id="aclass_lr_ipc_out_html_ad2d0705a749d9ac0db4c30ddc6a1e029"><div class="ttname"><a href="class_lr_ipc_out.html#ad2d0705a749d9ac0db4c30ddc6a1e029">LrIpcOut::Connect</a></div><div class="ttdeci">void Connect(std::shared_ptr&lt; LrIpcOutShared &gt; lr_ipc_out_shared)</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:134</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_ad2d0705a749d9ac0db4c30ddc6a1e029"><div class="ttname"><a href="class_lr_ipc_out.html#ad2d0705a749d9ac0db4c30ddc6a1e029">LrIpcOut::Connect</a></div><div class="ttdeci">void Connect(std::shared_ptr&lt; LrIpcOutShared &gt; lr_ipc_out_shared)</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:139</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -783,7 +1014,7 @@ template&lt;class T &gt; </div>
 <div class="line"><span class="lineno">  108</span>   <a class="code hl_variable" href="class_lr_ipc_out.html#ab4396e5e479bf52e5ae1ba1e4b48857e">thread_should_exit_</a>.store(<span class="keyword">true</span>, std::memory_order_release);</div>
 <div class="line"><span class="lineno">  109</span>   <span class="comment">/* clear output queue before port closed */</span></div>
 <div class="line"><span class="lineno">  110</span>   <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> m {<a class="code hl_variable" href="class_lr_ipc_out.html#a2247d4e3021051dd2179e6b886c93fae">lr_ipc_out_shared_</a>-&gt;command_.clear_count_emplace(kTerminate)}) {</div>
-<div class="line"><span class="lineno">  111</span>      <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} left in queue in LrIpcOut destructor.&quot;</span>), m));</div>
+<div class="line"><span class="lineno">  111</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} left in queue in LrIpcOut destructor.&quot;</span>), m));</div>
 <div class="line"><span class="lineno">  112</span>   }</div>
 <div class="line"><span class="lineno">  113</span>   {</div>
 <div class="line"><span class="lineno">  114</span>      std::scoped_lock lk(<a class="code hl_variable" href="class_lr_ipc_out.html#a5d5eac6e8138cd79785505827ce77faa">callback_mtx_</a>);</div>
@@ -794,17 +1025,22 @@ template&lt;class T &gt; </div>
 <div class="line"><span class="lineno">  119</span>      asio::error_code ec;</div>
 <div class="line"><span class="lineno">  120</span>      <span class="comment">/* For portable behaviour with respect to graceful closure of a connected socket, call</span></div>
 <div class="line"><span class="lineno">  121</span><span class="comment">       * shutdown() before closing the socket. */</span></div>
-<div class="line"><span class="lineno">  122</span>      sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);</div>
-<div class="line"><span class="lineno">  123</span>      <span class="keywordflow">if</span> (ec) {</div>
-<div class="line"><span class="lineno">  124</span>         <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_Out socket shutdown error {}.&quot;</span>), ec.message()));</div>
-<div class="line"><span class="lineno">  125</span>         ec.clear();</div>
-<div class="line"><span class="lineno">  126</span>      }</div>
-<div class="line"><span class="lineno">  127</span>      sock.close(ec);</div>
-<div class="line"><span class="lineno">  128</span>      <span class="keywordflow">if</span> (ec) {</div>
-<div class="line"><span class="lineno">  129</span>         <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_Out socket close error {}.&quot;</span>), ec.message()));</div>
-<div class="line"><span class="lineno">  130</span>      }</div>
-<div class="line"><span class="lineno">  131</span>   }</div>
-<div class="line"><span class="lineno">  132</span>}</div>
+<div class="line"><span class="lineno">  122</span>      <span class="keywordflow">try</span> { <span class="comment">/* ignore exceptions from shutdown, always close */</span></div>
+<div class="line"><span class="lineno">  123</span>         std::ignore = sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);</div>
+<div class="line"><span class="lineno">  124</span>         <span class="keywordflow">if</span> (ec) {</div>
+<div class="line"><span class="lineno">  125</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_Out socket shutdown error {}.&quot;</span>), ec.message()));</div>
+<div class="line"><span class="lineno">  126</span>            ec.clear();</div>
+<div class="line"><span class="lineno">  127</span>         }</div>
+<div class="line"><span class="lineno">  128</span>      }</div>
+<div class="line"><span class="lineno">  129</span>      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  130</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Exception during socket shutdown: {}&quot;</span>), e.what()));</div>
+<div class="line"><span class="lineno">  131</span>      }</div>
+<div class="line"><span class="lineno">  132</span>      std::ignore = sock.close(ec);</div>
+<div class="line"><span class="lineno">  133</span>      <span class="keywordflow">if</span> (ec) {</div>
+<div class="line"><span class="lineno">  134</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_Out socket close error {}.&quot;</span>), ec.message()));</div>
+<div class="line"><span class="lineno">  135</span>      }</div>
+<div class="line"><span class="lineno">  136</span>   }</div>
+<div class="line"><span class="lineno">  137</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -850,7 +1086,7 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   84</span>{};</div>
+<div class="fragment"><div class="line"><span class="lineno">   93</span>{};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -873,7 +1109,7 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   74</span>{<span class="keyword">false</span>};</div>
+<div class="fragment"><div class="line"><span class="lineno">   83</span>{<span class="keyword">false</span>};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1028,7 +1264,7 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   75</span>{<span class="keyword">false</span>};</div>
+<div class="fragment"><div class="line"><span class="lineno">   84</span>{<span class="keyword">false</span>};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1051,7 +1287,7 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   82</span>{<span class="keyword">false</span>};</div>
+<div class="fragment"><div class="line"><span class="lineno">   91</span>{<span class="keyword">false</span>};</div>
 </div><!-- fragment -->
 </div>
 </div>

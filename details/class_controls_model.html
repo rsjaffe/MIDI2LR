@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -192,15 +192,15 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  225</span>   {</div>
-<div class="line"><span class="lineno">  226</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>)</div>
-<div class="line"><span class="lineno">  227</span>          .ControllerToPlugin(mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a>, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a>, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a>, wrap);</div>
-<div class="line"><span class="lineno">  228</span>   }</div>
-<div class="ttc" id="aclass_controls_model_html_adf717b73a965f5a66b1994592a5c43b2"><div class="ttname"><a href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">ControlsModel::all_controls_</a></div><div class="ttdeci">std::array&lt; ChannelModel, 16 &gt; all_controls_</div><div class="ttdef"><b>Definition</b> ControlsModel.h:324</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html_a40cce06213f004a2b07928898e112491"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">rsj::MidiMessage::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:127</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html_a9fe338912f9e54437351926dcc6df9e1"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">rsj::MidiMessage::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:126</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html_ad1b6e1d738eafd7f0ef54b56914e1448"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">rsj::MidiMessage::message_type_byte</a></div><div class="ttdeci">MessageType message_type_byte</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:125</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html_ad86e8d27f598c8def0279d3a3777cd7e"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">rsj::MidiMessage::value</a></div><div class="ttdeci">int value</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:128</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  226</span>   {</div>
+<div class="line"><span class="lineno">  227</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>)</div>
+<div class="line"><span class="lineno">  228</span>          .ControllerToPlugin(mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a>, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a>, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a>, wrap);</div>
+<div class="line"><span class="lineno">  229</span>   }</div>
+<div class="ttc" id="aclass_controls_model_html_adf717b73a965f5a66b1994592a5c43b2"><div class="ttname"><a href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">ControlsModel::all_controls_</a></div><div class="ttdeci">std::array&lt; ChannelModel, 16 &gt; all_controls_</div><div class="ttdef"><b>Definition</b> ControlsModel.h:325</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_a40cce06213f004a2b07928898e112491"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">rsj::MidiMessage::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:126</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_a9fe338912f9e54437351926dcc6df9e1"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">rsj::MidiMessage::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:125</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_ad1b6e1d738eafd7f0ef54b56914e1448"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">rsj::MidiMessage::message_type_byte</a></div><div class="ttdeci">MessageType message_type_byte</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:124</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_ad86e8d27f598c8def0279d3a3777cd7e"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">rsj::MidiMessage::value</a></div><div class="ttdeci">int value</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:127</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -237,9 +237,9 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  256</span>   {</div>
-<div class="line"><span class="lineno">  257</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).GetCcMax(controlnumber);</div>
-<div class="line"><span class="lineno">  258</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">  257</span>   {</div>
+<div class="line"><span class="lineno">  258</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).GetCcMax(controlnumber);</div>
+<div class="line"><span class="lineno">  259</span>   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -276,9 +276,9 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  244</span>   {</div>
-<div class="line"><span class="lineno">  245</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).GetCcMethod(controlnumber);</div>
-<div class="line"><span class="lineno">  246</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">  245</span>   {</div>
+<div class="line"><span class="lineno">  246</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).GetCcMethod(controlnumber);</div>
+<div class="line"><span class="lineno">  247</span>   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -305,13 +305,13 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  249</span>   {</div>
-<div class="line"><span class="lineno">  250</span>      <span class="comment">/* MidiMessageId channel is 1-based */</span></div>
-<div class="line"><span class="lineno">  251</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(gsl::narrow_cast&lt;size_t&gt;(msg_id.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>) - 1)</div>
-<div class="line"><span class="lineno">  252</span>          .GetCcMethod(msg_id.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>);</div>
-<div class="line"><span class="lineno">  253</span>   }</div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:147</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html_acc40acde2069206b38805eb871c64df8"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:148</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  250</span>   {</div>
+<div class="line"><span class="lineno">  251</span>      <span class="comment">/* MidiMessageId channel is 1-based */</span></div>
+<div class="line"><span class="lineno">  252</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(gsl::narrow_cast&lt;size_t&gt;(msg_id.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>) - 1)</div>
+<div class="line"><span class="lineno">  253</span>          .GetCcMethod(msg_id.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>);</div>
+<div class="line"><span class="lineno">  254</span>   }</div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:146</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html_acc40acde2069206b38805eb871c64df8"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:147</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -348,9 +348,9 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  261</span>   {</div>
-<div class="line"><span class="lineno">  262</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).GetCcMin(controlnumber);</div>
-<div class="line"><span class="lineno">  263</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">  262</span>   {</div>
+<div class="line"><span class="lineno">  263</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).GetCcMin(controlnumber);</div>
+<div class="line"><span class="lineno">  264</span>   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -377,7 +377,7 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  265</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).GetPwMax(); }</div>
+<div class="fragment"><div class="line"><span class="lineno">  266</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).GetPwMax(); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -404,7 +404,7 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  267</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).GetPwMin(); }</div>
+<div class="fragment"><div class="line"><span class="lineno">  268</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).GetPwMin(); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -453,9 +453,9 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  277</span>   {</div>
-<div class="line"><span class="lineno">  278</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).MeasureChange(controltype, controlnumber, value);</div>
-<div class="line"><span class="lineno">  279</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">  278</span>   {</div>
+<div class="line"><span class="lineno">  279</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).MeasureChange(controltype, controlnumber, value);</div>
+<div class="line"><span class="lineno">  280</span>   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -482,10 +482,10 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  231</span>   {</div>
-<div class="line"><span class="lineno">  232</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>)</div>
-<div class="line"><span class="lineno">  233</span>          .MeasureChange(mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a>, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a>, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a>);</div>
-<div class="line"><span class="lineno">  234</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">  232</span>   {</div>
+<div class="line"><span class="lineno">  233</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">channel</a>)</div>
+<div class="line"><span class="lineno">  234</span>          .MeasureChange(mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a>, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a>, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a>);</div>
+<div class="line"><span class="lineno">  235</span>   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -522,12 +522,12 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  270</span>   {</div>
-<div class="line"><span class="lineno">  271</span>      <span class="comment">/* msg_id is one-based */</span></div>
-<div class="line"><span class="lineno">  272</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(gsl::narrow_cast&lt;size_t&gt;(msg_id.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>) - 1)</div>
-<div class="line"><span class="lineno">  273</span>          .PluginToController(msg_id.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>, msg_id.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>, value);</div>
-<div class="line"><span class="lineno">  274</span>   }</div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:149</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  271</span>   {</div>
+<div class="line"><span class="lineno">  272</span>      <span class="comment">/* msg_id is one-based */</span></div>
+<div class="line"><span class="lineno">  273</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(gsl::narrow_cast&lt;size_t&gt;(msg_id.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>) - 1)</div>
+<div class="line"><span class="lineno">  274</span>          .PluginToController(msg_id.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>, msg_id.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>, value);</div>
+<div class="line"><span class="lineno">  275</span>   }</div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:148</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -566,15 +566,16 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  314</span>   {</div>
-<div class="line"><span class="lineno">  315</span>      <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  316</span>         <span class="keywordflow">if</span> (version == 1) { archive(<a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>); }</div>
-<div class="line"><span class="lineno">  317</span>      }</div>
-<div class="line"><span class="lineno">  318</span>      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  319</span>         MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  320</span>         <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  321</span>      }</div>
-<div class="line"><span class="lineno">  322</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">  315</span>   {</div>
+<div class="line"><span class="lineno">  316</span>      <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  317</span>         <span class="keywordflow">if</span> (version == 1) { archive(<a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>); }</div>
+<div class="line"><span class="lineno">  318</span>      }</div>
+<div class="line"><span class="lineno">  319</span>      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  320</span>         <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  321</span>         <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  322</span>      }</div>
+<div class="line"><span class="lineno">  323</span>   }</div>
+<div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -629,9 +630,9 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  282</span>   {</div>
-<div class="line"><span class="lineno">  283</span>      <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetCc(controlnumber, min, max, controltype);</div>
-<div class="line"><span class="lineno">  284</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">  283</span>   {</div>
+<div class="line"><span class="lineno">  284</span>      <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetCc(controlnumber, min, max, controltype);</div>
+<div class="line"><span class="lineno">  285</span>   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -686,9 +687,9 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  287</span>   {</div>
-<div class="line"><span class="lineno">  288</span>      <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetCcAll(controlnumber, min, max, controltype);</div>
-<div class="line"><span class="lineno">  289</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">  288</span>   {</div>
+<div class="line"><span class="lineno">  289</span>      <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetCcAll(controlnumber, min, max, controltype);</div>
+<div class="line"><span class="lineno">  290</span>   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -731,9 +732,9 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  292</span>   {</div>
-<div class="line"><span class="lineno">  293</span>      <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetCcMax(controlnumber, value);</div>
-<div class="line"><span class="lineno">  294</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">  293</span>   {</div>
+<div class="line"><span class="lineno">  294</span>      <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetCcMax(controlnumber, value);</div>
+<div class="line"><span class="lineno">  295</span>   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -776,9 +777,9 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  297</span>   {</div>
-<div class="line"><span class="lineno">  298</span>      <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetCcMethod(controlnumber, value);</div>
-<div class="line"><span class="lineno">  299</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">  298</span>   {</div>
+<div class="line"><span class="lineno">  299</span>      <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetCcMethod(controlnumber, value);</div>
+<div class="line"><span class="lineno">  300</span>   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -821,9 +822,9 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  302</span>   {</div>
-<div class="line"><span class="lineno">  303</span>      <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetCcMin(controlnumber, value);</div>
-<div class="line"><span class="lineno">  304</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">  303</span>   {</div>
+<div class="line"><span class="lineno">  304</span>      <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetCcMin(controlnumber, value);</div>
+<div class="line"><span class="lineno">  305</span>   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -860,7 +861,7 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  306</span>{ <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetPwMax(value); }</div>
+<div class="fragment"><div class="line"><span class="lineno">  307</span>{ <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetPwMax(value); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -897,7 +898,7 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  308</span>{ <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetPwMin(value); }</div>
+<div class="fragment"><div class="line"><span class="lineno">  309</span>{ <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(channel).SetPwMin(value); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -924,11 +925,11 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  237</span>   {</div>
-<div class="line"><span class="lineno">  238</span>      <span class="comment">/* MidiMessageId channel is 1-based */</span></div>
-<div class="line"><span class="lineno">  239</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(gsl::narrow_cast&lt;size_t&gt;(mm.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>) - 1)</div>
-<div class="line"><span class="lineno">  240</span>          .SetToCenter(mm.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>);</div>
-<div class="line"><span class="lineno">  241</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">  238</span>   {</div>
+<div class="line"><span class="lineno">  239</span>      <span class="comment">/* MidiMessageId channel is 1-based */</span></div>
+<div class="line"><span class="lineno">  240</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>.at(gsl::narrow_cast&lt;size_t&gt;(mm.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>) - 1)</div>
+<div class="line"><span class="lineno">  241</span>          .SetToCenter(mm.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>);</div>
+<div class="line"><span class="lineno">  242</span>   }</div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -187,11 +187,11 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   65</span>    : <a class="code hl_variable" href="class_lr_ipc_in.html#af0b8a04af5fb42527bfb0945524b75b6">midi_sender_</a> {midi_sender}, <a class="code hl_variable" href="class_lr_ipc_in.html#a9ad374498feeb2a1ccd5ddc56734d3be">profile_</a> {profile}, <a class="code hl_variable" href="class_lr_ipc_in.html#a59ace245fb362643d6ce712a952ae238">controls_model_</a> {c_model},</div>
-<div class="line"><span class="lineno">   66</span>      <a class="code hl_variable" href="class_lr_ipc_in.html#abe357338e4c1624eae973992869a7aca">profile_manager_</a> {profile_manager},</div>
-<div class="line"><span class="lineno">   67</span>      <a class="code hl_variable" href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">lr_ipc_in_shared_</a> {std::make_shared&lt;LrIpcInShared&gt;(io_context)}</div>
-<div class="line"><span class="lineno">   68</span>{</div>
-<div class="line"><span class="lineno">   69</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">   67</span>    : <a class="code hl_variable" href="class_lr_ipc_in.html#af0b8a04af5fb42527bfb0945524b75b6">midi_sender_</a> {midi_sender}, <a class="code hl_variable" href="class_lr_ipc_in.html#a9ad374498feeb2a1ccd5ddc56734d3be">profile_</a> {profile}, <a class="code hl_variable" href="class_lr_ipc_in.html#a59ace245fb362643d6ce712a952ae238">controls_model_</a> {c_model},</div>
+<div class="line"><span class="lineno">   68</span>      <a class="code hl_variable" href="class_lr_ipc_in.html#abe357338e4c1624eae973992869a7aca">profile_manager_</a> {profile_manager},</div>
+<div class="line"><span class="lineno">   69</span>      <a class="code hl_variable" href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">lr_ipc_in_shared_</a> {std::make_shared&lt;LrIpcInShared&gt;(io_context)}</div>
+<div class="line"><span class="lineno">   70</span>{</div>
+<div class="line"><span class="lineno">   71</span>}</div>
 <div class="ttc" id="aclass_lr_ipc_in_html_a1f2079a6fabde45859067cdc826ce2a3"><div class="ttname"><a href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">LrIpcIn::lr_ipc_in_shared_</a></div><div class="ttdeci">std::shared_ptr&lt; LrIpcInShared &gt; lr_ipc_in_shared_</div><div class="ttdef"><b>Definition</b> LR_IPC_In.h:51</div></div>
 <div class="ttc" id="aclass_lr_ipc_in_html_a59ace245fb362643d6ce712a952ae238"><div class="ttname"><a href="class_lr_ipc_in.html#a59ace245fb362643d6ce712a952ae238">LrIpcIn::controls_model_</a></div><div class="ttdeci">ControlsModel &amp; controls_model_</div><div class="ttdef"><b>Definition</b> LR_IPC_In.h:48</div></div>
 <div class="ttc" id="aclass_lr_ipc_in_html_a9ad374498feeb2a1ccd5ddc56734d3be"><div class="ttname"><a href="class_lr_ipc_in.html#a9ad374498feeb2a1ccd5ddc56734d3be">LrIpcIn::profile_</a></div><div class="ttdeci">const Profile &amp; profile_</div><div class="ttdef"><b>Definition</b> LR_IPC_In.h:47</div></div>
@@ -301,32 +301,33 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  118</span>{</div>
-<div class="line"><span class="lineno">  119</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  120</span>      lr_ipc_shared-&gt;socket_.async_connect(asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(),</div>
-<div class="line"><span class="lineno">  121</span>                                               kLrInPort),</div>
-<div class="line"><span class="lineno">  122</span>          [lr_ipc_shared](<span class="keyword">const</span> asio::error_code&amp; error) <span class="keyword">mutable</span> {</div>
-<div class="line"><span class="lineno">  123</span>         <span class="keywordflow">if</span> (!error) {</div>
-<div class="line"><span class="lineno">  124</span>            <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Socket connected in LR_IPC_In.&quot;</span>);</div>
-<div class="line"><span class="lineno">  125</span>            <a class="code hl_function" href="class_lr_ipc_in_shared.html#a9865282ae97cefff1b03b124cffb25a2">LrIpcInShared::Read</a>(std::move(lr_ipc_shared));</div>
-<div class="line"><span class="lineno">  126</span>         }</div>
-<div class="line"><span class="lineno">  127</span>         <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  128</span>            <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_In did not connect. {}.&quot;</span>), error.message()));</div>
-<div class="line"><span class="lineno">  129</span>            asio::error_code ec2;</div>
-<div class="line"><span class="lineno">  130</span>            lr_ipc_shared-&gt;socket_.close(ec2);</div>
-<div class="line"><span class="lineno">  131</span>            <span class="keywordflow">if</span> (ec2) {</div>
-<div class="line"><span class="lineno">  132</span>               <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_In socket close error {}.&quot;</span>), ec2.message()));</div>
-<div class="line"><span class="lineno">  133</span>            }</div>
-<div class="line"><span class="lineno">  134</span>         }</div>
-<div class="line"><span class="lineno">  135</span>      });</div>
-<div class="line"><span class="lineno">  136</span>   }</div>
-<div class="line"><span class="lineno">  137</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  138</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  139</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  140</span>   }</div>
-<div class="line"><span class="lineno">  141</span>}</div>
-<div class="ttc" id="aclass_lr_ipc_in_shared_html_a9865282ae97cefff1b03b124cffb25a2"><div class="ttname"><a href="class_lr_ipc_in_shared.html#a9865282ae97cefff1b03b124cffb25a2">LrIpcInShared::Read</a></div><div class="ttdeci">static void Read(std::shared_ptr&lt; LrIpcInShared &gt; lr_ipc_shared)</div><div class="ttdef"><b>Definition</b> LR_IPC_In.cpp:212</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:217</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  127</span>{</div>
+<div class="line"><span class="lineno">  128</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  129</span>      lr_ipc_shared-&gt;socket_.async_connect(asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(),</div>
+<div class="line"><span class="lineno">  130</span>                                               kLrInPort),</div>
+<div class="line"><span class="lineno">  131</span>          [lr_ipc_shared](<span class="keyword">const</span> asio::error_code&amp; error) <span class="keyword">mutable</span> {</div>
+<div class="line"><span class="lineno">  132</span>         <span class="keywordflow">if</span> (!error) {</div>
+<div class="line"><span class="lineno">  133</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Socket connected in LR_IPC_In.&quot;</span>);</div>
+<div class="line"><span class="lineno">  134</span>            <a class="code hl_function" href="class_lr_ipc_in_shared.html#a9865282ae97cefff1b03b124cffb25a2">LrIpcInShared::Read</a>(std::move(lr_ipc_shared));</div>
+<div class="line"><span class="lineno">  135</span>         }</div>
+<div class="line"><span class="lineno">  136</span>         <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  137</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_In did not connect. {}.&quot;</span>), error.message()));</div>
+<div class="line"><span class="lineno">  138</span>            asio::error_code ec2;</div>
+<div class="line"><span class="lineno">  139</span>            std::ignore = lr_ipc_shared-&gt;socket_.close(ec2);</div>
+<div class="line"><span class="lineno">  140</span>            <span class="keywordflow">if</span> (ec2) {</div>
+<div class="line"><span class="lineno">  141</span>               <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_In socket close error {}.&quot;</span>), ec2.message()));</div>
+<div class="line"><span class="lineno">  142</span>            }</div>
+<div class="line"><span class="lineno">  143</span>         }</div>
+<div class="line"><span class="lineno">  144</span>      });</div>
+<div class="line"><span class="lineno">  145</span>   }</div>
+<div class="line"><span class="lineno">  146</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  147</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  148</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  149</span>   }</div>
+<div class="line"><span class="lineno">  150</span>}</div>
+<div class="ttc" id="aclass_lr_ipc_in_shared_html_a9865282ae97cefff1b03b124cffb25a2"><div class="ttname"><a href="class_lr_ipc_in_shared.html#a9865282ae97cefff1b03b124cffb25a2">LrIpcInShared::Read</a></div><div class="ttdeci">static void Read(std::shared_ptr&lt; LrIpcInShared &gt; lr_ipc_shared)</div><div class="ttdef"><b>Definition</b> LR_IPC_In.cpp:229</div></div>
+<div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -405,70 +406,78 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  156</span>{</div>
-<div class="line"><span class="lineno">  157</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  158</span>      <span class="keywordflow">for</span> (<span class="keyword">auto</span> line_copy = lr_ipc_shared-&gt;line_.pop(); line_copy != kTerminate;</div>
-<div class="line"><span class="lineno">  159</span>           line_copy = lr_ipc_shared-&gt;line_.pop()) {</div>
-<div class="line"><span class="lineno">  160</span>         <span class="keyword">auto</span> [command_view, value_view] {SplitLine(line_copy)};</div>
-<div class="line"><span class="lineno">  161</span>         <span class="keyword">const</span> <span class="keyword">auto</span> command {std::string(command_view)};</div>
-<div class="line"><span class="lineno">  162</span>         <span class="keywordflow">if</span> (command == <span class="stringliteral">&quot;TerminateApplication&quot;</span>s) {</div>
-<div class="line"><span class="lineno">  163</span>            juce::JUCEApplication::getInstance()-&gt;systemRequestedQuit();</div>
-<div class="line"><span class="lineno">  164</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  165</span>         }</div>
-<div class="line"><span class="lineno">  166</span>         <span class="keywordflow">if</span> (value_view.empty()) {</div>
-<div class="line"><span class="lineno">  167</span>            <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;No value attached to message. Message from plugin was &quot;</span></div>
-<div class="line"><span class="lineno">  168</span>                                            <span class="stringliteral">&quot;\&quot;{}\&quot;.&quot;</span>),</div>
-<div class="line"><span class="lineno">  169</span>                <a class="code hl_function" href="namespacersj.html#a0b27f17c614b3112ca309fb89e6158ab">rsj::ReplaceInvisibleChars</a>(line_copy)));</div>
-<div class="line"><span class="lineno">  170</span>         }</div>
-<div class="line"><span class="lineno">  171</span>         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (command == <span class="stringliteral">&quot;SwitchProfile&quot;</span>s) {</div>
-<div class="line"><span class="lineno">  172</span>            <a class="code hl_variable" href="class_lr_ipc_in.html#abe357338e4c1624eae973992869a7aca">profile_manager_</a>.<a class="code hl_function" href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">SwitchToProfile</a>(std::string(value_view));</div>
-<div class="line"><span class="lineno">  173</span>         }</div>
-<div class="line"><span class="lineno">  174</span>         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (command == <span class="stringliteral">&quot;Log&quot;</span>s) {</div>
-<div class="line"><span class="lineno">  175</span>            <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Plugin: {}.&quot;</span>), value_view));</div>
-<div class="line"><span class="lineno">  176</span>         }</div>
-<div class="line"><span class="lineno">  177</span>         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (command == <span class="stringliteral">&quot;SendKey&quot;</span>s) {</div>
-<div class="line"><span class="lineno">  178</span>            <span class="keyword">const</span> <span class="keyword">auto</span> modifiers {std::stoi(std::string(value_view))};</div>
-<div class="line"><span class="lineno">  179</span>            <span class="comment">/* trim twice on purpose: first modifiers digits, then one space (fixed delimiter) */</span></div>
-<div class="line"><span class="lineno">  180</span>            <span class="keyword">const</span> <span class="keyword">auto</span> first_not_digit {value_view.find_first_not_of(<span class="stringliteral">&quot;0123456789&quot;</span>)};</div>
-<div class="line"><span class="lineno">  181</span>            <span class="keywordflow">if</span> (first_not_digit != std::string_view::npos) {</div>
-<div class="line"><span class="lineno">  182</span>               value_view.remove_prefix(first_not_digit + 1);</div>
-<div class="line"><span class="lineno">  183</span>               <span class="keywordflow">if</span> (!value_view.empty()) {</div>
-<div class="line"><span class="lineno">  184</span>                  <a class="code hl_function" href="namespacersj.html#a7ef1999b70f9edef40831d04404d3761">rsj::SendKeyDownUp</a>(std::string(value_view),</div>
-<div class="line"><span class="lineno">  185</span>                      <a class="code hl_function" href="structrsj_1_1_active_modifiers.html#af8c78c7149026efddd0b39ceee4ca170">rsj::ActiveModifiers::FromMidi2LR</a>(modifiers));</div>
-<div class="line"><span class="lineno">  186</span>                  <span class="keywordflow">continue</span>; <span class="comment">/* skip log and alert error */</span></div>
-<div class="line"><span class="lineno">  187</span>               }</div>
-<div class="line"><span class="lineno">  188</span>            }</div>
-<div class="line"><span class="lineno">  189</span>            <a class="code hl_function" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;SendKey couldn&#39;t identify keystroke. &quot;</span></div>
-<div class="line"><span class="lineno">  190</span>                                                         <span class="stringliteral">&quot;Message from plugin was \&quot;{}\&quot;.&quot;</span>),</div>
-<div class="line"><span class="lineno">  191</span>                <a class="code hl_function" href="namespacersj.html#a0b27f17c614b3112ca309fb89e6158ab">rsj::ReplaceInvisibleChars</a>(line_copy)));</div>
-<div class="line"><span class="lineno">  192</span>         }</div>
-<div class="line"><span class="lineno">  193</span>         <span class="keywordflow">else</span> { <span class="comment">/* send associated messages to MIDI OUT devices */</span></div>
-<div class="line"><span class="lineno">  194</span>            <span class="keyword">const</span> <span class="keyword">auto</span> original_value {std::stod(std::string(value_view))};</div>
-<div class="line"><span class="lineno">  195</span>            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; msg : <a class="code hl_variable" href="class_lr_ipc_in.html#a9ad374498feeb2a1ccd5ddc56734d3be">profile_</a>.GetMessagesForCommand(command)) {</div>
-<div class="line"><span class="lineno">  196</span>               <span class="comment">/* following needs to run for all controls: sets saved value */</span></div>
-<div class="line"><span class="lineno">  197</span>               <span class="keyword">const</span> <span class="keyword">auto</span> value {<a class="code hl_variable" href="class_lr_ipc_in.html#a59ace245fb362643d6ce712a952ae238">controls_model_</a>.<a class="code hl_function" href="class_controls_model.html#aa01164847f0f99a719a5ce629ffc98b3">PluginToController</a>(msg, original_value)};</div>
-<div class="line"><span class="lineno">  198</span>               <span class="keywordflow">if</span> (msg.msg_id_type != <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::MessageType::kCc</a></div>
-<div class="line"><span class="lineno">  199</span>                   || <a class="code hl_variable" href="class_lr_ipc_in.html#a59ace245fb362643d6ce712a952ae238">controls_model_</a>.<a class="code hl_function" href="class_controls_model.html#a0d0e3cd4d2c696c20e959afc76cb3f3d">GetCcMethod</a>(msg) == <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a>) {</div>
-<div class="line"><span class="lineno">  200</span>                  <a class="code hl_variable" href="class_lr_ipc_in.html#af0b8a04af5fb42527bfb0945524b75b6">midi_sender_</a>.<a class="code hl_function" href="class_midi_sender.html#a5c5560cc6e3d337b64d8dd52be2ae4df">Send</a>(msg, value);</div>
-<div class="line"><span class="lineno">  201</span>               }</div>
-<div class="line"><span class="lineno">  202</span>            }</div>
-<div class="line"><span class="lineno">  203</span>         }</div>
-<div class="line"><span class="lineno">  204</span>      }</div>
-<div class="line"><span class="lineno">  205</span>   }</div>
-<div class="line"><span class="lineno">  206</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  207</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  208</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  209</span>   }</div>
-<div class="line"><span class="lineno">  210</span>}</div>
-<div class="ttc" id="aclass_controls_model_html_a0d0e3cd4d2c696c20e959afc76cb3f3d"><div class="ttname"><a href="class_controls_model.html#a0d0e3cd4d2c696c20e959afc76cb3f3d">ControlsModel::GetCcMethod</a></div><div class="ttdeci">rsj::CCmethod GetCcMethod(int channel, int controlnumber) const</div><div class="ttdef"><b>Definition</b> ControlsModel.h:243</div></div>
-<div class="ttc" id="aclass_controls_model_html_aa01164847f0f99a719a5ce629ffc98b3"><div class="ttname"><a href="class_controls_model.html#aa01164847f0f99a719a5ce629ffc98b3">ControlsModel::PluginToController</a></div><div class="ttdeci">int PluginToController(rsj::MidiMessageId msg_id, double value)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:269</div></div>
-<div class="ttc" id="aclass_midi_sender_html_a5c5560cc6e3d337b64d8dd52be2ae4df"><div class="ttname"><a href="class_midi_sender.html#a5c5560cc6e3d337b64d8dd52be2ae4df">MidiSender::Send</a></div><div class="ttdeci">void Send(rsj::MidiMessageId id, int value) const</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:43</div></div>
-<div class="ttc" id="aclass_profile_manager_html_a3f94344f1d2222f3209e7af6e0f2b88f"><div class="ttname"><a href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">ProfileManager::SwitchToProfile</a></div><div class="ttdeci">void SwitchToProfile(int profile_index)</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:56</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  166</span>{</div>
+<div class="line"><span class="lineno">  167</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  168</span>      <span class="keywordflow">for</span> (<span class="keyword">auto</span> line_copy = lr_ipc_shared-&gt;line_.pop(); line_copy != kTerminate;</div>
+<div class="line"><span class="lineno">  169</span>           line_copy = lr_ipc_shared-&gt;line_.pop()) {</div>
+<div class="line"><span class="lineno">  170</span>         <span class="keyword">auto</span> [command_view, value_view] {SplitLine(line_copy)};</div>
+<div class="line"><span class="lineno">  171</span>         <span class="keywordflow">if</span> (command_view == <span class="stringliteral">&quot;TerminateApplication&quot;</span>) {</div>
+<div class="line"><span class="lineno">  172</span>            juce::JUCEApplication::getInstance()-&gt;systemRequestedQuit();</div>
+<div class="line"><span class="lineno">  173</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  174</span>         }</div>
+<div class="line"><span class="lineno">  175</span>         <span class="keywordflow">if</span> (value_view.empty()) {</div>
+<div class="line"><span class="lineno">  176</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;No value attached to message. Message from plugin was &quot;</span></div>
+<div class="line"><span class="lineno">  177</span>                                            <span class="stringliteral">&quot;\&quot;{}\&quot;.&quot;</span>),</div>
+<div class="line"><span class="lineno">  178</span>                <a class="code hl_function" href="namespacersj.html#a0b27f17c614b3112ca309fb89e6158ab">rsj::ReplaceInvisibleChars</a>(line_copy)));</div>
+<div class="line"><span class="lineno">  179</span>         }</div>
+<div class="line"><span class="lineno">  180</span>         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (command_view == <span class="stringliteral">&quot;SwitchProfile&quot;</span>) {</div>
+<div class="line"><span class="lineno">  181</span>            <a class="code hl_variable" href="class_lr_ipc_in.html#abe357338e4c1624eae973992869a7aca">profile_manager_</a>.<a class="code hl_function" href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">SwitchToProfile</a>(std::string(value_view));</div>
+<div class="line"><span class="lineno">  182</span>         }</div>
+<div class="line"><span class="lineno">  183</span>         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (command_view == <span class="stringliteral">&quot;Log&quot;</span>) {</div>
+<div class="line"><span class="lineno">  184</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Plugin: {}.&quot;</span>), value_view));</div>
+<div class="line"><span class="lineno">  185</span>         }</div>
+<div class="line"><span class="lineno">  186</span>         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (command_view == <span class="stringliteral">&quot;SendKey&quot;</span>) {</div>
+<div class="line"><span class="lineno">  187</span>            <span class="keywordtype">int</span> modifiers = 0;</div>
+<div class="line"><span class="lineno">  188</span>            std::from_chars(value_view.data(), value_view.data() + value_view.size(), modifiers);</div>
+<div class="line"><span class="lineno">  189</span>            <span class="comment">/* trim twice on purpose: first modifiers digits, then one space (fixed delimiter) */</span></div>
+<div class="line"><span class="lineno">  190</span>            <span class="keyword">const</span> <span class="keyword">auto</span> first_not_digit {value_view.find_first_not_of(<span class="stringliteral">&quot;0123456789&quot;</span>)};</div>
+<div class="line"><span class="lineno">  191</span>            <span class="keywordflow">if</span> (first_not_digit != std::string_view::npos) {</div>
+<div class="line"><span class="lineno">  192</span>               value_view.remove_prefix(first_not_digit + 1);</div>
+<div class="line"><span class="lineno">  193</span>               <span class="keywordflow">if</span> (!value_view.empty()) {</div>
+<div class="line"><span class="lineno">  194</span>                  <a class="code hl_function" href="namespacersj.html#a7ef1999b70f9edef40831d04404d3761">rsj::SendKeyDownUp</a>(std::string(value_view),</div>
+<div class="line"><span class="lineno">  195</span>                      <a class="code hl_function" href="structrsj_1_1_active_modifiers.html#af8c78c7149026efddd0b39ceee4ca170">rsj::ActiveModifiers::FromMidi2LR</a>(modifiers));</div>
+<div class="line"><span class="lineno">  196</span>                  <span class="keywordflow">continue</span>; <span class="comment">/* skip log and alert error */</span></div>
+<div class="line"><span class="lineno">  197</span>               }</div>
+<div class="line"><span class="lineno">  198</span>            }</div>
+<div class="line"><span class="lineno">  199</span>            <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;SendKey couldn&#39;t identify keystroke. &quot;</span></div>
+<div class="line"><span class="lineno">  200</span>                                                         <span class="stringliteral">&quot;Message from plugin was \&quot;{}\&quot;.&quot;</span>),</div>
+<div class="line"><span class="lineno">  201</span>                <a class="code hl_function" href="namespacersj.html#a0b27f17c614b3112ca309fb89e6158ab">rsj::ReplaceInvisibleChars</a>(line_copy)));</div>
+<div class="line"><span class="lineno">  202</span>         }</div>
+<div class="line"><span class="lineno">  203</span>         <span class="keywordflow">else</span> { <span class="comment">/* send associated messages to MIDI OUT devices */</span></div>
+<div class="line"><span class="lineno">  204</span><span class="preprocessor">#ifdef _MSC_VER</span></div>
+<div class="line"><span class="lineno">  205</span>            <span class="keywordtype">double</span> original_value = 0.0;</div>
+<div class="line"><span class="lineno">  206</span>            std::from_chars(value_view.data(), value_view.data() + value_view.size(),</div>
+<div class="line"><span class="lineno">  207</span>                original_value);</div>
+<div class="line"><span class="lineno">  208</span><span class="preprocessor">#else  </span><span class="comment">//Xcode doesn&#39;t support double from_chars yet (15.2)</span></div>
+<div class="line"><span class="lineno">  209</span>            <span class="keyword">const</span> <span class="keyword">auto</span> original_value {std::stod(std::string(value_view))};</div>
+<div class="line"><span class="lineno">  210</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  211</span>            <span class="keyword">const</span> <span class="keyword">auto</span> messages {<a class="code hl_variable" href="class_lr_ipc_in.html#a9ad374498feeb2a1ccd5ddc56734d3be">profile_</a>.<a class="code hl_function" href="class_profile.html#a78dd139b8b9bc6c85befe9b697a2c0e5">GetMessagesForCommand</a>(std::string(command_view))};</div>
+<div class="line"><span class="lineno">  212</span>            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; msg : messages) {</div>
+<div class="line"><span class="lineno">  213</span>               <span class="comment">/* following needs to run for all controls: sets saved value */</span></div>
+<div class="line"><span class="lineno">  214</span>               <span class="keyword">const</span> <span class="keyword">auto</span> value {<a class="code hl_variable" href="class_lr_ipc_in.html#a59ace245fb362643d6ce712a952ae238">controls_model_</a>.<a class="code hl_function" href="class_controls_model.html#aa01164847f0f99a719a5ce629ffc98b3">PluginToController</a>(msg, original_value)};</div>
+<div class="line"><span class="lineno">  215</span>               <span class="keywordflow">if</span> (msg.msg_id_type != <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::MessageType::kCc</a></div>
+<div class="line"><span class="lineno">  216</span>                   || <a class="code hl_variable" href="class_lr_ipc_in.html#a59ace245fb362643d6ce712a952ae238">controls_model_</a>.<a class="code hl_function" href="class_controls_model.html#a0d0e3cd4d2c696c20e959afc76cb3f3d">GetCcMethod</a>(msg) == <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a>) {</div>
+<div class="line"><span class="lineno">  217</span>                  <a class="code hl_variable" href="class_lr_ipc_in.html#af0b8a04af5fb42527bfb0945524b75b6">midi_sender_</a>.<a class="code hl_function" href="class_midi_sender.html#a5c5560cc6e3d337b64d8dd52be2ae4df">Send</a>(msg, value);</div>
+<div class="line"><span class="lineno">  218</span>               }</div>
+<div class="line"><span class="lineno">  219</span>            }</div>
+<div class="line"><span class="lineno">  220</span>         }</div>
+<div class="line"><span class="lineno">  221</span>      }</div>
+<div class="line"><span class="lineno">  222</span>   }</div>
+<div class="line"><span class="lineno">  223</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  224</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  225</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  226</span>   }</div>
+<div class="line"><span class="lineno">  227</span>}</div>
+<div class="ttc" id="aclass_controls_model_html_a0d0e3cd4d2c696c20e959afc76cb3f3d"><div class="ttname"><a href="class_controls_model.html#a0d0e3cd4d2c696c20e959afc76cb3f3d">ControlsModel::GetCcMethod</a></div><div class="ttdeci">rsj::CCmethod GetCcMethod(int channel, int controlnumber) const</div><div class="ttdef"><b>Definition</b> ControlsModel.h:244</div></div>
+<div class="ttc" id="aclass_controls_model_html_aa01164847f0f99a719a5ce629ffc98b3"><div class="ttname"><a href="class_controls_model.html#aa01164847f0f99a719a5ce629ffc98b3">ControlsModel::PluginToController</a></div><div class="ttdeci">int PluginToController(rsj::MidiMessageId msg_id, double value)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:270</div></div>
+<div class="ttc" id="aclass_midi_sender_html_a5c5560cc6e3d337b64d8dd52be2ae4df"><div class="ttname"><a href="class_midi_sender.html#a5c5560cc6e3d337b64d8dd52be2ae4df">MidiSender::Send</a></div><div class="ttdeci">void Send(rsj::MidiMessageId id, int value) const</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:52</div></div>
+<div class="ttc" id="aclass_profile_html_a78dd139b8b9bc6c85befe9b697a2c0e5"><div class="ttname"><a href="class_profile.html#a78dd139b8b9bc6c85befe9b697a2c0e5">Profile::GetMessagesForCommand</a></div><div class="ttdeci">std::vector&lt; rsj::MidiMessageId &gt; GetMessagesForCommand(const std::string &amp;command) const</div><div class="ttdef"><b>Definition</b> Profile.cpp:83</div></div>
+<div class="ttc" id="aclass_profile_manager_html_a3f94344f1d2222f3209e7af6e0f2b88f"><div class="ttname"><a href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">ProfileManager::SwitchToProfile</a></div><div class="ttdeci">void SwitchToProfile(int profile_index)</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:57</div></div>
 <div class="ttc" id="anamespacersj_html_a0b27f17c614b3112ca309fb89e6158ab"><div class="ttname"><a href="namespacersj.html#a0b27f17c614b3112ca309fb89e6158ab">rsj::ReplaceInvisibleChars</a></div><div class="ttdeci">std::string ReplaceInvisibleChars(std::string_view in)</div></div>
 <div class="ttc" id="anamespacersj_html_a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a"><div class="ttname"><a href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a></div><div class="ttdeci">@ kAbsolute</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::MessageType::kCc</a></div><div class="ttdeci">@ kCc</div></div>
 <div class="ttc" id="anamespacersj_html_a7ef1999b70f9edef40831d04404d3761"><div class="ttname"><a href="namespacersj.html#a7ef1999b70f9edef40831d04404d3761">rsj::SendKeyDownUp</a></div><div class="ttdeci">void SendKeyDownUp(const std::string &amp;key, rsj::ActiveModifiers mods) noexcept</div><div class="ttdef"><b>Definition</b> SendKeysMac.cpp:378</div></div>
-<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:260</div></div>
+<div class="ttc" id="anamespacersj_html_a85a33831e4cc942fc6995a04c74361ab"><div class="ttname"><a href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:160</div></div>
 <div class="ttc" id="astructrsj_1_1_active_modifiers_html_af8c78c7149026efddd0b39ceee4ca170"><div class="ttname"><a href="structrsj_1_1_active_modifiers.html#af8c78c7149026efddd0b39ceee4ca170">rsj::ActiveModifiers::FromMidi2LR</a></div><div class="ttdeci">static ActiveModifiers FromMidi2LR(int from) noexcept</div><div class="ttdef"><b>Definition</b> SendKeys.cpp:30</div></div>
 </div><!-- fragment -->
 </div>
@@ -487,24 +496,24 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   72</span>{</div>
-<div class="line"><span class="lineno">   73</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   74</span>      <a class="code hl_variable" href="class_lr_ipc_in.html#a31844f93eb6e2ba93a30caa1e4f4f0e3">process_line_future_</a> =</div>
-<div class="line"><span class="lineno">   75</span>          std::async(std::launch::async, [<span class="keyword">this</span>, shared = <a class="code hl_variable" href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">lr_ipc_in_shared_</a>]() <span class="keyword">mutable</span> {</div>
-<div class="line"><span class="lineno">   76</span>             <a class="code hl_function" href="namespacersj.html#ad45ed3020e2c86eb083be1a36dc23784">rsj::LabelThread</a>(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;LrIpcIn ProcessLine thread&quot;</span>));</div>
-<div class="line"><span class="lineno">   77</span>             MIDI2LR_FAST_FLOATS;</div>
-<div class="line"><span class="lineno">   78</span>             <a class="code hl_function" href="class_lr_ipc_in.html#a569311aa6bdf3c5ed692fb51c72cdc88">ProcessLine</a>(std::move(shared));</div>
-<div class="line"><span class="lineno">   79</span>          });</div>
-<div class="line"><span class="lineno">   80</span>      <a class="code hl_function" href="class_lr_ipc_in.html#a707d6f7350264e9dcfd8093355b7375c">Connect</a>(<a class="code hl_variable" href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">lr_ipc_in_shared_</a>);</div>
-<div class="line"><span class="lineno">   81</span>   }</div>
-<div class="line"><span class="lineno">   82</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   83</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">   84</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">   85</span>   }</div>
-<div class="line"><span class="lineno">   86</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">   74</span>{</div>
+<div class="line"><span class="lineno">   75</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   76</span>      <a class="code hl_variable" href="class_lr_ipc_in.html#a31844f93eb6e2ba93a30caa1e4f4f0e3">process_line_future_</a> =</div>
+<div class="line"><span class="lineno">   77</span>          std::async(std::launch::async, [<span class="keyword">this</span>, shared = <a class="code hl_variable" href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">lr_ipc_in_shared_</a>]() <span class="keyword">mutable</span> {</div>
+<div class="line"><span class="lineno">   78</span>             <a class="code hl_function" href="namespacersj.html#ad45ed3020e2c86eb083be1a36dc23784">rsj::LabelThread</a>(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;LrIpcIn ProcessLine thread&quot;</span>));</div>
+<div class="line"><span class="lineno">   79</span>             MIDI2LR_FAST_FLOATS;</div>
+<div class="line"><span class="lineno">   80</span>             <a class="code hl_function" href="class_lr_ipc_in.html#a569311aa6bdf3c5ed692fb51c72cdc88">ProcessLine</a>(std::move(shared));</div>
+<div class="line"><span class="lineno">   81</span>          });</div>
+<div class="line"><span class="lineno">   82</span>      <a class="code hl_function" href="class_lr_ipc_in.html#a707d6f7350264e9dcfd8093355b7375c">Connect</a>(<a class="code hl_variable" href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">lr_ipc_in_shared_</a>);</div>
+<div class="line"><span class="lineno">   83</span>   }</div>
+<div class="line"><span class="lineno">   84</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">   85</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   86</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   87</span>   }</div>
+<div class="line"><span class="lineno">   88</span>}</div>
 <div class="ttc" id="aclass_lr_ipc_in_html_a31844f93eb6e2ba93a30caa1e4f4f0e3"><div class="ttname"><a href="class_lr_ipc_in.html#a31844f93eb6e2ba93a30caa1e4f4f0e3">LrIpcIn::process_line_future_</a></div><div class="ttdeci">std::future&lt; void &gt; process_line_future_</div><div class="ttdef"><b>Definition</b> LR_IPC_In.h:50</div></div>
-<div class="ttc" id="aclass_lr_ipc_in_html_a569311aa6bdf3c5ed692fb51c72cdc88"><div class="ttname"><a href="class_lr_ipc_in.html#a569311aa6bdf3c5ed692fb51c72cdc88">LrIpcIn::ProcessLine</a></div><div class="ttdeci">void ProcessLine(std::shared_ptr&lt; LrIpcInShared &gt; lr_ipc_shared)</div><div class="ttdef"><b>Definition</b> LR_IPC_In.cpp:155</div></div>
-<div class="ttc" id="aclass_lr_ipc_in_html_a707d6f7350264e9dcfd8093355b7375c"><div class="ttname"><a href="class_lr_ipc_in.html#a707d6f7350264e9dcfd8093355b7375c">LrIpcIn::Connect</a></div><div class="ttdeci">void Connect(std::shared_ptr&lt; LrIpcInShared &gt; lr_ipc_shared)</div><div class="ttdef"><b>Definition</b> LR_IPC_In.cpp:117</div></div>
+<div class="ttc" id="aclass_lr_ipc_in_html_a569311aa6bdf3c5ed692fb51c72cdc88"><div class="ttname"><a href="class_lr_ipc_in.html#a569311aa6bdf3c5ed692fb51c72cdc88">LrIpcIn::ProcessLine</a></div><div class="ttdeci">void ProcessLine(std::shared_ptr&lt; LrIpcInShared &gt; lr_ipc_shared)</div><div class="ttdef"><b>Definition</b> LR_IPC_In.cpp:165</div></div>
+<div class="ttc" id="aclass_lr_ipc_in_html_a707d6f7350264e9dcfd8093355b7375c"><div class="ttname"><a href="class_lr_ipc_in.html#a707d6f7350264e9dcfd8093355b7375c">LrIpcIn::Connect</a></div><div class="ttdeci">void Connect(std::shared_ptr&lt; LrIpcInShared &gt; lr_ipc_shared)</div><div class="ttdef"><b>Definition</b> LR_IPC_In.cpp:126</div></div>
 <div class="ttc" id="anamespacersj_html_ad45ed3020e2c86eb083be1a36dc23784"><div class="ttname"><a href="namespacersj.html#ad45ed3020e2c86eb083be1a36dc23784">rsj::LabelThread</a></div><div class="ttdeci">void LabelThread(gsl::czstring threadname)</div><div class="ttdef"><b>Definition</b> Misc.cpp:48</div></div>
 </div><!-- fragment -->
 </div>
@@ -523,33 +532,40 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   89</span>{</div>
-<div class="line"><span class="lineno">   90</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   91</span>      <a class="code hl_variable" href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">lr_ipc_in_shared_</a>-&gt;thread_should_exit_.store(<span class="keyword">true</span>, std::memory_order_release);</div>
-<div class="line"><span class="lineno">   92</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span>&amp; sock {<a class="code hl_variable" href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">lr_ipc_in_shared_</a>-&gt;socket_}; sock.is_open()) {</div>
-<div class="line"><span class="lineno">   93</span>         asio::error_code ec;</div>
-<div class="line"><span class="lineno">   94</span>         <span class="comment">/* For portable behaviour with respect to graceful closure of a connected socket, call</span></div>
-<div class="line"><span class="lineno">   95</span><span class="comment">          * shutdown() before closing the socket. */</span></div>
-<div class="line"><span class="lineno">   96</span>         sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);</div>
-<div class="line"><span class="lineno">   97</span>         <span class="keywordflow">if</span> (ec) {</div>
-<div class="line"><span class="lineno">   98</span>            <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_In socket shutdown error {}.&quot;</span>), ec.message()));</div>
-<div class="line"><span class="lineno">   99</span>            ec.clear();</div>
-<div class="line"><span class="lineno">  100</span>         }</div>
-<div class="line"><span class="lineno">  101</span>         sock.close(ec);</div>
-<div class="line"><span class="lineno">  102</span>         <span class="keywordflow">if</span> (ec) {</div>
-<div class="line"><span class="lineno">  103</span>            <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_In socket close error {}.&quot;</span>), ec.message()));</div>
-<div class="line"><span class="lineno">  104</span>         }</div>
-<div class="line"><span class="lineno">  105</span>      }</div>
-<div class="line"><span class="lineno">  106</span>      <span class="comment">/* clear input queue after port closed */</span></div>
-<div class="line"><span class="lineno">  107</span>      <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> m {<a class="code hl_variable" href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">lr_ipc_in_shared_</a>-&gt;line_.clear_count_emplace(kTerminate)}) {</div>
-<div class="line"><span class="lineno">  108</span>         <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} left in queue in LrIpcIn destructor.&quot;</span>), m));</div>
-<div class="line"><span class="lineno">  109</span>      }</div>
-<div class="line"><span class="lineno">  110</span>   }</div>
-<div class="line"><span class="lineno">  111</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  112</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  113</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  114</span>   }</div>
-<div class="line"><span class="lineno">  115</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">   91</span>{</div>
+<div class="line"><span class="lineno">   92</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   93</span>      <a class="code hl_variable" href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">lr_ipc_in_shared_</a>-&gt;thread_should_exit_.store(<span class="keyword">true</span>, std::memory_order_release);</div>
+<div class="line"><span class="lineno">   94</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span>&amp; sock {<a class="code hl_variable" href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">lr_ipc_in_shared_</a>-&gt;socket_}; sock.is_open()) {</div>
+<div class="line"><span class="lineno">   95</span>         asio::error_code ec;</div>
+<div class="line"><span class="lineno">   96</span>         <span class="comment">/* For portable behaviour with respect to graceful closure of a connected socket, call</span></div>
+<div class="line"><span class="lineno">   97</span><span class="comment">          * shutdown() before closing the socket. */</span></div>
+<div class="line"><span class="lineno">   98</span>         <span class="keywordflow">try</span> { <span class="comment">/* ignore exceptions from shutdown, always close */</span></div>
+<div class="line"><span class="lineno">   99</span>            std::ignore = sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);</div>
+<div class="line"><span class="lineno">  100</span>            <span class="keywordflow">if</span> (ec) {</div>
+<div class="line"><span class="lineno">  101</span>               <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_In socket shutdown error {}.&quot;</span>),</div>
+<div class="line"><span class="lineno">  102</span>                   ec.message()));</div>
+<div class="line"><span class="lineno">  103</span>               ec.clear();</div>
+<div class="line"><span class="lineno">  104</span>            }</div>
+<div class="line"><span class="lineno">  105</span>         }</div>
+<div class="line"><span class="lineno">  106</span>         <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  107</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Exception during socket shutdown: {}&quot;</span>), e.what()));</div>
+<div class="line"><span class="lineno">  108</span>         }</div>
+<div class="line"><span class="lineno">  109</span>         std::ignore = sock.close(ec);</div>
+<div class="line"><span class="lineno">  110</span>         <span class="keywordflow">if</span> (ec) {</div>
+<div class="line"><span class="lineno">  111</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_In socket close error {}.&quot;</span>), ec.message()));</div>
+<div class="line"><span class="lineno">  112</span>         }</div>
+<div class="line"><span class="lineno">  113</span>      }</div>
+<div class="line"><span class="lineno">  114</span>      <span class="comment">/* clear input queue after port closed */</span></div>
+<div class="line"><span class="lineno">  115</span>      <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> m {<a class="code hl_variable" href="class_lr_ipc_in.html#a1f2079a6fabde45859067cdc826ce2a3">lr_ipc_in_shared_</a>-&gt;line_.clear_count_emplace(kTerminate)}) {</div>
+<div class="line"><span class="lineno">  116</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;{} left in queue in LrIpcIn destructor.&quot;</span>), m));</div>
+<div class="line"><span class="lineno">  117</span>      }</div>
+<div class="line"><span class="lineno">  118</span>   }</div>
+<div class="line"><span class="lineno">  119</span> </div>
+<div class="line"><span class="lineno">  120</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  121</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  122</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  123</span>   }</div>
+<div class="line"><span class="lineno">  124</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>

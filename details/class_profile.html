@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -288,8 +288,8 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   41</span>      <span class="keywordflow">if</span> (!root || root-&gt;getTagName().compare(<span class="stringliteral">&quot;settings&quot;</span>) != 0) { <span class="keywordflow">return</span>; }</div>
 <div class="line"><span class="lineno">   42</span>      <a class="code hl_function" href="class_profile.html#aa204f0fac70850e1f2fd7e62fea0e485">RemoveAllRows</a>();</div>
 <div class="line"><span class="lineno">   43</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>* setting : root-&gt;getChildIterator()) {</div>
-<div class="line"><span class="lineno">   44</span>         <span class="keyword">auto</span> command = setting-&gt;getStringAttribute(<span class="stringliteral">&quot;command_string&quot;</span>).toStdString();</div>
-<div class="line"><span class="lineno">   45</span>         <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> b = command.back(); b == <span class="charliteral">&#39;2&#39;</span> || b == <span class="charliteral">&#39;e&#39;</span>) { <span class="comment">// assumes only e,2 end old</span></div>
+<div class="line"><span class="lineno">   44</span>         <span class="keyword">auto</span> command {setting-&gt;getStringAttribute(<span class="stringliteral">&quot;command_string&quot;</span>).toStdString()};</div>
+<div class="line"><span class="lineno">   45</span>         <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> b {command.back()}; b == <span class="charliteral">&#39;2&#39;</span> || b == <span class="charliteral">&#39;e&#39;</span>) { <span class="comment">// assumes only e,2 end old</span></div>
 <div class="line"><span class="lineno">   46</span>                                                                    <span class="comment">// strings</span></div>
 <div class="line"><span class="lineno">   47</span>            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; i : replace_me) {</div>
 <div class="line"><span class="lineno">   48</span>               <span class="keywordflow">if</span> (command == i.first) {</div>
@@ -322,19 +322,20 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   75</span>      <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">   76</span>   }</div>
 <div class="line"><span class="lineno">   77</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   78</span>      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><span class="lineno">   78</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
 <div class="line"><span class="lineno">   79</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   80</span>   }</div>
 <div class="line"><span class="lineno">   81</span>}</div>
 <div class="ttc" id="aclass_profile_html_a35a9cb1848f7558a6402c6fcddc61851"><div class="ttname"><a href="class_profile.html#a35a9cb1848f7558a6402c6fcddc61851">Profile::InsertOrAssign</a></div><div class="ttdeci">void InsertOrAssign(const std::string &amp;command, rsj::MidiMessageId message)</div><div class="ttdef"><b>Definition</b> Profile.h:110</div></div>
 <div class="ttc" id="aclass_profile_html_a5a3f148bef7c8510e96ec42824e834da"><div class="ttname"><a href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">Profile::profile_unsaved_</a></div><div class="ttdeci">bool profile_unsaved_</div><div class="ttdef"><b>Definition</b> Profile.h:66</div></div>
-<div class="ttc" id="aclass_profile_html_aa204f0fac70850e1f2fd7e62fea0e485"><div class="ttname"><a href="class_profile.html#aa204f0fac70850e1f2fd7e62fea0e485">Profile::RemoveAllRows</a></div><div class="ttdeci">void RemoveAllRows()</div><div class="ttdef"><b>Definition</b> Profile.cpp:132</div></div>
+<div class="ttc" id="aclass_profile_html_aa204f0fac70850e1f2fd7e62fea0e485"><div class="ttname"><a href="class_profile.html#aa204f0fac70850e1f2fd7e62fea0e485">Profile::RemoveAllRows</a></div><div class="ttdeci">void RemoveAllRows()</div><div class="ttdef"><b>Definition</b> Profile.cpp:137</div></div>
 <div class="ttc" id="aclass_profile_html_ab6d36386b0443a218308179086dff426"><div class="ttname"><a href="class_profile.html#ab6d36386b0443a218308179086dff426">Profile::saved_mm_abbrv_table_</a></div><div class="ttdeci">std::vector&lt; mm_abbrv_lmnt_t &gt; saved_mm_abbrv_table_</div><div class="ttdef"><b>Definition</b> Profile.h:75</div></div>
-<div class="ttc" id="aclass_profile_html_aeba39bf32fc079f948b4669c64887867"><div class="ttname"><a href="class_profile.html#aeba39bf32fc079f948b4669c64887867">Profile::SortI</a></div><div class="ttdeci">void SortI()</div><div class="ttdef"><b>Definition</b> Profile.cpp:210</div></div>
+<div class="ttc" id="aclass_profile_html_aeba39bf32fc079f948b4669c64887867"><div class="ttname"><a href="class_profile.html#aeba39bf32fc079f948b4669c64887867">Profile::SortI</a></div><div class="ttdeci">void SortI()</div><div class="ttdef"><b>Definition</b> Profile.cpp:215</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::MessageType::kCc</a></div><div class="ttdeci">@ kCc</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ac6a3582c30ac3ccfb5f2ee3c36e07206"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ac6a3582c30ac3ccfb5f2ee3c36e07206">rsj::MessageType::kNoteOn</a></div><div class="ttdeci">@ kNoteOn</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee">rsj::MessageType::kPw</a></div><div class="ttdeci">@ kPw</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a></div><div class="ttdef"><b>Definition</b> MidiUtilities.h:146</div></div>
+<div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a></div><div class="ttdef"><b>Definition</b> MidiUtilities.h:145</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -363,7 +364,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><span class="lineno">   90</span>{</div>
 <div class="line"><span class="lineno">   91</span>   <span class="keyword">auto</span> guard {std::shared_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
-<div class="line"><span class="lineno">   92</span>   <span class="keyword">const</span> <span class="keyword">auto</span> found = std::ranges::find(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>, message, &amp;mm_abbrv_lmnt_t::first);</div>
+<div class="line"><span class="lineno">   92</span>   <span class="keyword">const</span> <span class="keyword">auto</span> found {std::ranges::find(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>, message, &amp;mm_abbrv_lmnt_t::first)};</div>
 <div class="line"><span class="lineno">   93</span>   <span class="keywordflow">if</span> (found != <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.end()) { <span class="keywordflow">return</span> found-&gt;second; }</div>
 <div class="line"><span class="lineno">   94</span>   <span class="keywordflow">return</span> <a class="code hl_variable" href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">CommandSet::kUnassigned</a>;</div>
 <div class="line"><span class="lineno">   95</span>}</div>
@@ -418,18 +419,23 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><span class="lineno">   84</span>{</div>
 <div class="line"><span class="lineno">   85</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   86</span>      std::vector&lt;rsj::MidiMessageId&gt; mm;</div>
-<div class="line"><span class="lineno">   87</span>      <span class="keyword">auto</span> guard {std::shared_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
-<div class="line"><span class="lineno">   88</span>      std::ranges::for_each(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>, [&amp;command, &amp;mm](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; p) {</div>
-<div class="line"><span class="lineno">   89</span>         <span class="keywordflow">if</span> (p.second == command) { mm.push_back(p.first); }</div>
-<div class="line"><span class="lineno">   90</span>      });</div>
-<div class="line"><span class="lineno">   91</span>      <span class="keywordflow">return</span> mm;</div>
-<div class="line"><span class="lineno">   92</span>   }</div>
-<div class="line"><span class="lineno">   93</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   94</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">   95</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">   96</span>   }</div>
-<div class="line"><span class="lineno">   97</span>}</div>
+<div class="line"><span class="lineno">   86</span>      <span class="keyword">auto</span> guard {std::shared_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
+<div class="line"><span class="lineno">   87</span>      <span class="keyword">const</span> <span class="keyword">auto</span> filt {[&amp;command](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; p) { <span class="keywordflow">return</span> p.second == command; }};</div>
+<div class="line"><span class="lineno">   88</span><span class="preprocessor">#ifdef __cpp_lib_ranges_to_container</span></div>
+<div class="line"><span class="lineno">   89</span>      <span class="keyword">auto</span> mm {<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a> | std::views::filter(filt)</div>
+<div class="line"><span class="lineno">   90</span>               | std::views::elements&lt;0&gt; | std::ranges::to&lt;std::vector&gt;()};</div>
+<div class="line"><span class="lineno">   91</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">   92</span>      std::vector&lt;rsj::MidiMessageId&gt; mm;</div>
+<div class="line"><span class="lineno">   93</span>      std::ranges::copy(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a> | std::views::filter(filt) | std::views::elements&lt;0&gt;,</div>
+<div class="line"><span class="lineno">   94</span>          std::back_inserter(mm));</div>
+<div class="line"><span class="lineno">   95</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">   96</span>      <span class="keywordflow">return</span> mm;</div>
+<div class="line"><span class="lineno">   97</span>   }</div>
+<div class="line"><span class="lineno">   98</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">   99</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  100</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  101</span>   }</div>
+<div class="line"><span class="lineno">  102</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -501,7 +507,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  112</span>   <span class="keyword">auto</span> guard {std::unique_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
 <div class="line"><span class="lineno">  113</span>   <a class="code hl_function" href="class_profile.html#a4a9c70df1bd5d2993c0cd9a1fb9937b3">InsertOrAssignI</a>(command, message);</div>
 <div class="line"><span class="lineno">  114</span>}</div>
-<div class="ttc" id="aclass_profile_html_a4a9c70df1bd5d2993c0cd9a1fb9937b3"><div class="ttname"><a href="class_profile.html#a4a9c70df1bd5d2993c0cd9a1fb9937b3">Profile::InsertOrAssignI</a></div><div class="ttdeci">void InsertOrAssignI(const std::string &amp;command, const rsj::MidiMessageId &amp;message)</div><div class="ttdef"><b>Definition</b> Profile.cpp:99</div></div>
+<div class="ttc" id="aclass_profile_html_a4a9c70df1bd5d2993c0cd9a1fb9937b3"><div class="ttname"><a href="class_profile.html#a4a9c70df1bd5d2993c0cd9a1fb9937b3">Profile::InsertOrAssignI</a></div><div class="ttdeci">void InsertOrAssignI(const std::string &amp;command, const rsj::MidiMessageId &amp;message)</div><div class="ttdef"><b>Definition</b> Profile.cpp:104</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -582,21 +588,21 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  100</span>{</div>
-<div class="line"><span class="lineno">  101</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  102</span>      <span class="keyword">const</span> <span class="keyword">auto</span> found = std::ranges::find(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>, message, &amp;mm_abbrv_lmnt_t::first);</div>
-<div class="line"><span class="lineno">  103</span>      <span class="keywordflow">if</span> (found != <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.end()) { found-&gt;second = command; }</div>
-<div class="line"><span class="lineno">  104</span>      <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  105</span>         <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.emplace_back(message, command);</div>
-<div class="line"><span class="lineno">  106</span>      }</div>
-<div class="line"><span class="lineno">  107</span>      <a class="code hl_function" href="class_profile.html#aeba39bf32fc079f948b4669c64887867">SortI</a>();</div>
-<div class="line"><span class="lineno">  108</span>      <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  109</span>   }</div>
-<div class="line"><span class="lineno">  110</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  111</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  112</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  113</span>   }</div>
-<div class="line"><span class="lineno">  114</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  105</span>{</div>
+<div class="line"><span class="lineno">  106</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  107</span>      <span class="keyword">const</span> <span class="keyword">auto</span> found {std::ranges::find(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>, message, &amp;mm_abbrv_lmnt_t::first)};</div>
+<div class="line"><span class="lineno">  108</span>      <span class="keywordflow">if</span> (found != <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.end()) { found-&gt;second = command; }</div>
+<div class="line"><span class="lineno">  109</span>      <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  110</span>         <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.emplace_back(message, command);</div>
+<div class="line"><span class="lineno">  111</span>      }</div>
+<div class="line"><span class="lineno">  112</span>      <a class="code hl_function" href="class_profile.html#aeba39bf32fc079f948b4669c64887867">SortI</a>();</div>
+<div class="line"><span class="lineno">  113</span>      <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  114</span>   }</div>
+<div class="line"><span class="lineno">  115</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  116</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  117</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  118</span>   }</div>
+<div class="line"><span class="lineno">  119</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -615,20 +621,20 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  117</span>{</div>
-<div class="line"><span class="lineno">  118</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  119</span>      <span class="keyword">auto</span> guard {std::unique_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
-<div class="line"><span class="lineno">  120</span>      <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_profile.html#a479befa4767dc9cd54fae07533c3c419">MessageExistsInMapI</a>(message)) {</div>
-<div class="line"><span class="lineno">  121</span>         <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.emplace_back(message, <a class="code hl_variable" href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">CommandSet::kUnassigned</a>);</div>
-<div class="line"><span class="lineno">  122</span>         <a class="code hl_function" href="class_profile.html#aeba39bf32fc079f948b4669c64887867">SortI</a>();</div>
-<div class="line"><span class="lineno">  123</span>         <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  124</span>      }</div>
-<div class="line"><span class="lineno">  125</span>   }</div>
-<div class="line"><span class="lineno">  126</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  127</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  128</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  129</span>   }</div>
-<div class="line"><span class="lineno">  130</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  122</span>{</div>
+<div class="line"><span class="lineno">  123</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  124</span>      <span class="keyword">auto</span> guard {std::unique_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
+<div class="line"><span class="lineno">  125</span>      <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_profile.html#a479befa4767dc9cd54fae07533c3c419">MessageExistsInMapI</a>(message)) {</div>
+<div class="line"><span class="lineno">  126</span>         <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.emplace_back(message, <a class="code hl_variable" href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">CommandSet::kUnassigned</a>);</div>
+<div class="line"><span class="lineno">  127</span>         <a class="code hl_function" href="class_profile.html#aeba39bf32fc079f948b4669c64887867">SortI</a>();</div>
+<div class="line"><span class="lineno">  128</span>         <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  129</span>      }</div>
+<div class="line"><span class="lineno">  130</span>   }</div>
+<div class="line"><span class="lineno">  131</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  132</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  133</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  134</span>   }</div>
+<div class="line"><span class="lineno">  135</span>}</div>
 <div class="ttc" id="aclass_profile_html_a479befa4767dc9cd54fae07533c3c419"><div class="ttname"><a href="class_profile.html#a479befa4767dc9cd54fae07533c3c419">Profile::MessageExistsInMapI</a></div><div class="ttdeci">bool MessageExistsInMapI(rsj::MidiMessageId message) const</div><div class="ttdef"><b>Definition</b> Profile.h:130</div></div>
 </div><!-- fragment -->
 </div>
@@ -742,20 +748,20 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  133</span>{</div>
-<div class="line"><span class="lineno">  134</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  135</span>      <span class="keyword">auto</span> guard {std::unique_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
-<div class="line"><span class="lineno">  136</span>      <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.clear();</div>
-<div class="line"><span class="lineno">  137</span>      <span class="comment">/*avoid repeated allocations when building*/</span></div>
-<div class="line"><span class="lineno">  138</span>      <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.reserve(128);</div>
-<div class="line"><span class="lineno">  139</span>      <span class="comment">/* no reason for profile_unsaved_ here. nothing to save */</span></div>
-<div class="line"><span class="lineno">  140</span>      <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  141</span>   }</div>
-<div class="line"><span class="lineno">  142</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  143</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  144</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  145</span>   }</div>
-<div class="line"><span class="lineno">  146</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  138</span>{</div>
+<div class="line"><span class="lineno">  139</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  140</span>      <span class="keyword">auto</span> guard {std::unique_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
+<div class="line"><span class="lineno">  141</span>      <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.clear();</div>
+<div class="line"><span class="lineno">  142</span>      <span class="comment">/*avoid repeated allocations when building*/</span></div>
+<div class="line"><span class="lineno">  143</span>      <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.reserve(128);</div>
+<div class="line"><span class="lineno">  144</span>      <span class="comment">/* no reason for profile_unsaved_ here. nothing to save */</span></div>
+<div class="line"><span class="lineno">  145</span>      <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  146</span>   }</div>
+<div class="line"><span class="lineno">  147</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  148</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  149</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  150</span>   }</div>
+<div class="line"><span class="lineno">  151</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -774,29 +780,29 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  149</span>{</div>
-<div class="line"><span class="lineno">  150</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  151</span>      <span class="keyword">auto</span> guard {std::unique_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
-<div class="line"><span class="lineno">  152</span>      <span class="keyword">const</span> <span class="keyword">auto</span> found = std::ranges::find(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>, message, &amp;mm_abbrv_lmnt_t::first);</div>
-<div class="line"><span class="lineno">  153</span>      <span class="keywordflow">if</span> (found != <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.end()) [[likely]] {</div>
-<div class="line"><span class="lineno">  154</span>         <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.erase(found);</div>
-<div class="line"><span class="lineno">  155</span>         <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  156</span>      }</div>
-<div class="line"><span class="lineno">  157</span>      <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  158</span>         <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Error in Profile::RemoveMessage. Message not found. &quot;</span></div>
-<div class="line"><span class="lineno">  159</span>                                         <span class="stringliteral">&quot;Message is: channel {} control number {} type {}.&quot;</span>),</div>
-<div class="line"><span class="lineno">  160</span>             message.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>, message.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>, message.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>));</div>
+<div class="fragment"><div class="line"><span class="lineno">  154</span>{</div>
+<div class="line"><span class="lineno">  155</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  156</span>      <span class="keyword">auto</span> guard {std::unique_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
+<div class="line"><span class="lineno">  157</span>      <span class="keyword">const</span> <span class="keyword">auto</span> found {std::ranges::find(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>, message, &amp;mm_abbrv_lmnt_t::first)};</div>
+<div class="line"><span class="lineno">  158</span>      <span class="keywordflow">if</span> (found != <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.end()) [[likely]] {</div>
+<div class="line"><span class="lineno">  159</span>         <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.erase(found);</div>
+<div class="line"><span class="lineno">  160</span>         <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">  161</span>      }</div>
-<div class="line"><span class="lineno">  162</span>   }</div>
-<div class="line"><span class="lineno">  163</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  164</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  165</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  166</span>   }</div>
-<div class="line"><span class="lineno">  167</span>}</div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:217</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:149</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:147</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html_acc40acde2069206b38805eb871c64df8"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:148</div></div>
+<div class="line"><span class="lineno">  162</span>      <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  163</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Error in Profile::RemoveMessage. Message not found. &quot;</span></div>
+<div class="line"><span class="lineno">  164</span>                                         <span class="stringliteral">&quot;Message is: channel {} control number {} type {}.&quot;</span>),</div>
+<div class="line"><span class="lineno">  165</span>             message.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>, message.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>, message.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>));</div>
+<div class="line"><span class="lineno">  166</span>      }</div>
+<div class="line"><span class="lineno">  167</span>   }</div>
+<div class="line"><span class="lineno">  168</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  169</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  170</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  171</span>   }</div>
+<div class="line"><span class="lineno">  172</span>}</div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:148</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:146</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html_acc40acde2069206b38805eb871c64df8"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:147</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -815,17 +821,17 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  170</span>{</div>
-<div class="line"><span class="lineno">  171</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  172</span>      <span class="keyword">auto</span> guard {std::unique_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
-<div class="line"><span class="lineno">  173</span>      <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.erase(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.begin() + gsl::narrow_cast&lt;std::ptrdiff_t&gt;(row));</div>
-<div class="line"><span class="lineno">  174</span>      <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  175</span>   }</div>
-<div class="line"><span class="lineno">  176</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  177</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  178</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  179</span>   }</div>
-<div class="line"><span class="lineno">  180</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  175</span>{</div>
+<div class="line"><span class="lineno">  176</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  177</span>      <span class="keyword">auto</span> guard {std::unique_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
+<div class="line"><span class="lineno">  178</span>      <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.erase(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.begin() + gsl::narrow_cast&lt;std::ptrdiff_t&gt;(row));</div>
+<div class="line"><span class="lineno">  179</span>      <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  180</span>   }</div>
+<div class="line"><span class="lineno">  181</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  182</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  183</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  184</span>   }</div>
+<div class="line"><span class="lineno">  185</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -843,19 +849,19 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  183</span>{</div>
-<div class="line"><span class="lineno">  184</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  185</span>      <span class="keyword">auto</span> guard {std::unique_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
-<div class="line"><span class="lineno">  186</span>      <span class="keywordflow">if</span> (std::erase_if(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>,</div>
-<div class="line"><span class="lineno">  187</span>              [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; p) { <span class="keywordflow">return</span> p.second == <a class="code hl_variable" href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">CommandSet::kUnassigned</a>; })) {</div>
-<div class="line"><span class="lineno">  188</span>         <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  189</span>      }</div>
-<div class="line"><span class="lineno">  190</span>   }</div>
-<div class="line"><span class="lineno">  191</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  192</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  193</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  194</span>   }</div>
-<div class="line"><span class="lineno">  195</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  188</span>{</div>
+<div class="line"><span class="lineno">  189</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  190</span>      <span class="keyword">auto</span> guard {std::unique_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
+<div class="line"><span class="lineno">  191</span>      <span class="keywordflow">if</span> (std::erase_if(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>,</div>
+<div class="line"><span class="lineno">  192</span>              [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; p) { <span class="keywordflow">return</span> p.second == <a class="code hl_variable" href="class_command_set.html#a0311fc90ec6127582c5f97593130f41f">CommandSet::kUnassigned</a>; })) {</div>
+<div class="line"><span class="lineno">  193</span>         <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  194</span>      }</div>
+<div class="line"><span class="lineno">  195</span>   }</div>
+<div class="line"><span class="lineno">  196</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  197</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  198</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  199</span>   }</div>
+<div class="line"><span class="lineno">  200</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -874,17 +880,17 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  198</span>{</div>
-<div class="line"><span class="lineno">  199</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  200</span>      <span class="keyword">auto</span> guard {std::unique_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
-<div class="line"><span class="lineno">  201</span>      <a class="code hl_variable" href="class_profile.html#af3463acf83f255b501ec8a3e44d12681">current_sort_</a> = new_order;</div>
-<div class="line"><span class="lineno">  202</span>      <a class="code hl_function" href="class_profile.html#aeba39bf32fc079f948b4669c64887867">SortI</a>();</div>
-<div class="line"><span class="lineno">  203</span>   }</div>
-<div class="line"><span class="lineno">  204</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  205</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  206</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  207</span>   }</div>
-<div class="line"><span class="lineno">  208</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  203</span>{</div>
+<div class="line"><span class="lineno">  204</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  205</span>      <span class="keyword">auto</span> guard {std::unique_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
+<div class="line"><span class="lineno">  206</span>      <a class="code hl_variable" href="class_profile.html#af3463acf83f255b501ec8a3e44d12681">current_sort_</a> = new_order;</div>
+<div class="line"><span class="lineno">  207</span>      <a class="code hl_function" href="class_profile.html#aeba39bf32fc079f948b4669c64887867">SortI</a>();</div>
+<div class="line"><span class="lineno">  208</span>   }</div>
+<div class="line"><span class="lineno">  209</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  210</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  211</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  212</span>   }</div>
+<div class="line"><span class="lineno">  213</span>}</div>
 <div class="ttc" id="aclass_profile_html_af3463acf83f255b501ec8a3e44d12681"><div class="ttname"><a href="class_profile.html#af3463acf83f255b501ec8a3e44d12681">Profile::current_sort_</a></div><div class="ttdeci">std::pair&lt; int, bool &gt; current_sort_</div><div class="ttdef"><b>Definition</b> Profile.h:73</div></div>
 </div><!-- fragment -->
 </div>
@@ -940,29 +946,29 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  211</span>{</div>
-<div class="line"><span class="lineno">  212</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  213</span>      <span class="keyword">const</span> <span class="keyword">auto</span> projection {</div>
-<div class="line"><span class="lineno">  214</span>          [<span class="keyword">this</span>](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; a) { <span class="keywordflow">return</span> <a class="code hl_variable" href="class_profile.html#af3dd223ec0e1ebf376647ba622d34e85">command_set_</a>.<a class="code hl_function" href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandTextIndex</a>(a.second); }};</div>
-<div class="line"><span class="lineno">  215</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_profile.html#af3463acf83f255b501ec8a3e44d12681">current_sort_</a>.first == 1) {</div>
-<div class="line"><span class="lineno">  216</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_profile.html#af3463acf83f255b501ec8a3e44d12681">current_sort_</a>.second) { std::ranges::sort(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>); }</div>
-<div class="line"><span class="lineno">  217</span>         <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  218</span>            std::ranges::sort(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a> | std::views::reverse);</div>
-<div class="line"><span class="lineno">  219</span>         }</div>
-<div class="line"><span class="lineno">  220</span>      }</div>
-<div class="line"><span class="lineno">  221</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_profile.html#af3463acf83f255b501ec8a3e44d12681">current_sort_</a>.second) {</div>
-<div class="line"><span class="lineno">  222</span>         std::ranges::stable_sort(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>, {}, projection);</div>
-<div class="line"><span class="lineno">  223</span>      }</div>
-<div class="line"><span class="lineno">  224</span>      <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  225</span>         std::ranges::stable_sort(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a> | std::views::reverse, {}, projection);</div>
-<div class="line"><span class="lineno">  226</span>      }</div>
-<div class="line"><span class="lineno">  227</span>   }</div>
-<div class="line"><span class="lineno">  228</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  229</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  230</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  231</span>   }</div>
-<div class="line"><span class="lineno">  232</span>}</div>
-<div class="ttc" id="aclass_command_set_html_a7fc203db881c2ae7a587b061cafc3d52"><div class="ttname"><a href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandSet::CommandTextIndex</a></div><div class="ttdeci">size_t CommandTextIndex(const std::string &amp;command) const</div><div class="ttdef"><b>Definition</b> CommandSet.cpp:94</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  216</span>{</div>
+<div class="line"><span class="lineno">  217</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  218</span>      <span class="keyword">const</span> <span class="keyword">auto</span> projection {</div>
+<div class="line"><span class="lineno">  219</span>          [<span class="keyword">this</span>](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; a) { <span class="keywordflow">return</span> <a class="code hl_variable" href="class_profile.html#af3dd223ec0e1ebf376647ba622d34e85">command_set_</a>.<a class="code hl_function" href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandTextIndex</a>(a.second); }};</div>
+<div class="line"><span class="lineno">  220</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_profile.html#af3463acf83f255b501ec8a3e44d12681">current_sort_</a>.first == 1) {</div>
+<div class="line"><span class="lineno">  221</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_profile.html#af3463acf83f255b501ec8a3e44d12681">current_sort_</a>.second) { std::ranges::sort(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>); }</div>
+<div class="line"><span class="lineno">  222</span>         <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  223</span>            std::ranges::sort(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a> | std::views::reverse);</div>
+<div class="line"><span class="lineno">  224</span>         }</div>
+<div class="line"><span class="lineno">  225</span>      }</div>
+<div class="line"><span class="lineno">  226</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_profile.html#af3463acf83f255b501ec8a3e44d12681">current_sort_</a>.second) {</div>
+<div class="line"><span class="lineno">  227</span>         std::ranges::stable_sort(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>, {}, projection);</div>
+<div class="line"><span class="lineno">  228</span>      }</div>
+<div class="line"><span class="lineno">  229</span>      <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  230</span>         std::ranges::stable_sort(<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a> | std::views::reverse, {}, projection);</div>
+<div class="line"><span class="lineno">  231</span>      }</div>
+<div class="line"><span class="lineno">  232</span>   }</div>
+<div class="line"><span class="lineno">  233</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  234</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  235</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  236</span>   }</div>
+<div class="line"><span class="lineno">  237</span>}</div>
+<div class="ttc" id="aclass_command_set_html_a7fc203db881c2ae7a587b061cafc3d52"><div class="ttname"><a href="class_command_set.html#a7fc203db881c2ae7a587b061cafc3d52">CommandSet::CommandTextIndex</a></div><div class="ttdeci">size_t CommandTextIndex(const std::string &amp;command) const</div><div class="ttdef"><b>Definition</b> CommandSet.cpp:101</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -981,66 +987,66 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  235</span>{</div>
-<div class="line"><span class="lineno">  236</span>   <span class="keywordflow">try</span> { <span class="comment">/* except for saved_mm_abbrv_table_ and profile_unsaved_, doesn&#39;t alter anything, so to</span></div>
-<div class="line"><span class="lineno">  237</span><span class="comment">            allow for better responsiveness in slow serialization and file write, use shared_lock +</span></div>
-<div class="line"><span class="lineno">  238</span><span class="comment">            mtx solely guarding the two members that are overwritten */</span></div>
-<div class="line"><span class="lineno">  239</span>      <span class="keyword">auto</span> abbrv_lock {std::scoped_lock {<a class="code hl_variable" href="class_profile.html#a4661e1aeb678d3add27fd9aa993b4a39">saved_table_mtx_</a>}};</div>
-<div class="line"><span class="lineno">  240</span>      <span class="keyword">auto</span> guard {std::shared_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
-<div class="line"><span class="lineno">  241</span>      <span class="comment">/* don&#39;t bother if map is empty */</span></div>
-<div class="line"><span class="lineno">  242</span>      <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.empty()) {</div>
-<div class="line"><span class="lineno">  243</span>         <span class="comment">/* save the contents of the command map to an xml file */</span></div>
-<div class="line"><span class="lineno">  244</span>         juce::XmlElement root {<span class="stringliteral">&quot;settings&quot;</span>};</div>
-<div class="line"><span class="lineno">  245</span>         <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [msg_id, cmd_str] : <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>) {</div>
-<div class="line"><span class="lineno">  246</span>            <span class="keyword">auto</span> setting {std::make_unique&lt;juce::XmlElement&gt;(<span class="stringliteral">&quot;setting&quot;</span>)};</div>
-<div class="line"><span class="lineno">  247</span>            setting-&gt;setAttribute(<span class="stringliteral">&quot;channel&quot;</span>, msg_id.channel);</div>
-<div class="line"><span class="lineno">  248</span>            <span class="keywordflow">switch</span> (msg_id.msg_id_type) {</div>
-<div class="line"><span class="lineno">  249</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ac6a3582c30ac3ccfb5f2ee3c36e07206">rsj::MessageType::kNoteOn</a>:</div>
-<div class="line"><span class="lineno">  250</span>               setting-&gt;setAttribute(<span class="stringliteral">&quot;note&quot;</span>, msg_id.control_number);</div>
-<div class="line"><span class="lineno">  251</span>               <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  252</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::MessageType::kCc</a>:</div>
-<div class="line"><span class="lineno">  253</span>               setting-&gt;setAttribute(<span class="stringliteral">&quot;controller&quot;</span>, msg_id.control_number);</div>
-<div class="line"><span class="lineno">  254</span>               <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  255</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee">rsj::MessageType::kPw</a>:</div>
-<div class="line"><span class="lineno">  256</span>               setting-&gt;setAttribute(<span class="stringliteral">&quot;pitchbend&quot;</span>, 0);</div>
-<div class="line"><span class="lineno">  257</span>               <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  258</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a283a06ba59b6d1bc696531719892cabc">rsj::MessageType::kChanPressure</a>:</div>
-<div class="line"><span class="lineno">  259</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a95d525a4ee95e4387eb14863fdf96f21">rsj::MessageType::kKeyPressure</a>:</div>
-<div class="line"><span class="lineno">  260</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kNoteOff</a>:</div>
-<div class="line"><span class="lineno">  261</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ac8dee6bd627c5f37262bc991b7797c50">rsj::MessageType::kPgmChange</a>:</div>
-<div class="line"><span class="lineno">  262</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a2c9d4d4ca70df56c762f0140f57dbdfb">rsj::MessageType::kSystem</a>:</div>
-<div class="line"><span class="lineno">  263</span>               <span class="comment">/* can&#39;t handle other types */</span></div>
-<div class="line"><span class="lineno">  264</span>               <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  265</span>            }</div>
-<div class="line"><span class="lineno">  266</span>            setting-&gt;setAttribute(<span class="stringliteral">&quot;command_string&quot;</span>, cmd_str);</div>
-<div class="line"><span class="lineno">  267</span>            root.prependChildElement(setting.release());</div>
-<div class="line"><span class="lineno">  268</span>         }</div>
-<div class="line"><span class="lineno">  269</span>         <span class="keywordflow">if</span> (!root.writeTo(file)) {</div>
-<div class="line"><span class="lineno">  270</span>            <span class="comment">/* Give feedback if file-save doesn&#39;t work */</span></div>
-<div class="line"><span class="lineno">  271</span>            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; p {file.getFullPathName()};</div>
-<div class="line"><span class="lineno">  272</span>            <a class="code hl_function" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(juce::translate(<span class="stringliteral">&quot;Unable to save file. Choose a different &quot;</span></div>
-<div class="line"><span class="lineno">  273</span>                                                  <span class="stringliteral">&quot;location and try again.&quot;</span>)</div>
-<div class="line"><span class="lineno">  274</span>                                      + <span class="charliteral">&#39; &#39;</span> + p,</div>
-<div class="line"><span class="lineno">  275</span>                <span class="stringliteral">&quot;Unable to save file. Choose a different location and try again. &quot;</span> + p);</div>
-<div class="line"><span class="lineno">  276</span>         }</div>
-<div class="line"><span class="lineno">  277</span>         <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  278</span>            <span class="comment">/*could use shared_mutex above if it were upgradable to unique here*/</span></div>
-<div class="line"><span class="lineno">  279</span>            <a class="code hl_variable" href="class_profile.html#ab6d36386b0443a218308179086dff426">saved_mm_abbrv_table_</a> = <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>;</div>
-<div class="line"><span class="lineno">  280</span>            <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">false</span>;</div>
+<div class="fragment"><div class="line"><span class="lineno">  240</span>{</div>
+<div class="line"><span class="lineno">  241</span>   <span class="keywordflow">try</span> { <span class="comment">/* except for saved_mm_abbrv_table_ and profile_unsaved_, doesn&#39;t alter anything, so to</span></div>
+<div class="line"><span class="lineno">  242</span><span class="comment">            allow for better responsiveness in slow serialization and file write, use shared_lock +</span></div>
+<div class="line"><span class="lineno">  243</span><span class="comment">            mtx solely guarding the two members that are overwritten */</span></div>
+<div class="line"><span class="lineno">  244</span>      <span class="keyword">auto</span> abbrv_lock {std::scoped_lock {<a class="code hl_variable" href="class_profile.html#a4661e1aeb678d3add27fd9aa993b4a39">saved_table_mtx_</a>}};</div>
+<div class="line"><span class="lineno">  245</span>      <span class="keyword">auto</span> guard {std::shared_lock {<a class="code hl_variable" href="class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073">mutex_</a>}};</div>
+<div class="line"><span class="lineno">  246</span>      <span class="comment">/* don&#39;t bother if map is empty */</span></div>
+<div class="line"><span class="lineno">  247</span>      <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>.empty()) {</div>
+<div class="line"><span class="lineno">  248</span>         <span class="comment">/* save the contents of the command map to an xml file */</span></div>
+<div class="line"><span class="lineno">  249</span>         juce::XmlElement root {<span class="stringliteral">&quot;settings&quot;</span>};</div>
+<div class="line"><span class="lineno">  250</span>         <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [msg_id, cmd_str] : <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>) {</div>
+<div class="line"><span class="lineno">  251</span>            <span class="keyword">auto</span> setting {std::make_unique&lt;juce::XmlElement&gt;(<span class="stringliteral">&quot;setting&quot;</span>)};</div>
+<div class="line"><span class="lineno">  252</span>            setting-&gt;setAttribute(<span class="stringliteral">&quot;channel&quot;</span>, msg_id.channel);</div>
+<div class="line"><span class="lineno">  253</span>            <span class="keywordflow">switch</span> (msg_id.msg_id_type) {</div>
+<div class="line"><span class="lineno">  254</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ac6a3582c30ac3ccfb5f2ee3c36e07206">rsj::MessageType::kNoteOn</a>:</div>
+<div class="line"><span class="lineno">  255</span>               setting-&gt;setAttribute(<span class="stringliteral">&quot;note&quot;</span>, msg_id.control_number);</div>
+<div class="line"><span class="lineno">  256</span>               <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  257</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::MessageType::kCc</a>:</div>
+<div class="line"><span class="lineno">  258</span>               setting-&gt;setAttribute(<span class="stringliteral">&quot;controller&quot;</span>, msg_id.control_number);</div>
+<div class="line"><span class="lineno">  259</span>               <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  260</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee">rsj::MessageType::kPw</a>:</div>
+<div class="line"><span class="lineno">  261</span>               setting-&gt;setAttribute(<span class="stringliteral">&quot;pitchbend&quot;</span>, 0);</div>
+<div class="line"><span class="lineno">  262</span>               <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  263</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a283a06ba59b6d1bc696531719892cabc">rsj::MessageType::kChanPressure</a>:</div>
+<div class="line"><span class="lineno">  264</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a95d525a4ee95e4387eb14863fdf96f21">rsj::MessageType::kKeyPressure</a>:</div>
+<div class="line"><span class="lineno">  265</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kNoteOff</a>:</div>
+<div class="line"><span class="lineno">  266</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ac8dee6bd627c5f37262bc991b7797c50">rsj::MessageType::kPgmChange</a>:</div>
+<div class="line"><span class="lineno">  267</span>            <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a2c9d4d4ca70df56c762f0140f57dbdfb">rsj::MessageType::kSystem</a>:</div>
+<div class="line"><span class="lineno">  268</span>               <span class="comment">/* can&#39;t handle other types */</span></div>
+<div class="line"><span class="lineno">  269</span>               <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  270</span>            }</div>
+<div class="line"><span class="lineno">  271</span>            setting-&gt;setAttribute(<span class="stringliteral">&quot;command_string&quot;</span>, cmd_str);</div>
+<div class="line"><span class="lineno">  272</span>            root.prependChildElement(setting.release());</div>
+<div class="line"><span class="lineno">  273</span>         }</div>
+<div class="line"><span class="lineno">  274</span>         <span class="keywordflow">if</span> (!root.writeTo(file)) {</div>
+<div class="line"><span class="lineno">  275</span>            <span class="comment">/* Give feedback if file-save doesn&#39;t work */</span></div>
+<div class="line"><span class="lineno">  276</span>            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; p {file.getFullPathName()};</div>
+<div class="line"><span class="lineno">  277</span>            <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(juce::translate(<span class="stringliteral">&quot;Unable to save file. Choose a different &quot;</span></div>
+<div class="line"><span class="lineno">  278</span>                                                  <span class="stringliteral">&quot;location and try again.&quot;</span>)</div>
+<div class="line"><span class="lineno">  279</span>                                      + <span class="charliteral">&#39; &#39;</span> + p,</div>
+<div class="line"><span class="lineno">  280</span>                <span class="stringliteral">&quot;Unable to save file. Choose a different location and try again. &quot;</span> + p);</div>
 <div class="line"><span class="lineno">  281</span>         }</div>
-<div class="line"><span class="lineno">  282</span>      }</div>
-<div class="line"><span class="lineno">  283</span>   }</div>
-<div class="line"><span class="lineno">  284</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  285</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  286</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  287</span>   }</div>
-<div class="line"><span class="lineno">  288</span>}</div>
+<div class="line"><span class="lineno">  282</span>         <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  283</span>            <span class="comment">/*could use shared_mutex above if it were upgradable to unique here*/</span></div>
+<div class="line"><span class="lineno">  284</span>            <a class="code hl_variable" href="class_profile.html#ab6d36386b0443a218308179086dff426">saved_mm_abbrv_table_</a> = <a class="code hl_variable" href="class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43">mm_abbrv_table_</a>;</div>
+<div class="line"><span class="lineno">  285</span>            <a class="code hl_variable" href="class_profile.html#a5a3f148bef7c8510e96ec42824e834da">profile_unsaved_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  286</span>         }</div>
+<div class="line"><span class="lineno">  287</span>      }</div>
+<div class="line"><span class="lineno">  288</span>   }</div>
+<div class="line"><span class="lineno">  289</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  290</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  291</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  292</span>   }</div>
+<div class="line"><span class="lineno">  293</span>}</div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992a283a06ba59b6d1bc696531719892cabc"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a283a06ba59b6d1bc696531719892cabc">rsj::MessageType::kChanPressure</a></div><div class="ttdeci">@ kChanPressure</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992a2c9d4d4ca70df56c762f0140f57dbdfb"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a2c9d4d4ca70df56c762f0140f57dbdfb">rsj::MessageType::kSystem</a></div><div class="ttdeci">@ kSystem</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992a95d525a4ee95e4387eb14863fdf96f21"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a95d525a4ee95e4387eb14863fdf96f21">rsj::MessageType::kKeyPressure</a></div><div class="ttdeci">@ kKeyPressure</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ab685d9b0844bf5ba8ec4a035ed9de32b">rsj::MessageType::kNoteOff</a></div><div class="ttdeci">@ kNoteOff</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ac8dee6bd627c5f37262bc991b7797c50"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ac8dee6bd627c5f37262bc991b7797c50">rsj::MessageType::kPgmChange</a></div><div class="ttdeci">@ kPgmChange</div></div>
-<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:260</div></div>
+<div class="ttc" id="anamespacersj_html_a85a33831e4cc942fc6995a04c74361ab"><div class="ttname"><a href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:160</div></div>
 </div><!-- fragment -->
 </div>
 </div>

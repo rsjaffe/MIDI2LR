@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -141,10 +141,10 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:ad29d20b699ea1c995c17170083ad3aa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a337ef400359712b24a924d6a8056be93" id="r_a337ef400359712b24a924d6a8056be93"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a337ef400359712b24a924d6a8056be93">ProfileChanged</a> (juce::XmlElement *xml_element, const juce::String &amp;file_name)</td></tr>
 <tr class="separator:a337ef400359712b24a924d6a8056be93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35ec9fb3b783b4942f25e4b433a9b688" id="r_a35ec9fb3b783b4942f25e4b433a9b688"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a35ec9fb3b783b4942f25e4b433a9b688">StandardLabelSettings</a> (juce::Label &amp;label_to_set)</td></tr>
-<tr class="separator:a35ec9fb3b783b4942f25e4b433a9b688"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b7e48a7423f17bc799fc2990f48e38d" id="r_a5b7e48a7423f17bc799fc2990f48e38d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a5b7e48a7423f17bc799fc2990f48e38d">timerCallback</a> () override</td></tr>
 <tr class="separator:a5b7e48a7423f17bc799fc2990f48e38d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a675076bdaa3a528d9112a784bb304d8c" id="r_a675076bdaa3a528d9112a784bb304d8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a675076bdaa3a528d9112a784bb304d8c">UpdateConnectionLabel</a> (const char *text, juce::Colour colour)</td></tr>
+<tr class="separator:a675076bdaa3a528d9112a784bb304d8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -260,16 +260,17 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   69</span>}</div>
 <div class="line"><span class="lineno">   70</span> </div>
 <div class="line"><span class="lineno">   71</span><span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   72</span>   MIDI2LR_E_RESPONSE;</div>
+<div class="line"><span class="lineno">   72</span>   <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
 <div class="line"><span class="lineno">   73</span>   <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   74</span>}</div>
-<div class="ttc" id="aclass_main_content_component_html_a28de2fe820b9e03fbd1ba33e8b339e3c"><div class="ttname"><a href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">MainContentComponent::lr_ipc_out_</a></div><div class="ttdeci">LrIpcOut &amp; lr_ipc_out_</div><div class="ttdef"><b>Definition</b> MainComponent.h:83</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a38a2b7ee37726efb84798e8b8bc397af"><div class="ttname"><a href="class_main_content_component.html#a38a2b7ee37726efb84798e8b8bc397af">MainContentComponent::midi_receiver_</a></div><div class="ttdeci">MidiReceiver &amp; midi_receiver_</div><div class="ttdef"><b>Definition</b> MainComponent.h:84</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a28de2fe820b9e03fbd1ba33e8b339e3c"><div class="ttname"><a href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">MainContentComponent::lr_ipc_out_</a></div><div class="ttdeci">LrIpcOut &amp; lr_ipc_out_</div><div class="ttdef"><b>Definition</b> MainComponent.h:88</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a38a2b7ee37726efb84798e8b8bc397af"><div class="ttname"><a href="class_main_content_component.html#a38a2b7ee37726efb84798e8b8bc397af">MainContentComponent::midi_receiver_</a></div><div class="ttdeci">MidiReceiver &amp; midi_receiver_</div><div class="ttdef"><b>Definition</b> MainComponent.h:89</div></div>
 <div class="ttc" id="aclass_main_content_component_html_a67d255a327565be0485550fe234e5f46"><div class="ttname"><a href="class_main_content_component.html#a67d255a327565be0485550fe234e5f46">MainContentComponent::command_table_model_</a></div><div class="ttdeci">CommandTableModel command_table_model_</div><div class="ttdef"><b>Definition</b> MainComponent.h:67</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a74604455046f47741c07707c1813ef76"><div class="ttname"><a href="class_main_content_component.html#a74604455046f47741c07707c1813ef76">MainContentComponent::profile_manager_</a></div><div class="ttdeci">ProfileManager &amp; profile_manager_</div><div class="ttdef"><b>Definition</b> MainComponent.h:87</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a8c3e897d9ef0bc2b58986f3cc3d8bcde"><div class="ttname"><a href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">MainContentComponent::profile_</a></div><div class="ttdeci">Profile &amp; profile_</div><div class="ttdef"><b>Definition</b> MainComponent.h:86</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a90c484f364548ee493e23004a3f0126f"><div class="ttname"><a href="class_main_content_component.html#a90c484f364548ee493e23004a3f0126f">MainContentComponent::midi_sender_</a></div><div class="ttdeci">MidiSender &amp; midi_sender_</div><div class="ttdef"><b>Definition</b> MainComponent.h:85</div></div>
-<div class="ttc" id="aclass_main_content_component_html_ae8efaac4fc314b55653f0b0853f4e387"><div class="ttname"><a href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">MainContentComponent::settings_manager_</a></div><div class="ttdeci">SettingsManager &amp; settings_manager_</div><div class="ttdef"><b>Definition</b> MainComponent.h:88</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a74604455046f47741c07707c1813ef76"><div class="ttname"><a href="class_main_content_component.html#a74604455046f47741c07707c1813ef76">MainContentComponent::profile_manager_</a></div><div class="ttdeci">ProfileManager &amp; profile_manager_</div><div class="ttdef"><b>Definition</b> MainComponent.h:92</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a8c3e897d9ef0bc2b58986f3cc3d8bcde"><div class="ttname"><a href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">MainContentComponent::profile_</a></div><div class="ttdeci">Profile &amp; profile_</div><div class="ttdef"><b>Definition</b> MainComponent.h:91</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a90c484f364548ee493e23004a3f0126f"><div class="ttname"><a href="class_main_content_component.html#a90c484f364548ee493e23004a3f0126f">MainContentComponent::midi_sender_</a></div><div class="ttdeci">MidiSender &amp; midi_sender_</div><div class="ttdef"><b>Definition</b> MainComponent.h:90</div></div>
+<div class="ttc" id="aclass_main_content_component_html_ae8efaac4fc314b55653f0b0853f4e387"><div class="ttname"><a href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">MainContentComponent::settings_manager_</a></div><div class="ttdeci">SettingsManager &amp; settings_manager_</div><div class="ttdef"><b>Definition</b> MainComponent.h:93</div></div>
+<div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -370,25 +371,25 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  377</span>{</div>
-<div class="line"><span class="lineno">  378</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  379</span>      <span class="comment">/* Update the last command label and set its color to green */</span></div>
-<div class="line"><span class="lineno">  380</span>      <a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>.setText(<a class="code hl_variable" href="class_main_content_component.html#a7e1dacfc67a6701228879dc05855a9f9">last_command_</a>, juce::NotificationType::dontSendNotification);</div>
-<div class="line"><span class="lineno">  381</span>      <a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);</div>
-<div class="line"><span class="lineno">  382</span>      startTimer(1000);</div>
-<div class="line"><span class="lineno">  383</span>      <span class="comment">/* Update the command table to add and/or select row corresponding to midi command */</span></div>
-<div class="line"><span class="lineno">  384</span>      <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.updateContent();</div>
-<div class="line"><span class="lineno">  385</span>      <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.selectRow(gsl::narrow_cast&lt;int&gt;(<a class="code hl_variable" href="class_main_content_component.html#add0faf0231a66206246ce44503fa93a8">row_to_select_</a>));</div>
-<div class="line"><span class="lineno">  386</span>   }</div>
-<div class="line"><span class="lineno">  387</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  388</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  389</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  390</span>   }</div>
-<div class="line"><span class="lineno">  391</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  382</span>{</div>
+<div class="line"><span class="lineno">  383</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  384</span>      <span class="comment">/* Update the last command label and set its color to green */</span></div>
+<div class="line"><span class="lineno">  385</span>      <a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>.setText(<a class="code hl_variable" href="class_main_content_component.html#a7e1dacfc67a6701228879dc05855a9f9">last_command_</a>, juce::NotificationType::dontSendNotification);</div>
+<div class="line"><span class="lineno">  386</span>      <a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);</div>
+<div class="line"><span class="lineno">  387</span>      startTimer(1000);</div>
+<div class="line"><span class="lineno">  388</span>      <span class="comment">/* Update the command table to add and/or select row corresponding to midi command */</span></div>
+<div class="line"><span class="lineno">  389</span>      <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.updateContent();</div>
+<div class="line"><span class="lineno">  390</span>      <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.selectRow(gsl::narrow_cast&lt;int&gt;(<a class="code hl_variable" href="class_main_content_component.html#add0faf0231a66206246ce44503fa93a8">row_to_select_</a>));</div>
+<div class="line"><span class="lineno">  391</span>   }</div>
+<div class="line"><span class="lineno">  392</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  393</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  394</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  395</span>   }</div>
+<div class="line"><span class="lineno">  396</span>}</div>
 <div class="ttc" id="aclass_main_content_component_html_a5311a6449d51b93a6a1115c25c845f53"><div class="ttname"><a href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">MainContentComponent::command_table_</a></div><div class="ttdeci">CommandTable command_table_</div><div class="ttdef"><b>Definition</b> MainComponent.h:66</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a7e1dacfc67a6701228879dc05855a9f9"><div class="ttname"><a href="class_main_content_component.html#a7e1dacfc67a6701228879dc05855a9f9">MainContentComponent::last_command_</a></div><div class="ttdeci">juce::String last_command_</div><div class="ttdef"><b>Definition</b> MainComponent.h:75</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a7e1dacfc67a6701228879dc05855a9f9"><div class="ttname"><a href="class_main_content_component.html#a7e1dacfc67a6701228879dc05855a9f9">MainContentComponent::last_command_</a></div><div class="ttdeci">juce::String last_command_</div><div class="ttdef"><b>Definition</b> MainComponent.h:80</div></div>
 <div class="ttc" id="aclass_main_content_component_html_a86df7eb70dc781062ad524b469376c2f"><div class="ttname"><a href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">MainContentComponent::command_label_</a></div><div class="ttdeci">juce::Label command_label_</div><div class="ttdef"><b>Definition</b> MainComponent.h:69</div></div>
-<div class="ttc" id="aclass_main_content_component_html_add0faf0231a66206246ce44503fa93a8"><div class="ttname"><a href="class_main_content_component.html#add0faf0231a66206246ce44503fa93a8">MainContentComponent::row_to_select_</a></div><div class="ttdeci">size_t row_to_select_</div><div class="ttdef"><b>Definition</b> MainComponent.h:89</div></div>
+<div class="ttc" id="aclass_main_content_component_html_add0faf0231a66206246ce44503fa93a8"><div class="ttname"><a href="class_main_content_component.html#add0faf0231a66206246ce44503fa93a8">MainContentComponent::row_to_select_</a></div><div class="ttdeci">size_t row_to_select_</div><div class="ttdef"><b>Definition</b> MainComponent.h:94</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -406,228 +407,227 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   82</span>{</div>
-<div class="line"><span class="lineno">   83</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   84</span>      <a class="code hl_variable" href="class_main_content_component.html#a38a2b7ee37726efb84798e8b8bc397af">midi_receiver_</a>.<a class="code hl_function" href="class_midi_receiver.html#a7636111b57bff4fea30a0b1672bc3402">AddCallback</a>(<span class="keyword">this</span>, &amp;<a class="code hl_function" href="class_main_content_component.html#a9aca9062f4600dc1aa8467193c80a8ba">MainContentComponent::MidiCmdCallback</a>);</div>
-<div class="line"><span class="lineno">   85</span>      <a class="code hl_variable" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#a868d8f460f4f2140e177d74d1210f254">AddCallback</a>(<span class="keyword">this</span>, &amp;<a class="code hl_function" href="class_main_content_component.html#a5c7da1ac272d106cfed84954a4816334">MainContentComponent::LrIpcOutCallback</a>);</div>
-<div class="line"><span class="lineno">   86</span>      <a class="code hl_variable" href="class_main_content_component.html#a74604455046f47741c07707c1813ef76">profile_manager_</a>.<a class="code hl_function" href="class_profile_manager.html#a991fb70897af11237ddc35b725ecc09c">AddCallback</a>(<span class="keyword">this</span>, &amp;<a class="code hl_function" href="class_main_content_component.html#a337ef400359712b24a924d6a8056be93">MainContentComponent::ProfileChanged</a>);</div>
-<div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span>      <span class="comment">/* Main title */</span></div>
-<div class="line"><span class="lineno">   89</span>      <a class="code hl_function" href="class_main_content_component.html#a35ec9fb3b783b4942f25e4b433a9b688">StandardLabelSettings</a>(<a class="code hl_variable" href="class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110">title_label_</a>);</div>
-<div class="line"><span class="lineno">   90</span>      <a class="code hl_variable" href="class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110">title_label_</a>.setFont(juce::Font {36.F, juce::Font::bold});</div>
-<div class="line"><span class="lineno">   91</span>      <a class="code hl_variable" href="class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110">title_label_</a>.setComponentEffect(&amp;<a class="code hl_variable" href="class_main_content_component.html#a8074d32c4e01a43d317cc1af183ce344">title_shadow_</a>);</div>
-<div class="line"><span class="lineno">   92</span>      <a class="code hl_variable" href="class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110">title_label_</a>.setBounds(kMainLeft, 10, kFullWidth, 30);</div>
-<div class="line"><span class="lineno">   93</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110">title_label_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><span class="lineno">   94</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110">title_label_</a>);</div>
-<div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   96</span>      <span class="comment">/* Version label */</span></div>
-<div class="line"><span class="lineno">   97</span>      <a class="code hl_function" href="class_main_content_component.html#a35ec9fb3b783b4942f25e4b433a9b688">StandardLabelSettings</a>(<a class="code hl_variable" href="class_main_content_component.html#a3a76609b164fa1a270b95fd7f6ef9f82">version_label_</a>);</div>
-<div class="line"><span class="lineno">   98</span>      <a class="code hl_variable" href="class_main_content_component.html#a3a76609b164fa1a270b95fd7f6ef9f82">version_label_</a>.setBounds(kMainLeft, 40, kFullWidth, 10);</div>
-<div class="line"><span class="lineno">   99</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a3a76609b164fa1a270b95fd7f6ef9f82">version_label_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><span class="lineno">  100</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a3a76609b164fa1a270b95fd7f6ef9f82">version_label_</a>);</div>
-<div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  102</span>      <span class="comment">/* Connection status */</span></div>
-<div class="line"><span class="lineno">  103</span>      <a class="code hl_function" href="class_main_content_component.html#a35ec9fb3b783b4942f25e4b433a9b688">StandardLabelSettings</a>(<a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>);</div>
-<div class="line"><span class="lineno">  104</span>      <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setColour(juce::Label::textColourId, juce::Colours::black);</div>
-<div class="line"><span class="lineno">  105</span>      <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setColour(juce::Label::backgroundColourId, juce::Colours::red);</div>
-<div class="line"><span class="lineno">  106</span>      <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setJustificationType(juce::Justification::centred);</div>
-<div class="line"><span class="lineno">  107</span>      <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setBounds(200, 15, kConnectionLabelWidth, kStandardHeight);</div>
-<div class="line"><span class="lineno">  108</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><span class="lineno">  109</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>);</div>
+<div class="fragment"><div class="line"><span class="lineno">   97</span>{</div>
+<div class="line"><span class="lineno">   98</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   99</span>      <a class="code hl_variable" href="class_main_content_component.html#a38a2b7ee37726efb84798e8b8bc397af">midi_receiver_</a>.<a class="code hl_function" href="class_midi_receiver.html#a7636111b57bff4fea30a0b1672bc3402">AddCallback</a>(<span class="keyword">this</span>, &amp;<a class="code hl_function" href="class_main_content_component.html#a9aca9062f4600dc1aa8467193c80a8ba">MainContentComponent::MidiCmdCallback</a>);</div>
+<div class="line"><span class="lineno">  100</span>      <a class="code hl_variable" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#a868d8f460f4f2140e177d74d1210f254">AddCallback</a>(<span class="keyword">this</span>, &amp;<a class="code hl_function" href="class_main_content_component.html#a5c7da1ac272d106cfed84954a4816334">MainContentComponent::LrIpcOutCallback</a>);</div>
+<div class="line"><span class="lineno">  101</span>      <a class="code hl_variable" href="class_main_content_component.html#a74604455046f47741c07707c1813ef76">profile_manager_</a>.<a class="code hl_function" href="class_profile_manager.html#a991fb70897af11237ddc35b725ecc09c">AddCallback</a>(<span class="keyword">this</span>, &amp;<a class="code hl_function" href="class_main_content_component.html#a337ef400359712b24a924d6a8056be93">MainContentComponent::ProfileChanged</a>);</div>
+<div class="line"><span class="lineno">  102</span> </div>
+<div class="line"><span class="lineno">  103</span>      <span class="comment">/* Main title */</span></div>
+<div class="line"><span class="lineno">  104</span>      StandardLabelSettings(<a class="code hl_variable" href="class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110">title_label_</a>);</div>
+<div class="line"><span class="lineno">  105</span>      <a class="code hl_variable" href="class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110">title_label_</a>.setFont(juce::Font {36.F, juce::Font::bold});</div>
+<div class="line"><span class="lineno">  106</span>      <a class="code hl_variable" href="class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110">title_label_</a>.setComponentEffect(&amp;<a class="code hl_variable" href="class_main_content_component.html#a8074d32c4e01a43d317cc1af183ce344">title_shadow_</a>);</div>
+<div class="line"><span class="lineno">  107</span>      <a class="code hl_variable" href="class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110">title_label_</a>.setBounds(kMainLeft, 10, kFullWidth, 30);</div>
+<div class="line"><span class="lineno">  108</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110">title_label_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><span class="lineno">  109</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110">title_label_</a>);</div>
 <div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span>      <span class="comment">/* Load button */</span></div>
-<div class="line"><span class="lineno">  112</span>      <a class="code hl_variable" href="class_main_content_component.html#a82f5785ac57e1ed2eff21365d10347ea">load_button_</a>.setBounds(kFirstButtonX, kTopButtonY, kButtonWidth, kStandardHeight);</div>
-<div class="line"><span class="lineno">  113</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a82f5785ac57e1ed2eff21365d10347ea">load_button_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><span class="lineno">  114</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a82f5785ac57e1ed2eff21365d10347ea">load_button_</a>);</div>
-<div class="line"><span class="lineno">  115</span>      <a class="code hl_variable" href="class_main_content_component.html#a82f5785ac57e1ed2eff21365d10347ea">load_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
-<div class="line"><span class="lineno">  116</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#a088d7d62d487c12a798f0d36145c2c84">ProfileUnsaved</a>()) {</div>
-<div class="line"><span class="lineno">  117</span>            <span class="keywordflow">if</span> (juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,</div>
-<div class="line"><span class="lineno">  118</span>                    juce::translate(<span class="stringliteral">&quot;MIDI2LR profiles&quot;</span>),</div>
-<div class="line"><span class="lineno">  119</span>                    juce::translate(<span class="stringliteral">&quot;Profile changed. Do you want to save your changes? If you &quot;</span></div>
-<div class="line"><span class="lineno">  120</span>                                    <span class="stringliteral">&quot;continue without saving, your changes will be lost.&quot;</span>))) {</div>
-<div class="line"><span class="lineno">  121</span>               <a class="code hl_function" href="class_main_content_component.html#a2fb8d7fa655cfa994655430c40121f46">SaveProfile</a>();</div>
-<div class="line"><span class="lineno">  122</span>            }</div>
-<div class="line"><span class="lineno">  123</span>         }</div>
-<div class="line"><span class="lineno">  124</span>         juce::File profile_directory {<a class="code hl_variable" href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>()};</div>
-<div class="line"><span class="lineno">  125</span>         <span class="keyword">const</span> <span class="keyword">auto</span> directory_saved {profile_directory.exists()};</div>
-<div class="line"><span class="lineno">  126</span>         <span class="keywordflow">if</span> (!directory_saved) [[unlikely]] {</div>
-<div class="line"><span class="lineno">  127</span>            profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);</div>
-<div class="line"><span class="lineno">  128</span>         }</div>
-<div class="line"><span class="lineno">  129</span>         juce::FileChooser chooser {</div>
-<div class="line"><span class="lineno">  130</span>             juce::translate(<span class="stringliteral">&quot;Open profile&quot;</span>), profile_directory, <span class="stringliteral">&quot;*.xml&quot;</span>, <span class="keyword">true</span>};</div>
-<div class="line"><span class="lineno">  131</span>         <span class="keywordflow">if</span> (chooser.browseForFileToOpen()) {</div>
-<div class="line"><span class="lineno">  132</span>            <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> parsed {juce::parseXML(chooser.getResult())}) {</div>
-<div class="line"><span class="lineno">  133</span>               <span class="keyword">const</span> <span class="keyword">auto</span> new_profile {chooser.getResult()};</div>
-<div class="line"><span class="lineno">  134</span>               <a class="code hl_variable" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;ChangedToFullPath {}\n&quot;</span>),</div>
-<div class="line"><span class="lineno">  135</span>                   new_profile.getFullPathName().toStdString()));</div>
-<div class="line"><span class="lineno">  136</span>               <a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>.setText(new_profile.getFileName(),</div>
-<div class="line"><span class="lineno">  137</span>                   juce::NotificationType::dontSendNotification);</div>
-<div class="line"><span class="lineno">  138</span>               <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720">FromXml</a>(parsed.get());</div>
-<div class="line"><span class="lineno">  139</span>               <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.updateContent();</div>
-<div class="line"><span class="lineno">  140</span>               <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.repaint();</div>
-<div class="line"><span class="lineno">  141</span>               <span class="keywordflow">if</span> (!directory_saved) [[unlikely]] { <span class="comment">/* haven&#39;t saved a directory yet */</span></div>
-<div class="line"><span class="lineno">  142</span>                  <a class="code hl_variable" href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b">SetProfileDirectory</a>(</div>
-<div class="line"><span class="lineno">  143</span>                      new_profile.getParentDirectory().getFullPathName());</div>
-<div class="line"><span class="lineno">  144</span>               }</div>
-<div class="line"><span class="lineno">  145</span>            }</div>
-<div class="line"><span class="lineno">  146</span>            <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  147</span>               <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Unable to load profile {}.&quot;</span>),</div>
-<div class="line"><span class="lineno">  148</span>                   chooser.getResult().getFullPathName().toStdString()));</div>
-<div class="line"><span class="lineno">  149</span>            }</div>
-<div class="line"><span class="lineno">  150</span>         }</div>
-<div class="line"><span class="lineno">  151</span>      };</div>
-<div class="line"><span class="lineno">  152</span> </div>
-<div class="line"><span class="lineno">  153</span>      <span class="comment">/* Save button */</span></div>
-<div class="line"><span class="lineno">  154</span>      <a class="code hl_variable" href="class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884">save_button_</a>.setBounds(kSecondButtonX, kTopButtonY, kButtonWidth, kStandardHeight);</div>
-<div class="line"><span class="lineno">  155</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884">save_button_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><span class="lineno">  156</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884">save_button_</a>);</div>
-<div class="line"><span class="lineno">  157</span>      <a class="code hl_variable" href="class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884">save_button_</a>.onClick = [<span class="keyword">this</span>] { <a class="code hl_function" href="class_main_content_component.html#a2fb8d7fa655cfa994655430c40121f46">SaveProfile</a>(); };</div>
-<div class="line"><span class="lineno">  158</span> </div>
-<div class="line"><span class="lineno">  159</span>      <span class="comment">/* Settings button */</span></div>
-<div class="line"><span class="lineno">  160</span>      <a class="code hl_variable" href="class_main_content_component.html#a4b8201db4fce61cfe7022aebf692ac20">settings_button_</a>.setBounds(kThirdButtonX, kTopButtonY, kButtonWidth, kStandardHeight);</div>
-<div class="line"><span class="lineno">  161</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a4b8201db4fce61cfe7022aebf692ac20">settings_button_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><span class="lineno">  162</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a4b8201db4fce61cfe7022aebf692ac20">settings_button_</a>);</div>
-<div class="line"><span class="lineno">  163</span>      <a class="code hl_variable" href="class_main_content_component.html#a4b8201db4fce61cfe7022aebf692ac20">settings_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
-<div class="line"><span class="lineno">  164</span>         juce::DialogWindow::LaunchOptions dialog_options;</div>
-<div class="line"><span class="lineno">  165</span>         dialog_options.dialogTitle = juce::translate(<span class="stringliteral">&quot;Settings&quot;</span>);</div>
-<div class="line"><span class="lineno">  166</span>         <span class="comment">/* create new object */</span></div>
-<div class="line"><span class="lineno">  167</span>         <span class="keyword">auto</span> component {std::make_unique&lt;SettingsComponent&gt;(<a class="code hl_variable" href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">settings_manager_</a>)};</div>
-<div class="line"><span class="lineno">  168</span>         component-&gt;Init();</div>
-<div class="line"><span class="lineno">  169</span>         dialog_options.content.setOwned(component.release());</div>
-<div class="line"><span class="lineno">  170</span>         dialog_options.content-&gt;setSize(400, 300);</div>
-<div class="line"><span class="lineno">  171</span>         <a class="code hl_variable" href="class_main_content_component.html#a54fa2138d58445d305d11d6b0de04a0a">settings_dialog_</a>.reset(dialog_options.create());</div>
-<div class="line"><span class="lineno">  172</span>         <a class="code hl_variable" href="class_main_content_component.html#a54fa2138d58445d305d11d6b0de04a0a">settings_dialog_</a>-&gt;setVisible(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  173</span>      };</div>
-<div class="line"><span class="lineno">  174</span> </div>
-<div class="line"><span class="lineno">  175</span>      <span class="comment">/* Command Table */</span></div>
-<div class="line"><span class="lineno">  176</span>      <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.setModel(&amp;<a class="code hl_variable" href="class_main_content_component.html#a67d255a327565be0485550fe234e5f46">command_table_model_</a>);</div>
-<div class="line"><span class="lineno">  177</span>      <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.setBounds(kMainLeft, kCommandTableY, kFullWidth, kCommandTableHeight);</div>
-<div class="line"><span class="lineno">  178</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><span class="lineno">  179</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>);</div>
-<div class="line"><span class="lineno">  180</span> </div>
-<div class="line"><span class="lineno">  181</span>      <span class="comment">/* Profile name label */</span></div>
-<div class="line"><span class="lineno">  182</span>      <a class="code hl_function" href="class_main_content_component.html#a35ec9fb3b783b4942f25e4b433a9b688">StandardLabelSettings</a>(<a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>);</div>
-<div class="line"><span class="lineno">  183</span>      <a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>.setColour(juce::Label::textColourId, juce::Colours::black);</div>
-<div class="line"><span class="lineno">  184</span>      <a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>.setBounds(kMainLeft, kProfileNameY, kLabelWidth, kStandardHeight);</div>
-<div class="line"><span class="lineno">  185</span>      <a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>.setJustificationType(juce::Justification::centred);</div>
-<div class="line"><span class="lineno">  186</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><span class="lineno">  187</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>);</div>
-<div class="line"><span class="lineno">  188</span> </div>
-<div class="line"><span class="lineno">  189</span>      <span class="comment">/* Last MIDI command */</span></div>
-<div class="line"><span class="lineno">  190</span>      <a class="code hl_function" href="class_main_content_component.html#a35ec9fb3b783b4942f25e4b433a9b688">StandardLabelSettings</a>(<a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>);</div>
-<div class="line"><span class="lineno">  191</span>      <a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>.setBounds(kCommandLabelX, kCommandLabelY, kLabelWidth, kStandardHeight);</div>
-<div class="line"><span class="lineno">  192</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><span class="lineno">  193</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>);</div>
-<div class="line"><span class="lineno">  194</span> </div>
-<div class="line"><span class="lineno">  195</span>      <span class="comment">/* Remove row button */</span></div>
-<div class="line"><span class="lineno">  196</span>      <a class="code hl_variable" href="class_main_content_component.html#a4d058805788da013c54312607fac3544">remove_row_button_</a>.setBounds(kFirstButtonX, kBottomButtonY, kButtonWidth, kStandardHeight);</div>
-<div class="line"><span class="lineno">  197</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a4d058805788da013c54312607fac3544">remove_row_button_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><span class="lineno">  198</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a4d058805788da013c54312607fac3544">remove_row_button_</a>);</div>
-<div class="line"><span class="lineno">  199</span>      <a class="code hl_variable" href="class_main_content_component.html#a4d058805788da013c54312607fac3544">remove_row_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
-<div class="line"><span class="lineno">  200</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.getNumRows() &gt; 0) {</div>
-<div class="line"><span class="lineno">  201</span>            <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#aa204f0fac70850e1f2fd7e62fea0e485">RemoveAllRows</a>();</div>
-<div class="line"><span class="lineno">  202</span>            <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.updateContent();</div>
-<div class="line"><span class="lineno">  203</span>         }</div>
-<div class="line"><span class="lineno">  204</span>      };</div>
-<div class="line"><span class="lineno">  205</span> </div>
-<div class="line"><span class="lineno">  206</span>      <span class="comment">/* Rescan MIDI button */</span></div>
-<div class="line"><span class="lineno">  207</span>      <a class="code hl_variable" href="class_main_content_component.html#a0d8c30dbe8e6a3f6fa5d56d9541543ac">rescan_button_</a>.setBounds(kSecondButtonX, kBottomButtonY, kButtonWidth, kStandardHeight);</div>
-<div class="line"><span class="lineno">  208</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a0d8c30dbe8e6a3f6fa5d56d9541543ac">rescan_button_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><span class="lineno">  209</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a0d8c30dbe8e6a3f6fa5d56d9541543ac">rescan_button_</a>);</div>
-<div class="line"><span class="lineno">  210</span>      <a class="code hl_variable" href="class_main_content_component.html#a0d8c30dbe8e6a3f6fa5d56d9541543ac">rescan_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
-<div class="line"><span class="lineno">  211</span>         <span class="comment">/* Re-enumerate MIDI IN and OUT devices */</span></div>
-<div class="line"><span class="lineno">  212</span>         <a class="code hl_variable" href="class_main_content_component.html#a38a2b7ee37726efb84798e8b8bc397af">midi_receiver_</a>.<a class="code hl_function" href="class_midi_receiver.html#a9a477458f298106f55c97ae9c7043fbc">RescanDevices</a>();</div>
-<div class="line"><span class="lineno">  213</span>         <a class="code hl_variable" href="class_main_content_component.html#a90c484f364548ee493e23004a3f0126f">midi_sender_</a>.<a class="code hl_function" href="class_midi_sender.html#ac40f8961fcc5ab57f6c59c6220c9c2c9">RescanDevices</a>();</div>
-<div class="line"><span class="lineno">  214</span>         <span class="comment">/* Send new CC parameters to MIDI Out devices */</span></div>
-<div class="line"><span class="lineno">  215</span>         <a class="code hl_variable" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(<span class="stringliteral">&quot;FullRefresh 1\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  216</span>      };</div>
-<div class="line"><span class="lineno">  217</span> </div>
-<div class="line"><span class="lineno">  218</span>      <span class="comment">/* Disconnect button */</span></div>
-<div class="line"><span class="lineno">  219</span>      <a class="code hl_variable" href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">disconnect_button_</a>.setBounds(kThirdButtonX, kBottomButtonY, kButtonWidth, kStandardHeight);</div>
-<div class="line"><span class="lineno">  220</span>      <a class="code hl_variable" href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">disconnect_button_</a>.setClickingTogglesState(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  221</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">disconnect_button_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><span class="lineno">  222</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">disconnect_button_</a>);</div>
-<div class="line"><span class="lineno">  223</span>      <a class="code hl_variable" href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">disconnect_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
-<div class="line"><span class="lineno">  224</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">disconnect_button_</a>.getToggleState()) {</div>
-<div class="line"><span class="lineno">  225</span>            <a class="code hl_variable" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#a57f84fbcf5b7c27655ca8a1c7c033ea9">SendingStop</a>();</div>
-<div class="line"><span class="lineno">  226</span>            <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Sending halted.&quot;</span>);</div>
-<div class="line"><span class="lineno">  227</span>         }</div>
-<div class="line"><span class="lineno">  228</span>         <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  229</span>            <a class="code hl_variable" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#a200242025149e706c1563b3d8ad10aca">SendingRestart</a>();</div>
-<div class="line"><span class="lineno">  230</span>            <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Sending restarted.&quot;</span>);</div>
-<div class="line"><span class="lineno">  231</span>         }</div>
-<div class="line"><span class="lineno">  232</span>      };</div>
-<div class="line"><span class="lineno">  233</span> </div>
-<div class="line"><span class="lineno">  234</span>      <span class="comment">/* Delete unassigned rows */</span></div>
-<div class="line"><span class="lineno">  235</span>      <a class="code hl_variable" href="class_main_content_component.html#ac75870dae8e6b4dd863ea0eb86a854d6">remove_unassigned_button_</a>.setBounds(kFirstButtonX, kBottomButtonY2, kButtonWidth,</div>
-<div class="line"><span class="lineno">  236</span>          kStandardHeight);</div>
-<div class="line"><span class="lineno">  237</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#ac75870dae8e6b4dd863ea0eb86a854d6">remove_unassigned_button_</a>, anchorMidLeft, anchorMidRight);</div>
-<div class="line"><span class="lineno">  238</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#ac75870dae8e6b4dd863ea0eb86a854d6">remove_unassigned_button_</a>);</div>
-<div class="line"><span class="lineno">  239</span>      <a class="code hl_variable" href="class_main_content_component.html#ac75870dae8e6b4dd863ea0eb86a854d6">remove_unassigned_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
-<div class="line"><span class="lineno">  240</span>         <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#a52a1e65a7ec8df1864309e0c6d127fab">RemoveUnassignedMessages</a>();</div>
-<div class="line"><span class="lineno">  241</span>         <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.updateContent();</div>
-<div class="line"><span class="lineno">  242</span>      };</div>
-<div class="line"><span class="lineno">  243</span> </div>
-<div class="line"><span class="lineno">  244</span>      <span class="comment">/* Try to load a default.xml if the user has not set a profile directory */</span></div>
-<div class="line"><span class="lineno">  245</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>().isEmpty()) {</div>
-<div class="line"><span class="lineno">  246</span>         <span class="keyword">const</span> <span class="keyword">auto</span> filename {<a class="code hl_function" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kDefaultsFile)};</div>
-<div class="line"><span class="lineno">  247</span>         <span class="keyword">const</span> <span class="keyword">auto</span> default_profile {juce::File(filename.data())};</div>
-<div class="line"><span class="lineno">  248</span>         <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> parsed {juce::parseXML(default_profile)}) {</div>
-<div class="line"><span class="lineno">  249</span>            <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720">FromXml</a>(parsed.get());</div>
-<div class="line"><span class="lineno">  250</span>            <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.updateContent();</div>
-<div class="line"><span class="lineno">  251</span>         }</div>
-<div class="line"><span class="lineno">  252</span>      }</div>
-<div class="line"><span class="lineno">  253</span>      <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  254</span>         <span class="keyword">const</span> <span class="keyword">auto</span> last_prof {<a class="code hl_variable" href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#a52ca27225c2c0423c8235da4c6503443">GetDefaultProfile</a>()};</div>
-<div class="line"><span class="lineno">  255</span>         <span class="keywordflow">if</span> (last_prof != juce::String()) { <a class="code hl_variable" href="class_main_content_component.html#a74604455046f47741c07707c1813ef76">profile_manager_</a>.<a class="code hl_function" href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">SwitchToProfile</a>(last_prof); }</div>
-<div class="line"><span class="lineno">  256</span>         <span class="keywordflow">else</span> { <span class="comment">/* otherwise use the last profile from the profile directory */</span></div>
-<div class="line"><span class="lineno">  257</span>            <a class="code hl_variable" href="class_main_content_component.html#a74604455046f47741c07707c1813ef76">profile_manager_</a>.<a class="code hl_function" href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">SwitchToProfile</a>(0);</div>
-<div class="line"><span class="lineno">  258</span>         }</div>
-<div class="line"><span class="lineno">  259</span>      }</div>
-<div class="line"><span class="lineno">  260</span> </div>
-<div class="line"><span class="lineno">  261</span>      <span class="comment">/* turn it on */</span></div>
-<div class="line"><span class="lineno">  262</span>      activateLayout();</div>
-<div class="line"><span class="lineno">  263</span>   }</div>
-<div class="line"><span class="lineno">  264</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  265</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  266</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  267</span>   }</div>
-<div class="line"><span class="lineno">  268</span>}</div>
+<div class="line"><span class="lineno">  111</span>      <span class="comment">/* Version label */</span></div>
+<div class="line"><span class="lineno">  112</span>      StandardLabelSettings(<a class="code hl_variable" href="class_main_content_component.html#a3a76609b164fa1a270b95fd7f6ef9f82">version_label_</a>);</div>
+<div class="line"><span class="lineno">  113</span>      <a class="code hl_variable" href="class_main_content_component.html#a3a76609b164fa1a270b95fd7f6ef9f82">version_label_</a>.setBounds(kMainLeft, 40, kFullWidth, 10);</div>
+<div class="line"><span class="lineno">  114</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a3a76609b164fa1a270b95fd7f6ef9f82">version_label_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><span class="lineno">  115</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a3a76609b164fa1a270b95fd7f6ef9f82">version_label_</a>);</div>
+<div class="line"><span class="lineno">  116</span> </div>
+<div class="line"><span class="lineno">  117</span>      <span class="comment">/* Connection status */</span></div>
+<div class="line"><span class="lineno">  118</span>      StandardLabelSettings(<a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>);</div>
+<div class="line"><span class="lineno">  119</span>      <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setColour(juce::Label::textColourId, juce::Colours::black);</div>
+<div class="line"><span class="lineno">  120</span>      <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setColour(juce::Label::backgroundColourId, juce::Colours::red);</div>
+<div class="line"><span class="lineno">  121</span>      <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setJustificationType(juce::Justification::centred);</div>
+<div class="line"><span class="lineno">  122</span>      <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setBounds(200, 15, kConnectionLabelWidth, kStandardHeight);</div>
+<div class="line"><span class="lineno">  123</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><span class="lineno">  124</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>);</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>      <span class="comment">/* Load button */</span></div>
+<div class="line"><span class="lineno">  127</span>      <a class="code hl_variable" href="class_main_content_component.html#a82f5785ac57e1ed2eff21365d10347ea">load_button_</a>.setBounds(kFirstButtonX, kTopButtonY, kButtonWidth, kStandardHeight);</div>
+<div class="line"><span class="lineno">  128</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a82f5785ac57e1ed2eff21365d10347ea">load_button_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><span class="lineno">  129</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a82f5785ac57e1ed2eff21365d10347ea">load_button_</a>);</div>
+<div class="line"><span class="lineno">  130</span>      <a class="code hl_variable" href="class_main_content_component.html#a82f5785ac57e1ed2eff21365d10347ea">load_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
+<div class="line"><span class="lineno">  131</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#a088d7d62d487c12a798f0d36145c2c84">ProfileUnsaved</a>()) {</div>
+<div class="line"><span class="lineno">  132</span>            <span class="keywordflow">if</span> (juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,</div>
+<div class="line"><span class="lineno">  133</span>                    juce::translate(<span class="stringliteral">&quot;MIDI2LR profiles&quot;</span>),</div>
+<div class="line"><span class="lineno">  134</span>                    juce::translate(<span class="stringliteral">&quot;Profile changed. Do you want to save your changes? If you &quot;</span></div>
+<div class="line"><span class="lineno">  135</span>                                    <span class="stringliteral">&quot;continue without saving, your changes will be lost.&quot;</span>))) {</div>
+<div class="line"><span class="lineno">  136</span>               <a class="code hl_function" href="class_main_content_component.html#a2fb8d7fa655cfa994655430c40121f46">SaveProfile</a>();</div>
+<div class="line"><span class="lineno">  137</span>            }</div>
+<div class="line"><span class="lineno">  138</span>         }</div>
+<div class="line"><span class="lineno">  139</span>         juce::File profile_directory {<a class="code hl_variable" href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>()};</div>
+<div class="line"><span class="lineno">  140</span>         <span class="keyword">const</span> <span class="keyword">auto</span> directory_saved {profile_directory.exists()};</div>
+<div class="line"><span class="lineno">  141</span>         <span class="keywordflow">if</span> (!directory_saved) [[unlikely]] {</div>
+<div class="line"><span class="lineno">  142</span>            profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);</div>
+<div class="line"><span class="lineno">  143</span>         }</div>
+<div class="line"><span class="lineno">  144</span>         juce::FileChooser chooser {</div>
+<div class="line"><span class="lineno">  145</span>             juce::translate(<span class="stringliteral">&quot;Open profile&quot;</span>), profile_directory, <span class="stringliteral">&quot;*.xml&quot;</span>, <span class="keyword">true</span>};</div>
+<div class="line"><span class="lineno">  146</span>         <span class="keywordflow">if</span> (chooser.browseForFileToOpen()) {</div>
+<div class="line"><span class="lineno">  147</span>            <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> parsed {juce::parseXML(chooser.getResult())}) {</div>
+<div class="line"><span class="lineno">  148</span>               <span class="keyword">const</span> <span class="keyword">auto</span> new_profile {chooser.getResult()};</div>
+<div class="line"><span class="lineno">  149</span>               <a class="code hl_variable" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;ChangedToFullPath {}\n&quot;</span>),</div>
+<div class="line"><span class="lineno">  150</span>                   new_profile.getFullPathName().toStdString()));</div>
+<div class="line"><span class="lineno">  151</span>               <a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>.setText(new_profile.getFileName(),</div>
+<div class="line"><span class="lineno">  152</span>                   juce::NotificationType::dontSendNotification);</div>
+<div class="line"><span class="lineno">  153</span>               <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720">FromXml</a>(parsed.get());</div>
+<div class="line"><span class="lineno">  154</span>               <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.updateContent();</div>
+<div class="line"><span class="lineno">  155</span>               <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.repaint();</div>
+<div class="line"><span class="lineno">  156</span>               <span class="keywordflow">if</span> (!directory_saved) [[unlikely]] { <span class="comment">/* haven&#39;t saved a directory yet */</span></div>
+<div class="line"><span class="lineno">  157</span>                  <a class="code hl_variable" href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b">SetProfileDirectory</a>(</div>
+<div class="line"><span class="lineno">  158</span>                      new_profile.getParentDirectory().getFullPathName());</div>
+<div class="line"><span class="lineno">  159</span>               }</div>
+<div class="line"><span class="lineno">  160</span>            }</div>
+<div class="line"><span class="lineno">  161</span>            <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  162</span>               <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Unable to load profile {}.&quot;</span>),</div>
+<div class="line"><span class="lineno">  163</span>                   chooser.getResult().getFullPathName().toStdString()));</div>
+<div class="line"><span class="lineno">  164</span>            }</div>
+<div class="line"><span class="lineno">  165</span>         }</div>
+<div class="line"><span class="lineno">  166</span>      };</div>
+<div class="line"><span class="lineno">  167</span> </div>
+<div class="line"><span class="lineno">  168</span>      <span class="comment">/* Save button */</span></div>
+<div class="line"><span class="lineno">  169</span>      <a class="code hl_variable" href="class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884">save_button_</a>.setBounds(kSecondButtonX, kTopButtonY, kButtonWidth, kStandardHeight);</div>
+<div class="line"><span class="lineno">  170</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884">save_button_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><span class="lineno">  171</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884">save_button_</a>);</div>
+<div class="line"><span class="lineno">  172</span>      <a class="code hl_variable" href="class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884">save_button_</a>.onClick = [<span class="keyword">this</span>] { <a class="code hl_function" href="class_main_content_component.html#a2fb8d7fa655cfa994655430c40121f46">SaveProfile</a>(); };</div>
+<div class="line"><span class="lineno">  173</span> </div>
+<div class="line"><span class="lineno">  174</span>      <span class="comment">/* Settings button */</span></div>
+<div class="line"><span class="lineno">  175</span>      <a class="code hl_variable" href="class_main_content_component.html#a4b8201db4fce61cfe7022aebf692ac20">settings_button_</a>.setBounds(kThirdButtonX, kTopButtonY, kButtonWidth, kStandardHeight);</div>
+<div class="line"><span class="lineno">  176</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a4b8201db4fce61cfe7022aebf692ac20">settings_button_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><span class="lineno">  177</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a4b8201db4fce61cfe7022aebf692ac20">settings_button_</a>);</div>
+<div class="line"><span class="lineno">  178</span>      <a class="code hl_variable" href="class_main_content_component.html#a4b8201db4fce61cfe7022aebf692ac20">settings_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
+<div class="line"><span class="lineno">  179</span>         juce::DialogWindow::LaunchOptions dialog_options;</div>
+<div class="line"><span class="lineno">  180</span>         dialog_options.dialogTitle = juce::translate(<span class="stringliteral">&quot;Settings&quot;</span>);</div>
+<div class="line"><span class="lineno">  181</span>         <span class="comment">/* create new object */</span></div>
+<div class="line"><span class="lineno">  182</span>         <span class="keyword">auto</span> component {std::make_unique&lt;SettingsComponent&gt;(<a class="code hl_variable" href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">settings_manager_</a>)};</div>
+<div class="line"><span class="lineno">  183</span>         component-&gt;Init();</div>
+<div class="line"><span class="lineno">  184</span>         dialog_options.content.setOwned(component.release());</div>
+<div class="line"><span class="lineno">  185</span>         dialog_options.content-&gt;setSize(400, 300);</div>
+<div class="line"><span class="lineno">  186</span>         <a class="code hl_variable" href="class_main_content_component.html#a54fa2138d58445d305d11d6b0de04a0a">settings_dialog_</a>.reset(dialog_options.create());</div>
+<div class="line"><span class="lineno">  187</span>         <a class="code hl_variable" href="class_main_content_component.html#a54fa2138d58445d305d11d6b0de04a0a">settings_dialog_</a>-&gt;setVisible(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  188</span>      };</div>
+<div class="line"><span class="lineno">  189</span> </div>
+<div class="line"><span class="lineno">  190</span>      <span class="comment">/* Command Table */</span></div>
+<div class="line"><span class="lineno">  191</span>      <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.setModel(&amp;<a class="code hl_variable" href="class_main_content_component.html#a67d255a327565be0485550fe234e5f46">command_table_model_</a>);</div>
+<div class="line"><span class="lineno">  192</span>      <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.setBounds(kMainLeft, kCommandTableY, kFullWidth, kCommandTableHeight);</div>
+<div class="line"><span class="lineno">  193</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><span class="lineno">  194</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>);</div>
+<div class="line"><span class="lineno">  195</span> </div>
+<div class="line"><span class="lineno">  196</span>      <span class="comment">/* Profile name label */</span></div>
+<div class="line"><span class="lineno">  197</span>      StandardLabelSettings(<a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>);</div>
+<div class="line"><span class="lineno">  198</span>      <a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>.setColour(juce::Label::textColourId, juce::Colours::black);</div>
+<div class="line"><span class="lineno">  199</span>      <a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>.setBounds(kMainLeft, kProfileNameY, kLabelWidth, kStandardHeight);</div>
+<div class="line"><span class="lineno">  200</span>      <a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>.setJustificationType(juce::Justification::centred);</div>
+<div class="line"><span class="lineno">  201</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><span class="lineno">  202</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>);</div>
+<div class="line"><span class="lineno">  203</span> </div>
+<div class="line"><span class="lineno">  204</span>      <span class="comment">/* Last MIDI command */</span></div>
+<div class="line"><span class="lineno">  205</span>      StandardLabelSettings(<a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>);</div>
+<div class="line"><span class="lineno">  206</span>      <a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>.setBounds(kCommandLabelX, kCommandLabelY, kLabelWidth, kStandardHeight);</div>
+<div class="line"><span class="lineno">  207</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><span class="lineno">  208</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>);</div>
+<div class="line"><span class="lineno">  209</span> </div>
+<div class="line"><span class="lineno">  210</span>      <span class="comment">/* Remove row button */</span></div>
+<div class="line"><span class="lineno">  211</span>      <a class="code hl_variable" href="class_main_content_component.html#a4d058805788da013c54312607fac3544">remove_row_button_</a>.setBounds(kFirstButtonX, kBottomButtonY, kButtonWidth, kStandardHeight);</div>
+<div class="line"><span class="lineno">  212</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a4d058805788da013c54312607fac3544">remove_row_button_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><span class="lineno">  213</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a4d058805788da013c54312607fac3544">remove_row_button_</a>);</div>
+<div class="line"><span class="lineno">  214</span>      <a class="code hl_variable" href="class_main_content_component.html#a4d058805788da013c54312607fac3544">remove_row_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
+<div class="line"><span class="lineno">  215</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.getNumRows() &gt; 0) {</div>
+<div class="line"><span class="lineno">  216</span>            <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#aa204f0fac70850e1f2fd7e62fea0e485">RemoveAllRows</a>();</div>
+<div class="line"><span class="lineno">  217</span>            <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.updateContent();</div>
+<div class="line"><span class="lineno">  218</span>         }</div>
+<div class="line"><span class="lineno">  219</span>      };</div>
+<div class="line"><span class="lineno">  220</span> </div>
+<div class="line"><span class="lineno">  221</span>      <span class="comment">/* Rescan MIDI button */</span></div>
+<div class="line"><span class="lineno">  222</span>      <a class="code hl_variable" href="class_main_content_component.html#a0d8c30dbe8e6a3f6fa5d56d9541543ac">rescan_button_</a>.setBounds(kSecondButtonX, kBottomButtonY, kButtonWidth, kStandardHeight);</div>
+<div class="line"><span class="lineno">  223</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#a0d8c30dbe8e6a3f6fa5d56d9541543ac">rescan_button_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><span class="lineno">  224</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#a0d8c30dbe8e6a3f6fa5d56d9541543ac">rescan_button_</a>);</div>
+<div class="line"><span class="lineno">  225</span>      <a class="code hl_variable" href="class_main_content_component.html#a0d8c30dbe8e6a3f6fa5d56d9541543ac">rescan_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
+<div class="line"><span class="lineno">  226</span>         <span class="comment">/* Re-enumerate MIDI IN and OUT devices */</span></div>
+<div class="line"><span class="lineno">  227</span>         <a class="code hl_variable" href="class_main_content_component.html#a38a2b7ee37726efb84798e8b8bc397af">midi_receiver_</a>.<a class="code hl_function" href="class_midi_receiver.html#a9a477458f298106f55c97ae9c7043fbc">RescanDevices</a>();</div>
+<div class="line"><span class="lineno">  228</span>         <a class="code hl_variable" href="class_main_content_component.html#a90c484f364548ee493e23004a3f0126f">midi_sender_</a>.<a class="code hl_function" href="class_midi_sender.html#ac40f8961fcc5ab57f6c59c6220c9c2c9">RescanDevices</a>();</div>
+<div class="line"><span class="lineno">  229</span>         <span class="comment">/* Send new CC parameters to MIDI Out devices */</span></div>
+<div class="line"><span class="lineno">  230</span>         <a class="code hl_variable" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(<span class="stringliteral">&quot;FullRefresh 1\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  231</span>      };</div>
+<div class="line"><span class="lineno">  232</span> </div>
+<div class="line"><span class="lineno">  233</span>      <span class="comment">/* Disconnect button */</span></div>
+<div class="line"><span class="lineno">  234</span>      <a class="code hl_variable" href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">disconnect_button_</a>.setBounds(kThirdButtonX, kBottomButtonY, kButtonWidth, kStandardHeight);</div>
+<div class="line"><span class="lineno">  235</span>      <a class="code hl_variable" href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">disconnect_button_</a>.setClickingTogglesState(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  236</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">disconnect_button_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><span class="lineno">  237</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">disconnect_button_</a>);</div>
+<div class="line"><span class="lineno">  238</span>      <a class="code hl_variable" href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">disconnect_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
+<div class="line"><span class="lineno">  239</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">disconnect_button_</a>.getToggleState()) {</div>
+<div class="line"><span class="lineno">  240</span>            <a class="code hl_variable" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#a57f84fbcf5b7c27655ca8a1c7c033ea9">SendingStop</a>();</div>
+<div class="line"><span class="lineno">  241</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Sending halted.&quot;</span>);</div>
+<div class="line"><span class="lineno">  242</span>         }</div>
+<div class="line"><span class="lineno">  243</span>         <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  244</span>            <a class="code hl_variable" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#a200242025149e706c1563b3d8ad10aca">SendingRestart</a>();</div>
+<div class="line"><span class="lineno">  245</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Sending restarted.&quot;</span>);</div>
+<div class="line"><span class="lineno">  246</span>         }</div>
+<div class="line"><span class="lineno">  247</span>      };</div>
+<div class="line"><span class="lineno">  248</span> </div>
+<div class="line"><span class="lineno">  249</span>      <span class="comment">/* Delete unassigned rows */</span></div>
+<div class="line"><span class="lineno">  250</span>      <a class="code hl_variable" href="class_main_content_component.html#ac75870dae8e6b4dd863ea0eb86a854d6">remove_unassigned_button_</a>.setBounds(kFirstButtonX, kBottomButtonY2, kButtonWidth,</div>
+<div class="line"><span class="lineno">  251</span>          kStandardHeight);</div>
+<div class="line"><span class="lineno">  252</span>      addToLayout(&amp;<a class="code hl_variable" href="class_main_content_component.html#ac75870dae8e6b4dd863ea0eb86a854d6">remove_unassigned_button_</a>, anchorMidLeft, anchorMidRight);</div>
+<div class="line"><span class="lineno">  253</span>      addAndMakeVisible(<a class="code hl_variable" href="class_main_content_component.html#ac75870dae8e6b4dd863ea0eb86a854d6">remove_unassigned_button_</a>);</div>
+<div class="line"><span class="lineno">  254</span>      <a class="code hl_variable" href="class_main_content_component.html#ac75870dae8e6b4dd863ea0eb86a854d6">remove_unassigned_button_</a>.onClick = [<span class="keyword">this</span>] {</div>
+<div class="line"><span class="lineno">  255</span>         <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#a52a1e65a7ec8df1864309e0c6d127fab">RemoveUnassignedMessages</a>();</div>
+<div class="line"><span class="lineno">  256</span>         <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.updateContent();</div>
+<div class="line"><span class="lineno">  257</span>      };</div>
+<div class="line"><span class="lineno">  258</span> </div>
+<div class="line"><span class="lineno">  259</span>      <span class="comment">/* Try to load a default.xml if the user has not set a profile directory */</span></div>
+<div class="line"><span class="lineno">  260</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>().isEmpty()) {</div>
+<div class="line"><span class="lineno">  261</span>         <span class="keyword">const</span> <span class="keyword">auto</span> filename {<a class="code hl_function" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a>(kDefaultsFile)};</div>
+<div class="line"><span class="lineno">  262</span>         <span class="keyword">const</span> <span class="keyword">auto</span> default_profile {juce::File(filename.data())};</div>
+<div class="line"><span class="lineno">  263</span>         <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> parsed {juce::parseXML(default_profile)}) {</div>
+<div class="line"><span class="lineno">  264</span>            <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720">FromXml</a>(parsed.get());</div>
+<div class="line"><span class="lineno">  265</span>            <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.updateContent();</div>
+<div class="line"><span class="lineno">  266</span>         }</div>
+<div class="line"><span class="lineno">  267</span>      }</div>
+<div class="line"><span class="lineno">  268</span>      <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  269</span>         <span class="keyword">const</span> <span class="keyword">auto</span> last_prof {<a class="code hl_variable" href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#a52ca27225c2c0423c8235da4c6503443">GetDefaultProfile</a>()};</div>
+<div class="line"><span class="lineno">  270</span>         <span class="keywordflow">if</span> (last_prof != juce::String()) { <a class="code hl_variable" href="class_main_content_component.html#a74604455046f47741c07707c1813ef76">profile_manager_</a>.<a class="code hl_function" href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">SwitchToProfile</a>(last_prof); }</div>
+<div class="line"><span class="lineno">  271</span>         <span class="keywordflow">else</span> { <span class="comment">/* otherwise use the last profile from the profile directory */</span></div>
+<div class="line"><span class="lineno">  272</span>            <a class="code hl_variable" href="class_main_content_component.html#a74604455046f47741c07707c1813ef76">profile_manager_</a>.<a class="code hl_function" href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">SwitchToProfile</a>(0);</div>
+<div class="line"><span class="lineno">  273</span>         }</div>
+<div class="line"><span class="lineno">  274</span>      }</div>
+<div class="line"><span class="lineno">  275</span> </div>
+<div class="line"><span class="lineno">  276</span>      <span class="comment">/* turn it on */</span></div>
+<div class="line"><span class="lineno">  277</span>      activateLayout();</div>
+<div class="line"><span class="lineno">  278</span>   }</div>
+<div class="line"><span class="lineno">  279</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  280</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  281</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  282</span>   }</div>
+<div class="line"><span class="lineno">  283</span>}</div>
 <div class="ttc" id="aclass_lr_ipc_out_html_a200242025149e706c1563b3d8ad10aca"><div class="ttname"><a href="class_lr_ipc_out.html#a200242025149e706c1563b3d8ad10aca">LrIpcOut::SendingRestart</a></div><div class="ttdeci">void SendingRestart()</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:77</div></div>
 <div class="ttc" id="aclass_lr_ipc_out_html_a57f84fbcf5b7c27655ca8a1c7c033ea9"><div class="ttname"><a href="class_lr_ipc_out.html#a57f84fbcf5b7c27655ca8a1c7c033ea9">LrIpcOut::SendingStop</a></div><div class="ttdeci">void SendingStop()</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:93</div></div>
 <div class="ttc" id="aclass_lr_ipc_out_html_a868d8f460f4f2140e177d74d1210f254"><div class="ttname"><a href="class_lr_ipc_out.html#a868d8f460f4f2140e177d74d1210f254">LrIpcOut::AddCallback</a></div><div class="ttdeci">void AddCallback(_In_ T *const object, _In_ void(T::*const mf)(bool, bool))</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.h:51</div></div>
-<div class="ttc" id="aclass_lr_ipc_out_html_ae1e40469ef8e53e58ef1c833774f8dac"><div class="ttname"><a href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">LrIpcOut::SendCommand</a></div><div class="ttdeci">void SendCommand(std::string &amp;&amp;command)</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:67</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a0d8c30dbe8e6a3f6fa5d56d9541543ac"><div class="ttname"><a href="class_main_content_component.html#a0d8c30dbe8e6a3f6fa5d56d9541543ac">MainContentComponent::rescan_button_</a></div><div class="ttdeci">juce::TextButton rescan_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:80</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a2fb8d7fa655cfa994655430c40121f46"><div class="ttname"><a href="class_main_content_component.html#a2fb8d7fa655cfa994655430c40121f46">MainContentComponent::SaveProfile</a></div><div class="ttdeci">void SaveProfile() const</div><div class="ttdef"><b>Definition</b> MainComponent.cpp:270</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a337ef400359712b24a924d6a8056be93"><div class="ttname"><a href="class_main_content_component.html#a337ef400359712b24a924d6a8056be93">MainContentComponent::ProfileChanged</a></div><div class="ttdeci">void ProfileChanged(juce::XmlElement *xml_element, const juce::String &amp;file_name)</div><div class="ttdef"><b>Definition</b> MainComponent.cpp:343</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a35ec9fb3b783b4942f25e4b433a9b688"><div class="ttname"><a href="class_main_content_component.html#a35ec9fb3b783b4942f25e4b433a9b688">MainContentComponent::StandardLabelSettings</a></div><div class="ttdeci">void StandardLabelSettings(juce::Label &amp;label_to_set)</div><div class="ttdef"><b>Definition</b> MainComponent.cpp:363</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a3a76609b164fa1a270b95fd7f6ef9f82"><div class="ttname"><a href="class_main_content_component.html#a3a76609b164fa1a270b95fd7f6ef9f82">MainContentComponent::version_label_</a></div><div class="ttdeci">juce::Label version_label_</div><div class="ttdef"><b>Definition</b> MainComponent.h:73</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a4b8201db4fce61cfe7022aebf692ac20"><div class="ttname"><a href="class_main_content_component.html#a4b8201db4fce61cfe7022aebf692ac20">MainContentComponent::settings_button_</a></div><div class="ttdeci">juce::TextButton settings_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:82</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a4d058805788da013c54312607fac3544"><div class="ttname"><a href="class_main_content_component.html#a4d058805788da013c54312607fac3544">MainContentComponent::remove_row_button_</a></div><div class="ttdeci">juce::TextButton remove_row_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:78</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a54fa2138d58445d305d11d6b0de04a0a"><div class="ttname"><a href="class_main_content_component.html#a54fa2138d58445d305d11d6b0de04a0a">MainContentComponent::settings_dialog_</a></div><div class="ttdeci">std::unique_ptr&lt; juce::DialogWindow &gt; settings_dialog_</div><div class="ttdef"><b>Definition</b> MainComponent.h:90</div></div>
+<div class="ttc" id="aclass_lr_ipc_out_html_aaca9ebc83a482fcfc6dcc054d3bb2e46"><div class="ttname"><a href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">LrIpcOut::SendCommand</a></div><div class="ttdeci">void SendCommand(std::string &amp;&amp;command) const</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:67</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a0d8c30dbe8e6a3f6fa5d56d9541543ac"><div class="ttname"><a href="class_main_content_component.html#a0d8c30dbe8e6a3f6fa5d56d9541543ac">MainContentComponent::rescan_button_</a></div><div class="ttdeci">juce::TextButton rescan_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:85</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a2fb8d7fa655cfa994655430c40121f46"><div class="ttname"><a href="class_main_content_component.html#a2fb8d7fa655cfa994655430c40121f46">MainContentComponent::SaveProfile</a></div><div class="ttdeci">void SaveProfile() const</div><div class="ttdef"><b>Definition</b> MainComponent.cpp:285</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a337ef400359712b24a924d6a8056be93"><div class="ttname"><a href="class_main_content_component.html#a337ef400359712b24a924d6a8056be93">MainContentComponent::ProfileChanged</a></div><div class="ttdeci">void ProfileChanged(juce::XmlElement *xml_element, const juce::String &amp;file_name)</div><div class="ttdef"><b>Definition</b> MainComponent.cpp:362</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a3a76609b164fa1a270b95fd7f6ef9f82"><div class="ttname"><a href="class_main_content_component.html#a3a76609b164fa1a270b95fd7f6ef9f82">MainContentComponent::version_label_</a></div><div class="ttdeci">juce::Label version_label_</div><div class="ttdef"><b>Definition</b> MainComponent.h:74</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a4b8201db4fce61cfe7022aebf692ac20"><div class="ttname"><a href="class_main_content_component.html#a4b8201db4fce61cfe7022aebf692ac20">MainContentComponent::settings_button_</a></div><div class="ttdeci">juce::TextButton settings_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:87</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a4d058805788da013c54312607fac3544"><div class="ttname"><a href="class_main_content_component.html#a4d058805788da013c54312607fac3544">MainContentComponent::remove_row_button_</a></div><div class="ttdeci">juce::TextButton remove_row_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:83</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a54fa2138d58445d305d11d6b0de04a0a"><div class="ttname"><a href="class_main_content_component.html#a54fa2138d58445d305d11d6b0de04a0a">MainContentComponent::settings_dialog_</a></div><div class="ttdeci">std::unique_ptr&lt; juce::DialogWindow &gt; settings_dialog_</div><div class="ttdef"><b>Definition</b> MainComponent.h:95</div></div>
 <div class="ttc" id="aclass_main_content_component_html_a5565899fbeb870365742e50dd249a55d"><div class="ttname"><a href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">MainContentComponent::connection_label_</a></div><div class="ttdeci">juce::Label connection_label_</div><div class="ttdef"><b>Definition</b> MainComponent.h:70</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a5c7da1ac272d106cfed84954a4816334"><div class="ttname"><a href="class_main_content_component.html#a5c7da1ac272d106cfed84954a4816334">MainContentComponent::LrIpcOutCallback</a></div><div class="ttdeci">void LrIpcOutCallback(bool, bool)</div><div class="ttdef"><b>Definition</b> MainComponent.cpp:312</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a7097aa1cbe601b799d6b1ec245c93884"><div class="ttname"><a href="class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884">MainContentComponent::save_button_</a></div><div class="ttdeci">juce::TextButton save_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:81</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a5c7da1ac272d106cfed84954a4816334"><div class="ttname"><a href="class_main_content_component.html#a5c7da1ac272d106cfed84954a4816334">MainContentComponent::LrIpcOutCallback</a></div><div class="ttdeci">void LrIpcOutCallback(bool, bool)</div><div class="ttdef"><b>Definition</b> MainComponent.cpp:340</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a7097aa1cbe601b799d6b1ec245c93884"><div class="ttname"><a href="class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884">MainContentComponent::save_button_</a></div><div class="ttdeci">juce::TextButton save_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:86</div></div>
 <div class="ttc" id="aclass_main_content_component_html_a8074d32c4e01a43d317cc1af183ce344"><div class="ttname"><a href="class_main_content_component.html#a8074d32c4e01a43d317cc1af183ce344">MainContentComponent::title_shadow_</a></div><div class="ttdeci">juce::DropShadowEffect title_shadow_</div><div class="ttdef"><b>Definition</b> MainComponent.h:68</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a82f5785ac57e1ed2eff21365d10347ea"><div class="ttname"><a href="class_main_content_component.html#a82f5785ac57e1ed2eff21365d10347ea">MainContentComponent::load_button_</a></div><div class="ttdeci">juce::TextButton load_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:77</div></div>
-<div class="ttc" id="aclass_main_content_component_html_a9aca9062f4600dc1aa8467193c80a8ba"><div class="ttname"><a href="class_main_content_component.html#a9aca9062f4600dc1aa8467193c80a8ba">MainContentComponent::MidiCmdCallback</a></div><div class="ttdeci">void MidiCmdCallback(rsj::MidiMessage mm)</div><div class="ttdef"><b>Definition</b> MainComponent.cpp:294</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a82f5785ac57e1ed2eff21365d10347ea"><div class="ttname"><a href="class_main_content_component.html#a82f5785ac57e1ed2eff21365d10347ea">MainContentComponent::load_button_</a></div><div class="ttdeci">juce::TextButton load_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:82</div></div>
+<div class="ttc" id="aclass_main_content_component_html_a9aca9062f4600dc1aa8467193c80a8ba"><div class="ttname"><a href="class_main_content_component.html#a9aca9062f4600dc1aa8467193c80a8ba">MainContentComponent::MidiCmdCallback</a></div><div class="ttdeci">void MidiCmdCallback(rsj::MidiMessage mm)</div><div class="ttdef"><b>Definition</b> MainComponent.cpp:309</div></div>
 <div class="ttc" id="aclass_main_content_component_html_aa0db440f2ea6f5c261d2706286cd2110"><div class="ttname"><a href="class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110">MainContentComponent::title_label_</a></div><div class="ttdeci">juce::Label title_label_</div><div class="ttdef"><b>Definition</b> MainComponent.h:72</div></div>
-<div class="ttc" id="aclass_main_content_component_html_ac75870dae8e6b4dd863ea0eb86a854d6"><div class="ttname"><a href="class_main_content_component.html#ac75870dae8e6b4dd863ea0eb86a854d6">MainContentComponent::remove_unassigned_button_</a></div><div class="ttdeci">juce::TextButton remove_unassigned_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:79</div></div>
-<div class="ttc" id="aclass_main_content_component_html_ae3cbeca500ed2cf5a068fce6475207ad"><div class="ttname"><a href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">MainContentComponent::disconnect_button_</a></div><div class="ttdeci">juce::TextButton disconnect_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:76</div></div>
+<div class="ttc" id="aclass_main_content_component_html_ac75870dae8e6b4dd863ea0eb86a854d6"><div class="ttname"><a href="class_main_content_component.html#ac75870dae8e6b4dd863ea0eb86a854d6">MainContentComponent::remove_unassigned_button_</a></div><div class="ttdeci">juce::TextButton remove_unassigned_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:84</div></div>
+<div class="ttc" id="aclass_main_content_component_html_ae3cbeca500ed2cf5a068fce6475207ad"><div class="ttname"><a href="class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad">MainContentComponent::disconnect_button_</a></div><div class="ttdeci">juce::TextButton disconnect_button_</div><div class="ttdef"><b>Definition</b> MainComponent.h:81</div></div>
 <div class="ttc" id="aclass_midi_receiver_html_a7636111b57bff4fea30a0b1672bc3402"><div class="ttname"><a href="class_midi_receiver.html#a7636111b57bff4fea30a0b1672bc3402">MidiReceiver::AddCallback</a></div><div class="ttdeci">void AddCallback(_In_ T *const object, _In_ void(T::*const mf)(rsj::MidiMessage))</div><div class="ttdef"><b>Definition</b> MIDIReceiver.h:49</div></div>
 <div class="ttc" id="aclass_midi_receiver_html_a9a477458f298106f55c97ae9c7043fbc"><div class="ttname"><a href="class_midi_receiver.html#a9a477458f298106f55c97ae9c7043fbc">MidiReceiver::RescanDevices</a></div><div class="ttdeci">void RescanDevices()</div><div class="ttdef"><b>Definition</b> MIDIReceiver.cpp:66</div></div>
-<div class="ttc" id="aclass_midi_sender_html_ac40f8961fcc5ab57f6c59c6220c9c2c9"><div class="ttname"><a href="class_midi_sender.html#ac40f8961fcc5ab57f6c59c6220c9c2c9">MidiSender::RescanDevices</a></div><div class="ttdeci">void RescanDevices()</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:94</div></div>
+<div class="ttc" id="aclass_midi_sender_html_ac40f8961fcc5ab57f6c59c6220c9c2c9"><div class="ttname"><a href="class_midi_sender.html#ac40f8961fcc5ab57f6c59c6220c9c2c9">MidiSender::RescanDevices</a></div><div class="ttdeci">void RescanDevices()</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:114</div></div>
 <div class="ttc" id="aclass_profile_html_a088d7d62d487c12a798f0d36145c2c84"><div class="ttname"><a href="class_profile.html#a088d7d62d487c12a798f0d36145c2c84">Profile::ProfileUnsaved</a></div><div class="ttdeci">bool ProfileUnsaved() const</div><div class="ttdef"><b>Definition</b> Profile.h:139</div></div>
-<div class="ttc" id="aclass_profile_html_a52a1e65a7ec8df1864309e0c6d127fab"><div class="ttname"><a href="class_profile.html#a52a1e65a7ec8df1864309e0c6d127fab">Profile::RemoveUnassignedMessages</a></div><div class="ttdeci">void RemoveUnassignedMessages()</div><div class="ttdef"><b>Definition</b> Profile.cpp:182</div></div>
-<div class="ttc" id="aclass_profile_html_aa204f0fac70850e1f2fd7e62fea0e485"><div class="ttname"><a href="class_profile.html#aa204f0fac70850e1f2fd7e62fea0e485">Profile::RemoveAllRows</a></div><div class="ttdeci">void RemoveAllRows()</div><div class="ttdef"><b>Definition</b> Profile.cpp:132</div></div>
+<div class="ttc" id="aclass_profile_html_a52a1e65a7ec8df1864309e0c6d127fab"><div class="ttname"><a href="class_profile.html#a52a1e65a7ec8df1864309e0c6d127fab">Profile::RemoveUnassignedMessages</a></div><div class="ttdeci">void RemoveUnassignedMessages()</div><div class="ttdef"><b>Definition</b> Profile.cpp:187</div></div>
+<div class="ttc" id="aclass_profile_html_aa204f0fac70850e1f2fd7e62fea0e485"><div class="ttname"><a href="class_profile.html#aa204f0fac70850e1f2fd7e62fea0e485">Profile::RemoveAllRows</a></div><div class="ttdeci">void RemoveAllRows()</div><div class="ttdef"><b>Definition</b> Profile.cpp:137</div></div>
 <div class="ttc" id="aclass_profile_html_ab5c72db4fbde77afeabb5b8ccd3b0720"><div class="ttname"><a href="class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720">Profile::FromXml</a></div><div class="ttdeci">void FromXml(const juce::XmlElement *root)</div><div class="ttdef"><b>Definition</b> Profile.cpp:35</div></div>
-<div class="ttc" id="aclass_profile_manager_html_a3f94344f1d2222f3209e7af6e0f2b88f"><div class="ttname"><a href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">ProfileManager::SwitchToProfile</a></div><div class="ttdeci">void SwitchToProfile(int profile_index)</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:56</div></div>
+<div class="ttc" id="aclass_profile_manager_html_a3f94344f1d2222f3209e7af6e0f2b88f"><div class="ttname"><a href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">ProfileManager::SwitchToProfile</a></div><div class="ttdeci">void SwitchToProfile(int profile_index)</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:57</div></div>
 <div class="ttc" id="aclass_profile_manager_html_a991fb70897af11237ddc35b725ecc09c"><div class="ttname"><a href="class_profile_manager.html#a991fb70897af11237ddc35b725ecc09c">ProfileManager::AddCallback</a></div><div class="ttdeci">void AddCallback(_In_ T *const object, _In_ void(T::*const mf)(juce::XmlElement *, const juce::String &amp;))</div><div class="ttdef"><b>Definition</b> ProfileManager.h:49</div></div>
 <div class="ttc" id="aclass_settings_manager_html_a52ca27225c2c0423c8235da4c6503443"><div class="ttname"><a href="class_settings_manager.html#a52ca27225c2c0423c8235da4c6503443">SettingsManager::GetDefaultProfile</a></div><div class="ttdeci">juce::String GetDefaultProfile() const noexcept</div><div class="ttdef"><b>Definition</b> SettingsManager.h:42</div></div>
 <div class="ttc" id="aclass_settings_manager_html_adc8d58846516e741e4c3940945100c83"><div class="ttname"><a href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">SettingsManager::GetProfileDirectory</a></div><div class="ttdeci">juce::String GetProfileDirectory() const noexcept</div><div class="ttdef"><b>Definition</b> SettingsManager.h:57</div></div>
 <div class="ttc" id="aclass_settings_manager_html_af9bc82888f253394d2ae8c9015bab30b"><div class="ttname"><a href="class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b">SettingsManager::SetProfileDirectory</a></div><div class="ttdeci">void SetProfileDirectory(const juce::String &amp;profile_directory)</div><div class="ttdef"><b>Definition</b> SettingsManager.h:81</div></div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:217</div></div>
 <div class="ttc" id="anamespacersj_html_ad9fd7ddfd6792dd72b9f217e9d7967c3"><div class="ttname"><a href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a></div><div class="ttdeci">std::string AppDataFilePath(const std::string &amp;file_name)</div></div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -664,33 +664,25 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  313</span>{</div>
-<div class="line"><span class="lineno">  314</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  315</span>      <span class="keyword">const</span> juce::MessageManagerLock mm_lock; <span class="comment">/* as not called in message loop */</span></div>
-<div class="line"><span class="lineno">  316</span>      <span class="keywordflow">if</span> (connected) {</div>
-<div class="line"><span class="lineno">  317</span>         <span class="keywordflow">if</span> (sending_blocked) {</div>
-<div class="line"><span class="lineno">  318</span>            <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setText(juce::translate(<span class="stringliteral">&quot;Sending halted&quot;</span>),</div>
-<div class="line"><span class="lineno">  319</span>                juce::NotificationType::dontSendNotification);</div>
-<div class="line"><span class="lineno">  320</span>            <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setColour(juce::Label::backgroundColourId, juce::Colours::yellow);</div>
-<div class="line"><span class="lineno">  321</span>         }</div>
-<div class="line"><span class="lineno">  322</span>         <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  323</span>            <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setText(juce::translate(<span class="stringliteral">&quot;Connected to Lightroom&quot;</span>),</div>
-<div class="line"><span class="lineno">  324</span>                juce::NotificationType::dontSendNotification);</div>
-<div class="line"><span class="lineno">  325</span>            <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setColour(juce::Label::backgroundColourId,</div>
-<div class="line"><span class="lineno">  326</span>                juce::Colours::greenyellow);</div>
-<div class="line"><span class="lineno">  327</span>         }</div>
-<div class="line"><span class="lineno">  328</span>      }</div>
-<div class="line"><span class="lineno">  329</span>      <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  330</span>         <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setText(juce::translate(<span class="stringliteral">&quot;Not connected to Lightroom&quot;</span>),</div>
-<div class="line"><span class="lineno">  331</span>             juce::NotificationType::dontSendNotification);</div>
-<div class="line"><span class="lineno">  332</span>         <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setColour(juce::Label::backgroundColourId, juce::Colours::red);</div>
-<div class="line"><span class="lineno">  333</span>      }</div>
-<div class="line"><span class="lineno">  334</span>   }</div>
-<div class="line"><span class="lineno">  335</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  336</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  337</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  338</span>   }</div>
-<div class="line"><span class="lineno">  339</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  341</span>{</div>
+<div class="line"><span class="lineno">  342</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  343</span>      <span class="keyword">const</span> juce::MessageManagerLock mm_lock; <span class="comment">/* as not called in message loop */</span></div>
+<div class="line"><span class="lineno">  344</span>      <span class="keywordflow">if</span> (connected) {</div>
+<div class="line"><span class="lineno">  345</span>         <span class="keywordflow">if</span> (sending_blocked) { <a class="code hl_function" href="class_main_content_component.html#a675076bdaa3a528d9112a784bb304d8c">UpdateConnectionLabel</a>(<span class="stringliteral">&quot;Sending halted&quot;</span>, juce::Colours::yellow); }</div>
+<div class="line"><span class="lineno">  346</span>         <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  347</span>            <a class="code hl_function" href="class_main_content_component.html#a675076bdaa3a528d9112a784bb304d8c">UpdateConnectionLabel</a>(<span class="stringliteral">&quot;Connected to Lightroom&quot;</span>, juce::Colours::greenyellow);</div>
+<div class="line"><span class="lineno">  348</span>         }</div>
+<div class="line"><span class="lineno">  349</span>      }</div>
+<div class="line"><span class="lineno">  350</span>      <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  351</span>         <a class="code hl_function" href="class_main_content_component.html#a675076bdaa3a528d9112a784bb304d8c">UpdateConnectionLabel</a>(<span class="stringliteral">&quot;Not connected to Lightroom&quot;</span>, juce::Colours::red);</div>
+<div class="line"><span class="lineno">  352</span>      }</div>
+<div class="line"><span class="lineno">  353</span>   }</div>
+<div class="line"><span class="lineno">  354</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  355</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  356</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  357</span>   }</div>
+<div class="line"><span class="lineno">  358</span>}</div>
+<div class="ttc" id="aclass_main_content_component_html_a675076bdaa3a528d9112a784bb304d8c"><div class="ttname"><a href="class_main_content_component.html#a675076bdaa3a528d9112a784bb304d8c">MainContentComponent::UpdateConnectionLabel</a></div><div class="ttdeci">void UpdateConnectionLabel(const char *text, juce::Colour colour)</div><div class="ttdef"><b>Definition</b> MainComponent.cpp:327</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -717,27 +709,27 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  295</span>{</div>
-<div class="line"><span class="lineno">  296</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  297</span>      <span class="comment">/* Display the MIDI parameters and add/highlight row in table corresponding to the message msg</span></div>
-<div class="line"><span class="lineno">  298</span><span class="comment">       * is 1-based for channel, which display expects */</span></div>
-<div class="line"><span class="lineno">  299</span>      <span class="keyword">const</span> <a class="code hl_struct" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> msg {mm};</div>
-<div class="line"><span class="lineno">  300</span>      <a class="code hl_variable" href="class_main_content_component.html#a7e1dacfc67a6701228879dc05855a9f9">last_command_</a> = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{}: {}{} [{}]&quot;</span>), msg.channel, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a>,</div>
-<div class="line"><span class="lineno">  301</span>          msg.control_number, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a>);</div>
-<div class="line"><span class="lineno">  302</span>      <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#abf97444c320cc34e43052dc676a90610">InsertUnassigned</a>(msg);</div>
-<div class="line"><span class="lineno">  303</span>      <a class="code hl_variable" href="class_main_content_component.html#add0faf0231a66206246ce44503fa93a8">row_to_select_</a> = gsl::narrow_cast&lt;size_t&gt;(<a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#a288888d58ce4e4c1e7ec6b6a9feead3d">GetRowForMessage</a>(msg));</div>
-<div class="line"><span class="lineno">  304</span>      triggerAsyncUpdate();</div>
-<div class="line"><span class="lineno">  305</span>   }</div>
-<div class="line"><span class="lineno">  306</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  307</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  308</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  309</span>   }</div>
-<div class="line"><span class="lineno">  310</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  310</span>{</div>
+<div class="line"><span class="lineno">  311</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  312</span>      <span class="comment">/* Display the MIDI parameters and add/highlight row in table corresponding to the message msg</span></div>
+<div class="line"><span class="lineno">  313</span><span class="comment">       * is 1-based for channel, which display expects */</span></div>
+<div class="line"><span class="lineno">  314</span>      <span class="keyword">const</span> <a class="code hl_struct" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> msg {mm};</div>
+<div class="line"><span class="lineno">  315</span>      <a class="code hl_variable" href="class_main_content_component.html#a7e1dacfc67a6701228879dc05855a9f9">last_command_</a> = fmt::format(FMT_STRING(<span class="stringliteral">&quot;{}: {}{} [{}]&quot;</span>), msg.channel, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">message_type_byte</a>,</div>
+<div class="line"><span class="lineno">  316</span>          msg.control_number, mm.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a>);</div>
+<div class="line"><span class="lineno">  317</span>      <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#abf97444c320cc34e43052dc676a90610">InsertUnassigned</a>(msg);</div>
+<div class="line"><span class="lineno">  318</span>      <a class="code hl_variable" href="class_main_content_component.html#add0faf0231a66206246ce44503fa93a8">row_to_select_</a> = gsl::narrow_cast&lt;size_t&gt;(<a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#a288888d58ce4e4c1e7ec6b6a9feead3d">GetRowForMessage</a>(msg));</div>
+<div class="line"><span class="lineno">  319</span>      triggerAsyncUpdate();</div>
+<div class="line"><span class="lineno">  320</span>   }</div>
+<div class="line"><span class="lineno">  321</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  322</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  323</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  324</span>   }</div>
+<div class="line"><span class="lineno">  325</span>}</div>
 <div class="ttc" id="aclass_profile_html_a288888d58ce4e4c1e7ec6b6a9feead3d"><div class="ttname"><a href="class_profile.html#a288888d58ce4e4c1e7ec6b6a9feead3d">Profile::GetRowForMessage</a></div><div class="ttdeci">int GetRowForMessage(rsj::MidiMessageId message) const</div><div class="ttdef"><b>Definition</b> Profile.h:103</div></div>
-<div class="ttc" id="aclass_profile_html_abf97444c320cc34e43052dc676a90610"><div class="ttname"><a href="class_profile.html#abf97444c320cc34e43052dc676a90610">Profile::InsertUnassigned</a></div><div class="ttdeci">void InsertUnassigned(rsj::MidiMessageId message)</div><div class="ttdef"><b>Definition</b> Profile.cpp:116</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html_ad1b6e1d738eafd7f0ef54b56914e1448"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">rsj::MidiMessage::message_type_byte</a></div><div class="ttdeci">MessageType message_type_byte</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:125</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html_ad86e8d27f598c8def0279d3a3777cd7e"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">rsj::MidiMessage::value</a></div><div class="ttdeci">int value</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:128</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a></div><div class="ttdef"><b>Definition</b> MidiUtilities.h:146</div></div>
+<div class="ttc" id="aclass_profile_html_abf97444c320cc34e43052dc676a90610"><div class="ttname"><a href="class_profile.html#abf97444c320cc34e43052dc676a90610">Profile::InsertUnassigned</a></div><div class="ttdeci">void InsertUnassigned(rsj::MidiMessageId message)</div><div class="ttdef"><b>Definition</b> Profile.cpp:121</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_ad1b6e1d738eafd7f0ef54b56914e1448"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">rsj::MidiMessage::message_type_byte</a></div><div class="ttdeci">MessageType message_type_byte</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:124</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_ad86e8d27f598c8def0279d3a3777cd7e"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">rsj::MidiMessage::value</a></div><div class="ttdeci">int value</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:127</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a></div><div class="ttdef"><b>Definition</b> MidiUtilities.h:145</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -816,15 +808,15 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  284</span>{ <span class="comment">//-V2009 overridden method</span></div>
-<div class="line"><span class="lineno">  285</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  286</span>      g.fillAll(juce::Colours::white);</div>
-<div class="line"><span class="lineno">  287</span>   }</div>
-<div class="line"><span class="lineno">  288</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  289</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  290</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  291</span>   }</div>
-<div class="line"><span class="lineno">  292</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  299</span>{ <span class="comment">//-V2009 overridden method</span></div>
+<div class="line"><span class="lineno">  300</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  301</span>      g.fillAll(juce::Colours::white);</div>
+<div class="line"><span class="lineno">  302</span>   }</div>
+<div class="line"><span class="lineno">  303</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  304</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  305</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  306</span>   }</div>
+<div class="line"><span class="lineno">  307</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -861,23 +853,22 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  345</span>{                                  <span class="comment">//-V2009 overridden method</span></div>
-<div class="line"><span class="lineno">  346</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  347</span>      {</div>
-<div class="line"><span class="lineno">  348</span>         <span class="keyword">const</span> juce::MessageManagerLock mm_lock;</div>
-<div class="line"><span class="lineno">  349</span>         <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720">FromXml</a>(xml_element);</div>
-<div class="line"><span class="lineno">  350</span>         <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.updateContent();</div>
-<div class="line"><span class="lineno">  351</span>         <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.repaint();</div>
-<div class="line"><span class="lineno">  352</span>         <a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>.setText(file_name, juce::NotificationType::dontSendNotification);</div>
-<div class="line"><span class="lineno">  353</span>      }</div>
-<div class="line"><span class="lineno">  354</span>      <span class="comment">/* Send new CC parameters to MIDI Out devices */</span></div>
-<div class="line"><span class="lineno">  355</span>      <a class="code hl_variable" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac">SendCommand</a>(<span class="stringliteral">&quot;FullRefresh 1\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  356</span>   }</div>
-<div class="line"><span class="lineno">  357</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  358</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  359</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  360</span>   }</div>
-<div class="line"><span class="lineno">  361</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  364</span>{                                  <span class="comment">//-V2009 overridden method</span></div>
+<div class="line"><span class="lineno">  365</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  366</span>      {</div>
+<div class="line"><span class="lineno">  367</span>         <span class="keyword">const</span> juce::MessageManagerLock mm_lock;</div>
+<div class="line"><span class="lineno">  368</span>         <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720">FromXml</a>(xml_element);</div>
+<div class="line"><span class="lineno">  369</span>         <a class="code hl_variable" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">command_table_</a>.updateContent();</div>
+<div class="line"><span class="lineno">  370</span>         <a class="code hl_variable" href="class_main_content_component.html#afcebb3390e8820f1626685202c17632f">profile_name_label_</a>.setText(file_name, juce::NotificationType::dontSendNotification);</div>
+<div class="line"><span class="lineno">  371</span>      }</div>
+<div class="line"><span class="lineno">  372</span>      <span class="comment">/* Send new CC parameters to MIDI Out devices */</span></div>
+<div class="line"><span class="lineno">  373</span>      <a class="code hl_variable" href="class_main_content_component.html#a28de2fe820b9e03fbd1ba33e8b339e3c">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(<span class="stringliteral">&quot;FullRefresh 1\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  374</span>   }</div>
+<div class="line"><span class="lineno">  375</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  376</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  377</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  378</span>   }</div>
+<div class="line"><span class="lineno">  379</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -895,55 +886,18 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  271</span>{</div>
-<div class="line"><span class="lineno">  272</span>   juce::File profile_directory {<a class="code hl_variable" href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>()};</div>
-<div class="line"><span class="lineno">  273</span>   <span class="keywordflow">if</span> (!profile_directory.exists()) {</div>
-<div class="line"><span class="lineno">  274</span>      profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);</div>
-<div class="line"><span class="lineno">  275</span>   }</div>
-<div class="line"><span class="lineno">  276</span>   juce::FileChooser chooser {juce::translate(<span class="stringliteral">&quot;Save profile&quot;</span>), profile_directory, <span class="stringliteral">&quot;*.xml&quot;</span>, <span class="keyword">true</span>};</div>
-<div class="line"><span class="lineno">  277</span>   <span class="keywordflow">if</span> (chooser.browseForFileToSave(<span class="keyword">true</span>)) {</div>
-<div class="line"><span class="lineno">  278</span>      <span class="keyword">const</span> <span class="keyword">auto</span> selected_file {chooser.getResult().withFileExtension(<span class="stringliteral">&quot;xml&quot;</span>)};</div>
-<div class="line"><span class="lineno">  279</span>      <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#a6ae35735b1edc78dd1b32535c093aca8">ToXmlFile</a>(selected_file);</div>
-<div class="line"><span class="lineno">  280</span>   }</div>
-<div class="line"><span class="lineno">  281</span>}</div>
-<div class="ttc" id="aclass_profile_html_a6ae35735b1edc78dd1b32535c093aca8"><div class="ttname"><a href="class_profile.html#a6ae35735b1edc78dd1b32535c093aca8">Profile::ToXmlFile</a></div><div class="ttdeci">void ToXmlFile(const juce::File &amp;file)</div><div class="ttdef"><b>Definition</b> Profile.cpp:234</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a35ec9fb3b783b4942f25e4b433a9b688" name="a35ec9fb3b783b4942f25e4b433a9b688"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35ec9fb3b783b4942f25e4b433a9b688">&#9670;&#160;</a></span>StandardLabelSettings()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void MainContentComponent::StandardLabelSettings </td>
-          <td>(</td>
-          <td class="paramtype">juce::Label &amp;&#160;</td>
-          <td class="paramname"><em>label_to_set</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  364</span>{</div>
-<div class="line"><span class="lineno">  365</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  366</span>      label_to_set.setFont(juce::Font {16.F, juce::Font::bold});</div>
-<div class="line"><span class="lineno">  367</span>      label_to_set.setEditable(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  368</span>      label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);</div>
-<div class="line"><span class="lineno">  369</span>   }</div>
-<div class="line"><span class="lineno">  370</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  371</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  372</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  373</span>   }</div>
-<div class="line"><span class="lineno">  374</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  286</span>{</div>
+<div class="line"><span class="lineno">  287</span>   juce::File profile_directory {<a class="code hl_variable" href="class_main_content_component.html#ae8efaac4fc314b55653f0b0853f4e387">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>()};</div>
+<div class="line"><span class="lineno">  288</span>   <span class="keywordflow">if</span> (!profile_directory.exists()) {</div>
+<div class="line"><span class="lineno">  289</span>      profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);</div>
+<div class="line"><span class="lineno">  290</span>   }</div>
+<div class="line"><span class="lineno">  291</span>   juce::FileChooser chooser {juce::translate(<span class="stringliteral">&quot;Save profile&quot;</span>), profile_directory, <span class="stringliteral">&quot;*.xml&quot;</span>, <span class="keyword">true</span>};</div>
+<div class="line"><span class="lineno">  292</span>   <span class="keywordflow">if</span> (chooser.browseForFileToSave(<span class="keyword">true</span>)) {</div>
+<div class="line"><span class="lineno">  293</span>      <span class="keyword">const</span> <span class="keyword">auto</span> selected_file {chooser.getResult().withFileExtension(<span class="stringliteral">&quot;xml&quot;</span>)};</div>
+<div class="line"><span class="lineno">  294</span>      <a class="code hl_variable" href="class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde">profile_</a>.<a class="code hl_function" href="class_profile.html#a6ae35735b1edc78dd1b32535c093aca8">ToXmlFile</a>(selected_file);</div>
+<div class="line"><span class="lineno">  295</span>   }</div>
+<div class="line"><span class="lineno">  296</span>}</div>
+<div class="ttc" id="aclass_profile_html_a6ae35735b1edc78dd1b32535c093aca8"><div class="ttname"><a href="class_profile.html#a6ae35735b1edc78dd1b32535c093aca8">Profile::ToXmlFile</a></div><div class="ttdeci">void ToXmlFile(const juce::File &amp;file)</div><div class="ttdef"><b>Definition</b> Profile.cpp:239</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -969,17 +923,64 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  394</span>{</div>
-<div class="line"><span class="lineno">  395</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  396</span>      <span class="comment">/* reset the command label&#39;s background to white */</span></div>
-<div class="line"><span class="lineno">  397</span>      <a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>.setColour(juce::Label::backgroundColourId, juce::Colours::white);</div>
-<div class="line"><span class="lineno">  398</span>      juce::Timer::stopTimer();</div>
-<div class="line"><span class="lineno">  399</span>   }</div>
-<div class="line"><span class="lineno">  400</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  401</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  402</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  403</span>   }</div>
-<div class="line"><span class="lineno">  404</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  399</span>{</div>
+<div class="line"><span class="lineno">  400</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  401</span>      <span class="comment">/* reset the command label&#39;s background to white */</span></div>
+<div class="line"><span class="lineno">  402</span>      <a class="code hl_variable" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">command_label_</a>.setColour(juce::Label::backgroundColourId, juce::Colours::white);</div>
+<div class="line"><span class="lineno">  403</span>      juce::Timer::stopTimer();</div>
+<div class="line"><span class="lineno">  404</span>   }</div>
+<div class="line"><span class="lineno">  405</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  406</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  407</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  408</span>   }</div>
+<div class="line"><span class="lineno">  409</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a675076bdaa3a528d9112a784bb304d8c" name="a675076bdaa3a528d9112a784bb304d8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a675076bdaa3a528d9112a784bb304d8c">&#9670;&#160;</a></span>UpdateConnectionLabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MainContentComponent::UpdateConnectionLabel </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">juce::Colour&#160;</td>
+          <td class="paramname"><em>colour</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><span class="lineno">  328</span>{</div>
+<div class="line"><span class="lineno">  329</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  330</span>      <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setText(juce::translate(text),</div>
+<div class="line"><span class="lineno">  331</span>          juce::NotificationType::dontSendNotification);</div>
+<div class="line"><span class="lineno">  332</span>      <a class="code hl_variable" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">connection_label_</a>.setColour(juce::Label::backgroundColourId, colour);</div>
+<div class="line"><span class="lineno">  333</span>   }</div>
+<div class="line"><span class="lineno">  334</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  335</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  336</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  337</span>   }</div>
+<div class="line"><span class="lineno">  338</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1094,7 +1095,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   76</span>{juce::translate(<span class="stringliteral">&quot;Halt sending to Lightroom&quot;</span>)};</div>
+<div class="fragment"><div class="line"><span class="lineno">   81</span>{juce::translate(<span class="stringliteral">&quot;Halt sending to Lightroom&quot;</span>)};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1139,7 +1140,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   77</span>{juce::translate(<span class="stringliteral">&quot;Load&quot;</span>)};</div>
+<div class="fragment"><div class="line"><span class="lineno">   82</span>{juce::translate(<span class="stringliteral">&quot;Load&quot;</span>)};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1295,7 +1296,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   78</span>{juce::translate(<span class="stringliteral">&quot;Clear ALL rows&quot;</span>)};</div>
+<div class="fragment"><div class="line"><span class="lineno">   83</span>{juce::translate(<span class="stringliteral">&quot;Clear ALL rows&quot;</span>)};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1318,7 +1319,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   79</span>{juce::translate(<span class="stringliteral">&quot;Remove unassigned rows&quot;</span>)};</div>
+<div class="fragment"><div class="line"><span class="lineno">   84</span>{juce::translate(<span class="stringliteral">&quot;Remove unassigned rows&quot;</span>)};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1341,7 +1342,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   80</span>{juce::translate(<span class="stringliteral">&quot;Rescan MIDI devices&quot;</span>)};</div>
+<div class="fragment"><div class="line"><span class="lineno">   85</span>{juce::translate(<span class="stringliteral">&quot;Rescan MIDI devices&quot;</span>)};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1364,7 +1365,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   89</span>{0};</div>
+<div class="fragment"><div class="line"><span class="lineno">   94</span>{0};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1387,7 +1388,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   81</span>{juce::translate(<span class="stringliteral">&quot;Save&quot;</span>)};</div>
+<div class="fragment"><div class="line"><span class="lineno">   86</span>{juce::translate(<span class="stringliteral">&quot;Save&quot;</span>)};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1410,7 +1411,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   82</span>{juce::translate(<span class="stringliteral">&quot;Settings&quot;</span>)};</div>
+<div class="fragment"><div class="line"><span class="lineno">   87</span>{juce::translate(<span class="stringliteral">&quot;Settings&quot;</span>)};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1524,8 +1525,8 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">{</div>
 <div class="line">       <span class="stringliteral">&quot;Version&quot;</span>, juce::translate(<span class="stringliteral">&quot;Version &quot;</span>) + juce::String {ProjectInfo::versionString}}</div>
-</div><!-- fragment --><div class="fragment"><div class="line"><span class="lineno">   73</span>                            {</div>
-<div class="line"><span class="lineno">   74</span>       <span class="stringliteral">&quot;Version&quot;</span>, juce::translate(<span class="stringliteral">&quot;Version &quot;</span>) + juce::String {ProjectInfo::versionString}};</div>
+</div><!-- fragment --><div class="fragment"><div class="line"><span class="lineno">   74</span>                            {</div>
+<div class="line"><span class="lineno">   75</span>       <span class="stringliteral">&quot;Version&quot;</span>, juce::translate(<span class="stringliteral">&quot;Version &quot;</span>) + juce::String {ProjectInfo::versionString}};</div>
 </div><!-- fragment -->
 </div>
 </div>

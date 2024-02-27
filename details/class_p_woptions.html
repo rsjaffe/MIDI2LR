@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -339,8 +339,8 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  177</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setText(</div>
 <div class="line"><span class="lineno">  178</span>       juce::String(<a class="code hl_variable" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a3b874112e3236ced1d3daf3129928081">GetPwMax</a>(<a class="code hl_variable" href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">boundchannel_</a>)), juce::dontSendNotification);</div>
 <div class="line"><span class="lineno">  179</span>}</div>
-<div class="ttc" id="aclass_controls_model_html_a358b704662a07c71422318eb6a6965b6"><div class="ttname"><a href="class_controls_model.html#a358b704662a07c71422318eb6a6965b6">ControlsModel::GetPwMin</a></div><div class="ttdeci">int GetPwMin(int channel) const</div><div class="ttdef"><b>Definition</b> ControlsModel.h:267</div></div>
-<div class="ttc" id="aclass_controls_model_html_a3b874112e3236ced1d3daf3129928081"><div class="ttname"><a href="class_controls_model.html#a3b874112e3236ced1d3daf3129928081">ControlsModel::GetPwMax</a></div><div class="ttdeci">int GetPwMax(int channel) const</div><div class="ttdef"><b>Definition</b> ControlsModel.h:265</div></div>
+<div class="ttc" id="aclass_controls_model_html_a358b704662a07c71422318eb6a6965b6"><div class="ttname"><a href="class_controls_model.html#a358b704662a07c71422318eb6a6965b6">ControlsModel::GetPwMin</a></div><div class="ttdeci">int GetPwMin(int channel) const</div><div class="ttdef"><b>Definition</b> ControlsModel.h:268</div></div>
+<div class="ttc" id="aclass_controls_model_html_a3b874112e3236ced1d3daf3129928081"><div class="ttname"><a href="class_controls_model.html#a3b874112e3236ced1d3daf3129928081">ControlsModel::GetPwMax</a></div><div class="ttdeci">int GetPwMax(int channel) const</div><div class="ttdef"><b>Definition</b> ControlsModel.h:266</div></div>
 <div class="ttc" id="aclass_p_woptions_html_a43376bb66352c6a9f40a822f438e2d9f"><div class="ttname"><a href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">PWoptions::boundchannel_</a></div><div class="ttdeci">int boundchannel_</div><div class="ttdef"><b>Definition</b> PWoptions.h:84</div></div>
 <div class="ttc" id="aclass_p_woptions_html_a9c43d66079f184a02b7fe1dc4c62ee8b"><div class="ttname"><a href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">PWoptions::controls_model_</a></div><div class="ttdeci">static ControlsModel * controls_model_</div><div class="ttdef"><b>Definition</b> PWoptions.h:83</div></div>
 </div><!-- fragment -->
@@ -492,8 +492,8 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><span class="lineno">  161</span>{</div>
-<div class="line"><span class="lineno">  162</span>   <span class="keyword">const</span> <span class="keyword">auto</span> val = t.getText().getIntValue();</div>
-<div class="line"><span class="lineno">  163</span>   <span class="keyword">const</span> <span class="keyword">auto</span>&amp; nam = t.getName();</div>
+<div class="line"><span class="lineno">  162</span>   <span class="keyword">const</span> <span class="keyword">auto</span> val {t.getText().getIntValue()};</div>
+<div class="line"><span class="lineno">  163</span>   <span class="keyword">const</span> <span class="keyword">auto</span>&amp; nam {t.getName()};</div>
 <div class="line"><span class="lineno">  164</span>   <span class="keywordflow">if</span> (nam == <span class="stringliteral">&quot;minval&quot;</span>) { <a class="code hl_variable" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a45ac9c276b6897f2d80393d56aa35ba1">SetPwMin</a>(<a class="code hl_variable" href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">boundchannel_</a>, val); }</div>
 <div class="line"><span class="lineno">  165</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (nam == <span class="stringliteral">&quot;maxval&quot;</span>) {</div>
 <div class="line"><span class="lineno">  166</span>      <a class="code hl_variable" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a578fb9d5842719eacb024999680169bf">SetPwMax</a>(<a class="code hl_variable" href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">boundchannel_</a>, val);</div>
@@ -501,8 +501,8 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  168</span>   <span class="keywordflow">else</span> { <span class="comment">/* no action needed */</span></div>
 <div class="line"><span class="lineno">  169</span>   }</div>
 <div class="line"><span class="lineno">  170</span>}</div>
-<div class="ttc" id="aclass_controls_model_html_a45ac9c276b6897f2d80393d56aa35ba1"><div class="ttname"><a href="class_controls_model.html#a45ac9c276b6897f2d80393d56aa35ba1">ControlsModel::SetPwMin</a></div><div class="ttdeci">void SetPwMin(int channel, int value)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:308</div></div>
-<div class="ttc" id="aclass_controls_model_html_a578fb9d5842719eacb024999680169bf"><div class="ttname"><a href="class_controls_model.html#a578fb9d5842719eacb024999680169bf">ControlsModel::SetPwMax</a></div><div class="ttdeci">void SetPwMax(int channel, int value)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:306</div></div>
+<div class="ttc" id="aclass_controls_model_html_a45ac9c276b6897f2d80393d56aa35ba1"><div class="ttname"><a href="class_controls_model.html#a45ac9c276b6897f2d80393d56aa35ba1">ControlsModel::SetPwMin</a></div><div class="ttdeci">void SetPwMin(int channel, int value)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:309</div></div>
+<div class="ttc" id="aclass_controls_model_html_a578fb9d5842719eacb024999680169bf"><div class="ttname"><a href="class_controls_model.html#a578fb9d5842719eacb024999680169bf">ControlsModel::SetPwMax</a></div><div class="ttdeci">void SetPwMax(int channel, int value)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:307</div></div>
 </div><!-- fragment -->
 </div>
 </div>

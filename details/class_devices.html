@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -94,6 +94,7 @@ $(document).ready(function(){initNavTree('class_devices.html',''); initResizable
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_devices-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Devices Class Reference</div></div>
@@ -128,6 +129,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa84065149d5450f387ef07a629971037" id="r_aa84065149d5450f387ef07a629971037"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_devices.html">Devices</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_devices.html#aa84065149d5450f387ef07a629971037">operator=</a> (<a class="el" href="class_devices.html">Devices</a> &amp;&amp;other) noexcept=default</td></tr>
 <tr class="separator:aa84065149d5450f387ef07a629971037"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:aab1aeefd3974c592f4c3dc3eb21db836" id="r_aab1aeefd3974c592f4c3dc3eb21db836"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_devices.html#aab1aeefd3974c592f4c3dc3eb21db836">CreateDefaultDeviceXml</a> ()</td></tr>
+<tr class="separator:aab1aeefd3974c592f4c3dc3eb21db836"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a2fcadabf5330a8f00b16577018bf98" id="r_a1a2fcadabf5330a8f00b16577018bf98"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_devices.html#a1a2fcadabf5330a8f00b16577018bf98">LoadDeviceXml</a> ()</td></tr>
+<tr class="separator:a1a2fcadabf5330a8f00b16577018bf98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29501dacace519934493e41e92b2a02f" id="r_a29501dacace519934493e41e92b2a02f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_devices.html#a29501dacace519934493e41e92b2a02f">ProcessDataList</a> ()</td></tr>
+<tr class="separator:a29501dacace519934493e41e92b2a02f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:aef0eab8753ced3201db679a4b1d718b9" id="r_aef0eab8753ced3201db679a4b1d718b9"><td class="memItemLeft" align="right" valign="top">juce::XmlElement *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_devices.html#aef0eab8753ced3201db679a4b1d718b9">column_list_</a> {nullptr}</td></tr>
@@ -156,58 +166,15 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   41</span>{</div>
-<div class="line"><span class="lineno">   42</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   43</span>      <span class="comment">/* open file with xml list of devices */</span></div>
-<div class="line"><span class="lineno">   44</span>      <span class="keyword">auto</span> source {GetSource(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;Controllers.xml&quot;</span>))};</div>
-<div class="line"><span class="lineno">   45</span>      <span class="keywordflow">if</span> (source.existsAsFile()) { <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a> = juce::parseXML(source); }</div>
-<div class="line"><span class="lineno">   46</span>      <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   47</span>         source = GetSource(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;DisabledControllers.xml&quot;</span>));</div>
-<div class="line"><span class="lineno">   48</span>         <span class="keywordflow">if</span> (source.existsAsFile()) {</div>
-<div class="line"><span class="lineno">   49</span>            <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a> = juce::parseXML(source);</div>
-<div class="line"><span class="lineno">   50</span>            std::ignore = source.deleteFile(); <span class="comment">// don&#39;t want to use name again</span></div>
-<div class="line"><span class="lineno">   51</span>         }</div>
-<div class="line"><span class="lineno">   52</span>      }</div>
-<div class="line"><span class="lineno">   53</span>   }</div>
-<div class="line"><span class="lineno">   54</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) { <span class="comment">/* log and carry on */</span></div>
-<div class="line"><span class="lineno">   55</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">   56</span>      <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>.reset();</div>
-<div class="line"><span class="lineno">   57</span>   }</div>
-<div class="line"><span class="lineno">   58</span>   <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>) {</div>
-<div class="line"><span class="lineno">   59</span>      <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a> = juce::parseXML(R<span class="stringliteral">&quot;===(&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></div>
-<div class="line"><span class="lineno">   60</span><span class="stringliteral">&lt;table_data&gt;</span></div>
-<div class="line"><span class="lineno">   61</span><span class="stringliteral">  &lt;heading&gt;</span></div>
-<div class="line"><span class="lineno">   62</span><span class="stringliteral">    &lt;column columnId=&quot;1&quot; name=&quot;devicename&quot; label=&quot;device name&quot; width=&quot;200&quot;/&gt;</span></div>
-<div class="line"><span class="lineno">   63</span><span class="stringliteral">    &lt;column columnId=&quot;2&quot; name=&quot;systemid&quot; label=&quot;system id&quot; width=&quot;200&quot;/&gt;</span></div>
-<div class="line"><span class="lineno">   64</span><span class="stringliteral">    &lt;column columnId=&quot;3&quot; name=&quot;inputoutput&quot; label=&quot;input/output&quot; width=&quot;50&quot;/&gt;</span></div>
-<div class="line"><span class="lineno">   65</span><span class="stringliteral">    &lt;column columnId=&quot;9&quot; name=&quot;active&quot; label=&quot;active&quot; width=&quot;50&quot;/&gt;</span></div>
-<div class="line"><span class="lineno">   66</span><span class="stringliteral">  &lt;/heading&gt;</span></div>
-<div class="line"><span class="lineno">   67</span><span class="stringliteral">  &lt;data&gt;</span></div>
-<div class="line"><span class="lineno">   68</span><span class="stringliteral">  &lt;/data&gt;</span></div>
-<div class="line"><span class="lineno">   69</span><span class="stringliteral">&lt;/table_data&gt;)===&quot;);</span></div>
-<div class="line"><span class="lineno">   70</span><span class="stringliteral">   }</span></div>
-<div class="line"><span class="lineno">   71</span><span class="stringliteral">   <a class="code hl_variable" href="class_devices.html#aef0eab8753ced3201db679a4b1d718b9">column_list_</a> = <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>-&gt;getChildByName(</span><span class="stringliteral">&quot;heading&quot;</span>);</div>
-<div class="line"><span class="lineno">   72</span>   <a class="code hl_variable" href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">data_list_</a> = <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>-&gt;getChildByName(<span class="stringliteral">&quot;data&quot;</span>);</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>   <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">data_list_</a>) {</div>
-<div class="line"><span class="lineno">   75</span>      <a class="code hl_variable" href="class_devices.html#a78d63d5c7df827256f7d71870e597644">num_rows_</a> = <a class="code hl_variable" href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">data_list_</a>-&gt;getNumChildElements();</div>
-<div class="line"><span class="lineno">   76</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> gsl::not_null&lt;const juce::XmlElement*&gt; data_element :</div>
-<div class="line"><span class="lineno">   77</span>          <a class="code hl_variable" href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">data_list_</a>-&gt;getChildIterator()) {</div>
-<div class="line"><span class="lineno">   78</span>         <a class="code hl_variable" href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">device_listing_</a>.emplace(DevInfo {data_element-&gt;getStringAttribute(<span class="stringliteral">&quot;devicename&quot;</span>),</div>
-<div class="line"><span class="lineno">   79</span>                                     data_element-&gt;getStringAttribute(<span class="stringliteral">&quot;systemid&quot;</span>),</div>
-<div class="line"><span class="lineno">   80</span>                                     data_element-&gt;getStringAttribute(<span class="stringliteral">&quot;inputoutput&quot;</span>)},</div>
-<div class="line"><span class="lineno">   81</span>             data_element-&gt;getIntAttribute(<span class="stringliteral">&quot;active&quot;</span>));</div>
-<div class="line"><span class="lineno">   82</span>      }</div>
-<div class="line"><span class="lineno">   83</span>   }</div>
-<div class="line"><span class="lineno">   84</span>   <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   85</span>      <a class="code hl_variable" href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">data_list_</a> = <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>-&gt;createNewChildElement(<span class="stringliteral">&quot;data&quot;</span>);</div>
-<div class="line"><span class="lineno">   86</span>   }</div>
-<div class="line"><span class="lineno">   87</span>}</div>
-<div class="ttc" id="aclass_devices_html_a1dd210727694b0ddf21826f1cb191c05"><div class="ttname"><a href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">Devices::data_list_</a></div><div class="ttdeci">juce::XmlElement * data_list_</div><div class="ttdef"><b>Definition</b> Devices.h:106</div></div>
-<div class="ttc" id="aclass_devices_html_a78d63d5c7df827256f7d71870e597644"><div class="ttname"><a href="class_devices.html#a78d63d5c7df827256f7d71870e597644">Devices::num_rows_</a></div><div class="ttdeci">int num_rows_</div><div class="ttdef"><b>Definition</b> Devices.h:107</div></div>
-<div class="ttc" id="aclass_devices_html_abc356d82a06fb846454d42633126a4d4"><div class="ttname"><a href="class_devices.html#abc356d82a06fb846454d42633126a4d4">Devices::device_xml_</a></div><div class="ttdeci">std::unique_ptr&lt; juce::XmlElement &gt; device_xml_</div><div class="ttdef"><b>Definition</b> Devices.h:104</div></div>
-<div class="ttc" id="aclass_devices_html_ad04a115b64234c6872aaeffc4c0160f2"><div class="ttname"><a href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">Devices::device_listing_</a></div><div class="ttdeci">std::map&lt; DevInfo, bool &gt; device_listing_</div><div class="ttdef"><b>Definition</b> Devices.h:103</div></div>
-<div class="ttc" id="aclass_devices_html_aef0eab8753ced3201db679a4b1d718b9"><div class="ttname"><a href="class_devices.html#aef0eab8753ced3201db679a4b1d718b9">Devices::column_list_</a></div><div class="ttdeci">juce::XmlElement * column_list_</div><div class="ttdef"><b>Definition</b> Devices.h:105</div></div>
+<div class="fragment"><div class="line"><span class="lineno">   94</span>{</div>
+<div class="line"><span class="lineno">   95</span>   <a class="code hl_function" href="class_devices.html#a1a2fcadabf5330a8f00b16577018bf98">LoadDeviceXml</a>();</div>
+<div class="line"><span class="lineno">   96</span>   <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>) { <a class="code hl_function" href="class_devices.html#aab1aeefd3974c592f4c3dc3eb21db836">CreateDefaultDeviceXml</a>(); }</div>
+<div class="line"><span class="lineno">   97</span>   <a class="code hl_function" href="class_devices.html#a29501dacace519934493e41e92b2a02f">ProcessDataList</a>();</div>
+<div class="line"><span class="lineno">   98</span>}</div>
+<div class="ttc" id="aclass_devices_html_a1a2fcadabf5330a8f00b16577018bf98"><div class="ttname"><a href="class_devices.html#a1a2fcadabf5330a8f00b16577018bf98">Devices::LoadDeviceXml</a></div><div class="ttdeci">void LoadDeviceXml()</div><div class="ttdef"><b>Definition</b> Devices.cpp:40</div></div>
+<div class="ttc" id="aclass_devices_html_a29501dacace519934493e41e92b2a02f"><div class="ttname"><a href="class_devices.html#a29501dacace519934493e41e92b2a02f">Devices::ProcessDataList</a></div><div class="ttdeci">void ProcessDataList()</div><div class="ttdef"><b>Definition</b> Devices.cpp:74</div></div>
+<div class="ttc" id="aclass_devices_html_aab1aeefd3974c592f4c3dc3eb21db836"><div class="ttname"><a href="class_devices.html#aab1aeefd3974c592f4c3dc3eb21db836">Devices::CreateDefaultDeviceXml</a></div><div class="ttdeci">void CreateDefaultDeviceXml()</div><div class="ttdef"><b>Definition</b> Devices.cpp:59</div></div>
+<div class="ttc" id="aclass_devices_html_abc356d82a06fb846454d42633126a4d4"><div class="ttname"><a href="class_devices.html#abc356d82a06fb846454d42633126a4d4">Devices::device_xml_</a></div><div class="ttdeci">std::unique_ptr&lt; juce::XmlElement &gt; device_xml_</div><div class="ttdef"><b>Definition</b> Devices.h:107</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -225,21 +192,22 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   90</span>{</div>
-<div class="line"><span class="lineno">   91</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   92</span>      <span class="comment">/* open file with xml list of devices */</span></div>
-<div class="line"><span class="lineno">   93</span>      <span class="keyword">const</span> <span class="keyword">auto</span> source {GetSource(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;Controllers.xml&quot;</span>))};</div>
-<div class="line"><span class="lineno">   94</span>      <span class="comment">// ReSharper disable once CppExpressionWithoutSideEffects</span></div>
-<div class="line"><span class="lineno">   95</span>      <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>-&gt;writeTo(source);</div>
-<div class="line"><span class="lineno">   96</span>   }</div>
-<div class="line"><span class="lineno">   97</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   98</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">   99</span>   }</div>
-<div class="line"><span class="lineno">  100</span>   <span class="keywordflow">catch</span> (...) {</div>
-<div class="line"><span class="lineno">  101</span>      <a class="code hl_function" href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a>(<span class="stringliteral">&quot;Non-standard exception in ~Devices.&quot;</span>);</div>
-<div class="line"><span class="lineno">  102</span>   }</div>
-<div class="line"><span class="lineno">  103</span>}</div>
-<div class="ttc" id="anamespacersj_html_ad2505cba3f1c28add3ad48746ee27a02"><div class="ttname"><a href="namespacersj.html#ad2505cba3f1c28add3ad48746ee27a02">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:260</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  101</span>{</div>
+<div class="line"><span class="lineno">  102</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  103</span>      <span class="comment">/* open file with xml list of devices */</span></div>
+<div class="line"><span class="lineno">  104</span>      <span class="keyword">const</span> <span class="keyword">auto</span> source {GetSource(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;Controllers.xml&quot;</span>))};</div>
+<div class="line"><span class="lineno">  105</span>      <span class="comment">// ReSharper disable once CppExpressionWithoutSideEffects</span></div>
+<div class="line"><span class="lineno">  106</span>      <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>-&gt;writeTo(source);</div>
+<div class="line"><span class="lineno">  107</span>   }</div>
+<div class="line"><span class="lineno">  108</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  109</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  110</span>   }</div>
+<div class="line"><span class="lineno">  111</span>   <span class="keywordflow">catch</span> (...) {</div>
+<div class="line"><span class="lineno">  112</span>      <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(<span class="stringliteral">&quot;Non-standard exception in ~Devices.&quot;</span>);</div>
+<div class="line"><span class="lineno">  113</span>   }</div>
+<div class="line"><span class="lineno">  114</span>}</div>
+<div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
+<div class="ttc" id="anamespacersj_html_a85a33831e4cc942fc6995a04c74361ab"><div class="ttname"><a href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:160</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -321,28 +289,68 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  106</span>{</div>
-<div class="line"><span class="lineno">  107</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  108</span>      <span class="keyword">const</span> <span class="keyword">auto</span> [it, success] {<a class="code hl_variable" href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">device_listing_</a>.try_emplace({info, io}, <span class="keyword">true</span>)};</div>
-<div class="line"><span class="lineno">  109</span>      <span class="keywordflow">if</span> (success) {</div>
-<div class="line"><span class="lineno">  110</span>         <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> new_element {<a class="code hl_variable" href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">data_list_</a>-&gt;createNewChildElement(<span class="stringliteral">&quot;item&quot;</span>)}) {</div>
-<div class="line"><span class="lineno">  111</span>            new_element-&gt;setAttribute(<span class="stringliteral">&quot;devicename&quot;</span>, info.name);</div>
-<div class="line"><span class="lineno">  112</span>            new_element-&gt;setAttribute(<span class="stringliteral">&quot;systemid&quot;</span>, info.identifier);</div>
-<div class="line"><span class="lineno">  113</span>            new_element-&gt;setAttribute(<span class="stringliteral">&quot;inputoutput&quot;</span>, io);</div>
-<div class="line"><span class="lineno">  114</span>            new_element-&gt;setAttribute(<span class="stringliteral">&quot;active&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>);</div>
-<div class="line"><span class="lineno">  115</span>         }</div>
-<div class="line"><span class="lineno">  116</span>         <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  117</span>            <a class="code hl_function" href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a>(<span class="stringliteral">&quot;Failed to create new element in Devices::Add&quot;</span>);</div>
-<div class="line"><span class="lineno">  118</span>         }</div>
-<div class="line"><span class="lineno">  119</span>      }</div>
-<div class="line"><span class="lineno">  120</span>      <span class="keywordflow">return</span> success;</div>
-<div class="line"><span class="lineno">  121</span>   }</div>
-<div class="line"><span class="lineno">  122</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  123</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  124</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  125</span>   }</div>
-<div class="line"><span class="lineno">  126</span>}</div>
-<div class="ttc" id="anamespacersj_html_ad86489170f913c80ad1fb3c5a60492c8"><div class="ttname"><a href="namespacersj.html#ad86489170f913c80ad1fb3c5a60492c8">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:217</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  117</span>{</div>
+<div class="line"><span class="lineno">  118</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  119</span>      <span class="keyword">const</span> <span class="keyword">auto</span> [it, success] {<a class="code hl_variable" href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">device_listing_</a>.try_emplace({info, io}, <span class="keyword">true</span>)};</div>
+<div class="line"><span class="lineno">  120</span>      <span class="keywordflow">if</span> (success) {</div>
+<div class="line"><span class="lineno">  121</span>         <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> new_element {<a class="code hl_variable" href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">data_list_</a>-&gt;createNewChildElement(<span class="stringliteral">&quot;item&quot;</span>)}) {</div>
+<div class="line"><span class="lineno">  122</span>            new_element-&gt;setAttribute(<span class="stringliteral">&quot;devicename&quot;</span>, info.name);</div>
+<div class="line"><span class="lineno">  123</span>            new_element-&gt;setAttribute(<span class="stringliteral">&quot;systemid&quot;</span>, info.identifier);</div>
+<div class="line"><span class="lineno">  124</span>            new_element-&gt;setAttribute(<span class="stringliteral">&quot;inputoutput&quot;</span>, io);</div>
+<div class="line"><span class="lineno">  125</span>            new_element-&gt;setAttribute(<span class="stringliteral">&quot;active&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>);</div>
+<div class="line"><span class="lineno">  126</span>         }</div>
+<div class="line"><span class="lineno">  127</span>         <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  128</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Failed to create new element in Devices::Add&quot;</span>);</div>
+<div class="line"><span class="lineno">  129</span>         }</div>
+<div class="line"><span class="lineno">  130</span>      }</div>
+<div class="line"><span class="lineno">  131</span>      <span class="keywordflow">return</span> success;</div>
+<div class="line"><span class="lineno">  132</span>   }</div>
+<div class="line"><span class="lineno">  133</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  134</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  135</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  136</span>   }</div>
+<div class="line"><span class="lineno">  137</span>}</div>
+<div class="ttc" id="aclass_devices_html_a1dd210727694b0ddf21826f1cb191c05"><div class="ttname"><a href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">Devices::data_list_</a></div><div class="ttdeci">juce::XmlElement * data_list_</div><div class="ttdef"><b>Definition</b> Devices.h:109</div></div>
+<div class="ttc" id="aclass_devices_html_ad04a115b64234c6872aaeffc4c0160f2"><div class="ttname"><a href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">Devices::device_listing_</a></div><div class="ttdeci">std::map&lt; DevInfo, bool &gt; device_listing_</div><div class="ttdef"><b>Definition</b> Devices.h:106</div></div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aab1aeefd3974c592f4c3dc3eb21db836" name="aab1aeefd3974c592f4c3dc3eb21db836"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab1aeefd3974c592f4c3dc3eb21db836">&#9670;&#160;</a></span>CreateDefaultDeviceXml()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Devices::CreateDefaultDeviceXml </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><span class="lineno">   60</span>{</div>
+<div class="line"><span class="lineno">   61</span>   <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a> = juce::parseXML(R<span class="stringliteral">&quot;===(&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></div>
+<div class="line"><span class="lineno">   62</span><span class="stringliteral">    &lt;table_data&gt;</span></div>
+<div class="line"><span class="lineno">   63</span><span class="stringliteral">        &lt;heading&gt;</span></div>
+<div class="line"><span class="lineno">   64</span><span class="stringliteral">            &lt;column columnId=&quot;1&quot; name=&quot;devicename&quot; label=&quot;device name&quot; width=&quot;200&quot;/&gt;</span></div>
+<div class="line"><span class="lineno">   65</span><span class="stringliteral">            &lt;column columnId=&quot;2&quot; name=&quot;systemid&quot; label=&quot;system id&quot; width=&quot;200&quot;/&gt;</span></div>
+<div class="line"><span class="lineno">   66</span><span class="stringliteral">            &lt;column columnId=&quot;3&quot; name=&quot;inputoutput&quot; label=&quot;input/output&quot; width=&quot;50&quot;/&gt;</span></div>
+<div class="line"><span class="lineno">   67</span><span class="stringliteral">            &lt;column columnId=&quot;9&quot; name=&quot;active&quot; label=&quot;active&quot; width=&quot;50&quot;/&gt;</span></div>
+<div class="line"><span class="lineno">   68</span><span class="stringliteral">        &lt;/heading&gt;</span></div>
+<div class="line"><span class="lineno">   69</span><span class="stringliteral">        &lt;data&gt;</span></div>
+<div class="line"><span class="lineno">   70</span><span class="stringliteral">        &lt;/data&gt;</span></div>
+<div class="line"><span class="lineno">   71</span><span class="stringliteral">    &lt;/table_data&gt;)===&quot;);</span></div>
+<div class="line"><span class="lineno">   72</span><span class="stringliteral">}</span></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -371,17 +379,17 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  129</span>{</div>
-<div class="line"><span class="lineno">  130</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  131</span>      <span class="keyword">const</span> <span class="keyword">auto</span> it {<a class="code hl_variable" href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">device_listing_</a>.find({info, std::move(io)})};</div>
-<div class="line"><span class="lineno">  132</span>      <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">device_listing_</a>.end()) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
-<div class="line"><span class="lineno">  133</span>      <span class="keywordflow">return</span> it-&gt;second;</div>
-<div class="line"><span class="lineno">  134</span>   }</div>
-<div class="line"><span class="lineno">  135</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  136</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  137</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  138</span>   }</div>
-<div class="line"><span class="lineno">  139</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  140</span>{</div>
+<div class="line"><span class="lineno">  141</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  142</span>      <span class="keyword">const</span> <span class="keyword">auto</span> it {<a class="code hl_variable" href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">device_listing_</a>.find({info, std::move(io)})};</div>
+<div class="line"><span class="lineno">  143</span>      <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">device_listing_</a>.end()) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><span class="lineno">  144</span>      <span class="keywordflow">return</span> it-&gt;second;</div>
+<div class="line"><span class="lineno">  145</span>   }</div>
+<div class="line"><span class="lineno">  146</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  147</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  148</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  149</span>   }</div>
+<div class="line"><span class="lineno">  150</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -410,18 +418,60 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  142</span>{</div>
-<div class="line"><span class="lineno">  143</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  144</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="class_devices.html#a87414122573f3209ae89eec07579ff89">Add</a>(info, io)) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
-<div class="line"><span class="lineno">  145</span>      <span class="keywordflow">return</span> <a class="code hl_function" href="class_devices.html#af2eefc218e57fbe2c8ac0b9ec6060f05">Enabled</a>(info, io);</div>
-<div class="line"><span class="lineno">  146</span>   }</div>
-<div class="line"><span class="lineno">  147</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  148</span>      MIDI2LR_E_RESPONSE;</div>
-<div class="line"><span class="lineno">  149</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  150</span>   }</div>
-<div class="line"><span class="lineno">  151</span>}</div>
-<div class="ttc" id="aclass_devices_html_a87414122573f3209ae89eec07579ff89"><div class="ttname"><a href="class_devices.html#a87414122573f3209ae89eec07579ff89">Devices::Add</a></div><div class="ttdeci">bool Add(const juce::MidiDeviceInfo &amp;info, const juce::String &amp;io)</div><div class="ttdef"><b>Definition</b> Devices.cpp:105</div></div>
-<div class="ttc" id="aclass_devices_html_af2eefc218e57fbe2c8ac0b9ec6060f05"><div class="ttname"><a href="class_devices.html#af2eefc218e57fbe2c8ac0b9ec6060f05">Devices::Enabled</a></div><div class="ttdeci">bool Enabled(const juce::MidiDeviceInfo &amp;info, juce::String io) const</div><div class="ttdef"><b>Definition</b> Devices.cpp:128</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  153</span>{</div>
+<div class="line"><span class="lineno">  154</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  155</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="class_devices.html#a87414122573f3209ae89eec07579ff89">Add</a>(info, io)) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><span class="lineno">  156</span>      <span class="keywordflow">return</span> <a class="code hl_function" href="class_devices.html#af2eefc218e57fbe2c8ac0b9ec6060f05">Enabled</a>(info, io);</div>
+<div class="line"><span class="lineno">  157</span>   }</div>
+<div class="line"><span class="lineno">  158</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  159</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  160</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  161</span>   }</div>
+<div class="line"><span class="lineno">  162</span>}</div>
+<div class="ttc" id="aclass_devices_html_a87414122573f3209ae89eec07579ff89"><div class="ttname"><a href="class_devices.html#a87414122573f3209ae89eec07579ff89">Devices::Add</a></div><div class="ttdeci">bool Add(const juce::MidiDeviceInfo &amp;info, const juce::String &amp;io)</div><div class="ttdef"><b>Definition</b> Devices.cpp:116</div></div>
+<div class="ttc" id="aclass_devices_html_af2eefc218e57fbe2c8ac0b9ec6060f05"><div class="ttname"><a href="class_devices.html#af2eefc218e57fbe2c8ac0b9ec6060f05">Devices::Enabled</a></div><div class="ttdeci">bool Enabled(const juce::MidiDeviceInfo &amp;info, juce::String io) const</div><div class="ttdef"><b>Definition</b> Devices.cpp:139</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a1a2fcadabf5330a8f00b16577018bf98" name="a1a2fcadabf5330a8f00b16577018bf98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a2fcadabf5330a8f00b16577018bf98">&#9670;&#160;</a></span>LoadDeviceXml()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Devices::LoadDeviceXml </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><span class="lineno">   41</span>{</div>
+<div class="line"><span class="lineno">   42</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   43</span>      <span class="keyword">auto</span> deviceXmlSource {GetSource(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;Controllers.xml&quot;</span>))};</div>
+<div class="line"><span class="lineno">   44</span>      <span class="keywordflow">if</span> (deviceXmlSource.existsAsFile()) { <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a> = juce::parseXML(deviceXmlSource); }</div>
+<div class="line"><span class="lineno">   45</span>      <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   46</span>         deviceXmlSource = GetSource(MIDI2LR_UC_LITERAL(<span class="stringliteral">&quot;DisabledControllers.xml&quot;</span>));</div>
+<div class="line"><span class="lineno">   47</span>         <span class="keywordflow">if</span> (deviceXmlSource.existsAsFile()) {</div>
+<div class="line"><span class="lineno">   48</span>            <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a> = juce::parseXML(deviceXmlSource);</div>
+<div class="line"><span class="lineno">   49</span>            std::ignore = deviceXmlSource.deleteFile(); <span class="comment">// don&#39;t want to use name again</span></div>
+<div class="line"><span class="lineno">   50</span>         }</div>
+<div class="line"><span class="lineno">   51</span>      }</div>
+<div class="line"><span class="lineno">   52</span>   }</div>
+<div class="line"><span class="lineno">   53</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">   54</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   55</span>      <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>.reset();</div>
+<div class="line"><span class="lineno">   56</span>   }</div>
+<div class="line"><span class="lineno">   57</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -477,6 +527,50 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a29501dacace519934493e41e92b2a02f" name="a29501dacace519934493e41e92b2a02f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29501dacace519934493e41e92b2a02f">&#9670;&#160;</a></span>ProcessDataList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Devices::ProcessDataList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><span class="lineno">   75</span>{</div>
+<div class="line"><span class="lineno">   76</span>   <a class="code hl_variable" href="class_devices.html#aef0eab8753ced3201db679a4b1d718b9">column_list_</a> = <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>-&gt;getChildByName(<span class="stringliteral">&quot;heading&quot;</span>);</div>
+<div class="line"><span class="lineno">   77</span>   <a class="code hl_variable" href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">data_list_</a> = <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>-&gt;getChildByName(<span class="stringliteral">&quot;data&quot;</span>);</div>
+<div class="line"><span class="lineno">   78</span>   <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">data_list_</a>) {</div>
+<div class="line"><span class="lineno">   79</span>      <a class="code hl_variable" href="class_devices.html#a78d63d5c7df827256f7d71870e597644">num_rows_</a> = <a class="code hl_variable" href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">data_list_</a>-&gt;getNumChildElements();</div>
+<div class="line"><span class="lineno">   80</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> gsl::not_null&lt;const juce::XmlElement*&gt; dataElement :</div>
+<div class="line"><span class="lineno">   81</span>          <a class="code hl_variable" href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">data_list_</a>-&gt;getChildIterator()) {</div>
+<div class="line"><span class="lineno">   82</span>         <a class="code hl_variable" href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">device_listing_</a>.emplace(DevInfo {dataElement-&gt;getStringAttribute(<span class="stringliteral">&quot;devicename&quot;</span>),</div>
+<div class="line"><span class="lineno">   83</span>                                     dataElement-&gt;getStringAttribute(<span class="stringliteral">&quot;systemid&quot;</span>),</div>
+<div class="line"><span class="lineno">   84</span>                                     dataElement-&gt;getStringAttribute(<span class="stringliteral">&quot;inputoutput&quot;</span>)},</div>
+<div class="line"><span class="lineno">   85</span>             dataElement-&gt;getIntAttribute(<span class="stringliteral">&quot;active&quot;</span>));</div>
+<div class="line"><span class="lineno">   86</span>      }</div>
+<div class="line"><span class="lineno">   87</span>   }</div>
+<div class="line"><span class="lineno">   88</span>   <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   89</span>      <a class="code hl_variable" href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">data_list_</a> = <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>-&gt;createNewChildElement(<span class="stringliteral">&quot;data&quot;</span>);</div>
+<div class="line"><span class="lineno">   90</span>   }</div>
+<div class="line"><span class="lineno">   91</span>}</div>
+<div class="ttc" id="aclass_devices_html_a78d63d5c7df827256f7d71870e597644"><div class="ttname"><a href="class_devices.html#a78d63d5c7df827256f7d71870e597644">Devices::num_rows_</a></div><div class="ttdeci">int num_rows_</div><div class="ttdef"><b>Definition</b> Devices.h:110</div></div>
+<div class="ttc" id="aclass_devices_html_aef0eab8753ced3201db679a4b1d718b9"><div class="ttname"><a href="class_devices.html#aef0eab8753ced3201db679a4b1d718b9">Devices::column_list_</a></div><div class="ttdeci">juce::XmlElement * column_list_</div><div class="ttdef"><b>Definition</b> Devices.h:108</div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="aef0eab8753ced3201db679a4b1d718b9" name="aef0eab8753ced3201db679a4b1d718b9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aef0eab8753ced3201db679a4b1d718b9">&#9670;&#160;</a></span>column_list_</h2>
@@ -497,7 +591,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  105</span>{<span class="keyword">nullptr</span>};</div>
+<div class="fragment"><div class="line"><span class="lineno">  108</span>{<span class="keyword">nullptr</span>};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -520,7 +614,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  106</span>{<span class="keyword">nullptr</span>};</div>
+<div class="fragment"><div class="line"><span class="lineno">  109</span>{<span class="keyword">nullptr</span>};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -587,7 +681,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  107</span>{0};</div>
+<div class="fragment"><div class="line"><span class="lineno">  110</span>{0};</div>
 </div><!-- fragment -->
 </div>
 </div>

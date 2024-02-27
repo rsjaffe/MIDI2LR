@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -239,14 +239,15 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  129</span>      }</div>
 <div class="line"><span class="lineno">  130</span>   }</div>
 <div class="line"><span class="lineno">  131</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  132</span>      MIDI2LR_E_RESPONSE;</div>
+<div class="line"><span class="lineno">  132</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
 <div class="line"><span class="lineno">  133</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  134</span>   }</div>
 <div class="line"><span class="lineno">  135</span>}</div>
 <div class="ttc" id="aclass_nrpn_filter_html_a0f3404ec0e2f533eba4be185475f06cf"><div class="ttname"><a href="class_nrpn_filter.html#a0f3404ec0e2f533eba4be185475f06cf">NrpnFilter::Clear</a></div><div class="ttdeci">void Clear(int channel) noexcept</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:221</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html_a40cce06213f004a2b07928898e112491"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">rsj::MidiMessage::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:127</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html_a9fe338912f9e54437351926dcc6df9e1"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">rsj::MidiMessage::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:126</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_html_ad86e8d27f598c8def0279d3a3777cd7e"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">rsj::MidiMessage::value</a></div><div class="ttdeci">int value</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:128</div></div>
+<div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_a40cce06213f004a2b07928898e112491"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">rsj::MidiMessage::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:126</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_a9fe338912f9e54437351926dcc6df9e1"><div class="ttname"><a href="structrsj_1_1_midi_message.html#a9fe338912f9e54437351926dcc6df9e1">rsj::MidiMessage::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:125</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_html_ad86e8d27f598c8def0279d3a3777cd7e"><div class="ttname"><a href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">rsj::MidiMessage::value</a></div><div class="ttdeci">int value</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:127</div></div>
 </div><!-- fragment -->
 </div>
 </div>

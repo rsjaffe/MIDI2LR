@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -186,12 +186,12 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  154</span>          : <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>(ch), <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>(dat), <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>(msgType)</div>
-<div class="line"><span class="lineno">  155</span>      {</div>
-<div class="line"><span class="lineno">  156</span>      }</div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:149</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:147</div></div>
-<div class="ttc" id="astructrsj_1_1_midi_message_id_html_acc40acde2069206b38805eb871c64df8"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:148</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  153</span>          : <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>(ch), <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>(dat), <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>(msgType)</div>
+<div class="line"><span class="lineno">  154</span>      {</div>
+<div class="line"><span class="lineno">  155</span>      }</div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:148</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:146</div></div>
+<div class="ttc" id="astructrsj_1_1_midi_message_id_html_acc40acde2069206b38805eb871c64df8"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:147</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -218,10 +218,10 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  159</span>          : <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> {other.channel + 1}, <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a> {other.control_number},</div>
-<div class="line"><span class="lineno">  160</span>            <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a> {other.message_type_byte}</div>
-<div class="line"><span class="lineno">  161</span>      {</div>
-<div class="line"><span class="lineno">  162</span>      }</div>
+<div class="fragment"><div class="line"><span class="lineno">  158</span>          : <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> {other.channel + 1}, <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a> {other.control_number},</div>
+<div class="line"><span class="lineno">  159</span>            <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a> {other.message_type_byte}</div>
+<div class="line"><span class="lineno">  160</span>      {</div>
+<div class="line"><span class="lineno">  161</span>      }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -249,16 +249,16 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  174</span>      {</div>
-<div class="line"><span class="lineno">  175</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> &lt; other.channel) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
-<div class="line"><span class="lineno">  176</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> == other.channel) {</div>
-<div class="line"><span class="lineno">  177</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a> &lt; other.control_number) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
-<div class="line"><span class="lineno">  178</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a> == other.control_number &amp;&amp; <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a> &lt; other.msg_id_type) {</div>
-<div class="line"><span class="lineno">  179</span>               <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  180</span>            }</div>
-<div class="line"><span class="lineno">  181</span>         }</div>
-<div class="line"><span class="lineno">  182</span>         <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  183</span>      }</div>
+<div class="fragment"><div class="line"><span class="lineno">  173</span>      {</div>
+<div class="line"><span class="lineno">  174</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> &lt; other.channel) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><span class="lineno">  175</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> == other.channel) {</div>
+<div class="line"><span class="lineno">  176</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a> &lt; other.control_number) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><span class="lineno">  177</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a> == other.control_number &amp;&amp; <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a> &lt; other.msg_id_type) {</div>
+<div class="line"><span class="lineno">  178</span>               <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  179</span>            }</div>
+<div class="line"><span class="lineno">  180</span>         }</div>
+<div class="line"><span class="lineno">  181</span>         <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  182</span>      }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -285,10 +285,10 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  168</span>      {</div>
-<div class="line"><span class="lineno">  169</span>         <span class="keywordflow">return</span> <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a> == other.msg_id_type &amp;&amp; <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> == other.channel</div>
-<div class="line"><span class="lineno">  170</span>                &amp;&amp; <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a> == other.control_number;</div>
-<div class="line"><span class="lineno">  171</span>      }</div>
+<div class="fragment"><div class="line"><span class="lineno">  167</span>      {</div>
+<div class="line"><span class="lineno">  168</span>         <span class="keywordflow">return</span> <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a> == other.msg_id_type &amp;&amp; <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> == other.channel</div>
+<div class="line"><span class="lineno">  169</span>                &amp;&amp; <a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a> == other.control_number;</div>
+<div class="line"><span class="lineno">  170</span>      }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -304,7 +304,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  147</span>{1}; <span class="comment">/* 1-based */</span></div>
+<div class="fragment"><div class="line"><span class="lineno">  146</span>{1}; <span class="comment">/* 1-based */</span></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -319,7 +319,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  148</span>{0};</div>
+<div class="fragment"><div class="line"><span class="lineno">  147</span>{0};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -334,7 +334,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  149</span>{<a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ac6a3582c30ac3ccfb5f2ee3c36e07206">MessageType::kNoteOn</a>};</div>
+<div class="fragment"><div class="line"><span class="lineno">  148</span>{<a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ac6a3582c30ac3ccfb5f2ee3c36e07206">MessageType::kNoteOn</a>};</div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ac6a3582c30ac3ccfb5f2ee3c36e07206"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ac6a3582c30ac3ccfb5f2ee3c36e07206">rsj::MessageType::kNoteOn</a></div><div class="ttdeci">@ kNoteOn</div></div>
 </div><!-- fragment -->
 </div>

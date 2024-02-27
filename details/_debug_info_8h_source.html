@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.0.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -132,7 +132,7 @@ $(document).ready(function(){initNavTree('_debug_info_8h_source.html',''); initR
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> <span class="keyword">private</span>:</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>   <span class="keywordtype">void</span> <a class="code hl_function" href="class_debug_info.html#a61484a1e043aee5035aed983750cbf10">LogAndSave</a>(std::string&amp;&amp; msg)</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>   {</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>      <a class="code hl_namespace" href="namespacersj.html">rsj</a>::Log(msg);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>      rsj::Log(msg);</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>      info_.push_back(std::move(msg));</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>   }</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
@@ -140,8 +140,7 @@ $(document).ready(function(){initNavTree('_debug_info_8h_source.html',''); initR
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>};</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#</span><span class="preprocessor">endif</span></div>
-<div class="ttc" id="a_misc_8h_html_a214f13bf36accff2bcfcba31f4042c32"><div class="ttname"><a href="_misc_8h.html#a214f13bf36accff2bcfcba31f4042c32">MIDI2LR_E_RESPONSE_F</a></div><div class="ttdeci">#define MIDI2LR_E_RESPONSE_F</div><div class="ttdef"><b>Definition</b> Misc.h:126</div></div>
-<div class="ttc" id="a_misc_8h_html_a64f3f7067110eaffe88d28a762ed1e96"><div class="ttname"><a href="_misc_8h.html#a64f3f7067110eaffe88d28a762ed1e96">MIDI2LR_UC_LITERAL</a></div><div class="ttdeci">#define MIDI2LR_UC_LITERAL(text)</div><div class="ttdef"><b>Definition</b> Misc.h:53</div></div>
+<div class="ttc" id="a_misc_8h_html_a64f3f7067110eaffe88d28a762ed1e96"><div class="ttname"><a href="_misc_8h.html#a64f3f7067110eaffe88d28a762ed1e96">MIDI2LR_UC_LITERAL</a></div><div class="ttdeci">#define MIDI2LR_UC_LITERAL(text)</div><div class="ttdef"><b>Definition</b> Misc.h:49</div></div>
 <div class="ttc" id="aclass_debug_info_html"><div class="ttname"><a href="class_debug_info.html">DebugInfo</a></div><div class="ttdef"><b>Definition</b> DebugInfo.h:25</div></div>
 <div class="ttc" id="aclass_debug_info_html_a104d976871cf3e707a3a3a7e607a9e9e"><div class="ttname"><a href="class_debug_info.html#a104d976871cf3e707a3a3a7e607a9e9e">DebugInfo::GetInfo</a></div><div class="ttdeci">const std::vector&lt; std::string &gt; &amp; GetInfo() const noexcept</div><div class="ttdef"><b>Definition</b> DebugInfo.h:29</div></div>
 <div class="ttc" id="aclass_debug_info_html_a575d4944d074eb26910c200f953a3b33"><div class="ttname"><a href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">DebugInfo::info_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; info_</div><div class="ttdef"><b>Definition</b> DebugInfo.h:38</div></div>
