@@ -61,7 +61,7 @@ namespace {
    constexpr ::std::array ascii_map {"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06",
        "\\a", "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12",
        "\\x13", "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C",
-       "\\x1D", "\\x1E", "\\x1F", " ", "!", "\\\""};
+       "\\x1D", "\\x1E", "\\x1F"};
 } // namespace
 
 ::std::string rsj::ReplaceInvisibleChars(::std::string_view in)
@@ -78,9 +78,6 @@ namespace {
          }
          else if (std::cmp_equal(rsj::CharToInt(a), 127)) {
             result.append("\\x7F");
-         }
-         else if (a == '\\') {
-            result.append("\\\\");
          }
          else {
             result.push_back(a);

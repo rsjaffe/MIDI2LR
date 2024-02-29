@@ -45,65 +45,44 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
 {
    try {
       const auto key_pressed {k.getKeyCode()};
+      const auto selected_row {juce::ListBox::getSelectedRow()};
+      const auto num_rows {juce::TableListBox::getNumRows()};
+      if (num_rows == 0 || selected_row == -1) { return false; }
       if (key_pressed == juce::KeyPress::deleteKey) {
-         if (juce::ListBox::getSelectedRow() != -1) {
-            const auto last {
-                juce::ListBox::getSelectedRow() == juce::TableListBox::getNumRows() - 1};
-            if (const auto ptr {
-                    dynamic_cast<CommandTableModel*>(juce::TableListBox::getTableListBoxModel())}) {
-               ptr->RemoveRow(gsl::narrow_cast<size_t>(juce::ListBox::getSelectedRow()));
-            }
+         if (const auto ptr {
+                 dynamic_cast<CommandTableModel*>(juce::TableListBox::getTableListBoxModel())}) {
+            ptr->RemoveRow(gsl::narrow_cast<size_t>(selected_row));
             juce::ListBox::updateContent();
-            if (last) { /* keep selection at the end */
-               juce::ListBox::selectRow(getNumRows() - 1);
+            if (selected_row == num_rows - 1) { /* keep selection at the end */
+               juce::ListBox::selectRow(num_rows - 2);
             }
             return true;
          }
          return false;
       }
       if (key_pressed == juce::KeyPress::downKey) {
-         if (juce::ListBox::getSelectedRow() != -1
-             && juce::ListBox::getSelectedRow() < juce::TableListBox::getNumRows() - 1) {
-            juce::ListBox::selectRow(getSelectedRow() + 1);
-            return true;
-         }
-         return false;
+         juce::ListBox::selectRow(std::min(selected_row + 1, num_rows - 1));
+         return true;
       }
       if (key_pressed == juce::KeyPress::upKey) {
-         if (juce::ListBox::getSelectedRow() > 0 && juce::TableListBox::getNumRows() > 1) {
-            juce::ListBox::selectRow(getSelectedRow() - 1);
-            return true;
-         }
-         return false;
+         juce::ListBox::selectRow(std::max(selected_row - 1, 0));
+         return true;
       }
       if (key_pressed == juce::KeyPress::pageUpKey) {
-         if (juce::TableListBox::getNumRows() > 0) {
-            juce::ListBox::selectRow(std::max(juce::ListBox::getSelectedRow() - 20, 0));
-            return true;
-         }
-         return false;
+         juce::ListBox::selectRow(std::max(selected_row - 20, 0));
+         return true;
       }
       if (key_pressed == juce::KeyPress::pageDownKey) {
-         if (juce::TableListBox::getNumRows() > 0) {
-            juce::ListBox::selectRow(std::min(juce::ListBox::getSelectedRow() + 20,
-                juce::TableListBox::getNumRows() - 1));
-            return true;
-         }
-         return false;
+         juce::ListBox::selectRow(std::min(selected_row + 20, num_rows - 1));
+         return true;
       }
       if (key_pressed == juce::KeyPress::homeKey) {
-         if (juce::TableListBox::getNumRows() > 0) {
-            juce::ListBox::selectRow(0);
-            return true;
-         }
-         return false;
+         juce::ListBox::selectRow(0);
+         return true;
       }
       if (key_pressed == juce::KeyPress::endKey) {
-         if (juce::TableListBox::getNumRows() > 0) {
-            juce::ListBox::selectRow(juce::TableListBox::getNumRows() - 1);
-            return true;
-         }
-         return false;
+         juce::ListBox::selectRow(num_rows - 1);
+         return true;
       }
       return false;
    }
