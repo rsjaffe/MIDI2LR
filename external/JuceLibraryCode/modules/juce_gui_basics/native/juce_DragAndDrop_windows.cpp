@@ -29,9 +29,9 @@ namespace juce
 namespace DragAndDropHelpers
 {
     //==============================================================================
-    struct JuceDropSource   : public ComBaseClassHelper<IDropSource>
+    struct JuceDropSource final : public ComBaseClassHelper<IDropSource>
     {
-        JuceDropSource() {}
+        JuceDropSource() = default;
 
         JUCE_COMRESULT QueryContinueDrag (BOOL escapePressed, DWORD keys) override
         {
@@ -51,7 +51,7 @@ namespace DragAndDropHelpers
     };
 
     //==============================================================================
-    struct JuceEnumFormatEtc   : public ComBaseClassHelper<IEnumFORMATETC>
+    struct JuceEnumFormatEtc final : public ComBaseClassHelper<IEnumFORMATETC>
     {
         JuceEnumFormatEtc (const FORMATETC* f)  : format (f) {}
 
@@ -123,7 +123,7 @@ namespace DragAndDropHelpers
     };
 
     //==============================================================================
-    class JuceDataObject  : public ComBaseClassHelper <IDataObject>
+    class JuceDataObject final : public ComBaseClassHelper<IDataObject>
     {
     public:
         JuceDataObject (const FORMATETC* f, const STGMEDIUM* m)
@@ -131,12 +131,12 @@ namespace DragAndDropHelpers
         {
         }
 
-        ~JuceDataObject()
+        ~JuceDataObject() override
         {
             jassert (refCount == 0);
         }
 
-        JUCE_COMRESULT GetData (FORMATETC* pFormatEtc, STGMEDIUM* pMedium)
+        JUCE_COMRESULT GetData (FORMATETC* pFormatEtc, STGMEDIUM* pMedium) override
         {
             if ((pFormatEtc->tymed & format->tymed) != 0
                  && pFormatEtc->cfFormat == format->cfFormat
@@ -164,7 +164,7 @@ namespace DragAndDropHelpers
             return DV_E_FORMATETC;
         }
 
-        JUCE_COMRESULT QueryGetData (FORMATETC* f)
+        JUCE_COMRESULT QueryGetData (FORMATETC* f) override
         {
             if (f == nullptr)
                 return E_INVALIDARG;
@@ -177,13 +177,13 @@ namespace DragAndDropHelpers
             return DV_E_FORMATETC;
         }
 
-        JUCE_COMRESULT GetCanonicalFormatEtc (FORMATETC*, FORMATETC* pFormatEtcOut)
+        JUCE_COMRESULT GetCanonicalFormatEtc (FORMATETC*, FORMATETC* pFormatEtcOut) override
         {
             pFormatEtcOut->ptd = nullptr;
             return E_NOTIMPL;
         }
 
-        JUCE_COMRESULT EnumFormatEtc (DWORD direction, IEnumFORMATETC** result)
+        JUCE_COMRESULT EnumFormatEtc (DWORD direction, IEnumFORMATETC** result) override
         {
             if (result == nullptr)
                 return E_POINTER;
@@ -198,11 +198,11 @@ namespace DragAndDropHelpers
             return E_NOTIMPL;
         }
 
-        JUCE_COMRESULT GetDataHere (FORMATETC*, STGMEDIUM*)                  { return DATA_E_FORMATETC; }
-        JUCE_COMRESULT SetData (FORMATETC*, STGMEDIUM*, BOOL)                { return E_NOTIMPL; }
-        JUCE_COMRESULT DAdvise (FORMATETC*, DWORD, IAdviseSink*, DWORD*)     { return OLE_E_ADVISENOTSUPPORTED; }
-        JUCE_COMRESULT DUnadvise (DWORD)                                     { return E_NOTIMPL; }
-        JUCE_COMRESULT EnumDAdvise (IEnumSTATDATA**)                         { return OLE_E_ADVISENOTSUPPORTED; }
+        JUCE_COMRESULT GetDataHere (FORMATETC*, STGMEDIUM*)                  override { return DATA_E_FORMATETC; }
+        JUCE_COMRESULT SetData (FORMATETC*, STGMEDIUM*, BOOL)                override { return E_NOTIMPL; }
+        JUCE_COMRESULT DAdvise (FORMATETC*, DWORD, IAdviseSink*, DWORD*)     override { return OLE_E_ADVISENOTSUPPORTED; }
+        JUCE_COMRESULT DUnadvise (DWORD)                                     override { return E_NOTIMPL; }
+        JUCE_COMRESULT EnumDAdvise (IEnumSTATDATA**)                         override { return OLE_E_ADVISENOTSUPPORTED; }
 
     private:
         const FORMATETC* const format;
@@ -251,7 +251,7 @@ namespace DragAndDropHelpers
         return static_cast<HDROP> (hDrop.release());
     }
 
-    struct DragAndDropJob   : public ThreadPoolJob
+    struct DragAndDropJob final : public ThreadPoolJob
     {
         DragAndDropJob (FORMATETC f, STGMEDIUM m, DWORD d, std::function<void()>&& cb)
             : ThreadPoolJob ("DragAndDrop"),
@@ -288,7 +288,7 @@ namespace DragAndDropHelpers
         std::function<void()> completionCallback;
     };
 
-    class ThreadPoolHolder   : private DeletedAtShutdown
+    class ThreadPoolHolder final : private DeletedAtShutdown
     {
     public:
         ThreadPoolHolder() = default;

@@ -105,12 +105,12 @@ public:
     Type get() const noexcept                        { return cachedValue; }
 
     /** Dereference operator. Provides direct access to the property.  */
-    Type& operator*() noexcept                       { return cachedValue; }
+    const Type& operator*() const noexcept           { return cachedValue; }
 
     /** Dereference operator. Provides direct access to members of the property
         if it is of object type.
     */
-    Type* operator->() noexcept                      { return &cachedValue; }
+    const Type* operator->() const noexcept          { return &cachedValue; }
 
     /** Returns true if the current value of the property (or the fallback value)
         is equal to other.
@@ -118,9 +118,7 @@ public:
     template <typename OtherType>
     bool operator== (const OtherType& other) const
     {
-        JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wfloat-equal")
         return cachedValue == other;
-        JUCE_END_IGNORE_WARNINGS_GCC_LIKE
     }
 
     /** Returns true if the current value of the property (or the fallback value)

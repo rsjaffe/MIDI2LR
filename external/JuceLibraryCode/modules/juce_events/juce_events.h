@@ -32,7 +32,7 @@
 
   ID:                 juce_events
   vendor:             juce
-  version:            7.0.7
+  version:            7.0.10
   name:               JUCE message and event handling classes
   description:        Classes for running an application's main event loop and sending/receiving messages, timers, etc.
   website:            http://www.juce.com/juce
@@ -86,7 +86,9 @@
 #include "broadcasters/juce_ChangeListener.h"
 #include "broadcasters/juce_ChangeBroadcaster.h"
 #include "timers/juce_Timer.h"
+#include "timers/juce_TimedCallback.h"
 #include "timers/juce_MultiTimer.h"
+#include "interprocess/juce_ChildProcessManager.h"
 #include "interprocess/juce_InterprocessConnection.h"
 #include "interprocess/juce_InterprocessConnectionServer.h"
 #include "interprocess/juce_ConnectedChildProcess.h"

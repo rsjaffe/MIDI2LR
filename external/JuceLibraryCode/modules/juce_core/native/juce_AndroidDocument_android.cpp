@@ -161,7 +161,7 @@ struct AndroidDocumentDetail
                                                                                  documentId.get()) };
 
         return DocumentsContractIteratorEngine { Columns { GlobalRef { uri },
-                                                           GlobalRefImpl<jstring> { javaString("document_id") } },
+                                                           GlobalRefImpl<jstring> { javaString ("document_id") } },
                                                  childrenUri.get() };
     }
 
@@ -621,12 +621,12 @@ struct AndroidDocument::Utils
     public:
         static String getMimeTypeFromExtension (const String& str)
         {
-            return MimeTypeTable::getMimeTypesForFileExtension (str)[0];
+            return detail::MimeTypeTable::getMimeTypesForFileExtension (str)[0];
         }
 
         static String getExtensionFromMimeType (const String& str)
         {
-            return MimeTypeTable::getFileExtensionsForMimeType (str)[0];
+            return detail::MimeTypeTable::getFileExtensionsForMimeType (str)[0];
         }
     };
    #endif

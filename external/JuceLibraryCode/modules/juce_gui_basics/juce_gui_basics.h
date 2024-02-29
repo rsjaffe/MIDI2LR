@@ -35,7 +35,7 @@
 
   ID:                 juce_gui_basics
   vendor:             juce
-  version:            7.0.7
+  version:            7.0.10
   name:               JUCE GUI core classes
   description:        Basic user-interface components and related classes.
   website:            http://www.juce.com/juce
@@ -292,6 +292,7 @@ namespace juce
 #include "windows/juce_TooltipWindow.h"
 #include "windows/juce_VBlankAttachment.h"
 #include "windows/juce_WindowUtils.h"
+#include "windows/juce_NativeScaleFactorNotifier.h"
 #include "layout/juce_MultiDocumentPanel.h"
 #include "layout/juce_SidePanel.h"
 #include "filebrowser/juce_FileBrowserListener.h"

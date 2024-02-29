@@ -50,14 +50,19 @@ private:
         if (nCode >= 0 && wParam == WM_MOUSEWHEEL)
         {
             // using a local copy of this struct to support old mingw libraries
-            struct MOUSEHOOKSTRUCTEX_  : public MOUSEHOOKSTRUCT  { DWORD mouseData; };
+            struct MOUSEHOOKSTRUCTEX_ final : public MOUSEHOOKSTRUCT  { DWORD mouseData; };
 
             auto& hs = *(MOUSEHOOKSTRUCTEX_*) lParam;
 
             if (auto* comp = Desktop::getInstance().findComponentAt ({ hs.pt.x, hs.pt.y }))
-                if (comp->getWindowHandle() != nullptr)
-                    return PostMessage ((HWND) comp->getWindowHandle(), WM_MOUSEWHEEL,
-                                        hs.mouseData & 0xffff0000, (hs.pt.x & 0xffff) | (hs.pt.y << 16));
+            {
+                if (auto* target = static_cast<HWND> (comp->getWindowHandle()))
+                {
+                    const ScopedThreadDPIAwarenessSetter scope { target };
+                    return PostMessage (target, WM_MOUSEWHEEL,
+                                        hs.mouseData & 0xffff0000, MAKELPARAM (hs.pt.x, hs.pt.y));
+                }
+            }
         }
 
         return CallNextHookEx (getSingleton()->mouseWheelHook, nCode, wParam, lParam);
@@ -65,12 +70,11 @@ private:
 
     static LRESULT CALLBACK keyboardHookCallback (int nCode, WPARAM wParam, LPARAM lParam)
     {
-        MSG& msg = *(MSG*) lParam;
+        auto& msg = *reinterpret_cast<MSG*> (lParam);
 
-        if (nCode == HC_ACTION && wParam == PM_REMOVE
-             && HWNDComponentPeer::offerKeyMessageToJUCEWindow (msg))
+        if (nCode == HC_ACTION && wParam == PM_REMOVE && HWNDComponentPeer::offerKeyMessageToJUCEWindow (msg))
         {
-            zerostruct (msg);
+            msg = {};
             msg.message = WM_USER;
             return 0;
         }

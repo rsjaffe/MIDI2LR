@@ -32,7 +32,7 @@
 
   ID:                 juce_core
   vendor:             juce
-  version:            7.0.7
+  version:            7.0.10
   name:               JUCE core classes
   description:        The essential set of basic JUCE classes, as required by all the other JUCE modules. Includes text, container, memory, threading and i/o functionality.
   website:            http://www.juce.com/juce
@@ -246,6 +246,7 @@ JUCE_END_IGNORE_WARNINGS_MSVC
 #include "memory/juce_ScopedPointer.h"
 #include "memory/juce_OptionalScopedPointer.h"
 #include "containers/juce_Optional.h"
+#include "containers/juce_Enumerate.h"
 #include "containers/juce_ScopedValueSetter.h"
 #include "memory/juce_Singleton.h"
 #include "memory/juce_WeakReference.h"
@@ -259,6 +260,7 @@ JUCE_END_IGNORE_WARNINGS_MSVC
 #include "containers/juce_ArrayBase.h"
 #include "containers/juce_Array.h"
 #include "containers/juce_LinkedListPointer.h"
+#include "misc/juce_ScopeGuard.h"
 #include "containers/juce_ListenerList.h"
 #include "containers/juce_OwnedArray.h"
 #include "containers/juce_ReferenceCountedArray.h"
@@ -283,8 +285,10 @@ JUCE_END_IGNORE_WARNINGS_MSVC
 #include "misc/juce_ConsoleApplication.h"
 #include "containers/juce_Variant.h"
 #include "containers/juce_NamedValueSet.h"
+#include "javascript/juce_JSON.h"
 #include "containers/juce_DynamicObject.h"
 #include "containers/juce_HashMap.h"
+#include "containers/juce_FixedSizeFunction.h"
 #include "time/juce_RelativeTime.h"
 #include "time/juce_Time.h"
 #include "streams/juce_InputStream.h"
@@ -306,7 +310,9 @@ JUCE_END_IGNORE_WARNINGS_MSVC
 #include "files/juce_WildcardFileFilter.h"
 #include "streams/juce_FileInputSource.h"
 #include "logging/juce_FileLogger.h"
-#include "javascript/juce_JSON.h"
+#include "javascript/juce_JSONUtils.h"
+#include "serialisation/juce_Serialisation.h"
+#include "javascript/juce_JSONSerialisation.h"
 #include "javascript/juce_Javascript.h"
 #include "maths/juce_BigInteger.h"
 #include "maths/juce_Expression.h"
@@ -348,7 +354,10 @@ JUCE_END_IGNORE_WARNINGS_MSVC
 #include "files/juce_AndroidDocument.h"
 #include "streams/juce_AndroidDocumentInputSource.h"
 
+#include "detail/juce_CallbackListenerList.h"
+
 #if JUCE_CORE_INCLUDE_OBJC_HELPERS && (JUCE_MAC || JUCE_IOS)
+ #include "native/juce_CFHelpers_mac.h"
  #include "native/juce_ObjCHelpers_mac.h"
 #endif
 
