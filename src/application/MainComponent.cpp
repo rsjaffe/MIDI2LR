@@ -76,6 +76,7 @@ catch (const std::exception& e) {
 MainContentComponent::~MainContentComponent()
 {
    settings_manager_.SetDefaultProfile(profile_name_label_.getText());
+   juce::Timer::stopTimer();
 }
 
 namespace {
@@ -385,7 +386,7 @@ void MainContentComponent::handleAsyncUpdate()
       /* Update the last command label and set its color to green */
       command_label_.setText(last_command_, juce::NotificationType::dontSendNotification);
       command_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
-      startTimer(1000);
+      juce::Timer::startTimer(1000);
       /* Update the command table to add and/or select row corresponding to midi command */
       command_table_.updateContent();
       command_table_.selectRow(gsl::narrow_cast<int>(row_to_select_));
