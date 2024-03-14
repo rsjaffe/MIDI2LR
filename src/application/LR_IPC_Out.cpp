@@ -212,7 +212,7 @@ void LrIpcOut::ProcessMessage(const rsj::MidiMessageId& message, const rsj::Midi
 void LrIpcOut::ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm,
     const rsj::MidiMessageId& message)
 {
-   static TimePoint next_response {};
+   constinit static TimePoint next_response {};
    if (const auto now {Clock::now()}; next_response < now) {
       next_response = now + kDelay;
       if (ShouldSetRecenter(mm)) { SetRecenter(message); }

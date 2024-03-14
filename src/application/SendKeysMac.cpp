@@ -38,7 +38,6 @@
 #include "SendKeys.h"
 
 namespace {
-   std::once_flag of_check_permission;
    const auto kLrc {".app/Contents/MacOS/Adobe Lightroom Classic"};
 
    /* From Events.h in Carbon framework
@@ -239,6 +238,7 @@ namespace {
          /* mutex unnecessary, as always called on main message thread */
          CGEventPostToPid(lr_pid, d.get());
          CGEventPostToPid(lr_pid, u.get());
+         constinit static std::once_flag of_check_permission;
          std::call_once(of_check_permission, [lr_pid]() { rsj::CheckPermission(lr_pid); });
       }
       catch (const std::exception& e) {

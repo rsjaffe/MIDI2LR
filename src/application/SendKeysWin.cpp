@@ -38,7 +38,6 @@
 namespace {
    std::mutex mutex_sending {};
    HWND h_lr_wnd {nullptr};
-   std::once_flag of_getlanguage;
 
    BOOL CALLBACK EnumWindowsProc(const _In_ HWND hwnd, [[maybe_unused]] const _In_ LPARAM l_param)
    {
@@ -68,6 +67,7 @@ namespace {
 
    HKL GetLanguage()
    {
+      constinit static std::once_flag of_getlanguage;
       std::call_once(of_getlanguage, [] {
          LOG_IF_WIN32_BOOL_FALSE(EnumWindows(&EnumWindowsProc, 0));
          if (!h_lr_wnd) {

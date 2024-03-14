@@ -71,7 +71,7 @@ void SettingsManager::ConnectionCallback(const bool connected, const bool blocke
             lr_ipc_out_.SendCommand("Pickup 0\n");
             rsj::Log("Pickup is disabled.", std::source_location::current());
          }
-         static std::once_flag of; /* add debug info once to logs */
+         constinit static std::once_flag of; /* add debug info once to logs */
          std::call_once(of, std::bind_front(&SettingsManager::WriteDebugInfo, this));
       }
    }

@@ -244,7 +244,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        * and let the application carry on running, or call quit() to allow the application to
        * close. */
       try {
-         static std::once_flag of; /* function might be called twice during LR shutdown */
+         constinit static std::once_flag of; /* function might be called twice during LR shutdown */
          std::call_once(of, [this] {
             if (profile_.ProfileUnsaved() && main_window_) {
                if (juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
