@@ -55,11 +55,18 @@ class MainContentComponent final :
    void SaveProfile() const;
 
  private:
+   void AddComponent(juce::Component& component, int x, int y, int width, int height);
+   void DisconnectClicked();
    void handleAsyncUpdate() override;
+   void LoadClicked();
    void LrIpcOutCallback(bool, bool);
    void MidiCmdCallback(rsj::MidiMessage mm);
    void paint(juce::Graphics&) override;
    void ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name);
+   void RemoveAllRowsClicked();
+   void RemoveUnassignedClicked();
+   void RescanClicked();
+   void SettingsClicked();
    void timerCallback() override;
    void UpdateConnectionLabel(const char* text, juce::Colour colour);
 
@@ -71,8 +78,9 @@ class MainContentComponent final :
    juce::Label profile_name_label_ {"ProfileNameLabel", ""};
    juce::Label title_label_ {"Title", "MIDI2LR"};
 #ifndef MIDI2LR_BETA
-   juce::Label version_label_ {
-       "Version", juce::translate("Version ") + juce::String {ProjectInfo::versionString}};
+   juce::Label version_label_ {"Version", juce::translate("Version ") + juce::String {
+                                  ProjectInfo::versionString
+                               }};
 #else
    juce::Label version_label_ {
        "Version", juce::String("BETA TEST ONLY ") + juce::String {ProjectInfo::versionString}};
@@ -80,7 +88,7 @@ class MainContentComponent final :
    juce::String last_command_;
    juce::TextButton disconnect_button_ {juce::translate("Halt sending to Lightroom")};
    juce::TextButton load_button_ {juce::translate("Load")};
-   juce::TextButton remove_row_button_ {juce::translate("Clear ALL rows")};
+   juce::TextButton remove_allrows_button_ {juce::translate("Clear ALL rows")};
    juce::TextButton remove_unassigned_button_ {juce::translate("Remove unassigned rows")};
    juce::TextButton rescan_button_ {juce::translate("Rescan MIDI devices")};
    juce::TextButton save_button_ {juce::translate("Save")};

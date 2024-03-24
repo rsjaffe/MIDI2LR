@@ -95,8 +95,7 @@ namespace {
 ::std::string rsj::ToLower(::std::string_view in)
 {
    try {
-      ::std::string result;
-      result.resize(in.size());
+      ::std::string result(in.size(), '\0');
       ::std::ranges::transform(in, result.begin(), [](const unsigned char c) noexcept {
          return gsl::narrow_cast<unsigned char>(::std::tolower(c));
       });

@@ -72,7 +72,11 @@ void SettingsManager::ConnectionCallback(const bool connected, const bool blocke
             rsj::Log("Pickup is disabled.", std::source_location::current());
          }
          constinit static std::once_flag of; /* add debug info once to logs */
+#if __cpp_lib_bind_front >= 202'306L
+         std::call_once(of, std::bind_front<&SettingsManager::WriteDebugInfo>(this));
+#else
          std::call_once(of, std::bind_front(&SettingsManager::WriteDebugInfo, this));
+#endif
       }
    }
    catch (const std::exception& e) {
