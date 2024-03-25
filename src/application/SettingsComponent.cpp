@@ -77,11 +77,7 @@ void SettingsComponent::ProfileClicked()
 
 void SettingsComponent::AutohideChanged()
 {
-#ifdef _WIN32
-   settings_manager_.SetAutoHideTime(_cvt_dtoi_fast(std::rint(autohide_setting_.getValue())));
-#else
    settings_manager_.SetAutoHideTime(gsl::narrow<int>(std::lrint(autohide_setting_.getValue())));
-#endif
    rsj::Log(fmt::format(FMT_STRING("Autohide time set to {} seconds."),
                 settings_manager_.GetAutoHideTime()),
        std::source_location::current());
