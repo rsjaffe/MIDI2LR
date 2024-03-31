@@ -141,7 +141,8 @@ class ChannelModel {
    static constexpr size_t kMaxControls {0x4000};
 
  public:
-   ChannelModel();
+   ChannelModel() noexcept { CcDefaults(); }
+
    double ControllerToPlugin(rsj::MessageType controltype, int controlnumber, int value, bool wrap);
    int MeasureChange(rsj::MessageType controltype, int controlnumber, int value);
    int SetToCenter(rsj::MessageType controltype, int controlnumber);
@@ -198,7 +199,7 @@ class ChannelModel {
 
    double OffsetResult(int diff, int controlnumber, bool wrap);
    void ActiveToSaved() const;
-   void CcDefaults();
+   void CcDefaults() noexcept;
    void SavedToActive();
    void SaveSettings(int start, int end, int maxVal) const;
    // ReSharper disable CppConstParameterInDeclaration

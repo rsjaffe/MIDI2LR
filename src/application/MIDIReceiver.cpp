@@ -114,22 +114,15 @@ void MidiReceiver::InitDevices()
 {
    using namespace std::literals::chrono_literals;
    try {
-      rsj::Log("Trying to open input devices.", std::source_location::current());
-      TryToOpen();
-      if (input_devices_.empty()) /* encountering errors first try on MacOS */
-      {
-         rsj::Log("Retrying to open input devices.", std::source_location::current());
-         std::this_thread::sleep_for(20ms);
-         rsj::Log("20ms sleep for open input devices.");
+      for (int i = 0; i < 3; ++i) {
+         rsj::Log("Trying to open input devices.", std::source_location::current());
          TryToOpen();
-         if (input_devices_.empty()) /* encountering errors second try on MacOS */
-         {
-            rsj::Log("Retrying second time to open input devices.",
-                std::source_location::current());
-            std::this_thread::sleep_for(80ms);
-            rsj::Log("80ms sleep for open input devices.", std::source_location::current());
-            TryToOpen();
-         }
+         if (!input_devices_.empty()) { break; }
+         auto sleep_duration = 20ms * (1 << i);
+         rsj::Log(fmt::format(FMT_STRING("Retrying to open input devices after {}ms."),
+                      sleep_duration.count()),
+             std::source_location::current());
+         std::this_thread::sleep_for(sleep_duration);
       }
    }
    catch (const std::exception& e) {

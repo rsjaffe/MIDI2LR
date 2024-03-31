@@ -401,28 +401,22 @@ void ChannelModel::ActiveToSaved() const
    }
 }
 
-void ChannelModel::CcDefaults()
+void ChannelModel::CcDefaults() noexcept
 {
-   try {
-      cc_low_.fill(0);
-      cc_high_.fill(kMaxNrpn);
-      cc_method_.fill(rsj::CCmethod::kAbsolute);
+   cc_low_.fill(0);
+   cc_high_.fill(kMaxNrpn);
+   cc_method_.fill(rsj::CCmethod::kAbsolute);
 #ifdef __cpp_lib_atomic_ref
-      current_v_.fill(kMaxNrpnHalf);
-      std::fill_n(cc_high_.begin(), kMaxMidi + 1, kMaxMidi);
-      std::fill_n(current_v_.begin(), kMaxMidi + 1, kMaxMidiHalf);
+   current_v_.fill(kMaxNrpnHalf);
+   std::fill_n(cc_high_.begin(), kMaxMidi + 1, kMaxMidi);
+   std::fill_n(current_v_.begin(), kMaxMidi + 1, kMaxMidiHalf);
 #else
-      for (auto&& a : current_v_) { a.store(kMaxNrpnHalf, std::memory_order_relaxed); }
-      std::fill_n(cc_high_.begin(), kMaxMidi + 1, kMaxMidi);
-      for (size_t a {0}; a <= kMaxMidi; ++a) {
-         current_v_.at(a).store(kMaxMidiHalf, std::memory_order_relaxed);
-      }
+   for (auto&& a : current_v_) { a.store(kMaxNrpnHalf, std::memory_order_relaxed); }
+   std::fill_n(cc_high_.begin(), kMaxMidi + 1, kMaxMidi);
+   for (size_t a {0}; a <= kMaxMidi; ++a) {
+      current_v_.at(a).store(kMaxMidiHalf, std::memory_order_relaxed);
+   }
 #endif
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(e, std::source_location::current());
-      throw;
-   }
 }
 
 void ChannelModel::SavedToActive()
@@ -438,19 +432,3 @@ void ChannelModel::SavedToActive()
       throw;
    }
 }
-
-#pragma warning(push)
-#pragma warning(disable : 26455)
-
-ChannelModel::ChannelModel()
-{
-   try {
-      CcDefaults();
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(e, std::source_location::current());
-      throw;
-   }
-}
-
-#pragma warning(pop)

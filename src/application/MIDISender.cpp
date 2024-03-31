@@ -53,15 +53,19 @@ namespace {
 void MidiSender::Send(rsj::MidiMessageId id, int value) const
 {
    try {
-      if (id.msg_id_type == rsj::MessageType::kCc) { SendControllerEvent(id, value); }
-      else if (id.msg_id_type == rsj::MessageType::kNoteOn) {
+      switch (id.msg_id_type) {
+      case rsj::MessageType::kCc:
+         SendControllerEvent(id, value);
+         break;
+      case rsj::MessageType::kNoteOn:
          SendNoteOn(id, value);
-      }
-      else if (id.msg_id_type == rsj::MessageType::kPw) {
+         break;
+      case rsj::MessageType::kPw:
          SendPitchWheel(id, value);
-      }
-      else {
+         break;
+      default:
          LogUnexpectedDataType(id);
+         break;
       }
    }
    catch (const std::exception& e) {
@@ -69,6 +73,7 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
       throw;
    }
 }
+
 
 void MidiSender::SendPitchWheel(rsj::MidiMessageId id, int value) const
 {

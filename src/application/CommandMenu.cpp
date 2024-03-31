@@ -118,7 +118,7 @@ void CommandMenu::AddSubMenusToMainMenu(juce::PopupMenu& main_menu, size_t index
 }
 
 void CommandMenu::ProcessMenuItems()
-{
+{ /* item result numbers are 1-based, as 0 represents "no selection" */
    juce::PopupMenu main_menu;
    main_menu.addItem(1, CommandSet::UnassignedTranslated(), true, 1 == selected_item_);
    AddSubMenusToMainMenu(main_menu, 2);
