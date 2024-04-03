@@ -22,13 +22,14 @@
 #include "Misc.h"
 
 namespace {
-   const std::vector<std::pair<std::string, std::string>> replace_me {
+   const std::map<std::string, std::string> replace_me {
        {            "CropAngle",      "straightenAngle"},
        {       "ResetCropAngle", "ResetstraightenAngle"},
        {     "local_Whites2012",         "local_Whites"},
        {     "local_Blacks2012",         "local_Blacks"},
        {"Resetlocal_Whites2012",    "Resetlocal_Whites"},
-       {"Resetlocal_Blacks2012",    "Resetlocal_Blacks"}
+       {"Resetlocal_Blacks2012",    "Resetlocal_Blacks"},
+       {             "Unmapped",           "Unassigned"}
    };
 } // namespace
 
@@ -41,15 +42,7 @@ void Profile::FromXml(const juce::XmlElement* root)
       RemoveAllRows();
       for (const auto* setting : root->getChildIterator()) {
          auto command {setting->getStringAttribute("command_string").toStdString()};
-         if (const auto b {command.back()}; b == '2' || b == 'e') { // assumes only e,2 end old
-                                                                    // strings
-            for (const auto& i : replace_me) {
-               if (command == i.first) {
-                  command = i.second;
-                  break;
-               }
-            }
-         }
+         if (auto it = replace_me.find(command); it != replace_me.end()) { command = it->second; }
          if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message {setting->getIntAttribute("channel"),
                 setting->getIntAttribute("controller"), rsj::MessageType::kCc};

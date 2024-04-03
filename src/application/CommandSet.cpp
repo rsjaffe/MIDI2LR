@@ -98,22 +98,3 @@ const CommandSet::Impl& CommandSet::MakeImpl() const
       throw;
    }
 }
-
-size_t CommandSet::CommandTextIndex(const std::string& command) const
-{
-   try {
-      using namespace std::string_literals;
-      if (const auto found {cmd_idx_.find(command)}; found != cmd_idx_.end()) {
-         return found->second;
-      }
-      if (command != "Unmapped"s) { /*Old version of Unassigned*/
-         rsj::Log(fmt::format(FMT_STRING("Command not found in CommandTextIndex: {}."), command),
-             std::source_location::current());
-      }
-      return 0;
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(e, std::source_location::current());
-      throw;
-   }
-}

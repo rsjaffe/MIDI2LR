@@ -33,7 +33,14 @@ class CommandSet {
 
  public:
    CommandSet();
-   [[nodiscard]] size_t CommandTextIndex(const std::string& command) const;
+
+   [[nodiscard]] size_t CommandTextIndex(const std::string& command) const
+   {
+      if (const auto found {cmd_idx_.find(command)}; found != cmd_idx_.end()) {
+         return found->second;
+      }
+      return 0;
+   }
 
    [[nodiscard]] const auto& CommandAbbrevAt(size_t index) const
    {
