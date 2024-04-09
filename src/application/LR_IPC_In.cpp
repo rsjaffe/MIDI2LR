@@ -172,6 +172,7 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
    try {
       decltype(lr_ipc_shared->line_)::value_type line_copy;
       while ((line_copy = lr_ipc_shared->line_.pop()) != kTerminate) {
+#pragma warning(suppress : 26445) /* copying views; otherwise dangling references */
          auto [command_view, value_view] {SplitLine(line_copy)};
          if (command_view == "TerminateApplication") {
             juce::JUCEApplication::getInstance()->systemRequestedQuit();

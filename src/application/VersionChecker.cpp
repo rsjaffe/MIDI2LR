@@ -92,7 +92,7 @@ void VersionChecker::handleAsyncUpdate()
 }
 
 namespace {
-   int CheckVersion(const std::unique_ptr<juce::XmlElement>& version_xml_element)
+   int CheckVersion(const gsl::not_null<juce::XmlElement*> version_xml_element)
    {
       int new_version;
       if (const auto os_specific_version =
@@ -122,7 +122,7 @@ void VersionChecker::Run() noexcept
       const auto version_xml_element {version_url.readEntireXmlStream()};
       if (version_xml_element && !thread_should_exit_.load(std::memory_order_acquire)) {
          auto last_checked {settings_manager_.GetLastVersionFound()};
-         new_version_ = CheckVersion(version_xml_element);
+         if (version_xml_element) { new_version_ = CheckVersion(version_xml_element.get()); }
          if (last_checked == 0) {
             last_checked = std::min(new_version_, ProjectInfo::versionNumber);
             settings_manager_.SetLastVersionFound(last_checked);

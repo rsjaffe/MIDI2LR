@@ -110,10 +110,10 @@ void CommandMenu::AddSubMenusToMainMenu(juce::PopupMenu& main_menu, size_t index
    for (size_t submenu_number = 0; submenu_number < menu_entries_size; ++submenu_number) {
       juce::PopupMenu sub_menu;
       auto ticked {false};
-      for (const auto& command : menu_entries[submenu_number]) {
+      for (const auto& command : menu_entries.at(submenu_number)) {
          AddSubMenuItems(sub_menu, command, index++, ticked);
       }
-      main_menu.addSubMenu(menus[submenu_number], sub_menu, true, nullptr, ticked);
+      main_menu.addSubMenu(menus.at(submenu_number), sub_menu, true, nullptr, ticked);
    }
 }
 

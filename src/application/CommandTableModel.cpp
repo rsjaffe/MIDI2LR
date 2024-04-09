@@ -120,7 +120,8 @@ CommandMenu* CommandTableModel::CreateNewCommandMenu(int row_number,
    return new_select.release();
 }
 
-CommandMenu* CommandTableModel::UpdateCommandMenu(int row_number, CommandMenu* command_select) const
+CommandMenu* CommandTableModel::UpdateCommandMenu(int row_number,
+    gsl::not_null<CommandMenu*> command_select) const
 {
    /* Updates the existing command menu */
    const auto& msg = profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));

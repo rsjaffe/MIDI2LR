@@ -332,7 +332,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       });
    }
 
-   void LinkControlsModels()
+   void LinkControlsModels() noexcept
    {
       CCoptions::LinkToControlsModel(&controls_model_);
       PWoptions::LinkToControlsModel(&controls_model_);

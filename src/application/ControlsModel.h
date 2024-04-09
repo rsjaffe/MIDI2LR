@@ -191,7 +191,7 @@ class ChannelModel {
    }
 
    // ReSharper disable once CppMemberFunctionMayBeStatic
-   [[nodiscard]] bool IsNrpn(int controlnumber) const
+   [[nodiscard]] bool IsNrpn(int controlnumber) const noexcept 
    {
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       return controlnumber > kMaxMidi;

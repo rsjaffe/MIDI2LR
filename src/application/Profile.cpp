@@ -40,9 +40,11 @@ void Profile::FromXml(const juce::XmlElement* root)
    try {
       if (!root || root->getTagName().compare("settings") != 0) { return; }
       RemoveAllRows();
-      for (const auto* setting : root->getChildIterator()) {
+      for (const gsl::not_null<juce::XmlElement*> setting : root->getChildIterator()) {
          auto command {setting->getStringAttribute("command_string").toStdString()};
-         if (auto it = replace_me.find(command); it != replace_me.end()) { command = it->second; }
+         if (const auto it = replace_me.find(command); it != replace_me.end()) {
+            command = it->second;
+         }
          if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message {setting->getIntAttribute("channel"),
                 setting->getIntAttribute("controller"), rsj::MessageType::kCc};
