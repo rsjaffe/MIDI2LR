@@ -1042,7 +1042,10 @@ local DataBase = {
   {Command='local_LuminanceNoise',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/LuminanceNoiseReduction=Luminance Noise Reduction')..' (PV 3+)',PV3=locadj..' '..LOC('$$$/AgDevelop/Localized/LuminanceNoiseReduction=Luminance Noise Reduction'),Group=localizedAdjustments,Explanation='Adjust Luminance Noise for the currently active tool: Brush, Radial Filter, or Graduated Filter.',AltParameter='Direct'},
   {Command='local_Moire',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire')..' (PV 3+)',PV3=locadj..' '..LOC('$$$/AgDevelop/Localized/MoireReduction=Moire'),Group=localizedAdjustments,Explanation='Adjust Moire for the currently active tool: Brush, Radial Filter, or Graduated Filter.',AltParameter='Direct'},
   {Command='local_Defringe',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe')..' (PV 3+)',PV3=locadj..' '..LOC('$$$/AgDevelop/Localized/Defringe=Defringe'),Group=localizedAdjustments,Explanation='Adjust Defringe for the currently active tool: Brush, Radial Filter, or Graduated Filter.',AltParameter='Direct'},
-  {Command='local_ToningLuminance',Type='parameter',Translation=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)',PV2=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance'),PV3=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)',Group=localizedAdjustments,Explanation='Adjust Toning Luminance for the currently active tool: Brush, Radial Filter, or Graduated Filter.',AltParameter='Direct'},
+  {Command='local_ToningHue',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Panel/Tone=Toning')..' '..LOC('$$$/AgDevelop/Localized/ToningHue=Hue')..' (PV 3+)',PV3=locadj..' '..LOC('XXXXXXXXXXXXXXXXXXXXXXXXXXXX'),Group=localizedAdjustments,Explanation='Adjust Toning Hue for the currently active tool: Brush, Radial Filter, or Graduated Filter.',AltParameter='Direct'},
+  {Command='local_ToningSaturation',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Panel/Tone=Toning')..' '..LOC('$$$/AgDevelop/Localized/Saturation=Saturation')..' (PV 3+)',PV3=locadj..' '..LOC('XXXXXXXXXXXXXXXXXXXXXXXXXXXX'),Group=localizedAdjustments,Explanation='Adjust Toning Saturation for the currently active tool: Brush, Radial Filter, or Graduated Filter.',AltParameter='Direct'},
+  {Command='local_ToningLuminance',Type='parameter',Translation=locadj..' '..LOC('$$$/AgDevelop/Localized/Panel/Tone=Toning')..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)',PV2=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance'),PV3=locadj..' '..LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Luminance=Luminance')..' (PV 2)',Group=localizedAdjustments,Explanation='Adjust Toning Luminance for the currently active tool: Brush, Radial Filter, or Graduated Filter.',AltParameter='Direct'},
+
   --local adjustment resets
   {Command='ResetRedeye',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetRedeye=Reset Red-Eye'),Group=localadjresets,Explanation='Delete red eye correction.'},
   {Command='ResetSpotRem',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetSpotRemoval=Reset Spot Removal'),Group=localadjresets,Explanation='Delete spot removal.'},
@@ -1230,9 +1233,9 @@ local function WriteAppTrans(language)
     end
   end
   file:write([=[
-<?xml version="1.0" encoding="utf-8"?>
-<cereal>
-  <value0>
+    <?xml version="1.0" encoding="utf-8"?>
+    <cereal>
+    <value0>
     <cereal_class_version>2</cereal_class_version>
     <language>]=],language,[=[</language>
     <all_commands size="dynamic">
@@ -1251,7 +1254,7 @@ local function WriteAppTrans(language)
   file:write([=[
     </all_commands>
     <repeats size="dynamic">
-]=])
+  ]=])
   local i = 0
   for k,v in pairs(repeats) do
     file:write('      <value'.. i ..'>\n        <key>'..k..
@@ -1263,14 +1266,14 @@ local function WriteAppTrans(language)
   file:write([=[
     </repeats>
     <wraps size="dynamic">
-]=])
+  ]=])
   for j,v in ipairs(wraps) do
     file:write('      <value'.. j-1 ..'>'..v..'</value'.. j-1 ..'>\n')
   end
   file:write([=[
     </wraps>
-  </value0>
-</cereal>
+    </value0>
+    </cereal>
   ]=])
   file:close()
 end
