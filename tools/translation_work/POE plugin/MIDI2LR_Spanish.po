@@ -1,0 +1,216 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: MIDI2LR\n"
+"Language: es\n"
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/About/about"
+msgstr "Modo de empleo: ¡conectar un controlador MIDI, lanzar MIDI2LR, y comenzar a editar! Ver https://github.com/rsjaffe/MIDI2LR/wiki para más detalles."
+
+#: 
+msgid "$$$/MIDI2LR/Bezel/Pickup"
+msgstr "Controlador no sincronizado. Ajuste ^1 al valor de Lightroom: ^2."
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Database/Customcameraprofile"
+msgstr "Perfil de cámara personalizado"
+
+#. Microsoft localized products Show {0}
+#: 
+msgid "$$$/MIDI2LR/Database/Show1"
+msgstr "Mostrar ^1"
+
+#. Do not translate key names, as those must be in English. Use the following string for translation, then substitute back the key names:
+#. 
+#. Value must be single character or spell out an F key (F1-F16) or: 1, 2, 3 (means 4 in OS X), 5, 6, 7, 8, 4 (means 9 in OS X), 10, 11, 12, 13, 14, 15, 16, 17, or 18 (through 19), 20 (or 21, 22, 23, 24).
+#. 
+#. where the numbers mean:
+#. 
+#. 1: apostrophe; 2: backslash; 3: backspace; 4: delete; 5: cursor down; 6: cursor left; 7: cursor right; 8: cursor up; 9: delete right; 10: end; 11: escape; 12: home; 13: page down; 14: page up; 15: return; 16: space; 17: tab; 18: numpad 0; 19: numpad 9; 20 numpad add; 21: decimal; 22: divide; 23: multiply; 24: subtract
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Dialog/InvalidKey"
+msgstr "El valor debe ser de un solo carácter o deletrear una tecla F (F1-F16) o: apostrophe, backslash, backspace (en MacOS representa eliminar hacia la izquierda), cursor down, cursor left, cursor right, cursor up, delete (en MacOS representa eliminar hacia la derecha), end, escape , home, page down, page up, return, space, tab o numpad 0 (a través de numpad 9), numpad add (o decimal, divide, multiply, subtract)."
+
+#. From Microsoft terminology portal "A newer version of Windows Azure Backup Agent is required\r\n"
+#: 
+msgid "$$$/MIDI2LR/Dialog/NeedNewerLR"
+msgstr "Se requiere una versión más reciente del Lightroom"
+
+#: 
+msgid "$$$/MIDI2LR/Help/Donate"
+msgstr "&Donación para ayuda al desarrollo de proyectos"
+
+#: 
+msgid "$$$/MIDI2LR/Help/Latest"
+msgstr "&Ver la versión más reciente"
+
+#: 
+msgid "$$$/MIDI2LR/Help/OnlineHelp"
+msgstr "&Ayuda en pantalla"
+
+#: 
+msgid "$$$/MIDI2LR/Help/Support"
+msgstr "&Soporte"
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Info/BuildFiles"
+msgstr "Crear archivos (uso de desarrollo solamente)"
+
+#. from microsoft https://www.microsoft.com/en-us/language/Search?&searchTerm=delete%20settings&langID=750&Source=true&productid=0
+#: 
+msgid "$$$/MIDI2LR/Info/DeleteSettings"
+msgstr "Eliminar configuración"
+
+#: 
+msgid "$$$/MIDI2LR/Keys/Shortcut"
+msgstr "Método abreviado"
+
+#: 
+msgid "$$$/MIDI2LR/Keyword/Toggle"
+msgstr "Alternar palabra clave"
+
+#. Directly from Lightroom translation resources. ^1 is replaced by keyword number (e.g., Toggle Keyword ^1 may become Toggle Keyword 16).
+#: 
+msgid "$$$/MIDI2LR/Keyword/Toggle1"
+msgstr "Conmutar palabra clave ^1"
+
+#: 
+msgid "$$$/MIDI2LR/Limits/Limits"
+msgstr "Limites"
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Limits/Limits/NotDevelop"
+msgstr "Activo solo en el modulo \"Desarrollar\""
+
+#: 
+msgid "$$$/MIDI2LR/LocalPresets/Presets"
+msgstr "Ajustes preestablecidos locales"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/CloseApplication"
+msgstr "&Cerrar aplicación"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/DeleteMaskGroup"
+msgstr "Eliminar grupo de máscaras"
+
+#. Using "delete tool" from https://www.microsoft.com/en-us/language/Search?&searchTerm=delete%20tool&langID=780&Source=true&productid=0
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Menu/DeleteMaskTool"
+msgstr "Eliminar herramienta"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/ExportConfiguration"
+msgstr "&Exportar configuración"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/GeneralOptions"
+msgstr "&Opciones generales"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/ImportConfiguration"
+msgstr "&Importar configuración"
+
+#: 
+#, fuzzy
+msgctxt "Go to next mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/NextMaskGroup"
+msgstr "Siguiente grupo de máscara"
+
+#: 
+#, fuzzy
+msgctxt "Go to next mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/NextMaskTool"
+msgstr "Siguiente herramienta de máscara"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/PresetNext"
+msgstr "Presintonía siguiente"
+
+#. From microsoft terminology search
+#: 
+msgid "$$$/MIDI2LR/Menu/PresetPrevious"
+msgstr "Anterior preestablecido"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/PressAndHold"
+msgstr "mantener presionado"
+
+#: 
+#, fuzzy
+msgctxt "Go to previous mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/PreviousMaskGroup"
+msgstr "Предыдущая группа масок"
+
+#: 
+#, fuzzy
+msgctxt "Go to previous mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/PreviousMaskTool"
+msgstr "Herramienta de máscara anterior"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/StartApplication"
+msgstr "&Iniciar aplicación"
+
+#. from https://www.microsoft.com/en-us/language/Search?&searchTerm=tool&langID=124&Source=true&productid=0
+#: 
+msgctxt "A utility or feature that aids in accomplishing a task or set of tasks."
+msgid "$$$/MIDI2LR/Menu/Tool"
+msgstr "herramienta"
+
+#: 
+msgid "$$$/MIDI2LR/Options/ActionSeriesInvalid"
+msgstr "Comandos no válidos"
+
+#: 
+msgid "$$$/MIDI2LR/Options/dlgtitle"
+msgstr "Ajustar las opciones MIDI2LR "
+
+#: 
+msgid "$$$/MIDI2LR/Options/RevealAdjustedControls"
+msgstr "Mostrar controles personalizados"
+
+#: 
+msgid "$$$/MIDI2LR/Options/TrackingDelay"
+msgstr "Retardo de seguimiento"
+
+#: 
+msgid "$$$/MIDI2LR/Preferences/cantload"
+msgstr "No se puede cargar preferencias. Utilizando la configuración predeterminada."
+
+#: 
+msgid "$$$/MIDI2LR/Profiles/Next"
+msgstr "Siguiente perfil"
+
+#: 
+msgid "$$$/MIDI2LR/Profiles/NotifyWhenChanged"
+msgstr "Notificar cuando cambia el perfil"
+
+#: 
+msgid "$$$/MIDI2LR/Profiles/Previous"
+msgstr "Perfil anterior"
+
+#: 
+msgid "$$$/MIDI2LR/Shortcuts/Key"
+msgstr "Clave"
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Shortcuts/SeriesofCommands"
+msgstr "Secuencia de comandos"
+
+#. From lightroom translations
+#: 
+msgid "$$$/MIDI2LR/ShortCuts/ShowHide1"
+msgstr "Mostrar/ocultar ^1"
+

@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: MIDI2LR\n"
+"Language: nb\n"
+
+#. Using MS: Donate to support project development
+#: Installer
+msgid "midi.donate"
+msgstr "Doner for å støtte prosjektutvikling"
+
+#: Installer
+#, fuzzy
+msgid "midi.donate.exp"
+msgstr "Åpner en nettleser med et PayPal-skjema der du kan gi en donasjon for å støtte videre utvikling av ${project.fullName}."
+
+#. Using MS
+#: Installer
+msgid "midi.install.mac"
+msgstr "Krever MacOS Catalina 10.15 eller senere."
+
+#. Using MS
+#: Installer
+msgid "midi.install.win"
+msgstr "${project.fullName} kan bare installeres på en 64-biters versjon av Microsoft Windows 10 eller nyere."
+
+#. Using MS.
+#: Installer
+msgid "midi.instructions"
+msgstr "Elektronisk hjelp"
+
+#: Installer
+#, fuzzy
+msgid "midi.instructions.exp"
+msgstr "Åpner en nettleser som viser bruksanvisningen. Vennligst sett bokmerke for håndboken siden det er mange alternativer og innstillinger du kan bruke i ${project.fullName}."
+
+#: 
+#, fuzzy
+msgid "midi.ports"
+msgstr "${project.fullName} krever portene 58763 og 58764 for å kommunisere med Lightroom. Minst én av disse portene er for øyeblikket utilgjengelig. Hvis du kjører ${project.fullName} akkurat nå, se bort fra denne meldingen. Ellers må du identifisere hva som blokkerer disse portene for at ${project.fullName} skal fungere ordentlig."
+

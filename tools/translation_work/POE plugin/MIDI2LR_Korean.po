@@ -1,0 +1,216 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: MIDI2LR\n"
+"Language: ko\n"
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/About/about"
+msgstr "사용 방법 : MIDI 컨트롤러를 연결하여  MIDI2LR를 실행시키고, 편집을 시작합니다!  자세한 내용은 https://github.com/rsjaffe/MIDI2LR/wiki를 참조하십시오."
+
+#: 
+msgid "$$$/MIDI2LR/Bezel/Pickup"
+msgstr "컨트롤러가 동기화되지 않았습니다. ^1을 Lightroom 값으로 조정합니다: ^2."
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Database/Customcameraprofile"
+msgstr "커스텀 카메라 프로필"
+
+#. Microsoft localized products Show {0}
+#: 
+msgid "$$$/MIDI2LR/Database/Show1"
+msgstr "^1 표시"
+
+#. Do not translate key names, as those must be in English. Use the following string for translation, then substitute back the key names:
+#. 
+#. Value must be single character or spell out an F key (F1-F16) or: 1, 2, 3 (means 4 in OS X), 5, 6, 7, 8, 4 (means 9 in OS X), 10, 11, 12, 13, 14, 15, 16, 17, or 18 (through 19), 20 (or 21, 22, 23, 24).
+#. 
+#. where the numbers mean:
+#. 
+#. 1: apostrophe; 2: backslash; 3: backspace; 4: delete; 5: cursor down; 6: cursor left; 7: cursor right; 8: cursor up; 9: delete right; 10: end; 11: escape; 12: home; 13: page down; 14: page up; 15: return; 16: space; 17: tab; 18: numpad 0; 19: numpad 9; 20 numpad add; 21: decimal; 22: divide; 23: multiply; 24: subtract
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Dialog/InvalidKey"
+msgstr "값은 단일 문자이거나 F 키 (F1-F16) 또는 apostrophe, backslash, backspace (MacOS에서는 왼쪽 삭제를 나타냅니다), cursor down, cursor left, cursor right, cursor up, delete (MacOS에서는 오른쪽 삭제를 나타냅니다), end, escape, home, page down, page up, return, space, tab 또는 numpad 0 (numpad 9까지), numpad add (또는 decimal, divide, multiply, subtract)."
+
+#. From Microsoft terminology portal "A newer version of Windows Azure Backup Agent is required\r\n"
+#: 
+msgid "$$$/MIDI2LR/Dialog/NeedNewerLR"
+msgstr "최신 Lightroom 버전이 필요합니다."
+
+#: 
+msgid "$$$/MIDI2LR/Help/Donate"
+msgstr "프로젝트 개발 지원을 위해 기부(&D)"
+
+#: 
+msgid "$$$/MIDI2LR/Help/Latest"
+msgstr "최신 릴리스 보기(&V)"
+
+#: 
+msgid "$$$/MIDI2LR/Help/OnlineHelp"
+msgstr "온라인 도움말(&O)"
+
+#: 
+msgid "$$$/MIDI2LR/Help/Support"
+msgstr "지원(&S)"
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Info/BuildFiles"
+msgstr "파일 만들기 (개발용)"
+
+#. from microsoft https://www.microsoft.com/en-us/language/Search?&searchTerm=delete%20settings&langID=750&Source=true&productid=0
+#: 
+msgid "$$$/MIDI2LR/Info/DeleteSettings"
+msgstr "설정 삭제"
+
+#: 
+msgid "$$$/MIDI2LR/Keys/Shortcut"
+msgstr "바로 가기"
+
+#: 
+msgid "$$$/MIDI2LR/Keyword/Toggle"
+msgstr "키워드 켜기/끄기"
+
+#. Directly from Lightroom translation resources. ^1 is replaced by keyword number (e.g., Toggle Keyword ^1 may become Toggle Keyword 16).
+#: 
+msgid "$$$/MIDI2LR/Keyword/Toggle1"
+msgstr "키워드 ^1 켜기/끄기"
+
+#: 
+msgid "$$$/MIDI2LR/Limits/Limits"
+msgstr "제한"
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Limits/Limits/NotDevelop"
+msgstr "\"개발\" 모듈에서만 활성화됨"
+
+#: 
+msgid "$$$/MIDI2LR/LocalPresets/Presets"
+msgstr "로컬 조정 사전 설정"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/CloseApplication"
+msgstr "응용 프로그램 닫기(&C)"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/DeleteMaskGroup"
+msgstr "마스크 그룹 삭제"
+
+#. Using "delete tool" from https://www.microsoft.com/en-us/language/Search?&searchTerm=delete%20tool&langID=780&Source=true&productid=0
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Menu/DeleteMaskTool"
+msgstr "도구 삭제"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/ExportConfiguration"
+msgstr "구성 내보내기(&E)"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/GeneralOptions"
+msgstr "일반 옵션(&O)"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/ImportConfiguration"
+msgstr "구성 가져오기(&I)"
+
+#: 
+#, fuzzy
+msgctxt "Go to next mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/NextMaskGroup"
+msgstr "다음 마스크 그룹"
+
+#: 
+#, fuzzy
+msgctxt "Go to next mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/NextMaskTool"
+msgstr "다음 마스크 도구"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/PresetNext"
+msgstr "다음 기본 설정"
+
+#. From microsoft terminology search
+#: 
+msgid "$$$/MIDI2LR/Menu/PresetPrevious"
+msgstr "이전 기본 설정"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/PressAndHold"
+msgstr "길게 누르기"
+
+#: 
+#, fuzzy
+msgctxt "Go to previous mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/PreviousMaskGroup"
+msgstr "이전 마스크 그룹"
+
+#: 
+#, fuzzy
+msgctxt "Go to previous mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/PreviousMaskTool"
+msgstr "이전 마스크 도구"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/StartApplication"
+msgstr "응용 프로그램 시작(&S)"
+
+#. from https://www.microsoft.com/en-us/language/Search?&searchTerm=tool&langID=124&Source=true&productid=0
+#: 
+msgctxt "A utility or feature that aids in accomplishing a task or set of tasks."
+msgid "$$$/MIDI2LR/Menu/Tool"
+msgstr "도구"
+
+#: 
+msgid "$$$/MIDI2LR/Options/ActionSeriesInvalid"
+msgstr "잘못된 명령"
+
+#: 
+msgid "$$$/MIDI2LR/Options/dlgtitle"
+msgstr "MIDI2LR 옵션을 설정합니다"
+
+#: 
+msgid "$$$/MIDI2LR/Options/RevealAdjustedControls"
+msgstr "조정된 컨트롤 보기"
+
+#: 
+msgid "$$$/MIDI2LR/Options/TrackingDelay"
+msgstr "추적 지연"
+
+#: 
+msgid "$$$/MIDI2LR/Preferences/cantload"
+msgstr "사용자설정을 읽어올 수 없어. 기본 설정으로 동작합니다."
+
+#: 
+msgid "$$$/MIDI2LR/Profiles/Next"
+msgstr "다음 프로필"
+
+#: 
+msgid "$$$/MIDI2LR/Profiles/NotifyWhenChanged"
+msgstr "프로파일 변경시 알림"
+
+#: 
+msgid "$$$/MIDI2LR/Profiles/Previous"
+msgstr "이전 프로필"
+
+#: 
+msgid "$$$/MIDI2LR/Shortcuts/Key"
+msgstr "키"
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Shortcuts/SeriesofCommands"
+msgstr "명령 순서"
+
+#. From lightroom translations
+#: 
+msgid "$$$/MIDI2LR/ShortCuts/ShowHide1"
+msgstr "^1 표시/숨기기"
+

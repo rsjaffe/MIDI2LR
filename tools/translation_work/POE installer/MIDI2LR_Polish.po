@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: MIDI2LR\n"
+"Language: pl\n"
+
+#. Using MS: Donate to support project development
+#: Installer
+msgid "midi.donate"
+msgstr "Przekaż dotację na prace nad projektem"
+
+#: Installer
+#, fuzzy
+msgid "midi.donate.exp"
+msgstr "Otwiera przeglądarkę internetową z formularzem PayPal, w którym możesz przekazać darowiznę, aby wesprzeć dalszy rozwój projektu ${project.fullName}."
+
+#. Using MS
+#: Installer
+msgid "midi.install.mac"
+msgstr "Wymaga systemu MacOS Catalina 10.15 lub nowszego."
+
+#. Using MS
+#: Installer
+#, fuzzy
+msgid "midi.install.win"
+msgstr "Projekt ${project.fullName} można zainstalować tylko w 64-bitowej wersji systemu Microsoft Windows 10 lub nowszego."
+
+#. Using MS.
+#: Installer
+msgid "midi.instructions"
+msgstr "Pomoc online"
+
+#: Installer
+#, fuzzy
+msgid "midi.instructions.exp"
+msgstr "Otwiera przeglądarkę internetową wyświetlającą instrukcję. Dodaj podręcznik do zakładek, ponieważ istnieje wiele opcji i ustawień, których możesz użyć w ${project.fullName}."
+
+#: 
+#, fuzzy
+msgid "midi.ports"
+msgstr "Projekt ${project.fullName} wymaga portów 58763 i 58764 do komunikacji z Lightroomem. Co najmniej jeden z tych portów jest obecnie niedostępny. Jeśli używasz teraz ${project.fullName}, zignoruj tę wiadomość. W przeciwnym razie będziesz musiał określić, co blokuje te porty, aby umożliwić prawidłowe działanie programu ${project.fullName}."
+

@@ -1,0 +1,340 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: MIDI2LR\n"
+"Language: zh-Hans\n"
+
+#: 
+msgid "0"
+msgstr "0"
+
+#: 
+msgid "127"
+msgstr "127"
+
+#: 
+msgid "16383"
+msgstr "16383"
+
+#. From MS: A new version of Skype is available.
+#: 
+msgid "A new version of {} is available."
+msgstr "有新版本 {} 可用。"
+
+#. Microsoft terminology collection: Pertaining to an entity such as the device, program, file, record or portion of the screen that is currently operational or subject to command operations.
+#: 
+msgid "active"
+msgstr "可用"
+
+#: 
+msgid "Adjust CC dialog"
+msgstr "调整CC对话框"
+
+#: 
+msgid "Adjust PW dialog"
+msgstr "调整PW对话框"
+
+#: 
+#, fuzzy
+msgid "Apply these settings to all similar controls."
+msgstr "将这些设置应用于所有同类控件。"
+
+#. From MS: Apply to all
+#: 
+msgid "Apply to all"
+msgstr "全部应用"
+
+#. From Microsoft terminology collection "A feature that minimizes tool windows along the edges of the IDE when these windows are not in use."
+#: 
+msgid "Auto hide"
+msgstr "自动隐藏"
+
+#: 
+#, fuzzy
+msgid "Autohide the plugin window in x seconds, select 0 for disabling autohide"
+msgstr "在x秒内自动隐藏插件窗口，选择0以禁用."
+
+#: 
+#, fuzzy
+msgid "Binary offset"
+msgstr "二进制偏移量"
+
+#: 
+msgid "CC Message Type"
+msgstr "CC信息类型"
+
+#: 
+msgid "Channel 0 Number 0"
+msgstr "通道0编号0"
+
+#: 
+msgid "Choose Profile Folder"
+msgstr "选择配置文件夹"
+
+#. From MS: Clear all rows [not available for ko, zh-tw]
+#: 
+msgid "Clear ALL rows"
+msgstr "清除所有行"
+
+#. From MS: Connected to %s
+#: 
+msgid "Connected to Lightroom"
+msgstr "已连接 Lightroom"
+
+#: 
+#, fuzzy
+msgid "Control value increases when turned one way, decreases when turned the other."
+msgstr "控制旋钮旋转增加数值，反之减少数值。"
+
+#: 
+#, fuzzy
+msgid "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other."
+msgstr "旋转旋钮从数值1到127，可以正逆旋转大小。"
+
+#: 
+#, fuzzy
+msgid "Control value is near 1 when turned one way, and near 65 when turned the other."
+msgstr "顺时针旋转值接近1，而逆时针旋转值接近65。"
+
+#: 
+#, fuzzy
+msgid "Control value is near 63 when turned one way, and near 65 when turned the other."
+msgstr "单向旋转时控制值接近63，而另一个旋转控制值接近65。"
+
+#. Deactivate MIDI controller from microsoft translations search terminology
+#. Deactivate {0}; Xbox 360 Controller
+#: 
+#, fuzzy
+msgid "Deactivate MIDI controller"
+msgstr "停用 MIDI 控制器"
+
+#. Microsoft terminology collection A user-defined description of a particular device.
+#: 
+msgid "device name"
+msgstr "设备名"
+
+#: 
+#, fuzzy
+msgid "Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with Lightroom not picking up fast fader/knob movements"
+msgstr "禁用拾取模式对于触摸屏界面可能更好，并且可以解决Lightroom没有拾取快速推子/旋钮移动的问题"
+
+#: 
+msgid "Do not show again"
+msgstr "不再显示"
+
+#. Microsoft translation resources
+#: 
+msgid "Do you want to download the latest version?"
+msgstr "是否要下载最新版本?"
+
+#: 
+#, fuzzy
+msgid "Enable Pickup Mode"
+msgstr "启用pickup模式"
+
+#. From MS: Error (A value or condition that is not consistent with the true, specified, or expected value or condition.)
+#: 
+msgid "Error"
+msgstr "错误"
+
+#. From MS: Exception (An abnormal condition or error that occurs during the execution of a program. An exception requires the execution of software outside the normal flow of control.)
+#: 
+msgid "Exception "
+msgstr "异常 "
+
+#: 
+msgid "Halt sending to Lightroom"
+msgstr "暂停联结Lightroom"
+
+#. Microsoft terminology search "input/output" The complementary tasks of gathering and distributing data. Input is data that is acquired from a device or entered by the user through a device. Output is data that is sent to a device.
+#: 
+msgid "input/output"
+msgstr "输入/输出"
+
+#. From MS: Invalid keyboard layout handle.
+#: 
+msgid "Invalid keyboard layout handle."
+msgstr "键盘布局句柄无效。"
+
+#. From MS: Load (To place information from storage into memory for processing, if it is data, or for execution, if it is program code.)
+#: 
+msgid "Load"
+msgstr "加载"
+
+#. From MS: LR Command (from UIDL command)
+#: 
+msgid "LR Command"
+msgstr "LR命令"
+
+#. From MS: maximum value (from Excel)
+#: 
+msgid "Maximum value"
+msgstr "最大值"
+
+#. From MS: MIDI Command (from UIDL command)
+#: 
+msgid "MIDI Command"
+msgstr "MIDI命令"
+
+#: 
+#, fuzzy
+msgid "MIDI2LR needs your authorization to send keystrokes to Lightroom"
+msgstr "MIDI2LR需要您的授权才能向Lightroom发送击键"
+
+#. From MS: MIDI2LR Profiles (from CDN profiles)
+#: 
+msgid "MIDI2LR profiles"
+msgstr "MIDI2LR配置文件"
+
+#: 
+msgid "MIDISender: Unexpected data type: {:n}."
+msgstr "MIDISender: 意外的数据类型: {:n}."
+
+#. From MS: minimum value (from Excel)
+#: 
+msgid "Minimum value"
+msgstr "最小值"
+
+#. From MS: Not connected to %s [did not use it translation; not available for zh_tw]
+#: 
+msgid "Not connected to Lightroom"
+msgstr "未连接到Lightroom"
+
+#. From MS: Open profile
+#: 
+msgid "Open profile"
+msgstr "打开配置文件"
+
+#: 
+msgid "Pick up"
+msgstr "拾取"
+
+#: 
+msgid "Pitch Wheel"
+msgstr "音调调节轮"
+
+#. From MS: Profile (A computer-based record that contains software settings and identification information.)
+#: 
+msgid "Profile"
+msgstr "配置文件"
+
+#. From MS: Profile Changed
+#. From MS:  Do you want to save your changes? If you continue without saving, your changes will be lost.
+#: 
+msgid "Profile changed. Do you want to save your changes? If you continue without saving, your changes will be lost."
+msgstr "配置文件已更改。 是否要保存更改? 如果不保存，则更改将会丢失。"
+
+#: 
+#, fuzzy
+msgid "Remove unassigned rows"
+msgstr "删除未分配的行"
+
+#: 
+#, fuzzy
+msgid "Rescan MIDI devices"
+msgstr "刷新MIDI设备"
+
+#. From MS: Resolution (A measure of the fineness of detail in an image or text, usually as produced by a monitor or printer.)
+#: 
+msgid "Resolution"
+msgstr "分辨率"
+
+#. From MS: Save
+#: 
+msgid "Save"
+msgstr "保存"
+
+#. From MS: Save profile
+#: 
+msgid "Save profile"
+msgstr "保存配置文件"
+
+#. From MS: Select Folder
+#: 
+msgid "Select Folder"
+msgstr "选择文件夹"
+
+#: 
+msgid "Sending halted"
+msgstr "提交暂停"
+
+#. From MS: Settings (The feature in an app that allows users to change its properties or behavior.)
+#: 
+msgid "Settings"
+msgstr "设置"
+
+#: 
+#, fuzzy
+msgid "Sign and magnitude"
+msgstr "原码幅值"
+
+#. translations from localized microsoft products. often translated as "system code"
+#: 
+msgid "system id"
+msgstr "系统 ID"
+
+#. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
+#: 
+msgid "The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: {}."
+msgstr "文件“MenuTrans.xml”被标记为不受当前 MIDI2LR 版本支持的版本，无法加载。 文件版本: {}。"
+
+#. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
+#: 
+msgid "The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."
+msgstr "文件“settings.xml”被标记为不受当前 MIDI2LR ChannelModel 版本支持的版本，无法加载。 文件版本: {}。"
+
+#. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
+#: 
+msgid "The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."
+msgstr "文件“settings.xml”被标记为不受当前 MIDI2LR SettingsStruct 版本支持的版本，无法加载。 文件版本: {}。"
+
+#: 
+msgid "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\n"
+"1) Open System Preferences\n"
+"2) Open Accessibility preferences \n"
+"3) Select \"Accessibility Apps\"\n"
+"4) Add this application to the approval list"
+msgstr "要授权MIDI2LR向Lightroom发送击键，请按照以下步骤操作：\n"
+"1)打开“系统偏好设置”\n"
+"2)打开“辅助功能”偏好设置\n"
+"3)选择“辅助功能App”\n"
+"4)将此应用程序添加到批准列表"
+
+#: 
+#, fuzzy
+msgid "Two's complement"
+msgstr "二进制补码"
+
+#. From MS: Unable to load %1
+#: 
+msgid "Unable to load MenuTrans.xml."
+msgstr "无法加载 MenuTrans.xml。"
+
+#. From MS: Unable to save file. Choose a different location and try again.
+#: 
+msgid "Unable to save file. Choose a different location and try again."
+msgstr "无法保存文件。 选择其他位置，然后重试。"
+
+#. From MS: Unable to save %1
+#: 
+msgid "Unable to save settings.xml."
+msgstr "无法保存 settings.xml。"
+
+#. From MS: Unassigned (from Dynamics AX7)
+#: 
+msgid "Unassigned"
+msgstr "未分配"
+
+#. From MS: unhandled exception (An exception that was identified with a "try catch or finally block" structure or that occurred outside this structure but was not caught by any structured error handler. "Dr. Watson" errors are examples.)
+#: 
+msgid "unhandled exception"
+msgstr "未经处理的异常"
+
+#. From MS: Version (A designation appended to a product name to identify a particular release.)
+#: 
+msgid "Version "
+msgstr "版本 "
+

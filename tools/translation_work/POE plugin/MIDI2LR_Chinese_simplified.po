@@ -1,0 +1,216 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: MIDI2LR\n"
+"Language: zh-Hans\n"
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/About/about"
+msgstr "使用方法：连接MIDI控制器，打开MIDI2LR，就可以啦！详情请参考 https://github.com/rsjaffe/MIDI2LR/wiki"
+
+#: 
+msgid "$$$/MIDI2LR/Bezel/Pickup"
+msgstr "控制器不同步。 将 ^1 调整为 Lightroom 值：^2。"
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Database/Customcameraprofile"
+msgstr "自定义相机配置文件"
+
+#. Microsoft localized products Show {0}
+#: 
+msgid "$$$/MIDI2LR/Database/Show1"
+msgstr "显示 ^1"
+
+#. Do not translate key names, as those must be in English. Use the following string for translation, then substitute back the key names:
+#. 
+#. Value must be single character or spell out an F key (F1-F16) or: 1, 2, 3 (means 4 in OS X), 5, 6, 7, 8, 4 (means 9 in OS X), 10, 11, 12, 13, 14, 15, 16, 17, or 18 (through 19), 20 (or 21, 22, 23, 24).
+#. 
+#. where the numbers mean:
+#. 
+#. 1: apostrophe; 2: backslash; 3: backspace; 4: delete; 5: cursor down; 6: cursor left; 7: cursor right; 8: cursor up; 9: delete right; 10: end; 11: escape; 12: home; 13: page down; 14: page up; 15: return; 16: space; 17: tab; 18: numpad 0; 19: numpad 9; 20 numpad add; 21: decimal; 22: divide; 23: multiply; 24: subtract
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Dialog/InvalidKey"
+msgstr "值必须是单个字符或拼写出F键（F1-F16）或：apostrophe，backslash，backspace（在MacOS中代表向左删除），cursor down，cursor left，cursor right，cursor up，delete（在MacOS中代表向右删除），end，escape ，home，page down，page up，return，space，tab或numpad 0（通过numpad 9），numpad add（或decimal，divide，multiply，subtract）。"
+
+#. From Microsoft terminology portal "A newer version of Windows Azure Backup Agent is required\r\n"
+#: 
+msgid "$$$/MIDI2LR/Dialog/NeedNewerLR"
+msgstr "需要较新版本的 Lightroom"
+
+#: 
+msgid "$$$/MIDI2LR/Help/Donate"
+msgstr "捐赠以支持项目开发(&D)"
+
+#: 
+msgid "$$$/MIDI2LR/Help/Latest"
+msgstr "查看最新发布(&V)"
+
+#: 
+msgid "$$$/MIDI2LR/Help/OnlineHelp"
+msgstr "联机帮助(&O)"
+
+#: 
+msgid "$$$/MIDI2LR/Help/Support"
+msgstr "支持(&S)"
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Info/BuildFiles"
+msgstr "生成文件（仅供开发模式使用）"
+
+#. from microsoft https://www.microsoft.com/en-us/language/Search?&searchTerm=delete%20settings&langID=750&Source=true&productid=0
+#: 
+msgid "$$$/MIDI2LR/Info/DeleteSettings"
+msgstr "删除设置"
+
+#: 
+msgid "$$$/MIDI2LR/Keys/Shortcut"
+msgstr "快捷方式"
+
+#: 
+msgid "$$$/MIDI2LR/Keyword/Toggle"
+msgstr "切换关键字"
+
+#. Directly from Lightroom translation resources. ^1 is replaced by keyword number (e.g., Toggle Keyword ^1 may become Toggle Keyword 16).
+#: 
+msgid "$$$/MIDI2LR/Keyword/Toggle1"
+msgstr "切换关键字 ^1"
+
+#: 
+msgid "$$$/MIDI2LR/Limits/Limits"
+msgstr "范围"
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Limits/Limits/NotDevelop"
+msgstr "仅在“开发”模块中有效"
+
+#: 
+msgid "$$$/MIDI2LR/LocalPresets/Presets"
+msgstr "本地调整预设"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/CloseApplication"
+msgstr "关闭应用程序(&C)"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/DeleteMaskGroup"
+msgstr "删除掩码组"
+
+#. Using "delete tool" from https://www.microsoft.com/en-us/language/Search?&searchTerm=delete%20tool&langID=780&Source=true&productid=0
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Menu/DeleteMaskTool"
+msgstr "删除工具"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/ExportConfiguration"
+msgstr "导出配置(&E)"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/GeneralOptions"
+msgstr "常规选项(&O)"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/ImportConfiguration"
+msgstr "导入配置(&I)"
+
+#: 
+#, fuzzy
+msgctxt "Go to next mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/NextMaskGroup"
+msgstr "下一个面具组"
+
+#: 
+#, fuzzy
+msgctxt "Go to next mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/NextMaskTool"
+msgstr "下一个遮罩工具"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/PresetNext"
+msgstr "下一个预置"
+
+#. From microsoft terminology search
+#: 
+msgid "$$$/MIDI2LR/Menu/PresetPrevious"
+msgstr "上一个预置"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/PressAndHold"
+msgstr "按住"
+
+#: 
+#, fuzzy
+msgctxt "Go to previous mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/PreviousMaskGroup"
+msgstr "上一个面具组"
+
+#: 
+#, fuzzy
+msgctxt "Go to previous mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/PreviousMaskTool"
+msgstr "上一个遮罩工具"
+
+#: 
+msgid "$$$/MIDI2LR/Menu/StartApplication"
+msgstr "启动应用程序(&S)"
+
+#. from https://www.microsoft.com/en-us/language/Search?&searchTerm=tool&langID=124&Source=true&productid=0
+#: 
+msgctxt "A utility or feature that aids in accomplishing a task or set of tasks."
+msgid "$$$/MIDI2LR/Menu/Tool"
+msgstr "工具"
+
+#: 
+msgid "$$$/MIDI2LR/Options/ActionSeriesInvalid"
+msgstr "无效的命令"
+
+#: 
+msgid "$$$/MIDI2LR/Options/dlgtitle"
+msgstr "对话框标题"
+
+#: 
+msgid "$$$/MIDI2LR/Options/RevealAdjustedControls"
+msgstr "显示调整的控制"
+
+#: 
+msgid "$$$/MIDI2LR/Options/TrackingDelay"
+msgstr "跟踪延迟"
+
+#: 
+msgid "$$$/MIDI2LR/Preferences/cantload"
+msgstr "无法加载指定设置"
+
+#: 
+msgid "$$$/MIDI2LR/Profiles/Next"
+msgstr "下一个档案"
+
+#: 
+msgid "$$$/MIDI2LR/Profiles/NotifyWhenChanged"
+msgstr "当设置改变的时候告知"
+
+#: 
+msgid "$$$/MIDI2LR/Profiles/Previous"
+msgstr "上一个档案"
+
+#: 
+msgid "$$$/MIDI2LR/Shortcuts/Key"
+msgstr "密钥"
+
+#: 
+#, fuzzy
+msgid "$$$/MIDI2LR/Shortcuts/SeriesofCommands"
+msgstr "命令顺序"
+
+#. From lightroom translations
+#: 
+msgid "$$$/MIDI2LR/ShortCuts/ShowHide1"
+msgstr "显示/隐藏^1"
+
