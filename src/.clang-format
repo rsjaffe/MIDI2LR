@@ -1,5 +1,5 @@
 ---
-# Visual Studio 2022 currently (November 2023) using clang-format v16. Options for later versions
+# Visual Studio 2022 currently (May 2024) using clang-format v17. Options for later versions
 # are not included.
 AccessModifierOffset: -2
 AlignAfterOpenBracket: DontAlign

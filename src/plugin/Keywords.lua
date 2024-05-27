@@ -35,12 +35,11 @@ local function GetKeywordChildren(Keyword, Name)
   local KeywordChildren = Keyword:getChildren()
   for _,v in ipairs(KeywordChildren) do
     local childName = Name..'\226\134\146'..string.lower(v:getName())
-    table.insert(KeywordList, {title=childName, value=v.localIdentifier } )
+    KeywordList[#KeywordList + 1] = {title=childName, value=v.localIdentifier}
     GetKeywordChildren(v, childName)
     LrTasks.yield()
   end
 end
-
 
 local function GetKeywords()
   LrTasks.startAsyncTask(
@@ -51,11 +50,11 @@ local function GetKeywords()
       ListReady = false
       NotifyFinished = false
       KeywordList = {}
-      table.insert(KeywordList, { title=' ', value=0 } )
+      KeywordList[1] = { title=' ', value=0 }
       local LrCat = LrApplication.activeCatalog()
       local Keywords = LrCat:getKeywords()
       for _,v in ipairs(Keywords) do
-        table.insert(KeywordList, { title=string.lower(v:getName()), value=v.localIdentifier } )
+        KeywordList[#KeywordList + 1] = { title=string.lower(v:getName()), value=v.localIdentifier }
         GetKeywordChildren(v, string.lower(v:getName()))
         LrTasks.yield()
       end
@@ -68,6 +67,7 @@ local function GetKeywords()
     end
   )
 end
+
 
 local function ApplyKeyword(Keyword)
   LrTasks.startAsyncTask( function(context)

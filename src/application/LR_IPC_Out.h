@@ -68,7 +68,7 @@ class LrIpcOut {
  private:
    using RepeatCmdIterator =
        const std::unordered_map<std::string, std::pair<std::string, std::string>>::const_iterator;
-   bool ShouldSetRecenter(const rsj::MidiMessage& mm) const;
+   [[nodiscard]] bool ShouldSetRecenter(const rsj::MidiMessage& mm) const;
    void Connect(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared);
    void ConnectionMade();
    void MidiCmdCallback(rsj::MidiMessage mm);
