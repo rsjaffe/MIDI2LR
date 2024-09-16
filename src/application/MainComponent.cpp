@@ -82,7 +82,7 @@ MainContentComponent::~MainContentComponent()
 namespace {
    void StandardLabelSettings(juce::Label& label_to_set)
    {
-      label_to_set.setFont(juce::Font {16.F, juce::Font::bold});
+      label_to_set.setFont(juce::Font {juce::FontOptions(16.F, juce::Font::bold)});
       label_to_set.setEditable(false);
       label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
    }
@@ -204,7 +204,7 @@ void MainContentComponent::Init()
 
       /* Main title */
       StandardLabelSettings(title_label_);
-      title_label_.setFont(juce::Font {36.F, juce::Font::bold});
+      title_label_.setFont(juce::Font {juce::FontOptions(36.F, juce::Font::bold)});
       title_label_.setComponentEffect(&title_shadow_);
       AddComponent(title_label_, kMainLeft, 10, kFullWidth, 30);
 

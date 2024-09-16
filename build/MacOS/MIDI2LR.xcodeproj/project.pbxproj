@@ -45,8 +45,10 @@
 		A1061B6E509742A3B9455642 /* Translate.cpp */ = {isa = PBXBuildFile; fileRef = E6F6D41D1E1EE0C8A33EFDF3; };
 		A15A4BD0A3745D73BAEF62DB /* MIDIReceiver.cpp */ = {isa = PBXBuildFile; fileRef = 52C8A53647CE08544E8F9080; };
 		A8ABB9C838EF80187E4AF420 /* KeyMap.mm */ = {isa = PBXBuildFile; fileRef = 3623B8285AF22A159F89DE61; };
+		B99E8DEA6971A034BE365913 /* include_juce_core_CompilationTime.cpp */ = {isa = PBXBuildFile; fileRef = 2CEE99EA1E2C51EBBC2CFD25; };
 		BDF535168645F120058193A9 /* RecentFilesMenuTemplate.nib */ = {isa = PBXBuildFile; fileRef = F3184CED9270796B369FA288; };
 		C082CA7F6C0A89F20EFD8059 /* include_juce_data_structures.mm */ = {isa = PBXBuildFile; fileRef = F20F6CF6FB96E8AA2A4A7866; };
+		CA90D924C721B9708BC7B30C /* include_juce_graphics_Harfbuzz.cpp */ = {isa = PBXBuildFile; fileRef = 1B0E217CF9B7EA2DF44721B4; };
 		CF9729A29B45286C52F1822A /* include_juce_graphics.mm */ = {isa = PBXBuildFile; fileRef = 365A0F6673BAF87F63FD7A37; };
 		D2702BEDFD96DEAEE2CDCE86 /* PWoptions.cpp */ = {isa = PBXBuildFile; fileRef = 8B58A8BC85D08C514E41CF9D; };
 		D7E9C5BDDAFB6A9B70D194F8 /* CommandSet.cpp */ = {isa = PBXBuildFile; fileRef = C4713F8E964EC5E64A523FC8; };
@@ -75,9 +77,11 @@
 		148BFB077DF1A1746D7624A0 /* MIDI2LR.png */ /* MIDI2LR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MIDI2LR.png; path = ../../data/application/MIDI2LR.png; sourceTree = SOURCE_ROOT; };
 		1732433E668830E1BD0BA525 /* SendKeys.cpp */ /* SendKeys.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SendKeys.cpp; path = ../../src/application/SendKeys.cpp; sourceTree = SOURCE_ROOT; };
 		1A5DF419DB203693F7898C6F /* MIDIReceiver.h */ /* MIDIReceiver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MIDIReceiver.h; path = ../../src/application/MIDIReceiver.h; sourceTree = SOURCE_ROOT; };
+		1B0E217CF9B7EA2DF44721B4 /* include_juce_graphics_Harfbuzz.cpp */ /* include_juce_graphics_Harfbuzz.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_graphics_Harfbuzz.cpp; path = ../../external/JuceLibraryCode/include_juce_graphics_Harfbuzz.cpp; sourceTree = SOURCE_ROOT; };
 		21C6B16D556E368BC28C907B /* CoreAudio.framework */ /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		21CBC91AB996C894D915C8FC /* MetalKit.framework */ /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		2B65519DB9584C850A7E1B35 /* include_juce_audio_basics.mm */ /* include_juce_audio_basics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_basics.mm; path = ../../external/JuceLibraryCode/include_juce_audio_basics.mm; sourceTree = SOURCE_ROOT; };
+		2CEE99EA1E2C51EBBC2CFD25 /* include_juce_core_CompilationTime.cpp */ /* include_juce_core_CompilationTime.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_core_CompilationTime.cpp; path = ../../external/JuceLibraryCode/include_juce_core_CompilationTime.cpp; sourceTree = SOURCE_ROOT; };
 		3520273114C17F954392826D /* Translate.h */ /* Translate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Translate.h; path = ../../src/application/Translate.h; sourceTree = SOURCE_ROOT; };
 		357B44B34E653363B6C68855 /* Cocoa.framework */ /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		36229320761236DF640FFDB0 /* CommandTable.cpp */ /* CommandTable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CommandTable.cpp; path = ../../src/application/CommandTable.cpp; sourceTree = SOURCE_ROOT; };
@@ -315,9 +319,11 @@
 				2B65519DB9584C850A7E1B35,
 				C35CB58CDFC028B79850C032,
 				8A1B5F83CBE85334B5E2FC87,
+				2CEE99EA1E2C51EBBC2CFD25,
 				F20F6CF6FB96E8AA2A4A7866,
 				50BC033068609BDD0BAEEB5A,
 				365A0F6673BAF87F63FD7A37,
+				1B0E217CF9B7EA2DF44721B4,
 				6B7E227A13331CBF571419B7,
 				13D4CCAD080F52F17421CEAD,
 			);
@@ -469,9 +475,11 @@
 				E925E2E3F9BCFB41C9C4A9B6,
 				8674F0122D7B0DF85FA66041,
 				04C0D906A23C19EF1B0EBD8B,
+				B99E8DEA6971A034BE365913,
 				C082CA7F6C0A89F20EFD8059,
 				734E72B3D95C5F2F18932250,
 				CF9729A29B45286C52F1822A,
+				CA90D924C721B9708BC7B30C,
 				0EF26F147D52483D98B67EAF,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -501,9 +509,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_NDEBUG=1",
 					"NDEBUG=1",
-					"JUCE_DISPLAY_SPLASH_SCREEN=0",
-					"JUCE_USE_DARK_SPLASH_SCREEN=1",
-					"JUCE_PROJUCER_VERSION=0x7000a",
+					"JUCE_PROJUCER_VERSION=0x80001",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
@@ -595,6 +601,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_CODE_SIGN_FLAGS = --timestamp;
 				PRODUCT_NAME = "MIDI2LR";
 				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wreorder";
@@ -624,9 +631,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_DEBUG=1",
 					"DEBUG=1",
-					"JUCE_DISPLAY_SPLASH_SCREEN=0",
-					"JUCE_USE_DARK_SPLASH_SCREEN=1",
-					"JUCE_PROJUCER_VERSION=0x7000a",
+					"JUCE_PROJUCER_VERSION=0x80001",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
@@ -719,6 +724,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_CODE_SIGN_FLAGS = --timestamp;
 				PRODUCT_NAME = "MIDI2LR";
 				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wreorder";

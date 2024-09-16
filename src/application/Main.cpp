@@ -71,7 +71,8 @@ namespace {
 
       juce::Font getTextButtonFont(juce::TextButton&, const int button_height) override
       {
-         return {std::min(16.0F, static_cast<float>(button_height) * 0.7F)};
+         return withDefaultMetrics(juce::FontOptions(std::min(16.0F,
+             static_cast<float>(button_height) * 0.7F)));
       }
    };
 

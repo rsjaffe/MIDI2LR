@@ -1,21 +1,33 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library.
-   Copyright (c) 2022 - Raw Material Software Limited
+   This file is part of the JUCE framework.
+   Copyright (c) Raw Material Software Limited
 
-   JUCE is an open source library subject to commercial or open-source
+   JUCE is an open source framework subject to commercial or open source
    licensing.
 
-   The code included in this file is provided under the terms of the ISC license
-   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   To use, copy, modify, and/or distribute this software for any purpose with or
-   without fee is hereby granted provided that the above copyright notice and
-   this permission notice appear in all copies.
+   By downloading, installing, or using the JUCE framework, or combining the
+   JUCE framework with any other source code, object code, content or any other
+   copyrightable work, you agree to the terms of the JUCE End User Licence
+   Agreement, and all incorporated terms including the JUCE Privacy Policy and
+   the JUCE Website Terms of Service, as applicable, which will bind you. If you
+   do not agree to the terms of these agreements, we will not license the JUCE
+   framework to you, and you must discontinue the installation or download
+   process and cease use of the JUCE framework.
 
-   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
-   DISCLAIMED.
+   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
+   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
+   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+
+   Or:
+
+   You may also use this code under the terms of the AGPLv3:
+   https://www.gnu.org/licenses/agpl-3.0.en.html
+
+   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
+   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -61,10 +73,7 @@ namespace juce
     guaranteed that no more listeners will be called.
 
     By default a ListenerList is not thread safe. If thread-safety is required,
-    you can provide a thread-safe Array type as the second type parameter e.g.
-    @code
-    using ThreadSafeList = ListenerList<MyListenerType, Array<MyListenerType*, CriticalSection>>;
-    @endcode
+    use the ThreadSafeListenerList type.
 
     When calling listeners the iteration can be escaped early by using a
     "BailOutChecker". A BailOutChecker is a type that has a public member function
@@ -75,8 +84,8 @@ namespace juce
 
     @tags{Core}
 */
-template <class ListenerClass,
-          class ArrayType = Array<ListenerClass*>>
+template <typename ListenerClass,
+          typename ArrayType = Array<ListenerClass*>>
 class ListenerList
 {
 public:
@@ -99,6 +108,8 @@ public:
     */
     void add (ListenerClass* listenerToAdd)
     {
+        initialiseIfNeeded();
+
         if (listenerToAdd != nullptr)
             listeners->addIfNotAlreadyThere (listenerToAdd);
         else
@@ -115,13 +126,17 @@ public:
     {
         jassert (listenerToRemove != nullptr); // Listeners can't be null pointers!
 
+        if (! initialised())
+            return;
+
         const ScopedLockType lock (listeners->getLock());
 
         if (const auto index = listeners->removeFirstMatchingValue (listenerToRemove); index >= 0)
         {
             for (auto* it : *iterators)
             {
-                --it->end;
+                if (index < it->end)
+                    --it->end;
 
                 if (index <= it->index)
                     --it->index;
@@ -142,10 +157,10 @@ public:
     }
 
     /** Returns the number of registered listeners. */
-    int size() const noexcept                                { return listeners->size(); }
+    int size() const noexcept                                { return ! initialised() ? 0 : listeners->size(); }
 
     /** Returns true if no listeners are registered, false otherwise. */
-    bool isEmpty() const noexcept                            { return listeners->isEmpty(); }
+    bool isEmpty() const noexcept                            { return ! initialised() || listeners->isEmpty(); }
 
     /** Clears the list.
 
@@ -154,7 +169,10 @@ public:
     */
     void clear()
     {
-        const ScopedLockType lock (listeners->getLock());
+        if (! initialised())
+            return;
+
+        const ScopedLockType lock { listeners->getLock() };
 
         listeners->clear();
 
@@ -163,7 +181,11 @@ public:
     }
 
     /** Returns true if the specified listener has been added to the list. */
-    bool contains (ListenerClass* listener) const noexcept   { return listeners->contains (listener); }
+    bool contains (ListenerClass* listener) const noexcept
+    {
+        return initialised()
+            && listeners->contains (listener);
+    }
 
     /** Returns the raw array of listeners.
 
@@ -174,7 +196,11 @@ public:
 
         @see add, remove, clear, contains
     */
-    const ArrayType& getListeners() const noexcept           { return *listeners; }
+    const ArrayType& getListeners() const noexcept
+    {
+        const_cast<ListenerList*> (this)->initialiseIfNeeded();
+        return *listeners;
+    }
 
     //==============================================================================
     /** Calls an invokable object for each listener in the list. */
@@ -222,6 +248,9 @@ public:
                                const BailOutCheckerType& bailOutChecker,
                                Callback&& callback)
     {
+        if (! initialised())
+            return;
+
         const auto localListeners = listeners;
         const ScopedLockType lock { localListeners->getLock() };
 
@@ -327,7 +356,7 @@ private:
 
     //==============================================================================
     using SharedListeners = std::shared_ptr<ArrayType>;
-    const SharedListeners listeners = std::make_shared<ArrayType>();
+    SharedListeners listeners;
 
     struct Iterator
     {
@@ -337,10 +366,55 @@ private:
 
     using SafeIterators = std::vector<Iterator*>;
     using SharedIterators = std::shared_ptr<SafeIterators>;
-    const SharedIterators iterators = std::make_shared<SafeIterators>();
+    SharedIterators iterators;
+
+    enum class State
+    {
+        uninitialised,
+        initialising,
+        initialised
+    };
+
+    std::atomic<State> state { State::uninitialised };
+
+    inline bool initialised() const noexcept { return state == State::initialised; }
+
+    inline void initialiseIfNeeded() noexcept
+    {
+        if (initialised())
+            return;
+
+        auto expected = State::uninitialised;
+
+        if (state.compare_exchange_strong (expected, State::initialising))
+        {
+            static_assert (std::is_nothrow_constructible_v<ArrayType>,
+                           "Any ListenerList ArrayType must have a noexcept default constructor");
+
+            static_assert (std::is_nothrow_constructible_v<SafeIterators>,
+                           "Please notify the JUCE team if you encounter this assertion");
+
+            listeners = std::make_shared<ArrayType>();
+            iterators = std::make_shared<SafeIterators>();
+            state = State::initialised;
+            return;
+        }
+
+        while (! initialised())
+            std::this_thread::yield();
+    }
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE (ListenerList)
 };
+
+//==============================================================================
+/**
+    A thread safe version of the ListenerList class.
+
+    @see ListenerList
+*/
+template <typename ListenerClass>
+using ThreadSafeListenerList = ListenerList<ListenerClass, Array<ListenerClass*, CriticalSection>>;
 
 } // namespace juce
