@@ -49,6 +49,7 @@ using namespace juce;
 CCoptions::CCoptions()
 {
    //[Constructor_pre] You can add your own custom stuff here..
+   auto fo {juce::FontOptions(15.00f, Font::plain)};
    //[/Constructor_pre]
 
    groupComponent.reset(new GroupComponent("CCmethod", TRANS("CC Message Type")));
@@ -132,7 +133,7 @@ CCoptions::CCoptions()
 
    minvallabel.reset(new Label("new label", TRANS("Minimum value")));
    addAndMakeVisible(minvallabel.get());
-   minvallabel->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   minvallabel->setFont(Font(fo).withTypefaceStyle("Regular"));
    minvallabel->setJustificationType(Justification::centredLeft);
    minvallabel->setEditable(false, false, false);
    minvallabel->setColour(TextEditor::textColourId, Colours::black);
@@ -142,7 +143,7 @@ CCoptions::CCoptions()
 
    maxvallabel.reset(new Label("maxlabel", TRANS("Maximum value")));
    addAndMakeVisible(maxvallabel.get());
-   maxvallabel->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   maxvallabel->setFont(Font(fo).withTypefaceStyle("Regular"));
    maxvallabel->setJustificationType(Justification::centredLeft);
    maxvallabel->setEditable(false, false, false);
    maxvallabel->setColour(TextEditor::textColourId, Colours::black);
@@ -159,7 +160,7 @@ CCoptions::CCoptions()
 
    controlID.reset(new Label("channel 0 number 0", TRANS("Channel 0 Number 0")));
    addAndMakeVisible(controlID.get());
-   controlID->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   controlID->setFont(Font(fo).withTypefaceStyle("Regular"));
    controlID->setJustificationType(Justification::centred);
    controlID->setEditable(false, false, false);
    controlID->setColour(TextEditor::textColourId, Colours::black);

@@ -38,7 +38,7 @@ SettingsComponent::SettingsComponent(SettingsManager& settings_manager)
 namespace {
    void StandardLabelSettings(juce::Label& label_to_set)
    {
-      label_to_set.setFont(juce::Font {16.F, juce::Font::bold});
+      label_to_set.setFont(juce::Font {juce::FontOptions(16.F, juce::Font::bold)});
       label_to_set.setEditable(false);
       label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
    }
