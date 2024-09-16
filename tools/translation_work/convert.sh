@@ -1,22 +1,20 @@
 #!/bin/bash
-dos2unix *.strings
-./remove_comments.sh MIDI2LR_Chinese_simplified.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_zh_cn.txt
-./remove_comments.sh MIDI2LR_Chinese_TW.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_zh_tw.txt
-./remove_comments.sh MIDI2LR_Dutch.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_nl.txt
-./remove_comments.sh MIDI2LR_English.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_en.txt
-./remove_comments.sh MIDI2LR_French.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_fr.txt
-./remove_comments.sh MIDI2LR_German.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_de.txt
-./remove_comments.sh MIDI2LR_Hindi.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_hi.txt
-./remove_comments.sh MIDI2LR_Italian.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_it.txt
-./remove_comments.sh MIDI2LR_Japanese.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_ja.txt
-./remove_comments.sh MIDI2LR_Korean.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_ko.txt
-./remove_comments.sh MIDI2LR_Norwegian_Bokm_l.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_nb.txt
-./remove_comments.sh MIDI2LR_Polish.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_pl.txt
-./remove_comments.sh MIDI2LR_Portuguese_BR.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_pt.txt
-./remove_comments.sh MIDI2LR_Russian.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_ru.txt
-./remove_comments.sh MIDI2LR_Spanish.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_es.txt
-./remove_comments.sh MIDI2LR_Swedish.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_sv.txt
-./remove_comments.sh MIDI2LR_Thai.strings | sed -e '/^$/d' -e 's/" = "/=/' -e 's/";/"/' > TranslatedStrings_th.txt
+dos2unix *.po
+po2csv MIDI2LR_Chinese_simplified.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_zh_cn.txt
+po2csv MIDI2LR_Chinese_TW.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_zh_tw.txt
+po2csv MIDI2LR_Dutch.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_nl.txt
+po2csv MIDI2LR_English.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_en.txt
+po2csv MIDI2LR_French.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_fr.txt
+po2csv MIDI2LR_German.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_de.txt
+po2csv MIDI2LR_Hindi.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_hi.txt
+po2csv MIDI2LR_Italian.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_it.txt
+po2csv MIDI2LR_Japanese.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_ja.txt
+po2csv MIDI2LR_Korean.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_ko.txt
+po2csv MIDI2LR_Norwegian_Bokm_l.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_nb.txt
+po2csv MIDI2LR_Polish.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_pl.txt
+po2csv MIDI2LR_Portuguese_BR.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_pt.txt
+po2csv MIDI2LR_Russian.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_ru.txt
+po2csv MIDI2LR_Spanish.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_es.txt
+po2csv MIDI2LR_Swedish.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_sv.txt
+po2csv MIDI2LR_Thai.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_th.txt
 unix2dos -m *.txt
-#note: use dos2unix -b, then unix2dos
-#make another batch file that does dos2unix -b *.strings, then calls this file with ./convert XXX.strings > YYY.txt for each language, then calls unix2dos *.txt
