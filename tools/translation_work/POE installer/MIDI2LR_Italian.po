@@ -20,7 +20,7 @@ msgstr "Apre un browser Web con un modulo PayPal in cui è possibile effettuare 
 #. Using MS
 #: Installer
 msgid "midi.install.mac"
-msgstr "Richiede MacOS Catalina 10.15 o una versione successiva."
+msgstr "Richiede MacOS Ventura 13.1 o una versione successiva."
 
 #. Using MS
 #: Installer

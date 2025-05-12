@@ -20,7 +20,7 @@ msgstr "PayPalフォームでWebブラウザーを開き、${project.fullName}�
 #. Using MS
 #: Installer
 msgid "midi.install.mac"
-msgstr "MacOS Catalina 10.15 以降が必要です。"
+msgstr "MacOS Ventura 13.1 以降が必要です。"
 
 #. Using MS
 #: Installer

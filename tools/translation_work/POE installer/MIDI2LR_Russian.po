@@ -20,7 +20,7 @@ msgstr "Открывает веб-браузер с формой PayPal, где 
 #. Using MS
 #: Installer
 msgid "midi.install.mac"
-msgstr "Требуется MacOS Catalina 10.15 или более новая версия."
+msgstr "Требуется MacOS Ventura 13.1 или более новая версия."
 
 #. Using MS
 #: Installer

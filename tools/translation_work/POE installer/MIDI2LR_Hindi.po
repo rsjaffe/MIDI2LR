@@ -21,7 +21,7 @@ msgstr "एक पेपाल फ़ॉर्म के साथ एक वे
 #: Installer
 #, fuzzy
 msgid "midi.install.mac"
-msgstr "MacOS Catalina 10.15 या बाद के संस्करण की आवश्यकता है।"
+msgstr "MacOS Ventura 13.1 या बाद के संस्करण की आवश्यकता है।"
 
 #. Using MS
 #: Installer

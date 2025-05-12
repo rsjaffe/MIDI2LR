@@ -20,7 +20,7 @@ msgstr "추가 ${project.fullName} 개발을 지원하기 위해 기부 할 수�
 #. Using MS
 #: Installer
 msgid "midi.install.mac"
-msgstr "MacOS Catalina 10.15 이상이 필요합니다."
+msgstr "MacOS Ventura 13.1 이상이 필요합니다."
 
 #. Using MS
 #: Installer

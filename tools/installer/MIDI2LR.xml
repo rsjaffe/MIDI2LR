@@ -341,7 +341,7 @@
                 <compareVersions>
                     <logic>less</logic>
                     <version1>${osx_major_version}</version1>
-                    <version2>12</version2>
+                    <version2>13</version2>
                 </compareVersions>
             </ruleList>
         </throwError>

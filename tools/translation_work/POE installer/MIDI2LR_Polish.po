@@ -20,7 +20,7 @@ msgstr "Otwiera przeglądarkę internetową z formularzem PayPal, w którym moż
 #. Using MS
 #: Installer
 msgid "midi.install.mac"
-msgstr "Wymaga systemu MacOS Catalina 10.15 lub nowszego."
+msgstr "Wymaga systemu MacOS Ventura 13.1 lub nowszego."
 
 #. Using MS
 #: Installer

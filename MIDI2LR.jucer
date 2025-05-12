@@ -105,14 +105,14 @@
                sendAppleEventsPermissionText="MIDI2LR needs to send keystrokes to Lightroom to help automate your tasks."
                xcodeValidArchs="arm64,x86_64" useLegacyBuildSystem="0" extraFrameworks="Carbon">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" osxCompatibility="12.0 SDK" osxArchitecture="64BitIntel"
+        <CONFIGURATION name="Debug" osxCompatibility="13.1 SDK" osxArchitecture="64BitIntel"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="../../external/asio/"
                        codeSigningIdentity="Developer ID Application" recommendedWarnings="LLVM"
-                       isDebug="1" linkTimeOptimisation="0" optimisation="1" macOSDeploymentTarget="12.0"
+                       isDebug="1" linkTimeOptimisation="0" optimisation="1" macOSDeploymentTarget="13.1"
                        fastMath="1"/>
-        <CONFIGURATION name="Release" osxCompatibility="12.0 SDK" osxArchitecture="64BitIntel"
+        <CONFIGURATION name="Release" osxCompatibility="13.1 SDK" osxArchitecture="64BitIntel"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="../../external/asio/"
-                       codeSigningIdentity="Developer ID Application" macOSDeploymentTarget="12.0"
+                       codeSigningIdentity="Developer ID Application" macOSDeploymentTarget="13.1"
                        fastMath="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>

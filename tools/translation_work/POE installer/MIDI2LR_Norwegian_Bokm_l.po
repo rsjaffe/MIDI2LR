@@ -20,7 +20,7 @@ msgstr "Ã…pner en nettleser med et PayPal-skjema der du kan gi en donasjon for Ã
 #. Using MS
 #: Installer
 msgid "midi.install.mac"
-msgstr "Krever MacOS Catalina 10.15 eller senere."
+msgstr "Krever MacOS Ventura 13.1 eller senere."
 
 #. Using MS
 #: Installer
