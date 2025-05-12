@@ -167,6 +167,7 @@ namespace {
    }
 } // namespace
 
+// ReSharper disable once CppPassValueParameterByConstReference
 void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 {
    try {

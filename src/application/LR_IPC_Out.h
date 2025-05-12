@@ -48,7 +48,7 @@ class LrIpcOut {
    LrIpcOut& operator=(const LrIpcOut& other) = delete;
    LrIpcOut& operator=(LrIpcOut&& other) = delete;
 
-   template<class T> void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(bool, bool))
+   template<class T> void AddCallback(_In_ T* const object, _In_ void (T::* const mf)(bool, bool))
    {
       if (object && mf) {
          std::scoped_lock lk(callback_mtx_);

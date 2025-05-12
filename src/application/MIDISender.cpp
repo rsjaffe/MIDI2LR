@@ -74,7 +74,6 @@ void MidiSender::Send(rsj::MidiMessageId id, int value) const
    }
 }
 
-
 void MidiSender::SendPitchWheel(rsj::MidiMessageId id, int value) const
 {
    const auto msg {juce::MidiMessage::pitchWheel(id.channel, value)};

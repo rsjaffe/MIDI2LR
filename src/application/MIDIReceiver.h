@@ -46,7 +46,7 @@ class MidiReceiver final : juce::MidiInputCallback {
    void Stop();
 
    template<class T>
-   void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(rsj::MidiMessage))
+   void AddCallback(_In_ T* const object, _In_ void (T::* const mf)(rsj::MidiMessage))
    {
       if (object && mf) { callbacks_.emplace_back(std::bind_front(mf, object)); }
    }

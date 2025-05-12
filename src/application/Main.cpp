@@ -250,9 +250,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             if (profile_.ProfileUnsaved() && main_window_) {
                if (juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
                        juce::translate("MIDI2LR profiles"),
-                       juce::translate("Profile changed. Do you want to save your changes? If "
-                                       "you continue without saving, your changes will be "
-                                       "lost."))) {
+                       juce::translate("Profile changed. Do you want to save your changes? If you "
+                                       "continue without saving, your changes will be lost."))) {
                   main_window_->SaveProfile();
                }
             }

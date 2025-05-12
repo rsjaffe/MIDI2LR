@@ -43,6 +43,7 @@
 
 #include "ControlsModel.h"
 using namespace juce;
+
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -172,11 +173,12 @@ void PWoptions::textEditorFocusLost(TextEditor& t)
 void PWoptions::BindToControl(const int channel)
 {
    boundchannel_ = channel;
-   minval->setText(
-       juce::String(controls_model_->GetPwMin(boundchannel_)), juce::dontSendNotification);
-   maxval->setText(
-       juce::String(controls_model_->GetPwMax(boundchannel_)), juce::dontSendNotification);
+   minval->setText(juce::String(controls_model_->GetPwMin(boundchannel_)),
+       juce::dontSendNotification);
+   maxval->setText(juce::String(controls_model_->GetPwMax(boundchannel_)),
+       juce::dontSendNotification);
 }
+
 //[/MiscUserCode]
 
 //==============================================================================

@@ -76,8 +76,8 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
       if (const auto profile_size = profile_.Size();
           std::cmp_less_equal(profile_size, row_number)) {
          g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
-         rsj::Log(fmt::format(FMT_STRING("Unknown control CommandTableModel::paintCell. {} rows "
-                                         "in profile, row number to be painted is {}."),
+         rsj::Log(fmt::format(FMT_STRING("Unknown control CommandTableModel::paintCell. {} rows in "
+                                         "profile, row number to be painted is {}."),
                       profile_size, row_number),
              std::source_location::current());
          return;

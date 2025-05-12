@@ -111,10 +111,9 @@ namespace rsj {
                }
             default:
                {
-                  constexpr auto msg {
-                      "The file, 'settings.xml', is marked as a version not supported by the "
-                      "current "
-                      "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."};
+                  constexpr auto msg {"The file, 'settings.xml', is marked as a version not "
+                                      "supported by the current version of MIDI2LR SettingsStruct, "
+                                      "and won't be loaded. File version: {}."};
                   rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
                       fmt::format(msg, version), std::source_location::current());
                }
@@ -191,7 +190,7 @@ class ChannelModel {
    }
 
    // ReSharper disable once CppMemberFunctionMayBeStatic
-   [[nodiscard]] bool IsNrpn(int controlnumber) const noexcept 
+   [[nodiscard]] bool IsNrpn(int controlnumber) const noexcept
    {
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       return controlnumber > kMaxMidi;

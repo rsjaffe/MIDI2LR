@@ -43,6 +43,7 @@
 
 #include "ControlsModel.h"
 using namespace juce;
+
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -71,8 +72,8 @@ CCoptions::CCoptions()
 
    absbutton.reset(new ToggleButton("Absolute"));
    addAndMakeVisible(absbutton.get());
-   absbutton->setTooltip(
-       TRANS("Control value increases when turned one way, decreases when turned the other."));
+   absbutton->setTooltip(TRANS("Control value increases when turned one way, decreases when turned "
+                               "the other."));
    absbutton->setExplicitFocusOrder(1);
    absbutton->setConnectedEdges(Button::ConnectedOnBottom);
    absbutton->setRadioGroupId(1);
@@ -83,8 +84,8 @@ CCoptions::CCoptions()
 
    binbutton.reset(new ToggleButton("Binaryoffset"));
    addAndMakeVisible(binbutton.get());
-   binbutton->setTooltip(
-       TRANS("Control value is near 63 when turned one way, and near 65 when turned the other."));
+   binbutton->setTooltip(TRANS("Control value is near 63 when turned one way, and near 65 when "
+                               "turned the other."));
    binbutton->setExplicitFocusOrder(3);
    binbutton->setButtonText(TRANS("Binary offset"));
    binbutton->setConnectedEdges(Button::ConnectedOnTop | Button::ConnectedOnBottom);
@@ -95,8 +96,8 @@ CCoptions::CCoptions()
 
    signbutton.reset(new ToggleButton("Signmagnitude"));
    addAndMakeVisible(signbutton.get());
-   signbutton->setTooltip(
-       TRANS("Control value is near 1 when turned one way, and near 65 when turned the other."));
+   signbutton->setTooltip(TRANS("Control value is near 1 when turned one way, and near 65 when "
+                                "turned the other."));
    signbutton->setExplicitFocusOrder(4);
    signbutton->setButtonText(TRANS("Sign and magnitude"));
    signbutton->setConnectedEdges(Button::ConnectedOnTop);
@@ -308,8 +309,8 @@ void CCoptions::BindToControl(const int channel, const int control_number)
 {
    bound_channel_ = channel; // 0-based but displays as 1-based
    bound_number_ = control_number;
-   controlID->setText(
-       "channel " + juce::String(channel + 1) + " number " + juce::String(control_number),
+   controlID->setText("channel " + juce::String(channel + 1) + " number "
+                          + juce::String(control_number),
        juce::dontSendNotification);
    minvaltext->setText(juce::String(controls_model_->GetCcMin(bound_channel_, bound_number_)),
        juce::dontSendNotification);
@@ -330,6 +331,7 @@ void CCoptions::BindToControl(const int channel, const int control_number)
       break;
    }
 }
+
 //[/MiscUserCode]
 
 //==============================================================================

@@ -282,7 +282,7 @@ namespace {
        {            "f18",                 kVK_F18},
        {            "f19",                 kVK_F19},
        {            "f20",                 kVK_F20},
- /* using ANSI layout codes for keypad, may cause problems in some languages */
+       /* using ANSI layout codes for keypad, may cause problems in some languages */
        {       "numpad 0",        kVK_ANSI_Keypad0},
        {       "numpad 1",        kVK_ANSI_Keypad1},
        {       "numpad 2",        kVK_ANSI_Keypad2},
@@ -409,7 +409,7 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
                }
             }
             else if (const auto mapped_shifted_key {kANSIKeyMapShifted.find(key)};
-                     mapped_shifted_key != kANSIKeyMapShifted.end()) {
+                mapped_shifted_key != kANSIKeyMapShifted.end()) {
                vk = mapped_shifted_key->second;
                flags |= kCGEventFlagMaskShift;
             }

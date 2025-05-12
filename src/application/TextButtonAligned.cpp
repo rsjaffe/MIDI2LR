@@ -44,9 +44,9 @@ void TextButtonAligned::DrawButtonText(juce::Graphics& g, juce::TextButton& butt
        juce::Component::getLookAndFeel().getTextButtonFont(button, button.getHeight())};
    g.setFont(font);
    g.setColour(button
-                   .findColour(button.getToggleState() ? juce::TextButton::textColourOnId
-                                                       : juce::TextButton::textColourOffId)
-                   .withMultipliedAlpha(button.isEnabled() ? 1.0F : 0.5F));
+           .findColour(button.getToggleState() ? juce::TextButton::textColourOnId
+                                               : juce::TextButton::textColourOffId)
+           .withMultipliedAlpha(button.isEnabled() ? 1.0F : 0.5F));
 
    const auto y_indent {std::min(4, button.proportionOfHeight(0.3F))}; //-V112
    const auto corner_size {std::min(button.getHeight(), button.getWidth()) / 2};
