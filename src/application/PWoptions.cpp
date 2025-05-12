@@ -50,11 +50,12 @@ using namespace juce;
 PWoptions::PWoptions()
 {
    //[Constructor_pre] You can add your own custom stuff here..
+   auto fo {juce::FontOptions(15.00f, Font::plain)};
    //[/Constructor_pre]
 
    label.reset(new Label("new label", TRANS("Minimum value")));
    addAndMakeVisible(label.get());
-   label->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   label->setFont(Font(fo).withTypefaceStyle("Regular"));
    label->setJustificationType(Justification::centredLeft);
    label->setEditable(false, false, false);
    label->setColour(TextEditor::textColourId, Colours::black);
@@ -77,7 +78,7 @@ PWoptions::PWoptions()
 
    label2.reset(new Label("new label", TRANS("Maximum value")));
    addAndMakeVisible(label2.get());
-   label2->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   label2->setFont(Font(fo).withTypefaceStyle("Regular"));
    label2->setJustificationType(Justification::centredLeft);
    label2->setEditable(false, false, false);
    label2->setColour(TextEditor::textColourId, Colours::black);
@@ -100,7 +101,7 @@ PWoptions::PWoptions()
 
    label3.reset(new Label("new label", TRANS("Pitch Wheel")));
    addAndMakeVisible(label3.get());
-   label3->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   label3->setFont(Font(fo).withTypefaceStyle("Regular"));
    label3->setJustificationType(Justification::centredLeft);
    label3->setEditable(false, false, false);
    label3->setColour(TextEditor::textColourId, Colours::black);
