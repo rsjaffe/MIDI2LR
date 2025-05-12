@@ -31,7 +31,7 @@ AttributeMacros: ['_In_']
 BinPackArguments: true
 BinPackParameters: true
 BitFieldColonSpacing: Both
-BreakAdjacentStringLiterals: false
+# BreakAdjacentStringLiterals: false
 BreakAfterAttributes: Never
 BreakArrays: false
 BreakBeforeBinaryOperators: NonAssignment

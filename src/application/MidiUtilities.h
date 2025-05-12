@@ -222,7 +222,11 @@ class NrpnFilter {
    {
 #pragma warning(suppress : 26446 26482) /* Channel bounds-checked in calling functions */
       // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
-      intermediate_results_[channel] = {0, 0, 0, 0, 0};
+      intermediate_results_[channel] = {.control_lsb_ = 0,
+          .control_msb_ = 0,
+          .ready_flags_ = 0,
+          .value_lsb_ = 0,
+          .value_msb_ = 0};
    }
 
    struct InternalStructure {
