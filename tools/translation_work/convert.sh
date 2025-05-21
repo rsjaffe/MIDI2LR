@@ -1,4 +1,5 @@
 #!/bin/bash
+cd POE\ plugin
 dos2unix *.po
 po2csv MIDI2LR_Chinese_simplified.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_zh_cn.txt
 po2csv MIDI2LR_Chinese_TW.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_zh_tw.txt
@@ -18,3 +19,4 @@ po2csv MIDI2LR_Spanish.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -
 po2csv MIDI2LR_Swedish.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_sv.txt
 po2csv MIDI2LR_Thai.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' > TranslatedStrings_th.txt
 unix2dos -m *.txt
+cd ..

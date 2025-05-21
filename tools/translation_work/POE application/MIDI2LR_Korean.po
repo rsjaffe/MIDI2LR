@@ -1,340 +1,275 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
-"Project-Id-Version: MIDI2LR\n"
-"Language: ko\n"
 
-#: 
 msgid "0"
 msgstr "0"
 
-#: 
 msgid "127"
 msgstr "127"
 
-#: 
 msgid "16383"
 msgstr "16383"
 
 #. From MS: A new version of Skype is available.
-#: 
 msgid "A new version of {} is available."
 msgstr "새 버전의 {}을(를) 사용할 수 있습니다."
 
 #. Microsoft terminology collection: Pertaining to an entity such as the device, program, file, record or portion of the screen that is currently operational or subject to command operations.
-#: 
 msgid "active"
 msgstr "활성"
 
-#: 
 msgid "Adjust CC dialog"
 msgstr "CC 대화상자 조정"
 
-#: 
 msgid "Adjust PW dialog"
 msgstr "PW 대화상자 조정"
 
-#: 
 #, fuzzy
 msgid "Apply these settings to all similar controls."
 msgstr "이 설정을 모든 유사한 컨트롤에 적용합니다."
 
 #. From MS: Apply to all
-#: 
 msgid "Apply to all"
 msgstr "모두 적용"
 
 #. From Microsoft terminology collection "A feature that minimizes tool windows along the edges of the IDE when these windows are not in use."
-#: 
 msgid "Auto hide"
 msgstr "자동 숨기기"
 
-#: 
 #, fuzzy
 msgid "Autohide the plugin window in x seconds, select 0 for disabling autohide"
 msgstr "플러그인 창을 x초 후에 자동 숨김, 자동 숨기기를 중지하려면 0을 선택하세요."
 
-#: 
 #, fuzzy
 msgid "Binary offset"
 msgstr "바이너리 오프셋"
 
-#: 
 msgid "CC Message Type"
 msgstr "CC 메시지 유형"
 
-#: 
 msgid "Channel 0 Number 0"
 msgstr "0 채널 0 번"
 
-#: 
 msgid "Choose Profile Folder"
 msgstr "프로파일 폴더 선택"
 
 #. From MS: Clear all rows [not available for ko, zh-tw]
-#: 
 msgid "Clear ALL rows"
 msgstr "모든 행 지우기"
 
 #. From MS: Connected to %s
-#: 
 msgid "Connected to Lightroom"
 msgstr "Lightroom에 연결됨"
 
-#: 
 #, fuzzy
 msgid "Control value increases when turned one way, decreases when turned the other."
 msgstr "한 방향으로 돌리면 제어값이 증가하고 다른 방향으로 돌리면 제어값이 감소합니다."
 
-#: 
 #, fuzzy
 msgid "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other."
 msgstr "한 방향으로 돌리면 제어 값이 1 이상, 다른 방향으로 돌리면 127보다 작아집니다."
 
-#: 
 #, fuzzy
 msgid "Control value is near 1 when turned one way, and near 65 when turned the other."
 msgstr "한 방향으로 돌리면 제어값이 1에 근접해지며 다른 방향으로 돌리면 65에 근접해집니다."
 
-#: 
 #, fuzzy
 msgid "Control value is near 63 when turned one way, and near 65 when turned the other."
 msgstr "한 방향으로 돌리면 제어값은 63에 근접해지며 다른 방향으로 돌리면 65에 근접해집니다."
 
 #. Deactivate MIDI controller from microsoft translations search terminology
 #. Deactivate {0}; Xbox 360 Controller
-#: 
 #, fuzzy
 msgid "Deactivate MIDI controller"
 msgstr "MIDI 컨트롤러 비활성화"
 
 #. Microsoft terminology collection A user-defined description of a particular device.
-#: 
 msgid "device name"
 msgstr "장치 이름"
 
-#: 
 #, fuzzy
 msgid "Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with Lightroom not picking up fast fader/knob movements"
 msgstr "픽업 모드를 비활성화하면 터치 스크린 환경에서 더 유리할 수 있으며 Lightroom에서 빠른 페이더/노브 작동이 감지되지 않는 문제를 해소할 수도 있습니다"
 
-#: 
 msgid "Do not show again"
 msgstr "다시 표시 안 함"
 
 #. Microsoft translation resources
-#: 
 msgid "Do you want to download the latest version?"
 msgstr "최신 버전을 다운로드하시겠습니까?"
 
-#: 
 #, fuzzy
 msgid "Enable Pickup Mode"
 msgstr "픽업 모드 사용"
 
 #. From MS: Error (A value or condition that is not consistent with the true, specified, or expected value or condition.)
-#: 
 msgid "Error"
 msgstr "오류"
 
 #. From MS: Exception (An abnormal condition or error that occurs during the execution of a program. An exception requires the execution of software outside the normal flow of control.)
-#: 
 msgid "Exception "
 msgstr "예외 "
 
-#: 
 msgid "Halt sending to Lightroom"
 msgstr "Lightroom으로 전송 중지"
 
 #. Microsoft terminology search "input/output" The complementary tasks of gathering and distributing data. Input is data that is acquired from a device or entered by the user through a device. Output is data that is sent to a device.
-#: 
 msgid "input/output"
 msgstr "입출력"
 
 #. From MS: Invalid keyboard layout handle.
-#: 
 msgid "Invalid keyboard layout handle."
 msgstr "잘못된 자판 배열 핸들입니다."
 
 #. From MS: Load (To place information from storage into memory for processing, if it is data, or for execution, if it is program code.)
-#: 
 msgid "Load"
 msgstr "로드하다"
 
 #. From MS: LR Command (from UIDL command)
-#: 
 msgid "LR Command"
 msgstr "LR 명령"
 
 #. From MS: maximum value (from Excel)
-#: 
 msgid "Maximum value"
 msgstr "최대값"
 
 #. From MS: MIDI Command (from UIDL command)
-#: 
 msgid "MIDI Command"
 msgstr "MIDI 명령"
 
-#: 
 #, fuzzy
 msgid "MIDI2LR needs your authorization to send keystrokes to Lightroom"
 msgstr "MIDI2LR은 키 입력을 Lightroom에 보낼 권한이 필요합니다."
 
 #. From MS: MIDI2LR Profiles (from CDN profiles)
-#: 
 msgid "MIDI2LR profiles"
 msgstr "MIDI2LR 프로필"
 
-#: 
 msgid "MIDISender: Unexpected data type: {:n}."
 msgstr "MIDISender: 예기치 않은 데이터 형식: {:n}."
 
 #. From MS: minimum value (from Excel)
-#: 
 msgid "Minimum value"
 msgstr "최소값"
 
 #. From MS: Not connected to %s [did not use it translation; not available for zh_tw]
-#: 
 msgid "Not connected to Lightroom"
 msgstr "Lightroom에 연결되지 않음"
 
 #. From MS: Open profile
-#: 
 msgid "Open profile"
 msgstr "프로필 열기"
 
-#: 
 msgid "Pick up"
 msgstr "픽업"
 
-#: 
 msgid "Pitch Wheel"
 msgstr "피치 휠"
 
 #. From MS: Profile (A computer-based record that contains software settings and identification information.)
-#: 
 msgid "Profile"
 msgstr "프로필"
 
 #. From MS: Profile Changed
 #. From MS:  Do you want to save your changes? If you continue without saving, your changes will be lost.
-#: 
 msgid "Profile changed. Do you want to save your changes? If you continue without saving, your changes will be lost."
 msgstr "프로필 변경됨. 변경 내용을 저장하시겠습니까? 저장하지 않고 계속하면 변경 내용이 손실됩니다."
 
-#: 
 #, fuzzy
 msgid "Remove unassigned rows"
 msgstr "할당되지 않은 행 제거"
 
-#: 
 #, fuzzy
 msgid "Rescan MIDI devices"
 msgstr "MIDI 장치 재검사"
 
 #. From MS: Resolution (A measure of the fineness of detail in an image or text, usually as produced by a monitor or printer.)
-#: 
 msgid "Resolution"
 msgstr "해상도"
 
 #. From MS: Save
-#: 
 msgid "Save"
 msgstr "저장"
 
 #. From MS: Save profile
-#: 
 msgid "Save profile"
 msgstr "프로필 저장"
 
 #. From MS: Select Folder
-#: 
 msgid "Select Folder"
 msgstr "폴더 선택"
 
-#: 
 msgid "Sending halted"
 msgstr "전송 중지"
 
 #. From MS: Settings (The feature in an app that allows users to change its properties or behavior.)
-#: 
 msgid "Settings"
 msgstr "설정"
 
-#: 
 #, fuzzy
 msgid "Sign and magnitude"
 msgstr "부호와 크기"
 
 #. translations from localized microsoft products. often translated as "system code"
-#: 
 msgid "system id"
 msgstr "시스템 ID"
 
 #. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
-#: 
 msgid "The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: {}."
 msgstr "'MenuTrans.xml' 파일이 현재 MIDI2LR 버전에서 지원하지 않는 버전으로 표시되므로 로드되지 않습니다. 파일 버전: {}."
 
 #. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
-#: 
 msgid "The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."
 msgstr "'settings.xml' 파일이 현재 MIDI2LR ChannelModel 버전에서 지원하지 않는 버전으로 표시되므로 로드되지 않습니다. 파일 버전: {}."
 
 #. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
-#: 
 msgid "The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."
 msgstr "'settings.xml' 파일이 현재 MIDI2LR SettingsStruct 버전에서 지원하지 않는 버전으로 표시되므로 로드되지 않습니다. 파일 버전: {}."
 
-#: 
-msgid "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\n"
+msgid ""
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\n"
 "1) Open System Preferences\n"
 "2) Open Accessibility preferences \n"
 "3) Select \"Accessibility Apps\"\n"
 "4) Add this application to the approval list"
-msgstr "MIDI2LR에 키 입력을 허용하도록 Lightroom에 권한을 부여하려면 다음 단계를 따르십시오.\n"
+msgstr ""
+"MIDI2LR에 키 입력을 허용하도록 Lightroom에 권한을 부여하려면 다음 단계를 따르십시오.\n"
 "1) 시스템 환경설정 열기\n"
 "2) 손쉬운 사용 환경설정 열기 \n"
 "3) ‘손쉬운 사용 앱’ 선택\n"
 "4) 이 응용 프로그램을 승인 목록에 추가"
 
-#: 
 #, fuzzy
 msgid "Two's complement"
 msgstr "2의 보수"
 
 #. From MS: Unable to load %1
-#: 
 msgid "Unable to load MenuTrans.xml."
 msgstr "MenuTrans.xml을(를) 로드할 수 없습니다."
 
 #. From MS: Unable to save file. Choose a different location and try again.
-#: 
 msgid "Unable to save file. Choose a different location and try again."
 msgstr "파일을 저장할 수 없습니다. 다른 위치를 선택하고 다시 시도하십시오."
 
 #. From MS: Unable to save %1
-#: 
 msgid "Unable to save settings.xml."
 msgstr "settings.xml을(를) 저장할 수 없습니다."
 
 #. From MS: Unassigned (from Dynamics AX7)
-#: 
 msgid "Unassigned"
 msgstr "배정되지 않음"
 
 #. From MS: unhandled exception (An exception that was identified with a "try catch or finally block" structure or that occurred outside this structure but was not caught by any structured error handler. "Dr. Watson" errors are examples.)
-#: 
 msgid "unhandled exception"
 msgstr "처리되지 않은 예외"
 
 #. From MS: Version (A designation appended to a product name to identify a particular release.)
-#: 
 msgid "Version "
 msgstr "버전 "
-

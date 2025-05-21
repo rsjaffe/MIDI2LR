@@ -1,4 +1,5 @@
 #!/bin/bash
+cd POE\ installer
 dos2unix *.po
 po2csv MIDI2LR_Chinese_simplified.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' -e 's/..$//' > custom-zh_CN.lng
 po2csv MIDI2LR_Chinese_TW.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' -e 's/..$//' > custom-zh_TW.lng
@@ -19,3 +20,4 @@ po2csv MIDI2LR_Swedish.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -
 po2csv MIDI2LR_Thai.po | sed -e '1d' -e 's/^"","//' -e 's/^"Installer","//' -e 's/","/=/' -e 's/..$//' > custom-th.lng
 cp custom-pt.lng custom-pt_BR.lng
 unix2dos -m *.lng
+cd ..

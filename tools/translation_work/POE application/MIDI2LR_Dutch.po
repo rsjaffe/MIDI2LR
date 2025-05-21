@@ -1,339 +1,274 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
-"Project-Id-Version: MIDI2LR\n"
-"Language: nl\n"
 
-#: 
 msgid "0"
 msgstr "0"
 
-#: 
 msgid "127"
 msgstr "127"
 
-#: 
 msgid "16383"
 msgstr "16383"
 
 #. From MS: A new version of Skype is available.
-#: 
 msgid "A new version of {} is available."
 msgstr "Er is een nieuwe versie van {} beschikbaar."
 
 #. Microsoft terminology collection: Pertaining to an entity such as the device, program, file, record or portion of the screen that is currently operational or subject to command operations.
-#: 
 msgid "active"
 msgstr "actief"
 
-#: 
 msgid "Adjust CC dialog"
 msgstr "Pas het CC-dialoogvenster aan"
 
-#: 
 msgid "Adjust PW dialog"
 msgstr "Pas het PW-dialoogvenster aan"
 
-#: 
 #, fuzzy
 msgid "Apply these settings to all similar controls."
 msgstr "Pas deze instellingen toe op alle vergelijkbare bedieningselementen."
 
 #. From MS: Apply to all
-#: 
 msgid "Apply to all"
 msgstr "Toepassen op alles"
 
 #. From Microsoft terminology collection "A feature that minimizes tool windows along the edges of the IDE when these windows are not in use."
-#: 
 msgid "Auto hide"
 msgstr "Automatisch verbergen"
 
-#: 
 #, fuzzy
 msgid "Autohide the plugin window in x seconds, select 0 for disabling autohide"
 msgstr "Verberg automatisch het plug-in venster in x seconden, selecteer 0 om automatisch verbergen uit te schakelen"
 
-#: 
 #, fuzzy
 msgid "Binary offset"
 msgstr "Binaire offset"
 
-#: 
 msgid "CC Message Type"
 msgstr "CC berichttype"
 
-#: 
 msgid "Channel 0 Number 0"
 msgstr "Kanaal 0 Nummer 0"
 
-#: 
 msgid "Choose Profile Folder"
 msgstr "Kies Profielmap"
 
 #. From MS: Clear all rows [not available for ko, zh-tw]
-#: 
 msgid "Clear ALL rows"
 msgstr "Alle rijen wissen"
 
 #. From MS: Connected to %s
-#: 
 msgid "Connected to Lightroom"
 msgstr "Verbonden met Lightroom"
 
-#: 
 #, fuzzy
 msgid "Control value increases when turned one way, decreases when turned the other."
 msgstr "De regelwaarde neemt toe als hij in de ene richting wordt gedraaid, neemt af wanneer de andere kant wordt omgedraaid."
 
-#: 
 #, fuzzy
 msgid "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other."
 msgstr "De regelwaarde is 1 of groter als hij in de ene richting wordt gedraaid, en 127 of kleiner wanneer de andere kant wordt opgedraaid."
 
-#: 
 #, fuzzy
 msgid "Control value is near 1 when turned one way, and near 65 when turned the other."
 msgstr "De besturingswaarde is in de buurt van 1 als hij in de ene richting wordt gedraaid en in de buurt van 65 wanneer hij de andere kant wordt gedraaid."
 
-#: 
 #, fuzzy
 msgid "Control value is near 63 when turned one way, and near 65 when turned the other."
 msgstr "De regelwaarde is in de buurt van 63 als hij in de ene richting wordt gedraaid, en in de buurt van de 65 als hij de andere kant wordt op opgedraaid."
 
 #. Deactivate MIDI controller from microsoft translations search terminology
 #. Deactivate {0}; Xbox 360 Controller
-#: 
 #, fuzzy
 msgid "Deactivate MIDI controller"
 msgstr "MIDI-controller deactiveren"
 
 #. Microsoft terminology collection A user-defined description of a particular device.
-#: 
 msgid "device name"
 msgstr "apparaatnaam"
 
-#: 
 #, fuzzy
 msgid "Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with Lightroom not picking up fast fader/knob movements"
 msgstr "Het uitschakelen van de pickup-modus is misschien beter voor touchscreeninterfaces en kan problemen oplossen met Lightroom wanneer deze traag op fader/knop bewegingen reageert"
 
-#: 
 msgid "Do not show again"
 msgstr "Niet meer tonen"
 
 #. Microsoft translation resources
-#: 
 msgid "Do you want to download the latest version?"
 msgstr "Wilt u de nieuwste versie downloaden?"
 
-#: 
 #, fuzzy
 msgid "Enable Pickup Mode"
 msgstr "Activeer de pickup-modus"
 
 #. From MS: Error (A value or condition that is not consistent with the true, specified, or expected value or condition.)
-#: 
 msgid "Error"
 msgstr "Fout"
 
 #. From MS: Exception (An abnormal condition or error that occurs during the execution of a program. An exception requires the execution of software outside the normal flow of control.)
-#: 
 msgid "Exception "
 msgstr "Uitzondering "
 
-#: 
 msgid "Halt sending to Lightroom"
 msgstr "Stop met verzenden naar Lightroom"
 
 #. Microsoft terminology search "input/output" The complementary tasks of gathering and distributing data. Input is data that is acquired from a device or entered by the user through a device. Output is data that is sent to a device.
-#: 
 msgid "input/output"
 msgstr "input/output"
 
 #. From MS: Invalid keyboard layout handle.
-#: 
 msgid "Invalid keyboard layout handle."
 msgstr "Ongeldige ingang van toetsenbordindeling."
 
 #. From MS: Load (To place information from storage into memory for processing, if it is data, or for execution, if it is program code.)
-#: 
 msgid "Load"
 msgstr "Laden"
 
 #. From MS: LR Command (from UIDL command)
-#: 
 msgid "LR Command"
 msgstr "LR-opdracht"
 
 #. From MS: maximum value (from Excel)
-#: 
 msgid "Maximum value"
 msgstr "Maximumwaarde"
 
 #. From MS: MIDI Command (from UIDL command)
-#: 
 msgid "MIDI Command"
 msgstr "MIDI-opdracht"
 
-#: 
 #, fuzzy
 msgid "MIDI2LR needs your authorization to send keystrokes to Lightroom"
 msgstr "MIDI2LR heeft jouw toestemming nodig om toetsaanslagen naar Lightroom te sturen"
 
 #. From MS: MIDI2LR Profiles (from CDN profiles)
-#: 
 msgid "MIDI2LR profiles"
 msgstr "MIDI2LR-profielen"
 
-#: 
 msgid "MIDISender: Unexpected data type: {:n}."
 msgstr "MIDISender: Fout door onverwacht gegevenstype: {:n}."
 
 #. From MS: minimum value (from Excel)
-#: 
 msgid "Minimum value"
 msgstr "Minimumwaarde"
 
 #. From MS: Not connected to %s [did not use it translation; not available for zh_tw]
-#: 
 msgid "Not connected to Lightroom"
 msgstr "Niet verbonden met Lightroom"
 
 #. From MS: Open profile
-#: 
 msgid "Open profile"
 msgstr "Open profiel"
 
-#: 
 msgid "Pick up"
 msgstr "Oppakken"
 
-#: 
 msgid "Pitch Wheel"
 msgstr "Pitch Wheel"
 
 #. From MS: Profile (A computer-based record that contains software settings and identification information.)
-#: 
 msgid "Profile"
 msgstr "Profiel"
 
 #. From MS: Profile Changed
 #. From MS:  Do you want to save your changes? If you continue without saving, your changes will be lost.
-#: 
 msgid "Profile changed. Do you want to save your changes? If you continue without saving, your changes will be lost."
 msgstr "Profiel gewijzigd. Wilt u de wijzigingen opslaan? De wijzigingen gaan verloren als u doorgaat zonder ze op te slaan."
 
-#: 
 #, fuzzy
 msgid "Remove unassigned rows"
 msgstr "Verwijder niet-toegewezen rijen"
 
-#: 
 #, fuzzy
 msgid "Rescan MIDI devices"
 msgstr "MIDI-apparaten opnieuw zoeken"
 
 #. From MS: Resolution (A measure of the fineness of detail in an image or text, usually as produced by a monitor or printer.)
-#: 
 msgid "Resolution"
 msgstr "Resolutie"
 
 #. From MS: Save
-#: 
 msgid "Save"
 msgstr "Opslaan"
 
 #. From MS: Save profile
-#: 
 msgid "Save profile"
 msgstr "Profiel opslaan"
 
 #. From MS: Select Folder
-#: 
 msgid "Select Folder"
 msgstr "Map selecteren"
 
-#: 
 msgid "Sending halted"
 msgstr "Verzenden gestopt"
 
 #. From MS: Settings (The feature in an app that allows users to change its properties or behavior.)
-#: 
 msgid "Settings"
 msgstr "instellingen"
 
-#: 
 #, fuzzy
 msgid "Sign and magnitude"
 msgstr "Teken en versterking"
 
 #. translations from localized microsoft products. often translated as "system code"
-#: 
 msgid "system id"
 msgstr "Systeem-ID"
 
 #. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
-#: 
 msgid "The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: {}."
 msgstr "Het bestand MenuTrans.xml is gemarkeerd als een versie die niet wordt ondersteund door de huidige versie van MIDI2LR. Het bestand wordt daarom niet geladen. Bestandsversie: {}."
 
 #. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
-#: 
 msgid "The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."
 msgstr "Het bestand settings.xml is gemarkeerd als een versie die niet wordt ondersteund door de huidige versie van MIDI2LR ChannelModel. Het bestand wordt daarom niet geladen. Bestandsversie: {}."
 
 #. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
-#: 
 msgid "The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."
 msgstr "Het bestand settings.xml is gemarkeerd als een versie die niet wordt ondersteund door de huidige versie van MIDI2LR SettingsStruct. Het bestand wordt daarom niet geladen. Bestandsversie: {}."
 
-#: 
-msgid "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\n"
+msgid ""
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\n"
 "1) Open System Preferences\n"
 "2) Open Accessibility preferences \n"
 "3) Select \"Accessibility Apps\"\n"
 "4) Add this application to the approval list"
-msgstr "Ga als volgt te werk om MIDI2LR te autoriseren om toetsaanslagen naar Lightroom te verzenden:\\r\\1) Open Systeemvoorkeuren\n"
+msgstr ""
+"Ga als volgt te werk om MIDI2LR te autoriseren om toetsaanslagen naar Lightroom te verzenden:\\r\\1) Open Systeemvoorkeuren\n"
 "2) Open het voorkeurenpaneel 'Toegankelijkheid' \n"
 "3) Selecteer 'Apps'\n"
 "4) Voeg deze app toe aan de lijst"
 
-#: 
 #, fuzzy
 msgid "Two's complement"
 msgstr "Twee's aanvulling"
 
 #. From MS: Unable to load %1
-#: 
 msgid "Unable to load MenuTrans.xml."
 msgstr "Kan MenuTrans.xml niet laden."
 
 #. From MS: Unable to save file. Choose a different location and try again.
-#: 
 msgid "Unable to save file. Choose a different location and try again."
 msgstr "Kan het bestand niet opslaan. Kies een andere locatie en probeer het opnieuw."
 
 #. From MS: Unable to save %1
-#: 
 msgid "Unable to save settings.xml."
 msgstr "Kan settings.xml niet opslaan."
 
 #. From MS: Unassigned (from Dynamics AX7)
-#: 
 msgid "Unassigned"
 msgstr "Niet toegewezen"
 
 #. From MS: unhandled exception (An exception that was identified with a "try catch or finally block" structure or that occurred outside this structure but was not caught by any structured error handler. "Dr. Watson" errors are examples.)
-#: 
 msgid "unhandled exception"
 msgstr "onverwerkte uitzondering"
 
 #. From MS: Version (A designation appended to a product name to identify a particular release.)
-#: 
 msgid "Version "
 msgstr "Versie "
-

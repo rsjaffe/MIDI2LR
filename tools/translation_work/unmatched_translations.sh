@@ -5,18 +5,18 @@ This script identifies translation strings in the lua files that are not
 matched by translation strings in Lightroom. Strings should not show up in the
 output. Those that do are evidence that Lightroom has removed the translation
 and a new translation is needed. Results will be in unmatched.txt."
-if [[ ! -f TranslatedStrings_Lr_de_DE.txt ]] ; then
+if [[ ! -f TranslatedString.txt ]] ; then
     echo -e '
 
 For this to run properly, you must copy
-TranslatedStrings_Lr_de_DE.txt from the 
+TranslatedStrings.txt from the 
 Adobe/Adobe Lightroom Classic/Resources/de 
 directory into this directory.
-\e[1;31mFile "TranslatedStrings_Lr_de_DE.txt" not found\e[0m, aborting.'
+\e[1;31mFile "TranslatedStrings.txt" not found\e[0m, aborting.'
     exit
 fi
 grep -Poh '\$\$\$/(?!MIDI2LR)[^=]*=' ../../src/plugin/*.lua | sort | uniq > matches.txt
-grep -oFf matches.txt TranslatedStrings_Lr_de_DE.txt | grep -vFf - matches.txt > unmatched.txt
+grep -oFf matches.txt TranslatedStrings.txt | grep -vFf - matches.txt > unmatched.txt
 echo "This part identifies MIDI2LR translation strings that are not matched in the
 translation strings provided by MIDI2LR. Unmatched strings are in
 unmatchedMIDI2LR.txt."

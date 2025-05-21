@@ -229,7 +229,7 @@ end
 -- @param tested true if LimitsCanBeSet already called
 -- @return nil.
 --------------------------------------------------------------------------------
-local fine_off = LOC('$$$/AgCameraRaw/LocalizedCorrections/LocalHue/FineAdjustment=Fine correction')..' '..LOC('$$$/TouchWorkspace/Adjustments/Off=Off')
+local fine_off = LOC('$$$/AgCameraRaw/LocalizedCorrections/LocalHue/FineAdjustment=Fine correction')..' '..LOC('$$$/AgDevelop/Enhance/Off=Off')
 local function Fine(value, tested)
   if tested or LimitsCanBeSet() then
     if Fineness == nil or Fineness ~= value then

@@ -1,11 +1,12 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"Language: zh-TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
-"Project-Id-Version: MIDI2LR\n"
-"Language: zh-TW\n"
 
 #. Using MS: Donate to support project development
 #: Installer
@@ -37,8 +38,6 @@ msgstr "線上說明"
 msgid "midi.instructions.exp"
 msgstr "打開顯示該手冊的網絡瀏覽器。 請在手冊中加上書籤，因為您可以在${project.fullName}中使用許多選項和設置。"
 
-#: 
 #, fuzzy
 msgid "midi.ports"
 msgstr "${project.fullName}需要端口58763和58764才能與Lightroom通信。 這些端口中至少有一個當前不可用。 如果您現在正在運行${project.fullName}，請忽略此消息。 否則，您將必須確定是什麼阻塞了這些端口，以使${project.fullName}正常運行。"
-

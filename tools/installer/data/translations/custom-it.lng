@@ -1,6 +1,6 @@
 ﻿midi.donate=Dona per supportare lo sviluppo del progetto
 midi.donate.exp=Apre un browser Web con un modulo PayPal in cui è possibile effettuare una donazione per supportare l'ulteriore sviluppo di ${project.fullName}.
-midi.install.mac=Richiede MacOS Monterey 12.0 o una versione successiva.
+midi.install.mac=Richiede MacOS Ventura 13.1 o una versione successiva.
 midi.install.win=È possibile installare ${project.fullName} solo in una versione a 64 bit di Microsoft Windows 10 o versioni successive.
 midi.instructions=Guida in linea
 midi.instructions.exp=Apre un browser Web che mostra il manuale. Aggiungi il manuale ai segnalibri poiché ci sono molte opzioni e impostazioni che puoi usare in ${project.fullName}.

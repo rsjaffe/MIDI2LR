@@ -1,11 +1,12 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
-"Project-Id-Version: MIDI2LR\n"
-"Language: it\n"
 
 #. Using MS: Donate to support project development
 #: Installer
@@ -37,8 +38,6 @@ msgstr "Guida in linea"
 msgid "midi.instructions.exp"
 msgstr "Apre un browser Web che mostra il manuale. Aggiungi il manuale ai segnalibri poiché ci sono molte opzioni e impostazioni che puoi usare in ${project.fullName}."
 
-#: 
 #, fuzzy
 msgid "midi.ports"
 msgstr "${project.fullName} richiede le porte 58763 e 58764 per comunicare con Lightroom. Almeno una di queste porte non è attualmente disponibile. Se stai eseguendo ${project.fullName} in questo momento, ignora questo messaggio. Altrimenti, dovrai identificare cosa sta bloccando quelle porte per consentire a ${project.fullName} di funzionare correttamente."
-

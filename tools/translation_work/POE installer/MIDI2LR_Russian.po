@@ -1,11 +1,12 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
-"Project-Id-Version: MIDI2LR\n"
-"Language: ru\n"
 
 #. Using MS: Donate to support project development
 #: Installer
@@ -37,8 +38,6 @@ msgstr "Справка в Интернете"
 msgid "midi.instructions.exp"
 msgstr "Открывает веб-браузер с руководством. Пожалуйста, добавьте в закладки руководство, так как есть много опций и настроек, которые вы можете использовать в ${project.fullName}."
 
-#: 
 #, fuzzy
 msgid "midi.ports"
 msgstr "${project.fullName} требует порты 58763 и 58764 для связи с Lightroom. По крайней мере один из этих портов в настоящее время недоступен. Если вы используете ${project.fullName} прямо сейчас, не обращайте внимания на это сообщение. В противном случае вам придётся определить, что блокирует эти порты, чтобы ${project.fullName} функционировал должным образом."
-

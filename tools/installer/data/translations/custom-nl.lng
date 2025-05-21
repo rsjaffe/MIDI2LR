@@ -1,6 +1,6 @@
 ﻿midi.donate=Doneren om projectontwikkeling te steunen
 midi.donate.exp=Opent een webbrowser met een PayPal-formulier waarin u een donatie kunt doen ter ondersteuning van verdere ${project.fullName}-ontwikkeling.
-midi.install.mac=MacOS Monterey 12.0 of later is vereist.
+midi.install.mac=MacOS Ventura 13.1 of later is vereist.
 midi.install.win=${project.fullName} kan alleen worden geïnstalleerd op een 64-bits versie van Microsoft Windows 10 of hoger.
 midi.instructions=Online-Help
 midi.instructions.exp=Opent een webbrowser met de handleiding. Maak een bladwijzer van de handleiding, want er zijn veel opties en instellingen die u in ${project.fullName} kunt gebruiken.

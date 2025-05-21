@@ -1,349 +1,284 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"Language: th\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
-"Project-Id-Version: MIDI2LR\n"
-"Language: th\n"
 
-#: 
 msgid "0"
 msgstr "0"
 
-#: 
 msgid "127"
 msgstr "127"
 
-#: 
 msgid "16383"
 msgstr "16383"
 
 #. From MS: A new version of Skype is available.
-#: 
 msgid "A new version of {} is available."
 msgstr "เวอร์ชันใหม่ของ {} พร้อมใช้งาน"
 
 #. Microsoft terminology collection: Pertaining to an entity such as the device, program, file, record or portion of the screen that is currently operational or subject to command operations.
-#: 
 msgid "active"
 msgstr "ใช้งานอยู่"
 
-#: 
 #, fuzzy
 msgid "Adjust CC dialog"
 msgstr "ปรับไดอะล็อก CC"
 
-#: 
 #, fuzzy
 msgid "Adjust PW dialog"
 msgstr "ปรับไดอะล็อก PW"
 
-#: 
 #, fuzzy
 msgid "Apply these settings to all similar controls."
 msgstr "ใช้การตั้งค่าเหล่านี้กับตัวควบคุมที่คล้ายกันทั้งหมด"
 
 #. From MS: Apply to all
-#: 
 msgid "Apply to all"
 msgstr "ใช้กับทั้งหมด"
 
 #. From Microsoft terminology collection "A feature that minimizes tool windows along the edges of the IDE when these windows are not in use."
-#: 
 msgid "Auto hide"
 msgstr "ซ่อนอัตโนมัติ"
 
-#: 
 #, fuzzy
 msgid "Autohide the plugin window in x seconds, select 0 for disabling autohide"
 msgstr "ซ่อนหน้าต่างปลั๊กอินอัตโนมัติใน x วินาทีเลือก 0 เพื่อปิดใช้งานการซ่อนอัตโนมัติ"
 
-#: 
 #, fuzzy
 msgid "Binary offset"
 msgstr "ไบนารี่ออฟเซต"
 
-#: 
 #, fuzzy
 msgid "CC Message Type"
 msgstr "ประเภทข้อความ CC"
 
-#: 
 #, fuzzy
 msgid "Channel 0 Number 0"
 msgstr "ช่อง 0 หมายเลข 0"
 
-#: 
 #, fuzzy
 msgid "Choose Profile Folder"
 msgstr "เลือกโฟลเดอร์โปรไฟล์"
 
 #. From MS: Clear all rows [not available for ko, zh-tw]
-#: 
 msgid "Clear ALL rows"
 msgstr "ล้างข้อมูลแถวทั้งหมด"
 
 #. From MS: Connected to %s
-#: 
 msgid "Connected to Lightroom"
 msgstr "เชื่อมต่อไปยัง Lightroom"
 
-#: 
 #, fuzzy
 msgid "Control value increases when turned one way, decreases when turned the other."
 msgstr "ค่าควบคุมเพิ่มขึ้นเมื่อหมุนในทิศทางเดียวลดลงเมื่อหมุนในอีกด้านหนึ่ง"
 
-#: 
 #, fuzzy
 msgid "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other."
 msgstr "ค่าควบคุมคือ 1 หรือมากกว่าเมื่อหมุนทางเดียวและ 127 หรือเล็กกว่าเมื่อหมุนไปทางอื่น"
 
-#: 
 #, fuzzy
 msgid "Control value is near 1 when turned one way, and near 65 when turned the other."
 msgstr "ค่าควบคุมอยู่ใกล้ 1 เมื่อหมุนทางเดียวและใกล้ 65 เมื่อหมุนอีกทางหนึ่ง"
 
-#: 
 #, fuzzy
 msgid "Control value is near 63 when turned one way, and near 65 when turned the other."
 msgstr "ค่าการควบคุมอยู่ใกล้ 63 เมื่อหมุนทางเดียวและใกล้ 65 เมื่อหมุนอีกทางหนึ่ง"
 
 #. Deactivate MIDI controller from microsoft translations search terminology
 #. Deactivate {0}; Xbox 360 Controller
-#: 
 #, fuzzy
 msgid "Deactivate MIDI controller"
 msgstr "ปิดใช้งาน MIDI ตัวควบคุม"
 
 #. Microsoft terminology collection A user-defined description of a particular device.
-#: 
 msgid "device name"
 msgstr "ชื่ออุปกรณ์"
 
-#: 
 #, fuzzy
 msgid "Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with Lightroom not picking up fast fader/knob movements"
 msgstr "การปิดใช้งานโหมดปิคอัพอาจจะดีกว่าสำหรับอินเทอร์เฟซหน้าจอสัมผัสและอาจแก้ไขปัญหาเกี่ยวกับ Lightroom ที่ไม่ดึงการเคลื่อนไหวของเฟดเดอร์ / ลูกบิดอย่างรวดเร็ว"
 
-#: 
 msgid "Do not show again"
 msgstr "ไม่ต้องแสดงอีก"
 
 #. Microsoft translation resources
-#: 
 msgid "Do you want to download the latest version?"
 msgstr "คุณต้องการดาวน์โหลดเวอร์ชันล่าสุดใช่หรือไม่"
 
-#: 
 #, fuzzy
 msgid "Enable Pickup Mode"
 msgstr "เปิดใช้งานโหมดรถกระบะ"
 
 #. From MS: Error (A value or condition that is not consistent with the true, specified, or expected value or condition.)
-#: 
 msgid "Error"
 msgstr "ข้อผิดพลาด"
 
 #. From MS: Exception (An abnormal condition or error that occurs during the execution of a program. An exception requires the execution of software outside the normal flow of control.)
-#: 
 msgid "Exception "
 msgstr "ข้อยกเว้น "
 
-#: 
 #, fuzzy
 msgid "Halt sending to Lightroom"
 msgstr "หยุดส่งไปที่ Lightroom"
 
 #. Microsoft terminology search "input/output" The complementary tasks of gathering and distributing data. Input is data that is acquired from a device or entered by the user through a device. Output is data that is sent to a device.
-#: 
 msgid "input/output"
 msgstr "รับเข้า/ส่งออก"
 
 #. From MS: Invalid keyboard layout handle.
-#: 
 msgid "Invalid keyboard layout handle."
 msgstr "หมายเลขอ้างอิงรูปแบบแป้นพิมพ์ไม่ถูกต้อง"
 
 #. From MS: Load (To place information from storage into memory for processing, if it is data, or for execution, if it is program code.)
-#: 
 msgid "Load"
 msgstr "โหลด"
 
 #. From MS: LR Command (from UIDL command)
-#: 
 msgid "LR Command"
 msgstr "คำสั่ง LR"
 
 #. From MS: maximum value (from Excel)
-#: 
 msgid "Maximum value"
 msgstr "ค่ามากที่สุด"
 
 #. From MS: MIDI Command (from UIDL command)
-#: 
 msgid "MIDI Command"
 msgstr "คำสั่ง MIDI"
 
-#: 
 #, fuzzy
 msgid "MIDI2LR needs your authorization to send keystrokes to Lightroom"
 msgstr "MIDI2LR ต้องการการอนุญาตจากคุณในการส่งการกดแป้นไปที่ Lightroom"
 
 #. From MS: MIDI2LR Profiles (from CDN profiles)
-#: 
 msgid "MIDI2LR profiles"
 msgstr "โพรไฟล์ MIDI2LR"
 
-#: 
 msgid "MIDISender: Unexpected data type: {:n}."
 msgstr "MIDISender: ประเภทข้อมูลที่ไม่คาดคิด: {:n}."
 
 #. From MS: minimum value (from Excel)
-#: 
 msgid "Minimum value"
 msgstr "ค่าน้อยที่สุด"
 
 #. From MS: Not connected to %s [did not use it translation; not available for zh_tw]
-#: 
 msgid "Not connected to Lightroom"
 msgstr "ไม่ได้เชื่อมต่อกับ Lightroom"
 
 #. From MS: Open profile
-#: 
 msgid "Open profile"
 msgstr "เปิดโปรไฟล์"
 
-#: 
 #, fuzzy
 msgid "Pick up"
 msgstr "วิ่งกวด"
 
-#: 
 #, fuzzy
 msgid "Pitch Wheel"
 msgstr "วงล้อดนตรี"
 
 #. From MS: Profile (A computer-based record that contains software settings and identification information.)
-#: 
 msgid "Profile"
 msgstr "โพรไฟล์"
 
 #. From MS: Profile Changed
 #. From MS:  Do you want to save your changes? If you continue without saving, your changes will be lost.
-#: 
 msgid "Profile changed. Do you want to save your changes? If you continue without saving, your changes will be lost."
 msgstr "มีการเปลี่ยนแปลงโพรไฟล์ คุณต้องการบันทึกการเปลี่ยนแปลงของคุณหรือไม่ ถ้าคุณทำต่อไปโดยไม่บันทึก การเปลี่ยนแปลงของคุณจะสูญหาย"
 
-#: 
 #, fuzzy
 msgid "Remove unassigned rows"
 msgstr "ลบแถวที่ไม่ได้กำหนด"
 
-#: 
 #, fuzzy
 msgid "Rescan MIDI devices"
 msgstr "สแกนอุปกรณ์ MIDI อีกครั้ง"
 
 #. From MS: Resolution (A measure of the fineness of detail in an image or text, usually as produced by a monitor or printer.)
-#: 
 msgid "Resolution"
 msgstr "ความละเอียด"
 
 #. From MS: Save
-#: 
 msgid "Save"
 msgstr "บันทึก"
 
 #. From MS: Save profile
-#: 
 msgid "Save profile"
 msgstr "บันทึกโพรไฟล์"
 
 #. From MS: Select Folder
-#: 
 msgid "Select Folder"
 msgstr "เลือกโฟลเดอร์"
 
-#: 
 #, fuzzy
 msgid "Sending halted"
 msgstr "กำลังส่งหยุด"
 
 #. From MS: Settings (The feature in an app that allows users to change its properties or behavior.)
-#: 
 msgid "Settings"
 msgstr "การตั้งค่า"
 
-#: 
 #, fuzzy
 msgid "Sign and magnitude"
 msgstr "เข้าสู่ระบบและขนาด"
 
 #. translations from localized microsoft products. often translated as "system code"
-#: 
 msgid "system id"
 msgstr "รหัสระบบ"
 
 #. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
-#: 
 msgid "The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: {}."
 msgstr "ไฟล์ 'MenuTrans.xml' ถูกทำเครื่องหมายว่าเป็นรุ่นที่ไม่รองรับโดย MIDI2LR เวอร์ชันปัจจุบันและจะไม่โหลด เวอร์ชันไฟล์: {}"
 
 #. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
-#: 
 msgid "The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."
 msgstr "ไฟล์ 'settings.xml' ถูกทำเครื่องหมายเป็นรุ่นที่ไม่รองรับโดย MIDI2LR ChannelModel เวอร์ชันปัจจุบันและจะไม่โหลด เวอร์ชันไฟล์: {}"
 
 #. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
-#: 
 msgid "The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."
 msgstr "ไฟล์ 'settings.xml' ถูกทำเครื่องหมายเป็นรุ่นที่ไม่รองรับโดย MIDI2LR SettingsStruct เวอร์ชันปัจจุบันและจะไม่โหลด เวอร์ชันไฟล์: {}"
 
-#: 
-msgid "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\n"
+msgid ""
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\n"
 "1) Open System Preferences\n"
 "2) Open Accessibility preferences \n"
 "3) Select \"Accessibility Apps\"\n"
 "4) Add this application to the approval list"
-msgstr "ในการอนุญาต MIDI2LR เพื่อส่งการกดแป้นไปที่ Lightroom โปรดทำตามขั้นตอนเหล่านี้:\n"
+msgstr ""
+"ในการอนุญาต MIDI2LR เพื่อส่งการกดแป้นไปที่ Lightroom โปรดทำตามขั้นตอนเหล่านี้:\n"
 "1) เปิดการตั้งค่าระบบ\n"
 "2) เปิดการตั้งค่าการช่วยการเข้าถึง \n"
 "3) เลือก “แอพการช่วยการเข้าถึง”\n"
 "4) เพิ่มแอพพลิเคชั่นนี้ไปที่รายการที่ให้อนุญาต"
 
-#: 
 #, fuzzy
 msgid "Two's complement"
 msgstr "ส่วนประกอบสองอย่าง"
 
 #. From MS: Unable to load %1
-#: 
 msgid "Unable to load MenuTrans.xml."
 msgstr "ไม่สามารถโหลด MenuTrans.xml"
 
 #. From MS: Unable to save file. Choose a different location and try again.
-#: 
 msgid "Unable to save file. Choose a different location and try again."
 msgstr "ไม่สามารถบันทึกไฟล์ได้ เลือกตำแหน่งที่ตั้งอื่นแล้วลองอีกครั้ง"
 
 #. From MS: Unable to save %1
-#: 
 msgid "Unable to save settings.xml."
 msgstr "ไม่สามารถบันทึก settings.xml"
 
 #. From MS: Unassigned (from Dynamics AX7)
-#: 
 msgid "Unassigned"
 msgstr "ยังไม่ได้มอบหมาย"
 
 #. From MS: unhandled exception (An exception that was identified with a "try catch or finally block" structure or that occurred outside this structure but was not caught by any structured error handler. "Dr. Watson" errors are examples.)
-#: 
 msgid "unhandled exception"
 msgstr "ข้อผิดพลาดที่ไม่สามารถดำเนินการได้"
 
 #. From MS: Version (A designation appended to a product name to identify a particular release.)
-#: 
 msgid "Version "
 msgstr "เวอร์ชัน "
-

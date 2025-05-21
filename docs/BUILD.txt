@@ -51,3 +51,8 @@ MIDI2LR.lrplugin. Then add to MIDI2LR.lrplugin all the files in the project's
 src/plugin/ directory, all the files in the data/application/fonts/ directory, and all the *.txt files in the data/plugin/ directory.
 
 That plugin can then be installed in Lightroom as usual.
+
+Translations
+-------------
+.po files are in the subdirectories of MIDI2LR/tools/translation_work. To update the translations in the data directories, run the scripts apptrans.sh convert.sh and installer.sh. unmatched_translations. will check that all the translations that rely on Lightroom resources have been properly matched. The .sh files are set up to run on a Linux system.
+
