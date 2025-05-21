@@ -1,217 +1,173 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
-"Project-Id-Version: MIDI2LR\n"
-"Language: zh-TW\n"
+"X-Generator: Poedit 3.6\n"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/About/about"
 msgstr "使用方法：連接MIDI控制器，打開MIDI2LR，就可以啦！詳情請參考 https://github.com/rsjaffe/MIDI2LR/wiki"
 
-#: 
 msgid "$$$/MIDI2LR/Bezel/Pickup"
 msgstr "控制器不同步。 將 ^1 調整為 Lightroom 值：^2。"
 
-#: 
-#, fuzzy
-msgid "$$$/MIDI2LR/Database/Customcameraprofile"
-msgstr "自定義相機配置文件"
-
-#. Microsoft localized products Show {0}
-#: 
-msgid "$$$/MIDI2LR/Database/Show1"
-msgstr "顯示 ^1"
-
 #. Do not translate key names, as those must be in English. Use the following string for translation, then substitute back the key names:
-#. 
+#.
 #. Value must be single character or spell out an F key (F1-F16) or: 1, 2, 3 (means 4 in OS X), 5, 6, 7, 8, 4 (means 9 in OS X), 10, 11, 12, 13, 14, 15, 16, 17, or 18 (through 19), 20 (or 21, 22, 23, 24).
-#. 
+#.
 #. where the numbers mean:
-#. 
+#.
 #. 1: apostrophe; 2: backslash; 3: backspace; 4: delete; 5: cursor down; 6: cursor left; 7: cursor right; 8: cursor up; 9: delete right; 10: end; 11: escape; 12: home; 13: page down; 14: page up; 15: return; 16: space; 17: tab; 18: numpad 0; 19: numpad 9; 20 numpad add; 21: decimal; 22: divide; 23: multiply; 24: subtract
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Dialog/InvalidKey"
 msgstr "值必須是單個字符或拼寫出F鍵（F1-F16）或：apostrophe，backslash，backspace（在MacOS中代表向左刪除），cursor down，cursor left，cursor right，cursor up，delete（在MacOS中代表向右刪除），end，escape ，home，page down，page up，return，space，tab或numpad 0（通過numpad 9），numpad add（或decimal，divide，multiply，subtract）。"
 
-#. From Microsoft terminology portal "A newer version of Windows Azure Backup Agent is required\r\n"
-#: 
-msgid "$$$/MIDI2LR/Dialog/NeedNewerLR"
-msgstr "需要有較新版本的 Lightroom"
-
-#: 
 msgid "$$$/MIDI2LR/Help/Donate"
 msgstr "捐款支持專案開發(&D)"
 
-#: 
 msgid "$$$/MIDI2LR/Help/Latest"
 msgstr "檢視最新版本(&V)"
 
-#: 
 msgid "$$$/MIDI2LR/Help/OnlineHelp"
 msgstr "線上說明(&O)"
 
-#: 
 msgid "$$$/MIDI2LR/Help/Support"
 msgstr "支援(&S)"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Info/BuildFiles"
 msgstr "生成文件（僅供開發模式使用）"
 
 #. from microsoft https://www.microsoft.com/en-us/language/Search?&searchTerm=delete%20settings&langID=750&Source=true&productid=0
-#: 
 msgid "$$$/MIDI2LR/Info/DeleteSettings"
 msgstr "刪除設定"
 
-#: 
 msgid "$$$/MIDI2LR/Keys/Shortcut"
 msgstr "捷徑"
 
-#: 
 msgid "$$$/MIDI2LR/Keyword/Toggle"
 msgstr "切換關鍵字"
 
 #. Directly from Lightroom translation resources. ^1 is replaced by keyword number (e.g., Toggle Keyword ^1 may become Toggle Keyword 16).
-#: 
 msgid "$$$/MIDI2LR/Keyword/Toggle1"
 msgstr "切換關鍵字 ^1"
 
-#: 
 msgid "$$$/MIDI2LR/Limits/Limits"
 msgstr "範圍"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Limits/Limits/NotDevelop"
 msgstr "僅在“開發”模組中有效"
 
-#: 
 msgid "$$$/MIDI2LR/LocalPresets/Presets"
 msgstr "本地調整預設"
 
-#: 
 msgid "$$$/MIDI2LR/Menu/CloseApplication"
 msgstr "關閉應用程式(&C)"
 
-#: 
-#, fuzzy
-msgid "$$$/MIDI2LR/Menu/DeleteMaskGroup"
-msgstr "刪除掩碼組"
-
-#. Using "delete tool" from https://www.microsoft.com/en-us/language/Search?&searchTerm=delete%20tool&langID=780&Source=true&productid=0
-#: 
-#, fuzzy
-msgid "$$$/MIDI2LR/Menu/DeleteMaskTool"
-msgstr "刪除工具"
-
-#: 
 msgid "$$$/MIDI2LR/Menu/ExportConfiguration"
 msgstr "匯出組態(&E)"
 
-#: 
 msgid "$$$/MIDI2LR/Menu/GeneralOptions"
 msgstr "一般選項(&O)"
 
-#: 
 msgid "$$$/MIDI2LR/Menu/ImportConfiguration"
 msgstr "匯入設定(&I)"
 
-#: 
 #, fuzzy
 msgctxt "Go to next mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
 msgid "$$$/MIDI2LR/Menu/NextMaskGroup"
 msgstr "下一個面具組"
 
-#: 
 #, fuzzy
 msgctxt "Go to next mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
 msgid "$$$/MIDI2LR/Menu/NextMaskTool"
 msgstr "下一個遮罩工具"
 
-#: 
 msgid "$$$/MIDI2LR/Menu/PresetNext"
 msgstr "下一個預設設定"
 
 #. From microsoft terminology search
-#: 
 msgid "$$$/MIDI2LR/Menu/PresetPrevious"
 msgstr "上一個預設設定"
 
-#: 
 msgid "$$$/MIDI2LR/Menu/PressAndHold"
 msgstr "按住"
 
-#: 
 #, fuzzy
 msgctxt "Go to previous mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
 msgid "$$$/MIDI2LR/Menu/PreviousMaskGroup"
 msgstr "上一個面具組"
 
-#: 
 #, fuzzy
 msgctxt "Go to previous mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
 msgid "$$$/MIDI2LR/Menu/PreviousMaskTool"
 msgstr "上一個遮罩工具"
 
-#: 
 msgid "$$$/MIDI2LR/Menu/StartApplication"
 msgstr "啟動應用程式(&S)"
 
 #. from https://www.microsoft.com/en-us/language/Search?&searchTerm=tool&langID=124&Source=true&productid=0
-#: 
 msgctxt "A utility or feature that aids in accomplishing a task or set of tasks."
 msgid "$$$/MIDI2LR/Menu/Tool"
 msgstr "工具"
 
-#: 
 msgid "$$$/MIDI2LR/Options/ActionSeriesInvalid"
 msgstr "無效的命令"
 
-#: 
 msgid "$$$/MIDI2LR/Options/dlgtitle"
 msgstr "對話框標題"
 
-#: 
 msgid "$$$/MIDI2LR/Options/RevealAdjustedControls"
 msgstr "顯示調整的控制"
 
-#: 
 msgid "$$$/MIDI2LR/Options/TrackingDelay"
 msgstr "跟踪延遲"
 
-#: 
 msgid "$$$/MIDI2LR/Preferences/cantload"
 msgstr "無法加載指定設置"
 
-#: 
 msgid "$$$/MIDI2LR/Profiles/Next"
 msgstr "下一個設定"
 
-#: 
 msgid "$$$/MIDI2LR/Profiles/NotifyWhenChanged"
 msgstr "當設置改變的時候告知"
 
-#: 
 msgid "$$$/MIDI2LR/Profiles/Previous"
 msgstr "上一個設定"
 
-#: 
 msgid "$$$/MIDI2LR/Shortcuts/Key"
 msgstr "金鑰"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Shortcuts/SeriesofCommands"
 msgstr "命令順序"
 
 #. From lightroom translations
-#: 
 msgid "$$$/MIDI2LR/ShortCuts/ShowHide1"
 msgstr "隱藏/顯示^1"
 
+#, fuzzy
+#~ msgid "$$$/MIDI2LR/Database/Customcameraprofile"
+#~ msgstr "自定義相機配置文件"
+
+#~ msgid "$$$/MIDI2LR/Dialog/NeedNewerLR"
+#~ msgstr "需要有較新版本的 Lightroom"
+
+#, fuzzy
+#~ msgid "$$$/MIDI2LR/Menu/DeleteMaskGroup"
+#~ msgstr "刪除掩碼組"
+
+#, fuzzy
+#~ msgid "$$$/MIDI2LR/Menu/DeleteMaskTool"
+#~ msgstr "刪除工具"
+
+#~ msgid "$$$/MIDI2LR/Database/Show1"
+#~ msgstr "顯示 ^1"

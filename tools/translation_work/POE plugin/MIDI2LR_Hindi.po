@@ -1,231 +1,187 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
-"Project-Id-Version: MIDI2LR\n"
-"Language: hi\n"
+"X-Generator: Poedit 3.6\n"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/About/about"
 msgstr "कैसे उपयोग करें: एक MIDI नियंत्रक कनेक्ट करें, MIDI2LR लॉन्च करें, और संपादन शुरू करें! विवरण के लिए https://github.com/rsjaffe/MIDI2LR/wiki देखें।"
 
-#: 
 msgid "$$$/MIDI2LR/Bezel/Pickup"
 msgstr "नियंत्रक सिंक्रनाइज़ नहीं है. ^1 को लाइटरूम मान में समायोजित करें: ^2."
 
-#: 
-#, fuzzy
-msgid "$$$/MIDI2LR/Database/Customcameraprofile"
-msgstr "कस्टम कैमरा प्रोफ़ाइल"
-
-#. Microsoft localized products Show {0}
-#: 
-msgid "$$$/MIDI2LR/Database/Show1"
-msgstr "^1 दिखाएँ"
-
 #. Do not translate key names, as those must be in English. Use the following string for translation, then substitute back the key names:
-#. 
+#.
 #. Value must be single character or spell out an F key (F1-F16) or: 1, 2, 3 (means 4 in OS X), 5, 6, 7, 8, 4 (means 9 in OS X), 10, 11, 12, 13, 14, 15, 16, 17, or 18 (through 19), 20 (or 21, 22, 23, 24).
-#. 
+#.
 #. where the numbers mean:
-#. 
+#.
 #. 1: apostrophe; 2: backslash; 3: backspace; 4: delete; 5: cursor down; 6: cursor left; 7: cursor right; 8: cursor up; 9: delete right; 10: end; 11: escape; 12: home; 13: page down; 14: page up; 15: return; 16: space; 17: tab; 18: numpad 0; 19: numpad 9; 20 numpad add; 21: decimal; 22: divide; 23: multiply; 24: subtract
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Dialog/InvalidKey"
 msgstr "मान एकल वर्ण का होना चाहिए या F कुंजी (F1-F16) की वर्तनी होनी चाहिए या: apostrophe, backslash, backspace (MacOS में बाईं ओर हटाएं का प्रतिनिधित्व करता है), cursor down, cursor left, cursor right, cursor up, delete (MacOS में डिलीट राइट का प्रतिनिधित्व करता है), end, escape, home, page down, page up, return, space, tab, या numpad 0 (numpad 9 के माध्यम से), numpad add (या decimal, divide, multiply, subtract)."
 
-#. From Microsoft terminology portal "A newer version of Windows Azure Backup Agent is required\r\n"
-#: 
-msgid "$$$/MIDI2LR/Dialog/NeedNewerLR"
-msgstr "MIDI2LR के इस संस्करण के लिए Lightroom के किसी नए संस्करण की आवश्यकता है."
-
-#: 
 msgid "$$$/MIDI2LR/Help/Donate"
 msgstr "प्रोजेक्‍ट विकास के समर्थन के लिए दान करें"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Help/Latest"
 msgstr "नवीनतम रिलीज़ देखें"
 
-#: 
 msgid "$$$/MIDI2LR/Help/OnlineHelp"
 msgstr "ऑनलाइन मदद"
 
-#: 
 msgid "$$$/MIDI2LR/Help/Support"
 msgstr "समर्थन"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Info/BuildFiles"
 msgstr "फ़ाइलें बनाएँ (केवल विकास का उपयोग करें)"
 
 #. from microsoft https://www.microsoft.com/en-us/language/Search?&searchTerm=delete%20settings&langID=750&Source=true&productid=0
-#: 
 msgid "$$$/MIDI2LR/Info/DeleteSettings"
 msgstr "सेटिंग्स हटाएँ"
 
-#: 
 msgid "$$$/MIDI2LR/Keys/Shortcut"
 msgstr "कुंजीपटल शॉर्टकट"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Keyword/Toggle"
 msgstr "कीवर्ड टॉगल करें"
 
 #. Directly from Lightroom translation resources. ^1 is replaced by keyword number (e.g., Toggle Keyword ^1 may become Toggle Keyword 16).
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Keyword/Toggle1"
 msgstr "कीवर्ड ^1 टॉगल करें"
 
-#: 
 msgid "$$$/MIDI2LR/Limits/Limits"
 msgstr "सीमाएँ"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Limits/Limits/NotDevelop"
 msgstr "केवल \"विकास\" मॉड्यूल में सक्रिय"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/LocalPresets/Presets"
 msgstr "स्थानीय समायोजन प्रीसेट"
 
-#: 
 msgid "$$$/MIDI2LR/Menu/CloseApplication"
 msgstr "एप्लिकेशन बंद करो"
 
-#: 
-#, fuzzy
-msgid "$$$/MIDI2LR/Menu/DeleteMaskGroup"
-msgstr "मास्किंग समूह हटाएं"
-
-#. Using "delete tool" from https://www.microsoft.com/en-us/language/Search?&searchTerm=delete%20tool&langID=780&Source=true&productid=0
-#: 
-msgid "$$$/MIDI2LR/Menu/DeleteMaskTool"
-msgstr "उपकरण हटाएँ"
-
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Menu/ExportConfiguration"
 msgstr "निर्यात विन्यास"
 
-#: 
 msgid "$$$/MIDI2LR/Menu/GeneralOptions"
 msgstr "सामान्य विकल्प"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Menu/ImportConfiguration"
 msgstr "आयात विन्यास"
 
-#: 
 #, fuzzy
 msgctxt "Go to next mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
 msgid "$$$/MIDI2LR/Menu/NextMaskGroup"
 msgstr "अगला मास्किंग समूह"
 
-#: 
 #, fuzzy
 msgctxt "Go to next mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
 msgid "$$$/MIDI2LR/Menu/NextMaskTool"
 msgstr "अगला मास्किंग टूल"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Menu/PresetNext"
 msgstr "अगला प्रीसेट"
 
 #. From microsoft terminology search
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Menu/PresetPrevious"
 msgstr "पिछला प्रीसेट"
 
-#: 
 msgid "$$$/MIDI2LR/Menu/PressAndHold"
 msgstr "दबाकर रखें"
 
-#: 
 #, fuzzy
 msgctxt "Go to previous mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
 msgid "$$$/MIDI2LR/Menu/PreviousMaskGroup"
 msgstr "पिछला मास्किंग समूह"
 
-#: 
 #, fuzzy
 msgctxt "Go to previous mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
 msgid "$$$/MIDI2LR/Menu/PreviousMaskTool"
 msgstr "पिछला मास्किंग टूल"
 
-#: 
 msgid "$$$/MIDI2LR/Menu/StartApplication"
 msgstr "अनुप्रयोग प्रारंभ करें"
 
 #. from https://www.microsoft.com/en-us/language/Search?&searchTerm=tool&langID=124&Source=true&productid=0
-#: 
 msgctxt "A utility or feature that aids in accomplishing a task or set of tasks."
 msgid "$$$/MIDI2LR/Menu/Tool"
 msgstr "उपकरण"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Options/ActionSeriesInvalid"
 msgstr "अवैध आदेश"
 
-#: 
 msgid "$$$/MIDI2LR/Options/dlgtitle"
 msgstr "विकल्प मेनू"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Options/RevealAdjustedControls"
 msgstr "समायोजित नियंत्रण प्रकट करें"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Options/TrackingDelay"
 msgstr "ट्रैकिंग विलंब"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Preferences/cantload"
 msgstr "प्राथमिकताएं लोड करने में असमर्थ. डिफ़ॉल्ट सेटिंग्स का उपयोग करना।"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Profiles/Next"
 msgstr "अगली प्रोफ़ाइल"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Profiles/NotifyWhenChanged"
 msgstr "प्रोफ़ाइल बदलने पर सूचित करें"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Profiles/Previous"
 msgstr "पिछला प्रोफ़ाइल"
 
-#: 
 msgid "$$$/MIDI2LR/Shortcuts/Key"
 msgstr "कुंजी"
 
-#: 
 #, fuzzy
 msgid "$$$/MIDI2LR/Shortcuts/SeriesofCommands"
 msgstr "कमांड अनुक्रम"
 
 #. From lightroom translations
-#: 
 msgid "$$$/MIDI2LR/ShortCuts/ShowHide1"
 msgstr "^1 दिखाएँ/छिपाएँ"
 
+#, fuzzy
+#~ msgid "$$$/MIDI2LR/Database/Customcameraprofile"
+#~ msgstr "कस्टम कैमरा प्रोफ़ाइल"
+
+#~ msgid "$$$/MIDI2LR/Dialog/NeedNewerLR"
+#~ msgstr "MIDI2LR के इस संस्करण के लिए Lightroom के किसी नए संस्करण की आवश्यकता है."
+
+#, fuzzy
+#~ msgid "$$$/MIDI2LR/Menu/DeleteMaskGroup"
+#~ msgstr "मास्किंग समूह हटाएं"
+
+#~ msgid "$$$/MIDI2LR/Menu/DeleteMaskTool"
+#~ msgstr "उपकरण हटाएँ"
+
+#~ msgid "$$$/MIDI2LR/Database/Show1"
+#~ msgstr "^1 दिखाएँ"

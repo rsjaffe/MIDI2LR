@@ -371,3 +371,4 @@ tools/selene/selene.txt
 *.suppress
 
 build/Windows/StructLayoutSettings.json
+*.mo
