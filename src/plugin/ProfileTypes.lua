@@ -28,6 +28,7 @@ local ProfileTypes = {
   develop = {TMP = 'Module', friendlyName = LOC("$$$/SmartCollection/Criteria/Heading/Develop=Develop"),},
   dust = {TMP = 'Tool', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal"),},
   effectsPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/Effects=Effects"),},
+  lensBlurPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/LensBlur=Lens Blur"),},
   lensCorrectionsPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/LensCorrections=Lens Corrections"),},
   library = {TMP = 'Module', friendlyName = LOC("$$$/AgLibraryModule/ModuleTitle=Library"),},
   loupe = {TMP = 'Tool', friendlyName = LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),},

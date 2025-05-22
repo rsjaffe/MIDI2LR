@@ -54,5 +54,7 @@ That plugin can then be installed in Lightroom as usual.
 
 Translations
 -------------
-.po files are in the subdirectories of MIDI2LR/tools/translation_work. To update the translations in the data directories, run the scripts apptrans.sh convert.sh and installer.sh. unmatched_translations. will check that all the translations that rely on Lightroom resources have been properly matched. The .sh files are set up to run on a Linux system.
+.po files are in the subdirectories of MIDI2LR/tools/translation_work. To update the translations in the data directories, run the scripts apptrans.sh convert.sh and installer.sh. The move the updated files to the correct directories.
+
+unmatched_translations. will check that all the translations that rely on Lightroom resources have been properly matched. The .sh files are set up to run on a Linux system.
 

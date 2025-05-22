@@ -61,6 +61,7 @@ local needsModule = {
   [LrDevelopController.revealPanel]                    = {module = 'develop', photoSelected = false },
   [LrDevelopController.selectTool]                     = {module = 'develop', photoSelected = false },
   [LrDevelopController.setActiveColorGradingView]      = {module = 'develop', photoSelected = false },
+  [LrDevelopController.setLensBlurBokeh]               = {module = 'develop', photoSelected = true },
   [LrDevelopController.setMultipleAdjustmentThreshold] = {module = 'develop', photoSelected = false },
   [LrDevelopController.setProcessVersion]              = {module = 'develop', photoSelected = true },
   [LrDevelopController.setTrackingDelay]               = {module = 'develop', photoSelected = false },
@@ -69,6 +70,7 @@ local needsModule = {
   [LrDevelopController.startTracking]                  = {module = 'develop', photoSelected = false },
   [LrDevelopController.stopTracking]                   = {module = 'develop', photoSelected = false },
   [LrDevelopController.subtractFromCurrentMask]        = {module = 'develop', photoSelected = true },
+  [LrDevelopController.toggleLensBlurDepthVisualization]={module = 'develop', photoSelected = true },
 }
 
 local _needsModule = {
@@ -224,6 +226,8 @@ local sb_precisionList = {
   HueAdjustmentPurple=0,
   HueAdjustmentRed=0,
   HueAdjustmentYellow=0,
+  LensBlurAmount=0,
+  LensBlurHighlightsBoost=0,
   LensManualDistortionAmount=0,
   LensProfileChromaticAberrationScale=0,
   LensProfileDistortionScale=0,
@@ -269,6 +273,13 @@ local sb_precisionList = {
   SaturationAdjustmentPurple=0,
   SaturationAdjustmentRed=0,
   SaturationAdjustmentYellow=0,
+  SDRBlend=0,
+  SDRBrightness=0,
+  SDRClarity=0,
+  SDRContrast=0,
+  SDRHighlights=0,
+  SDRShadows=0,
+  SDRWhites=0,
   ShadowTint=0,
   Shadows=0,
   SharpenDetail=0,
@@ -416,13 +427,15 @@ local function fToggleTFasync(param)
         --[[-----------debug section, enable by adding - to beginning this line
         LrMobdebug.on()
         --]]-----------end debug section
-        if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-        LrApplication.activeCatalog():withWriteAccessDo(
+        local cat = LrApplication.activeCatalog()
+        if cat:getTargetPhoto() == nil then return end
+        cat:withWriteAccessDo(
           'MIDI2LR: Apply settings',
           function()
-            local params = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
+            local target = LrApplication.activeCatalog():getTargetPhoto()
+            local params = target:getDevelopSettings()
             params[param] = not params[param]
-            LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(params)
+            target:applyDevelopSettings(params)
           end,
           { timeout = 4,
             callback = function()
@@ -932,6 +945,36 @@ local function quickDevAdjustWB(par,val,cmd) --note lightroom applies this to al
     )
   end
 end
+
+local   function ToggleSlideshow ()
+  local ss = import 'LrSlideshow'
+  local isOn = false
+  return function ()   -- anonymous function
+    if isOn then
+      ss.stopSlideshow()
+    else
+      ss.startSlideshow()
+    end
+  end
+end
+
+local function UpdateAI()
+  local activePhoto = LrApplication.activeCatalog():getTargetPhoto()
+  if activePhoto then
+    activePhoto.catalog:withWriteAccessDo(LOC('$$$/AgDevelop/UpdateAISettings/Title=Update AI Settings'),function() LrApplication.activeCatalog():getTargetPhoto():updateAISettings() end,
+      { timeout = 4,
+        callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..'PastePreset.') end,
+        asynchronous = true })
+  end
+end
+
+local function UpdateAIAll()
+  LrApplication.activeCatalog():withWriteAccessDo(LOC('$$$/AgDevelop/UpdateAISettings/Title=Update AI Settings'..' '..LOC('$$$/DevelopProcessVersion/Dialog/UpdateAllSelected=Update All Selected Photos')),function() LrApplication.activeCatalog():updateAISettings() end,
+    { timeout = 4,
+      callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..'PastePreset.') end,
+      asynchronous = true })
+end
+
 return {
   ApplySettings = ApplySettings,
   HoldAltOptToggle = HoldAltOptToggle,
@@ -944,6 +987,9 @@ return {
   ResetAllHueAdjustment = ResetAllHueAdjustment,
   ResetAllLuminanceAdjustment = ResetAllLuminanceAdjustment,
   ResetAllSaturationAdjustment = ResetAllSaturationAdjustment,
+  ToggleSlideshow = ToggleSlideshow,
+  UpdateAI = UpdateAI,
+  UpdateAIAll = UpdateAIAll,
   UpdatePointCurve = UpdatePointCurve,
   cg_hsl_copy = cg_hsl_copy,
   cg_hsl_paste = cg_hsl_paste,
