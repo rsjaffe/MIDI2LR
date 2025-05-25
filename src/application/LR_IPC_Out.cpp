@@ -255,7 +255,7 @@ void LrIpcOutShared::SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
    try {
       auto command_copy {std::make_shared<std::string>(lr_ipc_out_shared->command_.pop())};
       if (*command_copy == kTerminate) [[unlikely]] { return; }
-      if (command_copy->back() != '\n') [[unlikely]] { /* should be terminated with \n */
+      if (command_copy->empty() || command_copy->back() != '\n') [[unlikely]] {
          command_copy->push_back('\n');
       } // ReSharper disable once CppLambdaCaptureNeverUsed
       asio::async_write(lr_ipc_out_shared->socket_, asio::buffer(*command_copy),

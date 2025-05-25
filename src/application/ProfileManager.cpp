@@ -93,9 +93,11 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
 void ProfileManager::SwitchToNextProfile()
 {
    try {
-      const auto profiles_size {gsl::narrow_cast<int>(profiles_.size())};
-      current_profile_index_ = (current_profile_index_ + 1) % profiles_size;
-      SwitchToProfile(current_profile_index_);
+      if (!profiles_.empty()) {
+         const auto profiles_size {gsl::narrow_cast<int>(profiles_.size())};
+         current_profile_index_ = (current_profile_index_ + 1) % profiles_size;
+         SwitchToProfile(current_profile_index_);
+      }
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(e, std::source_location::current());
@@ -106,9 +108,11 @@ void ProfileManager::SwitchToNextProfile()
 void ProfileManager::SwitchToPreviousProfile()
 {
    try {
-      const auto profiles_size {gsl::narrow_cast<int>(profiles_.size())};
-      current_profile_index_ = (current_profile_index_ + profiles_size - 1) % profiles_size;
-      SwitchToProfile(current_profile_index_);
+      if (!profiles_.empty()) {
+         const auto profiles_size {gsl::narrow_cast<int>(profiles_.size())};
+         current_profile_index_ = (current_profile_index_ + profiles_size - 1) % profiles_size;
+         SwitchToProfile(current_profile_index_);
+      }
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(e, std::source_location::current());

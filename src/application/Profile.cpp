@@ -171,6 +171,11 @@ void Profile::RemoveRow(const size_t row)
 {
    try {
       auto guard {std::unique_lock {mutex_}};
+      if (row >= mm_abbrv_table_.size()) [[unlikely]] {
+         rsj::Log(fmt::format(FMT_STRING("Error in Profile::RemoveRow. Row {} out of range."), row),
+             std::source_location::current());
+         return;
+      }
       mm_abbrv_table_.erase(mm_abbrv_table_.begin() + gsl::narrow_cast<std::ptrdiff_t>(row));
       profile_unsaved_ = true;
    }

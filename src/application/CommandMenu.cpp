@@ -88,18 +88,12 @@ void CommandMenu::AddSubMenuItems(juce::PopupMenu& sub_menu, const juce::String&
 
 void CommandMenu::ProcessUserSelection(juce::PopupMenu& main_menu)
 {
-   if (auto result {gsl::narrow_cast<size_t>(main_menu.show())}) {
-      if (result - 1 < command_set_.CommandAbbrevSize()) {
-         profile_.InsertOrAssign(result - 1, message_);
-         juce::Button::setButtonText(command_set_.CommandLabelAt(result - 1));
-      }
-      else {
-         profile_.InsertOrAssign(0, message_);
-         juce::Button::setButtonText(command_set_.CommandLabelAt(0));
-         result = 0;
-      }
+   if (const auto result {gsl::narrow_cast<size_t>(main_menu.show())}) {
+      const auto cmd_size {command_set_.CommandAbbrevSize()};
+      const size_t idx {(result - 1 < cmd_size) ? result - 1 : 0};
+      profile_.InsertOrAssign(idx, message_);
+      juce::Button::setButtonText(command_set_.CommandLabelAt(idx));
       selected_item_ = result;
-      // Map the selected command to the CC
    }
 }
 
