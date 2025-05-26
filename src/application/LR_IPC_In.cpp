@@ -155,15 +155,27 @@ void LrIpcIn::Connect(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 }
 
 namespace {
+   [[nodiscard]] std::string_view Trim(std::string_view str)
+   {
+      const auto first {str.find_first_not_of(" \t\n")};
+      if (first == std::string_view::npos) { return {}; }
+      const auto last {str.find_last_not_of(" \t\n")};
+      return str.substr(first, last - first + 1);
+   }
+
+   [[nodiscard]] std::string_view TrimL(std::string_view str)
+   {
+      const auto first {str.find_first_not_of(" \t\n")};
+      if (first == std::string_view::npos) { return {}; }
+      return str.substr(first);
+   }
+
    std::pair<std::string_view, std::string_view> SplitLine(std::string_view msg)
    {
-      rsj::Trim(msg);
+      msg = Trim(msg);
       const auto first_delimiter {msg.find_first_of(" \t\n")};
       if (first_delimiter == std::string_view::npos) { return {msg, {}}; }
-      auto value_view {msg.substr(first_delimiter + 1)};
-      rsj::TrimL(value_view);
-      const auto command_view {msg.substr(0, first_delimiter)};
-      return {command_view, value_view};
+      return {msg.substr(0, first_delimiter), TrimL(msg.substr(first_delimiter + 1))};
    }
 } // namespace
 
@@ -174,58 +186,83 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       decltype(lr_ipc_shared->line_)::value_type line_copy;
       while ((line_copy = lr_ipc_shared->line_.pop()) != kTerminate) {
 #pragma warning(suppress : 26445) /* copying views; otherwise dangling references */
-         auto [command_view, value_view] {SplitLine(line_copy)};
+         auto [command_view, value_view] = SplitLine(line_copy);
+
+         /* Fast path for known commands */
          if (command_view == "TerminateApplication") {
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
             return;
          }
+
          if (value_view.empty()) {
             rsj::Log(fmt::format(FMT_STRING("No value attached to message. Message from plugin was "
                                             "\"{}\"."),
                          rsj::ReplaceInvisibleChars(line_copy)),
                 std::source_location::current());
+            continue;
          }
-         else if (command_view == "SwitchProfile") {
+
+         if (command_view == "SwitchProfile") {
             profile_manager_.SwitchToProfile(std::string(value_view));
+            continue;
          }
-         else if (command_view == "Log") {
+
+         if (command_view == "Log") {
             rsj::Log(fmt::format(FMT_STRING("Plugin: {}."), value_view),
                 std::source_location::current());
+            continue;
          }
-         else if (command_view == "SendKey") {
-            int modifiers = 0;
-            std::from_chars(value_view.data(), value_view.data() + value_view.size(), modifiers);
-            /* trim twice on purpose: first modifiers digits, then one space (fixed delimiter) */
-            const auto first_not_digit {value_view.find_first_not_of("0123456789")};
-            if (first_not_digit != std::string_view::npos) {
-               value_view.remove_prefix(first_not_digit + 1);
-               if (!value_view.empty()) {
-                  rsj::SendKeyDownUp(std::string(value_view),
-                      rsj::ActiveModifiers::FromMidi2LR(modifiers));
-                  continue; /* skip log and alert error */
-               }
+
+         if (command_view == "SendKey") {
+            int modifiers {0};
+            auto [ptr, ec] {std::from_chars(value_view.data(),
+                value_view.data() + value_view.size(), modifiers)};
+            /* Find the first non-digit after parsing modifiers */
+            std::string_view key_view {value_view};
+            key_view.remove_prefix(static_cast<size_t>(ptr - value_view.data()));
+            if (!key_view.empty() && (key_view.front() == ' ' || key_view.front() == '\t')) {
+               key_view.remove_prefix(1);
+            }
+            if (!key_view.empty() && ec == std::errc()) {
+               rsj::SendKeyDownUp(std::string(key_view),
+                   rsj::ActiveModifiers::FromMidi2LR(modifiers));
+               continue;
             }
             rsj::LogAndAlertError(fmt::format(FMT_STRING("SendKey couldn't identify keystroke. "
                                                          "Message from plugin was \"{}\"."),
                                       rsj::ReplaceInvisibleChars(line_copy)),
                 std::source_location::current());
+            continue;
          }
-         else { /* send associated messages to MIDI OUT devices */
-#ifdef _MSC_VER
-            double original_value = 0.0;
-            std::from_chars(value_view.data(), value_view.data() + value_view.size(),
-                original_value);
-#else // Xcode doesn't support double from_chars yet (15.2)
-            const auto original_value {std::stod(std::string(value_view))};
+
+         /* Default: send associated messages to MIDI OUT devices */
+         double original_value {0.0};
+#if defined(_MSC_VER) || (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_13_3)
+         auto [ptr, ec] {std::from_chars(value_view.data(), value_view.data() + value_view.size(),
+             original_value)};
+         if (ec != std::errc()) {
+            rsj::LogAndAlertError(fmt::format(FMT_STRING("Failed to parse double from \"{}\"."),
+                                      value_view),
+                std::source_location::current());
+            continue;
+         }
+#else
+         try {
+            original_value = std::stod(std::string(value_view));
+         }
+         catch (const std::exception& ex) {
+            rsj::LogAndAlertError(fmt::format(FMT_STRING("Failed to parse double from \"{}\": {}"),
+                                      value_view, ex.what()),
+                std::source_location::current());
+            continue;
+         }
 #endif
-            const auto messages {profile_.GetMessagesForCommand(std::string(command_view))};
-            for (const auto& msg : messages) {
-               /* following needs to run for all controls: sets saved value */
-               const auto value {controls_model_.PluginToController(msg, original_value)};
-               if (msg.msg_id_type != rsj::MessageType::kCc
-                   || controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute) {
-                  midi_sender_.Send(msg, value);
-               }
+         const auto messages {profile_.GetMessagesForCommand(std::string(command_view))};
+         for (const auto& msg : messages) {
+            const auto value {controls_model_.PluginToController(msg, original_value)};
+            if (msg.msg_id_type != rsj::MessageType::kCc
+                || controls_model_.GetCcMethod(msg) == rsj::CCmethod::kAbsolute) {
+               midi_sender_.Send(msg, value);
             }
          }
       }

@@ -82,10 +82,6 @@ namespace rsj {
    /*****************************************************************************/
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
    [[nodiscard]] std::string ToLower(std::string_view in);
-   void Trim(std::string_view& value) noexcept;
-   void Trim(std::string_view&& value) = delete;
-   void TrimL(std::string_view& value) noexcept;
-   void TrimL(std::string_view&& value) = delete;
    /*****************************************************************************/
    /**************Error Logging**************************************************/
    /*****************************************************************************/
