@@ -368,10 +368,10 @@ void MainContentComponent::UpdateConnectionLabel(const char* text, const juce::C
 
 namespace {
    const std::map<std::pair<bool, bool>, std::pair<const char*, juce::Colour>> kConnectionStatus {
-       {  {true, true}, {"Connected to Lightroom", juce::Colours::greenyellow}},
-       { {true, false},              {"Sending halted", juce::Colours::yellow}},
-       { {false, true},     {"Not connected to Lightroom", juce::Colours::red}},
-       {{false, false},     {"Not connected to Lightroom", juce::Colours::red}}
+       {  {true, false}, {"Connected to Lightroom", juce::Colours::greenyellow}},
+       { {true, true},              {"Sending halted", juce::Colours::yellow}},
+       { {false, false},     {"Not connected to Lightroom", juce::Colours::red}},
+       {{false, true},     {"Not connected to Lightroom", juce::Colours::red}}
    };
 } // namespace
 
