@@ -57,7 +57,7 @@ namespace {
          const auto lr_start {title.find(L"Lightroom")};
          if (lr_start != std::wstring_view::npos) {
             h_lr_wnd = hwnd;
-            if (title.find(L"Lightroom Classic", lr_start) != std::wstring_view::npos) {
+            if (title.find(L"Adobe Photoshop Lightroom Classic", lr_start) != std::wstring_view::npos) {
                return FALSE; /* found full title, stop EnumWindows */
             }
          }
@@ -69,7 +69,7 @@ namespace {
    {
       constinit static std::once_flag of_getlanguage;
       std::call_once(of_getlanguage, [] {
-         LOG_IF_WIN32_BOOL_FALSE(EnumWindows(&EnumWindowsProc, 0));
+         EnumWindows(&EnumWindowsProc, 0);
          if (!h_lr_wnd) {
             rsj::Log("Unable to find Lightroom in EnumWindows.", std::source_location::current());
          }
