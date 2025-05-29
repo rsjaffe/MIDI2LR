@@ -8,7 +8,7 @@ var searchData=
   ['_7elripcin_5',['~LrIpcIn',['../class_lr_ipc_in.html#a5a20ae49e9e790062a61465556ba6f1a',1,'LrIpcIn']]],
   ['_7elripcout_6',['~LrIpcOut',['../class_lr_ipc_out.html#aa5757d745ff2f173a3d5bb914561cb90',1,'LrIpcOut']]],
   ['_7emaincontentcomponent_7',['~MainContentComponent',['../class_main_content_component.html#a7769da539c2bc4d2c66b2a0f200dad18',1,'MainContentComponent']]],
-  ['_7emainwindow_8',['~MainWindow',['../class_main_window.html#a767824566011a82d1d75339774258614',1,'MainWindow']]],
+  ['_7emainwindow_8',['~MainWindow',['../class_main_window.html#ae98d00a93bc118200eeef9f9bba1dba7',1,'MainWindow']]],
   ['_7emidireceiver_9',['~MidiReceiver',['../class_midi_receiver.html#ae4e9b671a3a2d2252f17662dcc636486',1,'MidiReceiver']]],
   ['_7emidisender_10',['~MidiSender',['../class_midi_sender.html#ab1a9d24fa337dfa87f303d01c35e9f3b',1,'MidiSender']]],
   ['_7eprofilemanager_11',['~ProfileManager',['../class_profile_manager.html#af749cc966b2fc9287c5a6218be3f7e20',1,'ProfileManager']]],

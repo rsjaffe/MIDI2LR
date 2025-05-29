@@ -8,7 +8,7 @@ var class_command_table_model =
     [ "refreshComponentForCell", "class_command_table_model.html#a2a60ed2b79006e1b91c6638a3f679725", null ],
     [ "RemoveRow", "class_command_table_model.html#a56bd37021d8ff9e11f642223b1afa8e6", null ],
     [ "sortOrderChanged", "class_command_table_model.html#a7bf944adbb8e47f698fdce34e68aab00", null ],
-    [ "UpdateCommandMenu", "class_command_table_model.html#aa6ab0a5ede522b89096609d0b0922124", null ],
+    [ "UpdateCommandMenu", "class_command_table_model.html#a63db046c8cda393ea3785577730fe443", null ],
     [ "command_set_", "class_command_table_model.html#ab32e4e562181f35a3f4072df0d4c6d12", null ],
     [ "profile_", "class_command_table_model.html#ac2297c76f51e355b450175774b193cbd", null ]
 ];

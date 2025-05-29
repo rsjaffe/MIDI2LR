@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -264,8 +264,8 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="aclass_profile_manager_html_a83c2146e269d1483571f7bc85687decc"><div class="ttname"><a href="class_profile_manager.html#a83c2146e269d1483571f7bc85687decc">ProfileManager::controls_model_</a></div><div class="ttdeci">ControlsModel &amp; controls_model_</div><div class="ttdef"><b>Definition</b> ProfileManager.h:79</div></div>
 <div class="ttc" id="aclass_profile_manager_html_ace43210fbcd9fd810ef4930448b4a59e"><div class="ttname"><a href="class_profile_manager.html#ace43210fbcd9fd810ef4930448b4a59e">ProfileManager::lr_ipc_out_</a></div><div class="ttdeci">LrIpcOut &amp; lr_ipc_out_</div><div class="ttdef"><b>Definition</b> ProfileManager.h:82</div></div>
 <div class="ttc" id="aclass_profile_manager_html_ace4ed8782a87e7a0e721153895cfcfa5"><div class="ttname"><a href="class_profile_manager.html#ace4ed8782a87e7a0e721153895cfcfa5">ProfileManager::current_profile_</a></div><div class="ttdeci">const Profile &amp; current_profile_</div><div class="ttdef"><b>Definition</b> ProfileManager.h:78</div></div>
-<div class="ttc" id="aclass_profile_manager_html_ad18ee4ca4420a0fcafb66c41c0b5f644"><div class="ttname"><a href="class_profile_manager.html#ad18ee4ca4420a0fcafb66c41c0b5f644">ProfileManager::MidiCmdCallback</a></div><div class="ttdeci">void MidiCmdCallback(rsj::MidiMessage mm)</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:141</div></div>
-<div class="ttc" id="aclass_profile_manager_html_af420264117a28ff453b27bd0ef122a94"><div class="ttname"><a href="class_profile_manager.html#af420264117a28ff453b27bd0ef122a94">ProfileManager::ConnectionCallback</a></div><div class="ttdeci">void ConnectionCallback(bool, bool)</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:160</div></div>
+<div class="ttc" id="aclass_profile_manager_html_ad18ee4ca4420a0fcafb66c41c0b5f644"><div class="ttname"><a href="class_profile_manager.html#ad18ee4ca4420a0fcafb66c41c0b5f644">ProfileManager::MidiCmdCallback</a></div><div class="ttdeci">void MidiCmdCallback(rsj::MidiMessage mm)</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:145</div></div>
+<div class="ttc" id="aclass_profile_manager_html_af420264117a28ff453b27bd0ef122a94"><div class="ttname"><a href="class_profile_manager.html#af420264117a28ff453b27bd0ef122a94">ProfileManager::ConnectionCallback</a></div><div class="ttdeci">void ConnectionCallback(bool, bool)</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:164</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -385,7 +385,7 @@ template&lt;class T &gt; </div>
 <div class="fragment"><div class="line"><span class="lineno">   51</span>   {</div>
 <div class="line"><span class="lineno">   52</span>      <span class="keywordflow">if</span> (<span class="keywordtype">object</span> &amp;&amp; mf) { <a class="code hl_variable" href="class_profile_manager.html#abbe77680917497809ae1bf0aee0d89f9">callbacks_</a>.emplace_back(std::bind_front(mf, <span class="keywordtype">object</span>)); }</div>
 <div class="line"><span class="lineno">   53</span>   }</div>
-<div class="ttc" id="aclass_profile_manager_html_abbe77680917497809ae1bf0aee0d89f9"><div class="ttname"><a href="class_profile_manager.html#abbe77680917497809ae1bf0aee0d89f9">ProfileManager::callbacks_</a></div><div class="ttdeci">std::vector&lt; std::function&lt; void(juce::XmlElement *, const juce::String &amp;)&gt; &gt; callbacks_</div><div class="ttdef"><b>Definition</b> ProfileManager.h:84</div></div>
+<div class="ttc" id="aclass_profile_manager_html_abbe77680917497809ae1bf0aee0d89f9"><div class="ttname"><a href="class_profile_manager.html#abbe77680917497809ae1bf0aee0d89f9">ProfileManager::callbacks_</a></div><div class="ttdeci">std::vector&lt; std::function&lt; void(juce::XmlElement *, const juce::String &amp;)&gt; &gt; callbacks_</div><div class="ttdef"><b>Definition</b> ProfileManager.h:87</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -422,18 +422,18 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  161</span>{</div>
-<div class="line"><span class="lineno">  162</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  163</span>      <span class="keywordflow">if</span> (connected &amp;&amp; !blocked) {</div>
-<div class="line"><span class="lineno">  164</span>         <a class="code hl_variable" href="class_profile_manager.html#ace43210fbcd9fd810ef4930448b4a59e">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;ChangedToDirectory {}\n&quot;</span>),</div>
-<div class="line"><span class="lineno">  165</span>             juce::File::addTrailingSeparator(<a class="code hl_variable" href="class_profile_manager.html#a6e08a701bab52d887e1712d3b73e8c62">profile_location_</a>.getFullPathName()).toStdString()));</div>
-<div class="line"><span class="lineno">  166</span>      }</div>
-<div class="line"><span class="lineno">  167</span>   }</div>
-<div class="line"><span class="lineno">  168</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  169</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">  170</span>      <span class="keywordflow">throw</span>;</div>
+<div class="fragment"><div class="line"><span class="lineno">  165</span>{</div>
+<div class="line"><span class="lineno">  166</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  167</span>      <span class="keywordflow">if</span> (connected &amp;&amp; !blocked) {</div>
+<div class="line"><span class="lineno">  168</span>         <a class="code hl_variable" href="class_profile_manager.html#ace43210fbcd9fd810ef4930448b4a59e">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;ChangedToDirectory {}\n&quot;</span>),</div>
+<div class="line"><span class="lineno">  169</span>             juce::File::addTrailingSeparator(<a class="code hl_variable" href="class_profile_manager.html#a6e08a701bab52d887e1712d3b73e8c62">profile_location_</a>.getFullPathName()).toStdString()));</div>
+<div class="line"><span class="lineno">  170</span>      }</div>
 <div class="line"><span class="lineno">  171</span>   }</div>
-<div class="line"><span class="lineno">  172</span>}</div>
+<div class="line"><span class="lineno">  172</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  173</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  174</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  175</span>   }</div>
+<div class="line"><span class="lineno">  176</span>}</div>
 <div class="ttc" id="aclass_lr_ipc_out_html_aaca9ebc83a482fcfc6dcc054d3bb2e46"><div class="ttname"><a href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">LrIpcOut::SendCommand</a></div><div class="ttdeci">void SendCommand(std::string &amp;&amp;command) const</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:67</div></div>
 <div class="ttc" id="aclass_profile_manager_html_a6e08a701bab52d887e1712d3b73e8c62"><div class="ttname"><a href="class_profile_manager.html#a6e08a701bab52d887e1712d3b73e8c62">ProfileManager::profile_location_</a></div><div class="ttdeci">juce::File profile_location_</div><div class="ttdef"><b>Definition</b> ProfileManager.h:81</div></div>
 <div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
@@ -490,29 +490,29 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  175</span>{</div>
-<div class="line"><span class="lineno">  176</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  177</span>      <span class="keywordflow">switch</span> (<a class="code hl_variable" href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">switch_state_</a>) {</div>
-<div class="line"><span class="lineno">  178</span>      <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064ad57a4134992c3e54ca06a758c1f8f6bc">SwitchState::kPrev</a>:</div>
-<div class="line"><span class="lineno">  179</span>         <a class="code hl_function" href="class_profile_manager.html#aef2511c27587834a675de11f0512b0ea">SwitchToPreviousProfile</a>();</div>
-<div class="line"><span class="lineno">  180</span>         <a class="code hl_variable" href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">switch_state_</a> = <a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064a35c3ace1970663a16e5c65baa5941b13">SwitchState::kNone</a>;</div>
-<div class="line"><span class="lineno">  181</span>         <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  182</span>      <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064ac5312de02506bba2de2101d52c5107ff">SwitchState::kNext</a>:</div>
-<div class="line"><span class="lineno">  183</span>         <a class="code hl_function" href="class_profile_manager.html#a1131eaee6fd426d056ce3d22721ce182">SwitchToNextProfile</a>();</div>
+<div class="fragment"><div class="line"><span class="lineno">  179</span>{</div>
+<div class="line"><span class="lineno">  180</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  181</span>      <span class="keywordflow">switch</span> (<a class="code hl_variable" href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">switch_state_</a>) {</div>
+<div class="line"><span class="lineno">  182</span>      <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064ad57a4134992c3e54ca06a758c1f8f6bc">SwitchState::kPrev</a>:</div>
+<div class="line"><span class="lineno">  183</span>         <a class="code hl_function" href="class_profile_manager.html#aef2511c27587834a675de11f0512b0ea">SwitchToPreviousProfile</a>();</div>
 <div class="line"><span class="lineno">  184</span>         <a class="code hl_variable" href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">switch_state_</a> = <a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064a35c3ace1970663a16e5c65baa5941b13">SwitchState::kNone</a>;</div>
 <div class="line"><span class="lineno">  185</span>         <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  186</span>      <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064a35c3ace1970663a16e5c65baa5941b13">SwitchState::kNone</a>:</div>
-<div class="line"><span class="lineno">  187</span>         <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  188</span>      }</div>
-<div class="line"><span class="lineno">  189</span>   }</div>
-<div class="line"><span class="lineno">  190</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  191</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">  192</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  186</span>      <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064ac5312de02506bba2de2101d52c5107ff">SwitchState::kNext</a>:</div>
+<div class="line"><span class="lineno">  187</span>         <a class="code hl_function" href="class_profile_manager.html#a1131eaee6fd426d056ce3d22721ce182">SwitchToNextProfile</a>();</div>
+<div class="line"><span class="lineno">  188</span>         <a class="code hl_variable" href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">switch_state_</a> = <a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064a35c3ace1970663a16e5c65baa5941b13">SwitchState::kNone</a>;</div>
+<div class="line"><span class="lineno">  189</span>         <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  190</span>      <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064a35c3ace1970663a16e5c65baa5941b13">SwitchState::kNone</a>:</div>
+<div class="line"><span class="lineno">  191</span>         <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  192</span>      }</div>
 <div class="line"><span class="lineno">  193</span>   }</div>
-<div class="line"><span class="lineno">  194</span>}</div>
+<div class="line"><span class="lineno">  194</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  195</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  196</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  197</span>   }</div>
+<div class="line"><span class="lineno">  198</span>}</div>
 <div class="ttc" id="aclass_profile_manager_html_a1131eaee6fd426d056ce3d22721ce182"><div class="ttname"><a href="class_profile_manager.html#a1131eaee6fd426d056ce3d22721ce182">ProfileManager::SwitchToNextProfile</a></div><div class="ttdeci">void SwitchToNextProfile()</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:93</div></div>
-<div class="ttc" id="aclass_profile_manager_html_a8902ba60a404fe8b7fe0947ae9f22cd6"><div class="ttname"><a href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">ProfileManager::switch_state_</a></div><div class="ttdeci">SwitchState switch_state_</div><div class="ttdef"><b>Definition</b> ProfileManager.h:85</div></div>
-<div class="ttc" id="aclass_profile_manager_html_aef2511c27587834a675de11f0512b0ea"><div class="ttname"><a href="class_profile_manager.html#aef2511c27587834a675de11f0512b0ea">ProfileManager::SwitchToPreviousProfile</a></div><div class="ttdeci">void SwitchToPreviousProfile()</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:106</div></div>
+<div class="ttc" id="aclass_profile_manager_html_a8902ba60a404fe8b7fe0947ae9f22cd6"><div class="ttname"><a href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">ProfileManager::switch_state_</a></div><div class="ttdeci">SwitchState switch_state_</div><div class="ttdef"><b>Definition</b> ProfileManager.h:89</div></div>
+<div class="ttc" id="aclass_profile_manager_html_aef2511c27587834a675de11f0512b0ea"><div class="ttname"><a href="class_profile_manager.html#aef2511c27587834a675de11f0512b0ea">ProfileManager::SwitchToPreviousProfile</a></div><div class="ttdeci">void SwitchToPreviousProfile()</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:108</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -539,26 +539,26 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  120</span>{</div>
-<div class="line"><span class="lineno">  121</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  122</span>      <span class="keyword">using namespace </span>std::string_literals;</div>
-<div class="line"><span class="lineno">  123</span>      <span class="keyword">const</span> <span class="keyword">auto</span> cmd {<a class="code hl_variable" href="class_profile_manager.html#ace4ed8782a87e7a0e721153895cfcfa5">current_profile_</a>.<a class="code hl_function" href="class_profile.html#a52eacd441b3cbaa1ecad3eb260115809">GetCommandForMessage</a>(msg)};</div>
-<div class="line"><span class="lineno">  124</span>      <span class="keywordflow">if</span> (cmd == <span class="stringliteral">&quot;PrevPro&quot;</span>s) {</div>
-<div class="line"><span class="lineno">  125</span>         <a class="code hl_variable" href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">switch_state_</a> = <a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064ad57a4134992c3e54ca06a758c1f8f6bc">SwitchState::kPrev</a>;</div>
-<div class="line"><span class="lineno">  126</span>         triggerAsyncUpdate();</div>
-<div class="line"><span class="lineno">  127</span>      }</div>
-<div class="line"><span class="lineno">  128</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (cmd == <span class="stringliteral">&quot;NextPro&quot;</span>s) {</div>
-<div class="line"><span class="lineno">  129</span>         <a class="code hl_variable" href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">switch_state_</a> = <a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064ac5312de02506bba2de2101d52c5107ff">SwitchState::kNext</a>;</div>
+<div class="fragment"><div class="line"><span class="lineno">  124</span>{</div>
+<div class="line"><span class="lineno">  125</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  126</span>      <span class="keyword">using namespace </span>std::string_literals;</div>
+<div class="line"><span class="lineno">  127</span>      <span class="keyword">const</span> <span class="keyword">auto</span> cmd {<a class="code hl_variable" href="class_profile_manager.html#ace4ed8782a87e7a0e721153895cfcfa5">current_profile_</a>.<a class="code hl_function" href="class_profile.html#a52eacd441b3cbaa1ecad3eb260115809">GetCommandForMessage</a>(msg)};</div>
+<div class="line"><span class="lineno">  128</span>      <span class="keywordflow">if</span> (cmd == <span class="stringliteral">&quot;PrevPro&quot;</span>s) {</div>
+<div class="line"><span class="lineno">  129</span>         <a class="code hl_variable" href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">switch_state_</a> = <a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064ad57a4134992c3e54ca06a758c1f8f6bc">SwitchState::kPrev</a>;</div>
 <div class="line"><span class="lineno">  130</span>         triggerAsyncUpdate();</div>
 <div class="line"><span class="lineno">  131</span>      }</div>
-<div class="line"><span class="lineno">  132</span>      <span class="keywordflow">else</span> { <span class="comment">/* no action needed */</span></div>
-<div class="line"><span class="lineno">  133</span>      }</div>
-<div class="line"><span class="lineno">  134</span>   }</div>
-<div class="line"><span class="lineno">  135</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  136</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">  137</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  132</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (cmd == <span class="stringliteral">&quot;NextPro&quot;</span>s) {</div>
+<div class="line"><span class="lineno">  133</span>         <a class="code hl_variable" href="class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6">switch_state_</a> = <a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064ac5312de02506bba2de2101d52c5107ff">SwitchState::kNext</a>;</div>
+<div class="line"><span class="lineno">  134</span>         triggerAsyncUpdate();</div>
+<div class="line"><span class="lineno">  135</span>      }</div>
+<div class="line"><span class="lineno">  136</span>      <span class="keywordflow">else</span> { <span class="comment">/* no action needed */</span></div>
+<div class="line"><span class="lineno">  137</span>      }</div>
 <div class="line"><span class="lineno">  138</span>   }</div>
-<div class="line"><span class="lineno">  139</span>}</div>
+<div class="line"><span class="lineno">  139</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  140</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  141</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  142</span>   }</div>
+<div class="line"><span class="lineno">  143</span>}</div>
 <div class="ttc" id="aclass_profile_html_a52eacd441b3cbaa1ecad3eb260115809"><div class="ttname"><a href="class_profile.html#a52eacd441b3cbaa1ecad3eb260115809">Profile::GetCommandForMessage</a></div><div class="ttdeci">const std::string &amp; GetCommandForMessage(rsj::MidiMessageId message) const</div><div class="ttdef"><b>Definition</b> Profile.h:89</div></div>
 </div><!-- fragment -->
 </div>
@@ -586,25 +586,25 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  142</span>{</div>
-<div class="line"><span class="lineno">  143</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  144</span>      <span class="keyword">const</span> <a class="code hl_struct" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> cc {mm};</div>
-<div class="line"><span class="lineno">  145</span>      <span class="comment">/* return if the value isn&#39;t high enough (notes may be &lt; 1), or the command isn&#39;t a valid</span></div>
-<div class="line"><span class="lineno">  146</span><span class="comment">       * profile-related command */</span></div>
-<div class="line"><span class="lineno">  147</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_profile_manager.html#a83c2146e269d1483571f7bc85687decc">controls_model_</a>.<a class="code hl_function" href="class_controls_model.html#a8b0b5810dcbe5298b424217e05eafc0b">ControllerToPlugin</a>(mm, <span class="keyword">false</span>) &lt; 0.4</div>
-<div class="line"><span class="lineno">  148</span>          || !<a class="code hl_variable" href="class_profile_manager.html#ace4ed8782a87e7a0e721153895cfcfa5">current_profile_</a>.<a class="code hl_function" href="class_profile.html#a56598e659bf13a43596c2e119bc2cdcb">MessageExistsInMap</a>(cc)) {</div>
-<div class="line"><span class="lineno">  149</span>         <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  150</span>      }</div>
-<div class="line"><span class="lineno">  151</span>      <a class="code hl_function" href="class_profile_manager.html#a2b54827bdb2a6dd5f7d18edd882d2799">MapCommand</a>(cc);</div>
-<div class="line"><span class="lineno">  152</span>   }</div>
-<div class="line"><span class="lineno">  153</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  154</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">  155</span>      <span class="keywordflow">throw</span>;</div>
+<div class="fragment"><div class="line"><span class="lineno">  146</span>{</div>
+<div class="line"><span class="lineno">  147</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  148</span>      <span class="keyword">const</span> <a class="code hl_struct" href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a> cc {mm};</div>
+<div class="line"><span class="lineno">  149</span>      <span class="comment">/* return if the value isn&#39;t high enough (notes may be &lt; 1), or the command isn&#39;t a valid</span></div>
+<div class="line"><span class="lineno">  150</span><span class="comment">       * profile-related command */</span></div>
+<div class="line"><span class="lineno">  151</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_profile_manager.html#a83c2146e269d1483571f7bc85687decc">controls_model_</a>.<a class="code hl_function" href="class_controls_model.html#a8b0b5810dcbe5298b424217e05eafc0b">ControllerToPlugin</a>(mm, <span class="keyword">false</span>) &lt; 0.4</div>
+<div class="line"><span class="lineno">  152</span>          || !<a class="code hl_variable" href="class_profile_manager.html#ace4ed8782a87e7a0e721153895cfcfa5">current_profile_</a>.<a class="code hl_function" href="class_profile.html#a56598e659bf13a43596c2e119bc2cdcb">MessageExistsInMap</a>(cc)) {</div>
+<div class="line"><span class="lineno">  153</span>         <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  154</span>      }</div>
+<div class="line"><span class="lineno">  155</span>      <a class="code hl_function" href="class_profile_manager.html#a2b54827bdb2a6dd5f7d18edd882d2799">MapCommand</a>(cc);</div>
 <div class="line"><span class="lineno">  156</span>   }</div>
-<div class="line"><span class="lineno">  157</span>}</div>
+<div class="line"><span class="lineno">  157</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  158</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  159</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  160</span>   }</div>
+<div class="line"><span class="lineno">  161</span>}</div>
 <div class="ttc" id="aclass_controls_model_html_a8b0b5810dcbe5298b424217e05eafc0b"><div class="ttname"><a href="class_controls_model.html#a8b0b5810dcbe5298b424217e05eafc0b">ControlsModel::ControllerToPlugin</a></div><div class="ttdeci">double ControllerToPlugin(rsj::MidiMessage mm, bool wrap)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:225</div></div>
 <div class="ttc" id="aclass_profile_html_a56598e659bf13a43596c2e119bc2cdcb"><div class="ttname"><a href="class_profile.html#a56598e659bf13a43596c2e119bc2cdcb">Profile::MessageExistsInMap</a></div><div class="ttdeci">bool MessageExistsInMap(rsj::MidiMessageId message) const</div><div class="ttdef"><b>Definition</b> Profile.h:124</div></div>
-<div class="ttc" id="aclass_profile_manager_html_a2b54827bdb2a6dd5f7d18edd882d2799"><div class="ttname"><a href="class_profile_manager.html#a2b54827bdb2a6dd5f7d18edd882d2799">ProfileManager::MapCommand</a></div><div class="ttdeci">void MapCommand(rsj::MidiMessageId msg)</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:119</div></div>
+<div class="ttc" id="aclass_profile_manager_html_a2b54827bdb2a6dd5f7d18edd882d2799"><div class="ttname"><a href="class_profile_manager.html#a2b54827bdb2a6dd5f7d18edd882d2799">ProfileManager::MapCommand</a></div><div class="ttdeci">void MapCommand(rsj::MidiMessageId msg)</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:123</div></div>
 <div class="ttc" id="astructrsj_1_1_midi_message_id_html"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html">rsj::MidiMessageId</a></div><div class="ttdef"><b>Definition</b> MidiUtilities.h:145</div></div>
 </div><!-- fragment -->
 </div>
@@ -686,7 +686,7 @@ template&lt;class T &gt; </div>
 <div class="line"><span class="lineno">   49</span>          [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; file) { return file.getFileName(); });</div>
 <div class="line"><span class="lineno">   50</span>   }</div>
 <div class="line"><span class="lineno">   51</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   52</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   52</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
 <div class="line"><span class="lineno">   53</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   54</span>   }</div>
 <div class="line"><span class="lineno">   55</span>}</div>
@@ -718,15 +718,17 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><span class="lineno">   94</span>{</div>
 <div class="line"><span class="lineno">   95</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   96</span>      <span class="keyword">const</span> <span class="keyword">auto</span> profiles_size {gsl::narrow_cast&lt;int&gt;(<a class="code hl_variable" href="class_profile_manager.html#a1b3262551dab34b845cb52e9e5070570">profiles_</a>.size())};</div>
-<div class="line"><span class="lineno">   97</span>      <a class="code hl_variable" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">current_profile_index_</a> = (<a class="code hl_variable" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">current_profile_index_</a> + 1) % profiles_size;</div>
-<div class="line"><span class="lineno">   98</span>      <a class="code hl_function" href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">SwitchToProfile</a>(<a class="code hl_variable" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">current_profile_index_</a>);</div>
-<div class="line"><span class="lineno">   99</span>   }</div>
-<div class="line"><span class="lineno">  100</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  101</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">  102</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  103</span>   }</div>
-<div class="line"><span class="lineno">  104</span>}</div>
+<div class="line"><span class="lineno">   96</span>      <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_profile_manager.html#a1b3262551dab34b845cb52e9e5070570">profiles_</a>.empty()) {</div>
+<div class="line"><span class="lineno">   97</span>         <span class="keyword">const</span> <span class="keyword">auto</span> profiles_size {gsl::narrow_cast&lt;int&gt;(<a class="code hl_variable" href="class_profile_manager.html#a1b3262551dab34b845cb52e9e5070570">profiles_</a>.size())};</div>
+<div class="line"><span class="lineno">   98</span>         <a class="code hl_variable" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">current_profile_index_</a> = (<a class="code hl_variable" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">current_profile_index_</a> + 1) % profiles_size;</div>
+<div class="line"><span class="lineno">   99</span>         <a class="code hl_function" href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">SwitchToProfile</a>(<a class="code hl_variable" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">current_profile_index_</a>);</div>
+<div class="line"><span class="lineno">  100</span>      }</div>
+<div class="line"><span class="lineno">  101</span>   }</div>
+<div class="line"><span class="lineno">  102</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  103</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  104</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  105</span>   }</div>
+<div class="line"><span class="lineno">  106</span>}</div>
 <div class="ttc" id="aclass_profile_manager_html_a3f94344f1d2222f3209e7af6e0f2b88f"><div class="ttname"><a href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">ProfileManager::SwitchToProfile</a></div><div class="ttdeci">void SwitchToProfile(int profile_index)</div><div class="ttdef"><b>Definition</b> ProfileManager.cpp:57</div></div>
 <div class="ttc" id="aclass_profile_manager_html_aec76a166c82c7c224d9db6f0ac543f39"><div class="ttname"><a href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">ProfileManager::current_profile_index_</a></div><div class="ttdeci">int current_profile_index_</div><div class="ttdef"><b>Definition</b> ProfileManager.h:80</div></div>
 </div><!-- fragment -->
@@ -754,17 +756,19 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  107</span>{</div>
-<div class="line"><span class="lineno">  108</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  109</span>      <span class="keyword">const</span> <span class="keyword">auto</span> profiles_size {gsl::narrow_cast&lt;int&gt;(<a class="code hl_variable" href="class_profile_manager.html#a1b3262551dab34b845cb52e9e5070570">profiles_</a>.size())};</div>
-<div class="line"><span class="lineno">  110</span>      <a class="code hl_variable" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">current_profile_index_</a> = (<a class="code hl_variable" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">current_profile_index_</a> + profiles_size - 1) % profiles_size;</div>
-<div class="line"><span class="lineno">  111</span>      <a class="code hl_function" href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">SwitchToProfile</a>(<a class="code hl_variable" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">current_profile_index_</a>);</div>
-<div class="line"><span class="lineno">  112</span>   }</div>
-<div class="line"><span class="lineno">  113</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  114</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">  115</span>      <span class="keywordflow">throw</span>;</div>
+<div class="fragment"><div class="line"><span class="lineno">  109</span>{</div>
+<div class="line"><span class="lineno">  110</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  111</span>      <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_profile_manager.html#a1b3262551dab34b845cb52e9e5070570">profiles_</a>.empty()) {</div>
+<div class="line"><span class="lineno">  112</span>         <span class="keyword">const</span> <span class="keyword">auto</span> profiles_size {gsl::narrow_cast&lt;int&gt;(<a class="code hl_variable" href="class_profile_manager.html#a1b3262551dab34b845cb52e9e5070570">profiles_</a>.size())};</div>
+<div class="line"><span class="lineno">  113</span>         <a class="code hl_variable" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">current_profile_index_</a> = (<a class="code hl_variable" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">current_profile_index_</a> + profiles_size - 1) % profiles_size;</div>
+<div class="line"><span class="lineno">  114</span>         <a class="code hl_function" href="class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f">SwitchToProfile</a>(<a class="code hl_variable" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">current_profile_index_</a>);</div>
+<div class="line"><span class="lineno">  115</span>      }</div>
 <div class="line"><span class="lineno">  116</span>   }</div>
-<div class="line"><span class="lineno">  117</span>}</div>
+<div class="line"><span class="lineno">  117</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  118</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  119</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  120</span>   }</div>
+<div class="line"><span class="lineno">  121</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -798,7 +802,7 @@ template&lt;class T &gt; </div>
 <div class="line"><span class="lineno">   85</span>      }</div>
 <div class="line"><span class="lineno">   86</span>   }</div>
 <div class="line"><span class="lineno">   87</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   88</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   88</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
 <div class="line"><span class="lineno">   89</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   90</span>   }</div>
 <div class="line"><span class="lineno">   91</span>}</div>
@@ -828,7 +832,7 @@ template&lt;class T &gt; </div>
 <div class="line"><span class="lineno">   63</span>      }</div>
 <div class="line"><span class="lineno">   64</span>   }</div>
 <div class="line"><span class="lineno">   65</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   66</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   66</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
 <div class="line"><span class="lineno">   67</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   68</span>   }</div>
 <div class="line"><span class="lineno">   69</span>}</div>
@@ -1010,7 +1014,7 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   85</span>{<a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064a35c3ace1970663a16e5c65baa5941b13">SwitchState::kNone</a>};</div>
+<div class="fragment"><div class="line"><span class="lineno">   89</span>{<a class="code hl_enumvalue" href="class_profile_manager.html#a2a76433bbce70693167586e7117d7064a35c3ace1970663a16e5c65baa5941b13">SwitchState::kNone</a>};</div>
 </div><!-- fragment -->
 </div>
 </div>

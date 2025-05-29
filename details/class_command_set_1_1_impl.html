@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -113,9 +113,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9f550f54c7d25b4a3a7bf5b8766ebd9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade5de3febce04fc8828c0e563b78bccf" id="r_ade5de3febce04fc8828c0e563b78bccf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_command_set_1_1_impl.html">Impl</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_set_1_1_impl.html#ade5de3febce04fc8828c0e563b78bccf">operator=</a> (<a class="el" href="class_command_set_1_1_impl.html">Impl</a> &amp;&amp;other)=delete</td></tr>
 <tr class="separator:ade5de3febce04fc8828c0e563b78bccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00f817617c3b85720777f2e37a5f7a04" id="r_a00f817617c3b85720777f2e37a5f7a04"><td class="memTemplParams" colspan="2">template&lt;class Archive &gt; </td></tr>
-<tr class="memitem:a00f817617c3b85720777f2e37a5f7a04"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_command_set_1_1_impl.html#a00f817617c3b85720777f2e37a5f7a04">serialize</a> (Archive &amp;archive, std::uint32_t const version)</td></tr>
-<tr class="separator:a00f817617c3b85720777f2e37a5f7a04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc5d72b0dacee94cd8d13854d4a8ae6d" id="r_adc5d72b0dacee94cd8d13854d4a8ae6d"><td class="memTemplParams" colspan="2">template&lt;class Archive &gt; </td></tr>
+<tr class="memitem:adc5d72b0dacee94cd8d13854d4a8ae6d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_command_set_1_1_impl.html#adc5d72b0dacee94cd8d13854d4a8ae6d">serialize</a> (Archive &amp;archive, const std::uint32_t version)</td></tr>
+<tr class="separator:adc5d72b0dacee94cd8d13854d4a8ae6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -150,22 +150,23 @@ Public Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   73</span><span class="preprocessor">#pragma warning(suppress : 26414) </span><span class="comment">/* too large to construct on stack */</span><span class="preprocessor"></span></div>
 <div class="line"><span class="lineno">   74</span>         <span class="keyword">const</span> <span class="keyword">auto</span> iarchive {std::make_unique&lt;cereal::XMLInputArchive&gt;(infile)};</div>
 <div class="line"><span class="lineno">   75</span>         (*iarchive)(*this);</div>
-<div class="line"><span class="lineno">   76</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;MenuTrans.xml archive loaded from {}.&quot;</span>), p.string()));</div>
-<div class="line"><span class="lineno">   77</span>      }</div>
-<div class="line"><span class="lineno">   78</span>      <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   79</span>         <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(juce::translate(<span class="stringliteral">&quot;Unable to load MenuTrans.xml.&quot;</span>),</div>
-<div class="line"><span class="lineno">   80</span>             <span class="stringliteral">&quot;Unable to load MenuTrans.xml.&quot;</span>);</div>
-<div class="line"><span class="lineno">   81</span>      }</div>
-<div class="line"><span class="lineno">   82</span>   }</div>
-<div class="line"><span class="lineno">   83</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   84</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">   85</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">   86</span>   }</div>
-<div class="line"><span class="lineno">   87</span>}</div>
+<div class="line"><span class="lineno">   76</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;MenuTrans.xml archive loaded from {}.&quot;</span>), p.string()),</div>
+<div class="line"><span class="lineno">   77</span>             std::source_location::current());</div>
+<div class="line"><span class="lineno">   78</span>      }</div>
+<div class="line"><span class="lineno">   79</span>      <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   80</span>         <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(juce::translate(<span class="stringliteral">&quot;Unable to load MenuTrans.xml.&quot;</span>),</div>
+<div class="line"><span class="lineno">   81</span>             <span class="stringliteral">&quot;Unable to load MenuTrans.xml.&quot;</span>, std::source_location::current());</div>
+<div class="line"><span class="lineno">   82</span>      }</div>
+<div class="line"><span class="lineno">   83</span>   }</div>
+<div class="line"><span class="lineno">   84</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">   85</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">   86</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   87</span>   }</div>
+<div class="line"><span class="lineno">   88</span>}</div>
 <div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
-<div class="ttc" id="anamespacersj_html_a85a33831e4cc942fc6995a04c74361ab"><div class="ttname"><a href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:160</div></div>
+<div class="ttc" id="anamespacersj_html_a85a33831e4cc942fc6995a04c74361ab"><div class="ttname"><a href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:142</div></div>
 <div class="ttc" id="anamespacersj_html_ad9fd7ddfd6792dd72b9f217e9d7967c3"><div class="ttname"><a href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj::AppDataFilePath</a></div><div class="ttdeci">std::string AppDataFilePath(const std::string &amp;file_name)</div></div>
-<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:113</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -299,8 +300,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a00f817617c3b85720777f2e37a5f7a04" name="a00f817617c3b85720777f2e37a5f7a04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a00f817617c3b85720777f2e37a5f7a04">&#9670;&#160;</a></span>serialize()</h2>
+<a id="adc5d72b0dacee94cd8d13854d4a8ae6d" name="adc5d72b0dacee94cd8d13854d4a8ae6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc5d72b0dacee94cd8d13854d4a8ae6d">&#9670;&#160;</a></span>serialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -319,7 +320,7 @@ template&lt;class Archive &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::uint32_t const&#160;</td>
+          <td class="paramtype">const std::uint32_t&#160;</td>
           <td class="paramname"><em>version</em>&#160;</td>
         </tr>
         <tr>
@@ -334,31 +335,31 @@ template&lt;class Archive &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   76</span>      {</div>
-<div class="line"><span class="lineno">   77</span>         <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   78</span>            <span class="keywordflow">if</span> (std::cmp_equal(version, 2)) {</div>
-<div class="line"><span class="lineno">   79</span>               archive(cereal::make_nvp(<span class="stringliteral">&quot;language&quot;</span>, <a class="code hl_variable" href="class_command_set_1_1_impl.html#a2041dd12563a7559e2e0437102d0dd8e">language_</a>),</div>
-<div class="line"><span class="lineno">   80</span>                   cereal::make_nvp(<span class="stringliteral">&quot;all_commands&quot;</span>, <a class="code hl_variable" href="class_command_set_1_1_impl.html#a5c16feb21c0e0afd6452dae19763fe4e">allcommands_</a>),</div>
-<div class="line"><span class="lineno">   81</span>                   cereal::make_nvp(<span class="stringliteral">&quot;repeats&quot;</span>, <a class="code hl_variable" href="class_command_set_1_1_impl.html#afa572aeaa100f0097f71dde576592b40">repeat_messages_</a>),</div>
-<div class="line"><span class="lineno">   82</span>                   cereal::make_nvp(<span class="stringliteral">&quot;wraps&quot;</span>, <a class="code hl_variable" href="class_command_set_1_1_impl.html#acf8782abc6af5dd4abe7706697bd0c6e">wraps_</a>));</div>
-<div class="line"><span class="lineno">   83</span>            }</div>
-<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   85</span>               <span class="keyword">constexpr</span> <span class="keyword">auto</span> msg {</div>
-<div class="line"><span class="lineno">   86</span>                   <span class="stringliteral">&quot;The file, &#39;MenuTrans.xml&#39;, is marked as a version not supported by the current &quot;</span></div>
-<div class="line"><span class="lineno">   87</span>                   <span class="stringliteral">&quot;version of MIDI2LR, and won&#39;t be loaded. File version: {}.&quot;</span>};</div>
-<div class="line"><span class="lineno">   88</span>               <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(fmt::format(juce::translate(msg).toStdString(), version),</div>
-<div class="line"><span class="lineno">   89</span>                   fmt::format(msg, version));</div>
+<div class="fragment"><div class="line"><span class="lineno">   83</span>      {</div>
+<div class="line"><span class="lineno">   84</span>         <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   85</span>            <span class="keywordflow">if</span> (std::cmp_equal(version, 2)) {</div>
+<div class="line"><span class="lineno">   86</span>               archive(cereal::make_nvp(<span class="stringliteral">&quot;language&quot;</span>, <a class="code hl_variable" href="class_command_set_1_1_impl.html#a2041dd12563a7559e2e0437102d0dd8e">language_</a>),</div>
+<div class="line"><span class="lineno">   87</span>                   cereal::make_nvp(<span class="stringliteral">&quot;all_commands&quot;</span>, <a class="code hl_variable" href="class_command_set_1_1_impl.html#a5c16feb21c0e0afd6452dae19763fe4e">allcommands_</a>),</div>
+<div class="line"><span class="lineno">   88</span>                   cereal::make_nvp(<span class="stringliteral">&quot;repeats&quot;</span>, <a class="code hl_variable" href="class_command_set_1_1_impl.html#afa572aeaa100f0097f71dde576592b40">repeat_messages_</a>),</div>
+<div class="line"><span class="lineno">   89</span>                   cereal::make_nvp(<span class="stringliteral">&quot;wraps&quot;</span>, <a class="code hl_variable" href="class_command_set_1_1_impl.html#acf8782abc6af5dd4abe7706697bd0c6e">wraps_</a>));</div>
 <div class="line"><span class="lineno">   90</span>            }</div>
-<div class="line"><span class="lineno">   91</span>         }</div>
-<div class="line"><span class="lineno">   92</span>         <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   93</span>            <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">   94</span>            <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">   95</span>         }</div>
-<div class="line"><span class="lineno">   96</span>      }</div>
-<div class="ttc" id="aclass_command_set_1_1_impl_html_a2041dd12563a7559e2e0437102d0dd8e"><div class="ttname"><a href="class_command_set_1_1_impl.html#a2041dd12563a7559e2e0437102d0dd8e">CommandSet::Impl::language_</a></div><div class="ttdeci">std::string language_</div><div class="ttdef"><b>Definition</b> CommandSet.h:98</div></div>
-<div class="ttc" id="aclass_command_set_1_1_impl_html_a5c16feb21c0e0afd6452dae19763fe4e"><div class="ttname"><a href="class_command_set_1_1_impl.html#a5c16feb21c0e0afd6452dae19763fe4e">CommandSet::Impl::allcommands_</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt; &gt; allcommands_</div><div class="ttdef"><b>Definition</b> CommandSet.h:100</div></div>
-<div class="ttc" id="aclass_command_set_1_1_impl_html_acf8782abc6af5dd4abe7706697bd0c6e"><div class="ttname"><a href="class_command_set_1_1_impl.html#acf8782abc6af5dd4abe7706697bd0c6e">CommandSet::Impl::wraps_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; wraps_</div><div class="ttdef"><b>Definition</b> CommandSet.h:102</div></div>
-<div class="ttc" id="aclass_command_set_1_1_impl_html_afa572aeaa100f0097f71dde576592b40"><div class="ttname"><a href="class_command_set_1_1_impl.html#afa572aeaa100f0097f71dde576592b40">CommandSet::Impl::repeat_messages_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::pair&lt; std::string, std::string &gt; &gt; repeat_messages_</div><div class="ttdef"><b>Definition</b> CommandSet.h:101</div></div>
+<div class="line"><span class="lineno">   91</span>            <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   92</span>               <span class="keyword">constexpr</span> <span class="keyword">auto</span> msg {</div>
+<div class="line"><span class="lineno">   93</span>                   <span class="stringliteral">&quot;The file, &#39;MenuTrans.xml&#39;, is marked as a version not supported by the current &quot;</span></div>
+<div class="line"><span class="lineno">   94</span>                   <span class="stringliteral">&quot;version of MIDI2LR, and won&#39;t be loaded. File version: {}.&quot;</span>};</div>
+<div class="line"><span class="lineno">   95</span>               <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(fmt::format(juce::translate(msg).toStdString(), version),</div>
+<div class="line"><span class="lineno">   96</span>                   fmt::format(msg, version), std::source_location::current());</div>
+<div class="line"><span class="lineno">   97</span>            }</div>
+<div class="line"><span class="lineno">   98</span>         }</div>
+<div class="line"><span class="lineno">   99</span>         <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  100</span>            <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  101</span>            <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  102</span>         }</div>
+<div class="line"><span class="lineno">  103</span>      }</div>
+<div class="ttc" id="aclass_command_set_1_1_impl_html_a2041dd12563a7559e2e0437102d0dd8e"><div class="ttname"><a href="class_command_set_1_1_impl.html#a2041dd12563a7559e2e0437102d0dd8e">CommandSet::Impl::language_</a></div><div class="ttdeci">std::string language_</div><div class="ttdef"><b>Definition</b> CommandSet.h:105</div></div>
+<div class="ttc" id="aclass_command_set_1_1_impl_html_a5c16feb21c0e0afd6452dae19763fe4e"><div class="ttname"><a href="class_command_set_1_1_impl.html#a5c16feb21c0e0afd6452dae19763fe4e">CommandSet::Impl::allcommands_</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt; &gt; allcommands_</div><div class="ttdef"><b>Definition</b> CommandSet.h:107</div></div>
+<div class="ttc" id="aclass_command_set_1_1_impl_html_acf8782abc6af5dd4abe7706697bd0c6e"><div class="ttname"><a href="class_command_set_1_1_impl.html#acf8782abc6af5dd4abe7706697bd0c6e">CommandSet::Impl::wraps_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; wraps_</div><div class="ttdef"><b>Definition</b> CommandSet.h:109</div></div>
+<div class="ttc" id="aclass_command_set_1_1_impl_html_afa572aeaa100f0097f71dde576592b40"><div class="ttname"><a href="class_command_set_1_1_impl.html#afa572aeaa100f0097f71dde576592b40">CommandSet::Impl::repeat_messages_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::pair&lt; std::string, std::string &gt; &gt; repeat_messages_</div><div class="ttdef"><b>Definition</b> CommandSet.h:108</div></div>
 </div><!-- fragment -->
 </div>
 </div>

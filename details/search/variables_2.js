@@ -1,7 +1,7 @@
 var searchData=
 [
   ['callback_5fmtx_5f_0',['callback_mtx_',['../class_lr_ipc_out.html#a5d5eac6e8138cd79785505827ce77faa',1,'LrIpcOut']]],
-  ['callbacks_5f_1',['callbacks_',['../class_midi_receiver.html#a326d78bf9372875e07595d412d18735a',1,'MidiReceiver::callbacks_'],['../class_profile_manager.html#abbe77680917497809ae1bf0aee0d89f9',1,'ProfileManager::callbacks_'],['../class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517',1,'LrIpcOut::callbacks_']]],
+  ['callbacks_5f_1',['callbacks_',['../class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517',1,'LrIpcOut::callbacks_'],['../class_midi_receiver.html#a326d78bf9372875e07595d412d18735a',1,'MidiReceiver::callbacks_'],['../class_profile_manager.html#abbe77680917497809ae1bf0aee0d89f9',1,'ProfileManager::callbacks_']]],
   ['cc_5fhigh_5f_2',['cc_high_',['../class_channel_model.html#a9ee3dc031ef0d2bf1390dabc82ac60fb',1,'ChannelModel']]],
   ['cc_5flow_5f_3',['cc_low_',['../class_channel_model.html#a23b42891cef8c4e6032cc7b9ead5e49f',1,'ChannelModel']]],
   ['cc_5fmethod_5f_4',['cc_method_',['../class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938',1,'ChannelModel']]],
@@ -24,7 +24,7 @@ var searchData=
   ['control_5fmsb_5f_21',['control_msb_',['../struct_nrpn_filter_1_1_internal_structure.html#a9c230868a67bd4cd8327d56c24efaafe',1,'NrpnFilter::InternalStructure']]],
   ['control_5fnumber_22',['control_number',['../structrsj_1_1_settings_struct.html#adf49ae590ff4b08c6e9eefb3a0728338',1,'rsj::SettingsStruct::control_number'],['../structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491',1,'rsj::MidiMessage::control_number'],['../structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8',1,'rsj::MidiMessageId::control_number']]],
   ['controlid_23',['controlID',['../class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de',1,'CCoptions']]],
-  ['controls_5fmodel_5f_24',['controls_model_',['../class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8',1,'CCoptions::controls_model_'],['../class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b',1,'PWoptions::controls_model_'],['../class_lr_ipc_in.html#a59ace245fb362643d6ce712a952ae238',1,'LrIpcIn::controls_model_'],['../class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3',1,'MIDI2LRApplication::controls_model_'],['../class_profile_manager.html#a83c2146e269d1483571f7bc85687decc',1,'ProfileManager::controls_model_'],['../class_lr_ipc_out.html#a70ca7c622a8e55bdb8de678e1d89ddf1',1,'LrIpcOut::controls_model_']]],
+  ['controls_5fmodel_5f_24',['controls_model_',['../class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8',1,'CCoptions::controls_model_'],['../class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b',1,'PWoptions::controls_model_'],['../class_lr_ipc_in.html#a59ace245fb362643d6ce712a952ae238',1,'LrIpcIn::controls_model_'],['../class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3',1,'MIDI2LRApplication::controls_model_'],['../class_lr_ipc_out.html#a70ca7c622a8e55bdb8de678e1d89ddf1',1,'LrIpcOut::controls_model_'],['../class_profile_manager.html#a83c2146e269d1483571f7bc85687decc',1,'ProfileManager::controls_model_']]],
   ['current_5fprofile_5f_25',['current_profile_',['../class_profile_manager.html#ace4ed8782a87e7a0e721153895cfcfa5',1,'ProfileManager']]],
   ['current_5fprofile_5findex_5f_26',['current_profile_index_',['../class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39',1,'ProfileManager']]],
   ['current_5fsort_5f_27',['current_sort_',['../class_profile.html#af3463acf83f255b501ec8a3e44d12681',1,'Profile']]],

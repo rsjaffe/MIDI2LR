@@ -49,9 +49,5 @@ var namespacersj =
     [ "ToLower", "namespacersj.html#af53f4096f4a5b6f9705a209de4682f56", null ],
     [ "ToMessageType", "namespacersj.html#a3e507a3be3fc79f796e5973bee4b1454", null ],
     [ "Translate", "namespacersj.html#a1f28ca0bb51c870e4960af1ae31316b7", null ],
-    [ "Trim", "namespacersj.html#aa780955c4461ad8d0d0b4b73d744aa04", null ],
-    [ "Trim", "namespacersj.html#a94afac1b60db0d64f32e127ab5627833", null ],
-    [ "TrimL", "namespacersj.html#a887ca7a03b23a4e030f4d8f164fa2ed7", null ],
-    [ "TrimL", "namespacersj.html#aff73d5a6afa63313683158ee19a03e78", null ],
     [ "ValidMessageType", "namespacersj.html#abc174308b8f19eba15fa43c452cdccca", null ]
 ];

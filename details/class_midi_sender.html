@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -276,30 +276,32 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  139</span>{</div>
-<div class="line"><span class="lineno">  140</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  141</span>      <span class="keyword">const</span> <span class="keyword">auto</span> available_devices {juce::MidiOutput::getAvailableDevices()};</div>
-<div class="line"><span class="lineno">  142</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; device : available_devices) {</div>
-<div class="line"><span class="lineno">  143</span>         <span class="keywordflow">if</span> (<span class="keyword">auto</span> open_device {juce::MidiOutput::openDevice(device.identifier)}) {</div>
-<div class="line"><span class="lineno">  144</span>            <span class="keyword">const</span> <span class="keyword">auto</span> devname {open_device-&gt;getName().toStdString()};</div>
-<div class="line"><span class="lineno">  145</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="class_midi_sender.html#ae35ee826fc1fef10b66b4da68f98e909">ShouldOpenDevice</a>(devname, open_device)) {</div>
-<div class="line"><span class="lineno">  146</span>               <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Opened output device {}.&quot;</span>), devname));</div>
-<div class="line"><span class="lineno">  147</span>               <a class="code hl_variable" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>.push_back(std::move(open_device));</div>
-<div class="line"><span class="lineno">  148</span>            }</div>
-<div class="line"><span class="lineno">  149</span>            <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  150</span>               <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Ignored output device {}.&quot;</span>), devname));</div>
-<div class="line"><span class="lineno">  151</span>            }</div>
-<div class="line"><span class="lineno">  152</span>         }</div>
-<div class="line"><span class="lineno">  153</span>      } <span class="comment">/* devices that are skipped have their pointers deleted and are automatically closed*/</span></div>
-<div class="line"><span class="lineno">  154</span>   }</div>
-<div class="line"><span class="lineno">  155</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  156</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">  157</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  158</span>   }</div>
-<div class="line"><span class="lineno">  159</span>}</div>
-<div class="ttc" id="aclass_midi_sender_html_ae35ee826fc1fef10b66b4da68f98e909"><div class="ttname"><a href="class_midi_sender.html#ae35ee826fc1fef10b66b4da68f98e909">MidiSender::ShouldOpenDevice</a></div><div class="ttdeci">bool ShouldOpenDevice(const std::string &amp;devname, const auto &amp;open_device)</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:127</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  144</span>{</div>
+<div class="line"><span class="lineno">  145</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  146</span>      <span class="keyword">const</span> <span class="keyword">auto</span> available_devices {juce::MidiOutput::getAvailableDevices()};</div>
+<div class="line"><span class="lineno">  147</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; device : available_devices) {</div>
+<div class="line"><span class="lineno">  148</span>         <span class="keywordflow">if</span> (<span class="keyword">auto</span> open_device {juce::MidiOutput::openDevice(device.identifier)}) {</div>
+<div class="line"><span class="lineno">  149</span>            <span class="keyword">const</span> <span class="keyword">auto</span> devname {open_device-&gt;getName().toStdString()};</div>
+<div class="line"><span class="lineno">  150</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="class_midi_sender.html#ae35ee826fc1fef10b66b4da68f98e909">ShouldOpenDevice</a>(devname, open_device)) {</div>
+<div class="line"><span class="lineno">  151</span>               <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Opened output device {}.&quot;</span>), devname),</div>
+<div class="line"><span class="lineno">  152</span>                   std::source_location::current());</div>
+<div class="line"><span class="lineno">  153</span>               <a class="code hl_variable" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>.push_back(std::move(open_device));</div>
+<div class="line"><span class="lineno">  154</span>            }</div>
+<div class="line"><span class="lineno">  155</span>            <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  156</span>               <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Ignored output device {}.&quot;</span>), devname),</div>
+<div class="line"><span class="lineno">  157</span>                   std::source_location::current());</div>
+<div class="line"><span class="lineno">  158</span>            }</div>
+<div class="line"><span class="lineno">  159</span>         }</div>
+<div class="line"><span class="lineno">  160</span>      } <span class="comment">/* devices that are skipped have their pointers deleted and are automatically closed*/</span></div>
+<div class="line"><span class="lineno">  161</span>   }</div>
+<div class="line"><span class="lineno">  162</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  163</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  164</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  165</span>   }</div>
+<div class="line"><span class="lineno">  166</span>}</div>
+<div class="ttc" id="aclass_midi_sender_html_ae35ee826fc1fef10b66b4da68f98e909"><div class="ttname"><a href="class_midi_sender.html#ae35ee826fc1fef10b66b4da68f98e909">MidiSender::ShouldOpenDevice</a></div><div class="ttdeci">bool ShouldOpenDevice(const std::string &amp;devname, const auto &amp;open_device)</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:132</div></div>
 <div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
-<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:113</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -369,18 +371,18 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  115</span>{</div>
-<div class="line"><span class="lineno">  116</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  117</span>      <a class="code hl_variable" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>.clear();</div>
-<div class="line"><span class="lineno">  118</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Cleared output devices.&quot;</span>);</div>
-<div class="line"><span class="lineno">  119</span>      <a class="code hl_function" href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">InitDevices</a>();</div>
-<div class="line"><span class="lineno">  120</span>   }</div>
-<div class="line"><span class="lineno">  121</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  122</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">  123</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  124</span>   }</div>
-<div class="line"><span class="lineno">  125</span>}</div>
-<div class="ttc" id="aclass_midi_sender_html_a24b39644b419baab87b1d3337ab15fe8"><div class="ttname"><a href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">MidiSender::InitDevices</a></div><div class="ttdeci">void InitDevices()</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:138</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  120</span>{</div>
+<div class="line"><span class="lineno">  121</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  122</span>      <a class="code hl_variable" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>.clear();</div>
+<div class="line"><span class="lineno">  123</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Cleared output devices.&quot;</span>, std::source_location::current());</div>
+<div class="line"><span class="lineno">  124</span>      <a class="code hl_function" href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">InitDevices</a>();</div>
+<div class="line"><span class="lineno">  125</span>   }</div>
+<div class="line"><span class="lineno">  126</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  127</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  128</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  129</span>   }</div>
+<div class="line"><span class="lineno">  130</span>}</div>
+<div class="ttc" id="aclass_midi_sender_html_a24b39644b419baab87b1d3337ab15fe8"><div class="ttname"><a href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">MidiSender::InitDevices</a></div><div class="ttdeci">void InitDevices()</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:143</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -409,27 +411,31 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   53</span>{</div>
-<div class="line"><span class="lineno">   54</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   55</span>      <span class="keywordflow">if</span> (<span class="keywordtype">id</span>.msg_id_type == <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::MessageType::kCc</a>) { <a class="code hl_function" href="class_midi_sender.html#a9ff3183e540ead837b6a0671de7ff7dc">SendControllerEvent</a>(<span class="keywordtype">id</span>, value); }</div>
-<div class="line"><span class="lineno">   56</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keywordtype">id</span>.msg_id_type == <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ac6a3582c30ac3ccfb5f2ee3c36e07206">rsj::MessageType::kNoteOn</a>) {</div>
-<div class="line"><span class="lineno">   57</span>         <a class="code hl_function" href="class_midi_sender.html#a1f829f834181e533c8876236e6895884">SendNoteOn</a>(<span class="keywordtype">id</span>, value);</div>
-<div class="line"><span class="lineno">   58</span>      }</div>
-<div class="line"><span class="lineno">   59</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keywordtype">id</span>.msg_id_type == <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee">rsj::MessageType::kPw</a>) {</div>
-<div class="line"><span class="lineno">   60</span>         <a class="code hl_function" href="class_midi_sender.html#a46ea792cade89dc1fd5d101199ecc5de">SendPitchWheel</a>(<span class="keywordtype">id</span>, value);</div>
-<div class="line"><span class="lineno">   61</span>      }</div>
-<div class="line"><span class="lineno">   62</span>      <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   63</span>         LogUnexpectedDataType(<span class="keywordtype">id</span>);</div>
-<div class="line"><span class="lineno">   64</span>      }</div>
-<div class="line"><span class="lineno">   65</span>   }</div>
-<div class="line"><span class="lineno">   66</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   67</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">   68</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">   69</span>   }</div>
-<div class="line"><span class="lineno">   70</span>}</div>
-<div class="ttc" id="aclass_midi_sender_html_a1f829f834181e533c8876236e6895884"><div class="ttname"><a href="class_midi_sender.html#a1f829f834181e533c8876236e6895884">MidiSender::SendNoteOn</a></div><div class="ttdeci">void SendNoteOn(rsj::MidiMessageId id, int value) const</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:78</div></div>
-<div class="ttc" id="aclass_midi_sender_html_a46ea792cade89dc1fd5d101199ecc5de"><div class="ttname"><a href="class_midi_sender.html#a46ea792cade89dc1fd5d101199ecc5de">MidiSender::SendPitchWheel</a></div><div class="ttdeci">void SendPitchWheel(rsj::MidiMessageId id, int value) const</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:72</div></div>
-<div class="ttc" id="aclass_midi_sender_html_a9ff3183e540ead837b6a0671de7ff7dc"><div class="ttname"><a href="class_midi_sender.html#a9ff3183e540ead837b6a0671de7ff7dc">MidiSender::SendControllerEvent</a></div><div class="ttdeci">void SendControllerEvent(rsj::MidiMessageId id, int value) const</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:85</div></div>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>{</div>
+<div class="line"><span class="lineno">   55</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   56</span>      <span class="keywordflow">switch</span> (<span class="keywordtype">id</span>.msg_id_type) {</div>
+<div class="line"><span class="lineno">   57</span>      <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::MessageType::kCc</a>:</div>
+<div class="line"><span class="lineno">   58</span>         <a class="code hl_function" href="class_midi_sender.html#a9ff3183e540ead837b6a0671de7ff7dc">SendControllerEvent</a>(<span class="keywordtype">id</span>, value);</div>
+<div class="line"><span class="lineno">   59</span>         <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   60</span>      <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ac6a3582c30ac3ccfb5f2ee3c36e07206">rsj::MessageType::kNoteOn</a>:</div>
+<div class="line"><span class="lineno">   61</span>         <a class="code hl_function" href="class_midi_sender.html#a1f829f834181e533c8876236e6895884">SendNoteOn</a>(<span class="keywordtype">id</span>, value);</div>
+<div class="line"><span class="lineno">   62</span>         <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   63</span>      <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee">rsj::MessageType::kPw</a>:</div>
+<div class="line"><span class="lineno">   64</span>         <a class="code hl_function" href="class_midi_sender.html#a46ea792cade89dc1fd5d101199ecc5de">SendPitchWheel</a>(<span class="keywordtype">id</span>, value);</div>
+<div class="line"><span class="lineno">   65</span>         <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   66</span>      <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">   67</span>         LogUnexpectedDataType(<span class="keywordtype">id</span>);</div>
+<div class="line"><span class="lineno">   68</span>         <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   69</span>      }</div>
+<div class="line"><span class="lineno">   70</span>   }</div>
+<div class="line"><span class="lineno">   71</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">   72</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">   73</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   74</span>   }</div>
+<div class="line"><span class="lineno">   75</span>}</div>
+<div class="ttc" id="aclass_midi_sender_html_a1f829f834181e533c8876236e6895884"><div class="ttname"><a href="class_midi_sender.html#a1f829f834181e533c8876236e6895884">MidiSender::SendNoteOn</a></div><div class="ttdeci">void SendNoteOn(rsj::MidiMessageId id, int value) const</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:83</div></div>
+<div class="ttc" id="aclass_midi_sender_html_a46ea792cade89dc1fd5d101199ecc5de"><div class="ttname"><a href="class_midi_sender.html#a46ea792cade89dc1fd5d101199ecc5de">MidiSender::SendPitchWheel</a></div><div class="ttdeci">void SendPitchWheel(rsj::MidiMessageId id, int value) const</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:77</div></div>
+<div class="ttc" id="aclass_midi_sender_html_a9ff3183e540ead837b6a0671de7ff7dc"><div class="ttname"><a href="class_midi_sender.html#a9ff3183e540ead837b6a0671de7ff7dc">MidiSender::SendControllerEvent</a></div><div class="ttdeci">void SendControllerEvent(rsj::MidiMessageId id, int value) const</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:90</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992a72a9422a5688ebbc9b8853245f274447">rsj::MessageType::kCc</a></div><div class="ttdeci">@ kCc</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ac6a3582c30ac3ccfb5f2ee3c36e07206"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ac6a3582c30ac3ccfb5f2ee3c36e07206">rsj::MessageType::kNoteOn</a></div><div class="ttdeci">@ kNoteOn</div></div>
 <div class="ttc" id="anamespacersj_html_a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee"><div class="ttname"><a href="namespacersj.html#a22e4616185f77550b6d7dff822cef992ae59f0b47b3b61dfff4e92a6d39d3c3ee">rsj::MessageType::kPw</a></div><div class="ttdeci">@ kPw</div></div>
@@ -469,18 +475,18 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   86</span>{</div>
-<div class="line"><span class="lineno">   87</span>   <span class="keywordflow">if</span> (<span class="keywordtype">id</span>.control_number &lt; 128 &amp;&amp; value &lt; 128) {</div>
-<div class="line"><span class="lineno">   88</span>      <span class="comment">/* regular message */</span></div>
-<div class="line"><span class="lineno">   89</span>      <span class="keyword">const</span> <span class="keyword">auto</span> msg {juce::MidiMessage::controllerEvent(<span class="keywordtype">id</span>.channel, <span class="keywordtype">id</span>.control_number, value)};</div>
-<div class="line"><span class="lineno">   90</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code hl_variable" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>) { dev-&gt;sendMessageNow(msg); }</div>
-<div class="line"><span class="lineno">   91</span>   }</div>
-<div class="line"><span class="lineno">   92</span>   <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   93</span>      <span class="comment">/* NPRN */</span></div>
-<div class="line"><span class="lineno">   94</span>      <a class="code hl_function" href="class_midi_sender.html#a6e914badb87eff4abb80018206e54fde">SendNrpn</a>(<span class="keywordtype">id</span>, value);</div>
-<div class="line"><span class="lineno">   95</span>   }</div>
-<div class="line"><span class="lineno">   96</span>}</div>
-<div class="ttc" id="aclass_midi_sender_html_a6e914badb87eff4abb80018206e54fde"><div class="ttname"><a href="class_midi_sender.html#a6e914badb87eff4abb80018206e54fde">MidiSender::SendNrpn</a></div><div class="ttdeci">void SendNrpn(rsj::MidiMessageId id, int value) const</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:98</div></div>
+<div class="fragment"><div class="line"><span class="lineno">   91</span>{</div>
+<div class="line"><span class="lineno">   92</span>   <span class="keywordflow">if</span> (<span class="keywordtype">id</span>.control_number &lt; 128 &amp;&amp; value &lt; 128) {</div>
+<div class="line"><span class="lineno">   93</span>      <span class="comment">/* regular message */</span></div>
+<div class="line"><span class="lineno">   94</span>      <span class="keyword">const</span> <span class="keyword">auto</span> msg {juce::MidiMessage::controllerEvent(<span class="keywordtype">id</span>.channel, <span class="keywordtype">id</span>.control_number, value)};</div>
+<div class="line"><span class="lineno">   95</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code hl_variable" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>) { dev-&gt;sendMessageNow(msg); }</div>
+<div class="line"><span class="lineno">   96</span>   }</div>
+<div class="line"><span class="lineno">   97</span>   <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   98</span>      <span class="comment">/* NPRN */</span></div>
+<div class="line"><span class="lineno">   99</span>      <a class="code hl_function" href="class_midi_sender.html#a6e914badb87eff4abb80018206e54fde">SendNrpn</a>(<span class="keywordtype">id</span>, value);</div>
+<div class="line"><span class="lineno">  100</span>   }</div>
+<div class="line"><span class="lineno">  101</span>}</div>
+<div class="ttc" id="aclass_midi_sender_html_a6e914badb87eff4abb80018206e54fde"><div class="ttname"><a href="class_midi_sender.html#a6e914badb87eff4abb80018206e54fde">MidiSender::SendNrpn</a></div><div class="ttdeci">void SendNrpn(rsj::MidiMessageId id, int value) const</div><div class="ttdef"><b>Definition</b> MIDISender.cpp:103</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -517,11 +523,11 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   79</span>{</div>
-<div class="line"><span class="lineno">   80</span>   <span class="keyword">const</span> <span class="keyword">auto</span> msg {juce::MidiMessage::noteOn(<span class="keywordtype">id</span>.channel, <span class="keywordtype">id</span>.control_number,</div>
-<div class="line"><span class="lineno">   81</span>       gsl::narrow_cast&lt;juce::uint8&gt;(value))};</div>
-<div class="line"><span class="lineno">   82</span>   <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code hl_variable" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>) { dev-&gt;sendMessageNow(msg); }</div>
-<div class="line"><span class="lineno">   83</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">   84</span>{</div>
+<div class="line"><span class="lineno">   85</span>   <span class="keyword">const</span> <span class="keyword">auto</span> msg {juce::MidiMessage::noteOn(<span class="keywordtype">id</span>.channel, <span class="keywordtype">id</span>.control_number,</div>
+<div class="line"><span class="lineno">   86</span>       gsl::narrow_cast&lt;juce::uint8&gt;(value))};</div>
+<div class="line"><span class="lineno">   87</span>   <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code hl_variable" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>) { dev-&gt;sendMessageNow(msg); }</div>
+<div class="line"><span class="lineno">   88</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -558,20 +564,20 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   99</span>{</div>
-<div class="line"><span class="lineno">  100</span>   <span class="keyword">const</span> <span class="keyword">auto</span> msg_parm_msb {</div>
-<div class="line"><span class="lineno">  101</span>       juce::MidiMessage::controllerEvent(<span class="keywordtype">id</span>.channel, 99, <span class="keywordtype">id</span>.control_number &gt;&gt; 7 &amp; 0x7F)};</div>
-<div class="line"><span class="lineno">  102</span>   <span class="keyword">const</span> <span class="keyword">auto</span> msg_parm_lsb {</div>
-<div class="line"><span class="lineno">  103</span>       juce::MidiMessage::controllerEvent(<span class="keywordtype">id</span>.channel, 98, <span class="keywordtype">id</span>.control_number &amp; 0x7f)};</div>
-<div class="line"><span class="lineno">  104</span>   <span class="keyword">const</span> <span class="keyword">auto</span> msg_val_msb {juce::MidiMessage::controllerEvent(<span class="keywordtype">id</span>.channel, 6, value &gt;&gt; 7 &amp; 0x7F)};</div>
-<div class="line"><span class="lineno">  105</span>   <span class="keyword">const</span> <span class="keyword">auto</span> msg_val_lsb {juce::MidiMessage::controllerEvent(<span class="keywordtype">id</span>.channel, 38, value &amp; 0x7f)};</div>
-<div class="line"><span class="lineno">  106</span>   <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code hl_variable" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>) {</div>
-<div class="line"><span class="lineno">  107</span>      dev-&gt;sendMessageNow(msg_parm_msb);</div>
-<div class="line"><span class="lineno">  108</span>      dev-&gt;sendMessageNow(msg_parm_lsb);</div>
-<div class="line"><span class="lineno">  109</span>      dev-&gt;sendMessageNow(msg_val_msb);</div>
-<div class="line"><span class="lineno">  110</span>      dev-&gt;sendMessageNow(msg_val_lsb);</div>
-<div class="line"><span class="lineno">  111</span>   }</div>
-<div class="line"><span class="lineno">  112</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  104</span>{</div>
+<div class="line"><span class="lineno">  105</span>   <span class="keyword">const</span> <span class="keyword">auto</span> msg_parm_msb {</div>
+<div class="line"><span class="lineno">  106</span>       juce::MidiMessage::controllerEvent(<span class="keywordtype">id</span>.channel, 99, <span class="keywordtype">id</span>.control_number &gt;&gt; 7 &amp; 0x7F)};</div>
+<div class="line"><span class="lineno">  107</span>   <span class="keyword">const</span> <span class="keyword">auto</span> msg_parm_lsb {</div>
+<div class="line"><span class="lineno">  108</span>       juce::MidiMessage::controllerEvent(<span class="keywordtype">id</span>.channel, 98, <span class="keywordtype">id</span>.control_number &amp; 0x7f)};</div>
+<div class="line"><span class="lineno">  109</span>   <span class="keyword">const</span> <span class="keyword">auto</span> msg_val_msb {juce::MidiMessage::controllerEvent(<span class="keywordtype">id</span>.channel, 6, value &gt;&gt; 7 &amp; 0x7F)};</div>
+<div class="line"><span class="lineno">  110</span>   <span class="keyword">const</span> <span class="keyword">auto</span> msg_val_lsb {juce::MidiMessage::controllerEvent(<span class="keywordtype">id</span>.channel, 38, value &amp; 0x7f)};</div>
+<div class="line"><span class="lineno">  111</span>   <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code hl_variable" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>) {</div>
+<div class="line"><span class="lineno">  112</span>      dev-&gt;sendMessageNow(msg_parm_msb);</div>
+<div class="line"><span class="lineno">  113</span>      dev-&gt;sendMessageNow(msg_parm_lsb);</div>
+<div class="line"><span class="lineno">  114</span>      dev-&gt;sendMessageNow(msg_val_msb);</div>
+<div class="line"><span class="lineno">  115</span>      dev-&gt;sendMessageNow(msg_val_lsb);</div>
+<div class="line"><span class="lineno">  116</span>   }</div>
+<div class="line"><span class="lineno">  117</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -608,10 +614,10 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   73</span>{</div>
-<div class="line"><span class="lineno">   74</span>   <span class="keyword">const</span> <span class="keyword">auto</span> msg {juce::MidiMessage::pitchWheel(<span class="keywordtype">id</span>.channel, value)};</div>
-<div class="line"><span class="lineno">   75</span>   <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code hl_variable" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>) { dev-&gt;sendMessageNow(msg); }</div>
-<div class="line"><span class="lineno">   76</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">   78</span>{</div>
+<div class="line"><span class="lineno">   79</span>   <span class="keyword">const</span> <span class="keyword">auto</span> msg {juce::MidiMessage::pitchWheel(<span class="keywordtype">id</span>.channel, value)};</div>
+<div class="line"><span class="lineno">   80</span>   <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code hl_variable" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>) { dev-&gt;sendMessageNow(msg); }</div>
+<div class="line"><span class="lineno">   81</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -648,16 +654,16 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  128</span>{</div>
-<div class="line"><span class="lineno">  129</span>   <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (MSWindows) {</div>
-<div class="line"><span class="lineno">  130</span>      <span class="keywordflow">return</span> devname != <span class="stringliteral">&quot;Microsoft GS Wavetable Synth&quot;</span></div>
-<div class="line"><span class="lineno">  131</span>             &amp;&amp; <a class="code hl_variable" href="class_midi_sender.html#a9d91dc34a4a0ce3c9c08ab9b46047711">devices_</a>.<a class="code hl_function" href="class_devices.html#ac1422ea1542473f126633f82087634b0">EnabledOrNew</a>(open_device-&gt;getDeviceInfo(), <span class="stringliteral">&quot;output&quot;</span>);</div>
-<div class="line"><span class="lineno">  132</span>   }</div>
-<div class="line"><span class="lineno">  133</span>   <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  134</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_midi_sender.html#a9d91dc34a4a0ce3c9c08ab9b46047711">devices_</a>.<a class="code hl_function" href="class_devices.html#ac1422ea1542473f126633f82087634b0">EnabledOrNew</a>(open_device-&gt;getDeviceInfo(), <span class="stringliteral">&quot;output&quot;</span>);</div>
-<div class="line"><span class="lineno">  135</span>   }</div>
-<div class="line"><span class="lineno">  136</span>}</div>
-<div class="ttc" id="aclass_devices_html_ac1422ea1542473f126633f82087634b0"><div class="ttname"><a href="class_devices.html#ac1422ea1542473f126633f82087634b0">Devices::EnabledOrNew</a></div><div class="ttdeci">bool EnabledOrNew(const juce::MidiDeviceInfo &amp;info, const juce::String &amp;io)</div><div class="ttdef"><b>Definition</b> Devices.cpp:152</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  133</span>{</div>
+<div class="line"><span class="lineno">  134</span>   <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (MSWindows) {</div>
+<div class="line"><span class="lineno">  135</span>      <span class="keywordflow">return</span> devname != <span class="stringliteral">&quot;Microsoft GS Wavetable Synth&quot;</span></div>
+<div class="line"><span class="lineno">  136</span>             &amp;&amp; <a class="code hl_variable" href="class_midi_sender.html#a9d91dc34a4a0ce3c9c08ab9b46047711">devices_</a>.<a class="code hl_function" href="class_devices.html#ac1422ea1542473f126633f82087634b0">EnabledOrNew</a>(open_device-&gt;getDeviceInfo(), <span class="stringliteral">&quot;output&quot;</span>);</div>
+<div class="line"><span class="lineno">  137</span>   }</div>
+<div class="line"><span class="lineno">  138</span>   <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  139</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="class_midi_sender.html#a9d91dc34a4a0ce3c9c08ab9b46047711">devices_</a>.<a class="code hl_function" href="class_devices.html#ac1422ea1542473f126633f82087634b0">EnabledOrNew</a>(open_device-&gt;getDeviceInfo(), <span class="stringliteral">&quot;output&quot;</span>);</div>
+<div class="line"><span class="lineno">  140</span>   }</div>
+<div class="line"><span class="lineno">  141</span>}</div>
+<div class="ttc" id="aclass_devices_html_ac1422ea1542473f126633f82087634b0"><div class="ttname"><a href="class_devices.html#ac1422ea1542473f126633f82087634b0">Devices::EnabledOrNew</a></div><div class="ttdeci">bool EnabledOrNew(const juce::MidiDeviceInfo &amp;info, const juce::String &amp;io)</div><div class="ttdef"><b>Definition</b> Devices.cpp:153</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -680,7 +686,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   35</span>      <a class="code hl_function" href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">InitDevices</a>();</div>
 <div class="line"><span class="lineno">   36</span>   }</div>
 <div class="line"><span class="lineno">   37</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   38</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   38</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
 <div class="line"><span class="lineno">   39</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   40</span>   }</div>
 <div class="line"><span class="lineno">   41</span>}</div>

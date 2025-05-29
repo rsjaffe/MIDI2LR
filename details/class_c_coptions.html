@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -195,148 +195,149 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   50</span>{</div>
-<div class="line"><span class="lineno">   51</span>   <span class="comment">//[Constructor_pre] You can add your own custom stuff here..</span></div>
-<div class="line"><span class="lineno">   52</span>   <span class="comment">//[/Constructor_pre]</span></div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>   <a class="code hl_variable" href="class_c_coptions.html#acb4059f290e37d5c3811d2db63717568">groupComponent</a>.reset(<span class="keyword">new</span> GroupComponent(<span class="stringliteral">&quot;CCmethod&quot;</span>, TRANS(<span class="stringliteral">&quot;CC Message Type&quot;</span>)));</div>
-<div class="line"><span class="lineno">   55</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#acb4059f290e37d5c3811d2db63717568">groupComponent</a>.get());</div>
-<div class="line"><span class="lineno">   56</span> </div>
-<div class="line"><span class="lineno">   57</span>   <a class="code hl_variable" href="class_c_coptions.html#acb4059f290e37d5c3811d2db63717568">groupComponent</a>-&gt;setBounds(16, 60, 240, 157);</div>
+<div class="fragment"><div class="line"><span class="lineno">   51</span>{</div>
+<div class="line"><span class="lineno">   52</span>   <span class="comment">//[Constructor_pre] You can add your own custom stuff here..</span></div>
+<div class="line"><span class="lineno">   53</span>   <span class="keyword">auto</span> fo {juce::FontOptions(15.00f, Font::plain)};</div>
+<div class="line"><span class="lineno">   54</span>   <span class="comment">//[/Constructor_pre]</span></div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span>   <a class="code hl_variable" href="class_c_coptions.html#acb4059f290e37d5c3811d2db63717568">groupComponent</a>.reset(<span class="keyword">new</span> GroupComponent(<span class="stringliteral">&quot;CCmethod&quot;</span>, TRANS(<span class="stringliteral">&quot;CC Message Type&quot;</span>)));</div>
+<div class="line"><span class="lineno">   57</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#acb4059f290e37d5c3811d2db63717568">groupComponent</a>.get());</div>
 <div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>.reset(<span class="keyword">new</span> ToggleButton(<span class="stringliteral">&quot;twoscomp&quot;</span>));</div>
-<div class="line"><span class="lineno">   60</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>.get());</div>
-<div class="line"><span class="lineno">   61</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setTooltip(TRANS(<span class="stringliteral">&quot;Control value is 1 or greater when turned one way, and 127 or &quot;</span></div>
-<div class="line"><span class="lineno">   62</span>                                <span class="stringliteral">&quot;smaller when turned the other.&quot;</span>));</div>
-<div class="line"><span class="lineno">   63</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setExplicitFocusOrder(2);</div>
-<div class="line"><span class="lineno">   64</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setButtonText(TRANS(<span class="stringliteral">&quot;Two\&#39;s complement&quot;</span>));</div>
-<div class="line"><span class="lineno">   65</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setConnectedEdges(Button::ConnectedOnTop | Button::ConnectedOnBottom);</div>
-<div class="line"><span class="lineno">   66</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setRadioGroupId(1);</div>
-<div class="line"><span class="lineno">   67</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;addListener(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setBounds(40, 117, 150, 24);</div>
+<div class="line"><span class="lineno">   59</span>   <a class="code hl_variable" href="class_c_coptions.html#acb4059f290e37d5c3811d2db63717568">groupComponent</a>-&gt;setBounds(16, 60, 240, 157);</div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   61</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>.reset(<span class="keyword">new</span> ToggleButton(<span class="stringliteral">&quot;twoscomp&quot;</span>));</div>
+<div class="line"><span class="lineno">   62</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>.get());</div>
+<div class="line"><span class="lineno">   63</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setTooltip(TRANS(<span class="stringliteral">&quot;Control value is 1 or greater when turned one way, and 127 or &quot;</span></div>
+<div class="line"><span class="lineno">   64</span>                                <span class="stringliteral">&quot;smaller when turned the other.&quot;</span>));</div>
+<div class="line"><span class="lineno">   65</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setExplicitFocusOrder(2);</div>
+<div class="line"><span class="lineno">   66</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setButtonText(TRANS(<span class="stringliteral">&quot;Two\&#39;s complement&quot;</span>));</div>
+<div class="line"><span class="lineno">   67</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setConnectedEdges(Button::ConnectedOnTop | Button::ConnectedOnBottom);</div>
+<div class="line"><span class="lineno">   68</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setRadioGroupId(1);</div>
+<div class="line"><span class="lineno">   69</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;addListener(<span class="keyword">this</span>);</div>
 <div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>.reset(<span class="keyword">new</span> ToggleButton(<span class="stringliteral">&quot;Absolute&quot;</span>));</div>
-<div class="line"><span class="lineno">   72</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>.get());</div>
-<div class="line"><span class="lineno">   73</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setTooltip(</div>
-<div class="line"><span class="lineno">   74</span>       TRANS(<span class="stringliteral">&quot;Control value increases when turned one way, decreases when turned the other.&quot;</span>));</div>
-<div class="line"><span class="lineno">   75</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setExplicitFocusOrder(1);</div>
-<div class="line"><span class="lineno">   76</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setConnectedEdges(Button::ConnectedOnBottom);</div>
-<div class="line"><span class="lineno">   77</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setRadioGroupId(1);</div>
-<div class="line"><span class="lineno">   78</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;addListener(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">   79</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setToggleState(<span class="keyword">true</span>, dontSendNotification);</div>
-<div class="line"><span class="lineno">   80</span> </div>
-<div class="line"><span class="lineno">   81</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setBounds(40, 85, 150, 24);</div>
+<div class="line"><span class="lineno">   71</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setBounds(40, 117, 150, 24);</div>
+<div class="line"><span class="lineno">   72</span> </div>
+<div class="line"><span class="lineno">   73</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>.reset(<span class="keyword">new</span> ToggleButton(<span class="stringliteral">&quot;Absolute&quot;</span>));</div>
+<div class="line"><span class="lineno">   74</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>.get());</div>
+<div class="line"><span class="lineno">   75</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setTooltip(TRANS(<span class="stringliteral">&quot;Control value increases when turned one way, decreases when turned &quot;</span></div>
+<div class="line"><span class="lineno">   76</span>                               <span class="stringliteral">&quot;the other.&quot;</span>));</div>
+<div class="line"><span class="lineno">   77</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setExplicitFocusOrder(1);</div>
+<div class="line"><span class="lineno">   78</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setConnectedEdges(Button::ConnectedOnBottom);</div>
+<div class="line"><span class="lineno">   79</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setRadioGroupId(1);</div>
+<div class="line"><span class="lineno">   80</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;addListener(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">   81</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setToggleState(<span class="keyword">true</span>, dontSendNotification);</div>
 <div class="line"><span class="lineno">   82</span> </div>
-<div class="line"><span class="lineno">   83</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>.reset(<span class="keyword">new</span> ToggleButton(<span class="stringliteral">&quot;Binaryoffset&quot;</span>));</div>
-<div class="line"><span class="lineno">   84</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>.get());</div>
-<div class="line"><span class="lineno">   85</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setTooltip(</div>
-<div class="line"><span class="lineno">   86</span>       TRANS(<span class="stringliteral">&quot;Control value is near 63 when turned one way, and near 65 when turned the other.&quot;</span>));</div>
-<div class="line"><span class="lineno">   87</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setExplicitFocusOrder(3);</div>
-<div class="line"><span class="lineno">   88</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setButtonText(TRANS(<span class="stringliteral">&quot;Binary offset&quot;</span>));</div>
-<div class="line"><span class="lineno">   89</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setConnectedEdges(Button::ConnectedOnTop | Button::ConnectedOnBottom);</div>
-<div class="line"><span class="lineno">   90</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setRadioGroupId(1);</div>
-<div class="line"><span class="lineno">   91</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;addListener(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">   92</span> </div>
-<div class="line"><span class="lineno">   93</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setBounds(40, 149, 150, 24);</div>
+<div class="line"><span class="lineno">   83</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setBounds(40, 85, 150, 24);</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>.reset(<span class="keyword">new</span> ToggleButton(<span class="stringliteral">&quot;Binaryoffset&quot;</span>));</div>
+<div class="line"><span class="lineno">   86</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>.get());</div>
+<div class="line"><span class="lineno">   87</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setTooltip(TRANS(<span class="stringliteral">&quot;Control value is near 63 when turned one way, and near 65 when &quot;</span></div>
+<div class="line"><span class="lineno">   88</span>                               <span class="stringliteral">&quot;turned the other.&quot;</span>));</div>
+<div class="line"><span class="lineno">   89</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setExplicitFocusOrder(3);</div>
+<div class="line"><span class="lineno">   90</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setButtonText(TRANS(<span class="stringliteral">&quot;Binary offset&quot;</span>));</div>
+<div class="line"><span class="lineno">   91</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setConnectedEdges(Button::ConnectedOnTop | Button::ConnectedOnBottom);</div>
+<div class="line"><span class="lineno">   92</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setRadioGroupId(1);</div>
+<div class="line"><span class="lineno">   93</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;addListener(<span class="keyword">this</span>);</div>
 <div class="line"><span class="lineno">   94</span> </div>
-<div class="line"><span class="lineno">   95</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>.reset(<span class="keyword">new</span> ToggleButton(<span class="stringliteral">&quot;Signmagnitude&quot;</span>));</div>
-<div class="line"><span class="lineno">   96</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>.get());</div>
-<div class="line"><span class="lineno">   97</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setTooltip(</div>
-<div class="line"><span class="lineno">   98</span>       TRANS(<span class="stringliteral">&quot;Control value is near 1 when turned one way, and near 65 when turned the other.&quot;</span>));</div>
-<div class="line"><span class="lineno">   99</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setExplicitFocusOrder(4);</div>
-<div class="line"><span class="lineno">  100</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setButtonText(TRANS(<span class="stringliteral">&quot;Sign and magnitude&quot;</span>));</div>
-<div class="line"><span class="lineno">  101</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setConnectedEdges(Button::ConnectedOnTop);</div>
-<div class="line"><span class="lineno">  102</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setRadioGroupId(1);</div>
-<div class="line"><span class="lineno">  103</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;addListener(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setBounds(40, 181, 150, 24);</div>
+<div class="line"><span class="lineno">   95</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setBounds(40, 149, 150, 24);</div>
+<div class="line"><span class="lineno">   96</span> </div>
+<div class="line"><span class="lineno">   97</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>.reset(<span class="keyword">new</span> ToggleButton(<span class="stringliteral">&quot;Signmagnitude&quot;</span>));</div>
+<div class="line"><span class="lineno">   98</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>.get());</div>
+<div class="line"><span class="lineno">   99</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setTooltip(TRANS(<span class="stringliteral">&quot;Control value is near 1 when turned one way, and near 65 when &quot;</span></div>
+<div class="line"><span class="lineno">  100</span>                                <span class="stringliteral">&quot;turned the other.&quot;</span>));</div>
+<div class="line"><span class="lineno">  101</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setExplicitFocusOrder(4);</div>
+<div class="line"><span class="lineno">  102</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setButtonText(TRANS(<span class="stringliteral">&quot;Sign and magnitude&quot;</span>));</div>
+<div class="line"><span class="lineno">  103</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setConnectedEdges(Button::ConnectedOnTop);</div>
+<div class="line"><span class="lineno">  104</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setRadioGroupId(1);</div>
+<div class="line"><span class="lineno">  105</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;addListener(<span class="keyword">this</span>);</div>
 <div class="line"><span class="lineno">  106</span> </div>
-<div class="line"><span class="lineno">  107</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>.reset(<span class="keyword">new</span> TextEditor(<span class="stringliteral">&quot;maxvaltext&quot;</span>));</div>
-<div class="line"><span class="lineno">  108</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>.get());</div>
-<div class="line"><span class="lineno">  109</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setExplicitFocusOrder(6);</div>
-<div class="line"><span class="lineno">  110</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setMultiLine(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  111</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setReturnKeyStartsNewLine(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  112</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setReadOnly(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  113</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setScrollbarsShown(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  114</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setCaretVisible(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  115</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setPopupMenuEnabled(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  116</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;127&quot;</span>));</div>
-<div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setBounds(200, 268, 56, 24);</div>
+<div class="line"><span class="lineno">  107</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setBounds(40, 181, 150, 24);</div>
+<div class="line"><span class="lineno">  108</span> </div>
+<div class="line"><span class="lineno">  109</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>.reset(<span class="keyword">new</span> TextEditor(<span class="stringliteral">&quot;maxvaltext&quot;</span>));</div>
+<div class="line"><span class="lineno">  110</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>.get());</div>
+<div class="line"><span class="lineno">  111</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setExplicitFocusOrder(6);</div>
+<div class="line"><span class="lineno">  112</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setMultiLine(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  113</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setReturnKeyStartsNewLine(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  114</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setReadOnly(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  115</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setScrollbarsShown(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  116</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setCaretVisible(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  117</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setPopupMenuEnabled(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  118</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;127&quot;</span>));</div>
 <div class="line"><span class="lineno">  119</span> </div>
-<div class="line"><span class="lineno">  120</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>.reset(<span class="keyword">new</span> TextEditor(<span class="stringliteral">&quot;minvaltext&quot;</span>));</div>
-<div class="line"><span class="lineno">  121</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>.get());</div>
-<div class="line"><span class="lineno">  122</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setExplicitFocusOrder(5);</div>
-<div class="line"><span class="lineno">  123</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setMultiLine(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  124</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setReturnKeyStartsNewLine(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  125</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setReadOnly(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  126</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setScrollbarsShown(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  127</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setCaretVisible(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  128</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setPopupMenuEnabled(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  129</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;0&quot;</span>));</div>
-<div class="line"><span class="lineno">  130</span> </div>
-<div class="line"><span class="lineno">  131</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setBounds(200, 228, 56, 24);</div>
+<div class="line"><span class="lineno">  120</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setBounds(200, 268, 56, 24);</div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>.reset(<span class="keyword">new</span> TextEditor(<span class="stringliteral">&quot;minvaltext&quot;</span>));</div>
+<div class="line"><span class="lineno">  123</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>.get());</div>
+<div class="line"><span class="lineno">  124</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setExplicitFocusOrder(5);</div>
+<div class="line"><span class="lineno">  125</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setMultiLine(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  126</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setReturnKeyStartsNewLine(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  127</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setReadOnly(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  128</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setScrollbarsShown(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  129</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setCaretVisible(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  130</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setPopupMenuEnabled(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  131</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;0&quot;</span>));</div>
 <div class="line"><span class="lineno">  132</span> </div>
-<div class="line"><span class="lineno">  133</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>.reset(<span class="keyword">new</span> Label(<span class="stringliteral">&quot;new label&quot;</span>, TRANS(<span class="stringliteral">&quot;Minimum value&quot;</span>)));</div>
-<div class="line"><span class="lineno">  134</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>.get());</div>
-<div class="line"><span class="lineno">  135</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setFont(Font(15.00f, Font::plain).withTypefaceStyle(<span class="stringliteral">&quot;Regular&quot;</span>));</div>
-<div class="line"><span class="lineno">  136</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setJustificationType(Justification::centredLeft);</div>
-<div class="line"><span class="lineno">  137</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setEditable(<span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  138</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setColour(TextEditor::textColourId, Colours::black);</div>
-<div class="line"><span class="lineno">  139</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setColour(TextEditor::backgroundColourId, Colour(0x00000000));</div>
-<div class="line"><span class="lineno">  140</span> </div>
-<div class="line"><span class="lineno">  141</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setBounds(16, 228, 150, 24);</div>
+<div class="line"><span class="lineno">  133</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setBounds(200, 228, 56, 24);</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>.reset(<span class="keyword">new</span> Label(<span class="stringliteral">&quot;new label&quot;</span>, TRANS(<span class="stringliteral">&quot;Minimum value&quot;</span>)));</div>
+<div class="line"><span class="lineno">  136</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>.get());</div>
+<div class="line"><span class="lineno">  137</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setFont(Font(fo).withTypefaceStyle(<span class="stringliteral">&quot;Regular&quot;</span>));</div>
+<div class="line"><span class="lineno">  138</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setJustificationType(Justification::centredLeft);</div>
+<div class="line"><span class="lineno">  139</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setEditable(<span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  140</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setColour(TextEditor::textColourId, Colours::black);</div>
+<div class="line"><span class="lineno">  141</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setColour(TextEditor::backgroundColourId, Colour(0x00000000));</div>
 <div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>.reset(<span class="keyword">new</span> Label(<span class="stringliteral">&quot;maxlabel&quot;</span>, TRANS(<span class="stringliteral">&quot;Maximum value&quot;</span>)));</div>
-<div class="line"><span class="lineno">  144</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>.get());</div>
-<div class="line"><span class="lineno">  145</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setFont(Font(15.00f, Font::plain).withTypefaceStyle(<span class="stringliteral">&quot;Regular&quot;</span>));</div>
-<div class="line"><span class="lineno">  146</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setJustificationType(Justification::centredLeft);</div>
-<div class="line"><span class="lineno">  147</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setEditable(<span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  148</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setColour(TextEditor::textColourId, Colours::black);</div>
-<div class="line"><span class="lineno">  149</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setColour(TextEditor::backgroundColourId, Colour(0x00000000));</div>
-<div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setBounds(16, 268, 150, 24);</div>
+<div class="line"><span class="lineno">  143</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setBounds(16, 228, 150, 24);</div>
+<div class="line"><span class="lineno">  144</span> </div>
+<div class="line"><span class="lineno">  145</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>.reset(<span class="keyword">new</span> Label(<span class="stringliteral">&quot;maxlabel&quot;</span>, TRANS(<span class="stringliteral">&quot;Maximum value&quot;</span>)));</div>
+<div class="line"><span class="lineno">  146</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>.get());</div>
+<div class="line"><span class="lineno">  147</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setFont(Font(fo).withTypefaceStyle(<span class="stringliteral">&quot;Regular&quot;</span>));</div>
+<div class="line"><span class="lineno">  148</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setJustificationType(Justification::centredLeft);</div>
+<div class="line"><span class="lineno">  149</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setEditable(<span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  150</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setColour(TextEditor::textColourId, Colours::black);</div>
+<div class="line"><span class="lineno">  151</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setColour(TextEditor::backgroundColourId, Colour(0x00000000));</div>
 <div class="line"><span class="lineno">  152</span> </div>
-<div class="line"><span class="lineno">  153</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>.reset(<span class="keyword">new</span> TextButton(<span class="stringliteral">&quot;new button&quot;</span>));</div>
-<div class="line"><span class="lineno">  154</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>.get());</div>
-<div class="line"><span class="lineno">  155</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>-&gt;setTooltip(TRANS(<span class="stringliteral">&quot;Apply these settings to all similar controls.&quot;</span>));</div>
-<div class="line"><span class="lineno">  156</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>-&gt;setExplicitFocusOrder(7);</div>
-<div class="line"><span class="lineno">  157</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>-&gt;setButtonText(TRANS(<span class="stringliteral">&quot;Apply to all&quot;</span>));</div>
-<div class="line"><span class="lineno">  158</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>-&gt;addListener(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  159</span> </div>
-<div class="line"><span class="lineno">  160</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>.reset(<span class="keyword">new</span> Label(<span class="stringliteral">&quot;channel 0 number 0&quot;</span>, TRANS(<span class="stringliteral">&quot;Channel 0 Number 0&quot;</span>)));</div>
-<div class="line"><span class="lineno">  161</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>.get());</div>
-<div class="line"><span class="lineno">  162</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setFont(Font(15.00f, Font::plain).withTypefaceStyle(<span class="stringliteral">&quot;Regular&quot;</span>));</div>
-<div class="line"><span class="lineno">  163</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setJustificationType(Justification::centred);</div>
-<div class="line"><span class="lineno">  164</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setEditable(<span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  165</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setColour(TextEditor::textColourId, Colours::black);</div>
-<div class="line"><span class="lineno">  166</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setColour(TextEditor::backgroundColourId, Colour(0x00000000));</div>
-<div class="line"><span class="lineno">  167</span> </div>
-<div class="line"><span class="lineno">  168</span>   <span class="comment">//[UserPreSize]</span></div>
-<div class="line"><span class="lineno">  169</span>   <span class="comment">//[/UserPreSize]</span></div>
-<div class="line"><span class="lineno">  170</span> </div>
-<div class="line"><span class="lineno">  171</span>   setSize(280, 350);</div>
+<div class="line"><span class="lineno">  153</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setBounds(16, 268, 150, 24);</div>
+<div class="line"><span class="lineno">  154</span> </div>
+<div class="line"><span class="lineno">  155</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>.reset(<span class="keyword">new</span> TextButton(<span class="stringliteral">&quot;new button&quot;</span>));</div>
+<div class="line"><span class="lineno">  156</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>.get());</div>
+<div class="line"><span class="lineno">  157</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>-&gt;setTooltip(TRANS(<span class="stringliteral">&quot;Apply these settings to all similar controls.&quot;</span>));</div>
+<div class="line"><span class="lineno">  158</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>-&gt;setExplicitFocusOrder(7);</div>
+<div class="line"><span class="lineno">  159</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>-&gt;setButtonText(TRANS(<span class="stringliteral">&quot;Apply to all&quot;</span>));</div>
+<div class="line"><span class="lineno">  160</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>-&gt;addListener(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  161</span> </div>
+<div class="line"><span class="lineno">  162</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>.reset(<span class="keyword">new</span> Label(<span class="stringliteral">&quot;channel 0 number 0&quot;</span>, TRANS(<span class="stringliteral">&quot;Channel 0 Number 0&quot;</span>)));</div>
+<div class="line"><span class="lineno">  163</span>   addAndMakeVisible(<a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>.get());</div>
+<div class="line"><span class="lineno">  164</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setFont(Font(fo).withTypefaceStyle(<span class="stringliteral">&quot;Regular&quot;</span>));</div>
+<div class="line"><span class="lineno">  165</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setJustificationType(Justification::centred);</div>
+<div class="line"><span class="lineno">  166</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setEditable(<span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  167</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setColour(TextEditor::textColourId, Colours::black);</div>
+<div class="line"><span class="lineno">  168</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setColour(TextEditor::backgroundColourId, Colour(0x00000000));</div>
+<div class="line"><span class="lineno">  169</span> </div>
+<div class="line"><span class="lineno">  170</span>   <span class="comment">//[UserPreSize]</span></div>
+<div class="line"><span class="lineno">  171</span>   <span class="comment">//[/UserPreSize]</span></div>
 <div class="line"><span class="lineno">  172</span> </div>
-<div class="line"><span class="lineno">  173</span>   <span class="comment">//[Constructor] You can add your own custom stuff here..</span></div>
-<div class="line"><span class="lineno">  174</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setInputFilter(&amp;<a class="code hl_variable" href="class_c_coptions.html#a9de566c7c2a5e599a06c1c4751d4d9c0">numrestrict_</a>, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  175</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setInputFilter(&amp;<a class="code hl_variable" href="class_c_coptions.html#a9de566c7c2a5e599a06c1c4751d4d9c0">numrestrict_</a>, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  176</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;addListener(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  177</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;addListener(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  178</span>   <span class="comment">//[/Constructor]</span></div>
-<div class="line"><span class="lineno">  179</span>}</div>
-<div class="ttc" id="aclass_c_coptions_html_a222a02e68eb6a41d20b43ce149635d56"><div class="ttname"><a href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">CCoptions::maxvaltext</a></div><div class="ttdeci">std::unique_ptr&lt; juce::TextEditor &gt; maxvaltext</div><div class="ttdef"><b>Definition</b> CCoptions.h:96</div></div>
-<div class="ttc" id="aclass_c_coptions_html_a3823f044a27817b93e6bc033909b069a"><div class="ttname"><a href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">CCoptions::maxvallabel</a></div><div class="ttdeci">std::unique_ptr&lt; juce::Label &gt; maxvallabel</div><div class="ttdef"><b>Definition</b> CCoptions.h:99</div></div>
-<div class="ttc" id="aclass_c_coptions_html_a5145ddee4aa46a3376d3b7042487d541"><div class="ttname"><a href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">CCoptions::applyAll</a></div><div class="ttdeci">std::unique_ptr&lt; juce::TextButton &gt; applyAll</div><div class="ttdef"><b>Definition</b> CCoptions.h:100</div></div>
-<div class="ttc" id="aclass_c_coptions_html_a667aef1446add21e668629a5eadddb35"><div class="ttname"><a href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">CCoptions::signbutton</a></div><div class="ttdeci">std::unique_ptr&lt; juce::ToggleButton &gt; signbutton</div><div class="ttdef"><b>Definition</b> CCoptions.h:95</div></div>
-<div class="ttc" id="aclass_c_coptions_html_a753e4bfc04c6c461d93ca923acdf334e"><div class="ttname"><a href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">CCoptions::twosbutton</a></div><div class="ttdeci">std::unique_ptr&lt; juce::ToggleButton &gt; twosbutton</div><div class="ttdef"><b>Definition</b> CCoptions.h:92</div></div>
-<div class="ttc" id="aclass_c_coptions_html_a981944bd5e10a338bd6df79173abe7de"><div class="ttname"><a href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">CCoptions::controlID</a></div><div class="ttdeci">std::unique_ptr&lt; juce::Label &gt; controlID</div><div class="ttdef"><b>Definition</b> CCoptions.h:101</div></div>
-<div class="ttc" id="aclass_c_coptions_html_a9de566c7c2a5e599a06c1c4751d4d9c0"><div class="ttname"><a href="class_c_coptions.html#a9de566c7c2a5e599a06c1c4751d4d9c0">CCoptions::numrestrict_</a></div><div class="ttdeci">juce::TextEditor::LengthAndCharacterRestriction numrestrict_</div><div class="ttdef"><b>Definition</b> CCoptions.h:83</div></div>
-<div class="ttc" id="aclass_c_coptions_html_aae9d135deb3d0fc120eec8af67ba217f"><div class="ttname"><a href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">CCoptions::minvaltext</a></div><div class="ttdeci">std::unique_ptr&lt; juce::TextEditor &gt; minvaltext</div><div class="ttdef"><b>Definition</b> CCoptions.h:97</div></div>
-<div class="ttc" id="aclass_c_coptions_html_ab8025c8ebedfa5fbf14a98b36d63998d"><div class="ttname"><a href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">CCoptions::absbutton</a></div><div class="ttdeci">std::unique_ptr&lt; juce::ToggleButton &gt; absbutton</div><div class="ttdef"><b>Definition</b> CCoptions.h:93</div></div>
-<div class="ttc" id="aclass_c_coptions_html_ac5b35c5403462061c9f93adf850629ab"><div class="ttname"><a href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">CCoptions::binbutton</a></div><div class="ttdeci">std::unique_ptr&lt; juce::ToggleButton &gt; binbutton</div><div class="ttdef"><b>Definition</b> CCoptions.h:94</div></div>
-<div class="ttc" id="aclass_c_coptions_html_acb4059f290e37d5c3811d2db63717568"><div class="ttname"><a href="class_c_coptions.html#acb4059f290e37d5c3811d2db63717568">CCoptions::groupComponent</a></div><div class="ttdeci">std::unique_ptr&lt; juce::GroupComponent &gt; groupComponent</div><div class="ttdef"><b>Definition</b> CCoptions.h:91</div></div>
-<div class="ttc" id="aclass_c_coptions_html_ae45237367af49d9e9e9f4d5ea4f1c9db"><div class="ttname"><a href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">CCoptions::minvallabel</a></div><div class="ttdeci">std::unique_ptr&lt; juce::Label &gt; minvallabel</div><div class="ttdef"><b>Definition</b> CCoptions.h:98</div></div>
+<div class="line"><span class="lineno">  173</span>   setSize(280, 350);</div>
+<div class="line"><span class="lineno">  174</span> </div>
+<div class="line"><span class="lineno">  175</span>   <span class="comment">//[Constructor] You can add your own custom stuff here..</span></div>
+<div class="line"><span class="lineno">  176</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setInputFilter(&amp;<a class="code hl_variable" href="class_c_coptions.html#a9de566c7c2a5e599a06c1c4751d4d9c0">numrestrict_</a>, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  177</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setInputFilter(&amp;<a class="code hl_variable" href="class_c_coptions.html#a9de566c7c2a5e599a06c1c4751d4d9c0">numrestrict_</a>, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  178</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;addListener(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  179</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;addListener(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  180</span>   <span class="comment">//[/Constructor]</span></div>
+<div class="line"><span class="lineno">  181</span>}</div>
+<div class="ttc" id="aclass_c_coptions_html_a222a02e68eb6a41d20b43ce149635d56"><div class="ttname"><a href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">CCoptions::maxvaltext</a></div><div class="ttdeci">std::unique_ptr&lt; juce::TextEditor &gt; maxvaltext</div><div class="ttdef"><b>Definition</b> CCoptions.h:92</div></div>
+<div class="ttc" id="aclass_c_coptions_html_a3823f044a27817b93e6bc033909b069a"><div class="ttname"><a href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">CCoptions::maxvallabel</a></div><div class="ttdeci">std::unique_ptr&lt; juce::Label &gt; maxvallabel</div><div class="ttdef"><b>Definition</b> CCoptions.h:95</div></div>
+<div class="ttc" id="aclass_c_coptions_html_a5145ddee4aa46a3376d3b7042487d541"><div class="ttname"><a href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">CCoptions::applyAll</a></div><div class="ttdeci">std::unique_ptr&lt; juce::TextButton &gt; applyAll</div><div class="ttdef"><b>Definition</b> CCoptions.h:96</div></div>
+<div class="ttc" id="aclass_c_coptions_html_a667aef1446add21e668629a5eadddb35"><div class="ttname"><a href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">CCoptions::signbutton</a></div><div class="ttdeci">std::unique_ptr&lt; juce::ToggleButton &gt; signbutton</div><div class="ttdef"><b>Definition</b> CCoptions.h:91</div></div>
+<div class="ttc" id="aclass_c_coptions_html_a753e4bfc04c6c461d93ca923acdf334e"><div class="ttname"><a href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">CCoptions::twosbutton</a></div><div class="ttdeci">std::unique_ptr&lt; juce::ToggleButton &gt; twosbutton</div><div class="ttdef"><b>Definition</b> CCoptions.h:88</div></div>
+<div class="ttc" id="aclass_c_coptions_html_a981944bd5e10a338bd6df79173abe7de"><div class="ttname"><a href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">CCoptions::controlID</a></div><div class="ttdeci">std::unique_ptr&lt; juce::Label &gt; controlID</div><div class="ttdef"><b>Definition</b> CCoptions.h:97</div></div>
+<div class="ttc" id="aclass_c_coptions_html_a9de566c7c2a5e599a06c1c4751d4d9c0"><div class="ttname"><a href="class_c_coptions.html#a9de566c7c2a5e599a06c1c4751d4d9c0">CCoptions::numrestrict_</a></div><div class="ttdeci">juce::TextEditor::LengthAndCharacterRestriction numrestrict_</div><div class="ttdef"><b>Definition</b> CCoptions.h:79</div></div>
+<div class="ttc" id="aclass_c_coptions_html_aae9d135deb3d0fc120eec8af67ba217f"><div class="ttname"><a href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">CCoptions::minvaltext</a></div><div class="ttdeci">std::unique_ptr&lt; juce::TextEditor &gt; minvaltext</div><div class="ttdef"><b>Definition</b> CCoptions.h:93</div></div>
+<div class="ttc" id="aclass_c_coptions_html_ab8025c8ebedfa5fbf14a98b36d63998d"><div class="ttname"><a href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">CCoptions::absbutton</a></div><div class="ttdeci">std::unique_ptr&lt; juce::ToggleButton &gt; absbutton</div><div class="ttdef"><b>Definition</b> CCoptions.h:89</div></div>
+<div class="ttc" id="aclass_c_coptions_html_ac5b35c5403462061c9f93adf850629ab"><div class="ttname"><a href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">CCoptions::binbutton</a></div><div class="ttdeci">std::unique_ptr&lt; juce::ToggleButton &gt; binbutton</div><div class="ttdef"><b>Definition</b> CCoptions.h:90</div></div>
+<div class="ttc" id="aclass_c_coptions_html_acb4059f290e37d5c3811d2db63717568"><div class="ttname"><a href="class_c_coptions.html#acb4059f290e37d5c3811d2db63717568">CCoptions::groupComponent</a></div><div class="ttdeci">std::unique_ptr&lt; juce::GroupComponent &gt; groupComponent</div><div class="ttdef"><b>Definition</b> CCoptions.h:87</div></div>
+<div class="ttc" id="aclass_c_coptions_html_ae45237367af49d9e9e9f4d5ea4f1c9db"><div class="ttname"><a href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">CCoptions::minvallabel</a></div><div class="ttdeci">std::unique_ptr&lt; juce::Label &gt; minvallabel</div><div class="ttdef"><b>Definition</b> CCoptions.h:94</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -354,25 +355,25 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  182</span>{</div>
-<div class="line"><span class="lineno">  183</span>   <span class="comment">//[Destructor_pre]. You can add your own custom destruction code here..</span></div>
-<div class="line"><span class="lineno">  184</span>   <span class="comment">//[/Destructor_pre]</span></div>
-<div class="line"><span class="lineno">  185</span> </div>
-<div class="line"><span class="lineno">  186</span>   <a class="code hl_variable" href="class_c_coptions.html#acb4059f290e37d5c3811d2db63717568">groupComponent</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  187</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  188</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  189</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  190</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  191</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  192</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  193</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  194</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  195</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  196</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  197</span> </div>
-<div class="line"><span class="lineno">  198</span>   <span class="comment">//[Destructor]. You can add your own custom destruction code here..</span></div>
-<div class="line"><span class="lineno">  199</span>   <span class="comment">//[/Destructor]</span></div>
-<div class="line"><span class="lineno">  200</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  184</span>{</div>
+<div class="line"><span class="lineno">  185</span>   <span class="comment">//[Destructor_pre]. You can add your own custom destruction code here..</span></div>
+<div class="line"><span class="lineno">  186</span>   <span class="comment">//[/Destructor_pre]</span></div>
+<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  188</span>   <a class="code hl_variable" href="class_c_coptions.html#acb4059f290e37d5c3811d2db63717568">groupComponent</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  189</span>   <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  190</span>   <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  191</span>   <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  192</span>   <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  193</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  194</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  195</span>   <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  196</span>   <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  197</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  198</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  199</span> </div>
+<div class="line"><span class="lineno">  200</span>   <span class="comment">//[Destructor]. You can add your own custom destruction code here..</span></div>
+<div class="line"><span class="lineno">  201</span>   <span class="comment">//[/Destructor]</span></div>
+<div class="line"><span class="lineno">  202</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -428,34 +429,34 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  307</span>{</div>
-<div class="line"><span class="lineno">  308</span>   <a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a> = channel; <span class="comment">// 0-based but displays as 1-based</span></div>
-<div class="line"><span class="lineno">  309</span>   <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a> = control_number;</div>
-<div class="line"><span class="lineno">  310</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setText(</div>
-<div class="line"><span class="lineno">  311</span>       <span class="stringliteral">&quot;channel &quot;</span> + juce::String(channel + 1) + <span class="stringliteral">&quot; number &quot;</span> + juce::String(control_number),</div>
-<div class="line"><span class="lineno">  312</span>       juce::dontSendNotification);</div>
-<div class="line"><span class="lineno">  313</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setText(juce::String(<a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#ab40bb7a59c423eb0c073f7ded85cc491">GetCcMin</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>)),</div>
+<div class="fragment"><div class="line"><span class="lineno">  309</span>{</div>
+<div class="line"><span class="lineno">  310</span>   <a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a> = channel; <span class="comment">// 0-based but displays as 1-based</span></div>
+<div class="line"><span class="lineno">  311</span>   <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a> = control_number;</div>
+<div class="line"><span class="lineno">  312</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setText(<span class="stringliteral">&quot;channel &quot;</span> + juce::String(channel + 1) + <span class="stringliteral">&quot; number &quot;</span></div>
+<div class="line"><span class="lineno">  313</span>                          + juce::String(control_number),</div>
 <div class="line"><span class="lineno">  314</span>       juce::dontSendNotification);</div>
-<div class="line"><span class="lineno">  315</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setText(juce::String(<a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a53582c18fecf1ecc59b59874a56764f6">GetCcMax</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>)),</div>
+<div class="line"><span class="lineno">  315</span>   <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setText(juce::String(<a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#ab40bb7a59c423eb0c073f7ded85cc491">GetCcMin</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>)),</div>
 <div class="line"><span class="lineno">  316</span>       juce::dontSendNotification);</div>
-<div class="line"><span class="lineno">  317</span>   <span class="keywordflow">switch</span> (<a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a0d0e3cd4d2c696c20e959afc76cb3f3d">GetCcMethod</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>)) {</div>
-<div class="line"><span class="lineno">  318</span>   <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a>:</div>
-<div class="line"><span class="lineno">  319</span>      <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setToggleState(<span class="keyword">true</span>, juce::sendNotification);</div>
-<div class="line"><span class="lineno">  320</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  321</span>   <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda47f319e9efb728555acf1d08686b3a03">rsj::CCmethod::kBinaryOffset</a>:</div>
-<div class="line"><span class="lineno">  322</span>      <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setToggleState(<span class="keyword">true</span>, juce::sendNotification);</div>
-<div class="line"><span class="lineno">  323</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  324</span>   <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdae9ce2420e8dde33acbb2a8a8c4fc8fbf">rsj::CCmethod::kSignMagnitude</a>:</div>
-<div class="line"><span class="lineno">  325</span>      <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setToggleState(<span class="keyword">true</span>, juce::sendNotification);</div>
-<div class="line"><span class="lineno">  326</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  327</span>   <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d">rsj::CCmethod::kTwosComplement</a>:</div>
-<div class="line"><span class="lineno">  328</span>      <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setToggleState(<span class="keyword">true</span>, juce::sendNotification);</div>
-<div class="line"><span class="lineno">  329</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  330</span>   }</div>
-<div class="line"><span class="lineno">  331</span>}</div>
-<div class="ttc" id="aclass_c_coptions_html_a00c380cd81f41e155d069238f9818fb8"><div class="ttname"><a href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">CCoptions::controls_model_</a></div><div class="ttdeci">static ControlsModel * controls_model_</div><div class="ttdef"><b>Definition</b> CCoptions.h:85</div></div>
-<div class="ttc" id="aclass_c_coptions_html_a084baa5f1580e490c4d0de2128180f84"><div class="ttname"><a href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">CCoptions::bound_channel_</a></div><div class="ttdeci">int bound_channel_</div><div class="ttdef"><b>Definition</b> CCoptions.h:86</div></div>
-<div class="ttc" id="aclass_c_coptions_html_a76d51b5d76d0389462db2b8b8ed4bcee"><div class="ttname"><a href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">CCoptions::bound_number_</a></div><div class="ttdeci">int bound_number_</div><div class="ttdef"><b>Definition</b> CCoptions.h:87</div></div>
+<div class="line"><span class="lineno">  317</span>   <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;setText(juce::String(<a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a53582c18fecf1ecc59b59874a56764f6">GetCcMax</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>)),</div>
+<div class="line"><span class="lineno">  318</span>       juce::dontSendNotification);</div>
+<div class="line"><span class="lineno">  319</span>   <span class="keywordflow">switch</span> (<a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a0d0e3cd4d2c696c20e959afc76cb3f3d">GetCcMethod</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>)) {</div>
+<div class="line"><span class="lineno">  320</span>   <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a>:</div>
+<div class="line"><span class="lineno">  321</span>      <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;setToggleState(<span class="keyword">true</span>, juce::sendNotification);</div>
+<div class="line"><span class="lineno">  322</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  323</span>   <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda47f319e9efb728555acf1d08686b3a03">rsj::CCmethod::kBinaryOffset</a>:</div>
+<div class="line"><span class="lineno">  324</span>      <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;setToggleState(<span class="keyword">true</span>, juce::sendNotification);</div>
+<div class="line"><span class="lineno">  325</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  326</span>   <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdae9ce2420e8dde33acbb2a8a8c4fc8fbf">rsj::CCmethod::kSignMagnitude</a>:</div>
+<div class="line"><span class="lineno">  327</span>      <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;setToggleState(<span class="keyword">true</span>, juce::sendNotification);</div>
+<div class="line"><span class="lineno">  328</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  329</span>   <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d">rsj::CCmethod::kTwosComplement</a>:</div>
+<div class="line"><span class="lineno">  330</span>      <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;setToggleState(<span class="keyword">true</span>, juce::sendNotification);</div>
+<div class="line"><span class="lineno">  331</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  332</span>   }</div>
+<div class="line"><span class="lineno">  333</span>}</div>
+<div class="ttc" id="aclass_c_coptions_html_a00c380cd81f41e155d069238f9818fb8"><div class="ttname"><a href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">CCoptions::controls_model_</a></div><div class="ttdeci">static ControlsModel * controls_model_</div><div class="ttdef"><b>Definition</b> CCoptions.h:81</div></div>
+<div class="ttc" id="aclass_c_coptions_html_a084baa5f1580e490c4d0de2128180f84"><div class="ttname"><a href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">CCoptions::bound_channel_</a></div><div class="ttdeci">int bound_channel_</div><div class="ttdef"><b>Definition</b> CCoptions.h:82</div></div>
+<div class="ttc" id="aclass_c_coptions_html_a76d51b5d76d0389462db2b8b8ed4bcee"><div class="ttname"><a href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">CCoptions::bound_number_</a></div><div class="ttdeci">int bound_number_</div><div class="ttdef"><b>Definition</b> CCoptions.h:83</div></div>
 <div class="ttc" id="aclass_controls_model_html_a0d0e3cd4d2c696c20e959afc76cb3f3d"><div class="ttname"><a href="class_controls_model.html#a0d0e3cd4d2c696c20e959afc76cb3f3d">ControlsModel::GetCcMethod</a></div><div class="ttdeci">rsj::CCmethod GetCcMethod(int channel, int controlnumber) const</div><div class="ttdef"><b>Definition</b> ControlsModel.h:244</div></div>
 <div class="ttc" id="aclass_controls_model_html_a53582c18fecf1ecc59b59874a56764f6"><div class="ttname"><a href="class_controls_model.html#a53582c18fecf1ecc59b59874a56764f6">ControlsModel::GetCcMax</a></div><div class="ttdeci">int GetCcMax(int channel, int controlnumber) const</div><div class="ttdef"><b>Definition</b> ControlsModel.h:256</div></div>
 <div class="ttc" id="aclass_controls_model_html_ab40bb7a59c423eb0c073f7ded85cc491"><div class="ttname"><a href="class_controls_model.html#ab40bb7a59c423eb0c073f7ded85cc491">ControlsModel::GetCcMin</a></div><div class="ttdeci">int GetCcMin(int channel, int controlnumber) const</div><div class="ttdef"><b>Definition</b> ControlsModel.h:261</div></div>
@@ -489,72 +490,72 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  226</span>{</div>
-<div class="line"><span class="lineno">  227</span>   <span class="comment">//[UserbuttonClicked_Pre]</span></div>
-<div class="line"><span class="lineno">  228</span>   <span class="comment">//[/UserbuttonClicked_Pre]</span></div>
-<div class="line"><span class="lineno">  229</span> </div>
-<div class="line"><span class="lineno">  230</span>   <span class="keywordflow">if</span> (buttonThatWasClicked == <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>.get()) {</div>
-<div class="line"><span class="lineno">  231</span>      <span class="comment">//[UserButtonCode_twosbutton] -- add your button handler code here..</span></div>
-<div class="line"><span class="lineno">  232</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setVisible(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  233</span>      <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setVisible(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  234</span>      <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;Resolution&quot;</span>), juce::dontSendNotification);</div>
-<div class="line"><span class="lineno">  235</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setText(<span class="stringliteral">&quot;0&quot;</span>, juce::dontSendNotification);</div>
-<div class="line"><span class="lineno">  236</span>      <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#aa5892ac98633659af2174e2c6283997a">SetCcMethod</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d">rsj::CCmethod::kTwosComplement</a>);</div>
-<div class="line"><span class="lineno">  237</span>      <span class="comment">//[/UserButtonCode_twosbutton]</span></div>
-<div class="line"><span class="lineno">  238</span>   }</div>
-<div class="line"><span class="lineno">  239</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (buttonThatWasClicked == <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>.get()) {</div>
-<div class="line"><span class="lineno">  240</span>      <span class="comment">//[UserButtonCode_absbutton] -- add your button handler code here..</span></div>
-<div class="line"><span class="lineno">  241</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setVisible(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  242</span>      <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setVisible(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  243</span>      <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;Maximum value&quot;</span>), juce::dontSendNotification);</div>
-<div class="line"><span class="lineno">  244</span>      <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#aa5892ac98633659af2174e2c6283997a">SetCcMethod</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a>);</div>
-<div class="line"><span class="lineno">  245</span>      <span class="comment">//[/UserButtonCode_absbutton]</span></div>
-<div class="line"><span class="lineno">  246</span>   }</div>
-<div class="line"><span class="lineno">  247</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (buttonThatWasClicked == <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>.get()) {</div>
-<div class="line"><span class="lineno">  248</span>      <span class="comment">//[UserButtonCode_binbutton] -- add your button handler code here..</span></div>
-<div class="line"><span class="lineno">  249</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setVisible(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  250</span>      <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setVisible(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  251</span>      <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;Resolution&quot;</span>), juce::dontSendNotification);</div>
-<div class="line"><span class="lineno">  252</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setText(<span class="stringliteral">&quot;0&quot;</span>, juce::dontSendNotification);</div>
-<div class="line"><span class="lineno">  253</span>      <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#aa5892ac98633659af2174e2c6283997a">SetCcMethod</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda47f319e9efb728555acf1d08686b3a03">rsj::CCmethod::kBinaryOffset</a>);</div>
-<div class="line"><span class="lineno">  254</span> </div>
-<div class="line"><span class="lineno">  255</span>      <span class="comment">//[/UserButtonCode_binbutton]</span></div>
-<div class="line"><span class="lineno">  256</span>   }</div>
-<div class="line"><span class="lineno">  257</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (buttonThatWasClicked == <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>.get()) {</div>
-<div class="line"><span class="lineno">  258</span>      <span class="comment">//[UserButtonCode_signbutton] -- add your button handler code here..</span></div>
-<div class="line"><span class="lineno">  259</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setVisible(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  260</span>      <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setVisible(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  261</span>      <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;Resolution&quot;</span>), juce::dontSendNotification);</div>
-<div class="line"><span class="lineno">  262</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setText(<span class="stringliteral">&quot;0&quot;</span>, juce::dontSendNotification);</div>
-<div class="line"><span class="lineno">  263</span>      <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#aa5892ac98633659af2174e2c6283997a">SetCcMethod</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdae9ce2420e8dde33acbb2a8a8c4fc8fbf">rsj::CCmethod::kSignMagnitude</a>);</div>
-<div class="line"><span class="lineno">  264</span>      <span class="comment">//[/UserButtonCode_signbutton]</span></div>
-<div class="line"><span class="lineno">  265</span>   }</div>
-<div class="line"><span class="lineno">  266</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (buttonThatWasClicked == <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>.get()) {</div>
-<div class="line"><span class="lineno">  267</span>      <span class="comment">//[UserButtonCode_applyAll] -- add your button handler code here..</span></div>
-<div class="line"><span class="lineno">  268</span>      <a class="code hl_enumeration" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efd">rsj::CCmethod</a> ccm {};</div>
-<div class="line"><span class="lineno">  269</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;getToggleState()) { ccm = <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d">rsj::CCmethod::kTwosComplement</a>; }</div>
-<div class="line"><span class="lineno">  270</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;getToggleState()) {</div>
-<div class="line"><span class="lineno">  271</span>         ccm = <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a>;</div>
-<div class="line"><span class="lineno">  272</span>      }</div>
-<div class="line"><span class="lineno">  273</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;getToggleState()) {</div>
-<div class="line"><span class="lineno">  274</span>         ccm = <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda47f319e9efb728555acf1d08686b3a03">rsj::CCmethod::kBinaryOffset</a>;</div>
-<div class="line"><span class="lineno">  275</span>      }</div>
-<div class="line"><span class="lineno">  276</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;getToggleState()) {</div>
-<div class="line"><span class="lineno">  277</span>         ccm = <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdae9ce2420e8dde33acbb2a8a8c4fc8fbf">rsj::CCmethod::kSignMagnitude</a>;</div>
-<div class="line"><span class="lineno">  278</span>      }</div>
-<div class="line"><span class="lineno">  279</span>      <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  280</span>         <span class="keywordflow">throw</span> std::logic_error(<span class="stringliteral">&quot;CCoptions::buttonClicked reached unreachable code&quot;</span>);</div>
-<div class="line"><span class="lineno">  281</span>      }</div>
-<div class="line"><span class="lineno">  282</span>      <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#ab369e2c0f31ac41671e917939643c167">SetCcAll</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;getText().getIntValue(),</div>
-<div class="line"><span class="lineno">  283</span>          <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;getText().getIntValue(), ccm);</div>
-<div class="line"><span class="lineno">  284</span>      <span class="comment">//[/UserButtonCode_applyAll]</span></div>
-<div class="line"><span class="lineno">  285</span>   }</div>
-<div class="line"><span class="lineno">  286</span>   <span class="keywordflow">else</span> { <span class="comment">/* no action needed */</span></div>
+<div class="fragment"><div class="line"><span class="lineno">  228</span>{</div>
+<div class="line"><span class="lineno">  229</span>   <span class="comment">//[UserbuttonClicked_Pre]</span></div>
+<div class="line"><span class="lineno">  230</span>   <span class="comment">//[/UserbuttonClicked_Pre]</span></div>
+<div class="line"><span class="lineno">  231</span> </div>
+<div class="line"><span class="lineno">  232</span>   <span class="keywordflow">if</span> (buttonThatWasClicked == <a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>.get()) {</div>
+<div class="line"><span class="lineno">  233</span>      <span class="comment">//[UserButtonCode_twosbutton] -- add your button handler code here..</span></div>
+<div class="line"><span class="lineno">  234</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setVisible(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  235</span>      <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setVisible(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  236</span>      <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;Resolution&quot;</span>), juce::dontSendNotification);</div>
+<div class="line"><span class="lineno">  237</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setText(<span class="stringliteral">&quot;0&quot;</span>, juce::dontSendNotification);</div>
+<div class="line"><span class="lineno">  238</span>      <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#aa5892ac98633659af2174e2c6283997a">SetCcMethod</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d">rsj::CCmethod::kTwosComplement</a>);</div>
+<div class="line"><span class="lineno">  239</span>      <span class="comment">//[/UserButtonCode_twosbutton]</span></div>
+<div class="line"><span class="lineno">  240</span>   }</div>
+<div class="line"><span class="lineno">  241</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (buttonThatWasClicked == <a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>.get()) {</div>
+<div class="line"><span class="lineno">  242</span>      <span class="comment">//[UserButtonCode_absbutton] -- add your button handler code here..</span></div>
+<div class="line"><span class="lineno">  243</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setVisible(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  244</span>      <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setVisible(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  245</span>      <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;Maximum value&quot;</span>), juce::dontSendNotification);</div>
+<div class="line"><span class="lineno">  246</span>      <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#aa5892ac98633659af2174e2c6283997a">SetCcMethod</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a>);</div>
+<div class="line"><span class="lineno">  247</span>      <span class="comment">//[/UserButtonCode_absbutton]</span></div>
+<div class="line"><span class="lineno">  248</span>   }</div>
+<div class="line"><span class="lineno">  249</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (buttonThatWasClicked == <a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>.get()) {</div>
+<div class="line"><span class="lineno">  250</span>      <span class="comment">//[UserButtonCode_binbutton] -- add your button handler code here..</span></div>
+<div class="line"><span class="lineno">  251</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setVisible(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  252</span>      <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setVisible(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  253</span>      <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;Resolution&quot;</span>), juce::dontSendNotification);</div>
+<div class="line"><span class="lineno">  254</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setText(<span class="stringliteral">&quot;0&quot;</span>, juce::dontSendNotification);</div>
+<div class="line"><span class="lineno">  255</span>      <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#aa5892ac98633659af2174e2c6283997a">SetCcMethod</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda47f319e9efb728555acf1d08686b3a03">rsj::CCmethod::kBinaryOffset</a>);</div>
+<div class="line"><span class="lineno">  256</span> </div>
+<div class="line"><span class="lineno">  257</span>      <span class="comment">//[/UserButtonCode_binbutton]</span></div>
+<div class="line"><span class="lineno">  258</span>   }</div>
+<div class="line"><span class="lineno">  259</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (buttonThatWasClicked == <a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>.get()) {</div>
+<div class="line"><span class="lineno">  260</span>      <span class="comment">//[UserButtonCode_signbutton] -- add your button handler code here..</span></div>
+<div class="line"><span class="lineno">  261</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setVisible(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  262</span>      <a class="code hl_variable" href="class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db">minvallabel</a>-&gt;setVisible(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  263</span>      <a class="code hl_variable" href="class_c_coptions.html#a3823f044a27817b93e6bc033909b069a">maxvallabel</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;Resolution&quot;</span>), juce::dontSendNotification);</div>
+<div class="line"><span class="lineno">  264</span>      <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;setText(<span class="stringliteral">&quot;0&quot;</span>, juce::dontSendNotification);</div>
+<div class="line"><span class="lineno">  265</span>      <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#aa5892ac98633659af2174e2c6283997a">SetCcMethod</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdae9ce2420e8dde33acbb2a8a8c4fc8fbf">rsj::CCmethod::kSignMagnitude</a>);</div>
+<div class="line"><span class="lineno">  266</span>      <span class="comment">//[/UserButtonCode_signbutton]</span></div>
+<div class="line"><span class="lineno">  267</span>   }</div>
+<div class="line"><span class="lineno">  268</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (buttonThatWasClicked == <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>.get()) {</div>
+<div class="line"><span class="lineno">  269</span>      <span class="comment">//[UserButtonCode_applyAll] -- add your button handler code here..</span></div>
+<div class="line"><span class="lineno">  270</span>      <a class="code hl_enumeration" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efd">rsj::CCmethod</a> ccm {};</div>
+<div class="line"><span class="lineno">  271</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e">twosbutton</a>-&gt;getToggleState()) { ccm = <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d">rsj::CCmethod::kTwosComplement</a>; }</div>
+<div class="line"><span class="lineno">  272</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_c_coptions.html#ab8025c8ebedfa5fbf14a98b36d63998d">absbutton</a>-&gt;getToggleState()) {</div>
+<div class="line"><span class="lineno">  273</span>         ccm = <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a>;</div>
+<div class="line"><span class="lineno">  274</span>      }</div>
+<div class="line"><span class="lineno">  275</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_c_coptions.html#ac5b35c5403462061c9f93adf850629ab">binbutton</a>-&gt;getToggleState()) {</div>
+<div class="line"><span class="lineno">  276</span>         ccm = <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda47f319e9efb728555acf1d08686b3a03">rsj::CCmethod::kBinaryOffset</a>;</div>
+<div class="line"><span class="lineno">  277</span>      }</div>
+<div class="line"><span class="lineno">  278</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_c_coptions.html#a667aef1446add21e668629a5eadddb35">signbutton</a>-&gt;getToggleState()) {</div>
+<div class="line"><span class="lineno">  279</span>         ccm = <a class="code hl_enumvalue" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdae9ce2420e8dde33acbb2a8a8c4fc8fbf">rsj::CCmethod::kSignMagnitude</a>;</div>
+<div class="line"><span class="lineno">  280</span>      }</div>
+<div class="line"><span class="lineno">  281</span>      <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  282</span>         <span class="keywordflow">throw</span> std::logic_error(<span class="stringliteral">&quot;CCoptions::buttonClicked reached unreachable code&quot;</span>);</div>
+<div class="line"><span class="lineno">  283</span>      }</div>
+<div class="line"><span class="lineno">  284</span>      <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#ab369e2c0f31ac41671e917939643c167">SetCcAll</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, <a class="code hl_variable" href="class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f">minvaltext</a>-&gt;getText().getIntValue(),</div>
+<div class="line"><span class="lineno">  285</span>          <a class="code hl_variable" href="class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56">maxvaltext</a>-&gt;getText().getIntValue(), ccm);</div>
+<div class="line"><span class="lineno">  286</span>      <span class="comment">//[/UserButtonCode_applyAll]</span></div>
 <div class="line"><span class="lineno">  287</span>   }</div>
-<div class="line"><span class="lineno">  288</span> </div>
-<div class="line"><span class="lineno">  289</span>   <span class="comment">//[UserbuttonClicked_Post]</span></div>
-<div class="line"><span class="lineno">  290</span>   <span class="comment">//[/UserbuttonClicked_Post]</span></div>
-<div class="line"><span class="lineno">  291</span>}</div>
+<div class="line"><span class="lineno">  288</span>   <span class="keywordflow">else</span> { <span class="comment">/* no action needed */</span></div>
+<div class="line"><span class="lineno">  289</span>   }</div>
+<div class="line"><span class="lineno">  290</span> </div>
+<div class="line"><span class="lineno">  291</span>   <span class="comment">//[UserbuttonClicked_Post]</span></div>
+<div class="line"><span class="lineno">  292</span>   <span class="comment">//[/UserbuttonClicked_Post]</span></div>
+<div class="line"><span class="lineno">  293</span>}</div>
 <div class="ttc" id="aclass_controls_model_html_aa5892ac98633659af2174e2c6283997a"><div class="ttname"><a href="class_controls_model.html#aa5892ac98633659af2174e2c6283997a">ControlsModel::SetCcMethod</a></div><div class="ttdeci">void SetCcMethod(int channel, int controlnumber, rsj::CCmethod value)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:297</div></div>
 <div class="ttc" id="aclass_controls_model_html_ab369e2c0f31ac41671e917939643c167"><div class="ttname"><a href="class_controls_model.html#ab369e2c0f31ac41671e917939643c167">ControlsModel::SetCcAll</a></div><div class="ttdeci">void SetCcAll(int channel, int controlnumber, int min, int max, rsj::CCmethod controltype)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:287</div></div>
 <div class="ttc" id="anamespacersj_html_a1b0f7334f0d860bf0d3aebeaca930efd"><div class="ttname"><a href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efd">rsj::CCmethod</a></div><div class="ttdeci">CCmethod</div><div class="ttdef"><b>Definition</b> ControlsModel.h:33</div></div>
@@ -584,9 +585,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   67</span>   {</div>
-<div class="line"><span class="lineno">   68</span>      <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a> = model;</div>
-<div class="line"><span class="lineno">   69</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">   66</span>{ <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a> = model; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -639,15 +638,15 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  204</span>{</div>
-<div class="line"><span class="lineno">  205</span>   <span class="comment">//[UserPrePaint] Add your own custom painting code here..</span></div>
-<div class="line"><span class="lineno">  206</span>   <span class="comment">//[/UserPrePaint]</span></div>
-<div class="line"><span class="lineno">  207</span> </div>
-<div class="line"><span class="lineno">  208</span>   g.fillAll(Colours::white);</div>
+<div class="fragment"><div class="line"><span class="lineno">  206</span>{</div>
+<div class="line"><span class="lineno">  207</span>   <span class="comment">//[UserPrePaint] Add your own custom painting code here..</span></div>
+<div class="line"><span class="lineno">  208</span>   <span class="comment">//[/UserPrePaint]</span></div>
 <div class="line"><span class="lineno">  209</span> </div>
-<div class="line"><span class="lineno">  210</span>   <span class="comment">//[UserPaint] Add your own custom painting code here..</span></div>
-<div class="line"><span class="lineno">  211</span>   <span class="comment">//[/UserPaint]</span></div>
-<div class="line"><span class="lineno">  212</span>}</div>
+<div class="line"><span class="lineno">  210</span>   g.fillAll(Colours::white);</div>
+<div class="line"><span class="lineno">  211</span> </div>
+<div class="line"><span class="lineno">  212</span>   <span class="comment">//[UserPaint] Add your own custom painting code here..</span></div>
+<div class="line"><span class="lineno">  213</span>   <span class="comment">//[/UserPaint]</span></div>
+<div class="line"><span class="lineno">  214</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -673,15 +672,15 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  215</span>{</div>
-<div class="line"><span class="lineno">  216</span>   <span class="comment">//[UserPreResize] Add your own custom resize code here..</span></div>
-<div class="line"><span class="lineno">  217</span>   <span class="comment">//[/UserPreResize]</span></div>
-<div class="line"><span class="lineno">  218</span> </div>
-<div class="line"><span class="lineno">  219</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>-&gt;setBounds((getWidth() / 2) - (150 / 2), (getHeight() / 2) + 141, 150, 24);</div>
-<div class="line"><span class="lineno">  220</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setBounds((getWidth() / 2) - (248 / 2), 16, 248, 24);</div>
-<div class="line"><span class="lineno">  221</span>   <span class="comment">//[UserResized] Add your own custom resize handling here..</span></div>
-<div class="line"><span class="lineno">  222</span>   <span class="comment">//[/UserResized]</span></div>
-<div class="line"><span class="lineno">  223</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  217</span>{</div>
+<div class="line"><span class="lineno">  218</span>   <span class="comment">//[UserPreResize] Add your own custom resize code here..</span></div>
+<div class="line"><span class="lineno">  219</span>   <span class="comment">//[/UserPreResize]</span></div>
+<div class="line"><span class="lineno">  220</span> </div>
+<div class="line"><span class="lineno">  221</span>   <a class="code hl_variable" href="class_c_coptions.html#a5145ddee4aa46a3376d3b7042487d541">applyAll</a>-&gt;setBounds((getWidth() / 2) - (150 / 2), (getHeight() / 2) + 141, 150, 24);</div>
+<div class="line"><span class="lineno">  222</span>   <a class="code hl_variable" href="class_c_coptions.html#a981944bd5e10a338bd6df79173abe7de">controlID</a>-&gt;setBounds((getWidth() / 2) - (248 / 2), 16, 248, 24);</div>
+<div class="line"><span class="lineno">  223</span>   <span class="comment">//[UserResized] Add your own custom resize handling here..</span></div>
+<div class="line"><span class="lineno">  224</span>   <span class="comment">//[/UserResized]</span></div>
+<div class="line"><span class="lineno">  225</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -708,16 +707,16 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  295</span>{</div>
-<div class="line"><span class="lineno">  296</span>   <span class="keyword">const</span> <span class="keyword">auto</span> val = t.getText().getIntValue();</div>
-<div class="line"><span class="lineno">  297</span>   <span class="keyword">const</span> <span class="keyword">auto</span>&amp; nam = t.getName();</div>
-<div class="line"><span class="lineno">  298</span>   <span class="keywordflow">if</span> (nam == <span class="stringliteral">&quot;minvaltext&quot;</span>) { <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#ad0e7623d834744e0a617b505536a2588">SetCcMin</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, val); }</div>
-<div class="line"><span class="lineno">  299</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (nam == <span class="stringliteral">&quot;maxvaltext&quot;</span>) {</div>
-<div class="line"><span class="lineno">  300</span>      <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a5b7a06a72f2bd775dd14877418eae610">SetCcMax</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, val);</div>
-<div class="line"><span class="lineno">  301</span>   }</div>
-<div class="line"><span class="lineno">  302</span>   <span class="keywordflow">else</span> { <span class="comment">/* no action needed */</span></div>
+<div class="fragment"><div class="line"><span class="lineno">  297</span>{</div>
+<div class="line"><span class="lineno">  298</span>   <span class="keyword">const</span> <span class="keyword">auto</span> val = t.getText().getIntValue();</div>
+<div class="line"><span class="lineno">  299</span>   <span class="keyword">const</span> <span class="keyword">auto</span>&amp; nam = t.getName();</div>
+<div class="line"><span class="lineno">  300</span>   <span class="keywordflow">if</span> (nam == <span class="stringliteral">&quot;minvaltext&quot;</span>) { <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#ad0e7623d834744e0a617b505536a2588">SetCcMin</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, val); }</div>
+<div class="line"><span class="lineno">  301</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (nam == <span class="stringliteral">&quot;maxvaltext&quot;</span>) {</div>
+<div class="line"><span class="lineno">  302</span>      <a class="code hl_variable" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a5b7a06a72f2bd775dd14877418eae610">SetCcMax</a>(<a class="code hl_variable" href="class_c_coptions.html#a084baa5f1580e490c4d0de2128180f84">bound_channel_</a>, <a class="code hl_variable" href="class_c_coptions.html#a76d51b5d76d0389462db2b8b8ed4bcee">bound_number_</a>, val);</div>
 <div class="line"><span class="lineno">  303</span>   }</div>
-<div class="line"><span class="lineno">  304</span>}</div>
+<div class="line"><span class="lineno">  304</span>   <span class="keywordflow">else</span> { <span class="comment">/* no action needed */</span></div>
+<div class="line"><span class="lineno">  305</span>   }</div>
+<div class="line"><span class="lineno">  306</span>}</div>
 <div class="ttc" id="aclass_controls_model_html_a5b7a06a72f2bd775dd14877418eae610"><div class="ttname"><a href="class_controls_model.html#a5b7a06a72f2bd775dd14877418eae610">ControlsModel::SetCcMax</a></div><div class="ttdeci">void SetCcMax(int channel, int controlnumber, int value)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:292</div></div>
 <div class="ttc" id="aclass_controls_model_html_ad0e7623d834744e0a617b505536a2588"><div class="ttname"><a href="class_controls_model.html#ad0e7623d834744e0a617b505536a2588">ControlsModel::SetCcMin</a></div><div class="ttdeci">void SetCcMin(int channel, int controlnumber, int value)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:302</div></div>
 </div><!-- fragment -->
@@ -809,7 +808,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   86</span>{0}; <span class="comment">// note: 0-based in program, add one to compensate for display</span></div>
+<div class="fragment"><div class="line"><span class="lineno">   82</span>{0}; <span class="comment">// note: 0-based in program, add one to compensate for display</span></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -832,7 +831,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   87</span>{0};</div>
+<div class="fragment"><div class="line"><span class="lineno">   83</span>{0};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -877,7 +876,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   85</span>{<span class="keyword">nullptr</span>};</div>
+<div class="fragment"><div class="line"><span class="lineno">   81</span>{<span class="keyword">nullptr</span>};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1010,7 +1009,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   83</span>{5, <span class="stringliteral">&quot;0123456789&quot;</span>};</div>
+<div class="fragment"><div class="line"><span class="lineno">   79</span>{5, <span class="stringliteral">&quot;0123456789&quot;</span>};</div>
 </div><!-- fragment -->
 </div>
 </div>

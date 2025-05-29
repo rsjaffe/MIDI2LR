@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -179,84 +179,85 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   50</span>{</div>
-<div class="line"><span class="lineno">   51</span>   <span class="comment">//[Constructor_pre] You can add your own custom stuff here..</span></div>
-<div class="line"><span class="lineno">   52</span>   <span class="comment">//[/Constructor_pre]</span></div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>.reset(<span class="keyword">new</span> Label(<span class="stringliteral">&quot;new label&quot;</span>, TRANS(<span class="stringliteral">&quot;Minimum value&quot;</span>)));</div>
-<div class="line"><span class="lineno">   55</span>   addAndMakeVisible(<a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>.get());</div>
-<div class="line"><span class="lineno">   56</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>-&gt;setFont(Font(15.00f, Font::plain).withTypefaceStyle(<span class="stringliteral">&quot;Regular&quot;</span>));</div>
-<div class="line"><span class="lineno">   57</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>-&gt;setJustificationType(Justification::centredLeft);</div>
-<div class="line"><span class="lineno">   58</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>-&gt;setEditable(<span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   59</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>-&gt;setColour(TextEditor::textColourId, Colours::black);</div>
-<div class="line"><span class="lineno">   60</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>-&gt;setColour(TextEditor::backgroundColourId, Colour(0x00000000));</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>-&gt;setBounds(32, 48, 150, 24);</div>
+<div class="fragment"><div class="line"><span class="lineno">   51</span>{</div>
+<div class="line"><span class="lineno">   52</span>   <span class="comment">//[Constructor_pre] You can add your own custom stuff here..</span></div>
+<div class="line"><span class="lineno">   53</span>   <span class="keyword">auto</span> fo {juce::FontOptions(15.00f, Font::plain)};</div>
+<div class="line"><span class="lineno">   54</span>   <span class="comment">//[/Constructor_pre]</span></div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>.reset(<span class="keyword">new</span> Label(<span class="stringliteral">&quot;new label&quot;</span>, TRANS(<span class="stringliteral">&quot;Minimum value&quot;</span>)));</div>
+<div class="line"><span class="lineno">   57</span>   addAndMakeVisible(<a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>.get());</div>
+<div class="line"><span class="lineno">   58</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>-&gt;setFont(Font(fo).withTypefaceStyle(<span class="stringliteral">&quot;Regular&quot;</span>));</div>
+<div class="line"><span class="lineno">   59</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>-&gt;setJustificationType(Justification::centredLeft);</div>
+<div class="line"><span class="lineno">   60</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>-&gt;setEditable(<span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   61</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>-&gt;setColour(TextEditor::textColourId, Colours::black);</div>
+<div class="line"><span class="lineno">   62</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>-&gt;setColour(TextEditor::backgroundColourId, Colour(0x00000000));</div>
 <div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>.reset(<span class="keyword">new</span> TextEditor(<span class="stringliteral">&quot;minval&quot;</span>));</div>
-<div class="line"><span class="lineno">   65</span>   addAndMakeVisible(<a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>.get());</div>
-<div class="line"><span class="lineno">   66</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setExplicitFocusOrder(1);</div>
-<div class="line"><span class="lineno">   67</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setMultiLine(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   68</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setReturnKeyStartsNewLine(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   69</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setReadOnly(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   70</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setScrollbarsShown(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   71</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setCaretVisible(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   72</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setPopupMenuEnabled(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   73</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;0&quot;</span>));</div>
-<div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setBounds(32, 80, 150, 24);</div>
+<div class="line"><span class="lineno">   64</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a>-&gt;setBounds(32, 48, 150, 24);</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>.reset(<span class="keyword">new</span> TextEditor(<span class="stringliteral">&quot;minval&quot;</span>));</div>
+<div class="line"><span class="lineno">   67</span>   addAndMakeVisible(<a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>.get());</div>
+<div class="line"><span class="lineno">   68</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setExplicitFocusOrder(1);</div>
+<div class="line"><span class="lineno">   69</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setMultiLine(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   70</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setReturnKeyStartsNewLine(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   71</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setReadOnly(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   72</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setScrollbarsShown(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   73</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setCaretVisible(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   74</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setPopupMenuEnabled(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   75</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;0&quot;</span>));</div>
 <div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>.reset(<span class="keyword">new</span> Label(<span class="stringliteral">&quot;new label&quot;</span>, TRANS(<span class="stringliteral">&quot;Maximum value&quot;</span>)));</div>
-<div class="line"><span class="lineno">   78</span>   addAndMakeVisible(<a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>.get());</div>
-<div class="line"><span class="lineno">   79</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>-&gt;setFont(Font(15.00f, Font::plain).withTypefaceStyle(<span class="stringliteral">&quot;Regular&quot;</span>));</div>
-<div class="line"><span class="lineno">   80</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>-&gt;setJustificationType(Justification::centredLeft);</div>
-<div class="line"><span class="lineno">   81</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>-&gt;setEditable(<span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   82</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>-&gt;setColour(TextEditor::textColourId, Colours::black);</div>
-<div class="line"><span class="lineno">   83</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>-&gt;setColour(TextEditor::backgroundColourId, Colour(0x00000000));</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>-&gt;setBounds(32, 112, 150, 24);</div>
+<div class="line"><span class="lineno">   77</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setBounds(32, 80, 150, 24);</div>
+<div class="line"><span class="lineno">   78</span> </div>
+<div class="line"><span class="lineno">   79</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>.reset(<span class="keyword">new</span> Label(<span class="stringliteral">&quot;new label&quot;</span>, TRANS(<span class="stringliteral">&quot;Maximum value&quot;</span>)));</div>
+<div class="line"><span class="lineno">   80</span>   addAndMakeVisible(<a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>.get());</div>
+<div class="line"><span class="lineno">   81</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>-&gt;setFont(Font(fo).withTypefaceStyle(<span class="stringliteral">&quot;Regular&quot;</span>));</div>
+<div class="line"><span class="lineno">   82</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>-&gt;setJustificationType(Justification::centredLeft);</div>
+<div class="line"><span class="lineno">   83</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>-&gt;setEditable(<span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   84</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>-&gt;setColour(TextEditor::textColourId, Colours::black);</div>
+<div class="line"><span class="lineno">   85</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>-&gt;setColour(TextEditor::backgroundColourId, Colour(0x00000000));</div>
 <div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>.reset(<span class="keyword">new</span> TextEditor(<span class="stringliteral">&quot;maxval&quot;</span>));</div>
-<div class="line"><span class="lineno">   88</span>   addAndMakeVisible(<a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>.get());</div>
-<div class="line"><span class="lineno">   89</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setExplicitFocusOrder(2);</div>
-<div class="line"><span class="lineno">   90</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setMultiLine(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   91</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setReturnKeyStartsNewLine(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   92</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setReadOnly(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   93</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setScrollbarsShown(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   94</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setCaretVisible(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   95</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setPopupMenuEnabled(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   96</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;16383&quot;</span>));</div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setBounds(32, 144, 150, 24);</div>
+<div class="line"><span class="lineno">   87</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a>-&gt;setBounds(32, 112, 150, 24);</div>
+<div class="line"><span class="lineno">   88</span> </div>
+<div class="line"><span class="lineno">   89</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>.reset(<span class="keyword">new</span> TextEditor(<span class="stringliteral">&quot;maxval&quot;</span>));</div>
+<div class="line"><span class="lineno">   90</span>   addAndMakeVisible(<a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>.get());</div>
+<div class="line"><span class="lineno">   91</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setExplicitFocusOrder(2);</div>
+<div class="line"><span class="lineno">   92</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setMultiLine(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   93</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setReturnKeyStartsNewLine(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   94</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setReadOnly(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   95</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setScrollbarsShown(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   96</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setCaretVisible(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   97</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setPopupMenuEnabled(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   98</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setText(TRANS(<span class="stringliteral">&quot;16383&quot;</span>));</div>
 <div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>.reset(<span class="keyword">new</span> Label(<span class="stringliteral">&quot;new label&quot;</span>, TRANS(<span class="stringliteral">&quot;Pitch Wheel&quot;</span>)));</div>
-<div class="line"><span class="lineno">  101</span>   addAndMakeVisible(<a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>.get());</div>
-<div class="line"><span class="lineno">  102</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>-&gt;setFont(Font(15.00f, Font::plain).withTypefaceStyle(<span class="stringliteral">&quot;Regular&quot;</span>));</div>
-<div class="line"><span class="lineno">  103</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>-&gt;setJustificationType(Justification::centredLeft);</div>
-<div class="line"><span class="lineno">  104</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>-&gt;setEditable(<span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  105</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>-&gt;setColour(TextEditor::textColourId, Colours::black);</div>
-<div class="line"><span class="lineno">  106</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>-&gt;setColour(TextEditor::backgroundColourId, Colour(0x00000000));</div>
-<div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>-&gt;setBounds(32, 16, 150, 24);</div>
+<div class="line"><span class="lineno">  100</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setBounds(32, 144, 150, 24);</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>.reset(<span class="keyword">new</span> Label(<span class="stringliteral">&quot;new label&quot;</span>, TRANS(<span class="stringliteral">&quot;Pitch Wheel&quot;</span>)));</div>
+<div class="line"><span class="lineno">  103</span>   addAndMakeVisible(<a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>.get());</div>
+<div class="line"><span class="lineno">  104</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>-&gt;setFont(Font(fo).withTypefaceStyle(<span class="stringliteral">&quot;Regular&quot;</span>));</div>
+<div class="line"><span class="lineno">  105</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>-&gt;setJustificationType(Justification::centredLeft);</div>
+<div class="line"><span class="lineno">  106</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>-&gt;setEditable(<span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  107</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>-&gt;setColour(TextEditor::textColourId, Colours::black);</div>
+<div class="line"><span class="lineno">  108</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>-&gt;setColour(TextEditor::backgroundColourId, Colour(0x00000000));</div>
 <div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>   <span class="comment">//[UserPreSize]</span></div>
-<div class="line"><span class="lineno">  111</span>   <span class="comment">//[/UserPreSize]</span></div>
-<div class="line"><span class="lineno">  112</span> </div>
-<div class="line"><span class="lineno">  113</span>   setSize(280, 350);</div>
+<div class="line"><span class="lineno">  110</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a>-&gt;setBounds(32, 16, 150, 24);</div>
+<div class="line"><span class="lineno">  111</span> </div>
+<div class="line"><span class="lineno">  112</span>   <span class="comment">//[UserPreSize]</span></div>
+<div class="line"><span class="lineno">  113</span>   <span class="comment">//[/UserPreSize]</span></div>
 <div class="line"><span class="lineno">  114</span> </div>
-<div class="line"><span class="lineno">  115</span>   <span class="comment">//[Constructor] You can add your own custom stuff here..</span></div>
-<div class="line"><span class="lineno">  116</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setInputFilter(&amp;<a class="code hl_variable" href="class_p_woptions.html#acccdc5df9ba09e1f2df08a8ed6e9938b">numrestrict_</a>, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  117</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setInputFilter(&amp;<a class="code hl_variable" href="class_p_woptions.html#acccdc5df9ba09e1f2df08a8ed6e9938b">numrestrict_</a>, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  118</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;addListener(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  119</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;addListener(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  120</span>   <span class="comment">//[/Constructor]</span></div>
-<div class="line"><span class="lineno">  121</span>}</div>
-<div class="ttc" id="aclass_p_woptions_html_a1f21a0ccde3acc7261c3113945ed4be4"><div class="ttname"><a href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">PWoptions::maxval</a></div><div class="ttdeci">std::unique_ptr&lt; juce::TextEditor &gt; maxval</div><div class="ttdef"><b>Definition</b> PWoptions.h:92</div></div>
-<div class="ttc" id="aclass_p_woptions_html_a4652deea48c8bc5c21d87b7eca29625f"><div class="ttname"><a href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">PWoptions::label2</a></div><div class="ttdeci">std::unique_ptr&lt; juce::Label &gt; label2</div><div class="ttdef"><b>Definition</b> PWoptions.h:91</div></div>
-<div class="ttc" id="aclass_p_woptions_html_a85a3fc6201840de2c1bf593a0f3eb87e"><div class="ttname"><a href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">PWoptions::label3</a></div><div class="ttdeci">std::unique_ptr&lt; juce::Label &gt; label3</div><div class="ttdef"><b>Definition</b> PWoptions.h:93</div></div>
-<div class="ttc" id="aclass_p_woptions_html_a8b6d1e018b8b6940528bf3c240aa04a1"><div class="ttname"><a href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">PWoptions::label</a></div><div class="ttdeci">std::unique_ptr&lt; juce::Label &gt; label</div><div class="ttdef"><b>Definition</b> PWoptions.h:89</div></div>
-<div class="ttc" id="aclass_p_woptions_html_acccdc5df9ba09e1f2df08a8ed6e9938b"><div class="ttname"><a href="class_p_woptions.html#acccdc5df9ba09e1f2df08a8ed6e9938b">PWoptions::numrestrict_</a></div><div class="ttdeci">juce::TextEditor::LengthAndCharacterRestriction numrestrict_</div><div class="ttdef"><b>Definition</b> PWoptions.h:81</div></div>
-<div class="ttc" id="aclass_p_woptions_html_aee7a1f9b512df35efb49d238aae5c3b5"><div class="ttname"><a href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">PWoptions::minval</a></div><div class="ttdeci">std::unique_ptr&lt; juce::TextEditor &gt; minval</div><div class="ttdef"><b>Definition</b> PWoptions.h:90</div></div>
+<div class="line"><span class="lineno">  115</span>   setSize(280, 350);</div>
+<div class="line"><span class="lineno">  116</span> </div>
+<div class="line"><span class="lineno">  117</span>   <span class="comment">//[Constructor] You can add your own custom stuff here..</span></div>
+<div class="line"><span class="lineno">  118</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setInputFilter(&amp;<a class="code hl_variable" href="class_p_woptions.html#acccdc5df9ba09e1f2df08a8ed6e9938b">numrestrict_</a>, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  119</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setInputFilter(&amp;<a class="code hl_variable" href="class_p_woptions.html#acccdc5df9ba09e1f2df08a8ed6e9938b">numrestrict_</a>, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  120</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;addListener(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  121</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;addListener(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  122</span>   <span class="comment">//[/Constructor]</span></div>
+<div class="line"><span class="lineno">  123</span>}</div>
+<div class="ttc" id="aclass_p_woptions_html_a1f21a0ccde3acc7261c3113945ed4be4"><div class="ttname"><a href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">PWoptions::maxval</a></div><div class="ttdeci">std::unique_ptr&lt; juce::TextEditor &gt; maxval</div><div class="ttdef"><b>Definition</b> PWoptions.h:86</div></div>
+<div class="ttc" id="aclass_p_woptions_html_a4652deea48c8bc5c21d87b7eca29625f"><div class="ttname"><a href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">PWoptions::label2</a></div><div class="ttdeci">std::unique_ptr&lt; juce::Label &gt; label2</div><div class="ttdef"><b>Definition</b> PWoptions.h:85</div></div>
+<div class="ttc" id="aclass_p_woptions_html_a85a3fc6201840de2c1bf593a0f3eb87e"><div class="ttname"><a href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">PWoptions::label3</a></div><div class="ttdeci">std::unique_ptr&lt; juce::Label &gt; label3</div><div class="ttdef"><b>Definition</b> PWoptions.h:87</div></div>
+<div class="ttc" id="aclass_p_woptions_html_a8b6d1e018b8b6940528bf3c240aa04a1"><div class="ttname"><a href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">PWoptions::label</a></div><div class="ttdeci">std::unique_ptr&lt; juce::Label &gt; label</div><div class="ttdef"><b>Definition</b> PWoptions.h:83</div></div>
+<div class="ttc" id="aclass_p_woptions_html_acccdc5df9ba09e1f2df08a8ed6e9938b"><div class="ttname"><a href="class_p_woptions.html#acccdc5df9ba09e1f2df08a8ed6e9938b">PWoptions::numrestrict_</a></div><div class="ttdeci">juce::TextEditor::LengthAndCharacterRestriction numrestrict_</div><div class="ttdef"><b>Definition</b> PWoptions.h:75</div></div>
+<div class="ttc" id="aclass_p_woptions_html_aee7a1f9b512df35efb49d238aae5c3b5"><div class="ttname"><a href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">PWoptions::minval</a></div><div class="ttdeci">std::unique_ptr&lt; juce::TextEditor &gt; minval</div><div class="ttdef"><b>Definition</b> PWoptions.h:84</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -274,19 +275,19 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  124</span>{</div>
-<div class="line"><span class="lineno">  125</span>   <span class="comment">//[Destructor_pre]. You can add your own custom destruction code here..</span></div>
-<div class="line"><span class="lineno">  126</span>   <span class="comment">//[/Destructor_pre]</span></div>
-<div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  129</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  130</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  131</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  132</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  133</span> </div>
-<div class="line"><span class="lineno">  134</span>   <span class="comment">//[Destructor]. You can add your own custom destruction code here..</span></div>
-<div class="line"><span class="lineno">  135</span>   <span class="comment">//[/Destructor]</span></div>
-<div class="line"><span class="lineno">  136</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  126</span>{</div>
+<div class="line"><span class="lineno">  127</span>   <span class="comment">//[Destructor_pre]. You can add your own custom destruction code here..</span></div>
+<div class="line"><span class="lineno">  128</span>   <span class="comment">//[/Destructor_pre]</span></div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>   <a class="code hl_variable" href="class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1">label</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  131</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  132</span>   <a class="code hl_variable" href="class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f">label2</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  133</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  134</span>   <a class="code hl_variable" href="class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e">label3</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  135</span> </div>
+<div class="line"><span class="lineno">  136</span>   <span class="comment">//[Destructor]. You can add your own custom destruction code here..</span></div>
+<div class="line"><span class="lineno">  137</span>   <span class="comment">//[/Destructor]</span></div>
+<div class="line"><span class="lineno">  138</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -332,17 +333,17 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  173</span>{</div>
-<div class="line"><span class="lineno">  174</span>   <a class="code hl_variable" href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">boundchannel_</a> = channel;</div>
-<div class="line"><span class="lineno">  175</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setText(</div>
-<div class="line"><span class="lineno">  176</span>       juce::String(<a class="code hl_variable" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a358b704662a07c71422318eb6a6965b6">GetPwMin</a>(<a class="code hl_variable" href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">boundchannel_</a>)), juce::dontSendNotification);</div>
-<div class="line"><span class="lineno">  177</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setText(</div>
-<div class="line"><span class="lineno">  178</span>       juce::String(<a class="code hl_variable" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a3b874112e3236ced1d3daf3129928081">GetPwMax</a>(<a class="code hl_variable" href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">boundchannel_</a>)), juce::dontSendNotification);</div>
-<div class="line"><span class="lineno">  179</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  175</span>{</div>
+<div class="line"><span class="lineno">  176</span>   <a class="code hl_variable" href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">boundchannel_</a> = channel;</div>
+<div class="line"><span class="lineno">  177</span>   <a class="code hl_variable" href="class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5">minval</a>-&gt;setText(juce::String(<a class="code hl_variable" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a358b704662a07c71422318eb6a6965b6">GetPwMin</a>(<a class="code hl_variable" href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">boundchannel_</a>)),</div>
+<div class="line"><span class="lineno">  178</span>       juce::dontSendNotification);</div>
+<div class="line"><span class="lineno">  179</span>   <a class="code hl_variable" href="class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4">maxval</a>-&gt;setText(juce::String(<a class="code hl_variable" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a3b874112e3236ced1d3daf3129928081">GetPwMax</a>(<a class="code hl_variable" href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">boundchannel_</a>)),</div>
+<div class="line"><span class="lineno">  180</span>       juce::dontSendNotification);</div>
+<div class="line"><span class="lineno">  181</span>}</div>
 <div class="ttc" id="aclass_controls_model_html_a358b704662a07c71422318eb6a6965b6"><div class="ttname"><a href="class_controls_model.html#a358b704662a07c71422318eb6a6965b6">ControlsModel::GetPwMin</a></div><div class="ttdeci">int GetPwMin(int channel) const</div><div class="ttdef"><b>Definition</b> ControlsModel.h:268</div></div>
 <div class="ttc" id="aclass_controls_model_html_a3b874112e3236ced1d3daf3129928081"><div class="ttname"><a href="class_controls_model.html#a3b874112e3236ced1d3daf3129928081">ControlsModel::GetPwMax</a></div><div class="ttdeci">int GetPwMax(int channel) const</div><div class="ttdef"><b>Definition</b> ControlsModel.h:266</div></div>
-<div class="ttc" id="aclass_p_woptions_html_a43376bb66352c6a9f40a822f438e2d9f"><div class="ttname"><a href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">PWoptions::boundchannel_</a></div><div class="ttdeci">int boundchannel_</div><div class="ttdef"><b>Definition</b> PWoptions.h:84</div></div>
-<div class="ttc" id="aclass_p_woptions_html_a9c43d66079f184a02b7fe1dc4c62ee8b"><div class="ttname"><a href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">PWoptions::controls_model_</a></div><div class="ttdeci">static ControlsModel * controls_model_</div><div class="ttdef"><b>Definition</b> PWoptions.h:83</div></div>
+<div class="ttc" id="aclass_p_woptions_html_a43376bb66352c6a9f40a822f438e2d9f"><div class="ttname"><a href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">PWoptions::boundchannel_</a></div><div class="ttdeci">int boundchannel_</div><div class="ttdef"><b>Definition</b> PWoptions.h:78</div></div>
+<div class="ttc" id="aclass_p_woptions_html_a9c43d66079f184a02b7fe1dc4c62ee8b"><div class="ttname"><a href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">PWoptions::controls_model_</a></div><div class="ttdeci">static ControlsModel * controls_model_</div><div class="ttdef"><b>Definition</b> PWoptions.h:77</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -369,9 +370,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   66</span>   {</div>
-<div class="line"><span class="lineno">   67</span>      <a class="code hl_variable" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">controls_model_</a> = model;</div>
-<div class="line"><span class="lineno">   68</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">   63</span>{ <a class="code hl_variable" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">controls_model_</a> = model; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -424,15 +423,15 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  140</span>{</div>
-<div class="line"><span class="lineno">  141</span>   <span class="comment">//[UserPrePaint] Add your own custom painting code here..</span></div>
-<div class="line"><span class="lineno">  142</span>   <span class="comment">//[/UserPrePaint]</span></div>
-<div class="line"><span class="lineno">  143</span> </div>
-<div class="line"><span class="lineno">  144</span>   g.fillAll(Colours::white);</div>
+<div class="fragment"><div class="line"><span class="lineno">  142</span>{</div>
+<div class="line"><span class="lineno">  143</span>   <span class="comment">//[UserPrePaint] Add your own custom painting code here..</span></div>
+<div class="line"><span class="lineno">  144</span>   <span class="comment">//[/UserPrePaint]</span></div>
 <div class="line"><span class="lineno">  145</span> </div>
-<div class="line"><span class="lineno">  146</span>   <span class="comment">//[UserPaint] Add your own custom painting code here..</span></div>
-<div class="line"><span class="lineno">  147</span>   <span class="comment">//[/UserPaint]</span></div>
-<div class="line"><span class="lineno">  148</span>}</div>
+<div class="line"><span class="lineno">  146</span>   g.fillAll(Colours::white);</div>
+<div class="line"><span class="lineno">  147</span> </div>
+<div class="line"><span class="lineno">  148</span>   <span class="comment">//[UserPaint] Add your own custom painting code here..</span></div>
+<div class="line"><span class="lineno">  149</span>   <span class="comment">//[/UserPaint]</span></div>
+<div class="line"><span class="lineno">  150</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -458,13 +457,13 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  151</span>{</div>
-<div class="line"><span class="lineno">  152</span>   <span class="comment">//[UserPreResize] Add your own custom resize code here..</span></div>
-<div class="line"><span class="lineno">  153</span>   <span class="comment">//[/UserPreResize]</span></div>
-<div class="line"><span class="lineno">  154</span> </div>
-<div class="line"><span class="lineno">  155</span>   <span class="comment">//[UserResized] Add your own custom resize handling here..</span></div>
-<div class="line"><span class="lineno">  156</span>   <span class="comment">//[/UserResized]</span></div>
-<div class="line"><span class="lineno">  157</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  153</span>{</div>
+<div class="line"><span class="lineno">  154</span>   <span class="comment">//[UserPreResize] Add your own custom resize code here..</span></div>
+<div class="line"><span class="lineno">  155</span>   <span class="comment">//[/UserPreResize]</span></div>
+<div class="line"><span class="lineno">  156</span> </div>
+<div class="line"><span class="lineno">  157</span>   <span class="comment">//[UserResized] Add your own custom resize handling here..</span></div>
+<div class="line"><span class="lineno">  158</span>   <span class="comment">//[/UserResized]</span></div>
+<div class="line"><span class="lineno">  159</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -491,16 +490,16 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  161</span>{</div>
-<div class="line"><span class="lineno">  162</span>   <span class="keyword">const</span> <span class="keyword">auto</span> val {t.getText().getIntValue()};</div>
-<div class="line"><span class="lineno">  163</span>   <span class="keyword">const</span> <span class="keyword">auto</span>&amp; nam {t.getName()};</div>
-<div class="line"><span class="lineno">  164</span>   <span class="keywordflow">if</span> (nam == <span class="stringliteral">&quot;minval&quot;</span>) { <a class="code hl_variable" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a45ac9c276b6897f2d80393d56aa35ba1">SetPwMin</a>(<a class="code hl_variable" href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">boundchannel_</a>, val); }</div>
-<div class="line"><span class="lineno">  165</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (nam == <span class="stringliteral">&quot;maxval&quot;</span>) {</div>
-<div class="line"><span class="lineno">  166</span>      <a class="code hl_variable" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a578fb9d5842719eacb024999680169bf">SetPwMax</a>(<a class="code hl_variable" href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">boundchannel_</a>, val);</div>
-<div class="line"><span class="lineno">  167</span>   }</div>
-<div class="line"><span class="lineno">  168</span>   <span class="keywordflow">else</span> { <span class="comment">/* no action needed */</span></div>
+<div class="fragment"><div class="line"><span class="lineno">  163</span>{</div>
+<div class="line"><span class="lineno">  164</span>   <span class="keyword">const</span> <span class="keyword">auto</span> val {t.getText().getIntValue()};</div>
+<div class="line"><span class="lineno">  165</span>   <span class="keyword">const</span> <span class="keyword">auto</span>&amp; nam {t.getName()};</div>
+<div class="line"><span class="lineno">  166</span>   <span class="keywordflow">if</span> (nam == <span class="stringliteral">&quot;minval&quot;</span>) { <a class="code hl_variable" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a45ac9c276b6897f2d80393d56aa35ba1">SetPwMin</a>(<a class="code hl_variable" href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">boundchannel_</a>, val); }</div>
+<div class="line"><span class="lineno">  167</span>   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (nam == <span class="stringliteral">&quot;maxval&quot;</span>) {</div>
+<div class="line"><span class="lineno">  168</span>      <a class="code hl_variable" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">controls_model_</a>-&gt;<a class="code hl_function" href="class_controls_model.html#a578fb9d5842719eacb024999680169bf">SetPwMax</a>(<a class="code hl_variable" href="class_p_woptions.html#a43376bb66352c6a9f40a822f438e2d9f">boundchannel_</a>, val);</div>
 <div class="line"><span class="lineno">  169</span>   }</div>
-<div class="line"><span class="lineno">  170</span>}</div>
+<div class="line"><span class="lineno">  170</span>   <span class="keywordflow">else</span> { <span class="comment">/* no action needed */</span></div>
+<div class="line"><span class="lineno">  171</span>   }</div>
+<div class="line"><span class="lineno">  172</span>}</div>
 <div class="ttc" id="aclass_controls_model_html_a45ac9c276b6897f2d80393d56aa35ba1"><div class="ttname"><a href="class_controls_model.html#a45ac9c276b6897f2d80393d56aa35ba1">ControlsModel::SetPwMin</a></div><div class="ttdeci">void SetPwMin(int channel, int value)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:309</div></div>
 <div class="ttc" id="aclass_controls_model_html_a578fb9d5842719eacb024999680169bf"><div class="ttname"><a href="class_controls_model.html#a578fb9d5842719eacb024999680169bf">ControlsModel::SetPwMax</a></div><div class="ttdeci">void SetPwMax(int channel, int value)</div><div class="ttdef"><b>Definition</b> ControlsModel.h:307</div></div>
 </div><!-- fragment -->
@@ -526,7 +525,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   84</span>{0}; <span class="comment">// note: 0-based</span></div>
+<div class="fragment"><div class="line"><span class="lineno">   78</span>{0}; <span class="comment">// note: 0-based</span></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -549,7 +548,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   83</span>{<span class="keyword">nullptr</span>};</div>
+<div class="fragment"><div class="line"><span class="lineno">   77</span>{<span class="keyword">nullptr</span>};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -682,7 +681,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   81</span>{5, <span class="stringliteral">&quot;0123456789&quot;</span>};</div>
+<div class="fragment"><div class="line"><span class="lineno">   75</span>{5, <span class="stringliteral">&quot;0123456789&quot;</span>};</div>
 </div><!-- fragment -->
 </div>
 </div>

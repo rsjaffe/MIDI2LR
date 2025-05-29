@@ -54,8 +54,8 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "class_lr_ipc_out.html#ae3565108b8df687e7ad7358d057ed6eb",
-"class_settings_component.html#a7a4688bc9cfe9c8868124bd62f5d8a4d",
-"namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7"
+"class_settings_component.html#a29baa1f6c3d21bc45e53e9294556b718",
+"namespacersj.html#aa6fa7865e7e6cc69af0e2dfd1066880e"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

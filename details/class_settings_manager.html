@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -194,7 +194,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   38</span>      <a class="code hl_variable" href="class_settings_manager.html#afcb8cc77d01b25a3ff7b2713dbb84011">profile_manager_</a>.<a class="code hl_function" href="class_profile_manager.html#acb0cff45331b1e60e58b247efcfb5bf8">SetProfileDirectory</a>(<a class="code hl_function" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>());</div>
 <div class="line"><span class="lineno">   39</span>   }</div>
 <div class="line"><span class="lineno">   40</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   41</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   41</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
 <div class="line"><span class="lineno">   42</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   43</span>   }</div>
 <div class="line"><span class="lineno">   44</span>}</div>
@@ -325,25 +325,29 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   65</span>      <span class="keywordflow">if</span> (connected &amp;&amp; !blocked) {</div>
 <div class="line"><span class="lineno">   66</span>         <span class="keywordflow">if</span> (<a class="code hl_function" href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">GetPickupEnabled</a>()) {</div>
 <div class="line"><span class="lineno">   67</span>            <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(<span class="stringliteral">&quot;Pickup 1\n&quot;</span>);</div>
-<div class="line"><span class="lineno">   68</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Pickup is enabled.&quot;</span>);</div>
+<div class="line"><span class="lineno">   68</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Pickup is enabled.&quot;</span>, std::source_location::current());</div>
 <div class="line"><span class="lineno">   69</span>         }</div>
 <div class="line"><span class="lineno">   70</span>         <span class="keywordflow">else</span> {</div>
 <div class="line"><span class="lineno">   71</span>            <a class="code hl_variable" href="class_settings_manager.html#ad065363b99b0db676f60ebfc249f2e22">lr_ipc_out_</a>.<a class="code hl_function" href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">SendCommand</a>(<span class="stringliteral">&quot;Pickup 0\n&quot;</span>);</div>
-<div class="line"><span class="lineno">   72</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Pickup is disabled.&quot;</span>);</div>
+<div class="line"><span class="lineno">   72</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Pickup is disabled.&quot;</span>, std::source_location::current());</div>
 <div class="line"><span class="lineno">   73</span>         }</div>
-<div class="line"><span class="lineno">   74</span>         <span class="keyword">static</span> std::once_flag of; <span class="comment">/* add debug info once to logs */</span></div>
-<div class="line"><span class="lineno">   75</span>         std::call_once(of, std::bind_front(&amp;<a class="code hl_function" href="class_settings_manager.html#a359f7e820ba38130ba65470ea328f524">SettingsManager::WriteDebugInfo</a>, <span class="keyword">this</span>));</div>
-<div class="line"><span class="lineno">   76</span>      }</div>
-<div class="line"><span class="lineno">   77</span>   }</div>
-<div class="line"><span class="lineno">   78</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   79</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">   80</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   74</span>         <span class="keyword">constinit</span> <span class="keyword">static</span> std::once_flag of; <span class="comment">/* add debug info once to logs */</span></div>
+<div class="line"><span class="lineno">   75</span><span class="preprocessor">#if __cpp_lib_bind_front &gt;= 202&#39;306L</span></div>
+<div class="line"><span class="lineno">   76</span>         std::call_once(of, std::bind_front&lt;&amp;SettingsManager::WriteDebugInfo&gt;(<span class="keyword">this</span>));</div>
+<div class="line"><span class="lineno">   77</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">   78</span>         std::call_once(of, std::bind_front(&amp;<a class="code hl_function" href="class_settings_manager.html#a359f7e820ba38130ba65470ea328f524">SettingsManager::WriteDebugInfo</a>, <span class="keyword">this</span>));</div>
+<div class="line"><span class="lineno">   79</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">   80</span>      }</div>
 <div class="line"><span class="lineno">   81</span>   }</div>
-<div class="line"><span class="lineno">   82</span>}</div>
+<div class="line"><span class="lineno">   82</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">   83</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">   84</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   85</span>   }</div>
+<div class="line"><span class="lineno">   86</span>}</div>
 <div class="ttc" id="aclass_lr_ipc_out_html_aaca9ebc83a482fcfc6dcc054d3bb2e46"><div class="ttname"><a href="class_lr_ipc_out.html#aaca9ebc83a482fcfc6dcc054d3bb2e46">LrIpcOut::SendCommand</a></div><div class="ttdeci">void SendCommand(std::string &amp;&amp;command) const</div><div class="ttdef"><b>Definition</b> LR_IPC_Out.cpp:67</div></div>
 <div class="ttc" id="aclass_settings_manager_html_a359f7e820ba38130ba65470ea328f524"><div class="ttname"><a href="class_settings_manager.html#a359f7e820ba38130ba65470ea328f524">SettingsManager::WriteDebugInfo</a></div><div class="ttdeci">void WriteDebugInfo() const</div><div class="ttdef"><b>Definition</b> SettingsManager.cpp:46</div></div>
 <div class="ttc" id="aclass_settings_manager_html_ad3c2351b353983433605b1c936b2f77b"><div class="ttname"><a href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">SettingsManager::GetPickupEnabled</a></div><div class="ttdeci">bool GetPickupEnabled() const noexcept</div><div class="ttdef"><b>Definition</b> SettingsManager.h:52</div></div>
-<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:113</div></div>
 </div><!-- fragment -->
 </div>
 </div>

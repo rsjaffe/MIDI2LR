@@ -8,5 +8,5 @@ var searchData=
   ['insertorassign_5',['insertorassign',['../class_profile.html#a35a9cb1848f7558a6402c6fcddc61851',1,'Profile::InsertOrAssign(const std::string &amp;command, rsj::MidiMessageId message)'],['../class_profile.html#aec460a00f6ac3ac18262dbdcbc7f7e43',1,'Profile::InsertOrAssign(size_t command, rsj::MidiMessageId message)']]],
   ['insertorassigni_6',['InsertOrAssignI',['../class_profile.html#a4a9c70df1bd5d2993c0cd9a1fb9937b3',1,'Profile']]],
   ['insertunassigned_7',['InsertUnassigned',['../class_profile.html#abf97444c320cc34e43052dc676a90610',1,'Profile']]],
-  ['isnrpn_8',['IsNrpn',['../class_channel_model.html#a04fb487ef9775f037898e43b7840c48c',1,'ChannelModel']]]
+  ['isnrpn_8',['IsNrpn',['../class_channel_model.html#afa01b43f5d60eda9f780b12aead99f5a',1,'ChannelModel']]]
 ];

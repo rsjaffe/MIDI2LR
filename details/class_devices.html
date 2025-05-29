@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -200,14 +200,14 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  106</span>      <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>-&gt;writeTo(source);</div>
 <div class="line"><span class="lineno">  107</span>   }</div>
 <div class="line"><span class="lineno">  108</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  109</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  109</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
 <div class="line"><span class="lineno">  110</span>   }</div>
 <div class="line"><span class="lineno">  111</span>   <span class="keywordflow">catch</span> (...) {</div>
-<div class="line"><span class="lineno">  112</span>      <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(<span class="stringliteral">&quot;Non-standard exception in ~Devices.&quot;</span>);</div>
+<div class="line"><span class="lineno">  112</span>      <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(<span class="stringliteral">&quot;Non-standard exception in ~Devices.&quot;</span>, std::source_location::current());</div>
 <div class="line"><span class="lineno">  113</span>   }</div>
 <div class="line"><span class="lineno">  114</span>}</div>
 <div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
-<div class="ttc" id="anamespacersj_html_a85a33831e4cc942fc6995a04c74361ab"><div class="ttname"><a href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:160</div></div>
+<div class="ttc" id="anamespacersj_html_a85a33831e4cc942fc6995a04c74361ab"><div class="ttname"><a href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:142</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -300,19 +300,20 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  125</span>            new_element-&gt;setAttribute(<span class="stringliteral">&quot;active&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>);</div>
 <div class="line"><span class="lineno">  126</span>         }</div>
 <div class="line"><span class="lineno">  127</span>         <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  128</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Failed to create new element in Devices::Add&quot;</span>);</div>
-<div class="line"><span class="lineno">  129</span>         }</div>
-<div class="line"><span class="lineno">  130</span>      }</div>
-<div class="line"><span class="lineno">  131</span>      <span class="keywordflow">return</span> success;</div>
-<div class="line"><span class="lineno">  132</span>   }</div>
-<div class="line"><span class="lineno">  133</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  134</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">  135</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  136</span>   }</div>
-<div class="line"><span class="lineno">  137</span>}</div>
+<div class="line"><span class="lineno">  128</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Failed to create new element in Devices::Add&quot;</span>,</div>
+<div class="line"><span class="lineno">  129</span>                std::source_location::current());</div>
+<div class="line"><span class="lineno">  130</span>         }</div>
+<div class="line"><span class="lineno">  131</span>      }</div>
+<div class="line"><span class="lineno">  132</span>      <span class="keywordflow">return</span> success;</div>
+<div class="line"><span class="lineno">  133</span>   }</div>
+<div class="line"><span class="lineno">  134</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  135</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  136</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  137</span>   }</div>
+<div class="line"><span class="lineno">  138</span>}</div>
 <div class="ttc" id="aclass_devices_html_a1dd210727694b0ddf21826f1cb191c05"><div class="ttname"><a href="class_devices.html#a1dd210727694b0ddf21826f1cb191c05">Devices::data_list_</a></div><div class="ttdeci">juce::XmlElement * data_list_</div><div class="ttdef"><b>Definition</b> Devices.h:109</div></div>
 <div class="ttc" id="aclass_devices_html_ad04a115b64234c6872aaeffc4c0160f2"><div class="ttname"><a href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">Devices::device_listing_</a></div><div class="ttdeci">std::map&lt; DevInfo, bool &gt; device_listing_</div><div class="ttdef"><b>Definition</b> Devices.h:106</div></div>
-<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:113</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -379,17 +380,17 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  140</span>{</div>
-<div class="line"><span class="lineno">  141</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  142</span>      <span class="keyword">const</span> <span class="keyword">auto</span> it {<a class="code hl_variable" href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">device_listing_</a>.find({info, std::move(io)})};</div>
-<div class="line"><span class="lineno">  143</span>      <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">device_listing_</a>.end()) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
-<div class="line"><span class="lineno">  144</span>      <span class="keywordflow">return</span> it-&gt;second;</div>
-<div class="line"><span class="lineno">  145</span>   }</div>
-<div class="line"><span class="lineno">  146</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  147</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">  148</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  149</span>   }</div>
-<div class="line"><span class="lineno">  150</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  141</span>{</div>
+<div class="line"><span class="lineno">  142</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  143</span>      <span class="keyword">const</span> <span class="keyword">auto</span> it {<a class="code hl_variable" href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">device_listing_</a>.find({info, std::move(io)})};</div>
+<div class="line"><span class="lineno">  144</span>      <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="class_devices.html#ad04a115b64234c6872aaeffc4c0160f2">device_listing_</a>.end()) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><span class="lineno">  145</span>      <span class="keywordflow">return</span> it-&gt;second;</div>
+<div class="line"><span class="lineno">  146</span>   }</div>
+<div class="line"><span class="lineno">  147</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  148</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  149</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  150</span>   }</div>
+<div class="line"><span class="lineno">  151</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -418,18 +419,18 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  153</span>{</div>
-<div class="line"><span class="lineno">  154</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  155</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="class_devices.html#a87414122573f3209ae89eec07579ff89">Add</a>(info, io)) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
-<div class="line"><span class="lineno">  156</span>      <span class="keywordflow">return</span> <a class="code hl_function" href="class_devices.html#af2eefc218e57fbe2c8ac0b9ec6060f05">Enabled</a>(info, io);</div>
-<div class="line"><span class="lineno">  157</span>   }</div>
-<div class="line"><span class="lineno">  158</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  159</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">  160</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  161</span>   }</div>
-<div class="line"><span class="lineno">  162</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  154</span>{</div>
+<div class="line"><span class="lineno">  155</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  156</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="class_devices.html#a87414122573f3209ae89eec07579ff89">Add</a>(info, io)) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><span class="lineno">  157</span>      <span class="keywordflow">return</span> <a class="code hl_function" href="class_devices.html#af2eefc218e57fbe2c8ac0b9ec6060f05">Enabled</a>(info, io);</div>
+<div class="line"><span class="lineno">  158</span>   }</div>
+<div class="line"><span class="lineno">  159</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  160</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  161</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  162</span>   }</div>
+<div class="line"><span class="lineno">  163</span>}</div>
 <div class="ttc" id="aclass_devices_html_a87414122573f3209ae89eec07579ff89"><div class="ttname"><a href="class_devices.html#a87414122573f3209ae89eec07579ff89">Devices::Add</a></div><div class="ttdeci">bool Add(const juce::MidiDeviceInfo &amp;info, const juce::String &amp;io)</div><div class="ttdef"><b>Definition</b> Devices.cpp:116</div></div>
-<div class="ttc" id="aclass_devices_html_af2eefc218e57fbe2c8ac0b9ec6060f05"><div class="ttname"><a href="class_devices.html#af2eefc218e57fbe2c8ac0b9ec6060f05">Devices::Enabled</a></div><div class="ttdeci">bool Enabled(const juce::MidiDeviceInfo &amp;info, juce::String io) const</div><div class="ttdef"><b>Definition</b> Devices.cpp:139</div></div>
+<div class="ttc" id="aclass_devices_html_af2eefc218e57fbe2c8ac0b9ec6060f05"><div class="ttname"><a href="class_devices.html#af2eefc218e57fbe2c8ac0b9ec6060f05">Devices::Enabled</a></div><div class="ttdeci">bool Enabled(const juce::MidiDeviceInfo &amp;info, juce::String io) const</div><div class="ttdef"><b>Definition</b> Devices.cpp:140</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -468,7 +469,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   51</span>      }</div>
 <div class="line"><span class="lineno">   52</span>   }</div>
 <div class="line"><span class="lineno">   53</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   54</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   54</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
 <div class="line"><span class="lineno">   55</span>      <a class="code hl_variable" href="class_devices.html#abc356d82a06fb846454d42633126a4d4">device_xml_</a>.reset();</div>
 <div class="line"><span class="lineno">   56</span>   }</div>
 <div class="line"><span class="lineno">   57</span>}</div>

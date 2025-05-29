@@ -11,9 +11,7 @@ var searchData=
   ['tomessagetype_8',['ToMessageType',['../namespacersj.html#a3e507a3be3fc79f796e5973bee4b1454',1,'rsj']]],
   ['toxmlfile_9',['ToXmlFile',['../class_profile.html#a6ae35735b1edc78dd1b32535c093aca8',1,'Profile']]],
   ['translate_10',['Translate',['../namespacersj.html#a1f28ca0bb51c870e4960af1ae31316b7',1,'rsj']]],
-  ['trim_11',['trim',['../namespacersj.html#a94afac1b60db0d64f32e127ab5627833',1,'rsj::Trim(std::string_view &amp;value) noexcept'],['../namespacersj.html#aa780955c4461ad8d0d0b4b73d744aa04',1,'rsj::Trim(std::string_view &amp;&amp;value)=delete']]],
-  ['triml_12',['triml',['../namespacersj.html#aff73d5a6afa63313683158ee19a03e78',1,'rsj::TrimL(std::string_view &amp;value) noexcept'],['../namespacersj.html#a887ca7a03b23a4e030f4d8f164fa2ed7',1,'rsj::TrimL(std::string_view &amp;&amp;value)=delete']]],
-  ['try_5fpop_13',['try_pop',['../classrsj_1_1_concurrent_queue.html#ad39a475a5d8d73ce32a2f1f5267d51ad',1,'rsj::ConcurrentQueue']]],
-  ['trytoopen_14',['TryToOpen',['../class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595',1,'MidiReceiver']]],
-  ['twosbutton_15',['twosbutton',['../class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e',1,'CCoptions']]]
+  ['try_5fpop_11',['try_pop',['../classrsj_1_1_concurrent_queue.html#ad39a475a5d8d73ce32a2f1f5267d51ad',1,'rsj::ConcurrentQueue']]],
+  ['trytoopen_12',['TryToOpen',['../class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595',1,'MidiReceiver']]],
+  ['twosbutton_13',['twosbutton',['../class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e',1,'CCoptions']]]
 ];

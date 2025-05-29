@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -158,9 +158,13 @@ Static Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">  222</span>   {</div>
 <div class="line"><span class="lineno">  223</span><span class="preprocessor">#pragma warning(suppress : 26446 26482) </span><span class="comment">/* Channel bounds-checked in calling functions */</span><span class="preprocessor"></span></div>
 <div class="line"><span class="lineno">  224</span>      <span class="comment">// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)</span></div>
-<div class="line"><span class="lineno">  225</span>      <a class="code hl_variable" href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">intermediate_results_</a>[channel] = {0, 0, 0, 0, 0};</div>
-<div class="line"><span class="lineno">  226</span>   }</div>
-<div class="ttc" id="aclass_nrpn_filter_html_a04d0668cdbd231a8cc5d1079b3f43d42"><div class="ttname"><a href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">NrpnFilter::intermediate_results_</a></div><div class="ttdeci">std::array&lt; InternalStructure, kChannels &gt; intermediate_results_</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:237</div></div>
+<div class="line"><span class="lineno">  225</span>      <a class="code hl_variable" href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">intermediate_results_</a>[channel] = {.control_lsb_ = 0,</div>
+<div class="line"><span class="lineno">  226</span>          .control_msb_ = 0,</div>
+<div class="line"><span class="lineno">  227</span>          .ready_flags_ = 0,</div>
+<div class="line"><span class="lineno">  228</span>          .value_lsb_ = 0,</div>
+<div class="line"><span class="lineno">  229</span>          .value_msb_ = 0};</div>
+<div class="line"><span class="lineno">  230</span>   }</div>
+<div class="ttc" id="aclass_nrpn_filter_html_a04d0668cdbd231a8cc5d1079b3f43d42"><div class="ttname"><a href="class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42">NrpnFilter::intermediate_results_</a></div><div class="ttdeci">std::array&lt; InternalStructure, kChannels &gt; intermediate_results_</div><div class="ttdef"><b>Definition</b> MidiUtilities.h:241</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -183,7 +187,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   73</span>   <span class="keywordflow">try</span> {</div>
 <div class="line"><span class="lineno">   74</span>      Expects(message.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &lt;= 0x7F &amp;&amp; message.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e">value</a> &gt;= 0);</div>
 <div class="line"><span class="lineno">   75</span>      Expects(message.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a> &lt;= 0x7F &amp;&amp; message.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a> &gt;= 0);</div>
-<div class="line"><span class="lineno">   76</span>      ProcessResult ret_val {<span class="keyword">false</span>, <span class="keyword">false</span>, 0, 0};</div>
+<div class="line"><span class="lineno">   76</span>      ProcessResult ret_val {.is_nrpn = <span class="keyword">false</span>, .is_ready = <span class="keyword">false</span>, .control = 0, .value = 0};</div>
 <div class="line"><span class="lineno">   77</span>      <span class="keywordflow">switch</span> (message.<a class="code hl_variable" href="structrsj_1_1_midi_message.html#a40cce06213f004a2b07928898e112491">control_number</a>) {</div>
 <div class="line"><span class="lineno">   78</span>      <span class="keywordflow">case</span> 6:</div>
 <div class="line"><span class="lineno">   79</span>         {</div>
@@ -239,7 +243,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  129</span>      }</div>
 <div class="line"><span class="lineno">  130</span>   }</div>
 <div class="line"><span class="lineno">  131</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  132</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  132</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
 <div class="line"><span class="lineno">  133</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  134</span>   }</div>
 <div class="line"><span class="lineno">  135</span>}</div>
@@ -271,7 +275,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  237</span>{};</div>
+<div class="fragment"><div class="line"><span class="lineno">  241</span>{};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -294,7 +298,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  236</span>{16};</div>
+<div class="fragment"><div class="line"><span class="lineno">  240</span>{16};</div>
 </div><!-- fragment -->
 </div>
 </div>

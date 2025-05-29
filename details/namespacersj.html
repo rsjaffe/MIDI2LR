@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -198,14 +198,6 @@ Functions</h2></td></tr>
 <tr class="separator:a3e507a3be3fc79f796e5973bee4b1454"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f28ca0bb51c870e4960af1ae31316b7" id="r_a1f28ca0bb51c870e4960af1ae31316b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a1f28ca0bb51c870e4960af1ae31316b7">Translate</a> (const std::string &amp;lg)</td></tr>
 <tr class="separator:a1f28ca0bb51c870e4960af1ae31316b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa780955c4461ad8d0d0b4b73d744aa04" id="r_aa780955c4461ad8d0d0b4b73d744aa04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#aa780955c4461ad8d0d0b4b73d744aa04">Trim</a> (std::string_view &amp;&amp;value)=delete</td></tr>
-<tr class="separator:aa780955c4461ad8d0d0b4b73d744aa04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94afac1b60db0d64f32e127ab5627833" id="r_a94afac1b60db0d64f32e127ab5627833"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a94afac1b60db0d64f32e127ab5627833">Trim</a> (std::string_view &amp;value) noexcept</td></tr>
-<tr class="separator:a94afac1b60db0d64f32e127ab5627833"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a887ca7a03b23a4e030f4d8f164fa2ed7" id="r_a887ca7a03b23a4e030f4d8f164fa2ed7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a887ca7a03b23a4e030f4d8f164fa2ed7">TrimL</a> (std::string_view &amp;&amp;value)=delete</td></tr>
-<tr class="separator:a887ca7a03b23a4e030f4d8f164fa2ed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff73d5a6afa63313683158ee19a03e78" id="r_aff73d5a6afa63313683158ee19a03e78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#aff73d5a6afa63313683158ee19a03e78">TrimL</a> (std::string_view &amp;value) noexcept</td></tr>
-<tr class="separator:aff73d5a6afa63313683158ee19a03e78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc174308b8f19eba15fa43c452cdccca" id="r_abc174308b8f19eba15fa43c452cdccca"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#abc174308b8f19eba15fa43c452cdccca">ValidMessageType</a> (std::underlying_type_t&lt; <a class="el" href="namespacersj.html#a22e4616185f77550b6d7dff822cef992">MessageType</a> &gt; value) noexcept</td></tr>
 <tr class="separator:abc174308b8f19eba15fa43c452cdccca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -412,12 +404,12 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  138</span>   {</div>
-<div class="line"><span class="lineno">  139</span>      <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::numeric_limits&lt;char&gt;::is_signed) { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(in); }</div>
-<div class="line"><span class="lineno">  140</span>      <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  141</span>         <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">int</span><span class="keyword">&gt;</span>(in);</div>
-<div class="line"><span class="lineno">  142</span>      }</div>
-<div class="line"><span class="lineno">  143</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">  134</span>   {</div>
+<div class="line"><span class="lineno">  135</span>      <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::numeric_limits&lt;char&gt;::is_signed) { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(in); }</div>
+<div class="line"><span class="lineno">  136</span>      <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  137</span>         <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">int</span><span class="keyword">&gt;</span>(in);</div>
+<div class="line"><span class="lineno">  138</span>      }</div>
+<div class="line"><span class="lineno">  139</span>   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -478,43 +470,49 @@ template&lt;class T &gt; </div>
 <div class="line"><span class="lineno">   52</span>      AEDisposeDesc(&amp;addressDesc);</div>
 <div class="line"><span class="lineno">   53</span>      <span class="keywordflow">switch</span> (status) {</div>
 <div class="line"><span class="lineno">   54</span>      <span class="keywordflow">case</span> errAEEventWouldRequireUserConsent:</div>
-<div class="line"><span class="lineno">   55</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(</div>
-<div class="line"><span class="lineno">   56</span>             FMT_STRING(<span class="stringliteral">&quot;Automation permission pending for {}.&quot;</span>), bundleIdentifierCString));</div>
-<div class="line"><span class="lineno">   57</span>         <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   58</span>      <span class="keywordflow">case</span> noErr:</div>
-<div class="line"><span class="lineno">   59</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(</div>
-<div class="line"><span class="lineno">   60</span>             FMT_STRING(<span class="stringliteral">&quot;Automation permission granted for {}.&quot;</span>), bundleIdentifierCString));</div>
-<div class="line"><span class="lineno">   61</span>         <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   62</span>      <span class="keywordflow">case</span> errAEEventNotPermitted:</div>
-<div class="line"><span class="lineno">   63</span>         {</div>
-<div class="line"><span class="lineno">   64</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(</div>
-<div class="line"><span class="lineno">   65</span>                FMT_STRING(<span class="stringliteral">&quot;Automation permission denied for {}.&quot;</span>), bundleIdentifierCString));</div>
-<div class="line"><span class="lineno">   66</span>            <span class="keyword">const</span> <span class="keyword">auto</span> title {juce::translate(</div>
-<div class="line"><span class="lineno">   67</span>                <span class="stringliteral">&quot;MIDI2LR needs your authorization to send keystrokes to Lightroom&quot;</span>)};</div>
-<div class="line"><span class="lineno">   68</span>            <span class="keyword">const</span> <span class="keyword">auto</span> message {juce::translate(</div>
-<div class="line"><span class="lineno">   69</span>                <span class="stringliteral">&quot;To authorize MIDI2LR to send keystrokes to Lightroom, please follow these &quot;</span></div>
-<div class="line"><span class="lineno">   70</span>                <span class="stringliteral">&quot;steps:\r\n1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) &quot;</span></div>
-<div class="line"><span class="lineno">   71</span>                <span class="stringliteral">&quot;Select \&quot;Accessibility Apps\&quot;\r\n4) Add this application to the approval list&quot;</span>)};</div>
-<div class="line"><span class="lineno">   72</span>            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, title, message);</div>
-<div class="line"><span class="lineno">   73</span>            <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   74</span>         }</div>
-<div class="line"><span class="lineno">   75</span>      <span class="keywordflow">case</span> procNotFound:</div>
-<div class="line"><span class="lineno">   76</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(</div>
-<div class="line"><span class="lineno">   77</span>             fmt::format(FMT_STRING(<span class="stringliteral">&quot;Application not found. Automation permission unknown for {}.&quot;</span>),</div>
-<div class="line"><span class="lineno">   78</span>                 bundleIdentifierCString));</div>
-<div class="line"><span class="lineno">   79</span>         <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   80</span>      <span class="keywordflow">default</span>:</div>
-<div class="line"><span class="lineno">   81</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(</div>
-<div class="line"><span class="lineno">   82</span>             FMT_STRING(<span class="stringliteral">&quot;Unexpected return value when checking automation permission for {}.&quot;</span>),</div>
-<div class="line"><span class="lineno">   83</span>             bundleIdentifierCString));</div>
-<div class="line"><span class="lineno">   84</span>         <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   85</span>      }</div>
-<div class="line"><span class="lineno">   86</span>   }</div>
-<div class="line"><span class="lineno">   87</span>   <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   88</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;AECreateDesc returned error {}.&quot;</span>), aeresult));</div>
-<div class="line"><span class="lineno">   89</span>   }</div>
-<div class="line"><span class="lineno">   90</span>}</div>
-<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
+<div class="line"><span class="lineno">   55</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Automation permission pending for {}.&quot;</span>),</div>
+<div class="line"><span class="lineno">   56</span>                      bundleIdentifierCString),</div>
+<div class="line"><span class="lineno">   57</span>             std::source_location::current());</div>
+<div class="line"><span class="lineno">   58</span>         <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   59</span>      <span class="keywordflow">case</span> noErr:</div>
+<div class="line"><span class="lineno">   60</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Automation permission granted for {}.&quot;</span>),</div>
+<div class="line"><span class="lineno">   61</span>                      bundleIdentifierCString),</div>
+<div class="line"><span class="lineno">   62</span>             std::source_location::current());</div>
+<div class="line"><span class="lineno">   63</span>         <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   64</span>      <span class="keywordflow">case</span> errAEEventNotPermitted:</div>
+<div class="line"><span class="lineno">   65</span>         {</div>
+<div class="line"><span class="lineno">   66</span>            <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Automation permission denied for {}.&quot;</span>),</div>
+<div class="line"><span class="lineno">   67</span>                         bundleIdentifierCString),</div>
+<div class="line"><span class="lineno">   68</span>                std::source_location::current());</div>
+<div class="line"><span class="lineno">   69</span>            <span class="keyword">const</span> <span class="keyword">auto</span> title {juce::translate(<span class="stringliteral">&quot;MIDI2LR needs your authorization to send keystrokes &quot;</span></div>
+<div class="line"><span class="lineno">   70</span>                                              <span class="stringliteral">&quot;to Lightroom&quot;</span>)};</div>
+<div class="line"><span class="lineno">   71</span>            <span class="keyword">const</span> <span class="keyword">auto</span> message {juce::translate(</div>
+<div class="line"><span class="lineno">   72</span>                <span class="stringliteral">&quot;To authorize MIDI2LR to send keystrokes to Lightroom, please follow these &quot;</span></div>
+<div class="line"><span class="lineno">   73</span>                <span class="stringliteral">&quot;steps:\r\n1) Open System Preferences\r\n2) Open Accessibility preferences \r\n3) &quot;</span></div>
+<div class="line"><span class="lineno">   74</span>                <span class="stringliteral">&quot;Select \&quot;Accessibility Apps\&quot;\r\n4) Add this application to the approval list&quot;</span>)};</div>
+<div class="line"><span class="lineno">   75</span>            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, title, message);</div>
+<div class="line"><span class="lineno">   76</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   77</span>         }</div>
+<div class="line"><span class="lineno">   78</span>      <span class="keywordflow">case</span> procNotFound:</div>
+<div class="line"><span class="lineno">   79</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Application not found. Automation permission unknown for &quot;</span></div>
+<div class="line"><span class="lineno">   80</span>                                         <span class="stringliteral">&quot;{}.&quot;</span>),</div>
+<div class="line"><span class="lineno">   81</span>                      bundleIdentifierCString),</div>
+<div class="line"><span class="lineno">   82</span>             std::source_location::current());</div>
+<div class="line"><span class="lineno">   83</span>         <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   84</span>      <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">   85</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Unexpected return value when checking automation &quot;</span></div>
+<div class="line"><span class="lineno">   86</span>                                         <span class="stringliteral">&quot;permission for {}.&quot;</span>),</div>
+<div class="line"><span class="lineno">   87</span>                      bundleIdentifierCString),</div>
+<div class="line"><span class="lineno">   88</span>             std::source_location::current());</div>
+<div class="line"><span class="lineno">   89</span>         <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   90</span>      }</div>
+<div class="line"><span class="lineno">   91</span>   }</div>
+<div class="line"><span class="lineno">   92</span>   <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   93</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;AECreateDesc returned error {}.&quot;</span>), aeresult),</div>
+<div class="line"><span class="lineno">   94</span>          std::source_location::current());</div>
+<div class="line"><span class="lineno">   95</span>   }</div>
+<div class="line"><span class="lineno">   96</span>}</div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:113</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -551,16 +549,16 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  208</span>{</div>
-<div class="line"><span class="lineno">  209</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  210</span>      <span class="keyword">const</span> <span class="keyword">auto</span> alert_text {juce::translate(<span class="stringliteral">&quot;Exception &quot;</span>).toStdString() + e.what()};</div>
-<div class="line"><span class="lineno">  211</span>      <span class="keyword">const</span> <span class="keyword">auto</span> error_text {std::string(<span class="stringliteral">&quot;Exception &quot;</span>) + e.what()};</div>
-<div class="line"><span class="lineno">  212</span>      <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(alert_text, error_text, location);</div>
-<div class="line"><span class="lineno">  213</span>   }</div>
-<div class="line"><span class="lineno">  214</span>   <span class="keywordflow">catch</span> (...) { <span class="comment">//-V565 //-V5002  // NOLINT(bugprone-empty-catch)</span></div>
-<div class="line"><span class="lineno">  215</span>   }</div>
-<div class="line"><span class="lineno">  216</span>}</div>
-<div class="ttc" id="anamespacersj_html_a85a33831e4cc942fc6995a04c74361ab"><div class="ttname"><a href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:160</div></div>
+<div class="fragment"><div class="line"><span class="lineno">  190</span>{</div>
+<div class="line"><span class="lineno">  191</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  192</span>      <span class="keyword">const</span> <span class="keyword">auto</span> alert_text {juce::translate(<span class="stringliteral">&quot;Exception &quot;</span>).toStdString() + e.what()};</div>
+<div class="line"><span class="lineno">  193</span>      <span class="keyword">const</span> <span class="keyword">auto</span> error_text {std::string(<span class="stringliteral">&quot;Exception &quot;</span>) + e.what()};</div>
+<div class="line"><span class="lineno">  194</span>      <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(alert_text, error_text, location);</div>
+<div class="line"><span class="lineno">  195</span>   }</div>
+<div class="line"><span class="lineno">  196</span>   <span class="keywordflow">catch</span> (...) { <span class="comment">//-V565 //-V5002  // NOLINT(bugprone-empty-catch)</span></div>
+<div class="line"><span class="lineno">  197</span>   }</div>
+<div class="line"><span class="lineno">  198</span>}</div>
+<div class="ttc" id="anamespacersj_html_a85a33831e4cc942fc6995a04c74361ab"><div class="ttname"><a href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a></div><div class="ttdeci">void LogAndAlertError(const juce::String &amp;error_text, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:142</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -623,17 +621,19 @@ template&lt;class T &gt; </div>
 <div class="fragment"><div class="line"><span class="lineno">  157</span>{</div>
 <div class="line"><span class="lineno">  158</span>   <span class="keyword">using namespace </span>std::chrono_literals;</div>
 <div class="line"><span class="lineno">  159</span>   <span class="keywordflow">if</span> (!FillInSucceeded() &amp;&amp; !juce::MessageManager::callAsync(FillInMessageLoop)) {</div>
-<div class="line"><span class="lineno">  160</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Unable to post FillInMessageLoop to message queue.&quot;</span>);</div>
-<div class="line"><span class="lineno">  161</span>   }</div>
-<div class="line"><span class="lineno">  162</span>   <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 4; ++i) {</div>
-<div class="line"><span class="lineno">  163</span>      <span class="keywordflow">if</span> (FillInSucceeded()) { <span class="keywordflow">break</span>; }</div>
-<div class="line"><span class="lineno">  164</span>      std::this_thread::sleep_for(20ms);</div>
-<div class="line"><span class="lineno">  165</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;20ms sleep for message queue waiting for FillInMessageLoop to run.&quot;</span>);</div>
-<div class="line"><span class="lineno">  166</span>   }</div>
-<div class="line"><span class="lineno">  167</span>   <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Making KeyMap. Keyboard type {}. KeyMap is {}.&quot;</span>),</div>
-<div class="line"><span class="lineno">  168</span>       GetKeyboardLayout(), FillInSucceeded()));</div>
-<div class="line"><span class="lineno">  169</span>   <span class="keywordflow">return</span> InternalKeyMap();</div>
-<div class="line"><span class="lineno">  170</span>}</div>
+<div class="line"><span class="lineno">  160</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Unable to post FillInMessageLoop to message queue.&quot;</span>,</div>
+<div class="line"><span class="lineno">  161</span>          std::source_location::current());</div>
+<div class="line"><span class="lineno">  162</span>   }</div>
+<div class="line"><span class="lineno">  163</span>   <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 4; ++i) {</div>
+<div class="line"><span class="lineno">  164</span>      <span class="keywordflow">if</span> (FillInSucceeded()) { <span class="keywordflow">break</span>; }</div>
+<div class="line"><span class="lineno">  165</span>      std::this_thread::sleep_for(20ms);</div>
+<div class="line"><span class="lineno">  166</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;20ms sleep for message queue waiting for FillInMessageLoop to run.&quot;</span>,  </div>
+<div class="line"><span class="lineno">  167</span>          std::source_location::current());</div>
+<div class="line"><span class="lineno">  168</span>   }</div>
+<div class="line"><span class="lineno">  169</span>   <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Making KeyMap. Keyboard type {}. KeyMap is {}.&quot;</span>),</div>
+<div class="line"><span class="lineno">  170</span>                GetKeyboardLayout(), FillInSucceeded()), std::source_location::current());</div>
+<div class="line"><span class="lineno">  171</span>   <span class="keywordflow">return</span> InternalKeyMap();</div>
+<div class="line"><span class="lineno">  172</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -695,23 +695,23 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  132</span>{</div>
-<div class="line"><span class="lineno">  133</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  134</span>      <span class="keywordflow">if</span> (juce::Logger::getCurrentLogger()) {</div>
-<div class="line"><span class="lineno">  135</span>         juce::String localname {location.file_name()};</div>
-<div class="line"><span class="lineno">  136</span><span class="preprocessor">#ifdef _WIN32</span></div>
-<div class="line"><span class="lineno">  137</span>         localname = localname.substring(localname.lastIndexOfChar(<span class="charliteral">&#39;\\&#39;</span>) + 1);</div>
-<div class="line"><span class="lineno">  138</span>         <span class="keyword">auto</span> last_error {wil::last_error_context()};</div>
-<div class="line"><span class="lineno">  139</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  140</span>         localname = localname.substring(localname.lastIndexOfChar(<span class="charliteral">&#39;/&#39;</span>) + 1);</div>
-<div class="line"><span class="lineno">  141</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  142</span>         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(<span class="keyword">true</span>) + <span class="charliteral">&#39; &#39;</span> + localname</div>
-<div class="line"><span class="lineno">  143</span>                                  + <span class="charliteral">&#39;(&#39;</span> + juce::String(location.line()) + <span class="stringliteral">&quot;) &quot;</span> + info);</div>
-<div class="line"><span class="lineno">  144</span>      }</div>
-<div class="line"><span class="lineno">  145</span>   }</div>
-<div class="line"><span class="lineno">  146</span>   <span class="keywordflow">catch</span> (...) { <span class="comment">//-V565 //-V5002  // NOLINT(bugprone-empty-catch)</span></div>
-<div class="line"><span class="lineno">  147</span>   }</div>
-<div class="line"><span class="lineno">  148</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  114</span>{</div>
+<div class="line"><span class="lineno">  115</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  116</span>      <span class="keywordflow">if</span> (juce::Logger::getCurrentLogger()) {</div>
+<div class="line"><span class="lineno">  117</span>         juce::String localname {location.file_name()};</div>
+<div class="line"><span class="lineno">  118</span><span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><span class="lineno">  119</span>         localname = localname.substring(localname.lastIndexOfChar(<span class="charliteral">&#39;\\&#39;</span>) + 1);</div>
+<div class="line"><span class="lineno">  120</span>         <span class="keyword">auto</span> last_error {wil::last_error_context()};</div>
+<div class="line"><span class="lineno">  121</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  122</span>         localname = localname.substring(localname.lastIndexOfChar(<span class="charliteral">&#39;/&#39;</span>) + 1);</div>
+<div class="line"><span class="lineno">  123</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  124</span>         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(<span class="keyword">true</span>) + <span class="charliteral">&#39; &#39;</span> + localname</div>
+<div class="line"><span class="lineno">  125</span>                                  + <span class="charliteral">&#39;(&#39;</span> + juce::String(location.line()) + <span class="stringliteral">&quot;) &quot;</span> + info);</div>
+<div class="line"><span class="lineno">  126</span>      }</div>
+<div class="line"><span class="lineno">  127</span>   }</div>
+<div class="line"><span class="lineno">  128</span>   <span class="keywordflow">catch</span> (...) { <span class="comment">//-V565 //-V5002  // NOLINT(bugprone-empty-catch)</span></div>
+<div class="line"><span class="lineno">  129</span>   }</div>
+<div class="line"><span class="lineno">  130</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -748,9 +748,9 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  156</span>{</div>
-<div class="line"><span class="lineno">  157</span>   <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(juce::String(info), location);</div>
-<div class="line"><span class="lineno">  158</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  138</span>{</div>
+<div class="line"><span class="lineno">  139</span>   <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(juce::String(info), location);</div>
+<div class="line"><span class="lineno">  140</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -787,9 +787,9 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  151</span>{</div>
-<div class="line"><span class="lineno">  152</span>   <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(juce::String::fromUTF8(info), location);</div>
-<div class="line"><span class="lineno">  153</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  133</span>{</div>
+<div class="line"><span class="lineno">  134</span>   <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(juce::String::fromUTF8(info), location);</div>
+<div class="line"><span class="lineno">  135</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -832,19 +832,19 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  178</span>{</div>
-<div class="line"><span class="lineno">  179</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  180</span>      {</div>
-<div class="line"><span class="lineno">  181</span>         juce::MessageManager::callAsync([=] {</div>
-<div class="line"><span class="lineno">  182</span>            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,</div>
-<div class="line"><span class="lineno">  183</span>                juce::translate(<span class="stringliteral">&quot;Error&quot;</span>), alert_text);</div>
-<div class="line"><span class="lineno">  184</span>         });</div>
-<div class="line"><span class="lineno">  185</span>      }</div>
-<div class="line"><span class="lineno">  186</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(error_text, location);</div>
-<div class="line"><span class="lineno">  187</span>   }</div>
-<div class="line"><span class="lineno">  188</span>   <span class="keywordflow">catch</span> (...) { <span class="comment">//-V565 //-V5002  // NOLINT(bugprone-empty-catch)</span></div>
-<div class="line"><span class="lineno">  189</span>   }</div>
-<div class="line"><span class="lineno">  190</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  160</span>{</div>
+<div class="line"><span class="lineno">  161</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  162</span>      {</div>
+<div class="line"><span class="lineno">  163</span>         juce::MessageManager::callAsync([=] {</div>
+<div class="line"><span class="lineno">  164</span>            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,</div>
+<div class="line"><span class="lineno">  165</span>                juce::translate(<span class="stringliteral">&quot;Error&quot;</span>), alert_text);</div>
+<div class="line"><span class="lineno">  166</span>         });</div>
+<div class="line"><span class="lineno">  167</span>      }</div>
+<div class="line"><span class="lineno">  168</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(error_text, location);</div>
+<div class="line"><span class="lineno">  169</span>   }</div>
+<div class="line"><span class="lineno">  170</span>   <span class="keywordflow">catch</span> (...) { <span class="comment">//-V565 //-V5002  // NOLINT(bugprone-empty-catch)</span></div>
+<div class="line"><span class="lineno">  171</span>   }</div>
+<div class="line"><span class="lineno">  172</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -881,19 +881,19 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  162</span>{</div>
-<div class="line"><span class="lineno">  163</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  164</span>      {</div>
-<div class="line"><span class="lineno">  165</span>         juce::MessageManager::callAsync([=] {</div>
-<div class="line"><span class="lineno">  166</span>            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,</div>
-<div class="line"><span class="lineno">  167</span>                juce::translate(<span class="stringliteral">&quot;Error&quot;</span>), error_text);</div>
-<div class="line"><span class="lineno">  168</span>         });</div>
-<div class="line"><span class="lineno">  169</span>      }</div>
-<div class="line"><span class="lineno">  170</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(error_text, location);</div>
-<div class="line"><span class="lineno">  171</span>   }</div>
-<div class="line"><span class="lineno">  172</span>   <span class="keywordflow">catch</span> (...) { <span class="comment">//-V565 //-V5002  // NOLINT(bugprone-empty-catch)</span></div>
-<div class="line"><span class="lineno">  173</span>   }</div>
-<div class="line"><span class="lineno">  174</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  144</span>{</div>
+<div class="line"><span class="lineno">  145</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  146</span>      {</div>
+<div class="line"><span class="lineno">  147</span>         juce::MessageManager::callAsync([=] {</div>
+<div class="line"><span class="lineno">  148</span>            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,</div>
+<div class="line"><span class="lineno">  149</span>                juce::translate(<span class="stringliteral">&quot;Error&quot;</span>), error_text);</div>
+<div class="line"><span class="lineno">  150</span>         });</div>
+<div class="line"><span class="lineno">  151</span>      }</div>
+<div class="line"><span class="lineno">  152</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(error_text, location);</div>
+<div class="line"><span class="lineno">  153</span>   }</div>
+<div class="line"><span class="lineno">  154</span>   <span class="keywordflow">catch</span> (...) { <span class="comment">//-V565 //-V5002  // NOLINT(bugprone-empty-catch)</span></div>
+<div class="line"><span class="lineno">  155</span>   }</div>
+<div class="line"><span class="lineno">  156</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -930,19 +930,19 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  193</span>{</div>
-<div class="line"><span class="lineno">  194</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  195</span>      {</div>
-<div class="line"><span class="lineno">  196</span>         juce::MessageManager::callAsync([=] {</div>
-<div class="line"><span class="lineno">  197</span>            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,</div>
-<div class="line"><span class="lineno">  198</span>                juce::translate(<span class="stringliteral">&quot;Error&quot;</span>), error_text);</div>
-<div class="line"><span class="lineno">  199</span>         });</div>
-<div class="line"><span class="lineno">  200</span>      }</div>
-<div class="line"><span class="lineno">  201</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(error_text, location);</div>
-<div class="line"><span class="lineno">  202</span>   }</div>
-<div class="line"><span class="lineno">  203</span>   <span class="keywordflow">catch</span> (...) { <span class="comment">//-V565 //-V5002  // NOLINT(bugprone-empty-catch)</span></div>
-<div class="line"><span class="lineno">  204</span>   }</div>
-<div class="line"><span class="lineno">  205</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  175</span>{</div>
+<div class="line"><span class="lineno">  176</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  177</span>      {</div>
+<div class="line"><span class="lineno">  178</span>         juce::MessageManager::callAsync([=] {</div>
+<div class="line"><span class="lineno">  179</span>            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,</div>
+<div class="line"><span class="lineno">  180</span>                juce::translate(<span class="stringliteral">&quot;Error&quot;</span>), error_text);</div>
+<div class="line"><span class="lineno">  181</span>         });</div>
+<div class="line"><span class="lineno">  182</span>      }</div>
+<div class="line"><span class="lineno">  183</span>      <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(error_text, location);</div>
+<div class="line"><span class="lineno">  184</span>   }</div>
+<div class="line"><span class="lineno">  185</span>   <span class="keywordflow">catch</span> (...) { <span class="comment">//-V565 //-V5002  // NOLINT(bugprone-empty-catch)</span></div>
+<div class="line"><span class="lineno">  186</span>   }</div>
+<div class="line"><span class="lineno">  187</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1114,62 +1114,68 @@ template&lt;class T &gt; </div>
 <div class="line"><span class="lineno">  381</span>      Expects(!key.empty());</div>
 <div class="line"><span class="lineno">  382</span>      <span class="keyword">static</span> <span class="keyword">const</span> pid_t lr_pid {GetPid()};</div>
 <div class="line"><span class="lineno">  383</span>      <span class="keywordflow">if</span> (!lr_pid) {</div>
-<div class="line"><span class="lineno">  384</span>         <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(<span class="stringliteral">&quot;Unable to obtain PID for Lightroom in SendKeys.cpp.&quot;</span>);</div>
-<div class="line"><span class="lineno">  385</span>         <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  386</span>      }</div>
-<div class="line"><span class="lineno">  387</span>      CGKeyCode vk {0};</div>
-<div class="line"><span class="lineno">  388</span>      CGEventFlags flags {0};</div>
-<div class="line"><span class="lineno">  389</span>      <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> mapped_key {kKeyMap.find(<a class="code hl_function" href="namespacersj.html#af53f4096f4a5b6f9705a209de4682f56">rsj::ToLower</a>(key))}; mapped_key != kKeyMap.end()) {</div>
-<div class="line"><span class="lineno">  390</span>         vk = mapped_key-&gt;second;</div>
-<div class="line"><span class="lineno">  391</span>      }</div>
-<div class="line"><span class="lineno">  392</span>      <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  393</span>         <span class="keyword">const</span> UniChar uc {ww898::utf::conv&lt;char16_t&gt;(key).front()};</div>
-<div class="line"><span class="lineno">  394</span>         <span class="keyword">const</span> <span class="keyword">auto</span> key_code_result {KeyCodeForChar(uc)};</div>
-<div class="line"><span class="lineno">  395</span>         <span class="keywordflow">if</span> (key_code_result) {</div>
-<div class="line"><span class="lineno">  396</span>            <span class="keyword">const</span> <span class="keyword">auto</span> k_data {*key_code_result};</div>
-<div class="line"><span class="lineno">  397</span>            vk = k_data.keycode;</div>
-<div class="line"><span class="lineno">  398</span>            <span class="keywordflow">if</span> (k_data.shift) { flags |= kCGEventFlagMaskShift; }</div>
-<div class="line"><span class="lineno">  399</span>            <span class="keywordflow">if</span> (k_data.option) { flags |= kCGEventFlagMaskAlternate; }</div>
-<div class="line"><span class="lineno">  400</span>         }</div>
-<div class="line"><span class="lineno">  401</span>         <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  402</span>            <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> mapped_unshifted_key {kANSIKeyMap.find(<a class="code hl_function" href="namespacersj.html#af53f4096f4a5b6f9705a209de4682f56">rsj::ToLower</a>(key))};</div>
-<div class="line"><span class="lineno">  403</span>                mapped_unshifted_key != kANSIKeyMap.end()) {</div>
-<div class="line"><span class="lineno">  404</span>               vk = mapped_unshifted_key-&gt;second;</div>
-<div class="line"><span class="lineno">  405</span>               <span class="keywordflow">if</span> (gsl::narrow_cast&lt;char&gt;(std::tolower(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(key.front())))</div>
-<div class="line"><span class="lineno">  406</span>                   != key.front()) {</div>
-<div class="line"><span class="lineno">  407</span>                  flags |= kCGEventFlagMaskShift;</div>
-<div class="line"><span class="lineno">  408</span>               }</div>
-<div class="line"><span class="lineno">  409</span>            }</div>
-<div class="line"><span class="lineno">  410</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> mapped_shifted_key {kANSIKeyMapShifted.find(key)};</div>
-<div class="line"><span class="lineno">  411</span>                     mapped_shifted_key != kANSIKeyMapShifted.end()) {</div>
-<div class="line"><span class="lineno">  412</span>               vk = mapped_shifted_key-&gt;second;</div>
-<div class="line"><span class="lineno">  413</span>               flags |= kCGEventFlagMaskShift;</div>
-<div class="line"><span class="lineno">  414</span>            }</div>
-<div class="line"><span class="lineno">  415</span>            <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  416</span>               <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(fmt::format(</div>
-<div class="line"><span class="lineno">  417</span>                   FMT_STRING(<span class="stringliteral">&quot;Unsupported character was used: \&quot;{}\&quot;, no ANSI equivalent.&quot;</span>), key));</div>
-<div class="line"><span class="lineno">  418</span>               <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  419</span>            }</div>
-<div class="line"><span class="lineno">  420</span>         }</div>
-<div class="line"><span class="lineno">  421</span>      }</div>
-<div class="line"><span class="lineno">  422</span>      <span class="keywordflow">if</span> (mods.<a class="code hl_variable" href="structrsj_1_1_active_modifiers.html#a371d0ef47c6bcf9ac874335dd4a8928f">alt_opt</a>) { flags |= kCGEventFlagMaskAlternate; }</div>
-<div class="line"><span class="lineno">  423</span>      <span class="keywordflow">if</span> (mods.<a class="code hl_variable" href="structrsj_1_1_active_modifiers.html#ad46a01f2fe20405d3ac4bca6a9934b8e">command</a>) { flags |= kCGEventFlagMaskCommand; }</div>
-<div class="line"><span class="lineno">  424</span>      <span class="keywordflow">if</span> (mods.<a class="code hl_variable" href="structrsj_1_1_active_modifiers.html#a78b0a997c4ccabbf2a2e22017a9a6d8f">control</a>) { flags |= kCGEventFlagMaskControl; }</div>
-<div class="line"><span class="lineno">  425</span>      <span class="keywordflow">if</span> (mods.<a class="code hl_variable" href="structrsj_1_1_active_modifiers.html#a672648dd23bcb5b479057549137ccc13">shift</a>) { flags |= kCGEventFlagMaskShift; }</div>
-<div class="line"><span class="lineno">  426</span>      <span class="keywordflow">if</span> (!juce::MessageManager::callAsync([vk, flags] { MacKeyDownUp(lr_pid, vk, flags); })) {</div>
-<div class="line"><span class="lineno">  427</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Unable to post keystroke to message queue.&quot;</span>);</div>
-<div class="line"><span class="lineno">  428</span>      }</div>
-<div class="line"><span class="lineno">  429</span>   }</div>
-<div class="line"><span class="lineno">  430</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  431</span>      <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Exception in key sending function for key: &quot;</span></div>
-<div class="line"><span class="lineno">  432</span>                                                   <span class="stringliteral">&quot;\&quot;{}\&quot;. Exception: {}.&quot;</span>),</div>
-<div class="line"><span class="lineno">  433</span>          key, e.what()));</div>
-<div class="line"><span class="lineno">  434</span>   }</div>
-<div class="line"><span class="lineno">  435</span>   <span class="keywordflow">catch</span> (...) {</div>
-<div class="line"><span class="lineno">  436</span>      <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(fmt::format(</div>
-<div class="line"><span class="lineno">  437</span>          FMT_STRING(<span class="stringliteral">&quot;Non-standard exception in key sending function for key: \&quot;{}\&quot;.&quot;</span>), key));</div>
+<div class="line"><span class="lineno">  384</span>         <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(<span class="stringliteral">&quot;Unable to obtain PID for Lightroom in SendKeys.cpp.&quot;</span>,</div>
+<div class="line"><span class="lineno">  385</span>             std::source_location::current());</div>
+<div class="line"><span class="lineno">  386</span>         <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  387</span>      }</div>
+<div class="line"><span class="lineno">  388</span>      CGKeyCode vk {0};</div>
+<div class="line"><span class="lineno">  389</span>      CGEventFlags flags {0};</div>
+<div class="line"><span class="lineno">  390</span>      <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> mapped_key {kKeyMap.find(<a class="code hl_function" href="namespacersj.html#af53f4096f4a5b6f9705a209de4682f56">rsj::ToLower</a>(key))}; mapped_key != kKeyMap.end()) {</div>
+<div class="line"><span class="lineno">  391</span>         vk = mapped_key-&gt;second;</div>
+<div class="line"><span class="lineno">  392</span>      }</div>
+<div class="line"><span class="lineno">  393</span>      <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  394</span>         <span class="keyword">const</span> UniChar uc {ww898::utf::conv&lt;char16_t&gt;(key).front()};</div>
+<div class="line"><span class="lineno">  395</span>         <span class="keyword">const</span> <span class="keyword">auto</span> key_code_result {KeyCodeForChar(uc)};</div>
+<div class="line"><span class="lineno">  396</span>         <span class="keywordflow">if</span> (key_code_result) {</div>
+<div class="line"><span class="lineno">  397</span>            <span class="keyword">const</span> <span class="keyword">auto</span> k_data {*key_code_result};</div>
+<div class="line"><span class="lineno">  398</span>            vk = k_data.keycode;</div>
+<div class="line"><span class="lineno">  399</span>            <span class="keywordflow">if</span> (k_data.shift) { flags |= kCGEventFlagMaskShift; }</div>
+<div class="line"><span class="lineno">  400</span>            <span class="keywordflow">if</span> (k_data.option) { flags |= kCGEventFlagMaskAlternate; }</div>
+<div class="line"><span class="lineno">  401</span>         }</div>
+<div class="line"><span class="lineno">  402</span>         <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  403</span>            <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> mapped_unshifted_key {kANSIKeyMap.find(<a class="code hl_function" href="namespacersj.html#af53f4096f4a5b6f9705a209de4682f56">rsj::ToLower</a>(key))};</div>
+<div class="line"><span class="lineno">  404</span>                mapped_unshifted_key != kANSIKeyMap.end()) {</div>
+<div class="line"><span class="lineno">  405</span>               vk = mapped_unshifted_key-&gt;second;</div>
+<div class="line"><span class="lineno">  406</span>               <span class="keywordflow">if</span> (gsl::narrow_cast&lt;char&gt;(std::tolower(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(key.front())))</div>
+<div class="line"><span class="lineno">  407</span>                   != key.front()) {</div>
+<div class="line"><span class="lineno">  408</span>                  flags |= kCGEventFlagMaskShift;</div>
+<div class="line"><span class="lineno">  409</span>               }</div>
+<div class="line"><span class="lineno">  410</span>            }</div>
+<div class="line"><span class="lineno">  411</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> mapped_shifted_key {kANSIKeyMapShifted.find(key)};</div>
+<div class="line"><span class="lineno">  412</span>                mapped_shifted_key != kANSIKeyMapShifted.end()) {</div>
+<div class="line"><span class="lineno">  413</span>               vk = mapped_shifted_key-&gt;second;</div>
+<div class="line"><span class="lineno">  414</span>               flags |= kCGEventFlagMaskShift;</div>
+<div class="line"><span class="lineno">  415</span>            }</div>
+<div class="line"><span class="lineno">  416</span>            <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  417</span>               <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Unsupported character was used: &quot;</span></div>
+<div class="line"><span class="lineno">  418</span>                                                            <span class="stringliteral">&quot;\&quot;{}\&quot;, no ANSI equivalent.&quot;</span>),</div>
+<div class="line"><span class="lineno">  419</span>                                         key),</div>
+<div class="line"><span class="lineno">  420</span>                   std::source_location::current());</div>
+<div class="line"><span class="lineno">  421</span>               <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  422</span>            }</div>
+<div class="line"><span class="lineno">  423</span>         }</div>
+<div class="line"><span class="lineno">  424</span>      }</div>
+<div class="line"><span class="lineno">  425</span>      <span class="keywordflow">if</span> (mods.<a class="code hl_variable" href="structrsj_1_1_active_modifiers.html#a371d0ef47c6bcf9ac874335dd4a8928f">alt_opt</a>) { flags |= kCGEventFlagMaskAlternate; }</div>
+<div class="line"><span class="lineno">  426</span>      <span class="keywordflow">if</span> (mods.<a class="code hl_variable" href="structrsj_1_1_active_modifiers.html#ad46a01f2fe20405d3ac4bca6a9934b8e">command</a>) { flags |= kCGEventFlagMaskCommand; }</div>
+<div class="line"><span class="lineno">  427</span>      <span class="keywordflow">if</span> (mods.<a class="code hl_variable" href="structrsj_1_1_active_modifiers.html#a78b0a997c4ccabbf2a2e22017a9a6d8f">control</a>) { flags |= kCGEventFlagMaskControl; }</div>
+<div class="line"><span class="lineno">  428</span>      <span class="keywordflow">if</span> (mods.<a class="code hl_variable" href="structrsj_1_1_active_modifiers.html#a672648dd23bcb5b479057549137ccc13">shift</a>) { flags |= kCGEventFlagMaskShift; }</div>
+<div class="line"><span class="lineno">  429</span>      <span class="keywordflow">if</span> (!juce::MessageManager::callAsync([vk, flags] { MacKeyDownUp(lr_pid, vk, flags); })) {</div>
+<div class="line"><span class="lineno">  430</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Unable to post keystroke to message queue.&quot;</span>, std::source_location::current());</div>
+<div class="line"><span class="lineno">  431</span>      }</div>
+<div class="line"><span class="lineno">  432</span>   }</div>
+<div class="line"><span class="lineno">  433</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  434</span>      <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Exception in key sending function for key: &quot;</span></div>
+<div class="line"><span class="lineno">  435</span>                                                   <span class="stringliteral">&quot;\&quot;{}\&quot;. Exception: {}.&quot;</span>),</div>
+<div class="line"><span class="lineno">  436</span>                                key, e.what()),</div>
+<div class="line"><span class="lineno">  437</span>          std::source_location::current());</div>
 <div class="line"><span class="lineno">  438</span>   }</div>
-<div class="line"><span class="lineno">  439</span>}</div>
+<div class="line"><span class="lineno">  439</span>   <span class="keywordflow">catch</span> (...) {</div>
+<div class="line"><span class="lineno">  440</span>      <a class="code hl_function" href="namespacersj.html#a85a33831e4cc942fc6995a04c74361ab">rsj::LogAndAlertError</a>(fmt::format(FMT_STRING(<span class="stringliteral">&quot;Non-standard exception in key sending function &quot;</span></div>
+<div class="line"><span class="lineno">  441</span>                                                   <span class="stringliteral">&quot;for key: \&quot;{}\&quot;.&quot;</span>),</div>
+<div class="line"><span class="lineno">  442</span>                                key),</div>
+<div class="line"><span class="lineno">  443</span>          std::source_location::current());</div>
+<div class="line"><span class="lineno">  444</span>   }</div>
+<div class="line"><span class="lineno">  445</span>}</div>
 <div class="ttc" id="anamespacersj_html_af53f4096f4a5b6f9705a209de4682f56"><div class="ttname"><a href="namespacersj.html#af53f4096f4a5b6f9705a209de4682f56">rsj::ToLower</a></div><div class="ttdeci">std::string ToLower(std::string_view in)</div></div>
 <div class="ttc" id="astructrsj_1_1_active_modifiers_html_a371d0ef47c6bcf9ac874335dd4a8928f"><div class="ttname"><a href="structrsj_1_1_active_modifiers.html#a371d0ef47c6bcf9ac874335dd4a8928f">rsj::ActiveModifiers::alt_opt</a></div><div class="ttdeci">bool alt_opt</div><div class="ttdef"><b>Definition</b> SendKeys.h:22</div></div>
 <div class="ttc" id="astructrsj_1_1_active_modifiers_html_a672648dd23bcb5b479057549137ccc13"><div class="ttname"><a href="structrsj_1_1_active_modifiers.html#a672648dd23bcb5b479057549137ccc13">rsj::ActiveModifiers::shift</a></div><div class="ttdeci">bool shift</div><div class="ttdef"><b>Definition</b> SendKeys.h:25</div></div>
@@ -1283,116 +1289,12 @@ template&lt;class T &gt; </div>
 <div class="line"><span class="lineno">   69</span>      }</div>
 <div class="line"><span class="lineno">   70</span>   }</div>
 <div class="line"><span class="lineno">   71</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   72</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   72</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
 <div class="line"><span class="lineno">   73</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   74</span>   }</div>
 <div class="line"><span class="lineno">   75</span>}</div>
 <div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
 </div><!-- fragment -->
-</div>
-</div>
-<a id="aa780955c4461ad8d0d0b4b73d744aa04" name="aa780955c4461ad8d0d0b4b73d744aa04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa780955c4461ad8d0d0b4b73d744aa04">&#9670;&#160;</a></span>Trim() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void rsj::Trim </td>
-          <td>(</td>
-          <td class="paramtype">std::string_view &amp;&amp;&#160;</td>
-          <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a94afac1b60db0d64f32e127ab5627833" name="a94afac1b60db0d64f32e127ab5627833"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a94afac1b60db0d64f32e127ab5627833">&#9670;&#160;</a></span>Trim() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void rsj::Trim </td>
-          <td>(</td>
-          <td class="paramtype">std::string_view &amp;&#160;</td>
-          <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a887ca7a03b23a4e030f4d8f164fa2ed7" name="a887ca7a03b23a4e030f4d8f164fa2ed7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a887ca7a03b23a4e030f4d8f164fa2ed7">&#9670;&#160;</a></span>TrimL() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void rsj::TrimL </td>
-          <td>(</td>
-          <td class="paramtype">std::string_view &amp;&amp;&#160;</td>
-          <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aff73d5a6afa63313683158ee19a03e78" name="aff73d5a6afa63313683158ee19a03e78"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff73d5a6afa63313683158ee19a03e78">&#9670;&#160;</a></span>TrimL() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void rsj::TrimL </td>
-          <td>(</td>
-          <td class="paramtype">std::string_view &amp;&#160;</td>
-          <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
 </div>
 </div>
 <a id="abc174308b8f19eba15fa43c452cdccca" name="abc174308b8f19eba15fa43c452cdccca"></a>

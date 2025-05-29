@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -280,34 +280,37 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><span class="lineno">   60</span>{</div>
 <div class="line"><span class="lineno">   61</span>   <span class="keyword">const</span> <span class="keyword">auto</span> response {[<span class="keyword">this</span>](<span class="keyword">const</span> <span class="keywordtype">int</span> result) {</div>
-<div class="line"><span class="lineno">   62</span>      <span class="keywordflow">if</span> (result) {</div>
-<div class="line"><span class="lineno">   63</span>         <span class="keywordflow">if</span> (juce::URL(<span class="stringliteral">&quot;https://github.com/rsjaffe/MIDI2LR/releases&quot;</span>)</div>
-<div class="line"><span class="lineno">   64</span>                 .launchInDefaultBrowser()) { <span class="comment">/* successfully opened browser */</span></div>
-<div class="line"><span class="lineno">   65</span><span class="preprocessor">#ifndef MIDI2LR_BETA</span></div>
+<div class="line"><span class="lineno">   62</span><span class="preprocessor">#ifndef MIDI2LR_BETA</span></div>
+<div class="line"><span class="lineno">   63</span>      <span class="keywordflow">if</span> (result) {</div>
+<div class="line"><span class="lineno">   64</span>         <span class="keywordflow">if</span> (juce::URL(<span class="stringliteral">&quot;https://github.com/rsjaffe/MIDI2LR/releases&quot;</span>)</div>
+<div class="line"><span class="lineno">   65</span>                 .launchInDefaultBrowser()) { <span class="comment">/* successfully opened browser */</span></div>
 <div class="line"><span class="lineno">   66</span>            <a class="code hl_variable" href="class_version_checker.html#a41cc38bc7a7e34f6842e591b9862f5c3">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#af7e05f1e26aac16f6f0b402a85bc5088">SetLastVersionFound</a>(<a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a>);</div>
-<div class="line"><span class="lineno">   67</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">   68</span>         }</div>
-<div class="line"><span class="lineno">   69</span>      }</div>
-<div class="line"><span class="lineno">   70</span><span class="preprocessor">#ifndef MIDI2LR_BETA</span></div>
-<div class="line"><span class="lineno">   71</span>      <span class="keywordflow">else</span> { <span class="comment">/* user doesn&#39;t want it, don&#39;t show again */</span></div>
-<div class="line"><span class="lineno">   72</span>         <a class="code hl_variable" href="class_version_checker.html#a41cc38bc7a7e34f6842e591b9862f5c3">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#af7e05f1e26aac16f6f0b402a85bc5088">SetLastVersionFound</a>(<a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a>);</div>
-<div class="line"><span class="lineno">   73</span>      }</div>
-<div class="line"><span class="lineno">   74</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">   75</span>   }};</div>
-<div class="line"><span class="lineno">   76</span>   <span class="comment">/*                                                                       */</span></div>
-<div class="line"><span class="lineno">   77</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   78</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_version_checker.html#aee6f012d05983fac23a8462a1abfba4d">thread_should_exit_</a>.load(std::memory_order_acquire)) { <span class="keywordflow">return</span>; }</div>
-<div class="line"><span class="lineno">   79</span>      juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::AlertIconType::QuestionIcon,</div>
-<div class="line"><span class="lineno">   80</span>          fmt::format(juce::translate(<span class="stringliteral">&quot;A new version of {} is available.&quot;</span>).toStdString(),</div>
-<div class="line"><span class="lineno">   81</span>              <span class="stringliteral">&quot;MIDI2LR&quot;</span>),</div>
-<div class="line"><span class="lineno">   82</span>          juce::translate(<span class="stringliteral">&quot;Do you want to download the latest version?&quot;</span>) + <span class="charliteral">&#39; &#39;</span></div>
-<div class="line"><span class="lineno">   83</span>              + IntToVersion(<a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a>),</div>
-<div class="line"><span class="lineno">   84</span>          <span class="keyword">nullptr</span>, juce::ModalCallbackFunction::create(response));</div>
-<div class="line"><span class="lineno">   85</span>   }</div>
-<div class="line"><span class="lineno">   86</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   87</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   67</span>         }</div>
+<div class="line"><span class="lineno">   68</span>      }</div>
+<div class="line"><span class="lineno">   69</span>      <span class="keywordflow">else</span> { <span class="comment">/* user doesn&#39;t want it, don&#39;t show again */</span></div>
+<div class="line"><span class="lineno">   70</span>         <a class="code hl_variable" href="class_version_checker.html#a41cc38bc7a7e34f6842e591b9862f5c3">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#af7e05f1e26aac16f6f0b402a85bc5088">SetLastVersionFound</a>(<a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a>);</div>
+<div class="line"><span class="lineno">   71</span>      }</div>
+<div class="line"><span class="lineno">   72</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">   73</span>      <span class="keywordflow">if</span> (result) {</div>
+<div class="line"><span class="lineno">   74</span>         std::ignore =</div>
+<div class="line"><span class="lineno">   75</span>             juce::URL(<span class="stringliteral">&quot;https://github.com/rsjaffe/MIDI2LR/releases&quot;</span>).launchInDefaultBrowser();</div>
+<div class="line"><span class="lineno">   76</span>      }</div>
+<div class="line"><span class="lineno">   77</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">   78</span>   }};</div>
+<div class="line"><span class="lineno">   79</span>   <span class="comment">/*                                                                       */</span></div>
+<div class="line"><span class="lineno">   80</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   81</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_version_checker.html#aee6f012d05983fac23a8462a1abfba4d">thread_should_exit_</a>.load(std::memory_order_acquire)) { <span class="keywordflow">return</span>; }</div>
+<div class="line"><span class="lineno">   82</span>      juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::AlertIconType::QuestionIcon,</div>
+<div class="line"><span class="lineno">   83</span>          fmt::format(juce::translate(<span class="stringliteral">&quot;A new version of {} is available.&quot;</span>).toStdString(),</div>
+<div class="line"><span class="lineno">   84</span>              <span class="stringliteral">&quot;MIDI2LR&quot;</span>),</div>
+<div class="line"><span class="lineno">   85</span>          juce::translate(<span class="stringliteral">&quot;Do you want to download the latest version?&quot;</span>) + <span class="charliteral">&#39; &#39;</span></div>
+<div class="line"><span class="lineno">   86</span>              + IntToVersion(<a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a>),</div>
+<div class="line"><span class="lineno">   87</span>          <span class="keyword">nullptr</span>, juce::ModalCallbackFunction::create(response));</div>
 <div class="line"><span class="lineno">   88</span>   }</div>
-<div class="line"><span class="lineno">   89</span>}</div>
+<div class="line"><span class="lineno">   89</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">   90</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">   91</span>   }</div>
+<div class="line"><span class="lineno">   92</span>}</div>
 <div class="ttc" id="aclass_settings_manager_html_af7e05f1e26aac16f6f0b402a85bc5088"><div class="ttname"><a href="class_settings_manager.html#af7e05f1e26aac16f6f0b402a85bc5088">SettingsManager::SetLastVersionFound</a></div><div class="ttdeci">void SetLastVersionFound(int version_number)</div><div class="ttdef"><b>Definition</b> SettingsManager.h:70</div></div>
 <div class="ttc" id="aclass_version_checker_html_a952a6dbd057258a5d7f2202a8228f47e"><div class="ttname"><a href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">VersionChecker::new_version_</a></div><div class="ttdeci">int new_version_</div><div class="ttdef"><b>Definition</b> VersionChecker.h:41</div></div>
 <div class="ttc" id="aclass_version_checker_html_aee6f012d05983fac23a8462a1abfba4d"><div class="ttname"><a href="class_version_checker.html#aee6f012d05983fac23a8462a1abfba4d">VersionChecker::thread_should_exit_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; thread_should_exit_</div><div class="ttdef"><b>Definition</b> VersionChecker.h:43</div></div>
@@ -389,33 +392,34 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  115</span>{</div>
-<div class="line"><span class="lineno">  116</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  117</span>      <span class="keyword">const</span> juce::URL version_url {<span class="stringliteral">&quot;https://rsjaffe.github.io/MIDI2LR/version.xml&quot;</span>};</div>
-<div class="line"><span class="lineno">  118</span>      <span class="keyword">const</span> <span class="keyword">auto</span> version_xml_element {version_url.readEntireXmlStream()};</div>
-<div class="line"><span class="lineno">  119</span>      <span class="keywordflow">if</span> (version_xml_element &amp;&amp; !<a class="code hl_variable" href="class_version_checker.html#aee6f012d05983fac23a8462a1abfba4d">thread_should_exit_</a>.load(std::memory_order_acquire)) {</div>
-<div class="line"><span class="lineno">  120</span>         <span class="keyword">auto</span> last_checked {<a class="code hl_variable" href="class_version_checker.html#a41cc38bc7a7e34f6842e591b9862f5c3">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#a3cbbe97003f6e6acc01e1f09bbd7c47c">GetLastVersionFound</a>()};</div>
-<div class="line"><span class="lineno">  121</span>         <a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a> = CheckVersion(version_xml_element);</div>
-<div class="line"><span class="lineno">  122</span>         <span class="keywordflow">if</span> (last_checked == 0) {</div>
-<div class="line"><span class="lineno">  123</span>            last_checked = std::min(<a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a>, ProjectInfo::versionNumber);</div>
-<div class="line"><span class="lineno">  124</span>            <a class="code hl_variable" href="class_version_checker.html#a41cc38bc7a7e34f6842e591b9862f5c3">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#af7e05f1e26aac16f6f0b402a85bc5088">SetLastVersionFound</a>(last_checked);</div>
-<div class="line"><span class="lineno">  125</span>         }</div>
-<div class="line"><span class="lineno">  126</span>         LogVersion(<a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a>, last_checked);</div>
-<div class="line"><span class="lineno">  127</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a> &gt; ProjectInfo::versionNumber &amp;&amp; <a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a> != last_checked</div>
-<div class="line"><span class="lineno">  128</span>             &amp;&amp; !<a class="code hl_variable" href="class_version_checker.html#aee6f012d05983fac23a8462a1abfba4d">thread_should_exit_</a>.load(std::memory_order_acquire)) {</div>
-<div class="line"><span class="lineno">  129</span>            triggerAsyncUpdate();</div>
-<div class="line"><span class="lineno">  130</span>         }</div>
-<div class="line"><span class="lineno">  131</span>      }</div>
-<div class="line"><span class="lineno">  132</span>      <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  133</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Unable to download MIDI2LR/version.xml and parse into valid XML document.&quot;</span>);</div>
-<div class="line"><span class="lineno">  134</span>      }</div>
-<div class="line"><span class="lineno">  135</span>   }</div>
-<div class="line"><span class="lineno">  136</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  137</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">  138</span>   }</div>
-<div class="line"><span class="lineno">  139</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  119</span>{</div>
+<div class="line"><span class="lineno">  120</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  121</span>      <span class="keyword">const</span> juce::URL version_url {<span class="stringliteral">&quot;https://rsjaffe.github.io/MIDI2LR/version.xml&quot;</span>};</div>
+<div class="line"><span class="lineno">  122</span>      <span class="keyword">const</span> <span class="keyword">auto</span> version_xml_element {version_url.readEntireXmlStream()};</div>
+<div class="line"><span class="lineno">  123</span>      <span class="keywordflow">if</span> (version_xml_element &amp;&amp; !<a class="code hl_variable" href="class_version_checker.html#aee6f012d05983fac23a8462a1abfba4d">thread_should_exit_</a>.load(std::memory_order_acquire)) {</div>
+<div class="line"><span class="lineno">  124</span>         <span class="keyword">auto</span> last_checked {<a class="code hl_variable" href="class_version_checker.html#a41cc38bc7a7e34f6842e591b9862f5c3">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#a3cbbe97003f6e6acc01e1f09bbd7c47c">GetLastVersionFound</a>()};</div>
+<div class="line"><span class="lineno">  125</span>         <span class="keywordflow">if</span> (version_xml_element) { <a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a> = CheckVersion(version_xml_element.get()); }</div>
+<div class="line"><span class="lineno">  126</span>         <span class="keywordflow">if</span> (last_checked == 0) {</div>
+<div class="line"><span class="lineno">  127</span>            last_checked = std::min(<a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a>, ProjectInfo::versionNumber);</div>
+<div class="line"><span class="lineno">  128</span>            <a class="code hl_variable" href="class_version_checker.html#a41cc38bc7a7e34f6842e591b9862f5c3">settings_manager_</a>.<a class="code hl_function" href="class_settings_manager.html#af7e05f1e26aac16f6f0b402a85bc5088">SetLastVersionFound</a>(last_checked);</div>
+<div class="line"><span class="lineno">  129</span>         }</div>
+<div class="line"><span class="lineno">  130</span>         LogVersion(<a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a>, last_checked);</div>
+<div class="line"><span class="lineno">  131</span>         <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a> &gt; ProjectInfo::versionNumber &amp;&amp; <a class="code hl_variable" href="class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e">new_version_</a> != last_checked</div>
+<div class="line"><span class="lineno">  132</span>             &amp;&amp; !<a class="code hl_variable" href="class_version_checker.html#aee6f012d05983fac23a8462a1abfba4d">thread_should_exit_</a>.load(std::memory_order_acquire)) {</div>
+<div class="line"><span class="lineno">  133</span>            triggerAsyncUpdate();</div>
+<div class="line"><span class="lineno">  134</span>         }</div>
+<div class="line"><span class="lineno">  135</span>      }</div>
+<div class="line"><span class="lineno">  136</span>      <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  137</span>         <a class="code hl_function" href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a>(<span class="stringliteral">&quot;Unable to download MIDI2LR/version.xml and parse into valid XML document.&quot;</span>,</div>
+<div class="line"><span class="lineno">  138</span>             std::source_location::current());</div>
+<div class="line"><span class="lineno">  139</span>      }</div>
+<div class="line"><span class="lineno">  140</span>   }</div>
+<div class="line"><span class="lineno">  141</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  142</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  143</span>   }</div>
+<div class="line"><span class="lineno">  144</span>}</div>
 <div class="ttc" id="aclass_settings_manager_html_a3cbbe97003f6e6acc01e1f09bbd7c47c"><div class="ttname"><a href="class_settings_manager.html#a3cbbe97003f6e6acc01e1f09bbd7c47c">SettingsManager::GetLastVersionFound</a></div><div class="ttdeci">int GetLastVersionFound() const noexcept</div><div class="ttdef"><b>Definition</b> SettingsManager.h:47</div></div>
-<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:131</div></div>
+<div class="ttc" id="anamespacersj_html_ae54844cafe4abde9d4d0f825b48987a7"><div class="ttname"><a href="namespacersj.html#ae54844cafe4abde9d4d0f825b48987a7">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info, const std::source_location &amp;location=std::source_location::current()) noexcept</div><div class="ttdef"><b>Definition</b> Misc.cpp:113</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -440,7 +444,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   55</span>      <a class="code hl_function" href="class_version_checker.html#a77002a8003951c00080a5ed901e3d0ac">Run</a>();</div>
 <div class="line"><span class="lineno">   56</span>   });</div>
 <div class="line"><span class="lineno">   57</span>}</div>
-<div class="ttc" id="aclass_version_checker_html_a77002a8003951c00080a5ed901e3d0ac"><div class="ttname"><a href="class_version_checker.html#a77002a8003951c00080a5ed901e3d0ac">VersionChecker::Run</a></div><div class="ttdeci">void Run() noexcept</div><div class="ttdef"><b>Definition</b> VersionChecker.cpp:114</div></div>
+<div class="ttc" id="aclass_version_checker_html_a77002a8003951c00080a5ed901e3d0ac"><div class="ttname"><a href="class_version_checker.html#a77002a8003951c00080a5ed901e3d0ac">VersionChecker::Run</a></div><div class="ttdeci">void Run() noexcept</div><div class="ttdef"><b>Definition</b> VersionChecker.cpp:118</div></div>
 <div class="ttc" id="aclass_version_checker_html_a80d3bbbfdf9f18784db3336e391384de"><div class="ttname"><a href="class_version_checker.html#a80d3bbbfdf9f18784db3336e391384de">VersionChecker::run_future_</a></div><div class="ttdeci">std::future&lt; void &gt; run_future_</div><div class="ttdef"><b>Definition</b> VersionChecker.h:44</div></div>
 <div class="ttc" id="anamespacersj_html_ad45ed3020e2c86eb083be1a36dc23784"><div class="ttname"><a href="namespacersj.html#ad45ed3020e2c86eb083be1a36dc23784">rsj::LabelThread</a></div><div class="ttdeci">void LabelThread(gsl::czstring threadname)</div><div class="ttdef"><b>Definition</b> Misc.cpp:48</div></div>
 </div><!-- fragment -->

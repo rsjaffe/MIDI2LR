@@ -1,7 +1,7 @@
 var class_main_window =
 [
     [ "MainWindow", "class_main_window.html#a3cfbf38d0fea1941255722cbaa6195ff", null ],
-    [ "~MainWindow", "class_main_window.html#a767824566011a82d1d75339774258614", null ],
+    [ "~MainWindow", "class_main_window.html#ae98d00a93bc118200eeef9f9bba1dba7", null ],
     [ "MainWindow", "class_main_window.html#a5131f33b942ec84ac58cc8c6fd659b69", null ],
     [ "MainWindow", "class_main_window.html#ae2b38c91456f2034e8d354f97c453dd3", null ],
     [ "closeButtonPressed", "class_main_window.html#a50d2e609ff67f40e10806605f8281bc4", null ],

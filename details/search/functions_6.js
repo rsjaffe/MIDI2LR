@@ -18,7 +18,7 @@ var searchData=
   ['getmessagesforcommand_15',['GetMessagesForCommand',['../class_profile.html#a78dd139b8b9bc6c85befe9b697a2c0e5',1,'Profile']]],
   ['getnumrows_16',['getNumRows',['../class_command_table_model.html#ae89ca7ee2106ffe3a8d326da313e3bf2',1,'CommandTableModel']]],
   ['getpickupenabled_17',['GetPickupEnabled',['../class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b',1,'SettingsManager']]],
-  ['getprofiledirectory_18',['getprofiledirectory',['../class_profile_manager.html#a5319385e180ee398161af7c984e3b670',1,'ProfileManager::GetProfileDirectory()'],['../class_settings_manager.html#adc8d58846516e741e4c3940945100c83',1,'SettingsManager::GetProfileDirectory()']]],
+  ['getprofiledirectory_18',['getprofiledirectory',['../class_settings_manager.html#adc8d58846516e741e4c3940945100c83',1,'SettingsManager::GetProfileDirectory()'],['../class_profile_manager.html#a5319385e180ee398161af7c984e3b670',1,'ProfileManager::GetProfileDirectory()']]],
   ['getpwmax_19',['getpwmax',['../class_channel_model.html#a2a5b329d93121e7291cbdd072c4aae59',1,'ChannelModel::GetPwMax()'],['../class_controls_model.html#a3b874112e3236ced1d3daf3129928081',1,'ControlsModel::GetPwMax()']]],
   ['getpwmin_20',['getpwmin',['../class_channel_model.html#a6f174e71ed195c52214ecf6fe3bd6c0e',1,'ChannelModel::GetPwMin()'],['../class_controls_model.html#a358b704662a07c71422318eb6a6965b6',1,'ControlsModel::GetPwMin()']]],
   ['getrepeats_21',['GetRepeats',['../class_command_set.html#a2a6b02655001375e98dd89834c32c310',1,'CommandSet']]],

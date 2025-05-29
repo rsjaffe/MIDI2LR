@@ -19,5 +19,5 @@ var searchData=
   ['io_5fthread1_5f_16',['io_thread1_',['../class_m_i_d_i2_l_r_application.html#a09a40319067d47c05997e5c8fec811ff',1,'MIDI2LRApplication']]],
   ['is_5fnrpn_17',['is_nrpn',['../struct_nrpn_filter_1_1_process_result.html#aa866ba15c3be4361d5723769aaa3d33b',1,'NrpnFilter::ProcessResult']]],
   ['is_5fready_18',['is_ready',['../struct_nrpn_filter_1_1_process_result.html#a0589f81a857834e83ed0bce22fbbfafd',1,'NrpnFilter::ProcessResult']]],
-  ['isnrpn_19',['IsNrpn',['../class_channel_model.html#a04fb487ef9775f037898e43b7840c48c',1,'ChannelModel']]]
+  ['isnrpn_19',['IsNrpn',['../class_channel_model.html#afa01b43f5d60eda9f780b12aead99f5a',1,'ChannelModel']]]
 ];

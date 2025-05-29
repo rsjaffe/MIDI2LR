@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -131,7 +131,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><span class="lineno">  193</span>   {</div>
 <div class="line"><span class="lineno">  194</span>      <span class="comment">/* channel is one byte, messagetype is one byte, controller (data) is two bytes */</span></div>
-<div class="line"><span class="lineno">  195</span>      <span class="keyword">static</span> std::hash&lt;int_fast32_t&gt; hasher;</div>
+<div class="line"><span class="lineno">  195</span>      <span class="keyword">constinit</span> <span class="keyword">static</span> std::hash&lt;int_fast32_t&gt; hasher;</div>
 <div class="line"><span class="lineno">  196</span>      <span class="keywordflow">return</span> hasher(<span class="keyword">static_cast&lt;</span>int_fast32_t<span class="keyword">&gt;</span>(k.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>)</div>
 <div class="line"><span class="lineno">  197</span>                    | <span class="keyword">static_cast&lt;</span>int_fast32_t<span class="keyword">&gt;</span>(k.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>) &lt;&lt; 8</div>
 <div class="line"><span class="lineno">  198</span>                    | <span class="keyword">static_cast&lt;</span>int_fast32_t<span class="keyword">&gt;</span>(k.<a class="code hl_variable" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>) &lt;&lt; 16);</div>

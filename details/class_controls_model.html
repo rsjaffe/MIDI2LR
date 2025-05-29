@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -571,7 +571,7 @@ template&lt;class Archive &gt; </div>
 <div class="line"><span class="lineno">  317</span>         <span class="keywordflow">if</span> (version == 1) { archive(<a class="code hl_variable" href="class_controls_model.html#adf717b73a965f5a66b1994592a5c43b2">all_controls_</a>); }</div>
 <div class="line"><span class="lineno">  318</span>      }</div>
 <div class="line"><span class="lineno">  319</span>      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  320</span>         <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">  320</span>         <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
 <div class="line"><span class="lineno">  321</span>         <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  322</span>      }</div>
 <div class="line"><span class="lineno">  323</span>   }</div>

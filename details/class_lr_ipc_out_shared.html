@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -207,26 +207,27 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  249</span>{</div>
-<div class="line"><span class="lineno">  250</span>   <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  251</span>      <span class="keyword">auto</span> command_copy {std::make_shared&lt;std::string&gt;(lr_ipc_out_shared-&gt;command_.pop())};</div>
-<div class="line"><span class="lineno">  252</span>      <span class="keywordflow">if</span> (*command_copy == kTerminate) [[unlikely]] { <span class="keywordflow">return</span>; }</div>
-<div class="line"><span class="lineno">  253</span>      <span class="keywordflow">if</span> (command_copy-&gt;back() != <span class="charliteral">&#39;\n&#39;</span>) [[unlikely]] { <span class="comment">/* should be terminated with \n */</span></div>
-<div class="line"><span class="lineno">  254</span>         command_copy-&gt;push_back(<span class="charliteral">&#39;\n&#39;</span>);</div>
-<div class="line"><span class="lineno">  255</span>      } <span class="comment">// ReSharper disable once CppLambdaCaptureNeverUsed</span></div>
-<div class="line"><span class="lineno">  256</span>      asio::async_write(lr_ipc_out_shared-&gt;socket_, asio::buffer(*command_copy),</div>
-<div class="line"><span class="lineno">  257</span>          [command_copy, lr_ipc_out_shared](<span class="keyword">const</span> asio::error_code&amp; error, std::size_t) <span class="keyword">mutable</span> {</div>
-<div class="line"><span class="lineno">  258</span>         if (!error) [[likely]] { SendOut(std::move(lr_ipc_out_shared)); }</div>
-<div class="line"><span class="lineno">  259</span>         <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  260</span>            rsj::Log(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_Out Write: {}.&quot;</span>), error.message()));</div>
-<div class="line"><span class="lineno">  261</span>         }</div>
-<div class="line"><span class="lineno">  262</span>      });</div>
-<div class="line"><span class="lineno">  263</span>   }</div>
-<div class="line"><span class="lineno">  264</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">  265</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
-<div class="line"><span class="lineno">  266</span>      <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  267</span>   }</div>
-<div class="line"><span class="lineno">  268</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  254</span>{</div>
+<div class="line"><span class="lineno">  255</span>   <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  256</span>      <span class="keyword">auto</span> command_copy {std::make_shared&lt;std::string&gt;(lr_ipc_out_shared-&gt;command_.pop())};</div>
+<div class="line"><span class="lineno">  257</span>      <span class="keywordflow">if</span> (*command_copy == kTerminate) [[unlikely]] { <span class="keywordflow">return</span>; }</div>
+<div class="line"><span class="lineno">  258</span>      <span class="keywordflow">if</span> (command_copy-&gt;empty() || command_copy-&gt;back() != <span class="charliteral">&#39;\n&#39;</span>) [[unlikely]] {</div>
+<div class="line"><span class="lineno">  259</span>         command_copy-&gt;push_back(<span class="charliteral">&#39;\n&#39;</span>);</div>
+<div class="line"><span class="lineno">  260</span>      } <span class="comment">// ReSharper disable once CppLambdaCaptureNeverUsed</span></div>
+<div class="line"><span class="lineno">  261</span>      asio::async_write(lr_ipc_out_shared-&gt;socket_, asio::buffer(*command_copy),</div>
+<div class="line"><span class="lineno">  262</span>          [command_copy, lr_ipc_out_shared](<span class="keyword">const</span> asio::error_code&amp; error, std::size_t) <span class="keyword">mutable</span> {</div>
+<div class="line"><span class="lineno">  263</span>         if (!error) [[likely]] { SendOut(std::move(lr_ipc_out_shared)); }</div>
+<div class="line"><span class="lineno">  264</span>         <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  265</span>            rsj::Log(fmt::format(FMT_STRING(<span class="stringliteral">&quot;LR_IPC_Out Write: {}.&quot;</span>), error.message()),</div>
+<div class="line"><span class="lineno">  266</span>                std::source_location::current());</div>
+<div class="line"><span class="lineno">  267</span>         }</div>
+<div class="line"><span class="lineno">  268</span>      });</div>
+<div class="line"><span class="lineno">  269</span>   }</div>
+<div class="line"><span class="lineno">  270</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">  271</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
+<div class="line"><span class="lineno">  272</span>      <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  273</span>   }</div>
+<div class="line"><span class="lineno">  274</span>}</div>
 <div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
 </div><!-- fragment -->
 </div>

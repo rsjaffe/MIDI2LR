@@ -1,8 +1,8 @@
 var class_channel_model =
 [
-    [ "ChannelModel", "class_channel_model.html#ab4d041ea28d8b3052a8d5e442dc49170", null ],
+    [ "ChannelModel", "class_channel_model.html#adb396137b3fd31f3c094c94dd702f56c", null ],
     [ "ActiveToSaved", "class_channel_model.html#a02c98af20857bc809f51840908a9b5b8", null ],
-    [ "CcDefaults", "class_channel_model.html#a9bd2331bfeac64d647cb3ebb575e6540", null ],
+    [ "CcDefaults", "class_channel_model.html#a3500dcb70960e1798268333fafeebd4f", null ],
     [ "CenterCc", "class_channel_model.html#a95d3edeffa5cc6dea1f57b85bf7723db", null ],
     [ "CenterPw", "class_channel_model.html#acdac2f6617acb0451f3ea9c3e10adfda", null ],
     [ "ControllerToPlugin", "class_channel_model.html#a30f9b871330e6aab836e26ad5a4ec808", null ],
@@ -11,7 +11,7 @@ var class_channel_model =
     [ "GetCcMin", "class_channel_model.html#a4c1c50a58b143b986e7dac9ad1d1e20f", null ],
     [ "GetPwMax", "class_channel_model.html#a2a5b329d93121e7291cbdd072c4aae59", null ],
     [ "GetPwMin", "class_channel_model.html#a6f174e71ed195c52214ecf6fe3bd6c0e", null ],
-    [ "IsNrpn", "class_channel_model.html#a04fb487ef9775f037898e43b7840c48c", null ],
+    [ "IsNrpn", "class_channel_model.html#afa01b43f5d60eda9f780b12aead99f5a", null ],
     [ "load", "class_channel_model.html#a7a85f64c68311b6d811ab03a8a902df4", null ],
     [ "MeasureChange", "class_channel_model.html#a6757ab4be213706df3608450c668d427", null ],
     [ "OffsetResult", "class_channel_model.html#a285ba1a5e78bb98d45583418bf629163", null ],

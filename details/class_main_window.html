@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign">
-   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.1.0.0</span>
+   <div id="projectname">MIDI2LR<span id="projectnumber">&#160;6.2.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -118,8 +118,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5131f33b942ec84ac58cc8c6fd659b69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2b38c91456f2034e8d354f97c453dd3" id="r_ae2b38c91456f2034e8d354f97c453dd3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#ae2b38c91456f2034e8d354f97c453dd3">MainWindow</a> (<a class="el" href="class_main_window.html">MainWindow</a> &amp;&amp;other)=delete</td></tr>
 <tr class="separator:ae2b38c91456f2034e8d354f97c453dd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a767824566011a82d1d75339774258614" id="r_a767824566011a82d1d75339774258614"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a767824566011a82d1d75339774258614">~MainWindow</a> ()=default</td></tr>
-<tr class="separator:a767824566011a82d1d75339774258614"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae98d00a93bc118200eeef9f9bba1dba7" id="r_ae98d00a93bc118200eeef9f9bba1dba7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#ae98d00a93bc118200eeef9f9bba1dba7">~MainWindow</a> ()</td></tr>
+<tr class="separator:ae98d00a93bc118200eeef9f9bba1dba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accdc2d8821f090dc2a5156209b95632f" id="r_accdc2d8821f090dc2a5156209b95632f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_main_window.html">MainWindow</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#accdc2d8821f090dc2a5156209b95632f">operator=</a> (const <a class="el" href="class_main_window.html">MainWindow</a> &amp;other)=delete</td></tr>
 <tr class="separator:accdc2d8821f090dc2a5156209b95632f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d8c9979b90b5b37b6b4c72fc46b8d80" id="r_a2d8c9979b90b5b37b6b4c72fc46b8d80"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_main_window.html">MainWindow</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a2d8c9979b90b5b37b6b4c72fc46b8d80">operator=</a> (<a class="el" href="class_main_window.html">MainWindow</a> &amp;&amp;other)=delete</td></tr>
@@ -219,17 +219,17 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   40</span>   }</div>
 <div class="line"><span class="lineno">   41</span> </div>
 <div class="line"><span class="lineno">   42</span><span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   43</span>   <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   43</span>   <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
 <div class="line"><span class="lineno">   44</span>   <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   45</span>}</div>
-<div class="ttc" id="aclass_main_window_html_aab0d0a63b289dadf16e5354240e1ee6a"><div class="ttname"><a href="class_main_window.html#aab0d0a63b289dadf16e5354240e1ee6a">MainWindow::window_content_</a></div><div class="ttdeci">std::unique_ptr&lt; MainContentComponent &gt; window_content_</div><div class="ttdef"><b>Definition</b> MainWindow.h:60</div></div>
+<div class="ttc" id="aclass_main_window_html_aab0d0a63b289dadf16e5354240e1ee6a"><div class="ttname"><a href="class_main_window.html#aab0d0a63b289dadf16e5354240e1ee6a">MainWindow::window_content_</a></div><div class="ttdeci">std::unique_ptr&lt; MainContentComponent &gt; window_content_</div><div class="ttdef"><b>Definition</b> MainWindow.h:62</div></div>
 <div class="ttc" id="aclass_settings_manager_html_a3f72426f5881bed364d70b41f52844cd"><div class="ttname"><a href="class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd">SettingsManager::GetAutoHideTime</a></div><div class="ttdeci">int GetAutoHideTime() const noexcept</div><div class="ttdef"><b>Definition</b> SettingsManager.h:37</div></div>
 <div class="ttc" id="anamespacersj_html_a2b2eed6bc89abb14f27503415fe9676e"><div class="ttname"><a href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(gsl::czstring id, gsl::czstring fu, const std::exception &amp;e) noexcept</div></div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a767824566011a82d1d75339774258614" name="a767824566011a82d1d75339774258614"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a767824566011a82d1d75339774258614">&#9670;&#160;</a></span>~MainWindow()</h2>
+<a id="ae98d00a93bc118200eeef9f9bba1dba7" name="ae98d00a93bc118200eeef9f9bba1dba7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae98d00a93bc118200eeef9f9bba1dba7">&#9670;&#160;</a></span>~MainWindow()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -246,11 +246,12 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
+<div class="fragment"><div class="line"><span class="lineno">   40</span>{ juce::Timer::stopTimer(); } <span class="comment">// NOLINT(modernize-use-override)</span></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a5131f33b942ec84ac58cc8c6fd659b69" name="a5131f33b942ec84ac58cc8c6fd659b69"></a>
@@ -328,9 +329,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   54</span>   {</div>
-<div class="line"><span class="lineno">   55</span>      juce::JUCEApplication::getInstance()-&gt;systemRequestedQuit();</div>
-<div class="line"><span class="lineno">   56</span>   }</div>
+<div class="fragment"><div class="line"><span class="lineno">   56</span>   {</div>
+<div class="line"><span class="lineno">   57</span>      juce::JUCEApplication::getInstance()-&gt;systemRequestedQuit();</div>
+<div class="line"><span class="lineno">   58</span>   }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -408,7 +409,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   45</span>{ <a class="code hl_variable" href="class_main_window.html#aab0d0a63b289dadf16e5354240e1ee6a">window_content_</a>-&gt;SaveProfile(); }</div>
+<div class="fragment"><div class="line"><span class="lineno">   47</span>{ <a class="code hl_variable" href="class_main_window.html#aab0d0a63b289dadf16e5354240e1ee6a">window_content_</a>-&gt;SaveProfile(); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -440,7 +441,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   51</span>      <span class="keywordflow">if</span> (!juce::ResizableWindow::isMinimised()) { juce::DocumentWindow::minimiseButtonPressed(); }</div>
 <div class="line"><span class="lineno">   52</span>   }</div>
 <div class="line"><span class="lineno">   53</span>   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
-<div class="line"><span class="lineno">   54</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e);</div>
+<div class="line"><span class="lineno">   54</span>      <a class="code hl_function" href="namespacersj.html#a2b2eed6bc89abb14f27503415fe9676e">rsj::ExceptionResponse</a>(e, std::source_location::current());</div>
 <div class="line"><span class="lineno">   55</span>      <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   56</span>   }</div>
 <div class="line"><span class="lineno">   57</span>}</div>
@@ -467,7 +468,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   60</span>{};</div>
+<div class="fragment"><div class="line"><span class="lineno">   62</span>{};</div>
 </div><!-- fragment -->
 </div>
 </div>
