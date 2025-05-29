@@ -257,7 +257,7 @@ local DataBase = {
   {Command='ZoomOutSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out')..' '..LOC('$$$/ImportView/Less=Less'),Group=view,Explanation=''},
   {Command='ZoomOutLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out'),Group=view,Explanation=''},
   {Command='ZoomTo100',Type='button',Experimental=true,Translation=LOC('$$$/AgLibrary/Menu/View/ZoomTo100=Zoom to 100%'),Group=view,Explanation=''},
-  {Command='ShowSlideShow',Type=button,Translation=LOC('$$$/AgDevelopShortcuts/Show_selected_images_in_a_slideshow=Enter Impromptu Slideshow mode'),Group=view,Explanation='Shows the current selected photos in a slideshow based on the current Slideshow module settings. Press button to start. Press again to exit slideshow.'},
+  {Command='ShowSlideShow',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Show_selected_images_in_a_slideshow=Enter Impromptu Slideshow mode'),Group=view,Explanation='Shows the current selected photos in a slideshow based on the current Slideshow module settings. Press button to start. Press again to exit slideshow.'},
 --rating
   {Command='SetRating0',Type='button',Translation=LOC('$$$/AgLibrary/Filter/Stars=^1 Stars','0'),Group=rating,Explanation=''},
   {Command='SetRating1',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Singular=1 star'),Group=rating,Explanation=''},
@@ -711,11 +711,11 @@ local DataBase = {
   --develop: lens blur panel
   --
   {Command='RevealPanelLensBlur',Type='button',Translation=LOC('$$$/MIDI2LR/Database/Show1=Show ^1',lensBlur),Group=lensBlur,Explanation='Open Lens Blur Panel in Develop Module.'},
-  {Command='LensBlurActive',Type=button,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensBlur/Active=Apply Lens Blur'),Group=lensBlur,Explanation='Activate/deactivate lens blur',Panel='lensBlurPanel'},
+  {Command='LensBlurActive',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensBlur/Active=Apply Lens Blur'),Group=lensBlur,Explanation='Activate/deactivate lens blur',Panel='lensBlurPanel'},
   {Command='LensBlurAmount', Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensBlur/Amount=Lens Blur Amount'),Group=lensBlur,Explanation='Adjust the strength of the blur effect',Panel='lensBlurPanel',AltParameter='Direct'},
   {Command='LensBlurHighlightsBoost',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensBlur/HighlightsBoost=Highlights Boost'),Group=lensBlur,Explanation='Adjust the brightness of out-of-focus light sources',Panel='lensBlurPanel',AltParameter='Direct'},
-  {Command='ResetLensBlurAmount',Type=button,Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensBlur/Amount=Lens Blur Amount')),Group=lensBlur,Explanation='Reset to default.',Panel='lensBlurPanel'},
-  {Command='ResetLensBlurHighlightsBoost',Type=button,Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensBlur/HighlightsBoost=Highlights Boost')),Group=lensBlur,Explanation='Reset to default.',Panel='lensBlurPanel'},
+  {Command='ResetLensBlurAmount',Type='button',Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensBlur/Amount=Lens Blur Amount')),Group=lensBlur,Explanation='Reset to default.',Panel='lensBlurPanel'},
+  {Command='ResetLensBlurHighlightsBoost',Type='button',Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensBlur/HighlightsBoost=Highlights Boost')),Group=lensBlur,Explanation='Reset to default.',Panel='lensBlurPanel'},
   {Command='BokehAnamorphic',Type='button',Translation=LOC('$$$/AgDevelop/LensBlur/Bokeh/Anamorphic=Anamorphic'),Group=lensBlur,Explanation='Oval/Anamorphic: Commonly seen with lenses used in filmmaking',Panel='lensBlurPanel'},
   {Command='BokehBlade',Type='button',Translation=LOC('$$$/AgDevelop/LensBlur/Bokeh/Blade=5-Blade'),Group=lensBlur,Explanation='5-Blade: Commonly seen in vintage lenses',Panel='lensBlurPanel'},
   {Command='BokehCircle',Type='button',Translation=LOC('$$$/AgDevelop/LensBlur/Bokeh/Circle=Circle'),Group=lensBlur,Explanation='Circle: Modern circular lens',Panel='lensBlurPanel'},
