@@ -1,21 +1,33 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library.
-   Copyright (c) 2022 - Raw Material Software Limited
+   This file is part of the JUCE framework.
+   Copyright (c) Raw Material Software Limited
 
-   JUCE is an open source library subject to commercial or open-source
+   JUCE is an open source framework subject to commercial or open source
    licensing.
 
-   The code included in this file is provided under the terms of the ISC license
-   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   To use, copy, modify, and/or distribute this software for any purpose with or
-   without fee is hereby granted provided that the above copyright notice and
-   this permission notice appear in all copies.
+   By downloading, installing, or using the JUCE framework, or combining the
+   JUCE framework with any other source code, object code, content or any other
+   copyrightable work, you agree to the terms of the JUCE End User Licence
+   Agreement, and all incorporated terms including the JUCE Privacy Policy and
+   the JUCE Website Terms of Service, as applicable, which will bind you. If you
+   do not agree to the terms of these agreements, we will not license the JUCE
+   framework to you, and you must discontinue the installation or download
+   process and cease use of the JUCE framework.
 
-   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
-   DISCLAIMED.
+   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
+   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
+   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+
+   Or:
+
+   You may also use this code under the terms of the AGPLv3:
+   https://www.gnu.org/licenses/agpl-3.0.en.html
+
+   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
+   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -59,12 +71,12 @@ JUCE_DECL_JACK_FUNCTION (int, jack_activate, (jack_client_t* client), (client))
 JUCE_DECL_JACK_FUNCTION (int, jack_deactivate, (jack_client_t* client), (client))
 JUCE_DECL_JACK_FUNCTION (jack_nframes_t, jack_get_buffer_size, (jack_client_t* client), (client))
 JUCE_DECL_JACK_FUNCTION (jack_nframes_t, jack_get_sample_rate, (jack_client_t* client), (client))
-JUCE_DECL_VOID_JACK_FUNCTION (jack_on_shutdown, (jack_client_t* client, void (*function)(void* arg), void* arg), (client, function, arg))
+JUCE_DECL_VOID_JACK_FUNCTION (jack_on_shutdown, (jack_client_t* client, void (*function) (void* arg), void* arg), (client, function, arg))
 JUCE_DECL_VOID_JACK_FUNCTION (jack_on_info_shutdown, (jack_client_t* client, JackInfoShutdownCallback function, void* arg), (client, function, arg))
 JUCE_DECL_JACK_FUNCTION (void* , jack_port_get_buffer, (jack_port_t* port, jack_nframes_t nframes), (port, nframes))
 JUCE_DECL_JACK_FUNCTION (jack_nframes_t, jack_port_get_total_latency, (jack_client_t* client, jack_port_t* port), (client, port))
 JUCE_DECL_JACK_FUNCTION (jack_port_t* , jack_port_register, (jack_client_t* client, const char* port_name, const char* port_type, unsigned long flags, unsigned long buffer_size), (client, port_name, port_type, flags, buffer_size))
-JUCE_DECL_VOID_JACK_FUNCTION (jack_set_error_function, (void (*func)(const char*)), (func))
+JUCE_DECL_VOID_JACK_FUNCTION (jack_set_error_function, (void (*func) (const char*)), (func))
 JUCE_DECL_JACK_FUNCTION (int, jack_set_process_callback, (jack_client_t* client, JackProcessCallback process_callback, void* arg), (client, process_callback, arg))
 JUCE_DECL_JACK_FUNCTION (const char**, jack_get_ports, (jack_client_t* client, const char* port_name_pattern, const char* type_name_pattern, unsigned long flags), (client, port_name_pattern, type_name_pattern, flags))
 JUCE_DECL_JACK_FUNCTION (int, jack_connect, (jack_client_t* client, const char* source_port, const char* destination_port), (client, source_port, destination_port))
@@ -158,7 +170,7 @@ struct JackPortIterator
 };
 
 //==============================================================================
-class JackAudioIODevice   : public AudioIODevice
+class JackAudioIODevice final : public AudioIODevice
 {
 public:
     JackAudioIODevice (const String& inName,
@@ -346,8 +358,8 @@ public:
 
         if (client != nullptr)
         {
-            const auto result = juce::jack_deactivate (client);
-            jassertquiet (result == 0);
+            [[maybe_unused]] const auto result = juce::jack_deactivate (client);
+            jassert (result == 0);
 
             juce::jack_set_xrun_callback (client, xrunCallback, nullptr);
             juce::jack_set_process_callback (client, processCallback, nullptr);
@@ -416,7 +428,7 @@ public:
 
 private:
     //==============================================================================
-    class MainThreadDispatcher  : private AsyncUpdater
+    class MainThreadDispatcher final : private AsyncUpdater
     {
     public:
         explicit MainThreadDispatcher (JackAudioIODevice& device)  : ref (device) {}
@@ -517,8 +529,7 @@ private:
             if (oldCallback != nullptr)
                 start (oldCallback);
 
-            if (notifyChannelsChanged != nullptr)
-                notifyChannelsChanged();
+            NullCheckedInvocation::invoke (notifyChannelsChanged);
         }
     }
 
@@ -544,9 +555,9 @@ private:
         }
     }
 
-    static void infoShutdownCallback (jack_status_t code, [[maybe_unused]] const char* reason, void* arg)
+    static void infoShutdownCallback ([[maybe_unused]] jack_status_t code, [[maybe_unused]] const char* reason, void* arg)
     {
-        jassertquiet (code == 0);
+        jassert (code == 0);
 
         JUCE_JACK_LOG ("Shutting down with message:");
         JUCE_JACK_LOG (reason);
@@ -580,7 +591,7 @@ private:
 //==============================================================================
 class JackAudioIODeviceType;
 
-class JackAudioIODeviceType  : public AudioIODeviceType
+class JackAudioIODeviceType final : public AudioIODeviceType
 {
 public:
     JackAudioIODeviceType()

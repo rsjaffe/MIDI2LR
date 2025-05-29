@@ -1,0 +1,259 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+msgid "0"
+msgstr ""
+
+msgid "127"
+msgstr ""
+
+msgid "16383"
+msgstr ""
+
+#. From MS: A new version of Skype is available.
+msgid "A new version of {} is available."
+msgstr ""
+
+#. Microsoft terminology collection: Pertaining to an entity such as the device, program, file, record or portion of the screen that is currently operational or subject to command operations.
+msgid "active"
+msgstr ""
+
+msgid "Adjust CC dialog"
+msgstr ""
+
+msgid "Adjust PW dialog"
+msgstr ""
+
+msgid "Apply these settings to all similar controls."
+msgstr ""
+
+#. From MS: Apply to all
+msgid "Apply to all"
+msgstr ""
+
+#. From Microsoft terminology collection "A feature that minimizes tool windows along the edges of the IDE when these windows are not in use."
+msgid "Auto hide"
+msgstr ""
+
+msgid "Autohide the plugin window in x seconds, select 0 for disabling autohide"
+msgstr ""
+
+msgid "Binary offset"
+msgstr ""
+
+msgid "CC Message Type"
+msgstr ""
+
+msgid "Channel 0 Number 0"
+msgstr ""
+
+msgid "Choose Profile Folder"
+msgstr ""
+
+#. From MS: Clear all rows [not available for ko, zh-tw]
+msgid "Clear ALL rows"
+msgstr ""
+
+#. From MS: Connected to %s
+msgid "Connected to Lightroom"
+msgstr ""
+
+msgid "Control value increases when turned one way, decreases when turned the other."
+msgstr ""
+
+msgid "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other."
+msgstr ""
+
+msgid "Control value is near 1 when turned one way, and near 65 when turned the other."
+msgstr ""
+
+msgid "Control value is near 63 when turned one way, and near 65 when turned the other."
+msgstr ""
+
+#. Deactivate MIDI controller from microsoft translations search terminology
+#. Deactivate {0}; Xbox 360 Controller
+msgid "Deactivate MIDI controller"
+msgstr ""
+
+#. Microsoft terminology collection A user-defined description of a particular device.
+msgid "device name"
+msgstr ""
+
+msgid "Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with Lightroom not picking up fast fader/knob movements"
+msgstr ""
+
+msgid "Do not show again"
+msgstr ""
+
+#. Microsoft translation resources
+msgid "Do you want to download the latest version?"
+msgstr ""
+
+msgid "Enable Pickup Mode"
+msgstr ""
+
+#. From MS: Error (A value or condition that is not consistent with the true, specified, or expected value or condition.)
+msgid "Error"
+msgstr ""
+
+#. From MS: Exception (An abnormal condition or error that occurs during the execution of a program. An exception requires the execution of software outside the normal flow of control.)
+msgid "Exception "
+msgstr ""
+
+msgid "Halt sending to Lightroom"
+msgstr ""
+
+#. Microsoft terminology search "input/output" The complementary tasks of gathering and distributing data. Input is data that is acquired from a device or entered by the user through a device. Output is data that is sent to a device.
+msgid "input/output"
+msgstr ""
+
+#. From MS: Invalid keyboard layout handle.
+msgid "Invalid keyboard layout handle."
+msgstr ""
+
+#. From MS: Load (To place information from storage into memory for processing, if it is data, or for execution, if it is program code.)
+msgid "Load"
+msgstr ""
+
+#. From MS: LR Command (from UIDL command)
+msgid "LR Command"
+msgstr ""
+
+#. From MS: maximum value (from Excel)
+msgid "Maximum value"
+msgstr ""
+
+#. From MS: MIDI Command (from UIDL command)
+msgid "MIDI Command"
+msgstr ""
+
+msgid "MIDI2LR needs your authorization to send keystrokes to Lightroom"
+msgstr ""
+
+#. From MS: MIDI2LR Profiles (from CDN profiles)
+msgid "MIDI2LR profiles"
+msgstr ""
+
+msgid "MIDISender: Unexpected data type: {:n}."
+msgstr ""
+
+#. From MS: minimum value (from Excel)
+msgid "Minimum value"
+msgstr ""
+
+#. From MS: Not connected to %s [did not use it translation; not available for zh_tw]
+msgid "Not connected to Lightroom"
+msgstr ""
+
+#. From MS: Open profile
+msgid "Open profile"
+msgstr ""
+
+msgid "Pick up"
+msgstr ""
+
+msgid "Pitch Wheel"
+msgstr ""
+
+#. From MS: Profile (A computer-based record that contains software settings and identification information.)
+msgid "Profile"
+msgstr ""
+
+#. From MS: Profile Changed
+#. From MS:  Do you want to save your changes? If you continue without saving, your changes will be lost.
+msgid "Profile changed. Do you want to save your changes? If you continue without saving, your changes will be lost."
+msgstr ""
+
+msgid "Remove unassigned rows"
+msgstr ""
+
+msgid "Rescan MIDI devices"
+msgstr ""
+
+#. From MS: Resolution (A measure of the fineness of detail in an image or text, usually as produced by a monitor or printer.)
+msgid "Resolution"
+msgstr ""
+
+#. From MS: Save
+msgid "Save"
+msgstr ""
+
+#. From MS: Save profile
+msgid "Save profile"
+msgstr ""
+
+#. From MS: Select Folder
+msgid "Select Folder"
+msgstr ""
+
+msgid "Sending halted"
+msgstr ""
+
+#. From MS: Settings (The feature in an app that allows users to change its properties or behavior.)
+msgid "Settings"
+msgstr ""
+
+msgid "Sign and magnitude"
+msgstr ""
+
+#. translations from localized microsoft products. often translated as "system code"
+msgid "system id"
+msgstr ""
+
+#. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
+msgid "The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: {}."
+msgstr ""
+
+#. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
+msgid "The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."
+msgstr ""
+
+#. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
+msgid "The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."
+msgstr ""
+
+msgid ""
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\n"
+"1) Open System Preferences\n"
+"2) Open Accessibility preferences \n"
+"3) Select \"Accessibility Apps\"\n"
+"4) Add this application to the approval list"
+msgstr ""
+
+msgid "Two's complement"
+msgstr ""
+
+#. From MS: Unable to load %1
+msgid "Unable to load MenuTrans.xml."
+msgstr ""
+
+#. From MS: Unable to save file. Choose a different location and try again.
+msgid "Unable to save file. Choose a different location and try again."
+msgstr ""
+
+#. From MS: Unable to save %1
+msgid "Unable to save settings.xml."
+msgstr ""
+
+#. From MS: Unassigned (from Dynamics AX7)
+msgid "Unassigned"
+msgstr ""
+
+#. From MS: unhandled exception (An exception that was identified with a "try catch or finally block" structure or that occurred outside this structure but was not caught by any structured error handler. "Dr. Watson" errors are examples.)
+msgid "unhandled exception"
+msgstr ""
+
+#. From MS: Version (A designation appended to a product name to identify a particular release.)
+msgid "Version "
+msgstr ""

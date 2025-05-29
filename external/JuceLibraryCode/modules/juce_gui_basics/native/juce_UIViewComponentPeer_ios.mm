@@ -1,45 +1,40 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library.
-   Copyright (c) 2022 - Raw Material Software Limited
+   This file is part of the JUCE framework.
+   Copyright (c) Raw Material Software Limited
 
-   JUCE is an open source library subject to commercial or open-source
+   JUCE is an open source framework subject to commercial or open source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
-   Agreement and JUCE Privacy Policy.
+   By downloading, installing, or using the JUCE framework, or combining the
+   JUCE framework with any other source code, object code, content or any other
+   copyrightable work, you agree to the terms of the JUCE End User Licence
+   Agreement, and all incorporated terms including the JUCE Privacy Policy and
+   the JUCE Website Terms of Service, as applicable, which will bind you. If you
+   do not agree to the terms of these agreements, we will not license the JUCE
+   framework to you, and you must discontinue the installation or download
+   process and cease use of the JUCE framework.
 
-   End User License Agreement: www.juce.com/juce-7-licence
-   Privacy Policy: www.juce.com/juce-privacy-policy
+   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
+   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
+   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
 
-   Or: You may also use this code under the terms of the GPL v3 (see
-   www.gnu.org/licenses).
+   Or:
 
-   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
-   DISCLAIMED.
+   You may also use this code under the terms of the AGPLv3:
+   https://www.gnu.org/licenses/agpl-3.0.en.html
+
+   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
+   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
 
-#include "juce_CGMetalLayerRenderer_mac.h"
-
 #if TARGET_OS_SIMULATOR && JUCE_COREGRAPHICS_RENDER_WITH_MULTIPLE_PAINT_CALLS
  #warning JUCE_COREGRAPHICS_RENDER_WITH_MULTIPLE_PAINT_CALLS uses parts of the Metal API that are currently unsupported in the simulator - falling back to JUCE_COREGRAPHICS_RENDER_WITH_MULTIPLE_PAINT_CALLS=0
  #undef JUCE_COREGRAPHICS_RENDER_WITH_MULTIPLE_PAINT_CALLS
-#endif
-
-#if defined (__IPHONE_13_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
- #define JUCE_HAS_IOS_POINTER_SUPPORT 1
-#else
- #define JUCE_HAS_IOS_POINTER_SUPPORT 0
-#endif
-
-#if defined (__IPHONE_13_4) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_4
- #define JUCE_HAS_IOS_HARDWARE_KEYBOARD_SUPPORT 1
-#else
- #define JUCE_HAS_IOS_HARDWARE_KEYBOARD_SUPPORT 0
 #endif
 
 namespace juce
@@ -113,14 +108,12 @@ static UIInterfaceOrientation getWindowOrientation()
 {
     UIApplication* sharedApplication = [UIApplication sharedApplication];
 
-   #if defined (__IPHONE_13_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
     if (@available (iOS 13.0, *))
     {
         for (UIScene* scene in [sharedApplication connectedScenes])
             if ([scene isKindOfClass: [UIWindowScene class]])
                 return [(UIWindowScene*) scene interfaceOrientation];
     }
-   #endif
 
     JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wdeprecated-declarations")
     return [sharedApplication statusBarOrientation];
@@ -328,10 +321,8 @@ struct CADisplayLinkDeleter
 - (void) touchesEnded:     (NSSet*) touches  withEvent: (UIEvent*) event;
 - (void) touchesCancelled: (NSSet*) touches  withEvent: (UIEvent*) event;
 
-#if JUCE_HAS_IOS_POINTER_SUPPORT
 - (void) onHover: (UIHoverGestureRecognizer*) gesture API_AVAILABLE (ios (13.0));
 - (void) onScroll: (UIPanGestureRecognizer*) gesture;
-#endif
 
 - (BOOL) becomeFirstResponder;
 - (BOOL) resignFirstResponder;
@@ -389,8 +380,8 @@ struct UIViewPeerControllerReceiver
 };
 
 //==============================================================================
-class UIViewComponentPeer  : public ComponentPeer,
-                             public UIViewPeerControllerReceiver
+class UIViewComponentPeer final : public ComponentPeer,
+                                  public UIViewPeerControllerReceiver
 {
 public:
     UIViewComponentPeer (Component&, int windowStyleFlags, UIView* viewToAttachTo);
@@ -447,10 +438,8 @@ public:
 
     void handleTouches (UIEvent*, MouseEventFlags);
 
-   #if JUCE_HAS_IOS_POINTER_SUPPORT
     API_AVAILABLE (ios (13.0)) void onHover (UIHoverGestureRecognizer*);
     void onScroll (UIPanGestureRecognizer*);
-   #endif
 
     Range<int> getMarkedTextRange() const
     {
@@ -545,7 +534,7 @@ private:
     }
 
     //==============================================================================
-    class AsyncRepaintMessage  : public CallbackMessage
+    class AsyncRepaintMessage final : public CallbackMessage
     {
     public:
         UIViewComponentPeer* const peer;
@@ -654,7 +643,6 @@ MultiTouchMapper<UITouch*> UIViewComponentPeer::currentTouches;
 
 - (UIStatusBarStyle) preferredStatusBarStyle
 {
-   #if defined (__IPHONE_13_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
     if (@available (iOS 13.0, *))
     {
         if (auto* peer = getViewPeer (self))
@@ -670,7 +658,6 @@ MultiTouchMapper<UITouch*> UIViewComponentPeer::currentTouches;
             }
         }
     }
-   #endif
 
     return UIStatusBarStyleDefault;
 }
@@ -740,7 +727,6 @@ MultiTouchMapper<UITouch*> UIViewComponentPeer::currentTouches;
 
     [self addSubview: owner->hiddenTextInput.get()];
 
-   #if JUCE_HAS_IOS_POINTER_SUPPORT
     if (@available (iOS 13.4, *))
     {
         auto hoverRecognizer = [[[UIHoverGestureRecognizer alloc] initWithTarget: self action: @selector (onHover:)] autorelease];
@@ -755,7 +741,6 @@ MultiTouchMapper<UITouch*> UIViewComponentPeer::currentTouches;
         [panRecognizer setMaximumNumberOfTouches: 0];
         [self addGestureRecognizer: panRecognizer];
     }
-   #endif
 
     return self;
 }
@@ -860,7 +845,6 @@ MultiTouchMapper<UITouch*> UIViewComponentPeer::currentTouches;
     [self touchesEnded: touches withEvent: event];
 }
 
-#if JUCE_HAS_IOS_POINTER_SUPPORT
 - (void) onHover: (UIHoverGestureRecognizer*) gesture
 {
     if (owner != nullptr)
@@ -872,7 +856,6 @@ MultiTouchMapper<UITouch*> UIViewComponentPeer::currentTouches;
     if (owner != nullptr)
         owner->onScroll (gesture);
 }
-#endif
 
 static std::optional<int> getKeyCodeForSpecialCharacterString (StringRef characters)
 {
@@ -885,14 +868,10 @@ static std::optional<int> getKeyCodeForSpecialCharacterString (StringRef charact
             { nsStringToJuce (UIKeyInputLeftArrow),     KeyPress::leftKey },
             { nsStringToJuce (UIKeyInputRightArrow),    KeyPress::rightKey },
             { nsStringToJuce (UIKeyInputEscape),        KeyPress::escapeKey },
-           #if JUCE_HAS_IOS_HARDWARE_KEYBOARD_SUPPORT
-            // These symbols are available on iOS 8, but only declared in the headers for iOS 13.4+
             { nsStringToJuce (UIKeyInputPageUp),        KeyPress::pageUpKey },
             { nsStringToJuce (UIKeyInputPageDown),      KeyPress::pageDownKey },
-           #endif
         };
 
-       #if JUCE_HAS_IOS_HARDWARE_KEYBOARD_SUPPORT
         if (@available (iOS 13.4, *))
         {
             result.insert ({ { nsStringToJuce (UIKeyInputHome),          KeyPress::homeKey },
@@ -910,7 +889,6 @@ static std::optional<int> getKeyCodeForSpecialCharacterString (StringRef charact
                              { nsStringToJuce (UIKeyInputF11),           KeyPress::F11Key },
                              { nsStringToJuce (UIKeyInputF12),           KeyPress::F12Key } });
         }
-       #endif
 
        #if defined (__IPHONE_15_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_15_0
         if (@available (iOS 15.0, *))
@@ -936,7 +914,6 @@ static int getKeyCodeForCharacters (NSString* characters)
     return getKeyCodeForCharacters (nsStringToJuce (characters));
 }
 
-#if JUCE_HAS_IOS_HARDWARE_KEYBOARD_SUPPORT
 static void updateModifiers (const UIKeyModifierFlags flags)
 {
     const auto convert = [&flags] (UIKeyModifierFlags f, int result) { return (flags & f) != 0 ? result : 0; };
@@ -984,7 +961,7 @@ static bool attemptToConsumeKeys (JuceUIView* view, NSSet<UIPress*>* presses)
     return used;
 }
 
-- (void) pressesBegan:(NSSet<UIPress*>*) presses withEvent:(UIPressesEvent*) event
+- (void) pressesBegan: (NSSet<UIPress*>*) presses withEvent: (UIPressesEvent*) event
 {
     const auto handledEvent = [&]
     {
@@ -1033,18 +1010,17 @@ static bool doKeysUp (UIViewComponentPeer* owner, NSSet<UIPress*>* presses, UIPr
     return false;
 }
 
-- (void) pressesEnded:(NSSet<UIPress*>*) presses withEvent:(UIPressesEvent*) event
+- (void) pressesEnded: (NSSet<UIPress*>*) presses withEvent: (UIPressesEvent*) event
 {
     if (! doKeysUp (owner, presses, event))
         [super pressesEnded: presses withEvent: event];
 }
 
-- (void) pressesCancelled:(NSSet<UIPress*>*) presses withEvent:(UIPressesEvent*) event
+- (void) pressesCancelled: (NSSet<UIPress*>*) presses withEvent: (UIPressesEvent*) event
 {
     if (! doKeysUp (owner, presses, event))
         [super pressesCancelled: presses withEvent: event];
 }
-#endif
 
 //==============================================================================
 - (BOOL) becomeFirstResponder
@@ -1072,14 +1048,11 @@ static bool doKeysUp (UIViewComponentPeer* owner, NSSet<UIPress*>* presses, UIPr
 {
     [super traitCollectionDidChange: previousTraitCollection];
 
-    if (@available (iOS 12.0, *))
-    {
-        const auto wasDarkModeActive = ([previousTraitCollection userInterfaceStyle] == UIUserInterfaceStyleDark);
+    const auto wasDarkModeActive = ([previousTraitCollection userInterfaceStyle] == UIUserInterfaceStyleDark);
 
-        if (wasDarkModeActive != Desktop::getInstance().isDarkModeActive())
-            [[NSNotificationCenter defaultCenter] postNotificationName: UIViewComponentPeer::getDarkModeNotificationName()
-                                                                object: nil];
-    }
+    if (wasDarkModeActive != Desktop::getInstance().isDarkModeActive())
+        [[NSNotificationCenter defaultCenter] postNotificationName: UIViewComponentPeer::getDarkModeNotificationName()
+                                                            object: nil];
 }
 
 - (BOOL) isAccessibilityElement
@@ -1152,12 +1125,7 @@ static bool doKeysUp (UIViewComponentPeer* owner, NSSet<UIPress*>* presses, UIPr
     if (auto* target = [self getTextInputTarget])
     {
         if (action == @selector (paste:))
-        {
-            if (@available (iOS 10, *))
-                return [[UIPasteboard generalPasteboard] hasStrings];
-
-            return [[UIPasteboard generalPasteboard] string] != nil;
-        }
+            return [[UIPasteboard generalPasteboard] hasStrings];
     }
 
     return [super canPerformAction: action withSender: sender];
@@ -1721,13 +1689,9 @@ namespace juce
 
 bool KeyPress::isKeyCurrentlyDown (int keyCode)
 {
-   #if JUCE_HAS_IOS_HARDWARE_KEYBOARD_SUPPORT
     return iOSGlobals::keysCurrentlyDown.isDown (keyCode)
         || ('A' <= keyCode && keyCode <= 'Z' && iOSGlobals::keysCurrentlyDown.isDown ((int) CharacterFunctions::toLowerCase ((juce_wchar) keyCode)))
         || ('a' <= keyCode && keyCode <= 'z' && iOSGlobals::keysCurrentlyDown.isDown ((int) CharacterFunctions::toUpperCase ((juce_wchar) keyCode)));
-   #else
-    return false;
-   #endif
 }
 
 Point<float> juce_lastMousePos;
@@ -1805,10 +1769,8 @@ UIViewComponentPeer::~UIViewComponentPeer()
     {
         [((JuceUIWindow*) window) setOwner: nil];
 
-      #if defined (__IPHONE_13_0)
         if (@available (iOS 13.0, *))
             window.windowScene = nil;
-      #endif
 
         [window release];
     }
@@ -1929,11 +1891,11 @@ void UIViewComponentPeer::updateScreenBounds()
         {
             // this will re-centre the window, but leave its size unchanged
 
-            auto centreRelX = oldArea.getCentreX() / (float) oldDesktop.getWidth();
-            auto centreRelY = oldArea.getCentreY() / (float) oldDesktop.getHeight();
+            auto centreRelX = (float) oldArea.getCentreX() / (float) oldDesktop.getWidth();
+            auto centreRelY = (float) oldArea.getCentreY() / (float) oldDesktop.getHeight();
 
-            auto x = ((int) (newDesktop.getWidth()  * centreRelX)) - (oldArea.getWidth()  / 2);
-            auto y = ((int) (newDesktop.getHeight() * centreRelY)) - (oldArea.getHeight() / 2);
+            auto x = ((int) ((float) newDesktop.getWidth()  * centreRelX)) - (oldArea.getWidth()  / 2);
+            auto y = ((int) ((float) newDesktop.getHeight() * centreRelY)) - (oldArea.getHeight() / 2);
 
             component.setBounds (oldArea.withPosition (x, y));
         }
@@ -2013,12 +1975,10 @@ void UIViewComponentPeer::handleTouches (UIEvent* event, MouseEventFlags mouseEv
     if (event == nullptr)
         return;
 
-   #if JUCE_HAS_IOS_HARDWARE_KEYBOARD_SUPPORT
     if (@available (iOS 13.4, *))
     {
         updateModifiers ([event modifierFlags]);
     }
-   #endif
 
     NSArray* touches = [[event touchesForView: view] allObjects];
 
@@ -2097,7 +2057,6 @@ void UIViewComponentPeer::handleTouches (UIEvent* event, MouseEventFlags mouseEv
     }
 }
 
-#if JUCE_HAS_IOS_POINTER_SUPPORT
 void UIViewComponentPeer::onHover (UIHoverGestureRecognizer* gesture)
 {
     auto pos = convertToPointFloat ([gesture locationInView: view]);
@@ -2130,7 +2089,6 @@ void UIViewComponentPeer::onScroll (UIPanGestureRecognizer* gesture)
                       UIViewComponentPeer::getMouseTime ([[NSProcessInfo processInfo] systemUptime]),
                       details);
 }
-#endif
 
 //==============================================================================
 void UIViewComponentPeer::viewFocusGain()
@@ -2232,7 +2190,7 @@ void UIViewComponentPeer::drawRectWithContext (CGContextRef cg, CGRect)
         CGContextClearRect (cg, CGContextGetClipBoundingBox (cg));
 
     CGContextConcatCTM (cg, CGAffineTransformMake (1, 0, 0, -1, 0, getComponent().getHeight()));
-    CoreGraphicsContext g (cg, getComponent().getHeight());
+    CoreGraphicsContext g (cg, (float) getComponent().getHeight());
 
     insideDrawRect = true;
     handlePaint (g);

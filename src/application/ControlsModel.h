@@ -60,7 +60,7 @@ namespace rsj {
                    "The file, 'settings.xml', is marked as a version not supported by the current "
                    "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."};
                rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                   fmt::format(msg, version));
+                   fmt::format(msg, version), std::source_location::current());
             }
             break;
          }
@@ -111,18 +111,17 @@ namespace rsj {
                }
             default:
                {
-                  constexpr auto msg {
-                      "The file, 'settings.xml', is marked as a version not supported by the "
-                      "current "
-                      "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."};
+                  constexpr auto msg {"The file, 'settings.xml', is marked as a version not "
+                                      "supported by the current version of MIDI2LR SettingsStruct, "
+                                      "and won't be loaded. File version: {}."};
                   rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                      fmt::format(msg, version));
+                      fmt::format(msg, version), std::source_location::current());
                }
                break;
             }
          }
          catch (const std::exception& e) {
-            rsj::ExceptionResponse(e);
+            rsj::ExceptionResponse(e, std::source_location::current());
             throw;
          }
       }
@@ -141,7 +140,8 @@ class ChannelModel {
    static constexpr size_t kMaxControls {0x4000};
 
  public:
-   ChannelModel();
+   ChannelModel() noexcept { CcDefaults(); }
+
    double ControllerToPlugin(rsj::MessageType controltype, int controlnumber, int value, bool wrap);
    int MeasureChange(rsj::MessageType controltype, int controlnumber, int value);
    int SetToCenter(rsj::MessageType controltype, int controlnumber);
@@ -190,7 +190,7 @@ class ChannelModel {
    }
 
    // ReSharper disable once CppMemberFunctionMayBeStatic
-   [[nodiscard]] bool IsNrpn(int controlnumber) const
+   [[nodiscard]] bool IsNrpn(int controlnumber) const noexcept
    {
       Expects(controlnumber <= kMaxNrpn && controlnumber >= 0);
       return controlnumber > kMaxMidi;
@@ -198,7 +198,7 @@ class ChannelModel {
 
    double OffsetResult(int diff, int controlnumber, bool wrap);
    void ActiveToSaved() const;
-   void CcDefaults();
+   void CcDefaults() noexcept;
    void SavedToActive();
    void SaveSettings(int start, int end, int maxVal) const;
    // ReSharper disable CppConstParameterInDeclaration
@@ -317,7 +317,7 @@ class ControlsModel {
          if (version == 1) { archive(all_controls_); }
       }
       catch (const std::exception& e) {
-         rsj::ExceptionResponse(e);
+         rsj::ExceptionResponse(e, std::source_location::current());
          throw;
       }
    }
@@ -347,13 +347,13 @@ template<class Archive> void ChannelModel::load(Archive& archive, const uint32_t
                 "The file, 'settings.xml', is marked as a version not supported by the current "
                 "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
             rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                fmt::format(msg, version));
+                fmt::format(msg, version), std::source_location::current());
          }
          break;
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -380,21 +380,21 @@ template<class Archive> void ChannelModel::save(Archive& archive, const uint32_t
                 "The file, 'settings.xml', is marked as a version not supported by the current "
                 "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
             rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                fmt::format(msg, version));
+                fmt::format(msg, version), std::source_location::current());
          }
          break;
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
 
 #pragma warning(push)
 #pragma warning(disable : 26426 26440 26444)
-CEREAL_CLASS_VERSION(ChannelModel, 3) //-V837
-CEREAL_CLASS_VERSION(ControlsModel, 1) //-V837
+CEREAL_CLASS_VERSION(ChannelModel, 3)        //-V837
+CEREAL_CLASS_VERSION(ControlsModel, 1)       //-V837
 CEREAL_CLASS_VERSION(rsj::SettingsStruct, 1) //-V837
 #pragma warning(pop)
 #endif

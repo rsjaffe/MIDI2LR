@@ -45,7 +45,7 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber, const
       return static_cast<double>(new_v) / static_cast<double>(high_limit);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -110,18 +110,20 @@ double ChannelModel::ControllerToPlugin(const rsj::MessageType controltype, cons
       case rsj::MessageType::kKeyPressure:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::invalid_argument(
-             fmt::format(FMT_STRING("ChannelModel::ControllerToPlugin unexpected control type. "
-                                    "Controltype {}, controlnumber {}, value {}, wrap {}."),
-                 controltype, controlnumber, value, wrap));
+         throw std::invalid_argument(fmt::format(FMT_STRING(
+                                                     "ChannelModel::ControllerToPlugin unexpected "
+                                                     "control type. " "Controltype {}, "
+                                                                      "controlnumber {}, value {}, "
+                                                                      "wrap {}."),
+             controltype, controlnumber, value, wrap));
       }
-      throw std::domain_error(fmt::format(FMT_STRING("Undefined control type in "
-                                                     "ChannelModel::PluginToController. Control "
-                                                     "type {}."),
-          controltype));
+      throw std::domain_error(
+          fmt::format(FMT_STRING("Undefined control type in " "ChannelModel::PluginToController. "
+                                                              "Control type {}."),
+              controltype));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -158,7 +160,7 @@ int ChannelModel::SetToCenter(const rsj::MessageType controltype, const int cont
       return retval;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -211,18 +213,18 @@ int ChannelModel::MeasureChange(const rsj::MessageType controltype, const int co
       case rsj::MessageType::kKeyPressure:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::invalid_argument(
-             fmt::format(FMT_STRING("ChannelModel::MeasureChange unexpected control type. "
-                                    "Controltype {}, controlnumber {}, value {}."),
-                 controltype, controlnumber, value));
+         throw std::invalid_argument(fmt::format(FMT_STRING("ChannelModel::MeasureChange "
+                                                            "unexpected control type. Controltype "
+                                                            "{}, controlnumber {}, value {}."),
+             controltype, controlnumber, value));
       }
       throw std::domain_error(fmt::format(FMT_STRING("Undefined control type in "
-                                                     "ChannelModel::PluginToController. "
-                                                     "Control type {}."),
+                                                     "ChannelModel::PluginToController. Control "
+                                                     "type {}."),
           controltype));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -252,15 +254,9 @@ int ChannelModel::PluginToController(const rsj::MessageType controltype, const i
             /* TODO(C26451): int subtraction: can it overflow? */
             const auto clow {cc_low_.at(controlnumber)};
             const auto chigh {cc_high_.at(controlnumber)};
-#ifdef _WIN32
-            const auto newv {
-                std::clamp(_cvt_dtoi_fast(value * static_cast<double>(chigh - clow) + 0.5) + clow,
-                    clow, chigh)};
-#else
             const auto newv {std::clamp(
-                gsl::narrow_cast<int>(value * static_cast<double>(chigh - clow) + 0.5) + clow, clow,
-                chigh)};
-#endif
+                gsl::narrow_cast<int>(std::lrint(value * static_cast<double>(chigh - clow))) + clow,
+                clow, chigh)};
 #ifdef __cpp_lib_atomic_ref
             std::atomic_ref(current_v_.at(controlnumber)).store(newv, std::memory_order_release);
 #else
@@ -280,13 +276,13 @@ int ChannelModel::PluginToController(const rsj::MessageType controltype, const i
                                                             "Control type {}."),
              controltype));
       }
-      throw std::domain_error(fmt::format(FMT_STRING("Undefined control type in "
-                                                     "ChannelModel::PluginToController. "
-                                                     "Control type {}."),
-          controltype));
+      throw std::domain_error(
+          fmt::format(FMT_STRING("Undefined control type in " "ChannelModel::PluginToController. "
+                                                              "Control type {}."),
+              controltype));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -303,7 +299,7 @@ void ChannelModel::SetCc(const int controlnumber, const int min, const int max,
       SetCcMax(controlnumber, max);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -320,7 +316,7 @@ void ChannelModel::SetCcAll(const int controlnumber, const int min, const int ma
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -345,7 +341,7 @@ void ChannelModel::SetCcMax(const int controlnumber, const int value)
 #endif
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -367,7 +363,7 @@ void ChannelModel::SetCcMin(const int controlnumber, const int value)
 #endif
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -402,33 +398,27 @@ void ChannelModel::ActiveToSaved() const
       SaveSettings(kMaxMidi + 1, kMaxNrpn, kMaxNrpn);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
 
-void ChannelModel::CcDefaults()
+void ChannelModel::CcDefaults() noexcept
 {
-   try {
-      cc_low_.fill(0);
-      cc_high_.fill(kMaxNrpn);
-      cc_method_.fill(rsj::CCmethod::kAbsolute);
+   cc_low_.fill(0);
+   cc_high_.fill(kMaxNrpn);
+   cc_method_.fill(rsj::CCmethod::kAbsolute);
 #ifdef __cpp_lib_atomic_ref
-      current_v_.fill(kMaxNrpnHalf);
-      std::fill_n(cc_high_.begin(), kMaxMidi + 1, kMaxMidi);
-      std::fill_n(current_v_.begin(), kMaxMidi + 1, kMaxMidiHalf);
+   current_v_.fill(kMaxNrpnHalf);
+   std::fill_n(cc_high_.begin(), kMaxMidi + 1, kMaxMidi);
+   std::fill_n(current_v_.begin(), kMaxMidi + 1, kMaxMidiHalf);
 #else
-      for (auto&& a : current_v_) { a.store(kMaxNrpnHalf, std::memory_order_relaxed); }
-      std::fill_n(cc_high_.begin(), kMaxMidi + 1, kMaxMidi);
-      for (size_t a {0}; a <= kMaxMidi; ++a) {
-         current_v_.at(a).store(kMaxMidiHalf, std::memory_order_relaxed);
-      }
+   for (auto&& a : current_v_) { a.store(kMaxNrpnHalf, std::memory_order_relaxed); }
+   std::fill_n(cc_high_.begin(), kMaxMidi + 1, kMaxMidi);
+   for (size_t a {0}; a <= kMaxMidi; ++a) {
+      current_v_.at(a).store(kMaxMidiHalf, std::memory_order_relaxed);
+   }
 #endif
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
-      throw;
-   }
 }
 
 void ChannelModel::SavedToActive()
@@ -440,23 +430,7 @@ void ChannelModel::SavedToActive()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
-
-#pragma warning(push)
-#pragma warning(disable : 26455)
-
-ChannelModel::ChannelModel()
-{
-   try {
-      CcDefaults();
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
-      throw;
-   }
-}
-
-#pragma warning(pop)

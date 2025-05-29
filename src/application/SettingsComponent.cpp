@@ -35,114 +35,127 @@ SettingsComponent::SettingsComponent(SettingsManager& settings_manager)
 {
 }
 
+namespace {
+   void StandardLabelSettings(juce::Label& label_to_set)
+   {
+      label_to_set.setFont(juce::Font {juce::FontOptions(16.F, juce::Font::bold)});
+      label_to_set.setEditable(false);
+      label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
+   }
+} // namespace
+
+void SettingsComponent::AddComponent(juce::Component& component, int x, int y, int width,
+    int height)
+{
+   component.setBounds(x, y, width, height);
+   ResizableLayout::addToLayout(&component, anchorMidLeft, anchorMidRight);
+   juce::Component::addAndMakeVisible(component);
+}
+
+void SettingsComponent::PickupClicked()
+{
+   const auto pickup_state {pickup_enabled_.getToggleState()};
+   settings_manager_.SetPickupEnabled(pickup_state);
+   rsj::Log(pickup_state ? "Pickup set to enabled." : "Pickup set to disabled.",
+       std::source_location::current());
+}
+
+void SettingsComponent::ProfileClicked()
+{
+   juce::FileChooser chooser {juce::translate("Select Folder"),
+       juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "", true};
+   if (chooser.browseForDirectory()) {
+      const auto profile_location {chooser.getResult().getFullPathName()};
+      settings_manager_.SetProfileDirectory(profile_location);
+      rsj::Log(fmt::format(FMT_STRING("Profile location set to {}."),
+                   profile_location.toStdString()),
+          std::source_location::current());
+      profile_location_label_.setText(profile_location,
+          juce::NotificationType::dontSendNotification);
+   }
+}
+
+void SettingsComponent::AutohideChanged()
+{
+   settings_manager_.SetAutoHideTime(gsl::narrow<int>(std::lrint(autohide_setting_.getValue())));
+   rsj::Log(fmt::format(FMT_STRING("Autohide time set to {} seconds."),
+                settings_manager_.GetAutoHideTime()),
+       std::source_location::current());
+}
+
 void SettingsComponent::Init()
 {
    try {
-      setSize(kSettingsWidth, kSettingsHeight);
+      juce::Component::setSize(kSettingsWidth, kSettingsHeight);
+
+      /* pickup_group_ */
       pickup_group_.setText(juce::translate("Pick up"));
-      pickup_group_.setBounds(0, 0, kSettingsWidth, 100);
-      addToLayout(&pickup_group_, anchorMidLeft, anchorMidRight);
-      addAndMakeVisible(pickup_group_);
-      pickup_label_.setFont(juce::Font {16.F, juce::Font::bold});
+      AddComponent(pickup_group_, 0, 0, kSettingsWidth, 100);
+      /* pickup_label_ */
       pickup_label_.setText(juce::translate("Disabling the pickup mode may be better for "
                                             "touchscreen interfaces and may solve issues with "
                                             "Lightroom not picking up fast fader/knob movements"),
           juce::NotificationType::dontSendNotification);
-      pickup_label_.setBounds(kSettingsLeft, 15, kSettingsWidth - 2 * kSettingsLeft, 50);
-      addToLayout(&pickup_label_, anchorMidLeft, anchorMidRight);
-      pickup_label_.setEditable(false);
-      pickup_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
-      addAndMakeVisible(pickup_label_);
-
+      StandardLabelSettings(pickup_label_);
+      AddComponent(pickup_label_, kSettingsLeft, 15, kSettingsWidth - 2 * kSettingsLeft, 50);
+      /* pickup_enabled_ */
       pickup_enabled_.setToggleState(settings_manager_.GetPickupEnabled(),
           juce::NotificationType::dontSendNotification);
-      pickup_enabled_.setBounds(kSettingsLeft, 60, kSettingsWidth - 2 * kSettingsLeft,
-          32); //-V112
-      addToLayout(&pickup_enabled_, anchorMidLeft, anchorMidRight);
-      addAndMakeVisible(pickup_enabled_);
-      pickup_enabled_.onClick = [this] {
-         const auto pickup_state {pickup_enabled_.getToggleState()};
-         settings_manager_.SetPickupEnabled(pickup_state);
-         rsj::Log(pickup_state ? "Pickup set to enabled." : "Pickup set to disabled.");
-      };
+      AddComponent(pickup_enabled_, kSettingsLeft, 60, kSettingsWidth - 2 * kSettingsLeft, 32);
+#if __cpp_lib_bind_front >= 202'306L
+      pickup_enabled_.onClick = std::bind_front<&SettingsComponent::PickupClicked>(this);
+#else
+      pickup_enabled_.onClick = std::bind_front(&SettingsComponent::PickupClicked, this);
+#endif
 
-      /* profile */
+      /* profile_group_ */
       profile_group_.setText(juce::translate("Profile"));
-      profile_group_.setBounds(0, 100, kSettingsWidth, 100);
-      addToLayout(&profile_group_, anchorMidLeft, anchorMidRight);
-      addAndMakeVisible(profile_group_);
-
-      profile_location_button_.setBounds(kSettingsLeft, 120, kSettingsWidth - 2 * kSettingsLeft,
+      AddComponent(profile_group_, 0, 100, kSettingsWidth, 100);
+      /* profile_location_button_*/
+      AddComponent(profile_location_button_, kSettingsLeft, 120, kSettingsWidth - 2 * kSettingsLeft,
           25);
-      addToLayout(&profile_location_button_, anchorMidLeft, anchorMidRight);
-      addAndMakeVisible(profile_location_button_);
-      profile_location_button_.onClick = [this] {
-         juce::FileChooser chooser {juce::translate("Select Folder"),
-             juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "", true};
-         if (chooser.browseForDirectory()) {
-            const auto profile_location {chooser.getResult().getFullPathName()};
-            settings_manager_.SetProfileDirectory(profile_location);
-            rsj::Log(fmt::format(FMT_STRING("Profile location set to {}."),
-                profile_location.toStdString()));
-            profile_location_label_.setText(profile_location,
-                juce::NotificationType::dontSendNotification);
-         }
-      };
-
-      profile_location_label_.setEditable(false);
-      profile_location_label_.setBounds(kSettingsLeft, 145, kSettingsWidth - 2 * kSettingsLeft, 30);
-      addToLayout(&profile_location_label_, anchorMidLeft, anchorMidRight);
-      profile_location_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
-      addAndMakeVisible(profile_location_label_);
+#if __cpp_lib_bind_front >= 202'306L
+      profile_location_button_.onClick = std::bind_front<&SettingsComponent::ProfileClicked>(this);
+#else
+      profile_location_button_.onClick = std::bind_front(&SettingsComponent::ProfileClicked, this);
+#endif
+      /* profile_location_label_ */
       profile_location_label_.setText(settings_manager_.GetProfileDirectory(),
           juce::NotificationType::dontSendNotification);
+      AddComponent(profile_location_label_, kSettingsLeft, 145, kSettingsWidth - 2 * kSettingsLeft,
+          30);
 
-      /* autohide */
+      /* autohide_group_ */
       autohide_group_.setText(juce::translate("Auto hide"));
-      autohide_group_.setBounds(0, 200, kSettingsWidth, 100);
-      addToLayout(&autohide_group_, anchorMidLeft, anchorMidRight);
-      addAndMakeVisible(autohide_group_);
-
-      autohide_explain_label_.setFont(juce::Font {16.F, juce::Font::bold});
+      AddComponent(autohide_group_, 0, 200, kSettingsWidth, 100);
+      /* autohide_explain_label_ */
       autohide_explain_label_.setText(juce::translate("Autohide the plugin window in x seconds, "
                                                       "select 0 for disabling autohide"),
           juce::NotificationType::dontSendNotification);
-      autohide_explain_label_.setBounds(kSettingsLeft, 215, kSettingsWidth - 2 * kSettingsLeft, 50);
-      addToLayout(&autohide_explain_label_, anchorMidLeft, anchorMidRight);
-      autohide_explain_label_.setEditable(false);
-      autohide_explain_label_.setFont(juce::Font {16.F, juce::Font::bold});
-      autohide_explain_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
-      addAndMakeVisible(autohide_explain_label_);
-
-      autohide_setting_.setBounds(kSettingsLeft, 245, kSettingsWidth - 2 * kSettingsLeft, 50);
+      StandardLabelSettings(autohide_explain_label_);
+      AddComponent(autohide_explain_label_, kSettingsLeft, 215, kSettingsWidth - 2 * kSettingsLeft,
+          50);
+      /* autohide_setting_ */
       autohide_setting_.setRange(0., 10., 1.);
       autohide_setting_.setValue(settings_manager_.GetAutoHideTime(),
           juce::NotificationType::dontSendNotification);
+      AddComponent(autohide_setting_, kSettingsLeft, 245, kSettingsWidth - 2 * kSettingsLeft, 50);
+#if __cpp_lib_bind_front >= 202'306L
+      autohide_setting_.onValueChange = std::bind_front<&SettingsComponent::AutohideChanged>(this);
+#else
+      autohide_setting_.onValueChange = std::bind_front(&SettingsComponent::AutohideChanged, this);
+#endif
 
-      addToLayout(&autohide_setting_, anchorMidLeft, anchorMidRight);
-      addAndMakeVisible(autohide_setting_);
-      autohide_setting_.onValueChange = [this] {
-         settings_manager_.SetAutoHideTime(
-             gsl::narrow<int>(std::lrint(autohide_setting_.getValue())));
-         rsj::Log(fmt::format(FMT_STRING("Autohide time set to {} seconds."),
-             settings_manager_.GetAutoHideTime()));
-      };
       /* turn it on */
       activateLayout();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
 
 void SettingsComponent::paint(juce::Graphics& g)
-{ //-V2009 overridden method
-   try {
-      g.fillAll(juce::Colours::white); /* clear the background */
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
-      throw;
-   }
+{                                   //-V2009 overridden method
+   g.fillAll(juce::Colours::white); /* clear the background */
 }

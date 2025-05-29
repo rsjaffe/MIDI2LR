@@ -1,29 +1,36 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library.
-   Copyright (c) 2022 - Raw Material Software Limited
+   This file is part of the JUCE framework.
+   Copyright (c) Raw Material Software Limited
 
-   JUCE is an open source library subject to commercial or open-source
+   JUCE is an open source framework subject to commercial or open source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
-   Agreement and JUCE Privacy Policy.
+   By downloading, installing, or using the JUCE framework, or combining the
+   JUCE framework with any other source code, object code, content or any other
+   copyrightable work, you agree to the terms of the JUCE End User Licence
+   Agreement, and all incorporated terms including the JUCE Privacy Policy and
+   the JUCE Website Terms of Service, as applicable, which will bind you. If you
+   do not agree to the terms of these agreements, we will not license the JUCE
+   framework to you, and you must discontinue the installation or download
+   process and cease use of the JUCE framework.
 
-   End User License Agreement: www.juce.com/juce-7-licence
-   Privacy Policy: www.juce.com/juce-privacy-policy
+   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
+   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
+   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
 
-   Or: You may also use this code under the terms of the GPL v3 (see
-   www.gnu.org/licenses).
+   Or:
 
-   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
-   DISCLAIMED.
+   You may also use this code under the terms of the AGPLv3:
+   https://www.gnu.org/licenses/agpl-3.0.en.html
+
+   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
+   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
-
-#include "juce_CGMetalLayerRenderer_mac.h"
 
 @interface NSEvent (DeviceDelta)
 - (float)deviceDeltaX;
@@ -122,7 +129,7 @@ static constexpr int translateVirtualToAsciiKeyCode (int keyCode) noexcept
 constexpr int extendedKeyModifier = 0x30000;
 
 //==============================================================================
-class JuceCALayerDelegate : public ObjCClass<NSObject<CALayerDelegate>>
+class JuceCALayerDelegate final : public ObjCClass<NSObject<CALayerDelegate>>
 {
 public:
     struct Callback
@@ -168,8 +175,8 @@ private:
 };
 
 //==============================================================================
-class NSViewComponentPeer  : public ComponentPeer,
-                             private JuceCALayerDelegate::Callback
+class NSViewComponentPeer final : public ComponentPeer,
+                                  private JuceCALayerDelegate::Callback
 {
 public:
     NSViewComponentPeer (Component& comp, const int windowStyleFlags, NSView* viewToAttachTo)
@@ -213,12 +220,9 @@ public:
 
         if ((windowStyleFlags & ComponentPeer::windowRequiresSynchronousCoreGraphicsRendering) == 0)
         {
-            if (@available (macOS 10.8, *))
-            {
-                [view setWantsLayer: YES];
-                [view setLayerContentsRedrawPolicy: NSViewLayerContentsRedrawDuringViewResize];
-                [view layer].drawsAsynchronously = YES;
-            }
+            [view setWantsLayer: YES];
+            [view setLayerContentsRedrawPolicy: NSViewLayerContentsRedrawDuringViewResize];
+            [view layer].drawsAsynchronously = YES;
         }
 
        #if JUCE_COREGRAPHICS_RENDER_WITH_MULTIPLE_PAINT_CALLS
@@ -246,8 +250,7 @@ public:
             [window setColorSpace: [NSColorSpace sRGBColorSpace]];
             setOwner (window, this);
 
-            if (@available (macOS 10.10, *))
-                [window setAccessibilityElement: YES];
+            [window setAccessibilityElement: YES];
 
             [window orderOut: nil];
             [window setDelegate: (id<NSWindowDelegate>) window];
@@ -257,8 +260,7 @@ public:
             if (! [window isOpaque])
                 [window setBackgroundColor: [NSColor clearColor]];
 
-           if (@available (macOS 10.9, *))
-                [view setAppearance: [NSAppearance appearanceNamed: NSAppearanceNameAqua]];
+            [view setAppearance: [NSAppearance appearanceNamed: NSAppearanceNameAqua]];
 
             [window setHasShadow: ((windowStyleFlags & windowHasDropShadow) != 0)];
 
@@ -396,13 +398,8 @@ public:
         }
         else
         {
-            // Repaint behaviour of setFrame seemed to change in 10.11, and the drawing became synchronous,
-            // causing performance issues. But sending an async update causes flickering in older versions,
-            // hence this version check to use the old behaviour on pre 10.11 machines
-            static bool isPre10_11 = SystemStats::getOperatingSystemType() <= SystemStats::MacOSX_10_10;
-
             [window setFrame: [window frameRectForContentRect: flippedScreenRect (r)]
-                     display: isPre10_11];
+                     display: false];
         }
 
         if (! CGSizeEqualToSize (oldViewSize, r.size))
@@ -951,16 +948,7 @@ public:
         if (r.size.width < 1.0f || r.size.height < 1.0f)
             return;
 
-        auto cg = []
-        {
-            if (@available (macOS 10.10, *))
-                return (CGContextRef) [[NSGraphicsContext currentContext] CGContext];
-
-            JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wdeprecated-declarations")
-            return (CGContextRef) [[NSGraphicsContext currentContext] graphicsPort];
-            JUCE_END_IGNORE_WARNINGS_GCC_LIKE
-        }();
-
+        auto* cg = (CGContextRef) [[NSGraphicsContext currentContext] CGContext];
         drawRectWithContext (cg, r);
     }
 
@@ -1039,8 +1027,8 @@ public:
             if (! clip.isEmpty())
             {
                 Image temp (component.isOpaque() ? Image::RGB : Image::ARGB,
-                            roundToInt (clipW * displayScale),
-                            roundToInt (clipH * displayScale),
+                            roundToInt ((float) clipW * displayScale),
+                            roundToInt ((float) clipH * displayScale),
                             ! component.isOpaque());
 
                 {
@@ -1714,7 +1702,7 @@ public:
     NSWindow* window = nil;
     NSView* view = nil;
     WeakReference<Component> safeComponent;
-    bool isSharedWindow = false;
+    const bool isSharedWindow = false;
    #if USE_COREGRAPHICS_RENDERING
     bool usingCoreGraphics = true;
    #else
@@ -1759,7 +1747,7 @@ private:
     // avoid unnecessarily duplicating display-link threads.
     SharedResourcePointer<PerScreenDisplayLinks> sharedDisplayLinks;
 
-    class AsyncRepainter : private AsyncUpdater
+    class AsyncRepainter final : private AsyncUpdater
     {
     public:
         explicit AsyncRepainter (NSViewComponentPeer& o) : owner (o) {}
@@ -1896,7 +1884,7 @@ private:
             case NSEventTypeRightMouseUp:
             case NSEventTypeOtherMouseUp:
             case NSEventTypeOtherMouseDragged:
-                if (Desktop::getInstance().getDraggingMouseSource(0) != nullptr)
+                if (Desktop::getInstance().getDraggingMouseSource (0) != nullptr)
                     return false;
                 break;
 
@@ -1921,14 +1909,10 @@ private:
             case NSEventTypeBeginGesture:
             case NSEventTypeEndGesture:
             case NSEventTypeQuickLook:
-           #if JUCE_64BIT
             case NSEventTypeSmartMagnify:
             case NSEventTypePressure:
             case NSEventTypeDirectTouch:
-           #endif
-           #if defined (MAC_OS_X_VERSION_10_15) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_15
             case NSEventTypeChangeMode:
-           #endif
             default:
                 return false;
         }
@@ -1969,13 +1953,9 @@ private:
 
     void setFullScreenSizeConstraints (const ComponentBoundsConstrainer& c)
     {
-        if (@available (macOS 10.11, *))
-        {
-            const auto minSize = NSMakeSize (static_cast<float> (c.getMinimumWidth()),
-                                             0.0f);
-            [window setMinFullScreenContentSize: minSize];
-            [window setMaxFullScreenContentSize: NSMakeSize (100000, 100000)];
-        }
+        const auto minSize = NSMakeSize (static_cast<float> (c.getMinimumWidth()), 0.0f);
+        [window setMinFullScreenContentSize: minSize];
+        [window setMaxFullScreenContentSize: NSMakeSize (100000, 100000)];
     }
 
     void displayLayer ([[maybe_unused]] CALayer* layer) override
@@ -2000,16 +1980,95 @@ private:
        #endif
     }
 
+    /*  Used to store and restore the values of the NSWindowStyleMaskClosable and
+        NSWindowStyleMaskMiniaturizable flags.
+    */
+    struct StoredStyleFlags
+    {
+        StoredStyleFlags (NSWindowStyleMask m)
+            : stored { m }
+        {}
+
+        static auto getStoredFlags()
+        {
+            return std::array<NSWindowStyleMask, 2> { NSWindowStyleMaskClosable,
+                                                      NSWindowStyleMaskMiniaturizable };
+        }
+
+        auto withFlagsRestored (NSWindowStyleMask m) const
+        {
+            for (const auto& f : getStoredFlags())
+                m = withFlagFromStored (m, f);
+
+            return m;
+        }
+
+    private:
+        NSWindowStyleMask withFlagFromStored (NSWindowStyleMask m, NSWindowStyleMask flag) const
+        {
+            return (m & ~flag) | (stored & flag);
+        }
+
+        NSWindowStyleMask stored;
+    };
+
+    void modalComponentManagerChanged()
+    {
+        // We are only changing the style flags if we absolutely have to. Plugin windows generally
+        // don't like to be modified. Windows created under plugin hosts running in an external
+        // subprocess are particularly touchy, and may make the window invisible even if we call
+        // [window setStyleMask [window setStyleMask]].
+        if (isSharedWindow || ! hasNativeTitleBar())
+            return;
+
+        const auto newStyleMask = [&]() -> std::optional<NSWindowStyleMask>
+        {
+            const auto currentStyleMask = [window styleMask];
+
+            if (ModalComponentManager::getInstance()->getNumModalComponents() > 0)
+            {
+                if (! storedFlags)
+                    storedFlags.emplace (currentStyleMask);
+
+                auto updatedMask = (storedFlags->withFlagsRestored (currentStyleMask)) & ~NSWindowStyleMaskMiniaturizable;
+
+                if (component.isCurrentlyBlockedByAnotherModalComponent())
+                    updatedMask &= ~NSWindowStyleMaskClosable;
+
+                return updatedMask;
+            }
+
+            if (storedFlags)
+            {
+                const auto flagsToApply = storedFlags->withFlagsRestored (currentStyleMask);
+                storedFlags.reset();
+                return flagsToApply;
+            }
+
+            return {};
+        }();
+
+        if (newStyleMask && *newStyleMask != [window styleMask])
+            [window setStyleMask: *newStyleMask];
+    }
+
     //==============================================================================
     std::vector<ScopedNotificationCenterObserver> scopedObservers;
     std::vector<ScopedNotificationCenterObserver> windowObservers;
+
+    std::optional<StoredStyleFlags> storedFlags;
+    ErasedScopeGuard modalChangeListenerScope =
+        detail::ComponentHelpers::ModalComponentManagerChangeNotifier::getInstance().addListener ([this]
+                                                                                                  {
+                                                                                                      modalComponentManagerChanged();
+                                                                                                  });
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NSViewComponentPeer)
 };
 
 //==============================================================================
 template <typename Base>
-struct NSViewComponentPeerWrapper  : public Base
+struct NSViewComponentPeerWrapper : public Base
 {
     explicit NSViewComponentPeerWrapper (const char* baseName)
         : Base (baseName)
@@ -2033,7 +2092,7 @@ struct NSViewComponentPeerWrapper  : public Base
 };
 
 //==============================================================================
-struct JuceNSViewClass   : public NSViewComponentPeerWrapper<ObjCClass<NSView>>
+struct JuceNSViewClass final : public NSViewComponentPeerWrapper<ObjCClass<NSView>>
 {
     JuceNSViewClass()  : NSViewComponentPeerWrapper ("JUCEView_")
     {
@@ -2103,6 +2162,10 @@ struct JuceNSViewClass   : public NSViewComponentPeerWrapper<ObjCClass<NSView>>
 
         addMethod (@selector (draggingEnded:),                  draggingExited);
         addMethod (@selector (draggingExited:),                 draggingExited);
+
+        JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wundeclared-selector")
+        addMethod (@selector (clipsToBounds), [] (id, SEL) { return YES; });
+        JUCE_END_IGNORE_WARNINGS_GCC_LIKE
 
         addMethod (@selector (acceptsFirstMouse:), [] (id, SEL, NSEvent*) { return YES; });
 
@@ -2600,7 +2663,7 @@ private:
 };
 
 //==============================================================================
-struct JuceNSWindowClass   : public NSViewComponentPeerWrapper<ObjCClass<NSWindow>>
+struct JuceNSWindowClass final : public NSViewComponentPeerWrapper<ObjCClass<NSWindow>>
 {
     JuceNSWindowClass()  : NSViewComponentPeerWrapper ("JUCEWindow_")
     {
@@ -2696,9 +2759,6 @@ struct JuceNSWindowClass   : public NSViewComponentPeerWrapper<ObjCClass<NSWindo
 
         addMethod (@selector (windowWillEnterFullScreen:), [] (id self, SEL, NSNotification*)
         {
-            if (SystemStats::getOperatingSystemType() <= SystemStats::MacOSX_10_9)
-                return;
-
             if (auto* owner = getOwner (self))
                 if (owner->hasNativeTitleBar() && (owner->getStyleFlags() & ComponentPeer::windowIsResizable) == 0)
                     [owner->window setStyleMask: NSWindowStyleMaskBorderless];
@@ -2780,10 +2840,7 @@ struct JuceNSWindowClass   : public NSViewComponentPeerWrapper<ObjCClass<NSWindo
 
         addMethod (@selector (accessibilitySubrole), [] (id self, SEL) -> NSAccessibilitySubrole
         {
-            if (@available (macOS 10.10, *))
-                return [getAccessibleChild (self) accessibilitySubrole];
-
-            return nil;
+            return [getAccessibleChild (self) accessibilitySubrole];
         });
 
         addMethod (@selector (window:shouldDragDocumentWithEvent:from:withPasteboard:), [] (id self, SEL, id /*window*/, NSEvent*, NSPoint, NSPasteboard*)

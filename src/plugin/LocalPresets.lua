@@ -74,9 +74,9 @@ local localPresetMap = {
   temperature = "local_Temperature",
   texture = "local_Texture",
   tint = "local_Tint",
-  toningHue = "", --"local_ToningHue" doesn't exsist
+  toningHue = "local_ToningHue", --added in 13.3
   toningLuminance = "", -- "local_ToningLuminance" doesn't exist
-  toningSaturation = "", --"local_ToningSaturation" doesn't exsist
+  toningSaturation = "local_ToningSaturation", --added in 13.3
   whites2012 = "local_Whites"
 }
 

@@ -38,7 +38,7 @@ SettingsManager::SettingsManager(ProfileManager& profile_manager, LrIpcOut& lr_i
       profile_manager_.SetProfileDirectory(GetProfileDirectory());
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -65,18 +65,22 @@ void SettingsManager::ConnectionCallback(const bool connected, const bool blocke
       if (connected && !blocked) {
          if (GetPickupEnabled()) {
             lr_ipc_out_.SendCommand("Pickup 1\n");
-            rsj::Log("Pickup is enabled.");
+            rsj::Log("Pickup is enabled.", std::source_location::current());
          }
          else {
             lr_ipc_out_.SendCommand("Pickup 0\n");
-            rsj::Log("Pickup is disabled.");
+            rsj::Log("Pickup is disabled.", std::source_location::current());
          }
-         static std::once_flag of; /* add debug info once to logs */
+         constinit static std::once_flag of; /* add debug info once to logs */
+#if __cpp_lib_bind_front >= 202'306L
+         std::call_once(of, std::bind_front<&SettingsManager::WriteDebugInfo>(this));
+#else
          std::call_once(of, std::bind_front(&SettingsManager::WriteDebugInfo, this));
+#endif
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

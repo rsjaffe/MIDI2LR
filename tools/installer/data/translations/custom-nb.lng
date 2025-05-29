@@ -1,7 +1,7 @@
-﻿midi.instructions.exp=Åpner en nettleser som viser bruksanvisningen. Vennligst sett bokmerke for håndboken siden det er mange alternativer og innstillinger du kan bruke i ${project.fullName}.
-midi.instructions=Elektronisk hjelp
+﻿midi.donate=Doner for å støtte prosjektutvikling
 midi.donate.exp=Åpner en nettleser med et PayPal-skjema der du kan gi en donasjon for å støtte videre utvikling av ${project.fullName}.
-midi.donate=Doner for å støtte prosjektutvikling
+midi.install.mac=Krever MacOS Ventura 13.1 eller senere.
 midi.install.win=${project.fullName} kan bare installeres på en 64-biters versjon av Microsoft Windows 10 eller nyere.
-midi.install.mac=Krever MacOS Monterey 12.0 eller senere.
+midi.instructions=Elektronisk hjelp
+midi.instructions.exp=Åpner en nettleser som viser bruksanvisningen. Vennligst sett bokmerke for håndboken siden det er mange alternativer og innstillinger du kan bruke i ${project.fullName}.
 midi.ports=${project.fullName} krever portene 58763 og 58764 for å kommunisere med Lightroom. Minst én av disse portene er for øyeblikket utilgjengelig. Hvis du kjører ${project.fullName} akkurat nå, se bort fra denne meldingen. Ellers må du identifisere hva som blokkerer disse portene for at ${project.fullName} skal fungere ordentlig.

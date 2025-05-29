@@ -43,7 +43,7 @@ class CommandMenu final : public TextButtonAligned {
 
  private:
    void AddSubMenuItems(juce::PopupMenu& sub_menu, const juce::String& command, size_t index,
-      bool& ticked) const;
+       bool& ticked) const;
    void AddSubMenusToMainMenu(juce::PopupMenu& main_menu, size_t index) const;
    void clicked(const juce::ModifierKeys& modifiers) override;
    void ProcessMenuItems();

@@ -51,7 +51,7 @@ void Devices::LoadDeviceXml()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       device_xml_.reset();
    }
 }
@@ -106,10 +106,10 @@ Devices::~Devices()
       device_xml_->writeTo(source);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
    }
    catch (...) {
-      rsj::LogAndAlertError("Non-standard exception in ~Devices.");
+      rsj::LogAndAlertError("Non-standard exception in ~Devices.", std::source_location::current());
    }
 }
 
@@ -125,13 +125,14 @@ bool Devices::Add(const juce::MidiDeviceInfo& info, const juce::String& io)
             new_element->setAttribute("active", "1");
          }
          else {
-            rsj::Log("Failed to create new element in Devices::Add");
+            rsj::Log("Failed to create new element in Devices::Add",
+                std::source_location::current());
          }
       }
       return success;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -144,7 +145,7 @@ bool Devices::Enabled(const juce::MidiDeviceInfo& info, juce::String io) const
       return it->second;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -156,7 +157,7 @@ bool Devices::EnabledOrNew(const juce::MidiDeviceInfo& info, const juce::String&
       return Enabled(info, io);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

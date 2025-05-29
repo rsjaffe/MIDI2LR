@@ -60,7 +60,7 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -73,15 +73,16 @@ CommandSet::Impl::Impl()
 #pragma warning(suppress : 26414) /* too large to construct on stack */
          const auto iarchive {std::make_unique<cereal::XMLInputArchive>(infile)};
          (*iarchive)(*this);
-         rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p.string()));
+         rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p.string()),
+             std::source_location::current());
       }
       else {
          rsj::LogAndAlertError(juce::translate("Unable to load MenuTrans.xml."),
-             "Unable to load MenuTrans.xml.");
+             "Unable to load MenuTrans.xml.", std::source_location::current());
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -93,25 +94,7 @@ const CommandSet::Impl& CommandSet::MakeImpl() const
       return kImpl;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
-      throw;
-   }
-}
-
-size_t CommandSet::CommandTextIndex(const std::string& command) const
-{
-   try {
-      using namespace std::string_literals;
-      if (const auto found {cmd_idx_.find(command)}; found != cmd_idx_.end()) {
-         return found->second;
-      }
-      if (command != "Unmapped"s) { /*Old version of Unassigned*/
-         rsj::Log(fmt::format(FMT_STRING("Command not found in CommandTextIndex: {}."), command));
-      }
-      return 0;
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

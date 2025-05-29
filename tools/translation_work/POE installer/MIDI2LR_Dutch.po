@@ -1,0 +1,43 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+
+#. Using MS: Donate to support project development
+#: Installer
+msgid "midi.donate"
+msgstr "Doneren om projectontwikkeling te steunen"
+
+#: Installer
+#, fuzzy
+msgid "midi.donate.exp"
+msgstr "Opent een webbrowser met een PayPal-formulier waarin u een donatie kunt doen ter ondersteuning van verdere ${project.fullName}-ontwikkeling."
+
+#. Using MS
+#: Installer
+msgid "midi.install.mac"
+msgstr "MacOS Ventura 13.1 of later is vereist."
+
+#. Using MS
+#: Installer
+msgid "midi.install.win"
+msgstr "${project.fullName} kan alleen worden geïnstalleerd op een 64-bits versie van Microsoft Windows 10 of hoger."
+
+#. Using MS.
+#: Installer
+msgid "midi.instructions"
+msgstr "Online-Help"
+
+#: Installer
+#, fuzzy
+msgid "midi.instructions.exp"
+msgstr "Opent een webbrowser met de handleiding. Maak een bladwijzer van de handleiding, want er zijn veel opties en instellingen die u in ${project.fullName} kunt gebruiken."
+
+#, fuzzy
+msgid "midi.ports"
+msgstr "${project.fullName} vereist poorten 58763 en 58764 om te communiceren met Lightroom. Ten minste één van deze poorten is momenteel niet beschikbaar. Als u op dit moment ${project.fullName} gebruikt, negeert u dit bericht. Anders zul je moeten identificeren wat die poorten blokkeert om ervoor te zorgen dat ${project.fullName} correct werkt."

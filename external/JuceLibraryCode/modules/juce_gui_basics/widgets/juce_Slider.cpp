@@ -1,24 +1,33 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library.
-   Copyright (c) 2022 - Raw Material Software Limited
+   This file is part of the JUCE framework.
+   Copyright (c) Raw Material Software Limited
 
-   JUCE is an open source library subject to commercial or open-source
+   JUCE is an open source framework subject to commercial or open source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
-   Agreement and JUCE Privacy Policy.
+   By downloading, installing, or using the JUCE framework, or combining the
+   JUCE framework with any other source code, object code, content or any other
+   copyrightable work, you agree to the terms of the JUCE End User Licence
+   Agreement, and all incorporated terms including the JUCE Privacy Policy and
+   the JUCE Website Terms of Service, as applicable, which will bind you. If you
+   do not agree to the terms of these agreements, we will not license the JUCE
+   framework to you, and you must discontinue the installation or download
+   process and cease use of the JUCE framework.
 
-   End User License Agreement: www.juce.com/juce-7-licence
-   Privacy Policy: www.juce.com/juce-privacy-policy
+   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
+   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
+   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
 
-   Or: You may also use this code under the terms of the GPL v3 (see
-   www.gnu.org/licenses).
+   Or:
 
-   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
-   DISCLAIMED.
+   You may also use this code under the terms of the AGPLv3:
+   https://www.gnu.org/licenses/agpl-3.0.en.html
+
+   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
+   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -216,7 +225,10 @@ public:
             // Need to do this comparison because the Value will use equalsWithSameType to compare
             // the new and old values, so will generate unwanted change events if the type changes.
             // Cast to double before comparing, to prevent comparing as another type (e.g. String).
-            if (! approximatelyEqual (static_cast<double> (currentValue.getValue()), newValue))
+            // We also want to avoid sending a notification if both new and old values are NaN.
+            const auto asDouble = static_cast<double> (currentValue.getValue());
+
+            if (! (approximatelyEqual (asDouble, newValue) || (std::isnan (asDouble) && std::isnan (newValue))))
                 currentValue = newValue;
 
             updateText();
@@ -359,8 +371,7 @@ public:
         if (checker.shouldBailOut())
             return;
 
-        if (owner.onValueChange != nullptr)
-            owner.onValueChange();
+        NullCheckedInvocation::invoke (owner.onValueChange);
 
         if (checker.shouldBailOut())
             return;
@@ -379,8 +390,7 @@ public:
         if (checker.shouldBailOut())
             return;
 
-        if (owner.onDragStart != nullptr)
-            owner.onDragStart();
+        NullCheckedInvocation::invoke (owner.onDragStart);
     }
 
     void sendDragEnd()
@@ -394,8 +404,7 @@ public:
         if (checker.shouldBailOut())
             return;
 
-        if (owner.onDragEnd != nullptr)
-            owner.onDragEnd();
+        NullCheckedInvocation::invoke (owner.onDragEnd);
     }
 
     void incrementOrDecrement (double delta)
@@ -1350,8 +1359,8 @@ public:
     std::unique_ptr<Button> incButton, decButton;
 
     //==============================================================================
-    struct PopupDisplayComponent  : public BubbleComponent,
-                                    public Timer
+    struct PopupDisplayComponent final : public BubbleComponent,
+                                         public Timer
     {
         PopupDisplayComponent (Slider& s, bool isOnDesktop)
             : owner (s),
@@ -1757,7 +1766,7 @@ void Slider::mouseWheelMove (const MouseEvent& e, const MouseWheelDetails& wheel
 }
 
 //==============================================================================
-class SliderAccessibilityHandler  : public AccessibilityHandler
+class SliderAccessibilityHandler final : public AccessibilityHandler
 {
 public:
     explicit SliderAccessibilityHandler (Slider& sliderToWrap)
@@ -1772,7 +1781,7 @@ public:
     String getHelp() const override   { return slider.getTooltip(); }
 
 private:
-    class ValueInterface  : public AccessibilityValueInterface
+    class ValueInterface final : public AccessibilityValueInterface
     {
     public:
         explicit ValueInterface (Slider& sliderToWrap)

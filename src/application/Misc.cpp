@@ -61,7 +61,7 @@ namespace {
    constexpr ::std::array ascii_map {"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06",
        "\\a", "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12",
        "\\x13", "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C",
-       "\\x1D", "\\x1E", "\\x1F", " ", "!", "\\\""};
+       "\\x1D", "\\x1E", "\\x1F"};
 } // namespace
 
 ::std::string rsj::ReplaceInvisibleChars(::std::string_view in)
@@ -79,9 +79,6 @@ namespace {
          else if (std::cmp_equal(rsj::CharToInt(a), 127)) {
             result.append("\\x7F");
          }
-         else if (a == '\\') {
-            result.append("\\\\");
-         }
          else {
             result.push_back(a);
          }
@@ -89,7 +86,7 @@ namespace {
       return result;
    }
    catch (const ::std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -98,31 +95,16 @@ namespace {
 ::std::string rsj::ToLower(::std::string_view in)
 {
    try {
-      ::std::string result;
-      result.resize(in.size());
+      ::std::string result(in.size(), '\0');
       ::std::ranges::transform(in, result.begin(), [](const unsigned char c) noexcept {
          return gsl::narrow_cast<unsigned char>(::std::tolower(c));
       });
       return result;
    }
    catch (const ::std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
-}
-
-void rsj::Trim(::std::string_view& value) noexcept
-{
-   const auto first_not {value.find_first_not_of(" \t\n\f\r\v")};
-   if (first_not != ::std::string_view::npos) { value.remove_prefix(first_not); }
-   const auto last_not {value.find_last_not_of(" \t\n\f\r\v")};
-   if (last_not != ::std::string_view::npos) { value.remove_suffix(value.size() - last_not - 1); }
-}
-
-void rsj::TrimL(::std::string_view& value) noexcept
-{
-   const auto first_not {value.find_first_not_of(" \t\n\f\r\v")};
-   if (first_not != ::std::string_view::npos) { value.remove_prefix(first_not); }
 }
 
 /*****************************************************************************/

@@ -22,13 +22,14 @@
 #include "Misc.h"
 
 namespace {
-   const std::vector<std::pair<std::string, std::string>> replace_me {
+   const std::map<std::string, std::string> replace_me {
        {            "CropAngle",      "straightenAngle"},
        {       "ResetCropAngle", "ResetstraightenAngle"},
        {     "local_Whites2012",         "local_Whites"},
        {     "local_Blacks2012",         "local_Blacks"},
        {"Resetlocal_Whites2012",    "Resetlocal_Whites"},
-       {"Resetlocal_Blacks2012",    "Resetlocal_Blacks"}
+       {"Resetlocal_Blacks2012",    "Resetlocal_Blacks"},
+       {             "Unmapped",           "Unassigned"}
    };
 } // namespace
 
@@ -37,19 +38,12 @@ void Profile::FromXml(const juce::XmlElement* root)
    /* external use only, but will either use external versions of Profile calls to lock individual
     * accesses or manually lock any internal calls instead of using mutex for entire method */
    try {
-      using namespace std::string_literals;
       if (!root || root->getTagName().compare("settings") != 0) { return; }
       RemoveAllRows();
-      for (const auto* setting : root->getChildIterator()) {
+      for (const gsl::not_null<juce::XmlElement*> setting : root->getChildIterator()) {
          auto command {setting->getStringAttribute("command_string").toStdString()};
-         if (const auto b {command.back()}; b == '2' || b == 'e') { // assumes only e,2 end old
-                                                                    // strings
-            for (const auto& i : replace_me) {
-               if (command == i.first) {
-                  command = i.second;
-                  break;
-               }
-            }
+         if (const auto it = replace_me.find(command); it != replace_me.end()) {
+            command = it->second;
          }
          if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message {setting->getIntAttribute("channel"),
@@ -67,6 +61,7 @@ void Profile::FromXml(const juce::XmlElement* root)
             InsertOrAssign(command, pb);
          }
          else { /* no action needed */
+            continue;
          }
       }
       auto guard {std::unique_lock {mutex_}};
@@ -75,7 +70,7 @@ void Profile::FromXml(const juce::XmlElement* root)
       profile_unsaved_ = false;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -96,7 +91,7 @@ std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string
       return mm;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -113,7 +108,7 @@ void Profile::InsertOrAssignI(const std::string& command, const rsj::MidiMessage
       profile_unsaved_ = true;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -129,7 +124,7 @@ void Profile::InsertUnassigned(rsj::MidiMessageId message)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -145,7 +140,7 @@ void Profile::RemoveAllRows()
       profile_unsaved_ = false;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -162,11 +157,12 @@ void Profile::RemoveMessage(rsj::MidiMessageId message)
       else {
          rsj::Log(fmt::format(FMT_STRING("Error in Profile::RemoveMessage. Message not found. "
                                          "Message is: channel {} control number {} type {}."),
-             message.channel, message.control_number, message.msg_id_type));
+                      message.channel, message.control_number, message.msg_id_type),
+             std::source_location::current());
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -175,11 +171,16 @@ void Profile::RemoveRow(const size_t row)
 {
    try {
       auto guard {std::unique_lock {mutex_}};
+      if (row >= mm_abbrv_table_.size()) [[unlikely]] {
+         rsj::Log(fmt::format(FMT_STRING("Error in Profile::RemoveRow. Row {} out of range."), row),
+             std::source_location::current());
+         return;
+      }
       mm_abbrv_table_.erase(mm_abbrv_table_.begin() + gsl::narrow_cast<std::ptrdiff_t>(row));
       profile_unsaved_ = true;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -194,7 +195,7 @@ void Profile::RemoveUnassignedMessages()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -207,7 +208,7 @@ void Profile::Resort(const std::pair<int, bool> new_order)
       SortI();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -215,7 +216,7 @@ void Profile::Resort(const std::pair<int, bool> new_order)
 void Profile::SortI()
 {
    try {
-      const auto projection {
+      const auto CommandNumber {
           [this](const auto& a) { return command_set_.CommandTextIndex(a.second); }};
       if (current_sort_.first == 1) {
          if (current_sort_.second) { std::ranges::sort(mm_abbrv_table_); }
@@ -224,14 +225,14 @@ void Profile::SortI()
          }
       }
       else if (current_sort_.second) {
-         std::ranges::stable_sort(mm_abbrv_table_, {}, projection);
+         std::ranges::stable_sort(mm_abbrv_table_, {}, CommandNumber);
       }
       else {
-         std::ranges::stable_sort(mm_abbrv_table_ | std::views::reverse, {}, projection);
+         std::ranges::stable_sort(mm_abbrv_table_ | std::views::reverse, {}, CommandNumber);
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -277,7 +278,8 @@ void Profile::ToXmlFile(const juce::File& file)
             rsj::LogAndAlertError(juce::translate("Unable to save file. Choose a different "
                                                   "location and try again.")
                                       + ' ' + p,
-                "Unable to save file. Choose a different location and try again. " + p);
+                "Unable to save file. Choose a different location and try again. " + p,
+                std::source_location::current());
          }
          else {
             /*could use shared_mutex above if it were upgradable to unique here*/
@@ -287,7 +289,7 @@ void Profile::ToXmlFile(const juce::File& file)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

@@ -1,24 +1,33 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library.
-   Copyright (c) 2022 - Raw Material Software Limited
+   This file is part of the JUCE framework.
+   Copyright (c) Raw Material Software Limited
 
-   JUCE is an open source library subject to commercial or open-source
+   JUCE is an open source framework subject to commercial or open source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
-   Agreement and JUCE Privacy Policy.
+   By downloading, installing, or using the JUCE framework, or combining the
+   JUCE framework with any other source code, object code, content or any other
+   copyrightable work, you agree to the terms of the JUCE End User Licence
+   Agreement, and all incorporated terms including the JUCE Privacy Policy and
+   the JUCE Website Terms of Service, as applicable, which will bind you. If you
+   do not agree to the terms of these agreements, we will not license the JUCE
+   framework to you, and you must discontinue the installation or download
+   process and cease use of the JUCE framework.
 
-   End User License Agreement: www.juce.com/juce-7-licence
-   Privacy Policy: www.juce.com/juce-privacy-policy
+   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
+   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
+   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
 
-   Or: You may also use this code under the terms of the GPL v3 (see
-   www.gnu.org/licenses).
+   Or:
 
-   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
-   DISCLAIMED.
+   You may also use this code under the terms of the AGPLv3:
+   https://www.gnu.org/licenses/agpl-3.0.en.html
+
+   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
+   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -40,8 +49,8 @@ static int getItemDepth (const TreeViewItem* item)
 }
 
 //==============================================================================
-class TreeView::ItemComponent  : public Component,
-                                 public TooltipClient
+class TreeView::ItemComponent final : public Component,
+                                      public TooltipClient
 {
 public:
     explicit ItemComponent (TreeViewItem& itemToRepresent)
@@ -86,7 +95,7 @@ public:
 
 private:
     //==============================================================================
-    class ItemAccessibilityHandler  : public AccessibilityHandler
+    class ItemAccessibilityHandler final : public AccessibilityHandler
     {
     public:
         explicit ItemAccessibilityHandler (ItemComponent& comp)
@@ -138,7 +147,7 @@ private:
             return state;
         }
 
-        class ItemCellInterface  : public AccessibilityCellInterface
+        class ItemCellInterface final : public AccessibilityCellInterface
         {
         public:
             explicit ItemCellInterface (ItemComponent& c)  : itemComponent (c)  {}
@@ -265,9 +274,9 @@ private:
 };
 
 //==============================================================================
-class TreeView::ContentComponent  : public Component,
-                                    public TooltipClient,
-                                    public AsyncUpdater
+class TreeView::ContentComponent final : public Component,
+                                         public TooltipClient,
+                                         public AsyncUpdater
 {
 public:
     ContentComponent (TreeView& tree)  : owner (tree)
@@ -632,6 +641,29 @@ private:
                                                                                            : nextItem;
     }
 
+    template <typename Fn>
+    static void forEachDepthFirst (TreeViewItem* item, bool includeItem, Fn&& callback)
+    {
+        if (includeItem)
+            callback (item);
+
+        if (item->isOpen())
+            for (auto i = 0; i < item->getNumSubItems(); ++i)
+                forEachDepthFirst (item->getSubItem (i), true, callback);
+    }
+
+    std::vector<TreeViewItem*> collectAllItems() const
+    {
+        size_t count{};
+        forEachDepthFirst (owner.rootItem, owner.rootItemVisible, [&] (auto*) { ++count; });
+
+        std::vector<TreeViewItem*> allItems;
+        allItems.reserve (count);
+        forEachDepthFirst (owner.rootItem, owner.rootItemVisible, [&] (auto* item) { allItems.push_back (item); });
+
+        return allItems;
+    }
+
     std::vector<TreeViewItem*> getAllVisibleItems() const
     {
         if (owner.rootItem == nullptr)
@@ -639,47 +671,27 @@ private:
 
         const auto visibleTop = -getY();
         const auto visibleBottom = visibleTop + getParentHeight();
+        auto allItems = collectAllItems();
 
-        std::vector<TreeViewItem*> visibleItems;
-
-        auto* item = [&]
+        const auto lower = std::lower_bound (allItems.begin(), allItems.end(), visibleTop, [] (TreeViewItem* item, const auto y)
         {
-            auto* i = owner.rootItemVisible ? owner.rootItem
-                                            : owner.rootItem->subItems.getFirst();
+            return item->y + item->getItemHeight() < y;
+        });
 
-            while (i != nullptr && i->y + i->getItemHeight() < visibleTop)
-                i = getNextVisibleItem (i, true);
-
-            return i;
-        }();
-
-        auto addOffscreenItemBuffer = [&visibleItems] (TreeViewItem* i, int num, bool forwards)
+        const auto upper = std::upper_bound (allItems.begin(), allItems.end(), visibleBottom, [] (const auto y, TreeViewItem* item)
         {
-            while (--num >= 0)
-            {
-                i = getNextVisibleItem (i, forwards);
+            return y < item->y;
+        });
 
-                if (i == nullptr)
-                    return;
+        const std::ptrdiff_t padding = 2;
 
-                visibleItems.push_back (i);
-            }
-        };
+        const auto frontToErase = std::max (padding, std::distance (allItems.begin(), lower)) - padding;
+        const auto backToErase  = std::max (padding, std::distance (upper, allItems.end()))   - padding;
 
-        addOffscreenItemBuffer (item, 2, false);
+        allItems.erase (allItems.begin(), std::next (allItems.begin(), frontToErase));
+        allItems.erase (std::prev (allItems.end(), backToErase), allItems.end());
 
-        while (item != nullptr && item->y < visibleBottom)
-        {
-            visibleItems.push_back (item);
-            item = getNextVisibleItem (item, true);
-        }
-
-        if (item != nullptr)
-            visibleItems.push_back (item);
-
-        addOffscreenItemBuffer (item, 2, true);
-
-        return visibleItems;
+        return allItems;
     }
 
     //==============================================================================
@@ -714,8 +726,8 @@ private:
 };
 
 //==============================================================================
-class TreeView::TreeViewport  : public Viewport,
-                                private AsyncUpdater
+class TreeView::TreeViewport final : public Viewport,
+                                     private AsyncUpdater
 {
 public:
     explicit TreeViewport (TreeView& treeView)  : owner (treeView)  {}
@@ -1291,7 +1303,7 @@ struct TreeView::InsertPoint
 };
 
 //==============================================================================
-class TreeView::InsertPointHighlight   : public Component
+class TreeView::InsertPointHighlight final : public Component
 {
 public:
     InsertPointHighlight()
@@ -1330,7 +1342,7 @@ private:
 };
 
 //==============================================================================
-class TreeView::TargetGroupHighlight   : public Component
+class TreeView::TargetGroupHighlight final : public Component
 {
 public:
     TargetGroupHighlight()
@@ -1483,7 +1495,7 @@ void TreeView::itemDropped (const SourceDetails& dragSourceDetails)
 //==============================================================================
 std::unique_ptr<AccessibilityHandler> TreeView::createAccessibilityHandler()
 {
-    class TableInterface  : public AccessibilityTableInterface
+    class TableInterface final : public AccessibilityTableInterface
     {
     public:
         explicit TableInterface (TreeView& treeViewToWrap)  : treeView (treeViewToWrap) {}

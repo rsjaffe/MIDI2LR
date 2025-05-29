@@ -59,17 +59,20 @@ void VersionChecker::Start()
 void VersionChecker::handleAsyncUpdate()
 {
    const auto response {[this](const int result) {
+#ifndef MIDI2LR_BETA
       if (result) {
          if (juce::URL("https://github.com/rsjaffe/MIDI2LR/releases")
                  .launchInDefaultBrowser()) { /* successfully opened browser */
-#ifndef MIDI2LR_BETA
             settings_manager_.SetLastVersionFound(new_version_);
-#endif
          }
       }
-#ifndef MIDI2LR_BETA
       else { /* user doesn't want it, don't show again */
          settings_manager_.SetLastVersionFound(new_version_);
+      }
+#else
+      if (result) {
+         std::ignore =
+             juce::URL("https://github.com/rsjaffe/MIDI2LR/releases").launchInDefaultBrowser();
       }
 #endif
    }};
@@ -84,12 +87,12 @@ void VersionChecker::handleAsyncUpdate()
           nullptr, juce::ModalCallbackFunction::create(response));
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
    }
 }
 
 namespace {
-   int CheckVersion(const std::unique_ptr<juce::XmlElement>& version_xml_element)
+   int CheckVersion(const gsl::not_null<juce::XmlElement*> version_xml_element)
    {
       int new_version;
       if (const auto os_specific_version =
@@ -106,8 +109,9 @@ namespace {
    {
       rsj::Log(fmt::format(FMT_STRING("Version available {}, version last checked {}, current "
                                       "version {}."),
-          IntToVersion(new_version), IntToVersion(last_checked),
-          IntToVersion(ProjectInfo::versionNumber)));
+                   IntToVersion(new_version), IntToVersion(last_checked),
+                   IntToVersion(ProjectInfo::versionNumber)),
+          std::source_location::current());
    }
 } // namespace
 
@@ -118,7 +122,7 @@ void VersionChecker::Run() noexcept
       const auto version_xml_element {version_url.readEntireXmlStream()};
       if (version_xml_element && !thread_should_exit_.load(std::memory_order_acquire)) {
          auto last_checked {settings_manager_.GetLastVersionFound()};
-         new_version_ = CheckVersion(version_xml_element);
+         if (version_xml_element) { new_version_ = CheckVersion(version_xml_element.get()); }
          if (last_checked == 0) {
             last_checked = std::min(new_version_, ProjectInfo::versionNumber);
             settings_manager_.SetLastVersionFound(last_checked);
@@ -130,10 +134,11 @@ void VersionChecker::Run() noexcept
          }
       }
       else {
-         rsj::Log("Unable to download MIDI2LR/version.xml and parse into valid XML document.");
+         rsj::Log("Unable to download MIDI2LR/version.xml and parse into valid XML document.",
+             std::source_location::current());
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
    }
 }

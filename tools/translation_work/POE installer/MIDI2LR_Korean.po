@@ -1,0 +1,43 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+
+#. Using MS: Donate to support project development
+#: Installer
+msgid "midi.donate"
+msgstr "프로젝트 개발 지원을 위해 기부"
+
+#: Installer
+#, fuzzy
+msgid "midi.donate.exp"
+msgstr "추가 ${project.fullName} 개발을 지원하기 위해 기부 할 수있는 PayPal 양식으로 웹 브라우저를 엽니 다."
+
+#. Using MS
+#: Installer
+msgid "midi.install.mac"
+msgstr "MacOS Ventura 13.1 이상이 필요합니다."
+
+#. Using MS
+#: Installer
+msgid "midi.install.win"
+msgstr "${project.fullName}은(는) 64비트 버전의 Microsoft Windows 10 이상에만 설치할 수 있습니다."
+
+#. Using MS.
+#: Installer
+msgid "midi.instructions"
+msgstr "온라인 도움말"
+
+#: Installer
+#, fuzzy
+msgid "midi.instructions.exp"
+msgstr "매뉴얼을 보여주는 웹 브라우저를 엽니 다. ${project.fullName}에서 사용할 수있는 많은 옵션과 설정이 있으므로 매뉴얼을 북마크하십시오."
+
+#, fuzzy
+msgid "midi.ports"
+msgstr "${project.fullName}에서 Lightroom과 통신하려면 포트 58763 및 58764가 필요합니다. 이러한 포트 중 하나 이상을 현재 사용할 수 없습니다. 지금 ${project.fullName}을 실행하고 있다면이 메시지를 무시하십시오. 그렇지 않으면 ${project.fullName}이 제대로 작동하도록하려면 해당 포트를 차단하는 항목을 식별해야합니다."

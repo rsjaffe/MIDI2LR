@@ -1,21 +1,33 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library.
-   Copyright (c) 2022 - Raw Material Software Limited
+   This file is part of the JUCE framework.
+   Copyright (c) Raw Material Software Limited
 
-   JUCE is an open source library subject to commercial or open-source
+   JUCE is an open source framework subject to commercial or open source
    licensing.
 
-   The code included in this file is provided under the terms of the ISC license
-   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   To use, copy, modify, and/or distribute this software for any purpose with or
-   without fee is hereby granted provided that the above copyright notice and
-   this permission notice appear in all copies.
+   By downloading, installing, or using the JUCE framework, or combining the
+   JUCE framework with any other source code, object code, content or any other
+   copyrightable work, you agree to the terms of the JUCE End User Licence
+   Agreement, and all incorporated terms including the JUCE Privacy Policy and
+   the JUCE Website Terms of Service, as applicable, which will bind you. If you
+   do not agree to the terms of these agreements, we will not license the JUCE
+   framework to you, and you must discontinue the installation or download
+   process and cease use of the JUCE framework.
 
-   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
-   DISCLAIMED.
+   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
+   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
+   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+
+   Or:
+
+   You may also use this code under the terms of the AGPLv3:
+   https://www.gnu.org/licenses/agpl-3.0.en.html
+
+   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
+   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -124,7 +136,7 @@ static String getOboeString (const Type& value)
 }
 
 //==============================================================================
-class OboeAudioIODevice  : public AudioIODevice
+class OboeAudioIODevice final : public AudioIODevice
 {
 public:
     //==============================================================================
@@ -370,7 +382,7 @@ private:
 
         // providing a callback is required on some devices to get a FAST track, so we pass an
         // empty one to the temp stream to get the best available buffer size
-        struct DummyCallback  : public oboe::AudioStreamCallback
+        struct DummyCallback final : public oboe::AudioStreamCallback
         {
             oboe::DataCallbackResult onAudioReady (oboe::AudioStream*, void*, int32_t) override  { return oboe::DataCallbackResult::Stop; }
         };
@@ -386,7 +398,7 @@ private:
                                                   oboe::Direction::Output,
                                                   oboe::SharingMode::Exclusive,
                                                   2,
-                                                  getAndroidSDKVersion() >= 21 ? oboe::AudioFormat::Float : oboe::AudioFormat::I16,
+                                                  oboe::AudioFormat::Float,
                                                   (int) AndroidHighPerformanceAudioHelpers::getNativeSampleRate(),
                                                   bufferSizeHint,
                                                   &callback);
@@ -609,7 +621,7 @@ private:
     };
 
     //==============================================================================
-    class OboeSessionBase   : protected oboe::AudioStreamCallback
+    class OboeSessionBase : protected oboe::AudioStreamCallback
     {
     public:
         static OboeSessionBase* create (OboeAudioIODevice& owner,
@@ -730,7 +742,7 @@ private:
 
     //==============================================================================
     template <typename SampleType>
-    class OboeSessionImpl   : public OboeSessionBase
+    class OboeSessionImpl final : public OboeSessionBase
     {
     public:
         OboeSessionImpl (OboeAudioIODevice& ownerToUse,
@@ -1011,19 +1023,18 @@ OboeAudioIODevice::OboeSessionBase* OboeAudioIODevice::OboeSessionBase::create (
                                                                                 int bufferSize)
 {
 
-    std::unique_ptr<OboeSessionBase> session;
-    auto sdkVersion = getAndroidSDKVersion();
-
     // SDK versions 21 and higher should natively support floating point...
-    if (sdkVersion >= 21)
-    {
-        session.reset (new OboeSessionImpl<float> (owner, inputDeviceId, outputDeviceId,
-                                                   numInputChannels, numOutputChannels, sampleRate, bufferSize));
+    std::unique_ptr<OboeSessionBase> session = std::make_unique<OboeSessionImpl<float>> (owner,
+                                                                                         inputDeviceId,
+                                                                                         outputDeviceId,
+                                                                                         numInputChannels,
+                                                                                         numOutputChannels,
+                                                                                         sampleRate,
+                                                                                         bufferSize);
 
-        // ...however, some devices lie so re-try without floating point
-        if (session != nullptr && (! session->openedOk()))
-            session.reset();
-    }
+    // ...however, some devices lie so re-try without floating point
+    if (session != nullptr && (! session->openedOk()))
+        session.reset();
 
     if (session == nullptr)
     {
@@ -1038,7 +1049,7 @@ OboeAudioIODevice::OboeSessionBase* OboeAudioIODevice::OboeSessionBase::create (
 }
 
 //==============================================================================
-class OboeAudioIODeviceType  : public AudioIODeviceType
+class OboeAudioIODeviceType final : public AudioIODeviceType
 {
 public:
     OboeAudioIODeviceType()
@@ -1302,7 +1313,7 @@ const char* const OboeAudioIODevice::oboeTypeName = "Android Oboe";
 bool isOboeAvailable()  { return OboeAudioIODeviceType::isOboeAvailable(); }
 
 //==============================================================================
-class OboeRealtimeThread    : private oboe::AudioStreamCallback
+class OboeRealtimeThread final : private oboe::AudioStreamCallback
 {
     using OboeStream = OboeAudioIODevice::OboeStream;
 
@@ -1344,7 +1355,7 @@ public:
         return testStream != nullptr && testStream->openedOk();
     }
 
-    pthread_t startThread (void*(*entry)(void*), void* userPtr)
+    pthread_t startThread (void*(*entry) (void*), void* userPtr)
     {
         pthread_mutex_lock (&threadReadyMutex);
 

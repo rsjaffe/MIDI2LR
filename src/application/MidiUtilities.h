@@ -192,7 +192,7 @@ template<> struct std::hash<rsj::MidiMessageId> {
    size_t operator()(rsj::MidiMessageId k) const noexcept
    {
       /* channel is one byte, messagetype is one byte, controller (data) is two bytes */
-      static std::hash<int_fast32_t> hasher;
+      constinit static std::hash<int_fast32_t> hasher;
       return hasher(static_cast<int_fast32_t>(k.channel)
                     | static_cast<int_fast32_t>(k.msg_id_type) << 8
                     | static_cast<int_fast32_t>(k.control_number) << 16);
@@ -222,7 +222,11 @@ class NrpnFilter {
    {
 #pragma warning(suppress : 26446 26482) /* Channel bounds-checked in calling functions */
       // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
-      intermediate_results_[channel] = {0, 0, 0, 0, 0};
+      intermediate_results_[channel] = {.control_lsb_ = 0,
+          .control_msb_ = 0,
+          .ready_flags_ = 0,
+          .value_lsb_ = 0,
+          .value_msb_ = 0};
    }
 
    struct InternalStructure {

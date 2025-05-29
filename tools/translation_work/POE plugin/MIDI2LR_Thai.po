@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+#, fuzzy
+msgid "$$$/MIDI2LR/About/about"
+msgstr "วิธีใช้: เชื่อมต่อคอนโทรลเลอร์ MIDI เปิด MIDI2LR และเริ่มแก้ไข! ดู https://github.com/rsjaffe/MIDI2LR/wiki สำหรับรายละเอียด"
+
+msgid "$$$/MIDI2LR/Bezel/Pickup"
+msgstr "คอนโทรลเลอร์ไม่ซิงโครไนซ์ ปรับ ^1 เป็นค่า Lightroom: ^2"
+
+#. Do not translate key names, as those must be in English. Use the following string for translation, then substitute back the key names:
+#.
+#. Value must be single character or spell out an F key (F1-F16) or: 1, 2, 3 (means 4 in OS X), 5, 6, 7, 8, 4 (means 9 in OS X), 10, 11, 12, 13, 14, 15, 16, 17, or 18 (through 19), 20 (or 21, 22, 23, 24).
+#.
+#. where the numbers mean:
+#.
+#. 1: apostrophe; 2: backslash; 3: backspace; 4: delete; 5: cursor down; 6: cursor left; 7: cursor right; 8: cursor up; 9: delete right; 10: end; 11: escape; 12: home; 13: page down; 14: page up; 15: return; 16: space; 17: tab; 18: numpad 0; 19: numpad 9; 20 numpad add; 21: decimal; 22: divide; 23: multiply; 24: subtract
+#, fuzzy
+msgid "$$$/MIDI2LR/Dialog/InvalidKey"
+msgstr "ค่าต้องเป็นอักขระเดี่ยวหรือสะกดคีย์ F (F1-F16) หรือ: apostrophe, backslash, backspace (ใน MacOS แสดงถึงการลบไปทางซ้าย), cursor down, cursor left, cursor right, cursor up, delete (ใน MacOS แสดงถึงการลบไปทางขวา), end, escape , home, page down, page up, return, space, tab หรือ numpad 0 (ถึง numpad 9), numpad add (หรือ decimal, divide, multiply, subtract)"
+
+msgid "$$$/MIDI2LR/Help/Donate"
+msgstr "บริจาคเพื่อสนับสนุนการพัฒนาโครงการ(&D)"
+
+msgid "$$$/MIDI2LR/Help/Latest"
+msgstr "ดูรุ่นล่าสุด"
+
+msgid "$$$/MIDI2LR/Help/OnlineHelp"
+msgstr "วิธีใช้ทางออนไลน์"
+
+msgid "$$$/MIDI2LR/Help/Support"
+msgstr "สนับสนุน"
+
+#, fuzzy
+msgid "$$$/MIDI2LR/Info/BuildFiles"
+msgstr "สร้างไฟล์ (ใช้สำหรับการพัฒนาเท่านั้น)"
+
+#. from microsoft https://www.microsoft.com/en-us/language/Search?&searchTerm=delete%20settings&langID=750&Source=true&productid=0
+msgid "$$$/MIDI2LR/Info/DeleteSettings"
+msgstr "ลบการตั้งค่า"
+
+msgid "$$$/MIDI2LR/Keys/Shortcut"
+msgstr "แป้นพิมพ์ลัด"
+
+msgid "$$$/MIDI2LR/Keyword/Toggle"
+msgstr "สลับทางคำหลัก"
+
+#. Directly from Lightroom translation resources. ^1 is replaced by keyword number (e.g., Toggle Keyword ^1 may become Toggle Keyword 16).
+msgid "$$$/MIDI2LR/Keyword/Toggle1"
+msgstr "สลับคำหลัก ^1"
+
+msgid "$$$/MIDI2LR/Limits/Limits"
+msgstr "ขีดจำกัด"
+
+msgid "$$$/MIDI2LR/Limits/Limits/NotDevelop"
+msgstr "ใช้งานอยู่ในโมดูล \"พัฒนา\" เท่านั้น"
+
+#, fuzzy
+msgid "$$$/MIDI2LR/LocalPresets/Presets"
+msgstr "การปรับตั้งค่าท้องถิ่น"
+
+msgid "$$$/MIDI2LR/Menu/CloseApplication"
+msgstr "ปิดโปรแกรมประยุกต์"
+
+msgid "$$$/MIDI2LR/Menu/ExportConfiguration"
+msgstr "ส่งออกการตั้งค่าคอนฟิก"
+
+msgid "$$$/MIDI2LR/Menu/GeneralOptions"
+msgstr "ตัวเลือกทั่วไป"
+
+msgid "$$$/MIDI2LR/Menu/ImportConfiguration"
+msgstr "นำเข้าการตั้งค่าคอนฟิก"
+
+#, fuzzy
+msgctxt "Go to next mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/NextMaskGroup"
+msgstr "กลุ่มหน้ากากต่อไป"
+
+#, fuzzy
+msgctxt "Go to next mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/NextMaskTool"
+msgstr "เครื่องมือมาสก์ถัดไป"
+
+msgid "$$$/MIDI2LR/Menu/PresetNext"
+msgstr "สถานีที่ตั้งไว้ถัดไป"
+
+#. From microsoft terminology search
+msgid "$$$/MIDI2LR/Menu/PresetPrevious"
+msgstr "สถานีที่ตั้งไว้ก่อนหน้า"
+
+msgid "$$$/MIDI2LR/Menu/PressAndHold"
+msgstr "กดค้าง"
+
+#, fuzzy
+msgctxt "Go to previous mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/PreviousMaskGroup"
+msgstr "กลุ่มหน้ากากก่อนหน้า"
+
+#, fuzzy
+msgctxt "Go to previous mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/PreviousMaskTool"
+msgstr "เครื่องมือหน้ากากก่อนหน้า"
+
+msgid "$$$/MIDI2LR/Menu/StartApplication"
+msgstr "เริ่มแอพพลิเคชั่น"
+
+#. from https://www.microsoft.com/en-us/language/Search?&searchTerm=tool&langID=124&Source=true&productid=0
+msgctxt "A utility or feature that aids in accomplishing a task or set of tasks."
+msgid "$$$/MIDI2LR/Menu/Tool"
+msgstr "เครื่องมือ"
+
+msgid "$$$/MIDI2LR/Options/ActionSeriesInvalid"
+msgstr "คำสั่งไม่ถูกต้อง"
+
+msgid "$$$/MIDI2LR/Options/dlgtitle"
+msgstr "ตั้งค่าพารามิเตอร์ MIDI2LR"
+
+#, fuzzy
+msgid "$$$/MIDI2LR/Options/RevealAdjustedControls"
+msgstr "เปิดเผยการควบคุมที่ปรับแล้ว"
+
+#, fuzzy
+msgid "$$$/MIDI2LR/Options/TrackingDelay"
+msgstr "ติดตามความล่าช้า"
+
+#, fuzzy
+msgid "$$$/MIDI2LR/Preferences/cantload"
+msgstr "ไม่สามารถโหลดค่ากำหนด ใช้การตั้งค่าเริ่มต้น"
+
+msgid "$$$/MIDI2LR/Profiles/Next"
+msgstr "โปรไฟล์ต่อไป"
+
+#, fuzzy
+msgid "$$$/MIDI2LR/Profiles/NotifyWhenChanged"
+msgstr "แจ้งเตือนเมื่อมีการเปลี่ยนแปลงโปรไฟล์"
+
+msgid "$$$/MIDI2LR/Profiles/Previous"
+msgstr "โปรไฟล์ก่อนหน้า"
+
+msgid "$$$/MIDI2LR/Shortcuts/Key"
+msgstr "แป้น"
+
+#, fuzzy
+msgid "$$$/MIDI2LR/Shortcuts/SeriesofCommands"
+msgstr "ลำดับคำสั่ง"
+
+#. From lightroom translations
+msgid "$$$/MIDI2LR/ShortCuts/ShowHide1"
+msgstr "ซ่อน/แสดง^1"
+
+#, fuzzy
+#~ msgid "$$$/MIDI2LR/Database/Customcameraprofile"
+#~ msgstr "โปรไฟล์กล้องที่กำหนดเอง"
+
+#, fuzzy
+#~ msgid "$$$/MIDI2LR/Dialog/NeedNewerLR"
+#~ msgstr "จำเป็นต้องมี Lightroom เวอร์ชันใหม่กว่า"
+
+#~ msgid "$$$/MIDI2LR/Menu/DeleteMaskGroup"
+#~ msgstr "ลบกลุ่มหน้ากาก"
+
+#, fuzzy
+#~ msgid "$$$/MIDI2LR/Menu/DeleteMaskTool"
+#~ msgstr "ลบเครื่องมือ"
+
+#~ msgid "$$$/MIDI2LR/Database/Show1"
+#~ msgstr "แสดง ^1"

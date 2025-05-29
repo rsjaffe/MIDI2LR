@@ -1,26 +1,36 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library.
-   Copyright (c) 2022 - Raw Material Software Limited
+   This file is part of the JUCE framework.
+   Copyright (c) Raw Material Software Limited
 
-   JUCE is an open source library subject to commercial or open-source
+   JUCE is an open source framework subject to commercial or open source
    licensing.
 
-   The code included in this file is provided under the terms of the ISC license
-   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   To use, copy, modify, and/or distribute this software for any purpose with or
-   without fee is hereby granted provided that the above copyright notice and
-   this permission notice appear in all copies.
+   By downloading, installing, or using the JUCE framework, or combining the
+   JUCE framework with any other source code, object code, content or any other
+   copyrightable work, you agree to the terms of the JUCE End User Licence
+   Agreement, and all incorporated terms including the JUCE Privacy Policy and
+   the JUCE Website Terms of Service, as applicable, which will bind you. If you
+   do not agree to the terms of these agreements, we will not license the JUCE
+   framework to you, and you must discontinue the installation or download
+   process and cease use of the JUCE framework.
 
-   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
-   DISCLAIMED.
+   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
+   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
+   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+
+   Or:
+
+   You may also use this code under the terms of the AGPLv3:
+   https://www.gnu.org/licenses/agpl-3.0.en.html
+
+   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
+   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
-
-#include <juce_audio_basics/native/juce_CoreAudioTimeConversions_mac.h>
 
 namespace juce
 {
@@ -195,10 +205,6 @@ JUCE_END_IGNORE_WARNINGS_GCC_LIKE
 @end
 
 //==============================================================================
-#if JUCE_MODULE_AVAILABLE_juce_graphics
- #include <juce_graphics/native/juce_CoreGraphicsHelpers_mac.h>
-#endif
-
 namespace juce {
 
 #ifndef JUCE_IOS_AUDIO_LOGGING
@@ -223,8 +229,8 @@ static void logNSError (NSError* e)
 #define JUCE_NSERROR_CHECK(X)     { NSError* error = nil; X; logNSError (error); }
 
 //==============================================================================
-class iOSAudioIODeviceType  : public AudioIODeviceType,
-                              public AsyncUpdater
+class iOSAudioIODeviceType final : public AudioIODeviceType,
+                                   public AsyncUpdater
 {
 public:
     iOSAudioIODeviceType();
@@ -252,7 +258,7 @@ private:
 };
 
 //==============================================================================
-struct iOSAudioIODevice::Pimpl      : public AsyncUpdater
+struct iOSAudioIODevice::Pimpl final : public AsyncUpdater
 {
     Pimpl (iOSAudioIODeviceType* ioDeviceType, iOSAudioIODevice& ioDevice)
         : deviceType (ioDeviceType),
@@ -290,11 +296,10 @@ struct iOSAudioIODevice::Pimpl      : public AsyncUpdater
 
         if (category == AVAudioSessionCategoryPlayAndRecord)
         {
-            options |= (AVAudioSessionCategoryOptionDefaultToSpeaker
-                      | AVAudioSessionCategoryOptionAllowBluetooth);
-
-            if (@available (iOS 10.0, *))
-                options |= AVAudioSessionCategoryOptionAllowBluetoothA2DP;
+            options |= AVAudioSessionCategoryOptionDefaultToSpeaker
+                     | AVAudioSessionCategoryOptionAllowBluetooth
+                     | AVAudioSessionCategoryOptionAllowAirPlay
+                     | AVAudioSessionCategoryOptionAllowBluetoothA2DP;
         }
 
         JUCE_NSERROR_CHECK ([[AVAudioSession sharedInstance] setCategory: category
@@ -563,7 +568,7 @@ struct iOSAudioIODevice::Pimpl      : public AsyncUpdater
     }
 
     //==============================================================================
-    class PlayHead : public AudioPlayHead
+    class PlayHead final : public AudioPlayHead
     {
     public:
         explicit PlayHead (Pimpl& implIn) : impl (implIn) {}
@@ -640,18 +645,18 @@ struct iOSAudioIODevice::Pimpl      : public AsyncUpdater
             Boolean hostIsCycling               = NO;
             Float64 hostCycleStartBeat          = 0;
             Float64 hostCycleEndBeat            = 0;
-            OSStatus err = callbackInfo.transportStateProc2 (callbackInfo.hostUserData,
-                                                             &hostIsPlaying,
-                                                             &hostIsRecording,
-                                                             nullptr,
-                                                             &hostCurrentSampleInTimeLine,
-                                                             &hostIsCycling,
-                                                             &hostCycleStartBeat,
-                                                             &hostCycleEndBeat);
-            if (err == kAUGraphErr_CannotDoInCurrentContext)
+            auto transportErr = callbackInfo.transportStateProc2 (callbackInfo.hostUserData,
+                                                                  &hostIsPlaying,
+                                                                  &hostIsRecording,
+                                                                  nullptr,
+                                                                  &hostCurrentSampleInTimeLine,
+                                                                  &hostIsCycling,
+                                                                  &hostCycleStartBeat,
+                                                                  &hostCycleEndBeat);
+            if (transportErr == kAUGraphErr_CannotDoInCurrentContext)
                 return {};
 
-            jassert (err == noErr);
+            jassert (transportErr == noErr);
 
             PositionInfo result;
 
@@ -660,14 +665,14 @@ struct iOSAudioIODevice::Pimpl      : public AsyncUpdater
             result.setIsRecording   (hostIsRecording);
             result.setIsLooping     (hostIsCycling);
             result.setLoopPoints    (LoopPoints { hostCycleStartBeat, hostCycleEndBeat });
-            result.setTimeInSeconds (*result.getTimeInSamples() / impl.sampleRate);
+            result.setTimeInSeconds ((double) *result.getTimeInSamples() / impl.sampleRate);
 
             Float64 hostBeat = 0;
             Float64 hostTempo = 0;
-            err = callbackInfo.beatAndTempoProc (callbackInfo.hostUserData,
-                                                 &hostBeat,
-                                                 &hostTempo);
-            jassert (err == noErr);
+            [[maybe_unused]] auto batErr = callbackInfo.beatAndTempoProc (callbackInfo.hostUserData,
+                                                                          &hostBeat,
+                                                                          &hostTempo);
+            jassert (batErr == noErr);
 
             result.setPpqPosition (hostBeat);
             result.setBpm         (hostTempo);
@@ -675,12 +680,12 @@ struct iOSAudioIODevice::Pimpl      : public AsyncUpdater
             Float32 hostTimeSigNumerator = 0;
             UInt32 hostTimeSigDenominator = 0;
             Float64 hostCurrentMeasureDownBeat = 0;
-            err = callbackInfo.musicalTimeLocationProc (callbackInfo.hostUserData,
-                                                        nullptr,
-                                                        &hostTimeSigNumerator,
-                                                        &hostTimeSigDenominator,
-                                                        &hostCurrentMeasureDownBeat);
-            jassert (err == noErr);
+            [[maybe_unused]] auto timeErr = callbackInfo.musicalTimeLocationProc (callbackInfo.hostUserData,
+                                                                                  nullptr,
+                                                                                  &hostTimeSigNumerator,
+                                                                                  &hostTimeSigDenominator,
+                                                                                  &hostCurrentMeasureDownBeat);
+            jassert (timeErr == noErr);
 
             result.setPpqPositionOfLastBarStart (hostCurrentMeasureDownBeat);
             result.setTimeSignature (TimeSignature { (int) hostTimeSigNumerator, (int) hostTimeSigDenominator });
@@ -707,7 +712,7 @@ struct iOSAudioIODevice::Pimpl      : public AsyncUpdater
         {
             if (interAppAudioConnected)
             {
-                if (UIImage* hostUIImage = AudioOutputUnitGetHostIcon (audioUnit, size))
+                if (UIImage* hostUIImage = AudioOutputUnitGetHostIcon (audioUnit, (float) size))
                     return juce_createImageFromUIImage (hostUIImage);
             }
         }
@@ -724,26 +729,17 @@ struct iOSAudioIODevice::Pimpl      : public AsyncUpdater
 
         CFURLRef hostUrl;
         UInt32 dataSize = sizeof (hostUrl);
-        OSStatus err = AudioUnitGetProperty(audioUnit,
-                                            kAudioUnitProperty_PeerURL,
-                                            kAudioUnitScope_Global,
-                                            0,
-                                            &hostUrl,
-                                            &dataSize);
+        OSStatus err = AudioUnitGetProperty (audioUnit,
+                                             kAudioUnitProperty_PeerURL,
+                                             kAudioUnitScope_Global,
+                                             0,
+                                             &hostUrl,
+                                             &dataSize);
         if (err == noErr)
         {
-            if (@available (iOS 10.0, *))
-            {
-                [[UIApplication sharedApplication] openURL: (NSURL*) hostUrl
-                                                   options: @{}
-                                         completionHandler: nil];
-
-                return;
-            }
-
-            JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wdeprecated-declarations")
-            [[UIApplication sharedApplication] openURL: (NSURL*) hostUrl];
-            JUCE_END_IGNORE_WARNINGS_GCC_LIKE
+            [[UIApplication sharedApplication] openURL: (NSURL*) hostUrl
+                                               options: @{}
+                                     completionHandler: nil];
         }
     }
 
@@ -787,9 +783,9 @@ struct iOSAudioIODevice::Pimpl      : public AsyncUpdater
         switch (reason)
         {
         case AVAudioSessionRouteChangeReasonCategoryChange:
-        case AVAudioSessionRouteChangeReasonOverride:
         case AVAudioSessionRouteChangeReasonRouteConfigurationChange:
             break;
+        case AVAudioSessionRouteChangeReasonOverride:
         case AVAudioSessionRouteChangeReasonUnknown:
         case AVAudioSessionRouteChangeReasonNewDeviceAvailable:
         case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:
@@ -991,7 +987,7 @@ struct iOSAudioIODevice::Pimpl      : public AsyncUpdater
         appDesc.componentFlags = 0;
         appDesc.componentFlagsMask = 0;
         OSStatus err = AudioOutputUnitPublish (&appDesc,
-                                               CFSTR(JucePlugin_IAAName),
+                                               CFSTR (JucePlugin_IAAName),
                                                JucePlugin_VersionCode,
                                                audioUnit);
 
@@ -1064,6 +1060,19 @@ struct iOSAudioIODevice::Pimpl      : public AsyncUpdater
                 channelData.setFloatBufferSize (static_cast<int> (framesPerSlice));
             }
         }
+
+       #if JUCE_AUDIOWORKGROUP_TYPES_AVAILABLE
+        workgroup = [this]
+        {
+            UInt32 dataSize = sizeof (os_workgroup_t);
+            os_workgroup_t wgHandle = nullptr;
+
+            AudioUnitGetProperty (audioUnit, kAudioOutputUnitProperty_OSWorkgroup,
+                                  kAudioUnitScope_Global, 0, &wgHandle, &dataSize);
+
+            return makeRealAudioWorkgroup (wgHandle);
+        }();
+       #endif
 
         AudioUnitAddPropertyListener (audioUnit, kAudioUnitProperty_StreamFormat, dispatchAudioUnitPropertyChange, this);
 
@@ -1373,6 +1382,7 @@ struct iOSAudioIODevice::Pimpl      : public AsyncUpdater
     Atomic<bool> hardwareInfoNeedsUpdating { true };
 
     AudioUnit audioUnit {};
+    AudioWorkgroup workgroup;
 
     SharedResourcePointer<AudioSessionHolder> sessionHolder;
 
@@ -1429,6 +1439,7 @@ BigInteger iOSAudioIODevice::getActiveOutputChannels() const        { return pim
 int iOSAudioIODevice::getInputLatencyInSamples()                    { return roundToInt (pimpl->sampleRate * [AVAudioSession sharedInstance].inputLatency); }
 int iOSAudioIODevice::getOutputLatencyInSamples()                   { return roundToInt (pimpl->sampleRate * [AVAudioSession sharedInstance].outputLatency); }
 int iOSAudioIODevice::getXRunCount() const noexcept                 { return pimpl->xrun; }
+AudioWorkgroup iOSAudioIODevice::getWorkgroup() const               { return pimpl->workgroup; }
 
 void iOSAudioIODevice::setMidiMessageCollector (MidiMessageCollector* collector) { pimpl->messageCollector = collector; }
 AudioPlayHead* iOSAudioIODevice::getAudioPlayHead() const           { return &pimpl->playhead; }

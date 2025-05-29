@@ -31,7 +31,7 @@ class DebugInfo {
  private:
    void LogAndSave(std::string&& msg)
    {
-      rsj::Log(msg);
+      rsj::Log(msg, std::source_location::current());
       info_.push_back(std::move(msg));
    }
 

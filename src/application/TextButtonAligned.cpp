@@ -44,17 +44,13 @@ void TextButtonAligned::DrawButtonText(juce::Graphics& g, juce::TextButton& butt
        juce::Component::getLookAndFeel().getTextButtonFont(button, button.getHeight())};
    g.setFont(font);
    g.setColour(button
-                   .findColour(button.getToggleState() ? juce::TextButton::textColourOnId
-                                                       : juce::TextButton::textColourOffId)
-                   .withMultipliedAlpha(button.isEnabled() ? 1.0F : 0.5F));
+           .findColour(button.getToggleState() ? juce::TextButton::textColourOnId
+                                               : juce::TextButton::textColourOffId)
+           .withMultipliedAlpha(button.isEnabled() ? 1.0F : 0.5F));
 
    const auto y_indent {std::min(4, button.proportionOfHeight(0.3F))}; //-V112
    const auto corner_size {std::min(button.getHeight(), button.getWidth()) / 2};
-#ifdef _WIN32
-   const auto font_height {_cvt_ftoi_fast(font.getHeight() * 0.6F + 0.5F)};
-#else
    const auto font_height {gsl::narrow_cast<int>(font.getHeight() * 0.6F + 0.5F)};
-#endif
    const auto left_indent {
        std::min(font_height, 2 + corner_size / (button.isConnectedOnLeft() ? 4 : 2))}; //-V112
    const auto right_indent {

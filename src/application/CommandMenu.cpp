@@ -27,12 +27,13 @@
 CommandMenu::CommandMenu(rsj::MidiMessageId message, const CommandSet& command_set,
     Profile& profile)
 
-try : TextButtonAligned{CommandSet::UnassignedTranslated()}, command_set_(command_set),
-    profile_(profile), message_{message} {
+try
+    : TextButtonAligned{CommandSet::UnassignedTranslated()}, command_set_(command_set),
+      profile_(profile), message_{message} {
 }
 
 catch (const std::exception& e) {
-   rsj::ExceptionResponse(e);
+   rsj::ExceptionResponse(e, std::source_location::current());
    throw;
 }
 
@@ -87,18 +88,12 @@ void CommandMenu::AddSubMenuItems(juce::PopupMenu& sub_menu, const juce::String&
 
 void CommandMenu::ProcessUserSelection(juce::PopupMenu& main_menu)
 {
-   if (auto result {gsl::narrow_cast<size_t>(main_menu.show())}) {
-      if (result - 1 < command_set_.CommandAbbrevSize()) {
-         profile_.InsertOrAssign(result - 1, message_);
-         juce::Button::setButtonText(command_set_.CommandLabelAt(result - 1));
-      }
-      else {
-         profile_.InsertOrAssign(0, message_);
-         juce::Button::setButtonText(command_set_.CommandLabelAt(0));
-         result = 0;
-      }
+   if (const auto result {gsl::narrow_cast<size_t>(main_menu.show())}) {
+      const auto cmd_size {command_set_.CommandAbbrevSize()};
+      const size_t idx {(result - 1 < cmd_size) ? result - 1 : 0};
+      profile_.InsertOrAssign(idx, message_);
+      juce::Button::setButtonText(command_set_.CommandLabelAt(idx));
       selected_item_ = result;
-      // Map the selected command to the CC
    }
 }
 
@@ -110,15 +105,15 @@ void CommandMenu::AddSubMenusToMainMenu(juce::PopupMenu& main_menu, size_t index
    for (size_t submenu_number = 0; submenu_number < menu_entries_size; ++submenu_number) {
       juce::PopupMenu sub_menu;
       auto ticked {false};
-      for (const auto& command : menu_entries[submenu_number]) {
+      for (const auto& command : menu_entries.at(submenu_number)) {
          AddSubMenuItems(sub_menu, command, index++, ticked);
       }
-      main_menu.addSubMenu(menus[submenu_number], sub_menu, true, nullptr, ticked);
+      main_menu.addSubMenu(menus.at(submenu_number), sub_menu, true, nullptr, ticked);
    }
 }
 
 void CommandMenu::ProcessMenuItems()
-{
+{ /* item result numbers are 1-based, as 0 represents "no selection" */
    juce::PopupMenu main_menu;
    main_menu.addItem(1, CommandSet::UnassignedTranslated(), true, 1 == selected_item_);
    AddSubMenusToMainMenu(main_menu, 2);
@@ -134,7 +129,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

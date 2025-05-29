@@ -52,59 +52,53 @@ class ControlsModel;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class CCoptions  : public juce::Component,
-                   private juce::TextEditor::Listener,
-                   public juce::Button::Listener
-{
-public:
-    //==============================================================================
-    CCoptions ();
-    ~CCoptions();
+class CCoptions :
+    public juce::Component,
+    private juce::TextEditor::Listener,
+    public juce::Button::Listener {
+ public:
+   //==============================================================================
+   CCoptions();
+   ~CCoptions();
 
-    //==============================================================================
-    //[UserMethods]     -- You can add your own custom methods in this section.
-   static void LinkToControlsModel(_In_ ControlsModel* model) noexcept
-   {
-      controls_model_ = model;
-   }
+   //==============================================================================
+   //[UserMethods]     -- You can add your own custom methods in this section.
+   static void LinkToControlsModel(_In_ ControlsModel* model) noexcept { controls_model_ = model; }
+
    void BindToControl(int channel, int control_number);
    CCoptions(CCoptions&& other) noexcept = delete;
    CCoptions& operator=(CCoptions&& other) noexcept = delete;
-    //[/UserMethods]
+   //[/UserMethods]
 
-    void paint (juce::Graphics& g) override;
-    void resized() override;
-    void buttonClicked (juce::Button* buttonThatWasClicked) override;
+   void paint(juce::Graphics& g) override;
+   void resized() override;
+   void buttonClicked(juce::Button* buttonThatWasClicked) override;
 
-
-
-private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
-   juce::TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
+ private:
+   //[UserVariables]   -- You can add your own custom variables in this section.
+   juce::TextEditor::LengthAndCharacterRestriction numrestrict_ {5, "0123456789"};
    void textEditorFocusLost(juce::TextEditor& t) override;
-   inline static ControlsModel* controls_model_{nullptr};
-   int bound_channel_{0}; // note: 0-based in program, add one to compensate for display
-   int bound_number_{0};
-    //[/UserVariables]
+   inline static ControlsModel* controls_model_ {nullptr};
+   int bound_channel_ {0}; // note: 0-based in program, add one to compensate for display
+   int bound_number_ {0};
+   //[/UserVariables]
 
-    //==============================================================================
-    std::unique_ptr<juce::GroupComponent> groupComponent;
-    std::unique_ptr<juce::ToggleButton> twosbutton;
-    std::unique_ptr<juce::ToggleButton> absbutton;
-    std::unique_ptr<juce::ToggleButton> binbutton;
-    std::unique_ptr<juce::ToggleButton> signbutton;
-    std::unique_ptr<juce::TextEditor> maxvaltext;
-    std::unique_ptr<juce::TextEditor> minvaltext;
-    std::unique_ptr<juce::Label> minvallabel;
-    std::unique_ptr<juce::Label> maxvallabel;
-    std::unique_ptr<juce::TextButton> applyAll;
-    std::unique_ptr<juce::Label> controlID;
+   //==============================================================================
+   std::unique_ptr<juce::GroupComponent> groupComponent;
+   std::unique_ptr<juce::ToggleButton> twosbutton;
+   std::unique_ptr<juce::ToggleButton> absbutton;
+   std::unique_ptr<juce::ToggleButton> binbutton;
+   std::unique_ptr<juce::ToggleButton> signbutton;
+   std::unique_ptr<juce::TextEditor> maxvaltext;
+   std::unique_ptr<juce::TextEditor> minvaltext;
+   std::unique_ptr<juce::Label> minvallabel;
+   std::unique_ptr<juce::Label> maxvallabel;
+   std::unique_ptr<juce::TextButton> applyAll;
+   std::unique_ptr<juce::Label> controlID;
 
-
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CCoptions)
+   //==============================================================================
+   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CCoptions)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
-

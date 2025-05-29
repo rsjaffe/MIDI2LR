@@ -1,0 +1,147 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+msgid "$$$/MIDI2LR/About/about"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Bezel/Pickup"
+msgstr ""
+
+#. Do not translate key names, as those must be in English. Use the following string for translation, then substitute back the key names:
+#.
+#. Value must be single character or spell out an F key (F1-F16) or: 1, 2, 3 (means 4 in OS X), 5, 6, 7, 8, 4 (means 9 in OS X), 10, 11, 12, 13, 14, 15, 16, 17, or 18 (through 19), 20 (or 21, 22, 23, 24).
+#.
+#. where the numbers mean:
+#.
+#. 1: apostrophe; 2: backslash; 3: backspace; 4: delete; 5: cursor down; 6: cursor left; 7: cursor right; 8: cursor up; 9: delete right; 10: end; 11: escape; 12: home; 13: page down; 14: page up; 15: return; 16: space; 17: tab; 18: numpad 0; 19: numpad 9; 20 numpad add; 21: decimal; 22: divide; 23: multiply; 24: subtract
+msgid "$$$/MIDI2LR/Dialog/InvalidKey"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Help/Donate"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Help/Latest"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Help/OnlineHelp"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Help/Support"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Info/BuildFiles"
+msgstr ""
+
+#. from microsoft https://www.microsoft.com/en-us/language/Search?&searchTerm=delete%20settings&langID=750&Source=true&productid=0
+msgid "$$$/MIDI2LR/Info/DeleteSettings"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Keys/Shortcut"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Keyword/Toggle"
+msgstr ""
+
+#. Directly from Lightroom translation resources. ^1 is replaced by keyword number (e.g., Toggle Keyword ^1 may become Toggle Keyword 16).
+msgid "$$$/MIDI2LR/Keyword/Toggle1"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Limits/Limits"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Limits/Limits/NotDevelop"
+msgstr ""
+
+msgid "$$$/MIDI2LR/LocalPresets/Presets"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Menu/CloseApplication"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Menu/ExportConfiguration"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Menu/GeneralOptions"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Menu/ImportConfiguration"
+msgstr ""
+
+msgctxt "Go to next mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/NextMaskGroup"
+msgstr ""
+
+msgctxt "Go to next mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/NextMaskTool"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Menu/PresetNext"
+msgstr ""
+
+#. From microsoft terminology search
+msgid "$$$/MIDI2LR/Menu/PresetPrevious"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Menu/PressAndHold"
+msgstr ""
+
+msgctxt "Go to previous mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/PreviousMaskGroup"
+msgstr ""
+
+msgctxt "Go to previous mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/PreviousMaskTool"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Menu/StartApplication"
+msgstr ""
+
+#. from https://www.microsoft.com/en-us/language/Search?&searchTerm=tool&langID=124&Source=true&productid=0
+msgctxt "A utility or feature that aids in accomplishing a task or set of tasks."
+msgid "$$$/MIDI2LR/Menu/Tool"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Options/ActionSeriesInvalid"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Options/dlgtitle"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Options/RevealAdjustedControls"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Options/TrackingDelay"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Preferences/cantload"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Profiles/Next"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Profiles/NotifyWhenChanged"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Profiles/Previous"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Shortcuts/Key"
+msgstr ""
+
+msgid "$$$/MIDI2LR/Shortcuts/SeriesofCommands"
+msgstr ""
+
+#. From lightroom translations
+msgid "$$$/MIDI2LR/ShortCuts/ShowHide1"
+msgstr ""

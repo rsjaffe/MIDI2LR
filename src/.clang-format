@@ -1,5 +1,5 @@
 ---
-# Visual Studio 2022 currently (November 2023) using clang-format v16. Options for later versions
+# Visual Studio 2022 currently using clang-format v18. Options for later versions
 # are not included.
 AccessModifierOffset: -2
 AlignAfterOpenBracket: DontAlign
@@ -14,8 +14,10 @@ AlignTrailingComments: Always
 AllowAllArgumentsOnNextLine: true
 AllowAllConstructorInitializersOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
+AllowBreakBeforeNoexceptSpecifier: OnlyWithParen
 AllowShortBlocksOnASingleLine: true
 AllowShortCaseLabelsOnASingleLine: false
+AllowShortCompoundRequirementOnASingleLine: true
 AllowShortEnumsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: All
 AllowShortIfStatementsOnASingleLine: Always #AllIfsAndElse ###clang-format 13
@@ -29,6 +31,7 @@ AttributeMacros: ['_In_']
 BinPackArguments: true
 BinPackParameters: true
 BitFieldColonSpacing: Both
+# BreakAdjacentStringLiterals: false
 BreakAfterAttributes: Never
 BreakArrays: false
 BreakBeforeBinaryOperators: NonAssignment
@@ -101,6 +104,7 @@ PenaltyBreakBeforeFirstCallParameter: 75
 PenaltyBreakComment: 50
 PenaltyBreakFirstLessLess: 1
 PenaltyBreakOpenParenthesis: 80
+PenaltyBreakScopeResolution: 1000
 PenaltyBreakString: 100
 PenaltyBreakTemplateDeclaration: 50
 PenaltyExcessCharacter: 1000
@@ -116,6 +120,7 @@ RequiresClausePosition: OwnLine
 RequiresExpressionIndentation: Keyword
 SeparateDefinitionBlocks: Always
 ShortNamespaceLines: 0
+SkipMacroDefinitionBody: false
 SortIncludes: true
 SortUsingDeclarations: false
 SpaceAfterCStyleCast: false

@@ -48,7 +48,7 @@ class LrIpcOut {
    LrIpcOut& operator=(const LrIpcOut& other) = delete;
    LrIpcOut& operator=(LrIpcOut&& other) = delete;
 
-   template<class T> void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(bool, bool))
+   template<class T> void AddCallback(_In_ T* const object, _In_ void (T::* const mf)(bool, bool))
    {
       if (object && mf) {
          std::scoped_lock lk(callback_mtx_);
@@ -68,7 +68,7 @@ class LrIpcOut {
  private:
    using RepeatCmdIterator =
        const std::unordered_map<std::string, std::pair<std::string, std::string>>::const_iterator;
-   bool ShouldSetRecenter(const rsj::MidiMessage& mm) const;
+   [[nodiscard]] bool ShouldSetRecenter(const rsj::MidiMessage& mm) const;
    void Connect(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared);
    void ConnectionMade();
    void MidiCmdCallback(rsj::MidiMessage mm);
@@ -90,7 +90,11 @@ class LrIpcOut {
    mutable std::mutex callback_mtx_;
    std::atomic<bool> thread_should_exit_ {false};
    std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared_;
+#ifdef __cpp_lib_copyable_function
+   std::vector<std::copyable_function<void(bool, bool)>> callbacks_ {};
+#else
    std::vector<std::function<void(bool, bool)>> callbacks_ {};
+#endif
 };
 
 #endif

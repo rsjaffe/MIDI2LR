@@ -1,24 +1,33 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library.
-   Copyright (c) 2022 - Raw Material Software Limited
+   This file is part of the JUCE framework.
+   Copyright (c) Raw Material Software Limited
 
-   JUCE is an open source library subject to commercial or open-source
+   JUCE is an open source framework subject to commercial or open source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
-   Agreement and JUCE Privacy Policy.
+   By downloading, installing, or using the JUCE framework, or combining the
+   JUCE framework with any other source code, object code, content or any other
+   copyrightable work, you agree to the terms of the JUCE End User Licence
+   Agreement, and all incorporated terms including the JUCE Privacy Policy and
+   the JUCE Website Terms of Service, as applicable, which will bind you. If you
+   do not agree to the terms of these agreements, we will not license the JUCE
+   framework to you, and you must discontinue the installation or download
+   process and cease use of the JUCE framework.
 
-   End User License Agreement: www.juce.com/juce-7-licence
-   Privacy Policy: www.juce.com/juce-privacy-policy
+   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
+   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
+   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
 
-   Or: You may also use this code under the terms of the GPL v3 (see
-   www.gnu.org/licenses).
+   Or:
 
-   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
-   DISCLAIMED.
+   You may also use this code under the terms of the AGPLv3:
+   https://www.gnu.org/licenses/agpl-3.0.en.html
+
+   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
+   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -281,9 +290,9 @@ struct Grid::Helpers
             const auto lines = getArrayOfLinesFromTracks (tracks);
             int count = 0;
 
-            for (int i = 0; i < lines.size(); i++)
+            for (const auto [index, line] : enumerate (lines))
             {
-                for (const auto& name : lines.getReference (i).lineNames)
+                for (const auto& name : line.lineNames)
                 {
                     if (prop.getName() == name)
                     {
@@ -293,7 +302,7 @@ struct Grid::Helpers
                 }
 
                 if (count == prop.getNumber())
-                    return i + 1;
+                    return (int) index + 1;
             }
 
             jassertfalse;
@@ -328,9 +337,11 @@ struct Grid::Helpers
             const auto lines = getArrayOfLinesFromTracks (tracks);
             int count = 0;
 
-            for (int i = startLineNumber; i < lines.size(); i++)
+            const auto enumerated = enumerate (lines);
+
+            for (const auto [index, line] : makeRange (enumerated.begin() + startLineNumber, enumerated.end()))
             {
-                for (const auto& name : lines.getReference (i).lineNames)
+                for (const auto& name : line.lineNames)
                 {
                     if (propertyWithSpan.getName() == name)
                     {
@@ -340,7 +351,7 @@ struct Grid::Helpers
                 }
 
                 if (count == propertyWithSpan.getNumber())
-                    return i + 1;
+                    return (int) index + 1;
             }
 
             jassertfalse;
@@ -545,31 +556,31 @@ struct Grid::Helpers
 
             if (alignContent == AlignContent::spaceBetween)
             {
-                const auto shift = ((float) (rowNumber - 1) * (calculation.remainingHeight / float(numberOfRows - 1)));
+                const auto shift = ((float) (rowNumber - 1) * (calculation.remainingHeight / float (numberOfRows - 1)));
                 area.setY (area.getY() + shift);
             }
 
             if (justifyContent == JustifyContent::spaceBetween)
             {
-                const auto shift = ((float) (columnNumber - 1) * (calculation.remainingWidth / float(numberOfColumns - 1)));
+                const auto shift = ((float) (columnNumber - 1) * (calculation.remainingWidth / float (numberOfColumns - 1)));
                 area.setX (area.getX() + shift);
             }
 
             if (alignContent == AlignContent::spaceEvenly)
             {
-                const auto shift = ((float) rowNumber * (calculation.remainingHeight / float(numberOfRows + 1)));
+                const auto shift = ((float) rowNumber * (calculation.remainingHeight / float (numberOfRows + 1)));
                 area.setY (area.getY() + shift);
             }
 
             if (justifyContent == JustifyContent::spaceEvenly)
             {
-                const auto shift = ((float) columnNumber * (calculation.remainingWidth / float(numberOfColumns + 1)));
+                const auto shift = ((float) columnNumber * (calculation.remainingWidth / float (numberOfColumns + 1)));
                 area.setX (area.getX() + shift);
             }
 
             if (alignContent == AlignContent::spaceAround)
             {
-                const auto inbetweenShift = calculation.remainingHeight / float(numberOfRows);
+                const auto inbetweenShift = calculation.remainingHeight / float (numberOfRows);
                 const auto sidesShift = inbetweenShift / 2;
                 auto shift = (float) (rowNumber - 1) * inbetweenShift + sidesShift;
 
@@ -578,7 +589,7 @@ struct Grid::Helpers
 
             if (justifyContent == JustifyContent::spaceAround)
             {
-                const auto inbetweenShift = calculation.remainingWidth / float(numberOfColumns);
+                const auto inbetweenShift = calculation.remainingWidth / float (numberOfColumns);
                 const auto sidesShift = inbetweenShift / 2;
                 auto shift = (float) (columnNumber - 1) * inbetweenShift + sidesShift;
 
@@ -1158,7 +1169,7 @@ void Grid::performLayout (Rectangle<int> targetArea)
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-struct GridTests  : public UnitTest
+struct GridTests final : public UnitTest
 {
     GridTests()
         : UnitTest ("Grid", UnitTestCategories::gui)

@@ -1,0 +1,172 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+#, fuzzy
+msgid "$$$/MIDI2LR/About/about"
+msgstr "使用方法：MIDIコントローラを接続してMIDI2LRを起動し、編集を開始！詳細は、https://github.com/rsjaffe/MIDI2LR/wikiを参照してください。"
+
+msgid "$$$/MIDI2LR/Bezel/Pickup"
+msgstr "コントローラーが同期されていません。 ^1 を Lightroom の値 ^2 に調整します。"
+
+#. Do not translate key names, as those must be in English. Use the following string for translation, then substitute back the key names:
+#.
+#. Value must be single character or spell out an F key (F1-F16) or: 1, 2, 3 (means 4 in OS X), 5, 6, 7, 8, 4 (means 9 in OS X), 10, 11, 12, 13, 14, 15, 16, 17, or 18 (through 19), 20 (or 21, 22, 23, 24).
+#.
+#. where the numbers mean:
+#.
+#. 1: apostrophe; 2: backslash; 3: backspace; 4: delete; 5: cursor down; 6: cursor left; 7: cursor right; 8: cursor up; 9: delete right; 10: end; 11: escape; 12: home; 13: page down; 14: page up; 15: return; 16: space; 17: tab; 18: numpad 0; 19: numpad 9; 20 numpad add; 21: decimal; 22: divide; 23: multiply; 24: subtract
+#, fuzzy
+msgid "$$$/MIDI2LR/Dialog/InvalidKey"
+msgstr "値は単一文字であるか、Fキー（F1-F16）を綴る必要があります。または：apostrophe、backslash、backspace（MacOSでは左方向への削除を表します）、cursor down、cursor left、cursor right、cursor up、delete（MacOSでは右方向への削除を表します）、end、escape 、home、page down、page up、return、space、tab、またはnumpad 0（numpad 9を介して）、numpad add（またはdecimal、divide、multiply、subtract）。"
+
+msgid "$$$/MIDI2LR/Help/Donate"
+msgstr "プロジェクト開発をサポートするための寄付をお願いします(&D)"
+
+msgid "$$$/MIDI2LR/Help/Latest"
+msgstr "最新のリリースを表示(&V)"
+
+msgid "$$$/MIDI2LR/Help/OnlineHelp"
+msgstr "オンライン ヘルプ(&O)"
+
+msgid "$$$/MIDI2LR/Help/Support"
+msgstr "サポート(&S)"
+
+#, fuzzy
+msgid "$$$/MIDI2LR/Info/BuildFiles"
+msgstr "ビルドファイル（開発専用）"
+
+#. from microsoft https://www.microsoft.com/en-us/language/Search?&searchTerm=delete%20settings&langID=750&Source=true&productid=0
+msgid "$$$/MIDI2LR/Info/DeleteSettings"
+msgstr "設定を削除"
+
+msgid "$$$/MIDI2LR/Keys/Shortcut"
+msgstr "ショートカット"
+
+msgid "$$$/MIDI2LR/Keyword/Toggle"
+msgstr "キーワードの切り替え"
+
+#. Directly from Lightroom translation resources. ^1 is replaced by keyword number (e.g., Toggle Keyword ^1 may become Toggle Keyword 16).
+msgid "$$$/MIDI2LR/Keyword/Toggle1"
+msgstr "キーワード ^1 を切り替え"
+
+msgid "$$$/MIDI2LR/Limits/Limits"
+msgstr "リミット"
+
+#, fuzzy
+msgid "$$$/MIDI2LR/Limits/Limits/NotDevelop"
+msgstr "「開発」モジュールでのみアクティブになります"
+
+msgid "$$$/MIDI2LR/LocalPresets/Presets"
+msgstr "ローカル調整プリセット"
+
+msgid "$$$/MIDI2LR/Menu/CloseApplication"
+msgstr "アプリケーションを閉じる(&C)"
+
+msgid "$$$/MIDI2LR/Menu/ExportConfiguration"
+msgstr "構成のエクスポート(&E)"
+
+msgid "$$$/MIDI2LR/Menu/GeneralOptions"
+msgstr "全般オプション(&O)"
+
+msgid "$$$/MIDI2LR/Menu/ImportConfiguration"
+msgstr "構成のインポート(&I)"
+
+#, fuzzy
+msgctxt "Go to next mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/NextMaskGroup"
+msgstr "次のマスクグループ"
+
+#, fuzzy
+msgctxt "Go to next mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/NextMaskTool"
+msgstr "次のマスクツール"
+
+msgid "$$$/MIDI2LR/Menu/PresetNext"
+msgstr "次のプリセット"
+
+#. From microsoft terminology search
+msgid "$$$/MIDI2LR/Menu/PresetPrevious"
+msgstr "前のプリセット"
+
+msgid "$$$/MIDI2LR/Menu/PressAndHold"
+msgstr "プレス アンド ホールド"
+
+#, fuzzy
+msgctxt "Go to previous mask group. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/PreviousMaskGroup"
+msgstr "前のマスクグループ"
+
+#, fuzzy
+msgctxt "Go to previous mask. Mask: A filter that selectively includes or excludes certain parts of the picture."
+msgid "$$$/MIDI2LR/Menu/PreviousMaskTool"
+msgstr "以前のマスクツール"
+
+msgid "$$$/MIDI2LR/Menu/StartApplication"
+msgstr "アプリケーションの起動(&S)"
+
+#. from https://www.microsoft.com/en-us/language/Search?&searchTerm=tool&langID=124&Source=true&productid=0
+msgctxt "A utility or feature that aids in accomplishing a task or set of tasks."
+msgid "$$$/MIDI2LR/Menu/Tool"
+msgstr "ツール"
+
+msgid "$$$/MIDI2LR/Options/ActionSeriesInvalid"
+msgstr "無効なコマンド"
+
+msgid "$$$/MIDI2LR/Options/dlgtitle"
+msgstr "MIDI2LRのオプションを設定"
+
+msgid "$$$/MIDI2LR/Options/RevealAdjustedControls"
+msgstr "調整されたコントロールを公開する"
+
+msgid "$$$/MIDI2LR/Options/TrackingDelay"
+msgstr "トラッキングディレイ"
+
+msgid "$$$/MIDI2LR/Preferences/cantload"
+msgstr "環境設定を読み込むことができません。デフォルト設定を使用します。"
+
+msgid "$$$/MIDI2LR/Profiles/Next"
+msgstr "次のプロファイル"
+
+msgid "$$$/MIDI2LR/Profiles/NotifyWhenChanged"
+msgstr "プロファイルが変更されたときに通知する"
+
+msgid "$$$/MIDI2LR/Profiles/Previous"
+msgstr "前のプロファイル"
+
+msgid "$$$/MIDI2LR/Shortcuts/Key"
+msgstr "キー"
+
+#, fuzzy
+msgid "$$$/MIDI2LR/Shortcuts/SeriesofCommands"
+msgstr "コマンドシーケンス"
+
+#. From lightroom translations
+msgid "$$$/MIDI2LR/ShortCuts/ShowHide1"
+msgstr "^1 を表示 / 非表示"
+
+#, fuzzy
+#~ msgid "$$$/MIDI2LR/Database/Customcameraprofile"
+#~ msgstr "カスタムカメラプロファイル"
+
+#~ msgid "$$$/MIDI2LR/Dialog/NeedNewerLR"
+#~ msgstr "新しいバージョンの Lightroom が必要です"
+
+#~ msgid "$$$/MIDI2LR/Menu/DeleteMaskGroup"
+#~ msgstr "マスクグループを削除する"
+
+#, fuzzy
+#~ msgid "$$$/MIDI2LR/Menu/DeleteMaskTool"
+#~ msgstr "ツールの削除"
+
+#~ msgid "$$$/MIDI2LR/Database/Show1"
+#~ msgstr "^1 の表示"

@@ -1,0 +1,275 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MIDI2LR\n"
+"POT-Creation-Date: \n"
+"Language: pt-br\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+
+msgid "0"
+msgstr "0"
+
+msgid "127"
+msgstr "127"
+
+msgid "16383"
+msgstr "16383"
+
+#. From MS: A new version of Skype is available.
+msgid "A new version of {} is available."
+msgstr "Uma nova versão do {} está disponível."
+
+#. Microsoft terminology collection: Pertaining to an entity such as the device, program, file, record or portion of the screen that is currently operational or subject to command operations.
+msgid "active"
+msgstr "ativo"
+
+msgid "Adjust CC dialog"
+msgstr "Ajustar diálogo CC"
+
+msgid "Adjust PW dialog"
+msgstr "Ajustar diálogo PW"
+
+#, fuzzy
+msgid "Apply these settings to all similar controls."
+msgstr "Aplique essas configurações a todos os controles semelhantes."
+
+#. From MS: Apply to all
+msgid "Apply to all"
+msgstr "Aplicar a todos"
+
+#. From Microsoft terminology collection "A feature that minimizes tool windows along the edges of the IDE when these windows are not in use."
+msgid "Auto hide"
+msgstr "Ocultar automaticamente"
+
+#, fuzzy
+msgid "Autohide the plugin window in x seconds, select 0 for disabling autohide"
+msgstr "Ocultar automaticamente a janela do plugin em x segundos, selecione 0 para desativar o autohide"
+
+#, fuzzy
+msgid "Binary offset"
+msgstr "Offset binário"
+
+msgid "CC Message Type"
+msgstr "Tipo de mensagem CC"
+
+msgid "Channel 0 Number 0"
+msgstr "Canal 0 Número 0"
+
+msgid "Choose Profile Folder"
+msgstr "Escolha a pasta do perfil"
+
+#. From MS: Clear all rows [not available for ko, zh-tw]
+msgid "Clear ALL rows"
+msgstr "Limpar todas as linhas"
+
+#. From MS: Connected to %s
+msgid "Connected to Lightroom"
+msgstr "Conectado a Lightroom"
+
+#, fuzzy
+msgid "Control value increases when turned one way, decreases when turned the other."
+msgstr "O valor do controle aumenta quando for girado para um lado, diminui quando for girado para o outro lado."
+
+#, fuzzy
+msgid "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other."
+msgstr "O valor do controle é 1 ou mais quando for girado para um lado, e 127 ou menos quando for girado para o outro lado."
+
+#, fuzzy
+msgid "Control value is near 1 when turned one way, and near 65 when turned the other."
+msgstr "O valor do controle é próximo de 1 quando for girado para um lado e próximo de 65 quando for girado para o outro lado."
+
+#, fuzzy
+msgid "Control value is near 63 when turned one way, and near 65 when turned the other."
+msgstr "O valor do controle é próximo de 63 quando girado para um lado e próximo de 65 quando for girado para o outro lado."
+
+#. Deactivate MIDI controller from microsoft translations search terminology
+#. Deactivate {0}; Xbox 360 Controller
+#, fuzzy
+msgid "Deactivate MIDI controller"
+msgstr "Desativar controlador MIDI"
+
+#. Microsoft terminology collection A user-defined description of a particular device.
+msgid "device name"
+msgstr "nome do dispositivo"
+
+#, fuzzy
+msgid "Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with Lightroom not picking up fast fader/knob movements"
+msgstr "Desativar o modo pickup pode ser melhor para dispositivos touchscreen e pode resolver problemas com o Lightroom não responder à movimentos rápidos de fader/knob"
+
+msgid "Do not show again"
+msgstr "Não mostrar novamente"
+
+#. Microsoft translation resources
+msgid "Do you want to download the latest version?"
+msgstr "Deseja baixar a última versão?"
+
+#, fuzzy
+msgid "Enable Pickup Mode"
+msgstr "Ativar o modo PickUp"
+
+#. From MS: Error (A value or condition that is not consistent with the true, specified, or expected value or condition.)
+msgid "Error"
+msgstr "Erro"
+
+#. From MS: Exception (An abnormal condition or error that occurs during the execution of a program. An exception requires the execution of software outside the normal flow of control.)
+msgid "Exception "
+msgstr "Exceção "
+
+msgid "Halt sending to Lightroom"
+msgstr "Parar o envio para o Lightroom"
+
+#. Microsoft terminology search "input/output" The complementary tasks of gathering and distributing data. Input is data that is acquired from a device or entered by the user through a device. Output is data that is sent to a device.
+msgid "input/output"
+msgstr "entrada/saída"
+
+#. From MS: Invalid keyboard layout handle.
+msgid "Invalid keyboard layout handle."
+msgstr "Identificador de layout de teclado inválido."
+
+#. From MS: Load (To place information from storage into memory for processing, if it is data, or for execution, if it is program code.)
+msgid "Load"
+msgstr "Carregar"
+
+#. From MS: LR Command (from UIDL command)
+msgid "LR Command"
+msgstr "Comando LR"
+
+#. From MS: maximum value (from Excel)
+msgid "Maximum value"
+msgstr "Valor máximo"
+
+#. From MS: MIDI Command (from UIDL command)
+msgid "MIDI Command"
+msgstr "Comando MIDI"
+
+#, fuzzy
+msgid "MIDI2LR needs your authorization to send keystrokes to Lightroom"
+msgstr "O MIDI2LR precisa da sua autorização para enviar as teclas digitadas para o Lightroom"
+
+#. From MS: MIDI2LR Profiles (from CDN profiles)
+msgid "MIDI2LR profiles"
+msgstr "Perfis MIDI2LR"
+
+msgid "MIDISender: Unexpected data type: {:n}."
+msgstr "MIDISender: Tipo de Dado Inesperado: {:n}."
+
+#. From MS: minimum value (from Excel)
+msgid "Minimum value"
+msgstr "Valor mínimo"
+
+#. From MS: Not connected to %s [did not use it translation; not available for zh_tw]
+msgid "Not connected to Lightroom"
+msgstr "Não conectado a Lightroom"
+
+#. From MS: Open profile
+msgid "Open profile"
+msgstr "Abrir perfil"
+
+msgid "Pick up"
+msgstr "Pegar"
+
+msgid "Pitch Wheel"
+msgstr "Pitch Bend"
+
+#. From MS: Profile (A computer-based record that contains software settings and identification information.)
+msgid "Profile"
+msgstr "Perfil"
+
+#. From MS: Profile Changed
+#. From MS:  Do you want to save your changes? If you continue without saving, your changes will be lost.
+msgid "Profile changed. Do you want to save your changes? If you continue without saving, your changes will be lost."
+msgstr "Perfil alterado. Deseja salvar as alterações? Se você continuar sem salvar, elas serão perdidas."
+
+#, fuzzy
+msgid "Remove unassigned rows"
+msgstr "Remover linhas não atribuídas"
+
+#, fuzzy
+msgid "Rescan MIDI devices"
+msgstr "Rescanar dispositivos MIDI"
+
+#. From MS: Resolution (A measure of the fineness of detail in an image or text, usually as produced by a monitor or printer.)
+msgid "Resolution"
+msgstr "Resolução"
+
+#. From MS: Save
+msgid "Save"
+msgstr "Salvar"
+
+#. From MS: Save profile
+msgid "Save profile"
+msgstr "Salvar perfil"
+
+#. From MS: Select Folder
+msgid "Select Folder"
+msgstr "Selecionar Pasta"
+
+msgid "Sending halted"
+msgstr "Envio Interrompido"
+
+#. From MS: Settings (The feature in an app that allows users to change its properties or behavior.)
+msgid "Settings"
+msgstr "Configurações"
+
+#, fuzzy
+msgid "Sign and magnitude"
+msgstr "Sinal e magnitude"
+
+#. translations from localized microsoft products. often translated as "system code"
+msgid "system id"
+msgstr "ID do sistema"
+
+#. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
+msgid "The file, 'MenuTrans.xml', is marked as a version not supported by the current version of MIDI2LR, and won't be loaded. File version: {}."
+msgstr "O arquivo 'MenuTrans.xml' está marcado como uma versão que não tem suporte na versão atual do MIDI2LR e não será carregado. Versão do arquivo: {}."
+
+#. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
+msgid "The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."
+msgstr "O arquivo 'settings.xml' está marcado como uma versão que não tem suporte na versão atual do MIDI2LR ChannelModel e não será carregado. Versão do arquivo: {}."
+
+#. From MS: The file, |0, is marked as a version not supported by the current version of Visual Basic, and won't be loaded. File version:
+msgid "The file, 'settings.xml', is marked as a version not supported by the current version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."
+msgstr "O arquivo 'settings.xml' está marcado como uma versão que não tem suporte na versão atual do MIDI2LR SettingsStruct e não será carregado. Versão do arquivo: {}."
+
+msgid ""
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\n"
+"1) Open System Preferences\n"
+"2) Open Accessibility preferences \n"
+"3) Select \"Accessibility Apps\"\n"
+"4) Add this application to the approval list"
+msgstr ""
+"Para autorizar o MIDI2LR a enviar pressionamentos de teclas ao Lightroom, siga estas etapas:\n"
+"1) Abra as Preferências do Sistema\n"
+"2) Abra as preferências de Acessibilidade \n"
+"3) Selecione “Apps de Acessibilidade”\n"
+"4) Adicione este aplicativo à lista de aprovados"
+
+#, fuzzy
+msgid "Two's complement"
+msgstr "Complemento de dois"
+
+#. From MS: Unable to load %1
+msgid "Unable to load MenuTrans.xml."
+msgstr "Não é possível carregar MenuTrans.xml."
+
+#. From MS: Unable to save file. Choose a different location and try again.
+msgid "Unable to save file. Choose a different location and try again."
+msgstr "Não é possível salvar o arquivo. Escolha um local diferente e tente novamente."
+
+#. From MS: Unable to save %1
+msgid "Unable to save settings.xml."
+msgstr "Impossível salvar settings.xml."
+
+#. From MS: Unassigned (from Dynamics AX7)
+msgid "Unassigned"
+msgstr "Não Atribuído"
+
+#. From MS: unhandled exception (An exception that was identified with a "try catch or finally block" structure or that occurred outside this structure but was not caught by any structured error handler. "Dr. Watson" errors are examples.)
+msgid "unhandled exception"
+msgstr "exceção sem tratamento"
+
+#. From MS: Version (A designation appended to a product name to identify a particular release.)
+msgid "Version "
+msgstr "Versão "

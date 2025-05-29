@@ -1,21 +1,33 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library.
-   Copyright (c) 2022 - Raw Material Software Limited
+   This file is part of the JUCE framework.
+   Copyright (c) Raw Material Software Limited
 
-   JUCE is an open source library subject to commercial or open-source
+   JUCE is an open source framework subject to commercial or open source
    licensing.
 
-   The code included in this file is provided under the terms of the ISC license
-   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   To use, copy, modify, and/or distribute this software for any purpose with or
-   without fee is hereby granted provided that the above copyright notice and
-   this permission notice appear in all copies.
+   By downloading, installing, or using the JUCE framework, or combining the
+   JUCE framework with any other source code, object code, content or any other
+   copyrightable work, you agree to the terms of the JUCE End User Licence
+   Agreement, and all incorporated terms including the JUCE Privacy Policy and
+   the JUCE Website Terms of Service, as applicable, which will bind you. If you
+   do not agree to the terms of these agreements, we will not license the JUCE
+   framework to you, and you must discontinue the installation or download
+   process and cease use of the JUCE framework.
 
-   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
-   DISCLAIMED.
+   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
+   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
+   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+
+   Or:
+
+   You may also use this code under the terms of the AGPLv3:
+   https://www.gnu.org/licenses/agpl-3.0.en.html
+
+   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
+   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -82,7 +94,7 @@ using uint32    = unsigned int;
   using pointer_sized_uint = unsigned int;
 #endif
 
-#if JUCE_WINDOWS && ! JUCE_MINGW
+#if JUCE_WINDOWS
   using ssize_t = pointer_sized_int;
 #endif
 
@@ -149,7 +161,7 @@ struct MathConstants
     /** A predefined value for Euler's number */
     static constexpr FloatType euler = static_cast<FloatType> (2.71828182845904523536L);
 
-    /** A predefined value for sqrt(2) */
+    /** A predefined value for sqrt (2) */
     static constexpr FloatType sqrt2 = static_cast<FloatType> (1.4142135623730950488L);
 };
 
@@ -208,6 +220,8 @@ constexpr bool exactlyEqual (Type a, Type b)
 /** A class encapsulating both relative and absolute tolerances for use in floating-point comparisons.
 
     @see approximatelyEqual, absoluteTolerance, relativeTolerance
+
+    @tags{Core}
 */
 template <typename Type>
 class Tolerance
@@ -276,8 +290,8 @@ static Tolerance<Type> relativeTolerance (Type tolerance)
     differences that are subnormal are always considered equal. It is highly recommend this
     value is reviewed depending on the calculation being carried out. In general specifying an
     absolute value is useful when considering values close to zero. For example you might
-    expect sin(pi) to return 0, but what it actually returns is close to the error of the value pi.
-    Therefore, in this example it might be better to set the absolute tolerance to sin(pi).
+    expect sin (pi) to return 0, but what it actually returns is close to the error of the value pi.
+    Therefore, in this example it might be better to set the absolute tolerance to sin (pi).
 
     The default relative tolerance is equal to the machine epsilon which is the difference between
     1.0 and the next floating-point value that can be represented by Type. In most cases this value
@@ -796,5 +810,14 @@ namespace TypeHelpers
  [[deprecated ("Use roundToInt instead.")]] inline int roundFloatToInt  (float  value) noexcept  { return roundToInt (value); }
  [[deprecated ("Use std::abs() instead.")]] inline int64 abs64 (int64 n) noexcept                { return std::abs (n); }
 #endif
+
+/** Converts an enum to its underlying integral type.
+    Similar to std::to_underlying, which is only available in C++23 and above.
+*/
+template <typename T>
+constexpr auto toUnderlyingType (T t) -> std::enable_if_t<std::is_enum_v<T>, std::underlying_type_t<T>>
+{
+    return static_cast<std::underlying_type_t<T>> (t);
+}
 
 } // namespace juce

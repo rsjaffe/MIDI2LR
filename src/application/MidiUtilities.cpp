@@ -73,7 +73,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
    try {
       Expects(message.value <= 0x7F && message.value >= 0);
       Expects(message.control_number <= 0x7F && message.control_number >= 0);
-      ProcessResult ret_val {false, false, 0, 0};
+      ProcessResult ret_val {.is_nrpn = false, .is_ready = false, .control = 0, .value = 0};
       switch (message.control_number) {
       case 6:
          {
@@ -129,7 +129,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

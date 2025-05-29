@@ -35,7 +35,7 @@ void MidiSender::Start()
       InitDevices();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -45,26 +45,31 @@ namespace {
    {
       constexpr auto msge {"MIDISender: Unexpected data type: {:n}."};
       const auto msgt {juce::translate(msge).toStdString()};
-      rsj::LogAndAlertError(fmt::format(msgt, id.msg_id_type), fmt::format(msge, id.msg_id_type));
+      rsj::LogAndAlertError(fmt::format(msgt, id.msg_id_type), fmt::format(msge, id.msg_id_type),
+          std::source_location::current());
    }
 } // namespace
 
 void MidiSender::Send(rsj::MidiMessageId id, int value) const
 {
    try {
-      if (id.msg_id_type == rsj::MessageType::kCc) { SendControllerEvent(id, value); }
-      else if (id.msg_id_type == rsj::MessageType::kNoteOn) {
+      switch (id.msg_id_type) {
+      case rsj::MessageType::kCc:
+         SendControllerEvent(id, value);
+         break;
+      case rsj::MessageType::kNoteOn:
          SendNoteOn(id, value);
-      }
-      else if (id.msg_id_type == rsj::MessageType::kPw) {
+         break;
+      case rsj::MessageType::kPw:
          SendPitchWheel(id, value);
-      }
-      else {
+         break;
+      default:
          LogUnexpectedDataType(id);
+         break;
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -115,11 +120,11 @@ void MidiSender::RescanDevices()
 {
    try {
       output_devices_.clear();
-      rsj::Log("Cleared output devices.");
+      rsj::Log("Cleared output devices.", std::source_location::current());
       InitDevices();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -143,17 +148,19 @@ void MidiSender::InitDevices()
          if (auto open_device {juce::MidiOutput::openDevice(device.identifier)}) {
             const auto devname {open_device->getName().toStdString()};
             if (ShouldOpenDevice(devname, open_device)) {
-               rsj::Log(fmt::format(FMT_STRING("Opened output device {}."), devname));
+               rsj::Log(fmt::format(FMT_STRING("Opened output device {}."), devname),
+                   std::source_location::current());
                output_devices_.push_back(std::move(open_device));
             }
             else {
-               rsj::Log(fmt::format(FMT_STRING("Ignored output device {}."), devname));
+               rsj::Log(fmt::format(FMT_STRING("Ignored output device {}."), devname),
+                   std::source_location::current());
             }
          }
       } /* devices that are skipped have their pointers deleted and are automatically closed*/
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

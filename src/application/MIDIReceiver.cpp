@@ -47,7 +47,7 @@ void MidiReceiver::Start()
       });
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -56,10 +56,12 @@ void MidiReceiver::Stop()
 {
    for (const auto& dev : input_devices_) {
       dev->stop();
-      rsj::Log(fmt::format(FMT_STRING("Stopped input device {}."), dev->getName().toStdString()));
+      rsj::Log(fmt::format(FMT_STRING("Stopped input device {}."), dev->getName().toStdString()),
+          std::source_location::current());
    }
    if (const auto remaining {messages_.clear_count_push({kTerminate, nullptr})}) {
-      rsj::Log(fmt::format(FMT_STRING("{} left in queue in MidiReceiver StopRunning."), remaining));
+      rsj::Log(fmt::format(FMT_STRING("{} left in queue in MidiReceiver StopRunning."), remaining),
+          std::source_location::current());
    }
 }
 
@@ -68,14 +70,14 @@ void MidiReceiver::RescanDevices()
    try {
       for (const auto& dev : input_devices_) {
          dev->stop();
-         rsj::Log(fmt::format(FMT_STRING("Stopped input device {}."),
-             dev->getName().toStdString()));
+         rsj::Log(fmt::format(FMT_STRING("Stopped input device {}."), dev->getName().toStdString()),
+             std::source_location::current());
       }
       input_devices_.clear();
-      rsj::Log("Cleared input devices.");
+      rsj::Log("Cleared input devices.", std::source_location::current());
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
    InitDevices(); /* initdevices has own try catch block */
@@ -90,18 +92,20 @@ void MidiReceiver::TryToOpen()
             if (devices_.EnabledOrNew(open_device->getDeviceInfo(), "input")) {
                open_device->start();
                rsj::Log(fmt::format(FMT_STRING("Opened input device {}."),
-                   open_device->getName().toStdString()));
+                            open_device->getName().toStdString()),
+                   std::source_location::current());
                input_devices_.push_back(std::move(open_device));
             }
             else {
                rsj::Log(fmt::format(FMT_STRING("Ignored input device {}."),
-                   open_device->getName().toStdString()));
+                            open_device->getName().toStdString()),
+                   std::source_location::current());
             }
          }
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -110,25 +114,19 @@ void MidiReceiver::InitDevices()
 {
    using namespace std::literals::chrono_literals;
    try {
-      rsj::Log("Trying to open input devices.");
-      TryToOpen();
-      if (input_devices_.empty()) /* encountering errors first try on MacOS */
-      {
-         rsj::Log("Retrying to open input devices.");
-         std::this_thread::sleep_for(20ms);
-         rsj::Log("20ms sleep for open input devices.");
+      for (int i = 0; i < 3; ++i) {
+         rsj::Log("Trying to open input devices.", std::source_location::current());
          TryToOpen();
-         if (input_devices_.empty()) /* encountering errors second try on MacOS */
-         {
-            rsj::Log("Retrying second time to open input devices.");
-            std::this_thread::sleep_for(80ms);
-            rsj::Log("80ms sleep for open input devices.");
-            TryToOpen();
-         }
+         if (!input_devices_.empty()) { break; }
+         const auto sleep_duration = 20ms * (1 << i);
+         rsj::Log(fmt::format(FMT_STRING("Retrying to open input devices after {}ms."),
+                      sleep_duration.count()),
+             std::source_location::current());
+         std::this_thread::sleep_for(sleep_duration);
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -148,7 +146,7 @@ void MidiReceiver::DispatchCcMessage(const std::pair<rsj::MidiMessage, juce::Mid
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -160,7 +158,7 @@ void MidiReceiver::DispatchNoteOnPwMessage(
       for (const auto& cb : callbacks_) { cb(popped.first); }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -168,7 +166,8 @@ void MidiReceiver::DispatchNoteOnPwMessage(
 void MidiReceiver::DispatchMessages()
 {
    try {
-      for (auto popped {messages_.pop()}; popped.first != kTerminate; popped = messages_.pop()) {
+      decltype(messages_)::value_type popped;
+      while ((popped = messages_.pop()).first != kTerminate) {
 #ifdef _WIN32
          SetThreadExecutionState(0x00000002UL | 0x00000001UL);
 #endif
@@ -190,7 +189,7 @@ void MidiReceiver::DispatchMessages()
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }

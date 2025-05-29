@@ -1,26 +1,36 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library.
-   Copyright (c) 2022 - Raw Material Software Limited
+   This file is part of the JUCE framework.
+   Copyright (c) Raw Material Software Limited
 
-   JUCE is an open source library subject to commercial or open-source
+   JUCE is an open source framework subject to commercial or open source
    licensing.
 
-   The code included in this file is provided under the terms of the ISC license
-   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   To use, copy, modify, and/or distribute this software for any purpose with or
-   without fee is hereby granted provided that the above copyright notice and
-   this permission notice appear in all copies.
+   By downloading, installing, or using the JUCE framework, or combining the
+   JUCE framework with any other source code, object code, content or any other
+   copyrightable work, you agree to the terms of the JUCE End User Licence
+   Agreement, and all incorporated terms including the JUCE Privacy Policy and
+   the JUCE Website Terms of Service, as applicable, which will bind you. If you
+   do not agree to the terms of these agreements, we will not license the JUCE
+   framework to you, and you must discontinue the installation or download
+   process and cease use of the JUCE framework.
 
-   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
-   DISCLAIMED.
+   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
+   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
+   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+
+   Or:
+
+   You may also use this code under the terms of the AGPLv3:
+   https://www.gnu.org/licenses/agpl-3.0.en.html
+
+   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
+   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
-
-#include <juce_audio_basics/native/juce_CoreAudioTimeConversions_mac.h>
 
 namespace juce
 {
@@ -41,7 +51,7 @@ constexpr auto juceAudioObjectPropertyElementMain =
        #endif
 
 //==============================================================================
-class ManagedAudioBufferList : public AudioBufferList
+class ManagedAudioBufferList final : public AudioBufferList
 {
 public:
     struct Deleter
@@ -292,8 +302,8 @@ class CoreAudioIODeviceType;
 class CoreAudioIODevice;
 
 //==============================================================================
-class CoreAudioInternal  : private Timer,
-                           private AsyncUpdater
+class CoreAudioInternal final : private Timer,
+                                private AsyncUpdater
 {
 private:
     // members with deduced return types need to be defined before they
@@ -464,6 +474,24 @@ public:
         auto newOutput = rawToUniquePtr (outStream != nullptr ? new Stream (false, *this, activeOuts) : nullptr);
 
         auto newBitDepth = jmax (getBitDepth (newInput), getBitDepth (newOutput));
+
+       #if JUCE_AUDIOWORKGROUP_TYPES_AVAILABLE
+        audioWorkgroup = [this]() -> AudioWorkgroup
+        {
+            AudioObjectPropertyAddress pa;
+            pa.mSelector = kAudioDevicePropertyIOThreadOSWorkgroup;
+            pa.mScope    = kAudioObjectPropertyScopeWildcard;
+            pa.mElement  = juceAudioObjectPropertyElementMain;
+
+            if (auto* workgroup = audioObjectGetProperty<os_workgroup_t> (deviceID, pa).value_or (nullptr))
+            {
+                ScopeGuard scope { [&] { os_release (workgroup); } };
+                return makeRealAudioWorkgroup (workgroup);
+            }
+
+            return {};
+        }();
+       #endif
 
         {
             const ScopedLock sl (callbackLock);
@@ -676,7 +704,7 @@ public:
             scopedProcID = [&self = *this,
                             &lock = callbackLock,
                             nextProcID = ScopedAudioDeviceIOProcID { *this, deviceID, audioIOProc },
-                            deviceID = deviceID]() mutable -> ScopedAudioDeviceIOProcID
+                            dID = deviceID]() mutable -> ScopedAudioDeviceIOProcID
             {
                 // It *looks* like AudioDeviceStart may start the audio callback running, and then
                 // immediately lock an internal mutex.
@@ -690,7 +718,7 @@ public:
                 {
                     const ScopedUnlock su (lock);
 
-                    if (self.OK (AudioDeviceStart (deviceID, procID)))
+                    if (self.OK (AudioDeviceStart (dID, procID)))
                         return std::move (nextProcID);
                 }
 
@@ -777,11 +805,15 @@ public:
 
             const auto* timeStamp = numOutputChans > 0 ? outputTimestamp : inputTimestamp;
             const auto nanos = timeStamp != nullptr ? timeConversions.hostTimeToNanos (timeStamp->mHostTime) : 0;
+            const AudioIODeviceCallbackContext context
+            {
+                timeStamp != nullptr ? &nanos : nullptr,
+            };
 
             callback->audioDeviceIOCallbackWithContext (getTempBuffers (inStream),  numInputChans,
                                                         getTempBuffers (outStream), numOutputChans,
                                                         bufferSize,
-                                                        { timeStamp != nullptr ? &nanos : nullptr });
+                                                        context);
 
             for (int i = numOutputChans; --i >= 0;)
             {
@@ -1019,11 +1051,13 @@ public:
 
     CoreAudioIODevice& owner;
     int bitDepth = 32;
-    int xruns = 0;
+    std::atomic<int> xruns = 0;
     Array<double> sampleRates;
     Array<int> bufferSizes;
     AudioDeviceID deviceID;
     std::unique_ptr<Stream> inStream, outStream;
+
+    AudioWorkgroup audioWorkgroup;
 
 private:
     class ScopedAudioDeviceIOProcID
@@ -1090,8 +1124,8 @@ private:
         auto oldBufferSize = bufferSize;
 
         if (! updateDetailsFromDevice())
-            owner.stopInternal();
-        else if ((oldBufferSize != bufferSize || ! approximatelyEqual (oldSampleRate, sampleRate)) && owner.shouldRestartDevice())
+            owner.stopWithPendingCallback();
+        else if (oldBufferSize != bufferSize || ! approximatelyEqual (oldSampleRate, sampleRate))
             owner.restart();
     }
 
@@ -1125,7 +1159,7 @@ private:
             return x.mSelector == kAudioDeviceProcessorOverload;
         });
 
-        intern.xruns += xruns;
+        intern.xruns += (int) xruns;
 
         const auto detailsChanged = std::any_of (pa, pa + numAddresses, [] (const AudioObjectPropertyAddress& x)
         {
@@ -1182,18 +1216,16 @@ private:
 
 
 //==============================================================================
-class CoreAudioIODevice   : public AudioIODevice,
-                            private Timer
+class CoreAudioIODevice final : public AudioIODevice,
+                                private Timer
 {
 public:
     CoreAudioIODevice (CoreAudioIODeviceType* dt,
                        const String& deviceName,
-                       AudioDeviceID inputDeviceId, int inputIndex_,
-                       AudioDeviceID outputDeviceId, int outputIndex_)
+                       AudioDeviceID inputDeviceId,
+                       AudioDeviceID outputDeviceId)
         : AudioIODevice (deviceName, "CoreAudio"),
-          deviceType (dt),
-          inputIndex (inputIndex_),
-          outputIndex (outputIndex_)
+          deviceType (dt)
     {
         internal = [this, &inputDeviceId, &outputDeviceId]
         {
@@ -1241,7 +1273,7 @@ public:
     int getCurrentBufferSizeSamples() override          { return internal->getBufferSize(); }
     int getXRunCount() const noexcept override          { return internal->xruns; }
 
-    int getIndexOfDevice (bool asInput) const           { return asInput ? inputIndex : outputIndex; }
+    int getIndexOfDevice (bool asInput) const           { return deviceType->getDeviceNames (asInput).indexOf (getName()); }
 
     int getDefaultBufferSize() override
     {
@@ -1293,30 +1325,31 @@ public:
 
     void start (AudioIODeviceCallback* callback) override
     {
+        const ScopedLock sl (startStopLock);
+
         if (internal->start (callback))
-            previousCallback = callback;
+            pendingCallback = nullptr;
     }
 
     void stop() override
     {
-        restartDevice = false;
         stopAndGetLastCallback();
+
+        const ScopedLock sl (startStopLock);
+        pendingCallback = nullptr;
     }
 
-    AudioIODeviceCallback* stopAndGetLastCallback() const
+    void stopWithPendingCallback()
     {
-        auto* lastCallback = internal->stop (true);
+        const ScopedLock sl (startStopLock);
 
-        if (lastCallback != nullptr)
-            lastCallback->audioDeviceStopped();
-
-        return lastCallback;
+        if (pendingCallback == nullptr)
+            pendingCallback = stopAndGetLastCallback();
     }
 
-    AudioIODeviceCallback* stopInternal()
+    AudioWorkgroup getWorkgroup() const override
     {
-        restartDevice = true;
-        return stopAndGetLastCallback();
+        return internal->audioWorkgroup;
     }
 
     bool isPlaying() override
@@ -1344,11 +1377,7 @@ public:
             return;
         }
 
-        {
-            const ScopedLock sl (closeLock);
-            previousCallback = stopInternal();
-        }
-
+        stopWithPendingCallback();
         startTimer (100);
     }
 
@@ -1362,32 +1391,45 @@ public:
         restarter = restarterIn;
     }
 
-    bool shouldRestartDevice() const noexcept    { return restartDevice; }
-
     WeakReference<CoreAudioIODeviceType> deviceType;
-    int inputIndex, outputIndex;
     bool hadDiscontinuity;
 
 private:
     std::unique_ptr<CoreAudioInternal> internal;
-    bool isOpen_ = false, restartDevice = true;
+    bool isOpen_ = false;
     String lastError;
-    AudioIODeviceCallback* previousCallback = nullptr;
+    //  When non-null, this indicates that the device has been stopped with the intent to restart
+    //  using the same callback. That is, this should only be non-null when the device is stopped.
+    AudioIODeviceCallback* pendingCallback = nullptr;
     AsyncRestarter* restarter = nullptr;
     BigInteger inputChannelsRequested, outputChannelsRequested;
-    CriticalSection closeLock;
+    CriticalSection startStopLock;
+
+    AudioIODeviceCallback* stopAndGetLastCallback() const
+    {
+        auto* lastCallback = internal->stop (true);
+
+        if (lastCallback != nullptr)
+            lastCallback->audioDeviceStopped();
+
+        return lastCallback;
+    }
 
     void timerCallback() override
     {
         stopTimer();
 
-        stopInternal();
+        stopWithPendingCallback();
 
         internal->updateDetailsFromDevice();
 
-        open (inputChannelsRequested, outputChannelsRequested,
-              getCurrentSampleRate(), getCurrentBufferSizeSamples());
-        start (previousCallback);
+        open (inputChannelsRequested,
+              outputChannelsRequested,
+              getCurrentSampleRate(),
+              getCurrentBufferSizeSamples());
+
+        const ScopedLock sl { startStopLock };
+        start (pendingCallback);
     }
 
     static OSStatus hardwareListenerProc (AudioDeviceID /*inDevice*/,
@@ -1411,9 +1453,9 @@ private:
 
 
 //==============================================================================
-class AudioIODeviceCombiner    : public AudioIODevice,
-                                 private AsyncRestarter,
-                                 private Timer
+class AudioIODeviceCombiner final : public AudioIODevice,
+                                    private AsyncRestarter,
+                                    private Timer
 {
 public:
     AudioIODeviceCombiner (const String& deviceName, CoreAudioIODeviceType* deviceType,
@@ -1427,7 +1469,7 @@ public:
           outputWrapper (*this, std::move (outputDevice), false)
     {
         if (getAvailableSampleRates().isEmpty())
-            lastError = TRANS("The input and output devices don't share a common sample rate!");
+            lastError = TRANS ("The input and output devices don't share a common sample rate!");
     }
 
     ~AudioIODeviceCombiner() override
@@ -1438,6 +1480,12 @@ public:
     auto getDeviceWrappers()       { return std::array<      DeviceWrapper*, 2> { { &inputWrapper, &outputWrapper } }; }
     auto getDeviceWrappers() const { return std::array<const DeviceWrapper*, 2> { { &inputWrapper, &outputWrapper } }; }
 
+    int getIndexOfDevice (bool asInput) const
+    {
+        return asInput ? inputWrapper.getIndexOfDevice (true)
+                       : outputWrapper.getIndexOfDevice (false);
+    }
+
     StringArray getOutputChannelNames() override        { return outputWrapper.getChannelNames(); }
     StringArray getInputChannelNames()  override        { return inputWrapper .getChannelNames(); }
     BigInteger getActiveOutputChannels() const override { return outputWrapper.getActiveChannels(); }
@@ -1445,46 +1493,16 @@ public:
 
     Array<double> getAvailableSampleRates() override
     {
-        Array<double> commonRates;
-        bool first = true;
-
-        for (auto& d : getDeviceWrappers())
-        {
-            auto rates = d->getAvailableSampleRates();
-
-            if (first)
-            {
-                first = false;
-                commonRates = rates;
-            }
-            else
-            {
-                commonRates.removeValuesNotIn (rates);
-            }
-        }
+        auto commonRates = inputWrapper.getAvailableSampleRates();
+        commonRates.removeValuesNotIn (outputWrapper.getAvailableSampleRates());
 
         return commonRates;
     }
 
     Array<int> getAvailableBufferSizes() override
     {
-        Array<int> commonSizes;
-        bool first = true;
-
-        for (auto& d : getDeviceWrappers())
-        {
-            auto sizes = d->getAvailableBufferSizes();
-
-            if (first)
-            {
-                first = false;
-                commonSizes = sizes;
-            }
-            else
-            {
-                commonSizes.removeValuesNotIn (sizes);
-            }
-        }
+        auto commonSizes = inputWrapper.getAvailableBufferSizes();
+        commonSizes.removeValuesNotIn (outputWrapper.getAvailableBufferSizes());
 
         return commonSizes;
     }
@@ -1496,22 +1514,17 @@ public:
 
     int getCurrentBitDepth() override
     {
-        int depth = 32;
-
-        for (auto& d : getDeviceWrappers())
-            depth = jmin (depth, d->getCurrentBitDepth());
-
-        return depth;
+        return jmin (32, inputWrapper.getCurrentBitDepth(), outputWrapper.getCurrentBitDepth());
     }
 
     int getDefaultBufferSize() override
     {
-        int size = 0;
+        return jmax (0, inputWrapper.getDefaultBufferSize(), outputWrapper.getDefaultBufferSize());
+    }
 
-        for (auto& d : getDeviceWrappers())
-            size = jmax (size, d->getDefaultBufferSize());
-
-        return size;
+    AudioWorkgroup getWorkgroup() const override
+    {
+        return inputWrapper.getWorkgroup();
     }
 
     String open (const BigInteger& inputChannels,
@@ -1671,7 +1684,7 @@ public:
                 if (! forwarder.encounteredError() && newCallback != nullptr)
                     newCallback->audioDeviceAboutToStart (this);
                 else if (lastError.isEmpty())
-                    lastError = TRANS("Failed to initialise all requested devices.");
+                    lastError = TRANS ("Failed to initialise all requested devices.");
             }
 
             const ScopedLock sl (callbackLock);
@@ -1729,7 +1742,7 @@ private:
         }
 
         for (auto& d : getDeviceWrappers())
-            d->stopInternal();
+            d->stop();
 
         if (lastCallback != nullptr)
         {
@@ -1941,7 +1954,7 @@ private:
     void handleAudioDeviceError (const String& errorMessage)   { shutdown (errorMessage.isNotEmpty() ? errorMessage : String ("unknown")); }
 
     //==============================================================================
-    struct DeviceWrapper  : public AudioIODeviceCallback
+    struct DeviceWrapper final : public AudioIODeviceCallback
     {
         DeviceWrapper (AudioIODeviceCombiner& cd, std::unique_ptr<CoreAudioIODevice> d, bool shouldBeInput)
             : owner (cd),
@@ -1995,8 +2008,9 @@ private:
         int getCurrentBitDepth()                                  const { return device->getCurrentBitDepth(); }
         int getDefaultBufferSize()                                const { return device->getDefaultBufferSize(); }
         void start (AudioIODeviceCallback* callbackToNotify)      const { return device->start (callbackToNotify); }
-        AudioIODeviceCallback* stopInternal()                     const { return device->stopInternal(); }
+        void stop()                                               const { return device->stop(); }
         void close()                                              const { return device->close(); }
+        AudioWorkgroup getWorkgroup()                             const { return device->getWorkgroup(); }
 
         String open (const BigInteger& inputChannels, const BigInteger& outputChannels, double sampleRate, int bufferSizeSamples) const
         {
@@ -2039,7 +2053,7 @@ private:
     /* If the current AudioIODeviceCombiner::callback is nullptr, it sets itself as the callback
        and forwards error related callbacks to the provided callback
     */
-    class ScopedErrorForwarder  : public AudioIODeviceCallback
+    class ScopedErrorForwarder final : public AudioIODeviceCallback
     {
     public:
         ScopedErrorForwarder (AudioIODeviceCombiner& ownerIn, AudioIODeviceCallback* cb)
@@ -2069,7 +2083,8 @@ private:
             if (target != nullptr)
                 target->audioDeviceStopped();
 
-            error = true;
+            // The audio device may stop because it's about to be restarted with new settings.
+            // Stopping the device doesn't necessarily count as an error.
         }
 
         void audioDeviceError (const String& errorMessage) override
@@ -2097,8 +2112,8 @@ private:
 
 
 //==============================================================================
-class CoreAudioIODeviceType  : public AudioIODeviceType,
-                               private AsyncUpdater
+class CoreAudioIODeviceType final : public AudioIODeviceType,
+                                    private AsyncUpdater
 {
 public:
     CoreAudioIODeviceType()  : AudioIODeviceType ("CoreAudio")
@@ -2208,9 +2223,7 @@ public:
             return d->getIndexOfDevice (asInput);
 
         if (auto* d = dynamic_cast<AudioIODeviceCombiner*> (device))
-            for (auto* dev : d->getDeviceWrappers())
-                if (const auto index = dev->getIndexOfDevice (asInput); index >= 0)
-                    return index;
+            return d->getIndexOfDevice (asInput);
 
         return -1;
     }
@@ -2235,12 +2248,12 @@ public:
                                                        : outputDeviceName;
 
         if (inputDeviceID == outputDeviceID)
-            return std::make_unique<CoreAudioIODevice> (this, combinedName, inputDeviceID, inputIndex, outputDeviceID, outputIndex).release();
+            return std::make_unique<CoreAudioIODevice> (this, combinedName, inputDeviceID, outputDeviceID).release();
 
-        auto in = inputDeviceID != 0 ? std::make_unique<CoreAudioIODevice> (this, inputDeviceName, inputDeviceID, inputIndex, 0, -1)
+        auto in = inputDeviceID != 0 ? std::make_unique<CoreAudioIODevice> (this, inputDeviceName, inputDeviceID, 0)
                                      : nullptr;
 
-        auto out = outputDeviceID != 0 ? std::make_unique<CoreAudioIODevice> (this, outputDeviceName, 0, -1, outputDeviceID, outputIndex)
+        auto out = outputDeviceID != 0 ? std::make_unique<CoreAudioIODevice> (this, outputDeviceName, 0, outputDeviceID)
                                        : nullptr;
 
         if (in  == nullptr)  return out.release();

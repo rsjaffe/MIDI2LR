@@ -37,8 +37,10 @@ class CommandTableModel final : public juce::TableListBoxModel {
  private:
    [[nodiscard]] int getNumRows() override { return gsl::narrow_cast<int>(profile_.Size()); }
 
-   CommandMenu* CreateNewCommandMenu(int row_number, juce::Component* existing_component) const;
-   CommandMenu* UpdateCommandMenu(int row_number, CommandMenu* command_select) const;
+   [[nodiscard]] CommandMenu* CreateNewCommandMenu(int row_number,
+       juce::Component* existing_component) const;
+   [[nodiscard]] CommandMenu* UpdateCommandMenu(int row_number,
+       gsl::not_null<CommandMenu*> command_select) const;
    juce::Component* refreshComponentForCell(int row_number, int column_id, bool is_row_selected,
        juce::Component* existing_component) override;
    void paintCell(juce::Graphics&, int row_number, int column_id, int width, int height,

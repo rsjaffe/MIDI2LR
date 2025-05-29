@@ -68,10 +68,11 @@ local function changeProfile(profilename, ignoreCurrent)
   if profilename and ProfileTypes[profilename] then
     local newprofile_file = ProgramPreferences.Profiles[profilename]
     local TMP = ProfileTypes[profilename]['TMP']
-    if (newprofile_file ~= nil) and (newprofile_file ~= '') and (loadedprofile ~= newprofile_file) and
-    ((ignoreCurrent == true) or (currentTMP[TMP] ~= profilename)) then
+    if newprofile_file and newprofile_file ~= '' and loadedprofile ~= newprofile_file and
+    (ignoreCurrent or currentTMP[TMP] ~= profilename) then
       MIDI2LR.SERVER:send('SwitchProfile '..newprofile_file..'\n')
       doprofilechange(newprofile_file)
+      changed = true
     end
     currentTMP[TMP] = profilename
   end
@@ -261,6 +262,12 @@ local function StartDialog(obstable,f)
             font='<system>',
             f:static_text{title = ProfileTypes.transformPanel.friendlyName, width = LrView.share('profile_label'),},
             f:edit_field{ value = LrView.bind ('ProfiletransformPanel'), width = LrView.share('profile_value'),
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          },
+          f:row {
+            font='<system>',
+            f:static_text{title = ProfileTypes.lensBlurPanel.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('ProfilelensBlurPanel'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },
           f:row {

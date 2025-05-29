@@ -1,24 +1,33 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library.
-   Copyright (c) 2022 - Raw Material Software Limited
+   This file is part of the JUCE framework.
+   Copyright (c) Raw Material Software Limited
 
-   JUCE is an open source library subject to commercial or open-source
+   JUCE is an open source framework subject to commercial or open source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
-   Agreement and JUCE Privacy Policy.
+   By downloading, installing, or using the JUCE framework, or combining the
+   JUCE framework with any other source code, object code, content or any other
+   copyrightable work, you agree to the terms of the JUCE End User Licence
+   Agreement, and all incorporated terms including the JUCE Privacy Policy and
+   the JUCE Website Terms of Service, as applicable, which will bind you. If you
+   do not agree to the terms of these agreements, we will not license the JUCE
+   framework to you, and you must discontinue the installation or download
+   process and cease use of the JUCE framework.
 
-   End User License Agreement: www.juce.com/juce-7-licence
-   Privacy Policy: www.juce.com/juce-privacy-policy
+   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
+   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
+   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
 
-   Or: You may also use this code under the terms of the GPL v3 (see
-   www.gnu.org/licenses).
+   Or:
 
-   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
-   DISCLAIMED.
+   You may also use this code under the terms of the AGPLv3:
+   https://www.gnu.org/licenses/agpl-3.0.en.html
+
+   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
+   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -274,8 +283,15 @@ public:
                                AndroidIntent.setType,
                                javaString (getCommonMimeType (mimeTypes)).get());
 
-        constexpr int grantReadPermission = 1;
-        env->CallObjectMethod (intent, AndroidIntent.setFlags, grantReadPermission);
+        const auto permissions = [&]
+        {
+            constexpr int grantReadUriPermission   = 1;
+            constexpr int grantPrefixUriPermission = 128;
+
+            return grantReadUriPermission | grantPrefixUriPermission;
+        };
+
+        env->CallObjectMethod (intent, AndroidIntent.setFlags, permissions);
 
         env->CallObjectMethod (intent,
                                AndroidIntent.putParcelableArrayListExtra,
@@ -336,8 +352,8 @@ public:
 
     static jobjectArray JNICALL contentSharerGetStreamTypes (JNIEnv*, jobject /*contentProvider*/, jobject uri, jstring mimeTypeFilter)
     {
-        return getInstance().getStreamTypes (LocalRef<jobject> (static_cast<jobject> (uri)),
-                                             LocalRef<jstring> (static_cast<jstring> (mimeTypeFilter)));
+        return getInstance().getStreamTypes (addLocalRefOwner (uri),
+                                             addLocalRefOwner (mimeTypeFilter));
     }
 
 private:
@@ -482,7 +498,8 @@ private:
         if (extension.isEmpty())
             return nullptr;
 
-        return juceStringArrayToJava (filterMimeTypes (MimeTypeTable::getMimeTypesForFileExtension (extension), juceString (mimeTypeFilter.get())));
+        return juceStringArrayToJava (filterMimeTypes (detail::MimeTypeTable::getMimeTypesForFileExtension (extension),
+                                                       juceString (mimeTypeFilter.get()))).release();
     }
 
     std::unique_ptr<ActivityLauncher> doIntent (const LocalRef<jobject>& intent,
@@ -688,7 +705,7 @@ DECLARE_JNI_CLASS (AndroidReceiver, "com/rmsl/juce/Receiver")
 #undef JNI_CLASS_MEMBERS
 
     //==============================================================================
-class AndroidContentSharerPrepareFilesTask : private AsyncUpdater
+class AndroidContentSharerPrepareFilesTask final : private AsyncUpdater
 {
 public:
     AndroidContentSharerPrepareFilesTask (const Array<URL>& fileUrls,
@@ -776,7 +793,7 @@ private:
 
         if (std::none_of (extensions.begin(), extensions.end(), [] (const String& s) { return s.isEmpty(); }))
             for (const auto& extension : extensions)
-                for (const auto& mime : MimeTypeTable::getMimeTypesForFileExtension (extension))
+                for (const auto& mime : detail::MimeTypeTable::getMimeTypesForFileExtension (extension))
                     mimes.insert (mime);
 
         for (const auto& mime : mimes)
@@ -875,7 +892,7 @@ private:
 
 auto detail::ScopedContentSharerInterface::shareFiles (const Array<URL>& urls, Component*) -> std::unique_ptr<ScopedContentSharerInterface>
 {
-    class NativeScopedContentSharerInterface : public detail::ScopedContentSharerInterface
+    class NativeScopedContentSharerInterface final : public detail::ScopedContentSharerInterface
     {
     public:
         explicit NativeScopedContentSharerInterface (Array<URL> f)
@@ -914,7 +931,7 @@ auto detail::ScopedContentSharerInterface::shareFiles (const Array<URL>& urls, C
 
 auto detail::ScopedContentSharerInterface::shareText (const String& text, Component*) -> std::unique_ptr<ScopedContentSharerInterface>
 {
-    class NativeScopedContentSharerInterface : public detail::ScopedContentSharerInterface
+    class NativeScopedContentSharerInterface final : public detail::ScopedContentSharerInterface
     {
     public:
         explicit NativeScopedContentSharerInterface (String t)

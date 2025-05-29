@@ -85,7 +85,7 @@ void LrIpcOut::SendingRestart()
       SendCommand("FullRefresh 1\n"); /* synchronize controls */
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -98,7 +98,7 @@ void LrIpcOut::SendingStop()
       for (const auto& cb : callbacks_) { cb(connected_, true); }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -108,7 +108,8 @@ void LrIpcOut::Stop()
    thread_should_exit_.store(true, std::memory_order_release);
    /* clear output queue before port closed */
    if (const auto m {lr_ipc_out_shared_->command_.clear_count_emplace(kTerminate)}) {
-      rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcOut destructor."), m));
+      rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcOut destructor."), m),
+          std::source_location::current());
    }
    {
       std::scoped_lock lk(callback_mtx_);
@@ -122,16 +123,19 @@ void LrIpcOut::Stop()
       try { /* ignore exceptions from shutdown, always close */
          std::ignore = sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
          if (ec) {
-            rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket shutdown error {}."), ec.message()));
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket shutdown error {}."), ec.message()),
+                std::source_location::current());
             ec.clear();
          }
       }
       catch (const std::exception& e) {
-         rsj::Log(fmt::format(FMT_STRING("Exception during socket shutdown: {}"), e.what()));
+         rsj::Log(fmt::format(FMT_STRING("Exception during socket shutdown: {}"), e.what()),
+             std::source_location::current());
       }
       std::ignore = sock.close(ec);
       if (ec) {
-         rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec.message()));
+         rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec.message()),
+             std::source_location::current());
       }
    }
 }
@@ -147,18 +151,19 @@ void LrIpcOut::Connect(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
             LrIpcOutShared::SendOut(std::move(lr_ipc_out_shared));
          }
          else {
-            rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out did not connect. {}."), error.message()));
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out did not connect. {}."), error.message()),
+                std::source_location::current());
             asio::error_code ec2;
             std::ignore = lr_ipc_out_shared->socket_.close(ec2);
             if (ec2) {
-               rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."),
-                   ec2.message()));
+               rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out socket close error {}."), ec2.message()),
+                   std::source_location::current());
             }
          }
-          });
+      });
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -171,10 +176,10 @@ void LrIpcOut::ConnectionMade()
          connected_ = true;
          for (const auto& cb : callbacks_) { cb(true, sending_stopped_); }
       }
-      rsj::Log("Socket connected in LR_IPC_Out.");
+      rsj::Log("Socket connected in LR_IPC_Out.", std::source_location::current());
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -186,7 +191,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
       if (profile_.MessageExistsInMap(message)) { ProcessMessage(message, mm); }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -207,7 +212,7 @@ void LrIpcOut::ProcessMessage(const rsj::MidiMessageId& message, const rsj::Midi
 void LrIpcOut::ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm,
     const rsj::MidiMessageId& message)
 {
-   static TimePoint next_response {};
+   constinit static TimePoint next_response {};
    if (const auto now {Clock::now()}; next_response < now) {
       next_response = now + kDelay;
       if (ShouldSetRecenter(mm)) { SetRecenter(message); }
@@ -250,19 +255,20 @@ void LrIpcOutShared::SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
    try {
       auto command_copy {std::make_shared<std::string>(lr_ipc_out_shared->command_.pop())};
       if (*command_copy == kTerminate) [[unlikely]] { return; }
-      if (command_copy->back() != '\n') [[unlikely]] { /* should be terminated with \n */
+      if (command_copy->empty() || command_copy->back() != '\n') [[unlikely]] {
          command_copy->push_back('\n');
       } // ReSharper disable once CppLambdaCaptureNeverUsed
       asio::async_write(lr_ipc_out_shared->socket_, asio::buffer(*command_copy),
           [command_copy, lr_ipc_out_shared](const asio::error_code& error, std::size_t) mutable {
          if (!error) [[likely]] { SendOut(std::move(lr_ipc_out_shared)); }
          else {
-            rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out Write: {}."), error.message()));
+            rsj::Log(fmt::format(FMT_STRING("LR_IPC_Out Write: {}."), error.message()),
+                std::source_location::current());
          }
       });
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
@@ -280,7 +286,7 @@ void LrIpcOut::SetRecenter(rsj::MidiMessageId mm)
       });
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(e);
+      rsj::ExceptionResponse(e, std::source_location::current());
       throw;
    }
 }
