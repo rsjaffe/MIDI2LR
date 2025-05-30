@@ -17,14 +17,14 @@
 #ifndef GSL_POINTERS_H
 #define GSL_POINTERS_H
 
-#include "assert" // for Ensures, Expects
+#include "./assert" // for Ensures, Expects
+#include "./util" // for GSL_DEPRECATED
 
-#include <algorithm>    // for forward
 #include <cstddef>      // for ptrdiff_t, nullptr_t, size_t
-#include <memory>       // for shared_ptr, unique_ptr
-#include <system_error> // for hash
+#include <functional>   // for less, greater
+#include <memory>       // for shared_ptr, unique_ptr, hash
 #include <type_traits>  // for enable_if_t, is_convertible, is_assignable
-#include <utility>      // for declval
+#include <utility>      // for declval, forward
 
 #if !defined(GSL_NO_IOSTREAMS)
 #include <iosfwd> // for ostream
@@ -63,8 +63,11 @@ namespace details
 //
 // GSL.owner: ownership pointers
 //
-using std::shared_ptr;
-using std::unique_ptr;
+template <typename... Ts>
+using shared_ptr GSL_DEPRECATED("Use std::shared_ptr instead") = std::shared_ptr<Ts...>;
+
+template <typename... Ts>
+using unique_ptr GSL_DEPRECATED("Use std::unique_ptr instead") = std::unique_ptr<Ts...>;
 
 //
 // owner
@@ -76,7 +79,7 @@ using std::unique_ptr;
 // T must be a pointer type
 // - disallow construction from any type other than pointer type
 //
-template <class T, class = std::enable_if_t<std::is_pointer<T>::value>>
+template <class T, std::enable_if_t<std::is_pointer<T>::value, bool> = true>
 using owner = T;
 
 //
@@ -99,26 +102,28 @@ class not_null
 public:
     static_assert(details::is_comparable_to_nullptr<T>::value, "T cannot be compared to nullptr.");
 
+    using element_type = T;
+
     template <typename U, typename = std::enable_if_t<std::is_convertible<U, T>::value>>
-    constexpr not_null(U&& u) : ptr_(std::forward<U>(u))
+    constexpr not_null(U&& u) noexcept(std::is_nothrow_move_constructible<T>::value) : ptr_(std::forward<U>(u))
     {
         Expects(ptr_ != nullptr);
     }
 
     template <typename = std::enable_if_t<!std::is_same<std::nullptr_t, T>::value>>
-    constexpr not_null(T u) : ptr_(std::move(u))
+    constexpr not_null(T u) noexcept(std::is_nothrow_move_constructible<T>::value) : ptr_(std::move(u))
     {
         Expects(ptr_ != nullptr);
     }
 
     template <typename U, typename = std::enable_if_t<std::is_convertible<U, T>::value>>
-    constexpr not_null(const not_null<U>& other) : not_null(other.get())
+    constexpr not_null(const not_null<U>& other) noexcept(std::is_nothrow_move_constructible<T>::value) : not_null(other.get())
     {}
 
     not_null(const not_null& other) = default;
     not_null& operator=(const not_null& other) = default;
     constexpr details::value_or_reference_return_t<T> get() const
-        noexcept(noexcept(details::value_or_reference_return_t<T>{std::declval<T&>()}))
+        noexcept(noexcept(details::value_or_reference_return_t<T>(std::declval<T&>())))
     {
         return ptr_;
     }
@@ -140,9 +145,17 @@ public:
     not_null& operator-=(std::ptrdiff_t) = delete;
     void operator[](std::ptrdiff_t) const = delete;
 
+    void swap(not_null<T>& other) { std::swap(ptr_, other.ptr_); }
+
 private:
     T ptr_;
 };
+
+template <typename T, std::enable_if_t<std::is_move_assignable<T>::value && std::is_move_constructible<T>::value, bool> = true>
+void swap(not_null<T>& a, not_null<T>& b)
+{
+    a.swap(b);
+}
 
 template <class T>
 auto make_not_null(T&& t) noexcept
@@ -268,19 +281,19 @@ class strict_not_null : public not_null<T>
 {
 public:
     template <typename U, typename = std::enable_if_t<std::is_convertible<U, T>::value>>
-    constexpr explicit strict_not_null(U&& u) : not_null<T>(std::forward<U>(u))
+    constexpr explicit strict_not_null(U&& u) noexcept(std::is_nothrow_move_constructible<T>::value) : not_null<T>(std::forward<U>(u))
     {}
 
     template <typename = std::enable_if_t<!std::is_same<std::nullptr_t, T>::value>>
-    constexpr explicit strict_not_null(T u) : not_null<T>(u)
+    constexpr explicit strict_not_null(T u) noexcept(std::is_nothrow_move_constructible<T>::value) : not_null<T>(std::move(u))
     {}
 
     template <typename U, typename = std::enable_if_t<std::is_convertible<U, T>::value>>
-    constexpr strict_not_null(const not_null<U>& other) : not_null<T>(other)
+    constexpr strict_not_null(const not_null<U>& other) noexcept(std::is_nothrow_move_constructible<T>::value) : not_null<T>(other)
     {}
 
     template <typename U, typename = std::enable_if_t<std::is_convertible<U, T>::value>>
-    constexpr strict_not_null(const strict_not_null<U>& other) : not_null<T>(other)
+    constexpr strict_not_null(const strict_not_null<U>& other) noexcept(std::is_nothrow_move_constructible<T>::value) : not_null<T>(other)
     {}
 
     // To avoid invalidating the "not null" invariant, the contained pointer is actually copied
