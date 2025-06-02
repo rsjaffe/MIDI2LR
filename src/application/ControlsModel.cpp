@@ -110,17 +110,14 @@ double ChannelModel::ControllerToPlugin(const rsj::MessageType controltype, cons
       case rsj::MessageType::kKeyPressure:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::invalid_argument(fmt::format(FMT_STRING(
-                                                     "ChannelModel::ControllerToPlugin unexpected "
-                                                     "control type. " "Controltype {}, "
-                                                                      "controlnumber {}, value {}, "
-                                                                      "wrap {}."),
+         throw std::invalid_argument(fmt::format("ChannelModel::ControllerToPlugin unexpected "
+                                                 "control type. Controltype {}, controlnumber {}, "
+                                                 "value {}, wrap {}.",
              controltype, controlnumber, value, wrap));
       }
-      throw std::domain_error(
-          fmt::format(FMT_STRING("Undefined control type in " "ChannelModel::PluginToController. "
-                                                              "Control type {}."),
-              controltype));
+      throw std::domain_error(fmt::format("Undefined control type in "
+                                          "ChannelModel::PluginToController. Control type {}.",
+          controltype));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(e, std::source_location::current());
@@ -213,14 +210,13 @@ int ChannelModel::MeasureChange(const rsj::MessageType controltype, const int co
       case rsj::MessageType::kKeyPressure:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::invalid_argument(fmt::format(FMT_STRING("ChannelModel::MeasureChange "
-                                                            "unexpected control type. Controltype "
-                                                            "{}, controlnumber {}, value {}."),
+         throw std::invalid_argument(fmt::format("ChannelModel::MeasureChange unexpected control "
+                                                 "type. Controltype {}, controlnumber {}, value "
+                                                 "{}.",
              controltype, controlnumber, value));
       }
-      throw std::domain_error(fmt::format(FMT_STRING("Undefined control type in "
-                                                     "ChannelModel::PluginToController. Control "
-                                                     "type {}."),
+      throw std::domain_error(fmt::format("Undefined control type in "
+                                          "ChannelModel::PluginToController. Control type {}.",
           controltype));
    }
    catch (const std::exception& e) {
@@ -271,15 +267,13 @@ int ChannelModel::PluginToController(const rsj::MessageType controltype, const i
       case rsj::MessageType::kNoteOff:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::invalid_argument(fmt::format(FMT_STRING("Unexpected control type in "
-                                                            "ChannelModel::PluginToController. "
-                                                            "Control type {}."),
+         throw std::invalid_argument(fmt::format(
+             "Unexpected control type in ChannelModel::PluginToController. Control type {}.",
              controltype));
       }
-      throw std::domain_error(
-          fmt::format(FMT_STRING("Undefined control type in " "ChannelModel::PluginToController. "
-                                                              "Control type {}."),
-              controltype));
+      throw std::domain_error(fmt::format("Undefined control type in "
+                                          "ChannelModel::PluginToController. Control type {}.",
+          controltype));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(e, std::source_location::current());

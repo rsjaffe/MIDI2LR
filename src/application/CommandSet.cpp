@@ -73,7 +73,7 @@ CommandSet::Impl::Impl()
 #pragma warning(suppress : 26414) /* too large to construct on stack */
          const auto iarchive {std::make_unique<cereal::XMLInputArchive>(infile)};
          (*iarchive)(*this);
-         rsj::Log(fmt::format(FMT_STRING("MenuTrans.xml archive loaded from {}."), p.string()),
+         rsj::Log(fmt::format("MenuTrans.xml archive loaded from {}.", p.string()),
              std::source_location::current());
       }
       else {

@@ -114,8 +114,11 @@ namespace rsj {
                   constexpr auto msg {"The file, 'settings.xml', is marked as a version not "
                                       "supported by the current version of MIDI2LR SettingsStruct, "
                                       "and won't be loaded. File version: {}."};
-                  rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                      fmt::format(msg, version), std::source_location::current());
+                  rsj::LogAndAlertError(
+                      fmt::format(fmt::runtime_format_string<>(juce::translate(msg).toStdString()),
+                          version),
+                      fmt::format(fmt::runtime_format_string<>(msg), version),
+                      std::source_location::current());
                }
                break;
             }
@@ -346,8 +349,11 @@ template<class Archive> void ChannelModel::load(Archive& archive, const uint32_t
             constexpr auto msg {
                 "The file, 'settings.xml', is marked as a version not supported by the current "
                 "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
-            rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                fmt::format(msg, version), std::source_location::current());
+            rsj::LogAndAlertError(
+                fmt::format(fmt::runtime_format_string<>(juce::translate(msg).toStdString()),
+                    version),
+                fmt::format(fmt::runtime_format_string<>(msg), version),
+                std::source_location::current());
          }
          break;
       }
@@ -379,8 +385,11 @@ template<class Archive> void ChannelModel::save(Archive& archive, const uint32_t
             constexpr auto msg {
                 "The file, 'settings.xml', is marked as a version not supported by the current "
                 "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
-            rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                fmt::format(msg, version), std::source_location::current());
+            rsj::LogAndAlertError(
+                fmt::format(fmt::runtime_format_string<>(juce::translate(msg).toStdString()),
+                    version),
+                fmt::format(fmt::runtime_format_string<>(msg), version),
+                std::source_location::current());
          }
          break;
       }

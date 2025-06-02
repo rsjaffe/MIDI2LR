@@ -67,8 +67,7 @@ void SettingsComponent::ProfileClicked()
    if (chooser.browseForDirectory()) {
       const auto profile_location {chooser.getResult().getFullPathName()};
       settings_manager_.SetProfileDirectory(profile_location);
-      rsj::Log(fmt::format(FMT_STRING("Profile location set to {}."),
-                   profile_location.toStdString()),
+      rsj::Log(fmt::format("Profile location set to {}.", profile_location.toStdString()),
           std::source_location::current());
       profile_location_label_.setText(profile_location,
           juce::NotificationType::dontSendNotification);
@@ -78,8 +77,7 @@ void SettingsComponent::ProfileClicked()
 void SettingsComponent::AutohideChanged()
 {
    settings_manager_.SetAutoHideTime(gsl::narrow<int>(std::lrint(autohide_setting_.getValue())));
-   rsj::Log(fmt::format(FMT_STRING("Autohide time set to {} seconds."),
-                settings_manager_.GetAutoHideTime()),
+   rsj::Log(fmt::format("Autohide time set to {} seconds.", settings_manager_.GetAutoHideTime()),
        std::source_location::current());
 }
 

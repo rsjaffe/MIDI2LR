@@ -56,11 +56,11 @@ void MidiReceiver::Stop()
 {
    for (const auto& dev : input_devices_) {
       dev->stop();
-      rsj::Log(fmt::format(FMT_STRING("Stopped input device {}."), dev->getName().toStdString()),
+      rsj::Log(fmt::format("Stopped input device {}.", dev->getName().toStdString()),
           std::source_location::current());
    }
    if (const auto remaining {messages_.clear_count_push({kTerminate, nullptr})}) {
-      rsj::Log(fmt::format(FMT_STRING("{} left in queue in MidiReceiver StopRunning."), remaining),
+      rsj::Log(fmt::format("{} left in queue in MidiReceiver StopRunning.", remaining),
           std::source_location::current());
    }
 }
@@ -70,7 +70,7 @@ void MidiReceiver::RescanDevices()
    try {
       for (const auto& dev : input_devices_) {
          dev->stop();
-         rsj::Log(fmt::format(FMT_STRING("Stopped input device {}."), dev->getName().toStdString()),
+         rsj::Log(fmt::format("Stopped input device {}.", dev->getName().toStdString()),
              std::source_location::current());
       }
       input_devices_.clear();
@@ -91,13 +91,13 @@ void MidiReceiver::TryToOpen()
          if (auto open_device {juce::MidiInput::openDevice(device.identifier, this)}) {
             if (devices_.EnabledOrNew(open_device->getDeviceInfo(), "input")) {
                open_device->start();
-               rsj::Log(fmt::format(FMT_STRING("Opened input device {}."),
+               rsj::Log(fmt::format("Opened input device {}.",
                             open_device->getName().toStdString()),
                    std::source_location::current());
                input_devices_.push_back(std::move(open_device));
             }
             else {
-               rsj::Log(fmt::format(FMT_STRING("Ignored input device {}."),
+               rsj::Log(fmt::format("Ignored input device {}.",
                             open_device->getName().toStdString()),
                    std::source_location::current());
             }
@@ -119,8 +119,7 @@ void MidiReceiver::InitDevices()
          TryToOpen();
          if (!input_devices_.empty()) { break; }
          const auto sleep_duration = 20ms * (1 << i);
-         rsj::Log(fmt::format(FMT_STRING("Retrying to open input devices after {}ms."),
-                      sleep_duration.count()),
+         rsj::Log(fmt::format("Retrying to open input devices after {}ms.", sleep_duration.count()),
              std::source_location::current());
          std::this_thread::sleep_for(sleep_duration);
       }

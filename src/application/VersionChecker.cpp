@@ -38,7 +38,7 @@ namespace {
       const auto minor {vers >> 16 & 0xFFU};
       const auto rev {vers >> 8 & 0xFFU};
       const auto build {vers & 0xFFU};
-      return fmt::format(FMT_STRING("{}.{}.{}.{}"), major, minor, rev, build);
+      return fmt::format("{}.{}.{}.{}", major, minor, rev, build);
    }
 } // namespace
 
@@ -80,7 +80,8 @@ void VersionChecker::handleAsyncUpdate()
    try {
       if (thread_should_exit_.load(std::memory_order_acquire)) { return; }
       juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::AlertIconType::QuestionIcon,
-          fmt::format(juce::translate("A new version of {} is available.").toStdString(),
+          fmt::format(fmt::runtime_format_string<>(
+                          juce::translate("A new version of {} is available.").toStdString()),
               "MIDI2LR"),
           juce::translate("Do you want to download the latest version?") + ' '
               + IntToVersion(new_version_),
@@ -107,8 +108,7 @@ namespace {
 
    void LogVersion(int new_version, int last_checked)
    {
-      rsj::Log(fmt::format(FMT_STRING("Version available {}, version last checked {}, current "
-                                      "version {}."),
+      rsj::Log(fmt::format("Version available {}, version last checked {}, current version {}.",
                    IntToVersion(new_version), IntToVersion(last_checked),
                    IntToVersion(ProjectInfo::versionNumber)),
           std::source_location::current());

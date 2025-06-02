@@ -45,7 +45,8 @@ namespace {
    {
       constexpr auto msge {"MIDISender: Unexpected data type: {:n}."};
       const auto msgt {juce::translate(msge).toStdString()};
-      rsj::LogAndAlertError(fmt::format(msgt, id.msg_id_type), fmt::format(msge, id.msg_id_type),
+      rsj::LogAndAlertError(fmt::format(fmt::runtime_format_string<>(msgt), id.msg_id_type),
+          fmt::format(fmt::runtime_format_string<>(msge), id.msg_id_type),
           std::source_location::current());
    }
 } // namespace
@@ -148,12 +149,12 @@ void MidiSender::InitDevices()
          if (auto open_device {juce::MidiOutput::openDevice(device.identifier)}) {
             const auto devname {open_device->getName().toStdString()};
             if (ShouldOpenDevice(devname, open_device)) {
-               rsj::Log(fmt::format(FMT_STRING("Opened output device {}."), devname),
+               rsj::Log(fmt::format("Opened output device {}.", devname),
                    std::source_location::current());
                output_devices_.push_back(std::move(open_device));
             }
             else {
-               rsj::Log(fmt::format(FMT_STRING("Ignored output device {}."), devname),
+               rsj::Log(fmt::format("Ignored output device {}.", devname),
                    std::source_location::current());
             }
          }

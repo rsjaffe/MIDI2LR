@@ -47,8 +47,7 @@ namespace {
       if (length) {
          /* check for issues with extra-long window titles and log them */
          if (std::cmp_greater_equal(length + 1, buffer.size())) {
-            rsj::Log(fmt::format(FMT_STRING(L"EnumWindowsProc window text length > {}, truncated "
-                                            L"text is {}."),
+            rsj::Log(fmt::format(L"EnumWindowsProc window text length > {}, truncated text is {}.",
                          buffer.size(), buffer.data())
                          .data(),
                 std::source_location::current());
@@ -57,7 +56,8 @@ namespace {
          const auto lr_start {title.find(L"Lightroom")};
          if (lr_start != std::wstring_view::npos) {
             h_lr_wnd = hwnd;
-            if (title.find(L"Adobe Photoshop Lightroom Classic", lr_start) != std::wstring_view::npos) {
+            if (title.find(L"Adobe Photoshop Lightroom Classic", lr_start)
+                != std::wstring_view::npos) {
                return FALSE; /* found full title, stop EnumWindows */
             }
          }
@@ -235,9 +235,8 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
           std::source_location::current());
    }
    catch (...) {
-      rsj::LogAndAlertError(fmt::format(FMT_STRING("Non-standard exception in key sending function "
-                                                   "for key: \"{}\"."),
-                                key),
+      rsj::LogAndAlertError(
+          fmt::format("Non-standard exception in key sending function for key: \"{}\".", key),
           std::source_location::current());
    }
 }

@@ -245,12 +245,11 @@ namespace {
                if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end()) {
                   return f->second;
                }
-               return fmt::format(FMT_STRING("KLID not in keyboard_names: 0x{}."),
-                   klid_ascii.data());
+               return fmt::format("KLID not in keyboard_names: 0x{}.", klid_ascii.data());
             }
             catch (...) {
-               auto msg {fmt::format(FMT_STRING("Exception when finding KLID name. KLID: 0x{}."),
-                   klid_ascii.data())};
+               auto msg {
+                   fmt::format("Exception when finding KLID name. KLID: 0x{}.", klid_ascii.data())};
                rsj::Log(msg, std::source_location::current());
                return msg;
             }
@@ -271,34 +270,34 @@ namespace {
 DebugInfo::DebugInfo(std::string_view profile_directory) noexcept
 {
    try {
-      LogAndSave(fmt::format(FMT_STRING("Application: System language {}."),
+      LogAndSave(fmt::format("Application: System language {}.",
           juce::SystemStats::getDisplayLanguage().toStdString()));
-      LogAndSave(fmt::format(FMT_STRING("Application: CPU {}."),
+      LogAndSave(fmt::format("Application: CPU {}.",
           juce::SystemStats::getCpuModel().toStdString()));
       // ReSharper disable CppUnreachableCode
       if constexpr (kNdebug) {
-         LogAndSave(fmt::format(FMT_STRING("Application: Application version {}."),
+         LogAndSave(fmt::format("Application: Application version {}.",
              ProjectInfo::versionString));
       }
       else {
-         LogAndSave(fmt::format(FMT_STRING("Application: Application version {}-debug."),
+         LogAndSave(fmt::format("Application: Application version {}-debug.",
              ProjectInfo::versionString));
       }
       // ReSharper restore CppUnreachableCode
-      LogAndSave(fmt::format(FMT_STRING("Application: Application path {}."),
+      LogAndSave(fmt::format("Application: Application path {}.",
           juce::File::getSpecialLocation(juce::File::currentApplicationFile)
               .getFullPathName()
               .toStdString()));
-      LogAndSave(fmt::format(FMT_STRING("Application: Profile directory {}."), profile_directory));
-      LogAndSave(fmt::format(FMT_STRING("Application: Log file directory {}."),
+      LogAndSave(fmt::format("Application: Profile directory {}.", profile_directory));
+      LogAndSave(fmt::format("Application: Log file directory {}.",
           ww898::utf::conv<char>(rsj::AppLogFilePath(MIDI2LR_UC_LITERAL("")))));
-      LogAndSave(fmt::format(FMT_STRING("Application: Settings file directory {}."),
+      LogAndSave(fmt::format("Application: Settings file directory {}.",
           ww898::utf::conv<char>(rsj::AppDataFilePath(MIDI2LR_UC_LITERAL("")))));
 #ifdef _WIN32
       /* MacOS defers keyboard layout information until first keystroke sent */
-      LogAndSave(fmt::format(FMT_STRING("Application: Keyboard type {}."), GetKeyboardLayout()));
+      LogAndSave(fmt::format("Application: Keyboard type {}.", GetKeyboardLayout()));
 #endif
-      LogAndSave(fmt::format(FMT_STRING("Juce version {}."),
+      LogAndSave(fmt::format("Juce version {}.",
           juce::SystemStats::getJUCEVersion().toStdString()));
    }
    catch (...) {

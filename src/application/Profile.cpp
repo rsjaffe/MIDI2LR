@@ -155,8 +155,8 @@ void Profile::RemoveMessage(rsj::MidiMessageId message)
          profile_unsaved_ = true;
       }
       else {
-         rsj::Log(fmt::format(FMT_STRING("Error in Profile::RemoveMessage. Message not found. "
-                                         "Message is: channel {} control number {} type {}."),
+         rsj::Log(fmt::format("Error in Profile::RemoveMessage. Message not found. Message is: "
+                              "channel {} control number {} type {}.",
                       message.channel, message.control_number, message.msg_id_type),
              std::source_location::current());
       }
@@ -172,7 +172,7 @@ void Profile::RemoveRow(const size_t row)
    try {
       auto guard {std::unique_lock {mutex_}};
       if (row >= mm_abbrv_table_.size()) [[unlikely]] {
-         rsj::Log(fmt::format(FMT_STRING("Error in Profile::RemoveRow. Row {} out of range."), row),
+         rsj::Log(fmt::format("Error in Profile::RemoveRow. Row {} out of range.", row),
              std::source_location::current());
          return;
       }

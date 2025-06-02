@@ -109,7 +109,7 @@ void MainContentComponent::LoadClicked()
       if (chooser.browseForFileToOpen()) {
          if (const auto parsed {juce::parseXML(chooser.getResult())}) {
             const auto new_profile {chooser.getResult()};
-            lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToFullPath {}\n"),
+            lr_ipc_out_.SendCommand(fmt::format("ChangedToFullPath {}\n",
                 new_profile.getFullPathName().toStdString()));
             profile_name_label_.setText(new_profile.getFileName(),
                 juce::NotificationType::dontSendNotification);
@@ -122,7 +122,7 @@ void MainContentComponent::LoadClicked()
             }
          }
          else {
-            rsj::Log(fmt::format(FMT_STRING("Unable to load profile {}."),
+            rsj::Log(fmt::format("Unable to load profile {}.",
                          chooser.getResult().getFullPathName().toStdString()),
                 std::source_location::current());
          }
@@ -348,7 +348,7 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
       /* Display the MIDI parameters and add/highlight row in table corresponding to the message.
        * msg is 1-based for channel, which display expects */
       const rsj::MidiMessageId msg {mm};
-      last_command_ = fmt::format(FMT_STRING("{}: {}{} [{}]"), msg.channel, mm.message_type_byte,
+      last_command_ = fmt::format("{}: {}{} [{}]", msg.channel, mm.message_type_byte,
           msg.control_number, mm.value);
       profile_.InsertUnassigned(msg);
       row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
@@ -368,10 +368,10 @@ void MainContentComponent::UpdateConnectionLabel(const char* text, const juce::C
 
 namespace {
    const std::map<std::pair<bool, bool>, std::pair<const char*, juce::Colour>> kConnectionStatus {
-       {  {true, false}, {"Connected to Lightroom", juce::Colours::greenyellow}},
-       { {true, true},              {"Sending halted", juce::Colours::yellow}},
-       { {false, false},     {"Not connected to Lightroom", juce::Colours::red}},
-       {{false, true},     {"Not connected to Lightroom", juce::Colours::red}}
+       { {true, false}, {"Connected to Lightroom", juce::Colours::greenyellow}},
+       {  {true, true},              {"Sending halted", juce::Colours::yellow}},
+       {{false, false},     {"Not connected to Lightroom", juce::Colours::red}},
+       { {false, true},     {"Not connected to Lightroom", juce::Colours::red}}
    };
 } // namespace
 

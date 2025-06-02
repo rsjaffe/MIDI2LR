@@ -126,7 +126,7 @@
       </MODULEPATHS>
     </XCODE_MAC>
     <VS2022 targetFolder="build/Windows" extraDefs="_WIN32_WINNT=0x0A000007;WINVER=0x0A000007;NOMINMAX;WIN32_LEAN_AND_MEAN; _SILENCE_CXX23_ALIGNED_STORAGE_DEPRECATION_WARNING;_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING"
-            smallIcon="WdgQGt" bigIcon="WdgQGt">
+            smallIcon="WdgQGt" bigIcon="WdgQGt" extraCompilerFlags="/utf-8">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" fastMath="1"/>
         <CONFIGURATION isDebug="0" name="Release" useRuntimeLibDLL="0" fastMath="1"/>

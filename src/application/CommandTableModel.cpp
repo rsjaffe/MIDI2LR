@@ -37,27 +37,25 @@ namespace {
       std::string messageText;
       switch (cmd.msg_id_type) {
       case rsj::MessageType::kNoteOn:
-         messageText = fmt::format(FMT_STRING("{} | Note : {}"), cmd.channel, cmd.control_number);
+         messageText = fmt::format("{} | Note : {}", cmd.channel, cmd.control_number);
          break;
       case rsj::MessageType::kNoteOff:
-         messageText =
-             fmt::format(FMT_STRING("{} | Note Off: {}"), cmd.channel, cmd.control_number);
+         messageText = fmt::format("{} | Note Off: {}", cmd.channel, cmd.control_number);
          break;
       case rsj::MessageType::kCc:
-         messageText = fmt::format(FMT_STRING("{} | CC: {}"), cmd.channel, cmd.control_number);
+         messageText = fmt::format("{} | CC: {}", cmd.channel, cmd.control_number);
          break;
       case rsj::MessageType::kPw:
-         messageText = fmt::format(FMT_STRING("{} | Pitch Bend"), cmd.channel);
+         messageText = fmt::format("{} | Pitch Bend", cmd.channel);
          break;
       case rsj::MessageType::kKeyPressure:
-         messageText =
-             fmt::format(FMT_STRING("{} | Key Pressure: {}"), cmd.channel, cmd.control_number);
+         messageText = fmt::format("{} | Key Pressure: {}", cmd.channel, cmd.control_number);
          break;
       case rsj::MessageType::kChanPressure:
-         messageText = fmt::format(FMT_STRING("{} | Channel Pressure"), cmd.channel);
+         messageText = fmt::format("{} | Channel Pressure", cmd.channel);
          break;
       case rsj::MessageType::kPgmChange:
-         messageText = fmt::format(FMT_STRING("{} | Program Change"), cmd.channel);
+         messageText = fmt::format("{} | Program Change", cmd.channel);
          break;
       case rsj::MessageType::kSystem:
          break;
@@ -76,8 +74,8 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
       if (const auto profile_size = profile_.Size();
           std::cmp_less_equal(profile_size, row_number)) {
          g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
-         rsj::Log(fmt::format(FMT_STRING("Unknown control CommandTableModel::paintCell. {} rows in "
-                                         "profile, row number to be painted is {}."),
+         rsj::Log(fmt::format("Unknown control CommandTableModel::paintCell. {} rows in profile, "
+                              "row number to be painted is {}.",
                       profile_size, row_number),
              std::source_location::current());
          return;

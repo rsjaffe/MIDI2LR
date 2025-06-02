@@ -75,7 +75,7 @@ class SettingsManager final {
    void SetPickupEnabled(bool enabled)
    {
       properties_file_->setValue("pickup_enabled", enabled);
-      lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("Pickup {}\n"), enabled ? '1' : '0'));
+      lr_ipc_out_.SendCommand(fmt::format("Pickup {}\n", enabled ? '1' : '0'));
    }
 
    void SetProfileDirectory(const juce::String& profile_directory)
