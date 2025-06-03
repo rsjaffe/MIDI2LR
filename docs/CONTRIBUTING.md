@@ -39,7 +39,7 @@ On Github issues page, we only accept issues that are bug reports or feature req
 ## Typical process for adding new types of actions
 - **If storage in Preferences is needed or if the function requires new extensive code**, write new .lua file with specialized code.
 - **If using Preferences**, add *Loaded* and *Default* methods to *src/plugin/Init.lua* to handle preference file loading. Add menu building code to the .lua file for these actions and integrate into *src/plugin/Options.lua*.
-- Integrate commands into *src/plugin/Client.lua* and **require** new lua file (if new lua file written).
+- Integrate commands into *src/plugin/Client.lua* and **require** new lua file (if new lua file written). Note that new parameters and their reset counterparts generally need nothing more than entries in *Database.lua*.
 - Add actions to *src/plugin/Database.lua* and regenerate the database in Lightroom by deleting the existing MenuTrans.xml and running Lightroom.
 - Using the *Build files (development use only)* option in the MIDI2LR menu generate .md file for the wiki.
 
@@ -58,9 +58,9 @@ Both the app and the installer need to be notarized for MacOS distribution. Use 
 
 ## Translations
 
-There are three components to localize: the application, the plugin and the installer. Each unfortunately uses a different format but the program overseeing all localizations (except for the installer's readme file) is POEditor.com. Translation assistance welcome. Sign up at https://poeditor.com/join/project?hash=v6U0MvufAn.
+There are three components to localize: the application, the plugin and the installer. Each unfortunately uses a different format but all sources are stored in subidrectories of *tools/translation_work*. Translation assistance welcome. Download the appropriate po file(s) and use a po editor such as [Poedit](https://poedit.net/) to translate the strings. Submit the resulting po file(s) to the MIDI2LR project.
 
-The resulting translation files are located in *data/application*, *data/plugin* and *tools/installer/data/translations*.
+The resulting translation files (converted from po into the format used by the programs and plugin) are located in *data/application*, *data/plugin* and *tools/installer/data/translations*.
 
 ## License
 
