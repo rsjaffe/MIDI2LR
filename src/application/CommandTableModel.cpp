@@ -20,6 +20,7 @@
 #include <memory>
 #include <utility>
 
+#include <fmt/compile.h>
 #include <fmt/format.h>
 #include <gsl/gsl>
 
@@ -37,25 +38,27 @@ namespace {
       std::string messageText;
       switch (cmd.msg_id_type) {
       case rsj::MessageType::kNoteOn:
-         messageText = fmt::format("{} | Note : {}", cmd.channel, cmd.control_number);
+         messageText = fmt::format(FMT_COMPILE("{} | Note : {}"), cmd.channel, cmd.control_number);
          break;
       case rsj::MessageType::kNoteOff:
-         messageText = fmt::format("{} | Note Off: {}", cmd.channel, cmd.control_number);
+         messageText =
+             fmt::format(FMT_COMPILE("{} | Note Off: {}"), cmd.channel, cmd.control_number);
          break;
       case rsj::MessageType::kCc:
-         messageText = fmt::format("{} | CC: {}", cmd.channel, cmd.control_number);
+         messageText = fmt::format(FMT_COMPILE("{} | CC: {}"), cmd.channel, cmd.control_number);
          break;
       case rsj::MessageType::kPw:
-         messageText = fmt::format("{} | Pitch Bend", cmd.channel);
+         messageText = fmt::format(FMT_COMPILE("{} | Pitch Bend"), cmd.channel);
          break;
       case rsj::MessageType::kKeyPressure:
-         messageText = fmt::format("{} | Key Pressure: {}", cmd.channel, cmd.control_number);
+         messageText =
+             fmt::format(FMT_COMPILE("{} | Key Pressure: {}"), cmd.channel, cmd.control_number);
          break;
       case rsj::MessageType::kChanPressure:
-         messageText = fmt::format("{} | Channel Pressure", cmd.channel);
+         messageText = fmt::format(FMT_COMPILE("{} | Channel Pressure"), cmd.channel);
          break;
       case rsj::MessageType::kPgmChange:
-         messageText = fmt::format("{} | Program Change", cmd.channel);
+         messageText = fmt::format(FMT_COMPILE("{} | Program Change"), cmd.channel);
          break;
       case rsj::MessageType::kSystem:
          break;
