@@ -1,7 +1,5 @@
 ﻿/* Saved in UTF-8 encoding codepage 65001
  *
- * See https://poeditor.com/projects/view?id=359585 for translation sources and notes
- * To help in translations, sign up at https://poeditor.com/join/project?hash=v6U0MvufAn
  * Using Microsoft language portal to review the translations: https://www.microsoft.com/en-us/language/
  * For authorization for events instructions, used Apple Translation Resources, UniversalAccessPref.lg, Position: instructions.content.events
  *
