@@ -613,6 +613,10 @@
               <first>CloseApp</first>
               <second>Stop Server</second>
             </value13>
+            <value14>
+              <first>RotateRightLeft</first>
+              <second>Rotate Right - Left</second>
+            </value14>
         </second>
       </value6>
       <value7>
@@ -4638,6 +4642,16 @@
 </second>
         </value>
       </value43>
+      <value44>
+        <key>RotateRightLeft</key>
+        <value>
+          <first xml:space="preserve">RotateRight 1
+</first>
+          <second xml:space="preserve">RotateLeft 1
+</second>
+        </value>
+      </value44>
+
     </repeats>
     <wraps size="dynamic">
         <value0>ColorGradeGlobalHue</value0>
