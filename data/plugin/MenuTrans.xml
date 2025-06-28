@@ -590,32 +590,32 @@
               <second>Next Photo — Previous Photo</second>
             </value7>
             <value8>
-              <first>Next</first>
-              <second>Next Photo</second>
+              <first>RotateRightLeft</first>
+              <second>Rotate right — Rotate left</second>
             </value8>
             <value9>
-              <first>Prev</first>
-              <second>Previous Photo</second>
+              <first>Next</first>
+              <second>Next Photo</second>
             </value9>
             <value10>
-              <first>RotateLeft</first>
-              <second>Rotate left</second>
+              <first>Prev</first>
+              <second>Previous Photo</second>
             </value10>
             <value11>
-              <first>RotateRight</first>
-              <second>Rotate right</second>
+              <first>RotateLeft</first>
+              <second>Rotate left</second>
             </value11>
             <value12>
-              <first>FullRefresh</first>
-              <second>Manual Update</second>
+              <first>RotateRight</first>
+              <second>Rotate right</second>
             </value12>
             <value13>
-              <first>CloseApp</first>
-              <second>Stop Server</second>
+              <first>FullRefresh</first>
+              <second>Manual Update</second>
             </value13>
             <value14>
-              <first>RotateRightLeft</first>
-              <second>Rotate Right - Left</second>
+              <first>CloseApp</first>
+              <second>Stop Server</second>
             </value14>
         </second>
       </value6>
@@ -1078,7 +1078,7 @@
             </value0>
             <value1>
               <first>HoldAltOpt</first>
-              <second>Alt press and hold Activate/Deactivate</second>
+              <second>Option press and hold Activate/Deactivate</second>
             </value1>
             <value2>
               <first>WhiteBalanceAs_Shot</first>
@@ -4400,24 +4400,15 @@
         </value>
       </value16>
       <value17>
-        <key>QuickDevTintAdj</key>
+        <key>QuickDevTempAdj</key>
         <value>
-          <first xml:space="preserve">QuickDevTintSmall 1
+          <first xml:space="preserve">QuickDevTempSmall 1
 </first>
-          <second xml:space="preserve">QuickDevTintSmallDec 1
+          <second xml:space="preserve">QuickDevTempSmalDec 1
 </second>
         </value>
       </value17>
       <value18>
-        <key>Key20Key19</key>
-        <value>
-          <first xml:space="preserve">Key20 1
-</first>
-          <second xml:space="preserve">Key19 1
-</second>
-        </value>
-      </value18>
-      <value19>
         <key>PresetPreviousNext</key>
         <value>
           <first xml:space="preserve">PresetNext 1
@@ -4425,17 +4416,17 @@
           <second xml:space="preserve">PresetPrevious 1
 </second>
         </value>
-      </value19>
-      <value20>
-        <key>Key24Key23</key>
+      </value18>
+      <value19>
+        <key>Key20Key19</key>
         <value>
-          <first xml:space="preserve">Key24 1
+          <first xml:space="preserve">Key20 1
 </first>
-          <second xml:space="preserve">Key23 1
+          <second xml:space="preserve">Key19 1
 </second>
         </value>
-      </value20>
-      <value21>
+      </value19>
+      <value20>
         <key>PointCurveHighlightsUpDown</key>
         <value>
           <first xml:space="preserve">PointCurveHighlightsUp 1
@@ -4443,22 +4434,31 @@
           <second xml:space="preserve">PointCurveHighlightsDown 1
 </second>
         </value>
-      </value21>
-      <value22>
-        <key>Key26Key25</key>
+      </value20>
+      <value21>
+        <key>Key24Key23</key>
         <value>
-          <first xml:space="preserve">Key26 1
+          <first xml:space="preserve">Key24 1
 </first>
-          <second xml:space="preserve">Key25 1
+          <second xml:space="preserve">Key23 1
 </second>
         </value>
-      </value22>
-      <value23>
+      </value21>
+      <value22>
         <key>PointCurveBlacksUpDown</key>
         <value>
           <first xml:space="preserve">PointCurveBlacksUp 1
 </first>
           <second xml:space="preserve">PointCurveBlacksDown 1
+</second>
+        </value>
+      </value22>
+      <value23>
+        <key>Key26Key25</key>
+        <value>
+          <first xml:space="preserve">Key26 1
+</first>
+          <second xml:space="preserve">Key25 1
 </second>
         </value>
       </value23>
@@ -4481,24 +4481,6 @@
         </value>
       </value25>
       <value26>
-        <key>QuickDevWhitesAdj</key>
-        <value>
-          <first xml:space="preserve">QuickDevWhitesSmall 1
-</first>
-          <second xml:space="preserve">QuickDevWhitesSmallDec 1
-</second>
-        </value>
-      </value26>
-      <value27>
-        <key>IncreaseDecreaseRating</key>
-        <value>
-          <first xml:space="preserve">IncreaseRating 1
-</first>
-          <second xml:space="preserve">DecreaseRating 1
-</second>
-        </value>
-      </value27>
-      <value28>
         <key>ChangeLastDevelopParameter</key>
         <value>
           <first xml:space="preserve">IncrementLastDevelopParameter 1
@@ -4506,17 +4488,26 @@
           <second xml:space="preserve">DecrementLastDevelopParameter 1
 </second>
         </value>
-      </value28>
-      <value29>
-        <key>Key6Key5</key>
+      </value26>
+      <value27>
+        <key>QuickDevWhitesAdj</key>
         <value>
-          <first xml:space="preserve">Key6 1
+          <first xml:space="preserve">QuickDevWhitesSmall 1
 </first>
-          <second xml:space="preserve">Key5 1
+          <second xml:space="preserve">QuickDevWhitesSmallDec 1
 </second>
         </value>
-      </value29>
-      <value30>
+      </value27>
+      <value28>
+        <key>IncreaseDecreaseRating</key>
+        <value>
+          <first xml:space="preserve">IncreaseRating 1
+</first>
+          <second xml:space="preserve">DecreaseRating 1
+</second>
+        </value>
+      </value28>
+      <value29>
         <key>QuickDevSatAdj</key>
         <value>
           <first xml:space="preserve">QuickDevSatSmall 1
@@ -4524,8 +4515,26 @@
           <second xml:space="preserve">QuickDevSatSmallDec 1
 </second>
         </value>
+      </value29>
+      <value30>
+        <key>Key6Key5</key>
+        <value>
+          <first xml:space="preserve">Key6 1
+</first>
+          <second xml:space="preserve">Key5 1
+</second>
+        </value>
       </value30>
       <value31>
+        <key>QuickDevTintAdj</key>
+        <value>
+          <first xml:space="preserve">QuickDevTintSmall 1
+</first>
+          <second xml:space="preserve">QuickDevTintSmallDec 1
+</second>
+        </value>
+      </value31>
+      <value32>
         <key>QuickDevVibranceAdj</key>
         <value>
           <first xml:space="preserve">QuickDevVibranceSmall 1
@@ -4533,8 +4542,8 @@
           <second xml:space="preserve">QuickDevVibranceSmallDec 1
 </second>
         </value>
-      </value31>
-      <value32>
+      </value32>
+      <value33>
         <key>Key10Key9</key>
         <value>
           <first xml:space="preserve">Key10 1
@@ -4542,8 +4551,8 @@
           <second xml:space="preserve">Key9 1
 </second>
         </value>
-      </value32>
-      <value33>
+      </value33>
+      <value34>
         <key>Key34Key33</key>
         <value>
           <first xml:space="preserve">Key34 1
@@ -4551,31 +4560,22 @@
           <second xml:space="preserve">Key33 1
 </second>
         </value>
-      </value33>
-      <value34>
-        <key>QuickDevContrastAdj</key>
-        <value>
-          <first xml:space="preserve">QuickDevContrastSmall 1
-</first>
-          <second xml:space="preserve">QuickDevContrastSmallDec 1
-</second>
-        </value>
       </value34>
       <value35>
-        <key>Key16Key15</key>
-        <value>
-          <first xml:space="preserve">Key16 1
-</first>
-          <second xml:space="preserve">Key15 1
-</second>
-        </value>
-      </value35>
-      <value36>
         <key>Key2Key1</key>
         <value>
           <first xml:space="preserve">Key2 1
 </first>
           <second xml:space="preserve">Key1 1
+</second>
+        </value>
+      </value35>
+      <value36>
+        <key>Key16Key15</key>
+        <value>
+          <first xml:space="preserve">Key16 1
+</first>
+          <second xml:space="preserve">Key15 1
 </second>
         </value>
       </value36>
@@ -4589,6 +4589,15 @@
         </value>
       </value37>
       <value38>
+        <key>QuickDevContrastAdj</key>
+        <value>
+          <first xml:space="preserve">QuickDevContrastSmall 1
+</first>
+          <second xml:space="preserve">QuickDevContrastSmallDec 1
+</second>
+        </value>
+      </value38>
+      <value39>
         <key>QuickDevBlacksAdj</key>
         <value>
           <first xml:space="preserve">QuickDevBlacksSmall 1
@@ -4596,8 +4605,8 @@
           <second xml:space="preserve">QuickDevBlacksSmallDec 1
 </second>
         </value>
-      </value38>
-      <value39>
+      </value39>
+      <value40>
         <key>Key30Key29</key>
         <value>
           <first xml:space="preserve">Key30 1
@@ -4605,8 +4614,8 @@
           <second xml:space="preserve">Key29 1
 </second>
         </value>
-      </value39>
-      <value40>
+      </value40>
+      <value41>
         <key>ChangeBrushSize</key>
         <value>
           <first xml:space="preserve">BrushSizeLarger 1
@@ -4614,8 +4623,8 @@
           <second xml:space="preserve">BrushSizeSmaller 1
 </second>
         </value>
-      </value40>
-      <value41>
+      </value41>
+      <value42>
         <key>Key8Key7</key>
         <value>
           <first xml:space="preserve">Key8 1
@@ -4623,26 +4632,8 @@
           <second xml:space="preserve">Key7 1
 </second>
         </value>
-      </value41>
-      <value42>
-        <key>QuickDevTempAdj</key>
-        <value>
-          <first xml:space="preserve">QuickDevTempSmall 1
-</first>
-          <second xml:space="preserve">QuickDevTempSmalDec 1
-</second>
-        </value>
       </value42>
       <value43>
-        <key>Key36Key35</key>
-        <value>
-          <first xml:space="preserve">Key36 1
-</first>
-          <second xml:space="preserve">Key35 1
-</second>
-        </value>
-      </value43>
-      <value44>
         <key>RotateRightLeft</key>
         <value>
           <first xml:space="preserve">RotateRight 1
@@ -4650,8 +4641,16 @@
           <second xml:space="preserve">RotateLeft 1
 </second>
         </value>
+      </value43>
+      <value44>
+        <key>Key36Key35</key>
+        <value>
+          <first xml:space="preserve">Key36 1
+</first>
+          <second xml:space="preserve">Key35 1
+</second>
+        </value>
       </value44>
-
     </repeats>
     <wraps size="dynamic">
         <value0>ColorGradeGlobalHue</value0>
