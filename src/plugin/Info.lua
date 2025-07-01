@@ -95,5 +95,5 @@ return {
       file = "LogSave.lua",
     },
   },
-  VERSION = { major=6, minor=2, revision=0, build=1}
+  VERSION = { major=6, minor=2, revision=1, build=0}
 }
