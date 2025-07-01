@@ -56,6 +56,7 @@ local LocalPresets = {}  --Store presets in table when reqested by user : key = 
 
 local localPresetMap = {
   blacks2012 = "local_Blacks",
+  bluecurve = "local_Bluecurve",
   clarity = "",
   clarity2012 = "local_Clarity",
   contrast = "",
@@ -64,10 +65,45 @@ local localPresetMap = {
   dehaze = "local_Dehaze",
   exposure = "",
   exposure2012 = "local_Exposure",
+  grain = "local_Grain",
+  greencurve  = "local_Greencurve", -- {"#,#",  "#,#",  "#,#"}
   highlights2012 = "local_Highlights",
   hue = "local_Hue",
   luminanceNoise = "local_LuminanceNoise",
+  maincurve = "local_Maincurve", --  {"#,#",  "#,#",  "#,#"}
   moire = "local_Moire",
+  pointColors = "local_PointColors",
+  --= {--just take this table and set  to local_PointColors
+  --		{
+  --			HueRange = {
+  --				LowerFull = 0.33,
+  --				LowerNone = 0,
+  --				UpperFull = 0.67,
+  --				UpperNone = 1,
+  --			},
+  --			HueShift = -1,
+  --			LumRange = {
+  --				LowerFull = 0.7,
+  --				LowerNone = 0.15,
+  --				UpperFull = 1,
+  --				UpperNone = 1,
+  --			},
+  --			LumScale = -1,
+  --			RangeAmount = 0.5,
+  --			SatRange = {
+  --				LowerFull = 0.29,
+  --				LowerNone = 0,
+  --				UpperFull = 0.65,
+  --				UpperNone = 1,
+  --			},
+  --			SatScale = -1,
+  --			SrcHue = 1.312043,
+  --			SrcLum = 0.739782,
+  --			SrcSat = 0.473663,
+  --		},
+  --	}
+  redcurve = "local_Redcurve",
+  refineSaturation = "local_RefineSaturation",
   saturation = "local_Saturation",
   shadows2012 = "local_Shadows",
   sharpness = "local_Sharpness",
@@ -78,6 +114,14 @@ local localPresetMap = {
   toningLuminance = "", -- "local_ToningLuminance" doesn't exist
   toningSaturation = "local_ToningSaturation", --added in 13.3
   whites2012 = "local_Whites"
+}
+
+local tabular = {
+  bluecurve = true,
+  greencurve = true,
+  redcurve = true,
+  maincurve = true,
+  pointColors = true,
 }
 
 local function GetPresetFilenames()
@@ -122,14 +166,29 @@ local function ApplyLocalPreset(LocalPresetFilename)  --LocalPresetName eg: 'Bur
     --Apply preset to LR
     for param, MappedParam in pairs(localPresetMap) do
       local value = LocalPresets[LocalPresetName][param]
-      if value == nil then value=0; end
-      if MappedParam == 'local_Exposure' then
-        value = value * 4
+
+      if tabular[param] then
+        if value == nil then
+          if param == 'pointColors' then
+            LrDevelopController.setValue(MappedParam, {})
+          else
+            LrDevelopController.setValue(MappedParam, {"0,0","128,128","255,255"})
+          end
+        else
+          LrDevelopController.setValue(MappedParam, value) --give them the table
+        end
       else
-        value = value * 100
+        if value == nil then
+          LrDevelopController.resetToDefault(MappedParam)
+          MIDI2LR.PARAM_OBSERVER[MappedParam] = LrDevelopController.getValue(MappedParam)
+        else
+          if MappedParam == 'local_Exposure' then value = value * 4
+          elseif MappedParam == 'hue' then value = value * 180
+          else value = value * 100 end
+          MIDI2LR.PARAM_OBSERVER[MappedParam] = value
+          LrDevelopController.setValue(MappedParam, value)
+        end
       end
-      MIDI2LR.PARAM_OBSERVER[MappedParam] = value
-      LrDevelopController.setValue(MappedParam, value)
     end
   end
 end
