@@ -293,6 +293,8 @@ local DataBase = {
   {Command='Prev',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=photos,Explanation=''},
   {Command='RotateLeft',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_left=Rotate left'),Group=photos,Explanation='Rotates all selected photos left.'},
   {Command='RotateRight',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_right=Rotate right'),Group=photos,Explanation='Rotates all selected photos right.'},
+  {Command='RotateRightLeft',Type='repeat',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_right=Rotate right')..' — '..LOC('$$$/AgDevelopShortcuts/Rotate_left=Rotate left'),Group=photos,Explanation='Rotate all selected photos right or left. Turning knob clockwise rotates right, counterclockwise left.'..repeatexp,Repeats={'RotateRight','RotateLeft'}},
+
   --{Command='UpdateAISettings', Type='button',Translation=LOC('$$$/AgDevelop/UpdateAISettings/Title=Update AI Settings'),Group=photos,Explanation='Updating AI Settings on current photo.'},
   --{Command='UpdateAISettingsAll', Type='button',Translation=LOC('$$$/AgDevelop/UpdateAISettings/Title=Update AI Settings')..' '..LOC('$$$/DevelopProcessVersion/Dialog/UpdateAllSelected=Update All Selected Photos'),Group=photos,Explanation='Updating AI Settings on all target photos. May take some time.'},
   {Command='FullRefresh',Type='button',Translation=LOC('$$$/AgLibrary/ViewBar/Sort/RefreshMode/Manual=Manual Update'),Group=photos,Explanation='Force an update of all develop settings in MIDI controller, even if MIDI2LR believes MIDI controller is up to date. Useful if controller out of sync with Lightroom (e.g., with layer changes).'},

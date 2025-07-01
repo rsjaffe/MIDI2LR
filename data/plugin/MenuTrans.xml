@@ -3593,73 +3593,53 @@
               <second>Local Adjustments Saturation (PV 2 and PV 3+)</second>
             </value22>
             <value23>
-              <first>local_Maincurve</first>
-              <second>Local Adjustments Point Curve (PV 5+)</second>
-            </value23>
-            <value24>
-              <first>local_Redcurve</first>
-              <second>Local Adjustments Red Channel (PV 5+)</second>
-            </value24>
-            <value25>
-              <first>local_Greencurve</first>
-              <second>Local Adjustments Green Channel (PV 5+)</second>
-            </value25>
-            <value26>
-              <first>local_Bluecurve</first>
-              <second>Local Adjustments Blue Channel (PV 5+)</second>
-            </value26>
-            <value27>
               <first>local_RefineSaturation</first>
               <second>Local Adjustments Refine Sat. (PV 6+)</second>
-            </value27>
-            <value28>
+            </value23>
+            <value24>
               <first>local_Texture</first>
               <second>Local Adjustments Texture (PV 5+)</second>
-            </value28>
-            <value29>
+            </value24>
+            <value25>
               <first>local_Clarity</first>
               <second>Local Adjustments Clarity (PV 2 and PV 3+)</second>
-            </value29>
-            <value30>
+            </value25>
+            <value26>
               <first>local_Dehaze</first>
               <second>Local Adjustments Dehaze (PV 3+)</second>
-            </value30>
-            <value31>
+            </value26>
+            <value27>
               <first>local_Grain</first>
               <second>Local Adjustments Grain (PV 6+)</second>
-            </value31>
-            <value32>
+            </value27>
+            <value28>
               <first>local_Sharpness</first>
               <second>Local Adjustments Sharpness (PV 2 and PV 3+)</second>
-            </value32>
-            <value33>
+            </value28>
+            <value29>
               <first>local_LuminanceNoise</first>
               <second>Local Adjustments Luminance Noise Reduction (PV 3+)</second>
-            </value33>
-            <value34>
+            </value29>
+            <value30>
               <first>local_Moire</first>
               <second>Local Adjustments Moire (PV 3+)</second>
-            </value34>
-            <value35>
+            </value30>
+            <value31>
               <first>local_Defringe</first>
               <second>Local Adjustments Defringe (PV 3+)</second>
-            </value35>
-            <value36>
+            </value31>
+            <value32>
               <first>local_ToningHue</first>
               <second>Local Adjustments Toning Hue (PV 3+)</second>
-            </value36>
-            <value37>
+            </value32>
+            <value33>
               <first>local_ToningSaturation</first>
               <second>Local Adjustments Toning Saturation (PV 3+)</second>
-            </value37>
-            <value38>
+            </value33>
+            <value34>
               <first>local_ToningLuminance</first>
               <second>Local Adjustments Toning Luminance (PV 2)</second>
-            </value38>
-            <value39>
-              <first>local_PointColors</first>
-              <second>Local Adjustments Point Color (PV 6+)</second>
-            </value39>
+            </value34>
         </second>
       </value25>
       <value26>
@@ -3726,65 +3706,45 @@
               <second>Reset Local Adjustments Saturation (PV 2 and PV 3+)</second>
             </value14>
             <value15>
-              <first>Resetlocal_Maincurve</first>
-              <second>Reset Local Adjustments Point Curve (PV 5+)</second>
-            </value15>
-            <value16>
-              <first>Resetlocal_Redcurve</first>
-              <second>Reset Local Adjustments Red Channel (PV 5+)</second>
-            </value16>
-            <value17>
-              <first>Resetlocal_Greencurve</first>
-              <second>Reset Local Adjustments Green Channel (PV 5+)</second>
-            </value17>
-            <value18>
-              <first>Resetlocal_Bluecurve</first>
-              <second>Reset Local Adjustments Blue Channel (PV 5+)</second>
-            </value18>
-            <value19>
               <first>Resetlocal_RefineSaturation</first>
               <second>Reset Local Adjustments Refine Sat. (PV 6+)</second>
-            </value19>
-            <value20>
+            </value15>
+            <value16>
               <first>Resetlocal_Texture</first>
               <second>Reset Local Adjustments Texture (PV 5+)</second>
-            </value20>
-            <value21>
+            </value16>
+            <value17>
               <first>Resetlocal_Clarity</first>
               <second>Reset Local Adjustments Clarity (PV 2 and PV 3+)</second>
-            </value21>
-            <value22>
+            </value17>
+            <value18>
               <first>Resetlocal_Dehaze</first>
               <second>Reset Local Adjustments Dehaze (PV 3+)</second>
-            </value22>
-            <value23>
+            </value18>
+            <value19>
               <first>Resetlocal_Grain</first>
               <second>Reset Local Adjustments Grain (PV 6+)</second>
-            </value23>
-            <value24>
+            </value19>
+            <value20>
               <first>Resetlocal_Sharpness</first>
               <second>Reset Local Adjustments Sharpness (PV 2 and PV 3+)</second>
-            </value24>
-            <value25>
+            </value20>
+            <value21>
               <first>Resetlocal_LuminanceNoise</first>
               <second>Reset Local Adjustments Luminance Noise Reduction (PV 3+)</second>
-            </value25>
-            <value26>
+            </value21>
+            <value22>
               <first>Resetlocal_Moire</first>
               <second>Reset Local Adjustments Moire (PV 3+)</second>
-            </value26>
-            <value27>
+            </value22>
+            <value23>
               <first>Resetlocal_Defringe</first>
               <second>Reset Local Adjustments Defringe (PV 3+)</second>
-            </value27>
-            <value28>
+            </value23>
+            <value24>
               <first>Resetlocal_ToningLuminance</first>
               <second>Reset Local Adjustments Luminance (PV 2)</second>
-            </value28>
-            <value29>
-              <first>Resetlocal_PointColors</first>
-              <second>Reset Local Adjustments Point Color (PV 6+)</second>
-            </value29>
+            </value24>
         </second>
       </value26>
       <value27>
