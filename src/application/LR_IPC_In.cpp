@@ -185,15 +185,15 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       decltype(lr_ipc_shared->line_)::value_type line_copy;
       while ((line_copy = lr_ipc_shared->line_.pop()) != kTerminate) {
 #pragma warning(suppress : 26445) /* copying views; otherwise dangling references */
-         auto [command_view, value_view] = SplitLine(line_copy);
+         auto [command_view, value_view] {SplitLine(line_copy)};
 
          /* Fast path for known commands */
-         if (command_view == "TerminateApplication") {
+         if (command_view == "TerminateApplication") [[unlikely]] {
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
             return;
          }
 
-         if (value_view.empty()) {
+         if (value_view.empty()) [[unlikely]] {
             rsj::Log(fmt::format("No value attached to message. Message from plugin was \"{}\".",
                          rsj::ReplaceInvisibleChars(line_copy)),
                 std::source_location::current());
