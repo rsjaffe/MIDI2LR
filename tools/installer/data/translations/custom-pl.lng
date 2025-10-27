@@ -1,6 +1,6 @@
 ﻿midi.donate=Przekaż dotację na prace nad projektem
 midi.donate.exp=Otwiera przeglądarkę internetową z formularzem PayPal, w którym możesz przekazać darowiznę, aby wesprzeć dalszy rozwój projektu ${project.fullName}.
-midi.install.mac=Wymaga systemu MacOS Ventura 13.1 lub nowszego.
+midi.install.mac=Wymaga systemu MacOS Sonoma 14 lub nowszego.
 midi.install.win=Projekt ${project.fullName} można zainstalować tylko w 64-bitowej wersji systemu Microsoft Windows 10 lub nowszego.
 midi.instructions=Pomoc online
 midi.instructions.exp=Otwiera przeglądarkę internetową wyświetlającą instrukcję. Dodaj podręcznik do zakładek, ponieważ istnieje wiele opcji i ustawień, których możesz użyć w ${project.fullName}.

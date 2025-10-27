@@ -20,7 +20,7 @@ msgstr "Opens a web browser with a PayPal form where you can make a donation to 
 #. Using MS
 #: Installer
 msgid "midi.install.mac"
-msgstr "Requires MacOS Ventura 13.1 or later."
+msgstr "Requires MacOS Sonoma 14 or later."
 
 #. Using MS
 #: Installer
