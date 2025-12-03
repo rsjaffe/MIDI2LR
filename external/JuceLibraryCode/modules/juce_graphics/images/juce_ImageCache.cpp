@@ -46,7 +46,7 @@ struct ImageCache::Pimpl     : private Timer,
         clearSingletonInstance();
     }
 
-    JUCE_DECLARE_SINGLETON (ImageCache::Pimpl, false)
+    JUCE_DECLARE_SINGLETON_INLINE (ImageCache::Pimpl, false)
 
     Image getFromHashCode (const int64 hashCode) noexcept
     {
@@ -93,7 +93,7 @@ struct ImageCache::Pimpl     : private Timer,
             }
             else
             {
-                item.lastUseTime = now; // multiply-referenced, so this image is still in use.
+                item.lastUseTime = now; // multiply-referenced, so this image is still in use
             }
         }
 
@@ -123,9 +123,6 @@ struct ImageCache::Pimpl     : private Timer,
 
     JUCE_DECLARE_NON_COPYABLE (Pimpl)
 };
-
-JUCE_IMPLEMENT_SINGLETON (ImageCache::Pimpl)
-
 
 //==============================================================================
 Image ImageCache::getFromHashCode (const int64 hashCode)

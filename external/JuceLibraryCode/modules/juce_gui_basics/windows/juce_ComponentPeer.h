@@ -244,6 +244,9 @@ public:
     /** True if the window is currently minimised. */
     virtual bool isMinimised() const = 0;
 
+    /** True if the window is being displayed on-screen. */
+    virtual bool isShowing() const = 0;
+
     /** Enable/disable fullscreen mode for the window. */
     virtual void setFullScreen (bool shouldBeFullScreen) = 0;
 
@@ -513,8 +516,12 @@ public:
         /** Destructor. */
         virtual ~VBlankListener() = default;
 
-        /** Called on every vertical blank of the display to which the peer is associated. */
-        virtual void onVBlank() = 0;
+        /** Called on every vertical blank of the display to which the peer is associated.
+
+            The timestampSec parameter is a monotonically increasing value expressed in seconds
+            that corresponds to the time at which the next frame will be displayed.
+        */
+        virtual void onVBlank (double timestampSec) = 0;
     };
 
     /** Adds a VBlankListener. */
@@ -574,6 +581,7 @@ public:
 protected:
     //==============================================================================
     static void forceDisplayUpdate();
+    void callVBlankListeners (double timestampSec);
 
     Component& component;
     const int styleFlags;

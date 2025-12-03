@@ -125,22 +125,22 @@
         <MODULEPATH id="juce_audio_devices" path="external/JuceLibraryCode/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2022 targetFolder="build/Windows" extraDefs="_WIN32_WINNT=0x0A000007;WINVER=0x0A000007;NOMINMAX;WIN32_LEAN_AND_MEAN; _SILENCE_CXX23_ALIGNED_STORAGE_DEPRECATION_WARNING;_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING"
-            smallIcon="WdgQGt" bigIcon="WdgQGt" extraCompilerFlags="/utf-8 /arch:SSE4.2">
+    <VS2026 targetFolder="build/Windows" extraDefs="_WIN32_WINNT=0x0A000007;WINVER=0x0A000007;NOMINMAX;WIN32_LEAN_AND_MEAN; _SILENCE_CXX23_ALIGNED_STORAGE_DEPRECATION_WARNING;_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING"
+            extraCompilerFlags="/utf-8 /arch:SSE4.2" smallIcon="WdgQGt" bigIcon="WdgQGt">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" fastMath="1"/>
-        <CONFIGURATION isDebug="0" name="Release" useRuntimeLibDLL="0" fastMath="1"/>
+        <CONFIGURATION isDebug="0" name="Release" fastMath="1" useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_gui_basics" path="external\JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_graphics" path="external\JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_events" path="external\JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_data_structures" path="external\JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_core" path="external\JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_audio_devices" path="external\JuceLibraryCode\modules"/>
         <MODULEPATH id="juce_audio_basics" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_audio_devices" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_core" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_data_structures" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_events" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_graphics" path="external\JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="external\JuceLibraryCode\modules"/>
       </MODULEPATHS>
-    </VS2022>
+    </VS2026>
   </EXPORTFORMATS>
   <MODULES>
     <MODULES id="juce_audio_basics" showAllCode="0" useLocalCopy="1"/>

@@ -57,14 +57,57 @@ Component* Component::currentlyFocusedComponent = nullptr;
 class HierarchyChecker
 {
 public:
-    HierarchyChecker (Component* comp, const MouseEvent& originalEvent)
-        : me (originalEvent)
+    /*  Creates a bail-out checker for comp and its ancestors, that will return true from
+        shouldBailOut() if all of comp's ancestors are destroyed.
+        @param comp     a safe pointer to a component. The pointer will be updated to point
+                        to the nearest non-null ancestor on each call to shouldBailOut.
+    */
+    HierarchyChecker (Component::SafePointer<Component>* comp, const MouseEvent& originalEvent)
+        : closestAncestor (*comp),
+          me (originalEvent)
     {
-        for (; comp != nullptr; comp = comp->getParentComponent())
-            hierarchy.emplace_back (comp);
+        for (Component* c = *comp; c != nullptr; c = c->getParentComponent())
+            hierarchy.emplace_back (c);
     }
 
     Component* nearestNonNullParent() const
+    {
+        return closestAncestor;
+    }
+
+    /*  Searches for the closest ancestor, and returns true if the closest ancestor is nullptr. */
+    bool shouldBailOut() const
+    {
+        closestAncestor = findNearestNonNullParent();
+        return closestAncestor == nullptr;
+    }
+
+    MouseEvent eventWithNearestParent() const
+    {
+        return { me.source,
+                 me.position.toFloat(),
+                 me.mods,
+                 me.pressure, me.orientation, me.rotation,
+                 me.tiltX, me.tiltY,
+                 closestAncestor,
+                 closestAncestor,
+                 me.eventTime,
+                 me.mouseDownPosition.toFloat(),
+                 me.mouseDownTime,
+                 me.getNumberOfClicks(),
+                 me.mouseWasDraggedSinceMouseDown() };
+    }
+
+    template <typename Callback>
+    void forEach (Callback&& callback)
+    {
+        for (auto& item : hierarchy)
+            if (item != nullptr)
+                callback (*item);
+    }
+
+private:
+    Component* findNearestNonNullParent() const
     {
         for (auto& comp : hierarchy)
             if (comp != nullptr)
@@ -73,28 +116,7 @@ public:
         return nullptr;
     }
 
-    bool shouldBailOut() const
-    {
-        return nearestNonNullParent() == nullptr;
-    }
-
-    MouseEvent eventWithNearestParent() const
-    {
-        auto* comp = nearestNonNullParent();
-        return { me.source,
-                 me.position.toFloat(),
-                 me.mods,
-                 me.pressure, me.orientation, me.rotation,
-                 me.tiltX, me.tiltY,
-                 comp, comp,
-                 me.eventTime,
-                 me.mouseDownPosition.toFloat(),
-                 me.mouseDownTime,
-                 me.getNumberOfClicks(),
-                 me.mouseWasDraggedSinceMouseDown() };
-    }
-
-private:
+    Component::SafePointer<Component>& closestAncestor;
     std::vector<Component::SafePointer<Component>> hierarchy;
     const MouseEvent me;
 };
@@ -170,6 +192,69 @@ private:
     int numDeepMouseListeners = 0;
 
     JUCE_DECLARE_NON_COPYABLE (MouseListenerList)
+};
+
+class Component::EffectState
+{
+public:
+    explicit EffectState (ImageEffectFilter& i) : effect (&i) {}
+
+    ImageEffectFilter& getEffect() const
+    {
+        return *effect;
+    }
+
+    bool setEffect (ImageEffectFilter& i)
+    {
+        return std::exchange (effect, &i) != &i;
+    }
+
+    void paint (Graphics& g, Component& c, bool ignoreAlphaLevel)
+    {
+        auto scale = g.getInternalContext().getPhysicalPixelScaleFactor();
+        auto scaledBounds = c.getLocalBounds() * scale;
+
+        const auto preferredType = g.getInternalContext().getPreferredImageTypeForTemporaryImages();
+        const auto pixelData = effectImage.getPixelData();
+        const auto shouldCreateImage = pixelData == nullptr
+                                       || pixelData->width != scaledBounds.getWidth()
+                                       || pixelData->height != scaledBounds.getHeight()
+                                       || pixelData->createType()->getTypeID() != preferredType->getTypeID();
+
+        if (shouldCreateImage)
+        {
+            effectImage = Image { c.isOpaque() ? Image::RGB : Image::ARGB,
+                                  scaledBounds.getWidth(),
+                                  scaledBounds.getHeight(),
+                                  false,
+                                  *preferredType };
+            effectImage.setBackupEnabled (false);
+        }
+
+        if (! c.isOpaque())
+            effectImage.clear (effectImage.getBounds());
+
+        {
+            Graphics g2 (effectImage);
+            g2.addTransform (AffineTransform::scale ((float) scaledBounds.getWidth()  / (float) c.getWidth(),
+                                                     (float) scaledBounds.getHeight() / (float) c.getHeight()));
+            c.paintComponentAndChildren (g2);
+        }
+
+        Graphics::ScopedSaveState ss (g);
+
+        g.addTransform (AffineTransform::scale (1.0f / scale));
+        effect->applyEffect (effectImage, g, scale, ignoreAlphaLevel ? 1.0f : c.getAlpha());
+    }
+
+    void releaseResources()
+    {
+        effectImage = {};
+    }
+
+private:
+    Image effectImage;
+    ImageEffectFilter* effect;
 };
 
 //==============================================================================
@@ -362,7 +447,7 @@ void Component::addToDesktop (int styleWanted, void* nativeWindowToAttachTo)
 
             flags.hasHeavyweightPeerFlag = false;
             Desktop::getInstance().removeDesktopComponent (this);
-            internalHierarchyChanged(); // give comps a chance to react to the peer change before the old peer is deleted.
+            internalHierarchyChanged(); // give comps a chance to react to the peer change before the old peer is deleted
 
             if (safePointer == nullptr)
                 return;
@@ -533,6 +618,15 @@ void Component::setBufferedToImage (bool shouldBeBuffered)
     }
 }
 
+void Component::invalidateCachedImageResources()
+{
+    if (cachedImage != nullptr)
+        cachedImage->releaseResources();
+
+    if (effectState != nullptr)
+        effectState->releaseResources();
+}
+
 //==============================================================================
 void Component::reorderChildInternal (int sourceIndex, int destIndex)
 {
@@ -603,7 +697,7 @@ void Component::toBehind (Component* other)
 {
     if (other != nullptr && other != this)
     {
-        // the two components must belong to the same parent..
+        // the two components must belong to the same parent
         jassert (parentComponent == other->parentComponent);
 
         if (parentComponent != nullptr)
@@ -765,7 +859,7 @@ void Component::setBounds (int x, int y, int w, int h)
 
         if (showing)
         {
-            // send a fake mouse move to trigger enter/exit messages if needed..
+            // send a fake mouse move to trigger enter/exit messages if needed
             sendFakeMouseMove();
 
             if (! flags.hasHeavyweightPeerFlag)
@@ -862,7 +956,8 @@ void Component::setSize (int w, int h)                  { setBounds (getX(), get
 void Component::setTopLeftPosition (int x, int y)       { setTopLeftPosition ({ x, y }); }
 void Component::setTopLeftPosition (Point<int> pos)     { setBounds (pos.x, pos.y, getWidth(), getHeight()); }
 
-void Component::setTopRightPosition (int x, int y)      { setTopLeftPosition (x - getWidth(), y); }
+void Component::setTopRightPosition (int x, int y)      { setTopRightPosition ({ x, y }); }
+void Component::setTopRightPosition (Point<int> pos)    { setTopLeftPosition (pos.x - getWidth(), pos.y); }
 void Component::setBounds (Rectangle<int> r)            { setBounds (r.getX(), r.getY(), r.getWidth(), r.getHeight()); }
 
 void Component::setCentrePosition (Point<int> p)        { setBounds (getBounds().withCentre (p.transformedBy (getTransform().inverted()))); }
@@ -1327,7 +1422,7 @@ void Component::internalHierarchyChanged()
         if (checker.shouldBailOut())
         {
             // you really shouldn't delete the parent component during a callback telling you
-            // that it's changed..
+            // that it's changed
             jassertfalse;
             return;
         }
@@ -1695,55 +1790,11 @@ void Component::paintComponentAndChildren (Graphics& g)
     paintOverChildren (g);
 }
 
-class Component::EffectState
-{
-public:
-    explicit EffectState (ImageEffectFilter& i) : effect (&i) {}
-
-    ImageEffectFilter& getEffect() const
-    {
-        return *effect;
-    }
-
-    bool setEffect (ImageEffectFilter& i)
-    {
-        return std::exchange (effect, &i) != &i;
-    }
-
-    void paint (Graphics& g, Component& c, bool ignoreAlphaLevel)
-    {
-        auto scale = g.getInternalContext().getPhysicalPixelScaleFactor();
-        auto scaledBounds = c.getLocalBounds() * scale;
-
-        if (effectImage.getBounds() != scaledBounds)
-            effectImage = Image { c.isOpaque() ? Image::RGB : Image::ARGB, scaledBounds.getWidth(), scaledBounds.getHeight(), false };
-
-        if (! c.isOpaque())
-            effectImage.clear (effectImage.getBounds());
-
-        {
-            Graphics g2 (effectImage);
-            g2.addTransform (AffineTransform::scale ((float) scaledBounds.getWidth()  / (float) c.getWidth(),
-                                                     (float) scaledBounds.getHeight() / (float) c.getHeight()));
-            c.paintComponentAndChildren (g2);
-        }
-
-        Graphics::ScopedSaveState ss (g);
-
-        g.addTransform (AffineTransform::scale (1.0f / scale));
-        effect->applyEffect (effectImage, g, scale, ignoreAlphaLevel ? 1.0f : c.getAlpha());
-    }
-
-private:
-    Image effectImage;
-    ImageEffectFilter* effect;
-};
-
 void Component::paintEntireComponent (Graphics& g, bool ignoreAlphaLevel)
 {
     // If sizing a top-level-window and the OS paint message is delivered synchronously
     // before resized() is called, then we'll invoke the callback here, to make sure
-    // the components inside have had a chance to sort their sizes out..
+    // the components inside have had a chance to sort their sizes out.
    #if JUCE_DEBUG
     if (! flags.isInsidePaintCall) // (avoids an assertion in plugins hosted in WaveLab)
    #endif
@@ -1788,7 +1839,9 @@ bool Component::isPaintingUnclipped() const noexcept
 
 //==============================================================================
 Image Component::createComponentSnapshot (Rectangle<int> areaToGrab,
-                                          bool clipImageToComponentBounds, float scaleFactor)
+                                          bool clipImageToComponentBounds,
+                                          float scaleFactor,
+                                          const ImageType& imageType)
 {
     auto r = areaToGrab;
 
@@ -1801,7 +1854,7 @@ Image Component::createComponentSnapshot (Rectangle<int> areaToGrab,
     auto w = roundToInt (scaleFactor * (float) r.getWidth());
     auto h = roundToInt (scaleFactor * (float) r.getHeight());
 
-    Image image (flags.opaqueFlag ? Image::RGB : Image::ARGB, w, h, true);
+    Image image (flags.opaqueFlag ? Image::RGB : Image::ARGB, w, h, ! flags.opaqueFlag, imageType);
 
     Graphics g (image);
 
@@ -2083,33 +2136,36 @@ void Component::removeMouseListener (MouseListener* listenerToRemove)
 }
 
 //==============================================================================
-void Component::internalMouseEnter (MouseInputSource source, Point<float> relativePos, Time time)
+void Component::internalMouseEnter (SafePointer<Component> target, MouseInputSource source, Point<float> relativePos, Time time)
 {
-    if (isCurrentlyBlockedByAnotherModalComponent())
+    if (target->isCurrentlyBlockedByAnotherModalComponent())
     {
         // if something else is modal, always just show a normal mouse cursor
         source.showMouseCursor (MouseCursor::NormalCursor);
         return;
     }
 
-    if (flags.repaintOnMouseActivityFlag)
-        repaint();
+    if (target->flags.repaintOnMouseActivityFlag)
+        target->repaint();
 
     const auto me = makeMouseEvent (source,
                                     detail::PointerState().withPosition (relativePos),
                                     source.getCurrentModifiers(),
-                                    this,
-                                    this,
+                                    target,
+                                    target,
                                     time,
                                     relativePos,
                                     time,
                                     0,
                                     false);
 
-    HierarchyChecker checker (this, me);
-    mouseEnter (me);
+    HierarchyChecker checker (&target, me);
+    target->mouseEnter (me);
 
-    flags.cachedMouseInsideComponent = true;
+    if (checker.shouldBailOut())
+        return;
+
+    target->flags.cachedMouseInsideComponent = true;
 
     if (checker.shouldBailOut())
         return;
@@ -2118,33 +2174,33 @@ void Component::internalMouseEnter (MouseInputSource source, Point<float> relati
     MouseListenerList::sendMouseEvent (checker, &MouseListener::mouseEnter);
 }
 
-void Component::internalMouseExit (MouseInputSource source, Point<float> relativePos, Time time)
+void Component::internalMouseExit (SafePointer<Component> target, MouseInputSource source, Point<float> relativePos, Time time)
 {
-    if (isCurrentlyBlockedByAnotherModalComponent())
+    if (target->isCurrentlyBlockedByAnotherModalComponent())
     {
         // if something else is modal, always just show a normal mouse cursor
         source.showMouseCursor (MouseCursor::NormalCursor);
         return;
     }
 
-    if (flags.repaintOnMouseActivityFlag)
-        repaint();
+    if (target->flags.repaintOnMouseActivityFlag)
+        target->repaint();
 
-    flags.cachedMouseInsideComponent = false;
+    target->flags.cachedMouseInsideComponent = false;
 
     const auto me = makeMouseEvent (source,
                                     detail::PointerState().withPosition (relativePos),
                                     source.getCurrentModifiers(),
-                                    this,
-                                    this,
+                                    target,
+                                    target,
                                     time,
                                     relativePos,
                                     time,
                                     0,
                                     false);
 
-    HierarchyChecker checker (this, me);
-    mouseExit (me);
+    HierarchyChecker checker (&target, me);
+    target->mouseExit (me);
 
     if (checker.shouldBailOut())
         return;
@@ -2153,7 +2209,8 @@ void Component::internalMouseExit (MouseInputSource source, Point<float> relativ
     MouseListenerList::sendMouseEvent (checker, &MouseListener::mouseExit);
 }
 
-void Component::internalMouseDown (MouseInputSource source,
+void Component::internalMouseDown (SafePointer<Component> target,
+                                   MouseInputSource source,
                                    const detail::PointerState& relativePointerState,
                                    Time time)
 {
@@ -2162,56 +2219,54 @@ void Component::internalMouseDown (MouseInputSource source,
     const auto me = makeMouseEvent (source,
                                     relativePointerState,
                                     source.getCurrentModifiers(),
-                                    this,
-                                    this,
+                                    target,
+                                    target,
                                     time,
                                     relativePointerState.position,
                                     time,
                                     source.getNumberOfMultipleClicks(),
                                     false);
 
-    HierarchyChecker checker (this, me);
+    HierarchyChecker checker (&target, me);
 
-    if (isCurrentlyBlockedByAnotherModalComponent())
+    if (target->isCurrentlyBlockedByAnotherModalComponent())
     {
-        flags.mouseDownWasBlocked = true;
-        internalModalInputAttempt();
+        target->flags.mouseDownWasBlocked = true;
+        target->internalModalInputAttempt();
 
         if (checker.shouldBailOut())
             return;
 
         // If processing the input attempt has exited the modal loop, we'll allow the event
-        // to be delivered..
-        if (isCurrentlyBlockedByAnotherModalComponent())
+        // to be delivered.
+        if (target->isCurrentlyBlockedByAnotherModalComponent())
         {
-            // allow blocked mouse-events to go to global listeners..
+            // allow blocked mouse-events to go to global listeners
             desktop.getMouseListeners().callChecked (checker, [&] (MouseListener& l) { l.mouseDown (checker.eventWithNearestParent()); });
             return;
         }
     }
 
-    flags.mouseDownWasBlocked = false;
+    target->flags.mouseDownWasBlocked = false;
 
-    for (auto* c = this; c != nullptr; c = c->parentComponent)
+    checker.forEach ([] (auto& comp)
     {
-        if (c->isBroughtToFrontOnMouseClick())
-        {
-            c->toFront (true);
-
-            if (checker.shouldBailOut())
-                return;
-        }
-    }
-
-    grabKeyboardFocusInternal (focusChangedByMouseClick, true, FocusChangeDirection::unknown);
+        if (comp.isBroughtToFrontOnMouseClick())
+            comp.toFront (true);
+    });
 
     if (checker.shouldBailOut())
         return;
 
-    if (flags.repaintOnMouseActivityFlag)
-        repaint();
+    target->grabKeyboardFocusInternal (focusChangedByMouseClick, true, FocusChangeDirection::unknown);
 
-    mouseDown (me);
+    if (checker.shouldBailOut())
+        return;
+
+    if (target->flags.repaintOnMouseActivityFlag)
+        target->repaint();
+
+    target->mouseDown (me);
 
     if (checker.shouldBailOut())
         return;
@@ -2221,31 +2276,39 @@ void Component::internalMouseDown (MouseInputSource source,
     MouseListenerList::sendMouseEvent (checker, &MouseListener::mouseDown);
 }
 
-void Component::internalMouseUp (MouseInputSource source,
+void Component::internalMouseUp (SafePointer<Component> target,
+                                 MouseInputSource source,
                                  const detail::PointerState& relativePointerState,
                                  Time time,
                                  const ModifierKeys oldModifiers)
 {
-    if (flags.mouseDownWasBlocked && isCurrentlyBlockedByAnotherModalComponent())
-        return;
+    const auto originalTarget = target;
 
     const auto me = makeMouseEvent (source,
                                     relativePointerState,
                                     oldModifiers,
-                                    this,
-                                    this,
+                                    target,
+                                    target,
                                     time,
-                                    getLocalPoint (nullptr, source.getLastMouseDownPosition()),
+                                    target->getLocalPoint (nullptr, source.getLastMouseDownPosition()),
                                     source.getLastMouseDownTime(),
                                     source.getNumberOfMultipleClicks(),
                                     source.isLongPressOrDrag());
 
-    HierarchyChecker checker (this, me);
+    HierarchyChecker checker (&target, me);
 
-    if (flags.repaintOnMouseActivityFlag)
-        repaint();
+    if (target->flags.mouseDownWasBlocked && target->isCurrentlyBlockedByAnotherModalComponent())
+    {
+        // Global listeners still need to know about the mouse up
+        auto& desktop = Desktop::getInstance();
+        desktop.getMouseListeners().callChecked (checker, [&] (MouseListener& l) { l.mouseUp (checker.eventWithNearestParent()); });
+        return;
+    }
 
-    mouseUp (me);
+    if (target->flags.repaintOnMouseActivityFlag)
+        target->repaint();
+
+    target->mouseUp (me);
 
     if (checker.shouldBailOut())
         return;
@@ -2261,8 +2324,8 @@ void Component::internalMouseUp (MouseInputSource source,
     // check for double-click
     if (me.getNumberOfClicks() >= 2)
     {
-        if (checker.nearestNonNullParent() == this)
-            mouseDoubleClick (checker.eventWithNearestParent());
+        if (target == originalTarget)
+            target->mouseDoubleClick (checker.eventWithNearestParent());
 
         if (checker.shouldBailOut())
             return;
@@ -2272,24 +2335,24 @@ void Component::internalMouseUp (MouseInputSource source,
     }
 }
 
-void Component::internalMouseDrag (MouseInputSource source, const detail::PointerState& relativePointerState, Time time)
+void Component::internalMouseDrag (SafePointer<Component> target, MouseInputSource source, const detail::PointerState& relativePointerState, Time time)
 {
-    if (! isCurrentlyBlockedByAnotherModalComponent())
+    if (! target->isCurrentlyBlockedByAnotherModalComponent())
     {
         const auto me = makeMouseEvent (source,
                                         relativePointerState,
                                         source.getCurrentModifiers(),
-                                        this,
-                                        this,
+                                        target,
+                                        target,
                                         time,
-                                        getLocalPoint (nullptr, source.getLastMouseDownPosition()),
+                                        target->getLocalPoint (nullptr, source.getLastMouseDownPosition()),
                                         source.getLastMouseDownTime(),
                                         source.getNumberOfMultipleClicks(),
                                         source.isLongPressOrDrag());
 
-        HierarchyChecker checker (this, me);
+        HierarchyChecker checker (&target, me);
 
-        mouseDrag (me);
+        target->mouseDrag (me);
 
         if (checker.shouldBailOut())
             return;
@@ -2299,13 +2362,13 @@ void Component::internalMouseDrag (MouseInputSource source, const detail::Pointe
     }
 }
 
-void Component::internalMouseMove (MouseInputSource source, Point<float> relativePos, Time time)
+void Component::internalMouseMove (SafePointer<Component> target, MouseInputSource source, Point<float> relativePos, Time time)
 {
     auto& desktop = Desktop::getInstance();
 
-    if (isCurrentlyBlockedByAnotherModalComponent())
+    if (target->isCurrentlyBlockedByAnotherModalComponent())
     {
-        // allow blocked mouse-events to go to global listeners..
+        // allow blocked mouse-events to go to global listeners
         desktop.sendMouseMove();
     }
     else
@@ -2313,17 +2376,17 @@ void Component::internalMouseMove (MouseInputSource source, Point<float> relativ
         const auto me = makeMouseEvent (source,
                                         detail::PointerState().withPosition (relativePos),
                                         source.getCurrentModifiers(),
-                                        this,
-                                        this,
+                                        target,
+                                        target,
                                         time,
                                         relativePos,
                                         time,
                                         0,
                                         false);
 
-        HierarchyChecker checker (this, me);
+        HierarchyChecker checker (&target, me);
 
-        mouseMove (me);
+        target->mouseMove (me);
 
         if (checker.shouldBailOut())
             return;
@@ -2333,7 +2396,7 @@ void Component::internalMouseMove (MouseInputSource source, Point<float> relativ
     }
 }
 
-void Component::internalMouseWheel (MouseInputSource source, Point<float> relativePos,
+void Component::internalMouseWheel (SafePointer<Component> target, MouseInputSource source, Point<float> relativePos,
                                     Time time, const MouseWheelDetails& wheel)
 {
     auto& desktop = Desktop::getInstance();
@@ -2341,24 +2404,24 @@ void Component::internalMouseWheel (MouseInputSource source, Point<float> relati
     const auto me = makeMouseEvent (source,
                                     detail::PointerState().withPosition (relativePos),
                                     source.getCurrentModifiers(),
-                                    this,
-                                    this,
+                                    target,
+                                    target,
                                     time,
                                     relativePos,
                                     time,
                                     0,
                                     false);
 
-    HierarchyChecker checker (this, me);
+    HierarchyChecker checker (&target, me);
 
-    if (isCurrentlyBlockedByAnotherModalComponent())
+    if (target->isCurrentlyBlockedByAnotherModalComponent())
     {
-        // allow blocked mouse-events to go to global listeners..
+        // allow blocked mouse-events to go to global listeners
         desktop.mouseListeners.callChecked (checker, [&] (MouseListener& l) { l.mouseWheelMove (me, wheel); });
     }
     else
     {
-        mouseWheelMove (me, wheel);
+        target->mouseWheelMove (me, wheel);
 
         if (checker.shouldBailOut())
             return;
@@ -2370,7 +2433,7 @@ void Component::internalMouseWheel (MouseInputSource source, Point<float> relati
     }
 }
 
-void Component::internalMagnifyGesture (MouseInputSource source, Point<float> relativePos,
+void Component::internalMagnifyGesture (SafePointer<Component> target, MouseInputSource source, Point<float> relativePos,
                                         Time time, float amount)
 {
     auto& desktop = Desktop::getInstance();
@@ -2378,24 +2441,24 @@ void Component::internalMagnifyGesture (MouseInputSource source, Point<float> re
     const auto me = makeMouseEvent (source,
                                     detail::PointerState().withPosition (relativePos),
                                     source.getCurrentModifiers(),
-                                    this,
-                                    this,
+                                    target,
+                                    target,
                                     time,
                                     relativePos,
                                     time,
                                     0,
                                     false);
 
-    HierarchyChecker checker (this, me);
+    HierarchyChecker checker (&target, me);
 
-    if (isCurrentlyBlockedByAnotherModalComponent())
+    if (target->isCurrentlyBlockedByAnotherModalComponent())
     {
-        // allow blocked mouse-events to go to global listeners..
+        // allow blocked mouse-events to go to global listeners
         desktop.mouseListeners.callChecked (checker, [&] (MouseListener& l) { l.mouseMagnify (me, amount); });
     }
     else
     {
-        mouseMagnify (me, amount);
+        target->mouseMagnify (me, amount);
 
         if (checker.shouldBailOut())
             return;
@@ -2445,7 +2508,7 @@ void Component::internalBroughtToFront()
         return;
 
     // When brought to the front and there's a modal component blocking this one,
-    // we need to bring the modal one to the front instead..
+    // we need to bring the modal one to the front instead.
     if (auto* cm = getCurrentlyModalComponent())
         if (cm->getTopLevelComponent() != getTopLevelComponent())
             ModalComponentManager::getInstance()->bringModalComponentsToFront (false); // very important that this is false, otherwise in Windows,
@@ -2889,7 +2952,7 @@ bool Component::isMouseOverOrDragging (bool includeChildren) const
 
 bool JUCE_CALLTYPE Component::isMouseButtonDownAnywhere() noexcept
 {
-    return ModifierKeys::currentModifiers.isAnyMouseButtonDown();
+    return ModifierKeys::getCurrentModifiers().isAnyMouseButtonDown();
 }
 
 Point<int> Component::getMouseXYRelative() const
@@ -3009,5 +3072,461 @@ AccessibilityHandler* Component::getAccessibilityHandler()
 
     return accessibilityHandler.get();
 }
+
+#if JUCE_UNIT_TESTS
+
+struct ComponentTests  : public UnitTest
+{
+    ComponentTests()
+        : UnitTest ("Component", UnitTestCategories::gui)
+    {
+    }
+
+    struct TestComponent : Component
+    {
+        void paint (Graphics& g) final
+        {
+            lastClipBounds = g.getClipBounds();
+            ++numPaintCalls;
+        }
+
+        int numPaintCalls = 0;
+        Rectangle<int> lastClipBounds;
+    };
+
+    void paintComponentBounds (Component& componentToRepaint)
+    {
+        auto* topLevelComponent = componentToRepaint.getTopLevelComponent();
+        topLevelComponent->createComponentSnapshot (topLevelComponent->getLocalArea (&componentToRepaint, componentToRepaint.getLocalBounds()));
+    }
+
+    void runTest() override
+    {
+        ScopedJuceInitialiser_GUI libraryInitialiser;
+
+        beginTest ("Painting a parents bounds paints both parent and child");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child->setBounds (bounds.reduced (25));
+            parent->addAndMakeVisible (*child);
+
+            expectEquals (parent->numPaintCalls, 0);
+            expectEquals (child->numPaintCalls, 0);
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 1);
+            expectEquals (child->numPaintCalls, 1);
+        }
+
+        beginTest ("Non-opaque children require their parent to repaint");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child->setBounds (bounds.reduced (25));
+            parent->addAndMakeVisible (*child);
+
+            paintComponentBounds (*child);
+
+            expectEquals (parent->numPaintCalls, 1);
+            expectEquals (child->numPaintCalls, 1);
+        }
+
+        beginTest ("Opaque children don't require their parent to repaint");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child->setBounds (bounds.reduced (25));
+            child->setOpaque (true);
+            parent->addAndMakeVisible (*child);
+
+            paintComponentBounds (*child);
+
+            expectEquals (parent->numPaintCalls, 0);
+            expectEquals (child->numPaintCalls, 1);
+        }
+
+        beginTest ("Opaque children don't require their parent to repaint (even when the parent uses setPaintingIsUnclipped (true))");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setPaintingIsUnclipped (true);
+            parent->setBounds (bounds);
+
+            child->setBounds (bounds.reduced (25));
+            child->setOpaque (true);
+            parent->addAndMakeVisible (*child);
+
+            paintComponentBounds (*child);
+
+            expectEquals (parent->numPaintCalls, 0);
+            expectEquals (child->numPaintCalls, 1);
+        }
+
+        beginTest ("A partially obscured parent will repaint with reduced clip bounds");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child->setBounds (bounds.removeFromTop (50));
+            child->setOpaque (true);
+            parent->addAndMakeVisible (*child);
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 1);
+            expectEquals (child->numPaintCalls, 1);
+
+            expect (parent->lastClipBounds == bounds);
+        }
+
+        beginTest ("A totally obscured parent will never repaint");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child1 = std::make_unique<TestComponent>();
+            const auto child2 = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child1->setBounds (bounds.removeFromTop (50));
+            child1->setOpaque (true);
+            parent->addAndMakeVisible (*child1);
+
+            child2->setBounds (bounds);
+            child2->setOpaque (true);
+            parent->addAndMakeVisible (*child2);
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 0);
+            expectEquals (child1->numPaintCalls, 1);
+            expectEquals (child2->numPaintCalls, 1);
+        }
+
+        beginTest ("An opaque component will hide sibling components behind it");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child1 = std::make_unique<TestComponent>();
+            const auto child2 = std::make_unique<TestComponent>();
+            const auto child3 = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child1->setBounds (bounds);
+            parent->addAndMakeVisible (*child1);
+
+            child2->setBounds (bounds);
+            child2->setOpaque (true);
+            parent->addAndMakeVisible (*child2);
+
+            child3->setBounds (bounds);
+            parent->addAndMakeVisible (*child3);
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 0);
+            expectEquals (child1->numPaintCalls, 0);
+            expectEquals (child2->numPaintCalls, 1);
+            expectEquals (child3->numPaintCalls, 1);
+        }
+
+        beginTest ("An opaque component will reduce the clip bounds of sibling components behind it");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child1 = std::make_unique<TestComponent>();
+            const auto child2 = std::make_unique<TestComponent>();
+            const auto child3 = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child1->setBounds (bounds);
+            parent->addAndMakeVisible (*child1);
+
+            child2->setBounds (bounds.removeFromTop (50));
+            child2->setOpaque (true);
+            parent->addAndMakeVisible (*child2);
+
+            child3->setBounds (child1->getBounds());
+            parent->addAndMakeVisible (*child3);
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 1);
+            expectEquals (child1->numPaintCalls, 1);
+            expectEquals (child2->numPaintCalls, 1);
+            expectEquals (child3->numPaintCalls, 1);
+
+            expect (child1->lastClipBounds == bounds);
+            expect (child3->lastClipBounds == child3->getBounds());
+        }
+
+        beginTest ("A child component will be clipped when painted");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child->setBounds (bounds.reduced (25));
+            parent->addAndMakeVisible (*child);
+
+            expect (parent->lastClipBounds.isEmpty());
+            expect (child->lastClipBounds.isEmpty());
+
+            paintComponentBounds (*parent);
+
+            expect (parent->lastClipBounds == parent->getLocalBounds());
+            expect (child->lastClipBounds == child->getLocalBounds());
+        }
+
+        beginTest ("setPaintingIsUnclipped (true) will cause a child to have its parents clip bounds");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child->setBounds (bounds.reduced (25));
+            child->setPaintingIsUnclipped (true);
+            parent->addAndMakeVisible (*child);
+
+            paintComponentBounds (*parent);
+
+            expect (child->lastClipBounds == child->getLocalArea (parent.get(), parent->getLocalBounds()));
+        }
+
+        beginTest ("Opaque components hide parents that use setPaintingIsUnclipped (true)");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+            parent->setPaintingIsUnclipped (true);
+
+            child->setBounds (bounds);
+            child->setOpaque (true);
+            parent->addAndMakeVisible (*child);
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 0);
+            expectEquals (child->numPaintCalls, 1);
+        }
+
+        beginTest ("Opaque components hide parents that use setPaintingIsUnclipped (true)");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+            parent->setPaintingIsUnclipped (true);
+
+            child->setBounds (bounds);
+            child->setOpaque (true);
+            parent->addAndMakeVisible (*child);
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 0);
+            expectEquals (child->numPaintCalls, 1);
+        }
+
+        beginTest ("Invisible child components will not be considered opaque");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child->setBounds (bounds);
+            child->setOpaque (true);
+            parent->addChildComponent (*child);
+
+            expect (! child->isVisible());
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 1);
+            expectEquals (child->numPaintCalls, 0);
+        }
+
+        beginTest ("Invisible sibling components will not be considered opaque");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child1 = std::make_unique<TestComponent>();
+            const auto child2 = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child1->setBounds (bounds);
+            parent->addAndMakeVisible (*child1);
+
+            child2->setBounds (bounds);
+            child2->setOpaque (true);
+            parent->addChildComponent (*child2);
+
+            expect (  child1->isVisible());
+            expect (! child2->isVisible());
+
+            paintComponentBounds (*parent);
+
+            expectEquals (child1->numPaintCalls, 1);
+            expectEquals (child2->numPaintCalls, 0);
+        }
+
+        beginTest ("Components with an invisible parent will not be considered opaque");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+            const auto grandchild = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child->setBounds (bounds);
+            parent->addChildComponent (*child);
+
+            grandchild->setBounds (bounds);
+            grandchild->setOpaque (true);
+            child->addAndMakeVisible (*grandchild);
+
+            expect (! child->isVisible());
+            expect (grandchild->isVisible());
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 1);
+            expectEquals (child->numPaintCalls, 0);
+            expectEquals (grandchild->numPaintCalls, 0);
+        }
+
+        beginTest ("Components with a width of 0 will not have their paint function called");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child->setBounds (bounds.withWidth (0));
+            parent->addAndMakeVisible (*child);
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 1);
+            expectEquals (child->numPaintCalls, 0);
+        }
+
+        beginTest ("Components with a height of 0 will not have their paint function called");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child->setBounds (bounds.withHeight (0));
+            parent->addAndMakeVisible (*child);
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 1);
+            expectEquals (child->numPaintCalls, 0);
+        }
+
+        beginTest ("Transparent components will not be considered opaque");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child->setBounds (bounds);
+            child->setOpaque (true);
+            child->setAlpha (0.5f);
+            parent->addAndMakeVisible (*child);
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 1);
+            expectEquals (child->numPaintCalls, 1);
+        }
+
+        beginTest ("Transformed components will not be considered opaque");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child->setBounds (bounds);
+            child->setOpaque (true);
+            child->setTransform (AffineTransform::rotation (degreesToRadians (45.0f)));
+            parent->addAndMakeVisible (*child);
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 1);
+            expectEquals (child->numPaintCalls, 1);
+        }
+
+        beginTest ("Nested opaque components prevent parents from being painted");
+        {
+            const auto parent = std::make_unique<TestComponent>();
+            const auto child1 = std::make_unique<TestComponent>();
+            const auto child2 = std::make_unique<TestComponent>();
+
+            Rectangle<int> bounds { 0, 0, 100, 100 };
+            parent->setBounds (bounds);
+
+            child1->setBounds (bounds);
+            child1->setOpaque (true);
+            parent->addAndMakeVisible (*child1);
+
+            child2->setBounds (bounds);
+            child2->setOpaque (true);
+            child1->addAndMakeVisible (*child2);
+
+            paintComponentBounds (*parent);
+
+            expectEquals (parent->numPaintCalls, 0);
+            expectEquals (child1->numPaintCalls, 0);
+            expectEquals (child2->numPaintCalls, 1);
+        }
+    }
+};
+
+static ComponentTests componentTests;
+
+#endif
 
 } // namespace juce

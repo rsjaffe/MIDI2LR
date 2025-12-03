@@ -253,12 +253,12 @@ namespace WindowsFileHelpers
 //==============================================================================
 #if JUCE_ALLOW_STATIC_NULL_VARIABLES
 
-JUCE_BEGIN_IGNORE_WARNINGS_MSVC (4996)
+JUCE_BEGIN_IGNORE_DEPRECATION_WARNINGS
 
 const juce_wchar File::separator = '\\';
 const StringRef File::separatorString ("\\");
 
-JUCE_END_IGNORE_WARNINGS_MSVC
+JUCE_END_IGNORE_DEPRECATION_WARNINGS
 
 #endif
 
@@ -342,7 +342,7 @@ bool File::moveToTrash() const
     if (! exists())
         return true;
 
-    // The string we pass in must be double null terminated..
+    // The string we pass in must be double null terminated.
     const size_t numBytes = CharPointer_UTF16::getBytesRequiredFor (fullPath.getCharPointer()) + 8;
     HeapBlock<WCHAR> doubleNullTermPath;
     doubleNullTermPath.calloc (numBytes, 1);
@@ -911,7 +911,9 @@ static String readWindowsShortcutOrLink (const File& shortcut, bool wantsAbsolut
     if (! wantsAbsolutePath)
         return readWindowsLnkFile (shortcut, false);
 
-    auto* h = CreateFile (shortcut.getFullPathName().toWideCharPointer(),
+    static constexpr const char* prefix = R"(\\?\)";
+
+    auto* h = CreateFile ((prefix + shortcut.getFullPathName()).toWideCharPointer(),
                           GENERIC_READ, FILE_SHARE_READ, nullptr,
                           OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
 
@@ -938,8 +940,6 @@ static String readWindowsShortcutOrLink (const File& shortcut, bool wantsAbsolut
 
         return buffer.data();
     }();
-
-    static constexpr const char* prefix ("\\\\?\\");
 
     // It turns out that GetFinalPathNameByHandleW prepends \\?\ to the path.
     // This is not a bug, it's a feature. See MSDN for more information.

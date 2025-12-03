@@ -52,7 +52,7 @@ ResizableWindow::~ResizableWindow()
 {
     // Don't delete or remove the resizer components yourself! They're managed by the
     // ResizableWindow, and you should leave them alone! You may have deleted them
-    // accidentally by careless use of deleteAllChildren()..?
+    // accidentally by careless use of deleteAllChildren()?
     jassert (resizableCorner == nullptr || getIndexOfChildComponent (resizableCorner.get()) >= 0);
     jassert (resizableBorder == nullptr || getIndexOfChildComponent (resizableBorder.get()) >= 0);
 
@@ -60,7 +60,7 @@ ResizableWindow::~ResizableWindow()
     resizableBorder.reset();
     clearContentComponent();
 
-    // have you been adding your own components directly to this window..? tut tut tut.
+    // Maybe you've added your own components directly to this window, which isn't supported.
     // Read the instructions for using a ResizableWindow!
     jassert (getNumChildComponents() == 0);
 }
@@ -79,7 +79,7 @@ int ResizableWindow::getDesktopWindowStyleFlags() const
 {
     int styleFlags = TopLevelWindow::getDesktopWindowStyleFlags();
 
-    if (isResizable())
+    if (isResizable() && Desktop::getInstance().supportsBorderlessNonClientResize())
         styleFlags |= ComponentPeer::windowIsResizable;
 
     return styleFlags;
@@ -152,7 +152,7 @@ void ResizableWindow::setContentComponent (Component* const newContentComponent,
 
 void ResizableWindow::setContentComponentSize (int width, int height)
 {
-    jassert (width > 0 && height > 0); // not a great idea to give it a zero size..
+    jassert (width > 0 && height > 0); // not a great idea to give it a zero size
 
     auto border = getContentComponentBorder();
 
@@ -226,10 +226,6 @@ void ResizableWindow::childBoundsChanged (Component* child)
 {
     if ((child == contentComponent) && (child != nullptr) && resizeToFitContent)
     {
-        // not going to look very good if this component has a zero size..
-        jassert (child->getWidth() > 0);
-        jassert (child->getHeight() > 0);
-
         auto borders = getContentComponentBorder();
 
         setSize (child->getWidth() + borders.getLeftAndRight(),
@@ -303,7 +299,7 @@ void ResizableWindow::setResizeLimits (int newMinimumWidth,
                                        int newMaximumWidth,
                                        int newMaximumHeight) noexcept
 {
-    // if you've set up a custom constrainer then these settings won't have any effect..
+    // if you've set up a custom constrainer then these settings won't have any effect
     jassert (constrainer == &defaultConstrainer || constrainer == nullptr);
 
     if (constrainer == nullptr)

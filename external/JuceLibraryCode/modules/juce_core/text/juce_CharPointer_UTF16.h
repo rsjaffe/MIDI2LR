@@ -90,33 +90,32 @@ public:
     /** Returns the unicode character that this pointer is pointing to. */
     juce_wchar operator*() const noexcept
     {
-        auto n = (uint32) (uint16) *data;
+        const auto first = (uint32) (uint16) data[0];
 
-        if (n >= 0xd800 && n <= 0xdfff && ((uint32) (uint16) data[1]) >= 0xdc00)
-            n = 0x10000 + (((n - 0xd800) << 10) | (((uint32) (uint16) data[1]) - 0xdc00));
+        if ((++CharPointer_UTF16 (*this)).data - data == 1)
+            return (juce_wchar) first;
 
-        return (juce_wchar) n;
+        const auto second = (uint32) (uint16) data[1];
+        return (juce_wchar) (0x10000 + (((first - 0xd800) << 10) | (second - 0xdc00)));
     }
 
     /** Moves this pointer along to the next character in the string. */
     CharPointer_UTF16& operator++() noexcept
     {
-        auto n = (uint32) (uint16) *data++;
-
-        if (n >= 0xd800 && n <= 0xdfff && ((uint32) (uint16) *data) >= 0xdc00)
-            ++data;
-
+        data += (CharacterFunctions::isHighSurrogate ((uint16) data[0])
+                 && CharacterFunctions::isLowSurrogate ((uint16) data[1]))
+              ? 2
+              : 1;
         return *this;
     }
 
     /** Moves this pointer back to the previous character in the string. */
     CharPointer_UTF16& operator--() noexcept
     {
-        auto n = (uint32) (uint16) (*--data);
-
-        if (n >= 0xdc00 && n <= 0xdfff)
-            --data;
-
+        data -= (CharacterFunctions::isLowSurrogate ((uint16) data[-1])
+                 && CharacterFunctions::isHighSurrogate ((uint16) data[-2]))
+              ? 2
+              : 1;
         return *this;
     }
 
@@ -124,12 +123,9 @@ public:
         advances the pointer to point to the next character. */
     juce_wchar getAndAdvance() noexcept
     {
-        auto n = (uint32) (uint16) *data++;
-
-        if (n >= 0xd800 && n <= 0xdfff && ((uint32) (uint16) *data) >= 0xdc00)
-            n = 0x10000 + ((((n - 0xd800) << 10) | (((uint32) (uint16) *data++) - 0xdc00)));
-
-        return (juce_wchar) n;
+        const auto result = **this;
+        ++(*this);
+        return result;
     }
 
     /** Moves this pointer along to the next character in the string. */
@@ -214,7 +210,7 @@ public:
         {
             auto n = (uint32) (uint16) *d++;
 
-            if (n >= 0xd800 && n <= 0xdfff)
+            if (CharacterFunctions::isHighSurrogate ((juce_wchar) n))
             {
                 if (*d++ == 0)
                     break;
@@ -350,7 +346,8 @@ public:
         return CharacterFunctions::compareIgnoreCaseUpTo (*this, other, maxChars);
     }
 
-   #if JUCE_MSVC && ! defined (DOXYGEN)
+   #if JUCE_MSVC
+    /** @cond */
     int compareIgnoreCase (CharPointer_UTF16 other) const noexcept
     {
         return _wcsicmp (data, other.data);
@@ -366,6 +363,7 @@ public:
         const CharType* const t = wcsstr (data, stringToFind.getAddress());
         return t == nullptr ? -1 : (int) (t - data);
     }
+    /** @endcond */
    #endif
 
     /** Returns the character index of a substring, or -1 if it isn't found. */
@@ -438,35 +436,32 @@ public:
     /** Returns true if the given unicode character can be represented in this encoding. */
     static bool canRepresent (juce_wchar character) noexcept
     {
-        auto n = (uint32) character;
-        return n < 0x10ffff && (n < 0xd800 || n > 0xdfff);
+        return CharacterFunctions::isNonSurrogateCodePoint (character);
     }
 
     /** Returns true if this data contains a valid string in this encoding. */
-    static bool isValidString (const CharType* dataToTest, int maxBytesToRead)
+    static bool isValidString (const CharType* codeUnits, int maxBytesToRead)
     {
-        maxBytesToRead /= (int) sizeof (CharType);
+        const auto maxCodeUnitsToRead = (size_t) maxBytesToRead / sizeof (CharType);
 
-        while (--maxBytesToRead >= 0 && *dataToTest != 0)
+        for (size_t codeUnitIndex = 0; codeUnitIndex < maxCodeUnitsToRead; ++codeUnitIndex)
         {
-            auto n = (uint32) (uint16) *dataToTest++;
+            const auto c = toCodePoint (codeUnits[codeUnitIndex]);
 
-            if (n >= 0xd800)
-            {
-                if (n > 0x10ffff)
-                    return false;
+            if (c == 0)
+                return true;
 
-                if (n <= 0xdfff)
-                {
-                    if (n > 0xdc00)
-                        return false;
+            if (canRepresent (c))
+                continue;
 
-                    auto nextChar = (uint32) (uint16) *dataToTest++;
+            if (! CharacterFunctions::isHighSurrogate (c))
+                return false;
 
-                    if (nextChar < 0xdc00 || nextChar > 0xdfff)
-                        return false;
-                }
-            }
+            if (++codeUnitIndex >= maxCodeUnitsToRead)
+                return false;
+
+            if (! CharacterFunctions::isLowSurrogate (toCodePoint (codeUnits[codeUnitIndex])))
+                return false;
         }
 
         return true;
@@ -526,6 +521,16 @@ private:
             ++n;
 
         return n;
+    }
+
+    static inline uint32 toUint32 (CharType c) noexcept
+    {
+        return (uint32) (uint16) c;
+    }
+
+    static inline juce_wchar toCodePoint (CharType c) noexcept
+    {
+        return (juce_wchar) toUint32 (c);
     }
 };
 

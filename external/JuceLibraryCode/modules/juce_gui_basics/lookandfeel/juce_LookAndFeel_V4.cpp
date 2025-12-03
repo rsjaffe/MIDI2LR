@@ -247,7 +247,7 @@ void LookAndFeel_V4::drawDocumentWindowTitleBar (DocumentWindow& window, Graphic
     Font font (withDefaultMetrics (FontOptions { (float) h * 0.65f, Font::plain }));
     g.setFont (font);
 
-    auto textW = font.getStringWidth (window.getName());
+    auto textW = GlyphArrangement::getStringWidthInt (font, window.getName());
     auto iconW = 0;
     auto iconH = 0;
 
@@ -386,7 +386,7 @@ void LookAndFeel_V4::changeToggleButtonWidthToFitText (ToggleButton& button)
 
     Font font (withDefaultMetrics (FontOptions { fontSize }));
 
-    button.setSize (font.getStringWidth (button.getButtonText()) + roundToInt (tickWidth) + 14, button.getHeight());
+    button.setSize (GlyphArrangement::getStringWidthInt (font, button.getButtonText()) + roundToInt (tickWidth) + 14, button.getHeight());
 }
 
 //==============================================================================
@@ -536,7 +536,7 @@ void LookAndFeel_V4::drawLinearProgressBar (Graphics& g, const ProgressBar& prog
     }
     else
     {
-        // spinning bar..
+        // spinning bar
         g.setColour (background);
 
         auto stripeWidth = height * 2;
@@ -550,7 +550,7 @@ void LookAndFeel_V4::drawLinearProgressBar (Graphics& g, const ProgressBar& prog
                                 x, static_cast<float> (height),
                                 x - (float) stripeWidth * 0.5f, static_cast<float> (height));
 
-        Image im (Image::ARGB, width, height, true);
+        Image im (Image::ARGB, width, height, true, *g.getInternalContext().getPreferredImageTypeForTemporaryImages());
 
         {
             Graphics g2 (im);
@@ -882,7 +882,7 @@ void LookAndFeel_V4::getIdealPopupMenuItemSize (const String& text, const bool i
             font.setHeight ((float) standardMenuItemHeight / 1.3f);
 
         idealHeight = standardMenuItemHeight > 0 ? standardMenuItemHeight : roundToInt (font.getHeight() * 1.3f);
-        idealWidth = font.getStringWidth (text) + idealHeight * 2;
+        idealWidth = GlyphArrangement::getStringWidthInt (font, text) + idealHeight * 2;
     }
 }
 
@@ -1311,7 +1311,9 @@ void LookAndFeel_V4::drawCallOutBoxBackground (CallOutBox& box, Graphics& g,
 {
     if (cachedImage.isNull())
     {
-        cachedImage = { Image::ARGB, box.getWidth(), box.getHeight(), true };
+        cachedImage = { Image::ARGB, box.getWidth(), box.getHeight(), true, *g.getInternalContext().getPreferredImageTypeForTemporaryImages() };
+        cachedImage.setBackupEnabled (false);
+
         Graphics g2 (cachedImage);
 
         DropShadow (Colours::black.withAlpha (0.7f), 8, { 0, 2 }).drawForPath (g2, path);

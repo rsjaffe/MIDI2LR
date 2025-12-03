@@ -118,9 +118,9 @@ private:
     // a block of memory here that's big enough to be used internally as a windows
     // CRITICAL_SECTION structure.
     #if JUCE_64BIT
-     std::aligned_storage_t<44, 8> lock;
+     alignas (8) std::byte lock[44];
     #else
-     std::aligned_storage_t<24, 8> lock;
+     alignas (8) std::byte lock[24];
     #endif
    #else
     mutable pthread_mutex_t lock;
@@ -183,11 +183,11 @@ private:
         {
             const ScopedLock myScopedLock (objectLock);
 
-            // objectLock is now locked..
+            // objectLock is now locked...
 
             ...do some thread-safe work here...
 
-            // ..and objectLock gets unlocked here, as myScopedLock goes out of
+            // ...and objectLock gets unlocked here, as myScopedLock goes out of
             // scope at the end of the block
         }
     };
@@ -217,18 +217,18 @@ using ScopedLock = CriticalSection::ScopedLockType;
             {
                 const ScopedLock myScopedLock (objectLock);
 
-                // objectLock is now locked..
+                // objectLock is now locked...
 
                 {
                     ScopedUnlock myUnlocker (objectLock);
 
-                    // ..and now unlocked..
+                    // ...and now unlocked...
                 }
 
-                // ..and now locked again..
+                // ...and now locked again...
             }
 
-            // ..and finally unlocked.
+            // ...and finally unlocked.
         }
     };
     @endcode
@@ -254,14 +254,14 @@ using ScopedUnlock = CriticalSection::ScopedUnlockType;
             const ScopedTryLock myScopedTryLock (objectLock);
 
             // Unlike using a ScopedLock, this may fail to actually get the lock, so you
-            // must call the isLocked() method before making any assumptions..
+            // must call the isLocked() method before making any assumptions.
             if (myScopedTryLock.isLocked())
             {
                ...safely do some work...
             }
             else
             {
-                // If we get here, then our attempt at locking failed because another thread had already locked it..
+                // If we get here, then our attempt at locking failed because another thread had already locked it.
             }
         }
     };

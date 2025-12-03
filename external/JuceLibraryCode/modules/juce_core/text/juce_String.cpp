@@ -314,7 +314,7 @@ String::String (const char* const t)
 
         To get around this problem, you must be more explicit when you pass an ambiguous 8-bit
         string to the String class - so for example if your source data is actually UTF-8,
-        you'd call String (CharPointer_UTF8 ("my utf8 string..")), and it would be able to
+        you'd call String (CharPointer_UTF8 ("my utf8 string.")), and it would be able to
         correctly convert the multi-byte characters to unicode. It's *highly* recommended that
         you use UTF-8 with escape characters in your source code to represent extended characters,
         because there's no other way to represent these strings in a way that isn't dependent on
@@ -337,7 +337,7 @@ String::String (const char* const t, const size_t maxChars)
 
         To get around this problem, you must be more explicit when you pass an ambiguous 8-bit
         string to the String class - so for example if your source data is actually UTF-8,
-        you'd call String (CharPointer_UTF8 ("my utf8 string..")), and it would be able to
+        you'd call String (CharPointer_UTF8 ("my utf8 string.")), and it would be able to
         correctly convert the multi-byte characters to unicode. It's *highly* recommended that
         you use UTF-8 with escape characters in your source code to represent extended characters,
         because there's no other way to represent these strings in a way that isn't dependent on
@@ -419,7 +419,7 @@ namespace NumberToStringConverters
         return t;
     }
 
-    // pass in a pointer to the END of a buffer..
+    // pass in a pointer to the END of a buffer
     static char* numberToString (char* t, int64 n) noexcept
     {
         if (n >= 0)
@@ -1668,64 +1668,53 @@ String String::quoted (juce_wchar quoteCharacter) const
 }
 
 //==============================================================================
-static String::CharPointerType findTrimmedEnd (const String::CharPointerType start,
-                                               String::CharPointerType end)
-{
-    while (end > start)
-    {
-        if (! (--end).isWhitespace())
-        {
-            ++end;
-            break;
-        }
-    }
-
-    return end;
-}
-
 String String::trim() const
 {
-    if (isNotEmpty())
-    {
-        auto start = text.findEndOfWhitespace();
-        auto end = start.findTerminatingNull();
-        auto trimmedEnd = findTrimmedEnd (start, end);
+    if (isEmpty())
+        return *this;
 
-        if (trimmedEnd <= start)
-            return {};
+    const auto b = begin();
+    const auto e = end();
 
-        if (text < start || trimmedEnd < end)
-            return String (start, trimmedEnd);
-    }
+    const auto shouldTrim = [] (auto ptr) { return ptr.isWhitespace(); };
+    const auto trimmedBegin = CharacterFunctions::trimBegin (b, e, shouldTrim);
+    const auto trimmedEnd = CharacterFunctions::trimEnd (trimmedBegin, e, shouldTrim);
 
-    return *this;
+    if (trimmedBegin == b && trimmedEnd == e)
+        return *this;
+
+    return String (trimmedBegin, trimmedEnd);
 }
 
 String String::trimStart() const
 {
-    if (isNotEmpty())
-    {
-        auto t = text.findEndOfWhitespace();
+    if (isEmpty())
+        return *this;
 
-        if (t != text)
-            return String (t);
-    }
+    const auto shouldTrim = [] (auto ptr) { return ptr.isWhitespace(); };
+    const auto b = begin();
+    const auto t = CharacterFunctions::trimBegin (b, end(), shouldTrim);
 
-    return *this;
+    if (t == b)
+        return *this;
+
+    return String (t);
 }
 
 String String::trimEnd() const
 {
-    if (isNotEmpty())
-    {
-        auto end = text.findTerminatingNull();
-        auto trimmedEnd = findTrimmedEnd (text, end);
+    if (isEmpty())
+        return *this;
 
-        if (trimmedEnd < end)
-            return String (text, trimmedEnd);
-    }
+    const auto shouldTrim = [] (auto ptr) { return ptr.isWhitespace(); };
+    const auto b = begin();
+    const auto e = end();
+    const auto t = CharacterFunctions::trimEnd (b, e, shouldTrim);
 
-    return *this;
+    if (t == e)
+        return *this;
+
+    return String (b, t);
 }
 
 String String::trimCharactersAtStart (StringRef charactersToTrim) const
@@ -1860,7 +1849,7 @@ String String::formattedRaw (const char* pf, ...)
         va_start (args, pf);
 
        #if JUCE_WINDOWS
-        JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wdeprecated-declarations")
+        JUCE_BEGIN_IGNORE_DEPRECATION_WARNINGS
        #endif
 
       #if JUCE_ANDROID
@@ -1881,7 +1870,7 @@ String String::formattedRaw (const char* pf, ...)
       #endif
 
        #if JUCE_WINDOWS
-        JUCE_END_IGNORE_WARNINGS_GCC_LIKE
+        JUCE_END_IGNORE_DEPRECATION_WARNINGS
        #endif
         va_end (args);
 
@@ -2005,24 +1994,25 @@ String String::createStringFromData (const void* const unknownData, int size)
     if (size == 1)
         return charToString ((juce_wchar) data[0]);
 
-    if (CharPointer_UTF16::isByteOrderMarkBigEndian (data)
-         || CharPointer_UTF16::isByteOrderMarkLittleEndian (data))
+    const auto bigEndianData = CharPointer_UTF16::isByteOrderMarkBigEndian (data);
+
+    if (bigEndianData || CharPointer_UTF16::isByteOrderMarkLittleEndian (data))
     {
-        const int numChars = size / 2 - 1;
+        const auto numUnits = size / 2 - 1;
+        const auto src = unalignedPointerCast<const uint16*> (data + 2);
+        const auto swapBytes = bigEndianData ? ByteOrder::swapIfLittleEndian<uint16>
+                                             : ByteOrder::swapIfBigEndian<uint16>;
 
-        StringCreationHelper builder ((size_t) numChars);
+        StringCreationHelper builder ((size_t) numUnits);
 
-        auto src = unalignedPointerCast<const uint16*> (data + 2);
-
-        if (CharPointer_UTF16::isByteOrderMarkBigEndian (data))
+        for (int i = 0; i < numUnits;)
         {
-            for (int i = 0; i < numChars; ++i)
-                builder.write ((juce_wchar) ByteOrder::swapIfLittleEndian (src[i]));
-        }
-        else
-        {
-            for (int i = 0; i < numChars; ++i)
-                builder.write ((juce_wchar) ByteOrder::swapIfBigEndian (src[i]));
+            const uint16 wideBuffer[] { swapBytes (src[i]),
+                                        swapBytes ((i + 1 == numUnits) ? (uint16) 0 : src[i + 1]) };
+            const CharPointer_UTF16 ptr { reinterpret_cast<const CharPointer_UTF16::CharType*> (wideBuffer) };
+
+            builder.write (*ptr);
+            i += (int) ((ptr + 1).getAddress() - ptr.getAddress());
         }
 
         builder.write (0);
@@ -2069,7 +2059,7 @@ struct StringEncodingConverter
         void* const newSpace = addBytesToPointer (text.getAddress(), (int) endOffset);
         const CharPointerType_Dest extraSpace (static_cast<DestChar*> (newSpace));
 
-       #if JUCE_DEBUG // (This just avoids spurious warnings from valgrind about the uninitialised bytes at the end of the buffer..)
+       #if JUCE_DEBUG // This just avoids spurious warnings from valgrind about the uninitialised bytes at the end of the buffer.
         auto bytesToClear = (size_t) jmin ((int) extraBytesNeeded, 4);
         zeromem (addBytesToPointer (newSpace, extraBytesNeeded - bytesToClear), bytesToClear);
        #endif
@@ -2202,7 +2192,7 @@ StringRef::StringRef (const char* stringLiteral) noexcept
 
         To get around this problem, you must be more explicit when you pass an ambiguous 8-bit
         string to the StringRef class - so for example if your source data is actually UTF-8,
-        you'd call StringRef (CharPointer_UTF8 ("my utf8 string..")), and it would be able to
+        you'd call StringRef (CharPointer_UTF8 ("my utf8 string.")), and it would be able to
         correctly convert the multi-byte characters to unicode. It's *highly* recommended that
         you use UTF-8 with escape characters in your source code to represent extended characters,
         because there's no other way to represent these strings in a way that isn't dependent on
@@ -2342,13 +2332,11 @@ static String serialiseDouble (double input, int maxDecimalPlaces = 0)
 //==============================================================================
 #if JUCE_ALLOW_STATIC_NULL_VARIABLES
 
-JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wdeprecated-declarations")
-JUCE_BEGIN_IGNORE_WARNINGS_MSVC (4996)
+JUCE_BEGIN_IGNORE_DEPRECATION_WARNINGS
 
 const String String::empty;
 
-JUCE_END_IGNORE_WARNINGS_GCC_LIKE
-JUCE_END_IGNORE_WARNINGS_MSVC
+JUCE_END_IGNORE_DEPRECATION_WARNINGS
 
 #endif
 
@@ -2371,45 +2359,55 @@ public:
     {
         static void test (UnitTest& test, Random& r)
         {
-            String s (createRandomWideCharString (r));
+            constexpr auto stringLength = 50;
+            const String s (createRandomWideCharString (r, stringLength));
 
-            typename CharPointerType::CharType buffer [300];
+            using CharType = typename CharPointerType::CharType;
+            constexpr auto bytesPerCodeUnit = sizeof (CharType);
+            constexpr auto maxCodeUnitsPerCodePoint = 4 / bytesPerCodeUnit;
 
-            memset (buffer, 0xff, sizeof (buffer));
-            CharPointerType (buffer).writeAll (s.toUTF32());
-            test.expectEquals (String (CharPointerType (buffer)), s);
+            std::array<CharType, stringLength * maxCodeUnitsPerCodePoint + 1> codeUnits{};
+            const auto codeUnitsSizeInBytes = codeUnits.size() * bytesPerCodeUnit;
 
-            memset (buffer, 0xff, sizeof (buffer));
-            CharPointerType (buffer).writeAll (s.toUTF16());
-            test.expectEquals (String (CharPointerType (buffer)), s);
+            std::memset (codeUnits.data(), 0xff, codeUnitsSizeInBytes);
+            CharPointerType (codeUnits.data()).writeAll (s.toUTF32());
+            test.expectEquals (String (CharPointerType (codeUnits.data())), s);
 
-            memset (buffer, 0xff, sizeof (buffer));
-            CharPointerType (buffer).writeAll (s.toUTF8());
-            test.expectEquals (String (CharPointerType (buffer)), s);
+            std::memset (codeUnits.data(), 0xff, codeUnitsSizeInBytes);
+            CharPointerType (codeUnits.data()).writeAll (s.toUTF16());
+            test.expectEquals (String (CharPointerType (codeUnits.data())), s);
 
-            test.expect (CharPointerType::isValidString (buffer, (int) strlen ((const char*) buffer)));
+            std::memset (codeUnits.data(), 0xff, codeUnitsSizeInBytes);
+            CharPointerType (codeUnits.data()).writeAll (s.toUTF8());
+            test.expectEquals (String (CharPointerType (codeUnits.data())), s);
+
+            test.expect (CharPointerType::isValidString (codeUnits.data(), codeUnitsSizeInBytes));
         }
     };
 
-    static String createRandomWideCharString (Random& r)
+    static String createRandomWideCharString (Random& r, size_t length)
     {
-        juce_wchar buffer[50] = { 0 };
+        std::vector<juce_wchar> characters (length, 0);
 
-        for (int i = 0; i < numElementsInArray (buffer) - 1; ++i)
+        for (auto& character : characters)
         {
             if (r.nextBool())
             {
                 do
                 {
-                    buffer[i] = (juce_wchar) (1 + r.nextInt (0x10ffff - 1));
+                    character = (juce_wchar) (1 + r.nextInt (0x10ffff - 1));
                 }
-                while (! CharPointer_UTF16::canRepresent (buffer[i]));
+                while (! CharPointer_UTF16::canRepresent (character));
             }
             else
-                buffer[i] = (juce_wchar) (1 + r.nextInt (0xff));
+            {
+                character = (juce_wchar) (1 + r.nextInt (0xff));
+            }
         }
 
-        return CharPointer_UTF32 (buffer);
+        characters.push_back (0);
+
+        return CharPointer_UTF32 (characters.data());
     }
 
     void runTest() override
@@ -2881,6 +2879,20 @@ public:
             expectEquals (String::toDecimalStringWithSignificantFigures (2.8647,     6), String ("2.86470"));
 
             expectEquals (String::toDecimalStringWithSignificantFigures (-0.0000000000019, 1), String ("-0.000000000002"));
+
+            // Powers of 10
+
+            expectEquals (String::toDecimalStringWithSignificantFigures (       0.001, 7), String (       "0.001000000"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (       0.01,  7), String (       "0.01000000"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (       0.1,   7), String (       "0.1000000"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (       1,     7), String (       "1.000000"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (      10,     7), String (      "10.00000"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (     100,     7), String (     "100.0000"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (    1000,     7), String (    "1000.000"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (   10000,     7), String (   "10000.00"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (  100000,     7), String (  "100000.0"));
+            expectEquals (String::toDecimalStringWithSignificantFigures ( 1000000,     7), String ( "1000000"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (10000000,     7), String ("10000000"));
         }
 
         beginTest ("Float trimming");
@@ -2999,6 +3011,45 @@ public:
 
             for (auto c : str)
                 expectEquals (c, parts[index++]);
+        }
+
+        const CharPointer_UTF8 expectedString { "glass \xc2\xbd full" };
+        const CharPointer_UTF8 emojiExpectedString { "hello JUCE \xf0\x9f\xa7\x83" };
+
+        beginTest ("createStringFromData reads LE UTF-16");
+        {
+            constexpr char buffer[] = "\xff\xfe\x67\x00\x6c\x00\x61\x00\x73\x00\x73\x00\x20\x00\xbd\x00\x20\x00\x66\x00\x75\x00\x6c\x00\x6c\x00";
+            expect (expectedString == String::createStringFromData (buffer, sizeof (buffer)));
+
+            constexpr char emojiBuffer[] = "\xff\xfe\x68\x00\x65\x00\x6c\x00\x6c\x00\x6f\x00\x20\x00\x4a\x00\x55\x00\x43\x00\x45\x00\x20\x00\x3e\xd8\xc3\xdd";
+            const auto emojiActualString = String::createStringFromData (emojiBuffer, sizeof (emojiBuffer));
+            expect (emojiExpectedString == emojiActualString);
+        }
+
+        beginTest ("createStringFromData reads BE UTF-16");
+        {
+            constexpr char buffer[] = "\xfe\xff\x00\x67\x00\x6c\x00\x61\x00\x73\x00\x73\x00\x20\x00\xbd\x00\x20\x00\x66\x00\x75\x00\x6c\x00\x6c";
+            expect (expectedString == String::createStringFromData (buffer, sizeof (buffer)));
+
+            constexpr char emojiBuffer[] = "\xfe\xff\x00\x68\x00\x65\x00\x6c\x00\x6c\x00\x6f\x00\x20\x00\x4a\x00\x55\x00\x43\x00\x45\x00\x20\xd8\x3e\xdd\xc3";
+            const auto emojiActualString = String::createStringFromData (emojiBuffer, sizeof (emojiBuffer));
+            expect (emojiExpectedString == emojiActualString);
+        }
+
+        beginTest ("createStringFromData reads UTF-8");
+        {
+            constexpr char buffer[] = "glass \xc2\xbd full";
+            expect (expectedString == String::createStringFromData (buffer, sizeof (buffer)));
+
+            constexpr char emojiBuffer[] = "hello JUCE \xf0\x9f\xa7\x83";
+            const auto emojiActualString = String::createStringFromData (emojiBuffer, sizeof (emojiBuffer));
+            expect (emojiExpectedString == emojiActualString);
+        }
+
+        beginTest ("createStringFromData reads Windows 1252");
+        {
+            constexpr char buffer[] = "glass \xBD full";
+            expect (expectedString == String::createStringFromData (buffer, sizeof (buffer)));
         }
     }
 };

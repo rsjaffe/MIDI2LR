@@ -42,26 +42,38 @@ namespace juce
 class CoreGraphicsPixelData final : public ImagePixelData
 {
 public:
+    using Ptr = ReferenceCountedObjectPtr<CoreGraphicsPixelData>;
+
     CoreGraphicsPixelData (const Image::PixelFormat format, int w, int h, bool clearImage)
-        : ImagePixelData (format, w, h)
+        : ImagePixelData (format, w, h),
+          pixelStride (format == Image::RGB ? 3 : ((format == Image::ARGB) ? 4 : 1)),
+          lineStride ((pixelStride * jmax (1, width) + 3) & ~3),
+          // SDK version 10.14+ intermittently requires a bit of extra space
+          // at the end of the image data so we add an extra line stride. This
+          // feels like something has gone wrong in Apple's code.
+          data ((size_t) lineStride * (size_t) (jmax (1, height) + 1), clearImage)
     {
-        pixelStride = format == Image::RGB ? 3 : ((format == Image::ARGB) ? 4 : 1);
-        lineStride = (pixelStride * jmax (1, width) + 3) & ~3;
+        const auto colourSpaceName = (format == Image::SingleChannel) ? kCGColorSpaceGenericGrayGamma2_2
+                                                                      : kCGColorSpaceSRGB;
 
-        auto numComponents = (size_t) lineStride * (size_t) jmax (1, height);
+        const detail::ColorSpacePtr colourSpace { CGColorSpaceCreateWithName (colourSpaceName) };
 
-        // SDK version 10.14+ intermittently requires a bit of extra space
-        // at the end of the image data. This feels like something has gone
-        // wrong in Apple's code.
-        numComponents += (size_t) lineStride;
+        context.reset (CGBitmapContextCreate (data.getData(),
+                                              (size_t) width,
+                                              (size_t) height,
+                                              8,
+                                              (size_t) lineStride,
+                                              colourSpace.get(),
+                                              getCGImageFlags (format)));
+    }
 
-        imageData->data.allocate (numComponents, clearImage);
-
-        auto colourSpace = detail::ColorSpacePtr { CGColorSpaceCreateWithName ((format == Image::SingleChannel) ? kCGColorSpaceGenericGrayGamma2_2
-                                                                                                                : kCGColorSpaceSRGB) };
-
-        context = detail::ContextPtr { CGBitmapContextCreate (imageData->data, (size_t) width, (size_t) height, 8, (size_t) lineStride,
-                                                              colourSpace.get(), getCGImageFlags (format)) };
+    CoreGraphicsPixelData (const CoreGraphicsPixelData& other)
+        : CoreGraphicsPixelData (other.pixelFormat, other.width, other.height, false)
+        // Don't try to recreate the CIContext here. It's expensive to do so,
+        // therefore it's best to leave it null and recreate it lazily.
+    {
+        jassert (data.getSize() == other.data.getSize());
+        data.copyFrom (other.data.getData(), 0, other.data.getSize());
     }
 
     ~CoreGraphicsPixelData() override
@@ -76,10 +88,13 @@ public:
         return std::make_unique<CoreGraphicsContext> (context.get(), height);
     }
 
-    void initialiseBitmapData (Image::BitmapData& bitmap, int x, int y, Image::BitmapData::ReadWriteMode mode) override
+    void initialiseBitmapData (Image::BitmapData& bitmap,
+                               int x,
+                               int y,
+                               Image::BitmapData::ReadWriteMode mode) override
     {
         const auto offset = (size_t) (x * pixelStride + y * lineStride);
-        bitmap.data = imageData->data + offset;
+        bitmap.data = (uint8*) data.getData() + offset;
         bitmap.size = (size_t) (lineStride * height) - offset;
         bitmap.pixelFormat = pixelFormat;
         bitmap.lineStride = lineStride;
@@ -94,73 +109,168 @@ public:
 
     ImagePixelData::Ptr clone() override
     {
-        auto im = new CoreGraphicsPixelData (pixelFormat, width, height, false);
-        memcpy (im->imageData->data, imageData->data, (size_t) (lineStride * height));
+        auto im = new CoreGraphicsPixelData (*this);
         return *im;
     }
 
-    std::unique_ptr<ImageType> createType() const override    { return std::make_unique<NativeImageType>(); }
+    std::unique_ptr<ImageType> createType() const override
+    {
+        return std::make_unique<NativeImageType>();
+    }
+
+    void applyGaussianBlurEffectInArea (Rectangle<int> area, float radius) override
+    {
+        const auto buildFilter = [radius]
+        {
+            return [CIFilter filterWithName: @"CIGaussianBlur"
+                        withInputParameters: @{ kCIInputRadiusKey: [NSNumber numberWithFloat: radius] }];
+        };
+        applyFilterInArea (area, buildFilter);
+    }
 
     //==============================================================================
-    static CGImageRef getCachedImageRef (const Image& juceImage, CGColorSpaceRef colourSpace)
+    static CFUniquePtr<CGImageRef> getCachedImageRef (const Image& juceImage,
+                                                      CGColorSpaceRef colourSpace)
     {
-        auto cgim = dynamic_cast<CoreGraphicsPixelData*> (juceImage.getPixelData());
+        auto cgim = std::invoke ([&]() -> CFUniquePtr<CGImageRef>
+        {
+            if (auto ptr = juceImage.getPixelData())
+                return ptr->getNativeExtensions().getCGImage (colourSpace);
 
-        if (cgim != nullptr && cgim->cachedImageRef != nullptr)
-            return CGImageRetain (cgim->cachedImageRef.get());
-
-        CGImageRef ref = createImage (juceImage, colourSpace);
+            return {};
+        });
 
         if (cgim != nullptr)
-            cgim->cachedImageRef.reset (CGImageRetain (ref));
+            return cgim;
 
-        return ref;
-    }
-
-    static CGImageRef createImage (const Image& juceImage, CGColorSpaceRef colourSpace)
-    {
         const Image::BitmapData srcData (juceImage, Image::BitmapData::readOnly);
 
-        const auto provider = [&]
-        {
-            if (auto* cgim = dynamic_cast<CoreGraphicsPixelData*> (juceImage.getPixelData()))
-            {
-                return detail::DataProviderPtr { CGDataProviderCreateWithData (new ImageDataContainer::Ptr (cgim->imageData),
-                                                                               srcData.data,
-                                                                               srcData.size,
-                                                                               [] (void * __nullable info, const void*, size_t) { delete (ImageDataContainer::Ptr*) info; }) };
-            }
-
-            const auto usableSize = jmin ((size_t) srcData.lineStride * (size_t) srcData.height, srcData.size);
-            CFUniquePtr<CFDataRef> data (CFDataCreate (nullptr, (const UInt8*) srcData.data, (CFIndex) usableSize));
-            return detail::DataProviderPtr { CGDataProviderCreateWithCFData (data.get()) };
-        }();
-
-        return CGImageCreate ((size_t) srcData.width,
+        return createCGImage (srcData.data,
+                              srcData.size,
+                              (size_t) srcData.width,
                               (size_t) srcData.height,
-                              8,
-                              (size_t) srcData.pixelStride * 8,
+                              (size_t) srcData.pixelStride,
                               (size_t) srcData.lineStride,
-                              colourSpace, getCGImageFlags (juceImage.getFormat()), provider.get(),
-                              nullptr, true, kCGRenderingIntentDefault);
+                              colourSpace,
+                              getCGImageFlags (juceImage.getFormat()));
     }
 
     //==============================================================================
-    detail::ContextPtr context;
-    detail::ImagePtr cachedImageRef;
 
-    struct ImageDataContainer final : public ReferenceCountedObject
+
+    CFUniquePtr<CGImageRef> getCGImage (CGColorSpaceRef colourSpace)
     {
-        ImageDataContainer() = default;
+        if (cachedImageRef == nullptr)
+        {
+            cachedImageRef = createCGImage (data.getData(),
+                                            data.getSize(),
+                                            (size_t) width,
+                                            (size_t) height,
+                                            (size_t) pixelStride,
+                                            (size_t) lineStride,
+                                            colourSpace,
+                                            CGBitmapContextGetBitmapInfo (context.get()));
+        }
 
-        using Ptr = ReferenceCountedObjectPtr<ImageDataContainer>;
-        HeapBlock<uint8> data;
-    };
+        return CFUniquePtr<CGImageRef> { CGImageRetain (cachedImageRef.get()) };
+    }
 
-    ImageDataContainer::Ptr imageData = new ImageDataContainer();
-    int pixelStride, lineStride;
+    NativeExtensions getNativeExtensions() override
+    {
+        struct Wrapped
+        {
+            explicit Wrapped (Ptr selfIn) : self (selfIn) {}
+
+            CGContextRef getCGContext() const
+            {
+                return self->context.get();
+            }
+
+            CFUniquePtr<CGImageRef> getCGImage (CGColorSpaceRef x) const
+            {
+                return self->getCGImage (x);
+            }
+
+            Point<int> getTopLeft() const
+            {
+                return {};
+            }
+
+            Ptr self;
+        };
+
+        return NativeExtensions { Wrapped { this } };
+    }
 
 private:
+    static CFUniquePtr<CGImageRef> createCGImage (void* data,
+                                                  size_t size,
+                                                  size_t imageWidth,
+                                                  size_t imageHeight,
+                                                  size_t imagePixelStride,
+                                                  size_t imageLineStride,
+                                                  CGColorSpaceRef imageColourSpace,
+                                                  CGBitmapInfo bitmapInfo)
+    {
+        CFUniquePtr<CFDataRef> cfData (CFDataCreate (nullptr, (const UInt8*) data, (CFIndex) size));
+        detail::DataProviderPtr provider { CGDataProviderCreateWithCFData (cfData.get()) };
+
+        return CFUniquePtr<CGImageRef> { CGImageCreate (imageWidth,
+                                                        imageHeight,
+                                                        8,
+                                                        imagePixelStride * 8,
+                                                        imageLineStride,
+                                                        imageColourSpace,
+                                                        bitmapInfo,
+                                                        provider.get(),
+                                                        nullptr,
+                                                        true,
+                                                        kCGRenderingIntentDefault) };
+    }
+
+    template <typename BuildFilter>
+    bool applyFilterInArea (Rectangle<int> area, BuildFilter&& buildFilter)
+    {
+        // This function might be called on the OpenGL rendering thread, or some other background
+        // thread that doesn't necessarily have an autorelease pool in scope.
+        // Note that buildFilter is called within this pool, to ensure that the filter is released
+        // upon leaving the pool's scope.
+        JUCE_AUTORELEASEPOOL
+        {
+            auto* filter = buildFilter();
+
+            if (filter == nullptr || context == nullptr)
+                return false;
+
+            const detail::ImagePtr content { CGBitmapContextCreateImage (context.get()) };
+
+            if (content == nullptr)
+                return false;
+
+            const auto cgArea = makeCGRect (area);
+            auto* ciImage = [[CIImage imageWithCGImage: content.get()] imageByCroppingToRect: cgArea];
+
+            if (ciImage == nullptr)
+                return false;
+
+            if (ciContext == nullptr)
+                ciContext.reset ([[CIContext contextWithCGContext: context.get() options: nullptr] retain]);
+
+            if (ciContext == nullptr)
+                return false;
+
+            [filter setValue: ciImage forKey: kCIInputImageKey];
+            auto* output = [filter outputImage];
+
+            if (output == nullptr)
+                return false;
+
+            CGContextClearRect (context.get(), cgArea);
+            [ciContext.get() drawImage: output inRect: cgArea fromRect: cgArea];
+            return true;
+        }
+    }
+
     void freeCachedImageRef()
     {
         cachedImageRef.reset();
@@ -168,14 +278,21 @@ private:
 
     static CGBitmapInfo getCGImageFlags (const Image::PixelFormat& format)
     {
-       #if JUCE_BIG_ENDIAN
-        return format == Image::ARGB ? ((uint32_t) kCGImageAlphaPremultipliedFirst | (uint32_t) kCGBitmapByteOrder32Big) : kCGBitmapByteOrderDefault;
-       #else
-        return format == Image::ARGB ? ((uint32_t) kCGImageAlphaPremultipliedFirst | (uint32_t) kCGBitmapByteOrder32Little) : kCGBitmapByteOrderDefault;
-       #endif
+        if (format != Image::ARGB)
+            return kCGImageByteOrderDefault;
+
+        return (uint32_t) kCGImageAlphaPremultipliedFirst
+             | (uint32_t) kCGBitmapByteOrder32Host;
     }
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CoreGraphicsPixelData)
+    int pixelStride;
+    int lineStride;
+    detail::ContextPtr context;
+    MemoryBlock data;
+    detail::ImagePtr cachedImageRef;
+    NSUniquePtr<CIContext> ciContext;
+
+    JUCE_LEAK_DETECTOR (CoreGraphicsPixelData)
 };
 
 ImagePixelData::Ptr NativeImageType::create (Image::PixelFormat format, int width, int height, bool clearImage) const
@@ -352,11 +469,9 @@ void CoreGraphicsContext::excludeClipRectangle (const Rectangle<int>& r)
     clipToRectangleListWithoutTest (remaining);
 }
 
-void CoreGraphicsContext::setContextClipToPath (const Path& path, const AffineTransform& transform)
+void CoreGraphicsContext::setContextClipToCurrentPath (bool useNonZeroWinding)
 {
-    createPath (path, transform);
-
-    if (path.isUsingNonZeroWinding())
+    if (useNonZeroWinding)
         CGContextClip (context.get());
     else
         CGContextEOClip (context.get());
@@ -364,7 +479,8 @@ void CoreGraphicsContext::setContextClipToPath (const Path& path, const AffineTr
 
 void CoreGraphicsContext::clipToPath (const Path& path, const AffineTransform& transform)
 {
-    setContextClipToPath (path, transform);
+    createPath (path, transform);
+    setContextClipToCurrentPath (path.isUsingNonZeroWinding());
     lastClipRect.reset();
 }
 
@@ -377,7 +493,7 @@ void CoreGraphicsContext::clipToImageAlpha (const Image& sourceImage, const Affi
         if (sourceImage.getFormat() != Image::SingleChannel)
             singleChannelImage = sourceImage.convertedToFormat (Image::SingleChannel);
 
-        auto image = detail::ImagePtr { CoreGraphicsPixelData::createImage (singleChannelImage, greyColourSpace.get()) };
+        detail::ImagePtr image { CoreGraphicsPixelData::getCachedImageRef (singleChannelImage, greyColourSpace.get()) };
 
         flip();
         auto t = AffineTransform::verticalFlip ((float) sourceImage.getHeight()).followedBy (transform);
@@ -385,6 +501,7 @@ void CoreGraphicsContext::clipToImageAlpha (const Image& sourceImage, const Affi
 
         auto r = convertToCGRect (sourceImage.getBounds());
         CGContextClipToMask (context.get(), r, image.get());
+        CGContextClipToRect (context.get(), r);
 
         applyTransform (t.inverted());
         flip();
@@ -470,6 +587,7 @@ void CoreGraphicsContext::setFill (const FillType& fillType)
 
         const detail::ColorPtr color { CGColorCreate (rgbColourSpace.get(), components) };
         CGContextSetFillColorWithColor (context.get(), color.get());
+        CGContextSetStrokeColorWithColor (context.get(), color.get());
         CGContextSetAlpha (context.get(), 1.0f);
     }
 }
@@ -514,12 +632,12 @@ void CoreGraphicsContext::fillAll()
 
 void CoreGraphicsContext::fillRect (const Rectangle<int>& r, bool replaceExistingContents)
 {
-    fillCGRect (CGRectMake (r.getX(), flipHeight - r.getBottom(), r.getWidth(), r.getHeight()), replaceExistingContents);
+    fillCGRect (convertToCGRectFlipped (r), replaceExistingContents);
 }
 
 void CoreGraphicsContext::fillRect (const Rectangle<float>& r)
 {
-    fillCGRect (CGRectMake (r.getX(), flipHeight - r.getBottom(), r.getWidth(), r.getHeight()), false);
+    fillCGRect (convertToCGRectFlipped (r), false);
 }
 
 void CoreGraphicsContext::fillCGRect (const CGRect& cgRect, bool replaceExistingContents)
@@ -550,27 +668,152 @@ void CoreGraphicsContext::fillCGRect (const CGRect& cgRect, bool replaceExisting
         drawImage (state->fillType.image, state->fillType.transform, true);
 }
 
-void CoreGraphicsContext::fillPath (const Path& path, const AffineTransform& transform)
+void CoreGraphicsContext::drawCurrentPath (CGPathDrawingMode mode)
 {
     if (state->fillType.isColour())
     {
-        createPath (path, transform);
-
-        if (path.isUsingNonZeroWinding())
-            CGContextFillPath (context.get());
-        else
-            CGContextEOFillPath (context.get());
-
+        CGContextDrawPath (context.get(), mode);
         return;
     }
 
+    if (mode == kCGPathStroke)
+        CGContextReplacePathWithStrokedPath (context.get());
+
     ScopedCGContextState scopedState (context.get());
-    setContextClipToPath (path, transform);
+    setContextClipToCurrentPath (  mode == kCGPathFill
+                                 || mode == kCGPathStroke
+                                 || mode == kCGPathFillStroke);
 
     if (state->fillType.isGradient())
         drawGradient();
     else
         drawImage (state->fillType.image, state->fillType.transform, true);
+}
+
+void CoreGraphicsContext::fillPath (const Path& path, const AffineTransform& transform)
+{
+    createPath (path, transform);
+    drawCurrentPath (path.isUsingNonZeroWinding() ? kCGPathFill : kCGPathEOFill);
+}
+
+void CoreGraphicsContext::strokePath (const Path& path, const PathStrokeType& strokeType, const AffineTransform& transform)
+{
+    const auto lineCap = [&]
+    {
+        switch (strokeType.getEndStyle())
+        {
+            case PathStrokeType::EndCapStyle::butt:    return kCGLineCapButt;
+            case PathStrokeType::EndCapStyle::square:  return kCGLineCapSquare;
+            case PathStrokeType::EndCapStyle::rounded: return kCGLineCapRound;
+            default: jassertfalse;                     return kCGLineCapButt;
+        }
+    }();
+
+    const auto lineJoin = [&]
+    {
+        switch (strokeType.getJointStyle())
+        {
+            case PathStrokeType::JointStyle::mitered: return kCGLineJoinMiter;
+            case PathStrokeType::JointStyle::curved:  return kCGLineJoinRound;
+            case PathStrokeType::JointStyle::beveled: return kCGLineJoinBevel;
+            default: jassertfalse;                    return kCGLineJoinMiter;
+        }
+    }();
+
+    CGContextSetLineWidth (context.get(), strokeType.getStrokeThickness());
+    CGContextSetLineCap (context.get(), lineCap);
+    CGContextSetLineJoin (context.get(), lineJoin);
+
+    createPath (path, transform);
+    drawCurrentPath (kCGPathStroke);
+}
+
+void CoreGraphicsContext::drawEllipse (const Rectangle<float>& area, float lineThickness)
+{
+    CGContextBeginPath (context.get());
+    CGContextSetLineWidth (context.get(), lineThickness);
+    CGContextSetLineCap (context.get(), kCGLineCapButt);
+    CGContextSetLineJoin (context.get(), kCGLineJoinMiter);
+    CGContextAddEllipseInRect (context.get(), convertToCGRectFlipped (area));
+    drawCurrentPath (kCGPathStroke);
+}
+
+void CoreGraphicsContext::fillEllipse (const Rectangle<float>& area)
+{
+    CGContextBeginPath (context.get());
+    CGContextAddEllipseInRect (context.get(), convertToCGRectFlipped (area));
+    drawCurrentPath (kCGPathFill);
+}
+
+void CoreGraphicsContext::drawRoundedRectangle (const Rectangle<float>& r, float cornerSize, float lineThickness)
+{
+    CGContextBeginPath (context.get());
+
+    if (state->fillType.isColour())
+    {
+        CGContextSetLineWidth (context.get(), lineThickness);
+        CGContextSetLineCap (context.get(), kCGLineCapButt);
+        CGContextSetLineJoin (context.get(), kCGLineJoinMiter);
+
+        detail::PathPtr path { CGPathCreateWithRoundedRect (convertToCGRectFlipped (r),
+                                                            std::clamp (cornerSize, 0.0f, r.getWidth() / 2.0f),
+                                                            std::clamp (cornerSize, 0.0f, r.getHeight() / 2.0f),
+                                                            nullptr) };
+        CGContextAddPath (context.get(), path.get());
+        drawCurrentPath (kCGPathStroke);
+    }
+    else
+    {
+        lineThickness *= 0.5f;
+
+        const auto outsideRect = r.expanded (lineThickness);
+        const auto outsideCornerSize = cornerSize + lineThickness;
+
+        const auto insideRect = r.reduced (lineThickness);
+        const auto insideCornerSize = cornerSize - lineThickness;
+
+        detail::MutablePathPtr path { CGPathCreateMutable() };
+        CGPathAddRoundedRect (path.get(), nullptr, convertToCGRectFlipped (outsideRect),
+                              std::clamp (outsideCornerSize, 0.0f, outsideRect.getWidth() / 2.0f),
+                              std::clamp (outsideCornerSize, 0.0f, outsideRect.getHeight() / 2.0f));
+
+        CGPathAddRoundedRect (path.get(), nullptr, convertToCGRectFlipped (insideRect),
+                              std::clamp (insideCornerSize, 0.0f, insideRect.getWidth() / 2.0f),
+                              std::clamp (insideCornerSize, 0.0f, insideRect.getHeight() / 2.0f));
+
+        CGContextAddPath (context.get(), path.get());
+        drawCurrentPath (kCGPathEOFill);
+    }
+}
+
+void CoreGraphicsContext::fillRoundedRectangle (const Rectangle<float>& r, float cornerSize)
+{
+    CGContextBeginPath (context.get());
+    detail::PathPtr path { CGPathCreateWithRoundedRect (convertToCGRectFlipped (r),
+                                                        std::clamp (cornerSize, 0.0f, r.getWidth() / 2.0f),
+                                                        std::clamp (cornerSize, 0.0f, r.getHeight() / 2.0f),
+                                                        nullptr) };
+    CGContextAddPath (context.get(), path.get());
+    drawCurrentPath (kCGPathFill);
+}
+
+void CoreGraphicsContext::drawLineWithThickness (const Line<float>& line, float lineThickness)
+{
+    const auto reversed = line.reversed();
+    lineThickness *= 0.5f;
+    const auto p1 = line.getPointAlongLine (0, lineThickness);
+    const auto p2 = line.getPointAlongLine (0, -lineThickness);
+    const auto p3 = reversed.getPointAlongLine (0, lineThickness);
+    const auto p4 = reversed.getPointAlongLine (0, -lineThickness);
+
+    CGContextBeginPath      (context.get());
+    CGContextMoveToPoint    (context.get(), (CGFloat) p1.getX(), flipHeight - (CGFloat) p1.getY());
+    CGContextAddLineToPoint (context.get(), (CGFloat) p2.getX(), flipHeight - (CGFloat) p2.getY());
+    CGContextAddLineToPoint (context.get(), (CGFloat) p3.getX(), flipHeight - (CGFloat) p3.getY());
+    CGContextAddLineToPoint (context.get(), (CGFloat) p4.getX(), flipHeight - (CGFloat) p4.getY());
+    CGContextClosePath      (context.get());
+
+    drawCurrentPath (kCGPathFill);
 }
 
 void CoreGraphicsContext::drawImage (const Image& sourceImage, const AffineTransform& transform)
@@ -697,6 +940,11 @@ void CoreGraphicsContext::drawGlyphs (Span<const uint16_t> glyphs,
 {
     jassert (glyphs.size() == positions.size());
 
+    // This is an optimisation to avoid mutating the CGContext in the case that there's nothing
+    // to draw
+    if (positions.empty())
+        return;
+
     if (state->fillType.isColour())
     {
         const auto scale = state->font.getHorizontalScale();
@@ -710,29 +958,38 @@ void CoreGraphicsContext::drawGlyphs (Span<const uint16_t> glyphs,
             const auto slant = hb_font_get_synthetic_slant (hbFont.get());
 
             state->textMatrix = CGAffineTransformMake (scale, 0, slant * scale, 1.0f, 0, 0);
-            CGContextSetTextMatrix (context.get(), state->textMatrix);
             state->inverseTextMatrix = CGAffineTransformInvert (state->textMatrix);
         }
+
+        // The current text matrix needs to be adjusted in order to ensure that the requested
+        // positions aren't changed
+        CGContextSetTextMatrix (context.get(), state->textMatrix);
 
         ScopedCGContextState scopedState (context.get());
         flip();
         applyTransform (AffineTransform::scale (1.0f, -1.0f).followedBy (transform));
 
-        std::vector<CGPoint> pos (glyphs.size());
-        std::transform (positions.begin(), positions.end(), pos.begin(), [scale] (const auto& p) { return CGPointMake (p.x / scale, -p.y); });
+        CopyableHeapBlock<CGPoint> pos (glyphs.size());
+        std::transform (positions.begin(), positions.end(), pos.begin(), [this] (const auto& p)
+        {
+            return CGPointApplyAffineTransform (CGPointMake (p.x, -p.y), state->inverseTextMatrix);
+        });
 
         CTFontDrawGlyphs (state->fontRef.get(), glyphs.data(), pos.data(), glyphs.size(), context.get());
+        return;
     }
-    else
+
+    for (const auto [index, glyph] : enumerate (glyphs, size_t{}))
     {
-        for (const auto [index, glyph] : enumerate (glyphs, size_t{}))
-        {
-            Path p;
-            auto& f = state->font;
-            f.getTypefacePtr()->getOutlineForGlyph (f.getMetricsKind(), glyph, p);
-            const auto scale = f.getHeight();
-            fillPath (p, AffineTransform::scale (scale * f.getHorizontalScale(), scale).translated (positions[index]).followedBy (transform));
-        }
+        Path p;
+        auto& f = state->font;
+        f.getTypefacePtr()->getOutlineForGlyph (f.getMetricsKind(), glyph, p);
+
+        if (p.isEmpty())
+            continue;
+
+        const auto scale = f.getHeight();
+        fillPath (p, AffineTransform::scale (scale * f.getHorizontalScale(), scale).translated (positions[index]).followedBy (transform));
     }
 }
 
@@ -833,6 +1090,15 @@ void CoreGraphicsContext::applyTransform (const AffineTransform& transform) cons
     CGContextConcatCTM (context.get(), t);
 }
 
+template <class RectType>
+CGRect CoreGraphicsContext::convertToCGRectFlipped (RectType r) const noexcept
+{
+    return CGRectMake ((CGFloat) r.getX(),
+                       flipHeight - (CGFloat) r.getBottom(),
+                       (CGFloat) r.getWidth(),
+                       (CGFloat) r.getHeight());
+}
+
 //==============================================================================
 #if USE_COREGRAPHICS_RENDERING && JUCE_USE_COREIMAGE_LOADER
 Image juce_loadWithCoreImage (InputStream& input)
@@ -864,7 +1130,10 @@ Image juce_loadWithCoreImage (InputStream& input)
         auto provider = detail::DataProviderPtr { CGDataProviderCreateWithData (new MemoryBlockHolder::Ptr (memBlockHolder),
                                                                                 memBlockHolder->block.getData(),
                                                                                 memBlockHolder->block.getSize(),
-                                                                                [] (void * __nullable info, const void*, size_t) { delete (MemoryBlockHolder::Ptr*) info; }) };
+                                                                                [] (void * __nullable info, const void*, size_t)
+                                                                                {
+                                                                                    delete (MemoryBlockHolder::Ptr*) info;
+                                                                                }) };
 
         if (auto imageSource = CFUniquePtr<CGImageSourceRef> (CGImageSourceCreateWithDataProvider (provider.get(), nullptr)))
         {
@@ -884,11 +1153,25 @@ Image juce_loadWithCoreImage (InputStream& input)
                                                        (int) CGImageGetHeight (loadedImage),
                                                        hasAlphaChan));
 
-                auto cgImage = dynamic_cast<CoreGraphicsPixelData*> (image.getPixelData());
-                jassert (cgImage != nullptr); // if USE_COREGRAPHICS_RENDERING is set, the CoreGraphicsPixelData class should have been used.
+                auto* context = std::invoke ([&]() -> CGContextRef
+                {
+                    auto ptr = image.getPixelData();
 
-                CGContextDrawImage (cgImage->context.get(), convertToCGRect (image.getBounds()), loadedImage);
-                CGContextFlush (cgImage->context.get());
+                    if (ptr == nullptr)
+                        return {};
+
+                    return ptr->getNativeExtensions().getCGContext();
+                });
+
+                if (context == nullptr)
+                {
+                    // if USE_COREGRAPHICS_RENDERING is set, the CoreGraphicsPixelData class should have been used
+                    jassertfalse;
+                    return {};
+                }
+
+                CGContextDrawImage (context, convertToCGRect (image.getBounds()), loadedImage);
+                CGContextFlush (context);
 
                 // Because it's impossible to create a truly 24-bit CG image, this flag allows a user
                 // to find out whether the file they just loaded the image from had an alpha channel or not.
@@ -902,27 +1185,15 @@ Image juce_loadWithCoreImage (InputStream& input)
 }
 #endif
 
-Image juce_createImageFromCIImage (CIImage*, int, int);
-Image juce_createImageFromCIImage (CIImage* im, int w, int h)
-{
-    auto cgImage = new CoreGraphicsPixelData (Image::ARGB, w, h, false);
-
-    CIContext* cic = [CIContext contextWithCGContext: cgImage->context.get() options: nil];
-    [cic drawImage: im inRect: CGRectMake (0, 0, w, h) fromRect: CGRectMake (0, 0, w, h)];
-    CGContextFlush (cgImage->context.get());
-
-    return Image (*cgImage);
-}
-
 CGImageRef juce_createCoreGraphicsImage (const Image& juceImage, CGColorSpaceRef colourSpace)
 {
-    return CoreGraphicsPixelData::createImage (juceImage, colourSpace);
+    return CoreGraphicsPixelData::getCachedImageRef (juceImage, colourSpace).release();
 }
 
 CGContextRef juce_getImageContext (const Image& image)
 {
-    if (auto cgi = dynamic_cast<CoreGraphicsPixelData*> (image.getPixelData()))
-        return cgi->context.get();
+    if (auto ptr = image.getPixelData())
+        return ptr->getNativeExtensions().getCGContext();
 
     jassertfalse;
     return {};

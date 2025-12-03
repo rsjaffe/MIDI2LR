@@ -85,14 +85,14 @@ namespace juce
   #define JUCE_BREAK_IN_DEBUGGER        { __debugbreak(); }
 #elif JUCE_INTEL && (JUCE_GCC || JUCE_CLANG || JUCE_MAC)
   #if JUCE_NO_INLINE_ASM
-   #define JUCE_BREAK_IN_DEBUGGER       { }
+    #define JUCE_BREAK_IN_DEBUGGER      { }
   #else
-   #define JUCE_BREAK_IN_DEBUGGER       { asm ("int $3"); }
+    #define JUCE_BREAK_IN_DEBUGGER      { asm ("int $3"); }
   #endif
-#elif JUCE_ARM && JUCE_MAC
-  #define JUCE_BREAK_IN_DEBUGGER        { __builtin_debugtrap(); }
 #elif JUCE_ANDROID
   #define JUCE_BREAK_IN_DEBUGGER        { __builtin_trap(); }
+#elif JUCE_ARM && JUCE_CLANG
+  #define JUCE_BREAK_IN_DEBUGGER        { __builtin_debugtrap(); }
 #else
   #define JUCE_BREAK_IN_DEBUGGER        { __asm int 3 }
 #endif
@@ -129,12 +129,14 @@ namespace juce
 #endif
 
 //==============================================================================
-#if JUCE_MSVC && ! defined (DOXYGEN)
+#if JUCE_MSVC
+ /** @cond */
  #define JUCE_BLOCK_WITH_FORCED_SEMICOLON(x) \
    __pragma(warning(push)) \
    __pragma(warning(disable:4127)) \
    do { x } while (false) \
    __pragma(warning(pop))
+ /** @endcond */
 #else
  /** This is the good old C++ trick for creating a macro that forces the user to put
     a semicolon after it when they use it.
@@ -160,6 +162,7 @@ namespace juce
   /** This will always cause an assertion failure.
       It is only compiled in a debug build, (unless JUCE_LOG_ASSERTIONS is enabled for your build).
       @see jassert
+      @hiderefby
   */
   #define jassertfalse                  JUCE_BLOCK_WITH_FORCED_SEMICOLON (JUCE_LOG_CURRENT_ASSERTION; if (juce::juce_isRunningUnderDebugger()) JUCE_BREAK_IN_DEBUGGER; JUCE_ANALYZER_NORETURN)
 
@@ -170,6 +173,7 @@ namespace juce
       careful that the expression you pass to it doesn't perform any actions that are vital for the
       correct behaviour of your program!
       @see jassertfalse
+      @hiderefby
   */
   #define jassert(expression)           JUCE_BLOCK_WITH_FORCED_SEMICOLON (if (! (expression)) jassertfalse;)
 
@@ -179,12 +183,15 @@ namespace juce
   */
   #define jassertquiet(expression)      JUCE_BLOCK_WITH_FORCED_SEMICOLON (if (! (expression)) jassertfalse;)
 
+  #define JUCE_ASSERTIONS_ENABLED       1
+
 #else
   //==============================================================================
-  // If debugging is disabled, these dummy debug and assertion macros are used..
+  // If debugging is disabled, these dummy debug and assertion macros are used.
 
   #define DBG(textToWrite)
   #define jassertfalse                  JUCE_BLOCK_WITH_FORCED_SEMICOLON (JUCE_LOG_CURRENT_ASSERTION;)
+  #define JUCE_ASSERTIONS_ENABLED       0
 
   #if JUCE_LOG_ASSERTIONS
    #define jassert(expression)          JUCE_BLOCK_WITH_FORCED_SEMICOLON (if (! (expression)) jassertfalse;)
@@ -196,11 +203,13 @@ namespace juce
 
 #endif
 
+#define JUCE_ASSERTIONS_ENABLED_OR_LOGGED   JUCE_ASSERTIONS_ENABLED || JUCE_LOG_ASSERTIONS
+
 //==============================================================================
-#ifndef DOXYGEN
- #define JUCE_JOIN_MACRO_HELPER(a, b) a ## b
- #define JUCE_STRINGIFY_MACRO_HELPER(a) #a
-#endif
+/** @cond */
+#define JUCE_JOIN_MACRO_HELPER(a, b) a ## b
+#define JUCE_STRINGIFY_MACRO_HELPER(a) #a
+/** @endcond */
 
 /** A good old-fashioned C macro concatenation helper.
     This combines two items (which may themselves be macros) into a single string,
@@ -219,19 +228,19 @@ namespace juce
     @code
     class MyClass
     {
-        etc..
+        etc.
 
     private:
         MyClass (const MyClass&);
         MyClass& operator= (const MyClass&);
     };@endcode
 
-    ..you can just write:
+    ...you can just write:
 
     @code
     class MyClass
     {
-        etc..
+        etc.
 
     private:
         JUCE_DECLARE_NON_COPYABLE (MyClass)
@@ -264,8 +273,10 @@ namespace juce
     static void operator delete (void*) = delete;
 
 //==============================================================================
-#if JUCE_MSVC && ! defined (DOXYGEN)
+#if JUCE_MSVC
+ /** @cond */
  #define JUCE_COMPILER_WARNING(msg) __pragma (message (__FILE__ "(" JUCE_STRINGIFY (__LINE__) ") : Warning: " msg))
+ /** @endcond */
 #else
 
  /** This macro allows you to emit a custom compiler warning message.
@@ -307,8 +318,10 @@ namespace juce
 #endif
 
 //==============================================================================
-#if JUCE_ANDROID && ! defined (DOXYGEN)
+#if JUCE_ANDROID
+ /** @cond */
  #define JUCE_MODAL_LOOPS_PERMITTED 0
+ /** @endcond */
 #elif ! defined (JUCE_MODAL_LOOPS_PERMITTED)
  /** Some operating environments don't provide a modal loop mechanism, so this flag can be
      used to disable any functions that try to run a modal loop. */
@@ -316,11 +329,13 @@ namespace juce
 #endif
 
 //==============================================================================
+/** @cond */
 #if JUCE_GCC || JUCE_CLANG
  #define JUCE_PACKED __attribute__ ((packed))
-#elif ! defined (DOXYGEN)
+#else
  #define JUCE_PACKED
 #endif
+/** @endcond */
 
 //==============================================================================
 #if JUCE_GCC || DOXYGEN

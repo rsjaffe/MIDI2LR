@@ -48,13 +48,13 @@ public:
         if (comp->isOnDesktop())
         {
            #if JUCE_WINDOWS
-            const auto scope = [&]() -> std::unique_ptr<ScopedThreadDPIAwarenessSetter>
+            const auto scope = [&]() -> std::optional<ScopedThreadDPIAwarenessSetter>
             {
                 if (comp != nullptr)
                     if (auto* handle = comp->getWindowHandle())
-                        return std::make_unique<ScopedThreadDPIAwarenessSetter> (handle);
+                        return ScopedThreadDPIAwarenessSetter (handle);
 
-                return nullptr;
+                return {};
             }();
            #endif
 
@@ -177,6 +177,7 @@ private:
     std::map<void*, std::function<void()>> listeners;
 
     JUCE_DECLARE_WEAK_REFERENCEABLE (VirtualDesktopWatcher)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VirtualDesktopWatcher)
 };
 
 class DropShadower::ParentVisibilityChangedListener final : public ComponentListener
@@ -373,7 +374,7 @@ void DropShadower::updateShadows()
         for (int i = 4; --i >= 0;)
         {
             // there seem to be rare situations where the dropshadower may be deleted by
-            // callbacks during this loop, so use a weak ref to watch out for this..
+            // callbacks during this loop, so use a weak ref to watch out for this
             WeakReference<Component> sw (shadowWindows[i]);
 
             if (sw != nullptr)

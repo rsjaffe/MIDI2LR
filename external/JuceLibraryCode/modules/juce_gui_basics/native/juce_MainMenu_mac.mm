@@ -71,10 +71,8 @@ struct JuceMainMenuBarHolder final : private DeletedAtShutdown
 
     NSMenu* mainMenuBar = nil;
 
-    JUCE_DECLARE_SINGLETON_SINGLETHREADED (JuceMainMenuBarHolder, true)
+    JUCE_DECLARE_SINGLETON_SINGLETHREADED_INLINE (JuceMainMenuBarHolder, true)
 };
-
-JUCE_IMPLEMENT_SINGLETON (JuceMainMenuBarHolder)
 
 //==============================================================================
 class JuceMainMenuHandler final : private MenuBarModel::Listener,
@@ -630,7 +628,7 @@ public:
             [menu release];
         }
 
-        // use a dummy modal component so that apps can tell that something is currently modal.
+        // use a dummy modal component so that apps can tell that something is currently modal
         dummyModalComponent.enterModalState (false);
     }
 

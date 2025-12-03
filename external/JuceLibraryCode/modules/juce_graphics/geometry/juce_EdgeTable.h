@@ -138,7 +138,7 @@ public:
                     if (endOfRun == (x / scale))
                     {
                         // small segment within the same pixel, so just save it for the next
-                        // time round..
+                        // time round
                         levelAccumulator += (endX - x) * level;
                     }
                     else
@@ -154,20 +154,20 @@ public:
                             if (levelAccumulator >= 255)
                                 iterationCallback.handleEdgeTablePixelFull (x);
                             else
-                                iterationCallback.handleEdgeTablePixel (x, levelAccumulator);
+                                iterationCallback.handleEdgeTablePixel (x, static_cast<uint8_t> (levelAccumulator));
                         }
 
-                        // if there's a run of similar pixels, do it all in one go..
+                        // if there's a run of similar pixels, do it all in one go
                         if (level > 0)
                         {
                             jassert (endOfRun <= bounds.getRight());
                             const int numPix = endOfRun - ++x;
 
                             if (numPix > 0)
-                                iterationCallback.handleEdgeTableLine (x, numPix, level);
+                                iterationCallback.handleEdgeTableLine (x, numPix, static_cast<uint8_t> (level));
                         }
 
-                        // save the bit at the end to be drawn next time round the loop.
+                        // save the bit at the end to be drawn next time round the loop
                         levelAccumulator = (endX & 0xff) * level;
                     }
 
@@ -184,7 +184,7 @@ public:
                     if (levelAccumulator >= 255)
                         iterationCallback.handleEdgeTablePixelFull (x);
                     else
-                        iterationCallback.handleEdgeTablePixel (x, levelAccumulator);
+                        iterationCallback.handleEdgeTablePixel (x, static_cast<uint8_t> (levelAccumulator));
                 }
             }
         }
@@ -204,7 +204,7 @@ private:
         bool operator< (const LineItem& other) const noexcept   { return x < other.x; }
     };
 
-    std::vector<int> table;
+    CopyableHeapBlock<int> table;
     Rectangle<int> bounds;
     int maxEdgesPerLine, lineStrideElements;
     bool needToCheckEmptiness = true;

@@ -49,7 +49,7 @@ public:
     Win32NativeFileChooser (Component* parent, int flags, FilePreviewComponent* previewComp,
                             const File& startingFile, const String& titleToUse,
                             const String& filtersToUse)
-        : Thread ("Native Win32 FileChooser"),
+        : Thread (SystemStats::getJUCEVersion() + ": Native Win32 FileChooser"),
           owner (parent),
           title (titleToUse),
           filtersString (filtersToUse.replaceCharacter (',', ';')),
@@ -296,7 +296,7 @@ private:
             {
                 HWND hwnd = nullptr;
 
-                if (auto window = addComSmartPtrOwner (d).getInterface<IOleWindow>())
+                if (auto window = ComSmartPtr (d, IncrementRef::yes).getInterface<IOleWindow>())
                     window->GetWindow (&hwnd);
 
                 ScopedLock lock (owner.deletingDialog);

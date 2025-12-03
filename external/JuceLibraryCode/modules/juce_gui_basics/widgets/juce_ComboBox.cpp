@@ -92,7 +92,7 @@ void ComboBox::setTooltip (const String& newTooltip)
 //==============================================================================
 void ComboBox::addItem (const String& newItemText, int newItemId)
 {
-    // you can't add empty strings to the list..
+    // you can't add empty strings to the list
     jassert (newItemText.isNotEmpty());
 
     // IDs must be non-zero, as zero is used to indicate a lack of selection.
@@ -118,7 +118,7 @@ void ComboBox::addSeparator()
 
 void ComboBox::addSectionHeading (const String& headingName)
 {
-    // you can't add empty strings to the list..
+    // you can't add empty strings to the list
     jassert (headingName.isNotEmpty());
 
     if (headingName.isNotEmpty())
@@ -523,11 +523,17 @@ static void comboBoxPopupMenuFinishedCallback (int result, ComboBox* combo)
 
         if (result != 0)
             combo->setSelectedId (result);
+
+        if (auto* handler = combo->getAccessibilityHandler())
+            handler->grabFocus();
     }
 }
 
 void ComboBox::showPopup()
 {
+    if (! isEnabled())
+        return;
+
     if (! menuActive)
         menuActive = true;
 
@@ -678,7 +684,7 @@ public:
         return comboBox.isPopupActive() ? state.withExpanded() : state.withCollapsed();
     }
 
-    String getTitle() const override  { return comboBox.getText(); }
+    String getTitle() const override  { return comboBox.getTitle(); }
     String getHelp() const override   { return comboBox.getTooltip(); }
 
 private:

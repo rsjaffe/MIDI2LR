@@ -222,7 +222,7 @@ namespace PathStrokeHelpers
         {
             const auto intersection = lineIntersection (x1, y1, x2, y2, x3, y3, x4, y4);
 
-            // if they intersect, use this point..
+            // if they intersect, use this point
             if (intersection.intersects)
             {
                 destPath.lineTo (intersection.point);
@@ -713,10 +713,13 @@ void PathStrokeType::createDashedStroke (Path& destPath,
                 return;
             }
 
-            if (isSolid && ! first)
-                newDestPath.lineTo (it.x1, it.y1);
-            else
-                newDestPath.startNewSubPath (it.x1, it.y1);
+            if (isSolid)
+            {
+                if (first)
+                    newDestPath.startNewSubPath (it.x1, it.y1);
+                else
+                    newDestPath.lineTo (it.x1, it.y1);
+            }
 
             dx = it.x2 - it.x1;
             dy = it.y2 - it.y1;
