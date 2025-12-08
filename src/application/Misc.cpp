@@ -204,7 +204,7 @@ void rsj::ExceptionResponse([[maybe_unused]] gsl::czstring id, gsl::czstring fu,
 {
    try {
       const auto alert_text {
-          fmt::format(juce::translate("Exception ").toStdString() + "{} {}.", e.what(), fu)};
+          fmt::format(fmt::runtime(juce::translate("Exception ").toStdString() + "{} {}."), e.what(), fu)};
       const auto error_text {fmt::format("Exception {} {}.", e.what(), fu)};
       rsj::LogAndAlertError(alert_text, error_text);
    }

@@ -156,7 +156,7 @@ namespace {
 std::unordered_map<UniChar, rsj::KeyData> rsj::GetKeyMap()
 {
    using namespace std::chrono_literals;
-   if (!FillInSucceeded() && !juce::MessageManager::callAsync(FillInMessageLoop)) {
+    if (!FillInSucceeded() && !juce::MessageManager::callAsync([]{FillInMessageLoop();})) {
       rsj::Log("Unable to post FillInMessageLoop to message queue.",
           std::source_location::current());
    }

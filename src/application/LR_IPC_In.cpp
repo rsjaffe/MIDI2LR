@@ -234,7 +234,7 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 
          /* Default: send associated messages to MIDI OUT devices */
          double original_value {0.0};
-#if defined(_MSC_VER) || (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_13_3)
+#if defined(_MSC_VER) || (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_26_0)
          auto [ptr, ec] {std::from_chars(value_view.data(), value_view.data() + value_view.size(),
              original_value)};
          if (ec != std::errc()) {
