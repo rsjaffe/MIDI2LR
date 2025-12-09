@@ -50,7 +50,7 @@ using namespace juce;
 CCoptions::CCoptions()
 {
    //[Constructor_pre] You can add your own custom stuff here..
-   auto fo {juce::FontOptions(15.00f, Font::plain)};
+   const auto fo {juce::FontOptions(15.00f, Font::plain)};
    //[/Constructor_pre]
 
    groupComponent.reset(new GroupComponent("CCmethod", TRANS("CC Message Type")));

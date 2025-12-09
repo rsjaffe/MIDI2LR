@@ -47,6 +47,8 @@ class LrIpcOutShared {
    friend LrIpcOut;
    asio::ip::tcp::socket socket_;
    rsj::ConcurrentQueue<std::string> command_;
+   // owner_alive_ token checked by async handlers
+   std::shared_ptr<std::atomic<bool>> owner_alive_{std::make_shared<std::atomic<bool>>(true)};
    static void SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared);
 
  public:
@@ -146,8 +148,12 @@ void LrIpcOut::Connect(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
       lr_ipc_out_shared->socket_.async_connect(
           asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrOutPort),
           [this, lr_ipc_out_shared](const asio::error_code& error) mutable {
+         // copy shared alive token so the handler can detect owner shutdown
+         auto alive = lr_ipc_out_shared->owner_alive_;
+         if (!alive || !alive->load(std::memory_order_acquire)) { return; }
          if (!error) {
-            ConnectionMade();
+            // check again just before calling member functions
+            if (alive->load(std::memory_order_acquire)) { ConnectionMade(); }
             LrIpcOutShared::SendOut(std::move(lr_ipc_out_shared));
          }
          else {
@@ -260,6 +266,10 @@ void LrIpcOutShared::SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
       } // ReSharper disable once CppLambdaCaptureNeverUsed
       asio::async_write(lr_ipc_out_shared->socket_, asio::buffer(*command_copy),
           [command_copy, lr_ipc_out_shared](const asio::error_code& error, std::size_t) mutable {
+         // check owner token before re-arming
+         const auto alive = lr_ipc_out_shared->owner_alive_;
+         if (!alive || !alive->load(std::memory_order_acquire)) { return; }
+
          if (!error) [[likely]] { SendOut(std::move(lr_ipc_out_shared)); }
          else {
             rsj::Log(fmt::format("LR_IPC_Out Write: {}.", error.message()),
@@ -279,7 +289,10 @@ void LrIpcOut::SetRecenter(rsj::MidiMessageId mm)
     * cancel and reschedule new one */
    try {
       recenter_timer_.expires_after(kRecenterTimer);
-      recenter_timer_.async_wait([this, mm](const asio::error_code& error) {
+      auto alive = lr_ipc_out_shared_->owner_alive_;
+      recenter_timer_.async_wait([this, mm, alive](const asio::error_code& error) {
+         // if owner has signalled shutdown, avoid touching object state
+         if (!alive || !alive->load(std::memory_order_acquire)) { return; }
          if (!error && !thread_should_exit_.load(std::memory_order_acquire)) {
             midi_sender_.Send(mm, controls_model_.SetToCenter(mm));
          }

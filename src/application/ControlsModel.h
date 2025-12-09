@@ -181,15 +181,16 @@ class ChannelModel {
 
    [[nodiscard]] int CenterCc(int controlnumber) const noexcept
    {
-      return (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) / 2
-             + cc_low_.at(controlnumber)
-             + (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) % 2;
+      auto diff {cc_high_.at(controlnumber) - cc_low_.at(controlnumber)};
+      MIDI2LR_ASSUME(diff >= 0);
+      return diff / 2 + cc_low_.at(controlnumber) + diff % 2;
    }
 
    [[nodiscard]] int CenterPw() const noexcept
    {
-      return (pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_
-             + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
+      auto diff {pitch_wheel_max_ - pitch_wheel_min_};
+      MIDI2LR_ASSUME(diff >= 0);
+      return diff / 2 + pitch_wheel_min_ + diff % 2;
    }
 
    // ReSharper disable once CppMemberFunctionMayBeStatic

@@ -17,6 +17,7 @@
  */
 //-V813_MINSIZE=13 /* warn if passing structure by value > 12 bytes (3*sizeof(int)) */
 
+#include <cassert>
 #include <exception>
 #include <limits>
 #include <source_location>
@@ -66,6 +67,31 @@ extern "C" {
       MIDI2LR_FPU_SETCW(eE2Hsb4v);                                                                 \
    }                                                                                               \
    static_assert(true, "require semi-colon after macro with this assert")
+#endif
+
+/* see https://xania.org/202512/06-dividing-to-conquer?utm_source=feed&utm_medium=rss
+ * Division if int can be negative is slower, so can avoid it with an assume */
+#if defined(__has_cpp_attribute) && __has_cpp_attribute(assume)
+#define MIDI2LR_ASSUME(expr)                                                                       \
+   assert(expr);                                                                                   \
+   [[assume(expr)]]
+#else
+#if defined(__clang__)
+#define MIDI2LR_ASSUME(expr)                                                                       \
+   assert(expr);                                                                                   \
+   __builtin_assume(expr)
+#elif defined(__GNUC__) && !defined(__ICC)
+#define MIDI2LR_ASSUME(expr)                                                                       \
+   assert(expr);                                                                                   \
+   if (expr) {}                                                                                    \
+   else {                                                                                          \
+      __builtin_unreachable();                                                                     \
+   }
+#elif defined(_MSC_VER) || defined(__ICC)
+#define MIDI2LR_ASSUME(expr)                                                                       \
+   assert(expr);                                                                                   \
+   _assume(expr)
+#endif
 #endif
 
 namespace rsj {

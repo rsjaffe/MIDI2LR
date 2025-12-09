@@ -23,6 +23,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <system_error>
 
 #include <Windows.h>
 #include <dry-comparisons/dry-comparisons.hpp>
@@ -89,13 +90,19 @@ namespace {
    std::pair<BYTE, rsj::ActiveModifiers> KeyToVk(std::string_view key)
    {
       try {
-         const auto uc {ww898::utf::conv<wchar_t>(key).front()};
+         const auto wstr = ww898::utf::conv<wchar_t>(key);
+         if (wstr.empty()) { throw std::runtime_error("KeyToVk: empty key after conversion"); }
+         const auto uc = wstr.front();
          static const auto kLanguageId {GetLanguage()};
-         const auto vk_code_and_shift {VkKeyScanExW(uc, kLanguageId)};
-         THROW_LAST_ERROR_IF(rollbear::all_of(LOBYTE(vk_code_and_shift), HIBYTE(vk_code_and_shift))
-                             == 0xFF);
-         return {LOBYTE(vk_code_and_shift),
-             rsj::ActiveModifiers::FromWindows(HIBYTE(vk_code_and_shift))};
+         const SHORT vk_code_and_shift = VkKeyScanExW(uc, kLanguageId);
+         if (vk_code_and_shift == static_cast<SHORT>(-1)) {
+            // no translation for this character in the current layout
+            throw std::system_error(std::error_code(GetLastError(), std::system_category()),
+                "VkKeyScanExW failed to map character");
+         }
+         const BYTE vk = LOBYTE(vk_code_and_shift);
+         const BYTE shiftState = HIBYTE(vk_code_and_shift);
+         return {vk, rsj::ActiveModifiers::FromWindows(shiftState)};
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(e, std::source_location::current());
@@ -111,23 +118,35 @@ namespace {
    void WinSendKeyStrokes(const std::vector<WORD>& strokes)
    {
       try {
-         /* construct input event. */
-         INPUT ip {
-             .type = INPUT_KEYBOARD, .ki = {0, 0, 0, 0, 0}
+         if (strokes.empty()) { return; }
+
+         /* construct INPUT template */
+         INPUT ip{};
+         ip.type = INPUT_KEYBOARD;
+         ip.ki.wScan = 0;
+         ip.ki.time = 0;
+         ip.ki.dwExtraInfo = 0;
+
+         std::vector<INPUT> stroke_vector;
+         stroke_vector.reserve(strokes.size() * 2);
+
+         const auto push_stroke = [&](WORD stroke, DWORD flags) {
+            INPUT entry = ip;
+            entry.ki.wVk = stroke;
+            entry.ki.dwFlags = flags;
+            stroke_vector.push_back(entry);
          };
-         std::vector<INPUT> stroke_vector(strokes.size() * 2);
-         const auto push_stroke {[&](const auto stroke) {
-            ip.ki.wVk = stroke;
-            stroke_vector.push_back(ip);
-         }};
-         /* down strokes in reverse order from up strokes */
-         std::ranges::for_each(strokes | std::views::reverse, push_stroke);
-         ip.ki.dwFlags = KEYEVENTF_KEYUP;
-         std::ranges::for_each(strokes, push_stroke);
+
+         /* down strokes in reverse order from up strokes (modifiers pressed before key) */
+         for (auto it = strokes.rbegin(); it != strokes.rend(); ++it) { push_stroke(*it, 0); }
+
+         /* up strokes: release primary key first, then modifiers (forward order) */
+         for (const auto s : strokes) { push_stroke(s, KEYEVENTF_KEYUP); }
+
          /* send strokes */
          auto lock {std::scoped_lock(mutex_sending)};
          THROW_LAST_ERROR_IF(SendInput(gsl::narrow_cast<UINT>(stroke_vector.size()),
-                                 stroke_vector.data(), sizeof ip)
+                                 stroke_vector.data(), sizeof(INPUT))
                              == 0);
       }
       catch (const std::exception& e) {

@@ -20,6 +20,8 @@
 
 #include <gsl/gsl>
 
+#include "Misc.h"
+
 void TextButtonAligned::paintButton(juce::Graphics& g, const bool should_draw_button_as_highlighted,
     const bool should_draw_button_as_down)
 {
@@ -50,7 +52,10 @@ void TextButtonAligned::DrawButtonText(juce::Graphics& g, juce::TextButton& butt
            .withMultipliedAlpha(button.isEnabled() ? 1.0F : 0.5F));
 
    const auto y_indent {std::min(4, button.proportionOfHeight(0.3F))}; //-V112
-   const auto corner_size {std::min(button_height, button_width) / 2};
+   const auto min_height_width {std::min(button_height, button_width)};
+   MIDI2LR_ASSUME(min_height_width >= 0);
+   const auto corner_size {min_height_width / 2};
+   MIDI2LR_ASSUME(corner_size >= 0);
    const auto font_height {gsl::narrow_cast<int>(font.getHeight() * 0.6F + 0.5F)};
    const auto left_indent {
        std::min(font_height, 2 + corner_size / (button.isConnectedOnLeft() ? 4 : 2))}; //-V112

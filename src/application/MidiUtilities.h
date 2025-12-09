@@ -20,6 +20,7 @@
  * ourselves. <typeindex> is guaranteed to provide such a declaration, and is much cheaper to
  * include than <functional>. See https://en.cppreference.com/w/cpp/language/extending_std. */
 #include <array>
+#include <cstdint>
 #include <stdexcept>
 #include <type_traits>
 #include <typeindex> /*declaration of std::hash template*/
@@ -190,10 +191,11 @@ template<> struct std::hash<rsj::MidiMessageId> {
    size_t operator()(rsj::MidiMessageId k) const noexcept
    {
       /* channel is one byte, messagetype is one byte, controller (data) is two bytes */
-      constinit static std::hash<int_fast32_t> hasher;
-      return hasher(static_cast<int_fast32_t>(k.channel)
-                    | static_cast<int_fast32_t>(k.msg_id_type) << 8
-                    | static_cast<int_fast32_t>(k.control_number) << 16);
+      constinit static std::hash<uint32_t> hasher;
+      const uint32_t key = (static_cast<uint32_t>(k.channel & 0xFFu))
+                         | (static_cast<uint32_t>(static_cast<uint8_t>(k.msg_id_type)) << 8)
+                         | (static_cast<uint32_t>(k.control_number & 0xFFFFu) << 16);
+      return hasher(key);
    }
 };
 

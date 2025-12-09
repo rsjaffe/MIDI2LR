@@ -33,11 +33,11 @@ namespace {
    [[nodiscard]] std::string IntToVersion(unsigned int vers)
    {
       static_assert(std::is_unsigned_v<decltype(vers)>, "Avoid sign extension");
-      static_assert(sizeof vers >= 4, "At least 4 bytes"); //-V112
-      const auto major {vers >> 24 & 0xFFU};
-      const auto minor {vers >> 16 & 0xFFU};
-      const auto rev {vers >> 8 & 0xFFU};
-      const auto build {vers & 0xFFU};
+      static_assert(sizeof(vers) >= 4, "At least 4 bytes"); //-V112
+      const auto major = (vers >> 24) & 0xFFU;
+      const auto minor = (vers >> 16) & 0xFFU;
+      const auto rev   = (vers >> 8)  & 0xFFU;
+      const auto build =  vers        & 0xFFU;
       return fmt::format("{}.{}.{}.{}", major, minor, rev, build);
    }
 } // namespace
@@ -45,6 +45,23 @@ namespace {
 VersionChecker::VersionChecker(SettingsManager& settings_manager) noexcept
     : settings_manager_ {settings_manager}
 {
+}
+
+VersionChecker::~VersionChecker() noexcept
+{
+   try {
+      // signal background task to exit
+      Stop();
+      // prevent a queued AsyncUpdater callback from running after destruction
+      cancelPendingUpdate();
+      // wait for the background task to finish if it was started
+      if (run_future_.valid()) { run_future_.wait(); }
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(e, std::source_location::current());
+   }
+   catch (...) {
+   }
 }
 
 void VersionChecker::Start()
@@ -58,16 +75,19 @@ void VersionChecker::Start()
 
 void VersionChecker::handleAsyncUpdate()
 {
-   const auto response {[this](const int result) {
+   // copy minimal state for the callback so it doesn't capture `this`
+   const int reported_version = new_version_;
+   SettingsManager* sm = &settings_manager_;
+   const auto response {[sm, reported_version](const int result) {
 #ifndef MIDI2LR_BETA
       if (result) {
          if (juce::URL("https://github.com/rsjaffe/MIDI2LR/releases")
-                 .launchInDefaultBrowser()) { /* successfully opened browser */
-            settings_manager_.SetLastVersionFound(new_version_);
+                 .launchInDefaultBrowser()) {
+            sm->SetLastVersionFound(reported_version);
          }
       }
-      else { /* user doesn't want it, don't show again */
-         settings_manager_.SetLastVersionFound(new_version_);
+      else {
+         sm->SetLastVersionFound(reported_version);
       }
 #else
       if (result) {
@@ -84,8 +104,8 @@ void VersionChecker::handleAsyncUpdate()
                           juce::translate("A new version of {} is available.").toStdString()),
               "MIDI2LR"),
           juce::translate("Do you want to download the latest version?") + ' '
-              + IntToVersion(new_version_),
-          nullptr, juce::ModalCallbackFunction::create(response));
+              + IntToVersion(static_cast<unsigned int>(reported_version)),
+           nullptr, juce::ModalCallbackFunction::create(response));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(e, std::source_location::current());
@@ -95,15 +115,11 @@ void VersionChecker::handleAsyncUpdate()
 namespace {
    int CheckVersion(const gsl::not_null<juce::XmlElement*> version_xml_element)
    {
-      int new_version;
-      if (const auto os_specific_version =
-              version_xml_element->getIntAttribute(MSWindows ? "vMSWindows" : "vMacOS")) {
-         new_version = os_specific_version;
+      const char* attr = MSWindows ? "vMSWindows" : "vMacOS";
+      if (version_xml_element->hasAttribute(attr)) {
+         return version_xml_element->getIntAttribute(attr, 0);
       }
-      else {
-         new_version = version_xml_element->getIntAttribute("vlatest");
-      }
-      return new_version;
+      return version_xml_element->getIntAttribute("vlatest", 0);
    }
 
    void LogVersion(int new_version, int last_checked)
