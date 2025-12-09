@@ -26,7 +26,6 @@
 #include <vector>
 
 #include <Windows.h>
-#include <dry-comparisons/dry-comparisons.hpp>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <gsl/gsl>
@@ -138,7 +137,7 @@ namespace {
          };
 
          /* down strokes in reverse order from up strokes (modifiers pressed before key) */
-         for (auto it = strokes.rbegin(); it != strokes.rend(); ++it) { push_stroke(*it, 0); }
+         for (const auto s : std::ranges::reverse_view(strokes)) { push_stroke(s, 0); }
 
          /* up strokes: release primary key first, then modifiers (forward order) */
          for (const auto s : strokes) { push_stroke(s, KEYEVENTF_KEYUP); }

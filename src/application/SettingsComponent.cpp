@@ -15,7 +15,6 @@
  */
 #include "SettingsComponent.h"
 
-#include <cmath>
 #include <exception>
 
 #include <fmt/format.h>
