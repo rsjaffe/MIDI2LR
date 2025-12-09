@@ -154,7 +154,7 @@ local function ApplyLocalPreset(LocalPresetFilename)  --LocalPresetName eg: 'Bur
       local strPreset = f:read("*a")
       f:close()
 
-      --I had to remove 'ZSTR' from the built-in .lrtemplate preset files as it would not load/execute file
+      -- The 'ZSTR' keyword is removed from the built-in .lrtemplate preset files to allow them to be loaded as Lua.
       local LocalPresetFile = loadstring(string.gsub(strPreset,'ZSTR',''))  --Loads into a function which is later called
       LocalPresetFile() --Execute the loaded file string as lua code.  This will give access to the variable 's'
 
@@ -163,6 +163,13 @@ local function ApplyLocalPreset(LocalPresetFilename)  --LocalPresetName eg: 'Bur
     if ProgramPreferences.ClientShowBezelOnChange then
       LrDialogs.showBezel (LocalPresetName)
     end
+
+    local paramScales = {
+      local_Exposure = 4,
+      local_Hue = 180,
+    }
+    local defaultScale = 100
+
     --Apply preset to LR
     for param, MappedParam in pairs(localPresetMap) do
       local value = LocalPresets[LocalPresetName][param]
@@ -182,9 +189,7 @@ local function ApplyLocalPreset(LocalPresetFilename)  --LocalPresetName eg: 'Bur
           LrDevelopController.resetToDefault(MappedParam)
           MIDI2LR.PARAM_OBSERVER[MappedParam] = LrDevelopController.getValue(MappedParam)
         else
-          if MappedParam == 'local_Exposure' then value = value * 4
-          elseif MappedParam == 'hue' then value = value * 180
-          else value = value * 100 end
+          value = value * (paramScales[MappedParam] or defaultScale)
           MIDI2LR.PARAM_OBSERVER[MappedParam] = value
           LrDevelopController.setValue(MappedParam, value)
         end
@@ -201,21 +206,10 @@ local function StartDialog(obstable,f)
     obstable['LocalPresets'..i] = ProgramPreferences.LocalPresets[i]
   end
   local dlgrows = {}
-  local numdiv2 = numseries / 2
-  for i=1, numdiv2 do
-    dlgrows[i] = f:row{
-      bind_to_object = obstable, -- default bound table
-      f:static_text{title = LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." "..i,
-        width = LrView.share('local_presets_label')},
-      f:popup_menu{
-        items = PresetFileNames,
-        value = LrView.bind('LocalPresets'..i)
-      }
-    }
-  end
   local dlgrows1 = {}
-  for i=numdiv2 + 1, numseries do
-    dlgrows1[i - numdiv2] = f:row{
+  local numdiv2 = numseries / 2
+  for i=1, numseries do
+    local row = f:row{
       bind_to_object = obstable, -- default bound table
       f:static_text{title = LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." "..i,
         width = LrView.share('local_presets_label')},
@@ -224,6 +218,11 @@ local function StartDialog(obstable,f)
         value = LrView.bind('LocalPresets'..i)
       }
     }
+    if i <= numdiv2 then
+      dlgrows[#dlgrows+1] = row
+    else
+      dlgrows1[#dlgrows1+1] = row
+    end
   end
   return f:row{f:column(dlgrows),f:column(dlgrows1)}
 end
