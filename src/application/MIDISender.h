@@ -21,13 +21,9 @@
 
 class Devices;
 
-namespace juce {
-   class MidiOutput;
-} // namespace juce
+namespace juce { class MidiOutput; } // namespace juce
 
-namespace rsj {
-   struct MidiMessageId;
-} // namespace rsj
+namespace rsj { struct MidiMessageId; } // namespace rsj
 
 //-V813_MINSIZE=13 /* warn if passing structure by value > 12 bytes (3*sizeof(int)) */
 

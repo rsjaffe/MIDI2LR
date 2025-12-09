@@ -1,4 +1,4 @@
-   /*
+/*
  * This file is part of MIDI2LR. Copyright (C) 2015 by Rory Jaffe.
  *
  * MIDI2LR is free software: you can redistribute it and/or modify it under the terms of the GNU
@@ -143,7 +143,7 @@ void MainContentComponent::SettingsClicked()
       juce::DialogWindow::LaunchOptions dialog_options;
       dialog_options.dialogTitle = juce::translate("Settings");
       /* create new object */
-      auto component {std::make_unique<SettingsComponent>(settings_manager_)}; 
+      auto component {std::make_unique<SettingsComponent>(settings_manager_)};
       component->Init();
       dialog_options.content.setOwned(component.release());
       dialog_options.content->setSize(400, 300);
@@ -387,8 +387,8 @@ void MainContentComponent::LrIpcOutCallback(const bool connected, const bool sen
 
 #pragma warning(suppress : 26461) /* must not change function signature, used as callback */
 
-   // ReSharper disable once CppParameterMayBeConstPtrOrRef
-   void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element,
+// ReSharper disable once CppParameterMayBeConstPtrOrRef
+void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element,
     const juce::String& file_name) //-V3536
 {                                  //-V2009 overridden method
    try {

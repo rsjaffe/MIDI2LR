@@ -19,11 +19,11 @@
 #include <mutex>
 #include <ranges>
 #include <string_view>
+#include <system_error>
 #include <tuple>
 #include <unordered_map>
 #include <utility>
 #include <vector>
-#include <system_error>
 
 #include <Windows.h>
 #include <dry-comparisons/dry-comparisons.hpp>
@@ -121,7 +121,7 @@ namespace {
          if (strokes.empty()) { return; }
 
          /* construct INPUT template */
-         INPUT ip{};
+         INPUT ip {};
          ip.type = INPUT_KEYBOARD;
          ip.ki.wScan = 0;
          ip.ki.time = 0;

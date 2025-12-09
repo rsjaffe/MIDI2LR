@@ -59,7 +59,8 @@ namespace rsj {
                constexpr auto msg {
                    "The file, 'settings.xml', is marked as a version not supported by the current "
                    "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."};
-               rsj::LogAndAlertError(fmt::format(fmt::runtime(juce::translate(msg).toStdString()), version),
+               rsj::LogAndAlertError(fmt::format(fmt::runtime(juce::translate(msg).toStdString()),
+                                         version),
                    fmt::format(msg, version), std::source_location::current());
             }
             break;

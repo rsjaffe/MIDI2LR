@@ -33,9 +33,7 @@ class Profile;
 class ProfileManager;
 class SettingsManager;
 
-namespace rsj {
-   struct MidiMessage;
-} // namespace rsj
+namespace rsj { struct MidiMessage; } // namespace rsj
 
 class MainContentComponent final :
     public juce::Component,

@@ -36,8 +36,8 @@ namespace {
       static_assert(sizeof(vers) >= 4, "At least 4 bytes"); //-V112
       const auto major = (vers >> 24) & 0xFFU;
       const auto minor = (vers >> 16) & 0xFFU;
-      const auto rev   = (vers >> 8)  & 0xFFU;
-      const auto build =  vers        & 0xFFU;
+      const auto rev = (vers >> 8) & 0xFFU;
+      const auto build = vers & 0xFFU;
       return fmt::format("{}.{}.{}.{}", major, minor, rev, build);
    }
 } // namespace
@@ -81,8 +81,7 @@ void VersionChecker::handleAsyncUpdate()
    const auto response {[sm, reported_version](const int result) {
 #ifndef MIDI2LR_BETA
       if (result) {
-         if (juce::URL("https://github.com/rsjaffe/MIDI2LR/releases")
-                 .launchInDefaultBrowser()) {
+         if (juce::URL("https://github.com/rsjaffe/MIDI2LR/releases").launchInDefaultBrowser()) {
             sm->SetLastVersionFound(reported_version);
          }
       }
@@ -105,7 +104,7 @@ void VersionChecker::handleAsyncUpdate()
               "MIDI2LR"),
           juce::translate("Do you want to download the latest version?") + ' '
               + IntToVersion(static_cast<unsigned int>(reported_version)),
-           nullptr, juce::ModalCallbackFunction::create(response));
+          nullptr, juce::ModalCallbackFunction::create(response));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(e, std::source_location::current());

@@ -17,7 +17,5 @@
  */
 #include <string>
 
-namespace rsj {
-   void Translate(const std::string& lg);
-} // namespace rsj
+namespace rsj { void Translate(const std::string& lg); } // namespace rsj
 #endif

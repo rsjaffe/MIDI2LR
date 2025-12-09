@@ -48,7 +48,7 @@ class LrIpcOutShared {
    asio::ip::tcp::socket socket_;
    rsj::ConcurrentQueue<std::string> command_;
    // owner_alive_ token checked by async handlers
-   std::shared_ptr<std::atomic<bool>> owner_alive_{std::make_shared<std::atomic<bool>>(true)};
+   std::shared_ptr<std::atomic<bool>> owner_alive_ {std::make_shared<std::atomic<bool>>(true)};
    static void SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared);
 
  public:

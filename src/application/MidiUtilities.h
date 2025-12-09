@@ -28,9 +28,7 @@
 
 #include <fmt/format.h>
 
-namespace juce {
-   class MidiMessage;
-} // namespace juce
+namespace juce { class MidiMessage; } // namespace juce
 
 #ifdef __cpp_lib_three_way_comparison
 #include <compare>
@@ -193,8 +191,8 @@ template<> struct std::hash<rsj::MidiMessageId> {
       /* channel is one byte, messagetype is one byte, controller (data) is two bytes */
       constinit static std::hash<uint32_t> hasher;
       const uint32_t key = (static_cast<uint32_t>(k.channel & 0xFFu))
-                         | (static_cast<uint32_t>(static_cast<uint8_t>(k.msg_id_type)) << 8)
-                         | (static_cast<uint32_t>(k.control_number & 0xFFFFu) << 16);
+                           | (static_cast<uint32_t>(static_cast<uint8_t>(k.msg_id_type)) << 8)
+                           | (static_cast<uint32_t>(k.control_number & 0xFFFFu) << 16);
       return hasher(key);
    }
 };
