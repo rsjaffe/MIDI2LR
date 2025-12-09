@@ -95,37 +95,39 @@ void LrIpcIn::Stop()
 {
    try {
       // prevent async handlers from using owner state
-      if (lr_ipc_in_shared_ && lr_ipc_in_shared_->owner_alive_) {
-         lr_ipc_in_shared_->owner_alive_->store(false, std::memory_order_release);
-      }
+      if (lr_ipc_in_shared_) {
+         lr_ipc_in_shared_->thread_should_exit_.store(true, std::memory_order_release);
+         if (lr_ipc_in_shared_->owner_alive_) {
+            lr_ipc_in_shared_->owner_alive_->store(false, std::memory_order_release);
+         }
 
-      lr_ipc_in_shared_->thread_should_exit_.store(true, std::memory_order_release);
-      if (auto& sock {lr_ipc_in_shared_->socket_}; sock.is_open()) {
-         asio::error_code ec;
-         /* For portable behaviour with respect to graceful closure of a connected socket, call
-          * shutdown() before closing the socket. */
-         try { /* ignore exceptions from shutdown, always close */
-            std::ignore = sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
-            if (ec) {
-               rsj::Log(fmt::format("LR_IPC_In socket shutdown error {}.", ec.message()),
+         if (auto& sock {lr_ipc_in_shared_->socket_}; sock.is_open()) {
+            asio::error_code ec;
+            /* For portable behaviour with respect to graceful closure of a connected socket, call
+             * shutdown() before closing the socket. */
+            try { /* ignore exceptions from shutdown, always close */
+               std::ignore = sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+               if (ec) {
+                  rsj::Log(fmt::format("LR_IPC_In socket shutdown error {}.", ec.message()),
+                      std::source_location::current());
+                  ec.clear();
+               }
+            }
+            catch (const std::exception& e) {
+               rsj::Log(fmt::format("Exception during socket shutdown: {}", e.what()),
                    std::source_location::current());
-               ec.clear();
+            }
+            std::ignore = sock.close(ec);
+            if (ec) {
+               rsj::Log(fmt::format("LR_IPC_In socket close error {}.", ec.message()),
+                   std::source_location::current());
             }
          }
-         catch (const std::exception& e) {
-            rsj::Log(fmt::format("Exception during socket shutdown: {}", e.what()),
+         /* clear input queue after port closed */
+         if (const auto m {lr_ipc_in_shared_->line_.clear_count_emplace(kTerminate)}) {
+            rsj::Log(fmt::format("{} left in queue in LrIpcIn destructor.", m),
                 std::source_location::current());
          }
-         std::ignore = sock.close(ec);
-         if (ec) {
-            rsj::Log(fmt::format("LR_IPC_In socket close error {}.", ec.message()),
-                std::source_location::current());
-         }
-      }
-      /* clear input queue after port closed */
-      if (const auto m {lr_ipc_in_shared_->line_.clear_count_emplace(kTerminate)}) {
-         rsj::Log(fmt::format("{} left in queue in LrIpcIn destructor.", m),
-             std::source_location::current());
       }
    }
 
