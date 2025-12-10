@@ -188,7 +188,7 @@ namespace {
       return str.substr(first);
    }
 
-   std::pair<std::string_view, std::string_view> SplitLine(std::string_view msg)
+   [[nodiscard]] std::pair<std::string_view, std::string_view> SplitLine(std::string_view msg)
    {
       msg = Trim(msg);
       const auto first_delimiter {msg.find_first_of(" \t\n")};

@@ -45,9 +45,8 @@ namespace {
    {
       constexpr auto msge {"MIDISender: Unexpected data type: {:n}."};
       const auto msgt {juce::translate(msge).toStdString()};
-      rsj::LogAndAlertError(fmt::format(fmt::runtime_format_string<>(msgt), id.msg_id_type),
-          fmt::format(fmt::runtime_format_string<>(msge), id.msg_id_type),
-          std::source_location::current());
+      rsj::LogAndAlertError(fmt::format(fmt::runtime(msgt), id.msg_id_type),
+          fmt::format(fmt::runtime(msge), id.msg_id_type), std::source_location::current());
    }
 } // namespace
 

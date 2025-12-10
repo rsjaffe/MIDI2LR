@@ -99,8 +99,8 @@ void VersionChecker::handleAsyncUpdate()
    try {
       if (thread_should_exit_.load(std::memory_order_acquire)) { return; }
       juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::AlertIconType::QuestionIcon,
-          fmt::format(fmt::runtime_format_string<>(
-                          juce::translate("A new version of {} is available.").toStdString()),
+          fmt::format(
+              fmt::runtime(juce::translate("A new version of {} is available.").toStdString()),
               "MIDI2LR"),
           juce::translate("Do you want to download the latest version?") + ' '
               + IntToVersion(static_cast<unsigned int>(reported_version)),

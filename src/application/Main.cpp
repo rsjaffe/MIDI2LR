@@ -280,7 +280,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          if (e) {
             const auto msgt {juce::translate("unhandled exception").toStdString()
                              + " {}, {} line {}. Total uncaught {}."};
-            rsj::LogAndAlertError(fmt::format(fmt::runtime_format_string<>(msgt), e->what(),
+            rsj::LogAndAlertError(fmt::format(fmt::runtime(msgt), e->what(),
                                       source_filename.toStdString(), line_number,
                                       std::uncaught_exceptions()),
                 fmt::format("Unhandled exception {}, {} line {}. Total uncaught {}.", e->what(),
@@ -290,9 +290,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          else {
             const auto msgt {juce::translate("unhandled exception").toStdString()
                              + " {} line {}. Total uncaught {}."};
-            rsj::LogAndAlertError(fmt::format(fmt::runtime_format_string<>(msgt),
-                                      source_filename.toStdString(), line_number,
-                                      std::uncaught_exceptions()),
+            rsj::LogAndAlertError(fmt::format(fmt::runtime(msgt), source_filename.toStdString(),
+                                      line_number, std::uncaught_exceptions()),
                 fmt::format("Unhandled exception {} line {}. Total uncaught {}.",
                     source_filename.toStdString(), line_number, std::uncaught_exceptions()),
                 std::source_location::current());

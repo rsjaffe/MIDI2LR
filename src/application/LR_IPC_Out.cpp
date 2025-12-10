@@ -222,7 +222,7 @@ void LrIpcOut::ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rs
    if (const auto now {Clock::now()}; next_response < now) {
       next_response = now + kDelay;
       if (ShouldSetRecenter(mm)) { SetRecenter(message); }
-      ProcessChange(repeats, mm);
+      ProcessRepeatedCommand(repeats, mm);
    }
 }
 
@@ -234,7 +234,7 @@ bool LrIpcOut::ShouldSetRecenter(const rsj::MidiMessage& mm) const
           || mm.message_type_byte == rsj::MessageType::kPw;
 }
 
-void LrIpcOut::ProcessChange(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm) const
+void LrIpcOut::ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm) const
 {
    if (const auto change {controls_model_.MeasureChange(mm)}; change > 0) {
       SendCommand(repeats->second.first); /* turned clockwise */

@@ -72,8 +72,8 @@ class LrIpcOut {
    void Connect(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared);
    void ConnectionMade();
    void MidiCmdCallback(rsj::MidiMessage mm);
-   void ProcessChange(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm) const;
    void ProcessMessage(const rsj::MidiMessageId& message, const rsj::MidiMessage& mm);
+   void ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm) const;
    void ProcessNonRepeatedCommand(const std::string& command_to_send,
        const rsj::MidiMessage& mm) const;
    void ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm,
