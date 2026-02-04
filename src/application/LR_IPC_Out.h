@@ -17,6 +17,7 @@
  */
 #include <atomic>
 #include <functional>
+#include <map>
 #include <memory>
 #include <mutex>
 #include <string>
@@ -66,6 +67,16 @@ class LrIpcOut {
    void Stop();
 
  private:
+   using Clock = std::chrono::steady_clock;
+   using TimePoint = Clock::time_point;
+
+   struct RecenterInfo {
+      asio::steady_timer timer;
+      TimePoint timepoint;
+
+      RecenterInfo(const asio::steady_timer::executor_type& ex) : timer(ex), timepoint {} {}
+   };
+
    using RepeatCmdIterator =
        const std::unordered_map<std::string, std::pair<std::string, std::string>>::const_iterator;
    [[nodiscard]] bool ShouldSetRecenter(const rsj::MidiMessage& mm) const;
@@ -73,22 +84,23 @@ class LrIpcOut {
    void ConnectionMade();
    void MidiCmdCallback(rsj::MidiMessage mm);
    void ProcessMessage(const rsj::MidiMessageId& message, const rsj::MidiMessage& mm);
-   void ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm) const;
-   void ProcessNonRepeatedCommand(const std::string& command_to_send,
+   void SendRepeatedCommand(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm) const;
+   void SendNonRepeatedCommand(const std::string& command_to_send,
        const rsj::MidiMessage& mm) const;
    void ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm,
        const rsj::MidiMessageId& message);
-   void SetRecenter(rsj::MidiMessageId mm);
-   asio::steady_timer recenter_timer_;
+   void SetRecenter(const rsj::MidiMessageId&, RecenterInfo&);
+   asio::strand<asio::io_context::executor_type> timer_strand_;
    bool connected_ {false};
-   bool sending_stopped_ {false};
    const MidiSender& midi_sender_;
    const Profile& profile_;
    const std::unordered_map<std::string, std::pair<std::string, std::string>>& repeat_cmd_;
    const std::vector<std::string>& wrap_;
    ControlsModel& controls_model_;
    mutable std::mutex callback_mtx_;
-   std::atomic<bool> thread_should_exit_ {false};
+   std::atomic<bool> sending_stopped_ {false};
+   std::map<rsj::MidiMessageId, RecenterInfo> recenter_timers_;
+   std::mutex recenter_timers_mtx_ {};
    std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared_;
 #ifdef __cpp_lib_copyable_function
    std::vector<std::copyable_function<void(bool, bool)>> callbacks_ {};

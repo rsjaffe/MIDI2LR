@@ -30,8 +30,6 @@
 #include "Misc.h"
 #include "Profile.h"
 
-using Clock = std::chrono::steady_clock;
-using TimePoint = Clock::time_point;
 using namespace std::literals::chrono_literals;
 
 namespace {
@@ -47,7 +45,9 @@ class LrIpcOutShared {
    friend LrIpcOut;
    asio::ip::tcp::socket socket_;
    rsj::ConcurrentQueue<std::string> command_;
-   // owner_alive_ token checked by async handlers
+   /* owner_alive_ is a shared atomic token that async handlers check before touching owner state.
+    * Stop() sets this to false so outstanding async handlers can bail safely without dereferencing
+    * the owning object. */
    std::shared_ptr<std::atomic<bool>> owner_alive_ {std::make_shared<std::atomic<bool>>(true)};
    static void SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared);
 
@@ -59,8 +59,8 @@ class LrIpcOutShared {
 
 LrIpcOut::LrIpcOut(const CommandSet& command_set, ControlsModel& c_model, const Profile& profile,
     const MidiSender& midi_sender, MidiReceiver& midi_receiver, asio::io_context& io_context)
-    : recenter_timer_ {asio::make_strand(io_context)}, midi_sender_ {midi_sender},
-      profile_ {profile}, repeat_cmd_ {command_set.GetRepeats()}, wrap_ {command_set.GetWraps()},
+    : timer_strand_ {asio::make_strand(io_context)}, midi_sender_ {midi_sender}, profile_ {profile},
+      repeat_cmd_ {command_set.GetRepeats()}, wrap_ {command_set.GetWraps()},
       controls_model_ {c_model}, lr_ipc_out_shared_ {std::make_shared<LrIpcOutShared>(io_context)}
 {
    midi_receiver.AddCallback(this, &LrIpcOut::MidiCmdCallback);
@@ -68,12 +68,16 @@ LrIpcOut::LrIpcOut(const CommandSet& command_set, ControlsModel& c_model, const 
 
 void LrIpcOut::SendCommand(std::string&& command) const
 {
-   if (!sending_stopped_) { lr_ipc_out_shared_->command_.push(std::move(command)); }
+   if (!sending_stopped_.load(std::memory_order_acquire)) {
+      lr_ipc_out_shared_->command_.push(std::move(command));
+   }
 }
 
 void LrIpcOut::SendCommand(const std::string& command) const
 {
-   if (!sending_stopped_) { lr_ipc_out_shared_->command_.push(command); }
+   if (!sending_stopped_.load(std::memory_order_acquire)) {
+      lr_ipc_out_shared_->command_.push(command);
+   }
 }
 
 void LrIpcOut::SendingRestart()
@@ -81,7 +85,7 @@ void LrIpcOut::SendingRestart()
    try {
       {
          std::scoped_lock lk(callback_mtx_);
-         sending_stopped_ = false;
+         sending_stopped_.store(false, std::memory_order_release);
          for (const auto& cb : callbacks_) { cb(connected_, false); }
       }
       SendCommand("FullRefresh 1\n"); /* synchronize controls */
@@ -96,7 +100,7 @@ void LrIpcOut::SendingStop()
 {
    try {
       std::scoped_lock lk(callback_mtx_);
-      sending_stopped_ = true;
+      sending_stopped_.store(true, std::memory_order_release);
       for (const auto& cb : callbacks_) { cb(connected_, true); }
    }
    catch (const std::exception& e) {
@@ -107,7 +111,7 @@ void LrIpcOut::SendingStop()
 
 void LrIpcOut::Stop()
 {
-   thread_should_exit_.store(true, std::memory_order_release);
+   lr_ipc_out_shared_->owner_alive_->store(false, std::memory_order_release);
    /* clear output queue before port closed */
    if (const auto m {lr_ipc_out_shared_->command_.clear_count_emplace(kTerminate)}) {
       rsj::Log(fmt::format("{} left in queue in LrIpcOut destructor.", m),
@@ -117,7 +121,17 @@ void LrIpcOut::Stop()
       std::scoped_lock lk(callback_mtx_);
       callbacks_.clear(); /* no more connect/disconnect notifications */
    }
-   recenter_timer_.cancel();
+   {
+      std::scoped_lock lk2(recenter_timers_mtx_);
+      for (auto& [_, centerinfo] : recenter_timers_) {
+         asio::error_code ec;
+         centerinfo.timer.cancel(ec);
+         if (ec) {
+            rsj::Log(fmt::format("Error cancelling recenter timer: {}.", ec.message()),
+                std::source_location::current());
+         }
+      }
+   }
    if (auto& sock {lr_ipc_out_shared_->socket_}; sock.is_open()) {
       asio::error_code ec;
       /* For portable behaviour with respect to graceful closure of a connected socket, call
@@ -180,7 +194,8 @@ void LrIpcOut::ConnectionMade()
       {
          std::scoped_lock lk(callback_mtx_);
          connected_ = true;
-         for (const auto& cb : callbacks_) { cb(true, sending_stopped_); }
+         auto stopped {sending_stopped_.load(std::memory_order_acquire)};
+         for (const auto& cb : callbacks_) { cb(true, stopped); }
       }
       rsj::Log("Socket connected in LR_IPC_Out.", std::source_location::current());
    }
@@ -207,7 +222,7 @@ void LrIpcOut::ProcessMessage(const rsj::MidiMessageId& message, const rsj::Midi
    const auto command_to_send {profile_.GetCommandForMessage(message)};
    if (rollbear::none_of("PrevPro", "NextPro", CommandSet::kUnassigned) == command_to_send) {
       if (const auto repeats {repeat_cmd_.find(command_to_send)}; repeats == repeat_cmd_.end()) {
-         ProcessNonRepeatedCommand(command_to_send, mm);
+         SendNonRepeatedCommand(command_to_send, mm);
       }
       else {
          ProcessRepeatedCommand(repeats, mm, message);
@@ -218,11 +233,13 @@ void LrIpcOut::ProcessMessage(const rsj::MidiMessageId& message, const rsj::Midi
 void LrIpcOut::ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm,
     const rsj::MidiMessageId& message)
 {
-   constinit static TimePoint next_response {};
-   if (const auto now {Clock::now()}; next_response < now) {
-      next_response = now + kDelay;
-      if (ShouldSetRecenter(mm)) { SetRecenter(message); }
-      ProcessRepeatedCommand(repeats, mm);
+   auto lock {std::unique_lock(recenter_timers_mtx_)}; // Always lock first keep iterator stable
+   auto [it, _] = recenter_timers_.try_emplace(message, timer_strand_);
+   if (const auto now {Clock::now()}; it->second.timepoint < now) {
+      it->second.timepoint = now + kDelay;
+      if (ShouldSetRecenter(mm)) { SetRecenter(message, it->second); }
+      lock.unlock(); // Unlock before sending command
+      SendRepeatedCommand(repeats, mm);
    }
 }
 
@@ -234,7 +251,8 @@ bool LrIpcOut::ShouldSetRecenter(const rsj::MidiMessage& mm) const
           || mm.message_type_byte == rsj::MessageType::kPw;
 }
 
-void LrIpcOut::ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rsj::MidiMessage& mm) const
+void LrIpcOut::SendRepeatedCommand(const RepeatCmdIterator& repeats,
+    const rsj::MidiMessage& mm) const
 {
    if (const auto change {controls_model_.MeasureChange(mm)}; change > 0) {
       SendCommand(repeats->second.first); /* turned clockwise */
@@ -244,7 +262,7 @@ void LrIpcOut::ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rs
    }
 }
 
-void LrIpcOut::ProcessNonRepeatedCommand(const std::string& command_to_send,
+void LrIpcOut::SendNonRepeatedCommand(const std::string& command_to_send,
     const rsj::MidiMessage& mm) const
 {
 #ifdef __cpp_lib_ranges_contains
@@ -283,19 +301,15 @@ void LrIpcOutShared::SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
    }
 }
 
-void LrIpcOut::SetRecenter(rsj::MidiMessageId mm)
+void LrIpcOut::SetRecenter(const rsj::MidiMessageId& mm, RecenterInfo& info)
 {
-   /* by capturing mm by copy, don't have to worry about later calls changing it--those will just
-    * cancel and reschedule new one */
    try {
-      recenter_timer_.expires_after(kRecenterTimer);
-      auto alive = lr_ipc_out_shared_->owner_alive_;
-      recenter_timer_.async_wait([this, mm, alive](const asio::error_code& error) {
-         // if owner has signalled shutdown, avoid touching object state
+      info.timer.expires_after(kRecenterTimer);
+      info.timer.async_wait(
+          [this, mm, alive = lr_ipc_out_shared_->owner_alive_](const asio::error_code& error) {
+         if (error) { return; } // Handle cancellation/errors
          if (!alive || !alive->load(std::memory_order_acquire)) { return; }
-         if (!error && !thread_should_exit_.load(std::memory_order_acquire)) {
-            midi_sender_.Send(mm, controls_model_.SetToCenter(mm));
-         }
+         midi_sender_.Send(mm, controls_model_.SetToCenter(mm));
       });
    }
    catch (const std::exception& e) {
