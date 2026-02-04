@@ -97,9 +97,7 @@ void LrIpcIn::Stop()
       // prevent async handlers from using owner state
       if (lr_ipc_in_shared_) {
          lr_ipc_in_shared_->thread_should_exit_.store(true, std::memory_order_release);
-         if (lr_ipc_in_shared_->owner_alive_) {
-            lr_ipc_in_shared_->owner_alive_->store(false, std::memory_order_release);
-         }
+         lr_ipc_in_shared_->owner_alive_->store(false, std::memory_order_release);
 
          if (auto& sock {lr_ipc_in_shared_->socket_}; sock.is_open()) {
             asio::error_code ec;
@@ -208,7 +206,7 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 
          /* Fast path for known commands */
          if (command_view == "TerminateApplication") [[unlikely]] {
-            juce::JUCEApplication::getInstance()->systemRequestedQuit();
+            if (auto* app = juce::JUCEApplication::getInstance()) { app->systemRequestedQuit(); }
             return;
          }
 
@@ -323,8 +321,8 @@ void LrIpcInShared::Read(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
             rsj::Log(fmt::format("LR_IPC_In Read error: {}.", error.message()),
                 std::source_location::current());
 
-            if (error == asio::error::misc_errors::eof) { /* LR closed socket */
-               juce::JUCEApplication::getInstance()->systemRequestedQuit();
+            if (error == asio::error::misc_errors::eof) {
+               if (auto* app = juce::JUCEApplication::getInstance()) { app->systemRequestedQuit(); }
             }
          }
       });

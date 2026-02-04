@@ -171,8 +171,8 @@ namespace {
          }
       }
       else {
-         rsj::Log(fmt::format("Unable to load {} font file {}.", is_primary ? "primary" : "bold",
-                      font_name.toStdString()),
+         rsj::LogAndAlertError(fmt::format("Unable to load {} font file {}.",
+                                   is_primary ? "primary" : "bold", font_name.toStdString()),
              std::source_location::current());
       }
    }
@@ -383,10 +383,11 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
    }
 
-   void SaveControlsModel() const noexcept
+   void SaveControlsModel() const
    {
       try {
          const fs::path p {rsj::AppDataFilePath(kSettingsFileX)};
+         fs::create_directories(p.parent_path()); // Ensure directoryexists
          if (std::ofstream outfile {p, std::ios::trunc}; outfile.is_open()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto oarchive {std::make_unique<cereal::XMLOutputArchive>(outfile)};
@@ -450,6 +451,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
     * pointer created by createDefaultAppLogger */
    /* forcing assignment to static early in construction */
    [[maybe_unused]] const SetLogger dummy_ {};
+   // Critical: io_context_ must outlive threads; guard_ must be destroyed first
    asio::io_context io_context_ {};
    std::future<void> io_thread0_;
    std::future<void> io_thread1_;
