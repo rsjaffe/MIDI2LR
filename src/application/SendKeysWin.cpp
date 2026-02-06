@@ -89,18 +89,18 @@ namespace {
    std::pair<BYTE, rsj::ActiveModifiers> KeyToVk(std::string_view key)
    {
       try {
-         const auto wstr = ww898::utf::conv<wchar_t>(key);
+         const auto wstr {ww898::utf::conv<wchar_t>(key)};
          if (wstr.empty()) { throw std::runtime_error("KeyToVk: empty key after conversion"); }
-         const auto uc = wstr.front();
+         const auto uc {wstr.front()};
          static const auto kLanguageId {GetLanguage()};
-         const SHORT vk_code_and_shift = VkKeyScanExW(uc, kLanguageId);
+         const SHORT vk_code_and_shift {VkKeyScanExW(uc, kLanguageId)};
          if (vk_code_and_shift == static_cast<SHORT>(-1)) {
             // no translation for this character in the current layout
             throw std::system_error(std::error_code(GetLastError(), std::system_category()),
                 "VkKeyScanExW failed to map character");
          }
-         const BYTE vk = LOBYTE(vk_code_and_shift);
-         const BYTE shiftState = HIBYTE(vk_code_and_shift);
+         const BYTE vk {LOBYTE(vk_code_and_shift)};
+         const BYTE shiftState {HIBYTE(vk_code_and_shift)};
          return {vk, rsj::ActiveModifiers::FromWindows(shiftState)};
       }
       catch (const std::exception& e) {
@@ -130,7 +130,7 @@ namespace {
          stroke_vector.reserve(strokes.size() * 2);
 
          const auto push_stroke = [&](WORD stroke, DWORD flags) {
-            INPUT entry = ip;
+            INPUT entry {ip};
             entry.ki.wVk = stroke;
             entry.ki.dwFlags = flags;
             stroke_vector.push_back(entry);

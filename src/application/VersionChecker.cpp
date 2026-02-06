@@ -34,10 +34,10 @@ namespace {
    {
       static_assert(std::is_unsigned_v<decltype(vers)>, "Avoid sign extension");
       static_assert(sizeof(vers) >= 4, "At least 4 bytes"); //-V112
-      const auto major = (vers >> 24) & 0xFFU;
-      const auto minor = (vers >> 16) & 0xFFU;
-      const auto rev = (vers >> 8) & 0xFFU;
-      const auto build = vers & 0xFFU;
+      const auto major {(vers >> 24) & 0xFFU};
+      const auto minor {(vers >> 16) & 0xFFU};
+      const auto rev {(vers >> 8) & 0xFFU};
+      const auto build {vers & 0xFFU};
       return fmt::format("{}.{}.{}.{}", major, minor, rev, build);
    }
 } // namespace
@@ -76,7 +76,7 @@ void VersionChecker::Start()
 void VersionChecker::handleAsyncUpdate()
 {
    // copy minimal state for the callback so it doesn't capture `this`
-   const int reported_version = new_version_;
+   const int reported_version {new_version_};
    SettingsManager* sm = &settings_manager_;
    const auto response {[sm, reported_version](const int result) {
 #ifndef MIDI2LR_BETA
@@ -114,7 +114,7 @@ void VersionChecker::handleAsyncUpdate()
 namespace {
    int CheckVersion(const gsl::not_null<juce::XmlElement*> version_xml_element)
    {
-      const char* attr = MSWindows ? "vMSWindows" : "vMacOS";
+      const char* attr {MSWindows ? "vMSWindows" : "vMacOS"};
       if (version_xml_element->hasAttribute(attr)) {
          return version_xml_element->getIntAttribute(attr, 0);
       }

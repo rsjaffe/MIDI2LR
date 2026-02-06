@@ -92,7 +92,7 @@ namespace rsj {
 template<> struct fmt::formatter<rsj::MessageType> {
    template<typename ParseContext> constexpr auto parse(ParseContext& ctx)
    {
-      auto pos = ctx.begin();
+      auto pos {ctx.begin()};
       is_name = false; // reset the flag
       while (pos != ctx.end() && *pos != '}') {
          if (*pos == 'n' || *pos == 'N') { is_name = true; }

@@ -142,7 +142,7 @@ void LrIpcIn::Connect(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
                                                kLrInPort),
           [lr_ipc_shared](const asio::error_code& error) mutable {
          // capture a copy of the alive token so handler can detect owner shutdown
-         const auto alive = lr_ipc_shared->owner_alive_;
+         const auto alive {lr_ipc_shared->owner_alive_};
          if (!alive || !alive->load(std::memory_order_acquire)) { return; }
 
          if (!error) {

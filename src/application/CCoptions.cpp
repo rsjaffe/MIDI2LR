@@ -295,8 +295,8 @@ void CCoptions::buttonClicked(Button* buttonThatWasClicked)
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void CCoptions::textEditorFocusLost(TextEditor& t)
 {
-   const auto val = t.getText().getIntValue();
-   const auto& nam = t.getName();
+   const auto val {t.getText().getIntValue()};
+   const auto& nam {t.getName()};
    if (nam == "minvaltext") { controls_model_->SetCcMin(bound_channel_, bound_number_, val); }
    else if (nam == "maxvaltext") {
       controls_model_->SetCcMax(bound_channel_, bound_number_, val);

@@ -118,7 +118,7 @@ void MidiReceiver::InitDevices()
          rsj::Log("Trying to open input devices.", std::source_location::current());
          TryToOpen();
          if (!input_devices_.empty()) { break; }
-         const auto sleep_duration = 20ms * (1 << i);
+         const auto sleep_duration {20ms * (1 << i)};
          rsj::Log(fmt::format("Retrying to open input devices after {}ms.", sleep_duration.count()),
              std::source_location::current());
          std::this_thread::sleep_for(sleep_duration);

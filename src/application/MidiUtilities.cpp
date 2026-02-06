@@ -34,7 +34,7 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm)
    // ReSharper disable CppClangTidyCppcoreguidelinesProBoundsPointerArithmetic
    const auto* const __restrict raw {mm.getRawData()};
    Ensures(raw);
-   const auto rawSize = mm.getRawDataSize();
+   const auto rawSize {mm.getRawDataSize()};
    if (rawSize >= 3 && rsj::ValidMessageType(raw[0])) {
       message_type_byte = rsj::ToMessageType(raw[0]);
       channel = raw[0] & 0xF;

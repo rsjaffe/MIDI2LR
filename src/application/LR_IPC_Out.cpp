@@ -163,7 +163,7 @@ void LrIpcOut::Connect(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
           asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrOutPort),
           [this, lr_ipc_out_shared](const asio::error_code& error) mutable {
          // copy shared alive token so the handler can detect owner shutdown
-         auto alive = lr_ipc_out_shared->owner_alive_;
+         auto alive {lr_ipc_out_shared->owner_alive_};
          if (!alive || !alive->load(std::memory_order_acquire)) { return; }
          if (!error) {
             // check again just before calling member functions
@@ -234,7 +234,7 @@ void LrIpcOut::ProcessRepeatedCommand(const RepeatCmdIterator& repeats, const rs
     const rsj::MidiMessageId& message)
 {
    auto lock {std::unique_lock(recenter_timers_mtx_)}; // Always lock first keep iterator stable
-   auto [it, _] = recenter_timers_.try_emplace(message, timer_strand_);
+   auto [it, _] {recenter_timers_.try_emplace(message, timer_strand_)};
    if (const auto now {Clock::now()}; it->second.timepoint < now) {
       it->second.timepoint = now + kDelay;
       if (ShouldSetRecenter(mm)) { SetRecenter(message, it->second); }
@@ -285,7 +285,7 @@ void LrIpcOutShared::SendOut(std::shared_ptr<LrIpcOutShared> lr_ipc_out_shared)
       asio::async_write(lr_ipc_out_shared->socket_, asio::buffer(*command_copy),
           [command_copy, lr_ipc_out_shared](const asio::error_code& error, std::size_t) mutable {
          // check owner token before re-arming
-         const auto alive = lr_ipc_out_shared->owner_alive_;
+         const auto alive {lr_ipc_out_shared->owner_alive_};
          if (!alive || !alive->load(std::memory_order_acquire)) { return; }
 
          if (!error) [[likely]] { SendOut(std::move(lr_ipc_out_shared)); }

@@ -161,8 +161,8 @@ namespace {
    void LoadFont(const juce::String& font_name, bool is_primary) noexcept
    {
       juce::MemoryBlock font_data {};
-      const auto font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
-                                 .getSiblingFile(font_name);
+      const auto font_file {juce::File::getSpecialLocation(juce::File::currentApplicationFile)
+              .getSiblingFile(font_name)};
       if (font_file.loadFileAsData(font_data)) {
          const auto typeface =
              juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize());
@@ -318,7 +318,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    {
       thread = std::async(std::launch::async, [this, threadName] {
 #ifdef _WIN32
-         const auto uwr = ww898::utf::convz<wchar_t>(threadName);
+         const auto uwr {ww898::utf::convz<wchar_t>(threadName)};
          rsj::LabelThread(uwr.c_str());
 #else
          rsj::LabelThread(threadName);
@@ -434,10 +434,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
              {     "ja",                                {"NotoSansJP-Regular.otf", ""}},
              {"default", {"NotoSans-Regular-MIDI2LR.ttf", "NotoSans-Bold-MIDI2LR.ttf"}}
          };
-         auto font_pair = font_map.find(lang);
+         auto font_pair {font_map.find(lang)};
          if (font_pair == font_map.end()) { font_pair = font_map.find("default"); }
-         const auto& primary_font_name = font_pair->second.first;
-         const auto& bold_font_name = font_pair->second.second;
+         const auto& primary_font_name {font_pair->second.first};
+         const auto& bold_font_name {font_pair->second.second};
          LoadFont(primary_font_name, true);
          if (!bold_font_name.empty()) { LoadFont(bold_font_name, false); }
       }

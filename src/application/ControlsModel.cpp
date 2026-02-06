@@ -32,7 +32,7 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber, const
       auto old_v {cv.load(std::memory_order_relaxed)};
       int new_v {};
       if (wrap) {
-         const auto mod = high_limit + 1; // inclusive range 0..high_limit
+         const auto mod {high_limit + 1}; // inclusive range 0..high_limit
          do {
             auto old_diff_mod {old_v + diff + mod};
             MIDI2LR_ASSUME(old_diff_mod >= 0);
@@ -58,9 +58,9 @@ double ChannelModel::ControllerToPlugin(const rsj::MessageType controltype, cons
     const int value, const bool wrap)
 {
    try {
-      const auto cc_method = cc_method_.at(controlnumber);
-      const auto cc_low = cc_low_.at(controlnumber);
-      const auto cc_high = cc_high_.at(controlnumber);
+      const auto cc_method {cc_method_.at(controlnumber)};
+      const auto cc_low {cc_low_.at(controlnumber)};
+      const auto cc_high {cc_high_.at(controlnumber)};
       // clearer precondition checks instead of ternary expressions
       if (controltype == rsj::MessageType::kCc && cc_method == rsj::CCmethod::kAbsolute) {
          Expects(cc_low < cc_high);

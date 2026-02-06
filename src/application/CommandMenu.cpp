@@ -76,7 +76,7 @@ void CommandMenu::AddSubMenuItems(juce::PopupMenu& sub_menu, const juce::String&
     size_t index, bool& ticked) const
 {
    if (profile_.CommandHasAssociatedMessage(command_set_.CommandAbbrevAt(index - 1))) {
-      const auto is_selected_item = (index == selected_item_);
+      const auto is_selected_item {index == selected_item_};
       ticked |= is_selected_item;
       sub_menu.addColouredItem(gsl::narrow_cast<int>(index), command, juce::Colours::red, true,
           is_selected_item);
@@ -101,7 +101,7 @@ void CommandMenu::AddSubMenusToMainMenu(juce::PopupMenu& main_menu, size_t index
 {
    const auto& menus {command_set_.GetMenus()};
    const auto& menu_entries {command_set_.GetMenuEntries()};
-   const auto menu_entries_size = menu_entries.size();
+   const auto menu_entries_size {menu_entries.size()};
    for (size_t submenu_number = 0; submenu_number < menu_entries_size; ++submenu_number) {
       juce::PopupMenu sub_menu;
       auto ticked {false};
