@@ -5,7 +5,7 @@ This script identifies translation strings in the lua files that are not
 matched by translation strings in Lightroom. Strings should not show up in the
 output. Those that do are evidence that Lightroom has removed the translation
 and a new translation is needed. Results will be in unmatched.txt."
-if [[ ! -f TranslatedString.txt ]] ; then
+if [[ ! -f TranslatedStrings.txt ]] ; then
     echo -e '
 
 For this to run properly, you must copy
