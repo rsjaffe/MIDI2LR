@@ -22,6 +22,7 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber, const
 {
    try {
       const auto high_limit {cc_high_.at(controlnumber)};
+      Expects(high_limit > 0); // guard against divide/modulo by zero
       Expects(diff <= high_limit && diff >= -high_limit);
 #ifdef __cpp_lib_atomic_ref
       std::atomic_ref cv {current_v_.at(controlnumber)};
@@ -31,8 +32,11 @@ double ChannelModel::OffsetResult(const int diff, const int controlnumber, const
       auto old_v {cv.load(std::memory_order_relaxed)};
       int new_v {};
       if (wrap) {
+         const auto mod {high_limit + 1}; // inclusive range 0..high_limit
          do {
-            new_v = (old_v + diff + high_limit) % high_limit;
+            auto old_diff_mod {old_v + diff + mod};
+            MIDI2LR_ASSUME(old_diff_mod >= 0);
+            new_v = old_diff_mod % mod;
          } while (!cv.compare_exchange_weak(old_v, new_v, std::memory_order_release,
              std::memory_order_relaxed));
       }
@@ -54,16 +58,17 @@ double ChannelModel::ControllerToPlugin(const rsj::MessageType controltype, cons
     const int value, const bool wrap)
 {
    try {
-      const auto cc_method = cc_method_.at(controlnumber);
-      const auto cc_low = cc_low_.at(controlnumber);
-      const auto cc_high = cc_high_.at(controlnumber);
-      Expects(controltype == rsj::MessageType::kCc && cc_method == rsj::CCmethod::kAbsolute
-                  ? cc_low < cc_high
-                  : 1);
-      Expects(controltype == rsj::MessageType::kPw ? pitch_wheel_max_ > pitch_wheel_min_ : 1);
-      Expects(controltype == rsj::MessageType::kPw
-                  ? value >= pitch_wheel_min_ && value <= pitch_wheel_max_
-                  : 1);
+      const auto cc_method {cc_method_.at(controlnumber)};
+      const auto cc_low {cc_low_.at(controlnumber)};
+      const auto cc_high {cc_high_.at(controlnumber)};
+      // clearer precondition checks instead of ternary expressions
+      if (controltype == rsj::MessageType::kCc && cc_method == rsj::CCmethod::kAbsolute) {
+         Expects(cc_low < cc_high);
+      }
+      if (controltype == rsj::MessageType::kPw) {
+         Expects(pitch_wheel_max_ > pitch_wheel_min_);
+         Expects(value >= pitch_wheel_min_ && value <= pitch_wheel_max_);
+      }
       /* note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7
        * bits, high bits are shifted one right when placed into int. */
       switch (controltype) {
@@ -110,17 +115,14 @@ double ChannelModel::ControllerToPlugin(const rsj::MessageType controltype, cons
       case rsj::MessageType::kKeyPressure:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::invalid_argument(fmt::format(FMT_STRING(
-                                                     "ChannelModel::ControllerToPlugin unexpected "
-                                                     "control type. " "Controltype {}, "
-                                                                      "controlnumber {}, value {}, "
-                                                                      "wrap {}."),
+         throw std::invalid_argument(fmt::format("ChannelModel::ControllerToPlugin unexpected "
+                                                 "control type. Controltype {}, controlnumber {}, "
+                                                 "value {}, wrap {}.",
              controltype, controlnumber, value, wrap));
       }
-      throw std::domain_error(
-          fmt::format(FMT_STRING("Undefined control type in " "ChannelModel::PluginToController. "
-                                                              "Control type {}."),
-              controltype));
+      throw std::domain_error(fmt::format("Undefined control type in "
+                                          "ChannelModel::PluginToController. Control type {}.",
+          controltype));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(e, std::source_location::current());
@@ -169,14 +171,14 @@ int ChannelModel::MeasureChange(const rsj::MessageType controltype, const int co
     const int value)
 {
    try {
-      Expects(controltype == rsj::MessageType::kCc
-                      && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute
-                  ? cc_low_.at(controlnumber) < cc_high_.at(controlnumber)
-                  : 1);
-      Expects(controltype == rsj::MessageType::kPw ? pitch_wheel_max_ > pitch_wheel_min_ : 1);
-      Expects(controltype == rsj::MessageType::kPw
-                  ? value >= pitch_wheel_min_ && value <= pitch_wheel_max_
-                  : 1);
+      if (controltype == rsj::MessageType::kCc
+          && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute) {
+         Expects(cc_low_.at(controlnumber) < cc_high_.at(controlnumber));
+      }
+      if (controltype == rsj::MessageType::kPw) {
+         Expects(pitch_wheel_max_ > pitch_wheel_min_);
+         Expects(value >= pitch_wheel_min_ && value <= pitch_wheel_max_);
+      }
       /* note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7
        * bits, high bits are shifted one right when placed into int. */
       switch (controltype) {
@@ -213,14 +215,13 @@ int ChannelModel::MeasureChange(const rsj::MessageType controltype, const int co
       case rsj::MessageType::kKeyPressure:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::invalid_argument(fmt::format(FMT_STRING("ChannelModel::MeasureChange "
-                                                            "unexpected control type. Controltype "
-                                                            "{}, controlnumber {}, value {}."),
+         throw std::invalid_argument(fmt::format("ChannelModel::MeasureChange unexpected control "
+                                                 "type. Controltype {}, controlnumber {}, value "
+                                                 "{}.",
              controltype, controlnumber, value));
       }
-      throw std::domain_error(fmt::format(FMT_STRING("Undefined control type in "
-                                                     "ChannelModel::PluginToController. Control "
-                                                     "type {}."),
+      throw std::domain_error(fmt::format("Undefined control type in "
+                                          "ChannelModel::PluginToController. Control type {}.",
           controltype));
    }
    catch (const std::exception& e) {
@@ -271,15 +272,13 @@ int ChannelModel::PluginToController(const rsj::MessageType controltype, const i
       case rsj::MessageType::kNoteOff:
       case rsj::MessageType::kPgmChange:
       case rsj::MessageType::kSystem:
-         throw std::invalid_argument(fmt::format(FMT_STRING("Unexpected control type in "
-                                                            "ChannelModel::PluginToController. "
-                                                            "Control type {}."),
+         throw std::invalid_argument(fmt::format(
+             "Unexpected control type in ChannelModel::PluginToController. Control type {}.",
              controltype));
       }
-      throw std::domain_error(
-          fmt::format(FMT_STRING("Undefined control type in " "ChannelModel::PluginToController. "
-                                                              "Control type {}."),
-              controltype));
+      throw std::domain_error(fmt::format("Undefined control type in "
+                                          "ChannelModel::PluginToController. Control type {}.",
+          controltype));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(e, std::source_location::current());

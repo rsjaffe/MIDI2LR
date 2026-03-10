@@ -76,11 +76,10 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
       if (profile_file.exists()) {
          if (const auto parsed {juce::parseXML(profile_file)}) {
             for (const auto& cb : callbacks_) { cb(parsed.get(), profile); }
-            lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToDirectory {}\n"),
+            lr_ipc_out_.SendCommand(fmt::format("ChangedToDirectory {}\n",
                 juce::File::addTrailingSeparator(profile_location_.getFullPathName())
                     .toStdString()));
-            lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToFile {}\n"),
-                profile.toStdString()));
+            lr_ipc_out_.SendCommand(fmt::format("ChangedToFile {}\n", profile.toStdString()));
          }
       }
    }
@@ -126,11 +125,11 @@ void ProfileManager::MapCommand(rsj::MidiMessageId msg)
       using namespace std::string_literals;
       const auto cmd {current_profile_.GetCommandForMessage(msg)};
       if (cmd == "PrevPro"s) {
-         switch_state_ = SwitchState::kPrev;
+         switch_state_.store(SwitchState::kPrev, std::memory_order_release);
          triggerAsyncUpdate();
       }
       else if (cmd == "NextPro"s) {
-         switch_state_ = SwitchState::kNext;
+         switch_state_.store(SwitchState::kNext, std::memory_order_release);
          triggerAsyncUpdate();
       }
       else { /* no action needed */
@@ -165,7 +164,7 @@ void ProfileManager::ConnectionCallback(const bool connected, const bool blocked
 {
    try {
       if (connected && !blocked) {
-         lr_ipc_out_.SendCommand(fmt::format(FMT_STRING("ChangedToDirectory {}\n"),
+         lr_ipc_out_.SendCommand(fmt::format("ChangedToDirectory {}\n",
              juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString()));
       }
    }
@@ -178,18 +177,18 @@ void ProfileManager::ConnectionCallback(const bool connected, const bool blocked
 void ProfileManager::handleAsyncUpdate()
 {
    try {
-      switch (switch_state_) {
+      const auto state = switch_state_.load(std::memory_order_acquire);
+      switch (state) {
       case SwitchState::kPrev:
          SwitchToPreviousProfile();
-         switch_state_ = SwitchState::kNone;
          break;
       case SwitchState::kNext:
          SwitchToNextProfile();
-         switch_state_ = SwitchState::kNone;
          break;
       case SwitchState::kNone:
          break;
       }
+      switch_state_.store(SwitchState::kNone, std::memory_order_release);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(e, std::source_location::current());

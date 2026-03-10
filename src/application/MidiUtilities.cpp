@@ -32,9 +32,10 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm)
 #pragma warning(push)
 #pragma warning(disable : 26481) /* doing raw pointer arithmetic, parsing low-level structure */
    // ReSharper disable CppClangTidyCppcoreguidelinesProBoundsPointerArithmetic
-   const auto raw {mm.getRawData()};
+   const auto* const __restrict raw {mm.getRawData()};
    Ensures(raw);
-   if (rsj::ValidMessageType(raw[0])) {
+   const auto rawSize {mm.getRawDataSize()};
+   if (rawSize >= 3 && rsj::ValidMessageType(raw[0])) {
       message_type_byte = rsj::ToMessageType(raw[0]);
       channel = raw[0] & 0xF;
       switch (message_type_byte) {

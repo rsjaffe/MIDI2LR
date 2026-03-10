@@ -35,8 +35,7 @@
 namespace juce
 {
 
-JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wdeprecated-declarations")
-JUCE_BEGIN_IGNORE_WARNINGS_MSVC (4996)
+JUCE_BEGIN_IGNORE_DEPRECATION_WARNINGS
 
 void AudioDataConverters::convertFloatToInt16LE (const float* source, void* dest, int numSamples, int destBytesPerSample)
 {
@@ -509,12 +508,12 @@ public:
                 unitTest.expect (! clippingFailed);
             }
 
-            // convert data from the source to dest format..
+            // convert data from the source to dest format...
             std::unique_ptr<AudioData::Converter> conv (new AudioData::ConverterInstance<AudioData::Pointer<F1, E1, AudioData::NonInterleaved, AudioData::Const>,
                                                                                          AudioData::Pointer<F2, E2, AudioData::NonInterleaved, AudioData::NonConst>>());
             conv->convertSamples (inPlace ? reversed : converted, original, numSamples);
 
-            // ..and back again..
+            // ...and back again
             conv.reset (new AudioData::ConverterInstance<AudioData::Pointer<F2, E2, AudioData::NonInterleaved, AudioData::Const>,
                                                          AudioData::Pointer<F1, E1, AudioData::NonInterleaved, AudioData::NonConst>>());
             if (! inPlace)
@@ -641,7 +640,6 @@ static AudioConversionTests audioConversionUnitTests;
 
 #endif
 
-JUCE_END_IGNORE_WARNINGS_MSVC
-JUCE_END_IGNORE_WARNINGS_GCC_LIKE
+JUCE_END_IGNORE_DEPRECATION_WARNINGS
 
 } // namespace juce

@@ -77,10 +77,8 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ShutdownDetector)
     JUCE_DECLARE_NON_MOVEABLE (ShutdownDetector)
-    JUCE_DECLARE_SINGLETON (ShutdownDetector, false)
+    JUCE_DECLARE_SINGLETON_INLINE (ShutdownDetector, false)
 };
-
-JUCE_IMPLEMENT_SINGLETON (ShutdownDetector)
 
 class Timer::TimerThread final : private Thread,
                                  private ShutdownDetector::Listener
@@ -89,7 +87,7 @@ public:
     using LockType = CriticalSection;
 
     TimerThread()
-        : Thread ("JUCE Timer")
+        : Thread (SystemStats::getJUCEVersion() + ": Timer")
     {
         timers.reserve (32);
         ShutdownDetector::addListener (this);
@@ -97,6 +95,9 @@ public:
 
     ~TimerThread() override
     {
+        // If this is hit, a timer has outlived the platform event system.
+        jassert (MessageManager::getInstanceWithoutCreating() != nullptr);
+
         stopThreadAsync();
         ShutdownDetector::removeListener (this);
         stopThread (-1);
@@ -120,7 +121,7 @@ public:
             {
                 if (callbackArrived.wait (0))
                 {
-                    // already a message in flight - do nothing..
+                    // already a message in flight - do nothing
                 }
                 else
                 {
@@ -428,7 +429,7 @@ struct LambdaInvoker final : private Timer,
 
     std::function<void()> function;
 
-    JUCE_DECLARE_NON_COPYABLE (LambdaInvoker)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LambdaInvoker)
 };
 
 void JUCE_CALLTYPE Timer::callAfterDelay (int milliseconds, std::function<void()> f)

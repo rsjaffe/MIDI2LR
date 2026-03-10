@@ -15,6 +15,7 @@
  * see <http://www.gnu.org/licenses/>.
  *
  */
+#include <atomic>
 #include <functional>
 #include <vector>
 
@@ -86,7 +87,7 @@ class ProfileManager final : juce::AsyncUpdater {
 #else
    std::vector<std::function<void(juce::XmlElement*, const juce::String&)>> callbacks_;
 #endif
-   SwitchState switch_state_ {SwitchState::kNone};
+   std::atomic<SwitchState> switch_state_ {SwitchState::kNone};
 };
 
 #endif

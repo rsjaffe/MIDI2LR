@@ -96,7 +96,7 @@ enum class TypefaceMetricsKind
 */
 struct TypefaceMetrics
 {
-    /** The proportion of the typeface's height that it above the baseline, as a value between 0 and 1.
+    /** The proportion of the typeface's height that is above the baseline, as a value between 0 and 1.
         Note that 'height' here refers to the result of adding the absolute ascent and descent values.
         That is, the sum of the ascent and descent will equal 1.
         The sum of the ascent and descent will normally differ from the em size of the font.
@@ -107,6 +107,8 @@ struct TypefaceMetrics
 
     /** The factor by which a JUCE font height should be multiplied in order to convert to a font
         size in points.
+
+        May be inf if the font ascent and descent overrides have both been set to 0!
     */
     float heightToPoints{};
 };
@@ -128,8 +130,6 @@ struct TypefaceMetrics
 class JUCE_API  Typeface  : public ReferenceCountedObject
 {
 public:
-    Typeface (const String& name, const String& newStyle) noexcept;
-
     //==============================================================================
     /** A handy typedef for a pointer to a typeface. */
     using Ptr = ReferenceCountedObjectPtr<Typeface>;
@@ -253,13 +253,10 @@ public:
         Support for SVG and COLRv1 may be added in the future, depending on demand. However, this
         would require significant additions to JUCE's rendering code, so it has been omitted for
         now.
-
-        The height is specified in JUCE font-height units.
     */
     std::vector<GlyphLayer> getLayersForGlyph (TypefaceMetricsKind,
                                                int glyphNumber,
-                                               const AffineTransform&,
-                                               float normalisedHeight) const;
+                                               const AffineTransform&) const;
 
     /** Kinds of colour glyph format that may be implemented by a particular typeface.
         Most typefaces are monochromatic, and do not support any colour formats.
@@ -315,17 +312,6 @@ public:
         such glyph is found.
     */
     std::optional<uint32_t> getNominalGlyphForCodepoint (juce_wchar) const;
-
-    /** @internal */
-    class Native;
-
-    /** @internal
-
-        At the moment, this is a way to get at the hb_font_t that backs this typeface.
-        The typeface's hb_font_t has a size of 1 pt (i.e. 1 pt per em).
-        This is only for internal use!
-    */
-    virtual Native getNativeDetails() const = 0;
 
     /** Attempts to locate a font with a similar style that is capable of displaying the requested
         string.
@@ -384,6 +370,26 @@ public:
         still renders slightly smaller than Verdana, but the differences are less pronounced.
     */
     static Typeface::Ptr findSystemTypeface();
+
+    /** Returns the OpenType features supported by this typeface.
+
+        This method returns a list of all OpenType font features (such as ligatures,
+        small caps, stylistic alternates, etc.) that are available in the current
+        typeface.
+
+        @see FontFeatureTag, FontFeatureSetting, FontOptions, Font
+     */
+    std::vector<FontFeatureTag> getSupportedFeatures() const;
+
+    /** @internal */
+    class Native;
+
+    /** @internal */
+    virtual const Native* getNativeDetails() const = 0;
+
+protected:
+    /** @internal */
+    Typeface (const String&, const String&);
 
 private:
     //==============================================================================

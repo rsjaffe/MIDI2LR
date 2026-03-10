@@ -215,6 +215,10 @@ public:
     */
     static AffineTransform verticalFlip (float height) noexcept;
 
+    /** Returns a transform that will flip coordinates horizontally within a window of the given width.
+    */
+    static AffineTransform horizontalFlip (float width) noexcept;
+
     /** Returns a matrix which is the inverse operation of this one.
 
         Some matrices don't have an inverse - in this case, the method will just return
@@ -255,7 +259,7 @@ public:
     /** Returns true if this transform has no effect on points. */
     bool isIdentity() const noexcept;
 
-    /** Returns true if this transform maps to a singularity - i.e. if it has no inverse. */
+    /** Returns true if this transform maps to a singularity (i.e., has no inverse). */
     bool isSingularity() const noexcept;
 
     /** Returns true if the transform only translates, and doesn't scale or rotate the points. */
@@ -278,7 +282,7 @@ public:
     float getDeterminant() const noexcept;
 
     //==============================================================================
-   #ifndef DOXYGEN
+    /** @cond */
     /** This method has been deprecated.
 
         You can calculate the scale factor using:
@@ -298,7 +302,7 @@ public:
 
     [[deprecated ("If you need an identity transform, just use AffineTransform() or {}.")]]
     static const AffineTransform identity;
-   #endif
+    /** @endcond */
 
     //==============================================================================
     /* The transform matrix is:

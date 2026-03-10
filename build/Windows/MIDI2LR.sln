@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio Version 17
+# Visual Studio Version 18
 
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MIDI2LR - App", "MIDI2LR_App.vcxproj", "{686AE150-57A0-ABD4-6033-28AEE68BADB0}"
 EndProject

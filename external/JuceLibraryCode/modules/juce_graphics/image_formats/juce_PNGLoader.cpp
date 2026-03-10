@@ -37,20 +37,6 @@ namespace juce
 
 JUCE_BEGIN_IGNORE_WARNINGS_MSVC (4390 4611 4365 4267 4616 2544 2545 6297)
 
-namespace zlibNamespace
-{
-#if JUCE_INCLUDE_ZLIB_CODE
-  #undef OS_CODE
-  #undef fdopen
-  #define ZLIB_INTERNAL
-  #define NO_DUMMY_DECL
-  #include <juce_core/zip/zlib/zlib.h>
-  #undef OS_CODE
-#else
-  #include JUCE_ZLIB_INCLUDE_PATH
-#endif
-}
-
 #if ! defined (jmp_buf) || ! defined (longjmp)
  #include <setjmp.h>
 #endif
@@ -60,12 +46,6 @@ namespace pnglibNamespace
   using namespace zlibNamespace;
 
 #if JUCE_INCLUDE_PNGLIB_CODE || ! defined (JUCE_INCLUDE_PNGLIB_CODE)
-
-  #if _MSC_VER != 1310
-   using std::calloc; // (causes conflict in VS.NET 2003)
-   using std::malloc;
-   using std::free;
-  #endif
 
    JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wcomma",
                                         "-Wfloat-equal",
@@ -77,7 +57,6 @@ namespace pnglibNamespace
                                         "-Wzero-as-null-pointer-constant")
 
   #undef check
-  using std::abs;
   #define NO_DUMMY_DECL
   #define PNGLCONF_H 1
 
@@ -353,14 +332,6 @@ namespace PNGHelpers
         static_cast<OutputStream*> (png_get_io_ptr (png))->write (data, length);
     }
 
-   #if ! JUCE_USING_COREIMAGE_LOADER
-    static void JUCE_CDECL readCallback (png_structp png, png_bytep data, png_size_t length)
-    {
-        static_cast<InputStream*> (png_get_io_ptr (png))->read (data, (int) length);
-    }
-
-    struct PNGErrorStruct {};
-
     static void JUCE_CDECL errorCallback (png_structp p, png_const_charp)
     {
        #ifdef PNG_SETJMP_SUPPORTED
@@ -372,6 +343,14 @@ namespace PNGHelpers
 
     static void JUCE_CDECL warningCallback (png_structp, png_const_charp) {}
 
+    #if ! JUCE_USING_COREIMAGE_LOADER
+    static void JUCE_CDECL readCallback (png_structp png, png_bytep data, png_size_t length)
+    {
+        static_cast<InputStream*> (png_get_io_ptr (png))->read (data, (int) length);
+    }
+
+    struct PNGErrorStruct {};
+
     JUCE_BEGIN_IGNORE_WARNINGS_MSVC (4611)
 
     static bool readHeader (InputStream& in, png_structp pngReadStruct, png_infop pngInfoStruct, jmp_buf& errorJumpBuf,
@@ -379,7 +358,7 @@ namespace PNGHelpers
     {
         if (setjmp (errorJumpBuf) == 0)
         {
-            // read the header..
+            // read the header
             png_set_read_fn (pngReadStruct, &in, readCallback);
 
             png_read_info (pngReadStruct, pngInfoStruct);
@@ -428,7 +407,7 @@ namespace PNGHelpers
 
     static Image createImageFromData (bool hasAlphaChan, int width, int height, png_bytepp rows)
     {
-        // now convert the data to a juce image format..
+        // now convert the data to a juce image format
         Image image (hasAlphaChan ? Image::ARGB : Image::RGB, width, height, hasAlphaChan);
 
         image.getProperties()->set ("originalImageHadAlpha", image.hasAlphaChannel());
@@ -476,7 +455,7 @@ namespace PNGHelpers
         if (readHeader (in, pngReadStruct, pngInfoStruct, errorJumpBuf,
                         width, height, bitDepth, colorType, interlaceType))
         {
-            // Load the image into a temp buffer..
+            // load the image into a temp buffer
             const size_t lineStride = width * 4;
             HeapBlock<uint8> tempBuffer (height * lineStride);
             HeapBlock<png_bytep> rows (height);
@@ -549,14 +528,30 @@ Image PNGImageFormat::decodeImage (InputStream& in)
 
 bool PNGImageFormat::writeImageToStream (const Image& image, OutputStream& out)
 {
+    if (! image.isValid())
+        return false;
+
     using namespace pnglibNamespace;
     auto width = image.getWidth();
     auto height = image.getHeight();
+
+    HeapBlock<uint8> rowData (width * 4);
+    const Image::BitmapData srcData (image, Image::BitmapData::readOnly);
 
     auto pngWriteStruct = png_create_write_struct (PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
 
     if (pngWriteStruct == nullptr)
         return false;
+
+    jmp_buf errorJumpBuf;
+    png_set_error_fn (pngWriteStruct, &errorJumpBuf, PNGHelpers::errorCallback, PNGHelpers::warningCallback);
+
+    JUCE_BEGIN_IGNORE_WARNINGS_MSVC (4611)
+
+    if (setjmp (errorJumpBuf) != 0)
+        return false;
+
+    JUCE_END_IGNORE_WARNINGS_MSVC
 
     auto pngInfoStruct = png_create_info_struct (pngWriteStruct);
 
@@ -575,8 +570,6 @@ bool PNGImageFormat::writeImageToStream (const Image& image, OutputStream& out)
                   PNG_COMPRESSION_TYPE_BASE,
                   PNG_FILTER_TYPE_BASE);
 
-    HeapBlock<uint8> rowData (width * 4);
-
     png_color_8 sig_bit;
     sig_bit.red   = 8;
     sig_bit.green = 8;
@@ -589,8 +582,6 @@ bool PNGImageFormat::writeImageToStream (const Image& image, OutputStream& out)
 
     png_set_shift (pngWriteStruct, &sig_bit);
     png_set_packing (pngWriteStruct);
-
-    const Image::BitmapData srcData (image, Image::BitmapData::readOnly);
 
     for (int y = 0; y < height; ++y)
     {

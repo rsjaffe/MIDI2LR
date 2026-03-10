@@ -176,13 +176,7 @@ private:
 
 struct Direct2DScopedElapsedTime
 {
-    Direct2DScopedElapsedTime (Direct2DMetrics::Ptr& metricsIn, size_t accumulatorIndexIn)
-        : metrics (metricsIn.get()),
-          accumulatorIndex (accumulatorIndexIn)
-    {
-    }
-
-    Direct2DScopedElapsedTime (Direct2DMetrics* metricsIn, size_t accumulatorIndexIn)
+    Direct2DScopedElapsedTime (Direct2DMetrics::Ptr metricsIn, size_t accumulatorIndexIn)
         : metrics (metricsIn),
           accumulatorIndex (accumulatorIndexIn)
     {
@@ -195,7 +189,7 @@ struct Direct2DScopedElapsedTime
     }
 
     int64 startTicks = Time::getHighResolutionTicks();
-    Direct2DMetrics* metrics;
+    Direct2DMetrics::Ptr metrics;
     size_t accumulatorIndex;
 };
 
@@ -260,7 +254,7 @@ public:
 
     static constexpr int magicNumber = 0xd2d1;
 
-    JUCE_DECLARE_SINGLETON (Direct2DMetricsHub, false)
+    JUCE_DECLARE_SINGLETON_INLINE (Direct2DMetricsHub, false)
 
 private:
     static String getProcessString() noexcept;

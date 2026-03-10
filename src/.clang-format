@@ -1,5 +1,5 @@
 ---
-# Visual Studio 2022 currently using clang-format v18. Options for later versions
+# Visual Studio 2026 currently using clang-format v20. Options for later versions
 # are not included.
 AccessModifierOffset: -2
 AlignAfterOpenBracket: DontAlign
@@ -23,6 +23,7 @@ AllowShortFunctionsOnASingleLine: All
 AllowShortIfStatementsOnASingleLine: Always #AllIfsAndElse ###clang-format 13
 AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: true
+AllowShortNamespacesOnASingleLine: true
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
@@ -79,6 +80,7 @@ IncludeCategories:
 IndentAccessModifiers: false
 IndentCaseBlocks: true
 IndentCaseLabels: false
+IndentExportBlock: true
 IndentExternBlock: Indent
 IndentGotoLabels: false
 IndentPPDirectives: None
@@ -101,6 +103,7 @@ NamespaceIndentation: All
 PackConstructorInitializers: BinPack
 PenaltyBreakAssignment: 2
 PenaltyBreakBeforeFirstCallParameter: 75
+PenaltyBreakBeforeMemberAccess: 100
 PenaltyBreakComment: 50
 PenaltyBreakFirstLessLess: 1
 PenaltyBreakOpenParenthesis: 80
@@ -115,6 +118,7 @@ QualifierAlignment: Custom
 QualifierOrder: ['inline', 'static', 'volatile', 'const', 'constexpr', 'restrict', 'type']
 ReferenceAlignment: Pointer
 ReflowComments: true
+RemoveEmptyLinesInUnwrappedLines: true
 RemoveSemicolon: true
 RequiresClausePosition: OwnLine
 RequiresExpressionIndentation: Keyword
@@ -150,6 +154,7 @@ StatementAttributeLikeMacros: []
 StatementMacros: ['START_JUCE_APPLICATION']
 TabWidth: 2
 UseTab: Never
+WrapNamespaceBodyWithEmptyLines: Never
 #WhitespaceSensitivemacros: []
 ---
 Language: Cpp

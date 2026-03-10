@@ -49,9 +49,12 @@
 
 #include "juce_graphics.h"
 
+#include "fonts/juce_FunctionPointerDestructor.h"
+
 //==============================================================================
 #if JUCE_MAC
  #import <QuartzCore/QuartzCore.h>
+ #include <CoreImage/CoreImage.h>
  #include <CoreText/CTFont.h>
 
 #elif JUCE_WINDOWS
@@ -94,6 +97,8 @@
   #pragma comment(lib, "dxguid.lib")
  #endif
 
+ #include "native/juce_Direct2DPixelDataPage_windows.h"
+
 #elif JUCE_IOS
  #import <QuartzCore/QuartzCore.h>
  #import <CoreText/CoreText.h>
@@ -114,6 +119,12 @@
  #include <ft2build.h>
  #include FT_FREETYPE_H
  #include FT_ADVANCES_H
+ #include FT_TRUETYPE_TABLES_H
+ #include FT_GLYPH_H
+
+ #ifdef FT_COLOR_H
+  #include FT_COLOR_H
+ #endif
 #endif
 
 #if JUCE_USE_FONTCONFIG
@@ -140,19 +151,25 @@
 
 #include <juce_graphics/fonts/harfbuzz/hb-ot.h>
 
+extern "C"
+{
+#include <juce_graphics/unicode/sheenbidi/Headers/SheenBidi/SheenBidi.h>
+} // extern "C"
+
 #if JUCE_UNIT_TESTS
  #include "fonts/juce_TypefaceTestData.cpp"
 #endif
 
 //==============================================================================
-#include "fonts/juce_FunctionPointerDestructor.h"
+#include "juce_core/zip/juce_zlib.h"
+
 #include "native/juce_EventTracing.h"
+#include "images/juce_ImagePixelDataNativeExtensions.h"
 
 #include "unicode/juce_UnicodeGenerated.cpp"
 #include "unicode/juce_UnicodeUtils.cpp"
 #include "unicode/juce_UnicodeLine.cpp"
 #include "unicode/juce_UnicodeScript.cpp"
-#include "unicode/juce_UnicodeBrackets.cpp"
 #include "unicode/juce_UnicodeBidi.cpp"
 #include "unicode/juce_Unicode.cpp"
 #include "colour/juce_Colour.cpp"
@@ -176,12 +193,14 @@
 #include "image_formats/juce_PNGLoader.cpp"
 #include "fonts/juce_AttributedString.cpp"
 #include "fonts/juce_Typeface.cpp"
+#include "fonts/juce_FontFeatures.cpp"
 #include "fonts/juce_FontOptions.cpp"
 #include "fonts/juce_Font.cpp"
 #include "detail/juce_Ranges.cpp"
-#include "fonts/juce_SimpleShapedText.cpp"
-#include "fonts/juce_JustifiedText.cpp"
-#include "fonts/juce_ShapedText.cpp"
+#include "detail/juce_SimpleShapedText.cpp"
+#include "detail/juce_JustifiedText.cpp"
+#include "detail/juce_ShapedText.cpp"
+#include "fonts/juce_GlyphArrangementOptions.cpp"
 #include "fonts/juce_GlyphArrangement.cpp"
 #include "fonts/juce_TextLayout.cpp"
 #include "effects/juce_DropShadowEffect.cpp"
@@ -190,6 +209,7 @@
 #if JUCE_UNIT_TESTS
  #include "geometry/juce_Parallelogram_test.cpp"
  #include "geometry/juce_Rectangle_test.cpp"
+ #include "geometry/juce_RectangleList_test.cpp"
 #endif
 
 #if JUCE_USE_FREETYPE
@@ -204,15 +224,18 @@
  #include "native/juce_IconHelpers_mac.cpp"
 
 #elif JUCE_WINDOWS
+ #include "native/juce_Direct2DMetrics_windows.h"
+ #include "native/juce_Direct2DGraphicsContext_windows.h"
  #include "native/juce_DirectX_windows.h"
+ #include "native/juce_Direct2DImage_windows.h"
+ #include "native/juce_Direct2DGraphicsContextImpl_windows.h"
+ #include "native/juce_Direct2DImageContext_windows.h"
+
+ #include "native/juce_DirectX_windows.cpp"
  #include "native/juce_DirectWriteTypeface_windows.cpp"
  #include "native/juce_IconHelpers_windows.cpp"
- #include "native/juce_Direct2DHelpers_windows.cpp"
- #include "native/juce_Direct2DResources_windows.cpp"
- #include "native/juce_Direct2DImage_windows.h"
+ #include "native/juce_Direct2DGraphicsContextImpl_windows.cpp"
  #include "native/juce_Direct2DGraphicsContext_windows.cpp"
- #include "native/juce_Direct2DHwndContext_windows.cpp"
- #include "native/juce_Direct2DImageContext_windows.h"
  #include "native/juce_Direct2DImageContext_windows.cpp"
  #include "native/juce_Direct2DImage_windows.cpp"
  #include "native/juce_Direct2DMetrics_windows.cpp"

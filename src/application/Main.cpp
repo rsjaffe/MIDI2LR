@@ -141,7 +141,7 @@ namespace {
                std::rethrow_exception(exc);
             }
             catch (const std::exception& e) {
-               rsj::Log(fmt::format(FMT_STRING("Terminate called, exception {}."), e.what()),
+               rsj::Log(fmt::format("Terminate called, exception {}.", e.what()),
                    std::source_location::current());
             }
             catch (...) {
@@ -161,8 +161,8 @@ namespace {
    void LoadFont(const juce::String& font_name, bool is_primary) noexcept
    {
       juce::MemoryBlock font_data {};
-      const auto font_file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
-                                 .getSiblingFile(font_name);
+      const auto font_file {juce::File::getSpecialLocation(juce::File::currentApplicationFile)
+              .getSiblingFile(font_name)};
       if (font_file.loadFileAsData(font_data)) {
          const auto typeface =
              juce::Typeface::createSystemTypefaceFor(font_data.getData(), font_data.getSize());
@@ -171,8 +171,8 @@ namespace {
          }
       }
       else {
-         rsj::Log(fmt::format(FMT_STRING("Unable to load {} font file {}."),
-                      is_primary ? "primary" : "bold", font_name.toStdString()),
+         rsj::LogAndAlertError(fmt::format("Unable to load {} font file {}.",
+                                   is_primary ? "primary" : "bold", font_name.toStdString()),
              std::source_location::current());
       }
    }
@@ -280,19 +280,19 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          if (e) {
             const auto msgt {juce::translate("unhandled exception").toStdString()
                              + " {}, {} line {}. Total uncaught {}."};
-            rsj::LogAndAlertError(fmt::format(msgt, e->what(), source_filename.toStdString(),
-                                      line_number, std::uncaught_exceptions()),
-                fmt::format(FMT_STRING("Unhandled exception {}, {} line {}. Total uncaught {}."),
-                    e->what(), source_filename.toStdString(), line_number,
-                    std::uncaught_exceptions()),
+            rsj::LogAndAlertError(fmt::format(fmt::runtime(msgt), e->what(),
+                                      source_filename.toStdString(), line_number,
+                                      std::uncaught_exceptions()),
+                fmt::format("Unhandled exception {}, {} line {}. Total uncaught {}.", e->what(),
+                    source_filename.toStdString(), line_number, std::uncaught_exceptions()),
                 std::source_location::current());
          }
          else {
             const auto msgt {juce::translate("unhandled exception").toStdString()
                              + " {} line {}. Total uncaught {}."};
-            rsj::LogAndAlertError(fmt::format(msgt, source_filename.toStdString(), line_number,
-                                      std::uncaught_exceptions()),
-                fmt::format(FMT_STRING("Unhandled exception {} line {}. Total uncaught {}."),
+            rsj::LogAndAlertError(fmt::format(fmt::runtime(msgt), source_filename.toStdString(),
+                                      line_number, std::uncaught_exceptions()),
+                fmt::format("Unhandled exception {} line {}. Total uncaught {}.",
                     source_filename.toStdString(), line_number, std::uncaught_exceptions()),
                 std::source_location::current());
          }
@@ -318,7 +318,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    {
       thread = std::async(std::launch::async, [this, threadName] {
 #ifdef _WIN32
-         const auto uwr = ww898::utf::convz<wchar_t>(threadName);
+         const auto uwr {ww898::utf::convz<wchar_t>(threadName)};
          rsj::LabelThread(uwr.c_str());
 #else
          rsj::LabelThread(threadName);
@@ -326,7 +326,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          MIDI2LR_FAST_FLOATS;
          if constexpr (kNdebug) { io_context_.run(); }
          else {
-            rsj::Log(fmt::format(FMT_STRING("{} ran {} handlers."), threadName, io_context_.run()),
+            rsj::Log(fmt::format("{} ran {} handlers.", threadName, io_context_.run()),
                 std::source_location::current());
          }
       });
@@ -374,7 +374,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          const auto file_name {rsj::AppDataFilePath(kDefaultsFile)};
          const auto profile_file {juce::File(file_name.data())};
          profile_.ToXmlFile(profile_file);
-         rsj::Log(fmt::format(FMT_STRING("Default profile saved to {}."),
+         rsj::Log(fmt::format("Default profile saved to {}.",
                       profile_file.getFullPathName().toStdString()),
              std::source_location::current());
       }
@@ -383,16 +383,16 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
    }
 
-   void SaveControlsModel() const noexcept
+   void SaveControlsModel() const
    {
       try {
          const fs::path p {rsj::AppDataFilePath(kSettingsFileX)};
+         fs::create_directories(p.parent_path()); // Ensure directoryexists
          if (std::ofstream outfile {p, std::ios::trunc}; outfile.is_open()) {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto oarchive {std::make_unique<cereal::XMLOutputArchive>(outfile)};
             (*oarchive)(controls_model_);
-            rsj::Log(fmt::format(FMT_STRING("ControlsModel archive in Main saved to {}."),
-                         p.string()),
+            rsj::Log(fmt::format("ControlsModel archive in Main saved to {}.", p.string()),
                 std::source_location::current());
          }
          else {
@@ -413,8 +413,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #pragma warning(suppress : 26414) /* too large to construct on stack */
             const auto iarchive {std::make_unique<cereal::XMLInputArchive>(in_file)};
             (*iarchive)(controls_model_);
-            rsj::Log(fmt::format(FMT_STRING("ControlsModel archive in Main loaded from {}."),
-                         px.string()),
+            rsj::Log(fmt::format("ControlsModel archive in Main loaded from {}.", px.string()),
                 std::source_location::current());
          }
       }
@@ -435,10 +434,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
              {     "ja",                                {"NotoSansJP-Regular.otf", ""}},
              {"default", {"NotoSans-Regular-MIDI2LR.ttf", "NotoSans-Bold-MIDI2LR.ttf"}}
          };
-         auto font_pair = font_map.find(lang);
+         auto font_pair {font_map.find(lang)};
          if (font_pair == font_map.end()) { font_pair = font_map.find("default"); }
-         const auto& primary_font_name = font_pair->second.first;
-         const auto& bold_font_name = font_pair->second.second;
+         const auto& primary_font_name {font_pair->second.first};
+         const auto& bold_font_name {font_pair->second.second};
          LoadFont(primary_font_name, true);
          if (!bold_font_name.empty()) { LoadFont(bold_font_name, false); }
       }
@@ -452,6 +451,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
     * pointer created by createDefaultAppLogger */
    /* forcing assignment to static early in construction */
    [[maybe_unused]] const SetLogger dummy_ {};
+   // Critical: io_context_ must outlive threads; guard_ must be destroyed first
    asio::io_context io_context_ {};
    std::future<void> io_thread0_;
    std::future<void> io_thread1_;

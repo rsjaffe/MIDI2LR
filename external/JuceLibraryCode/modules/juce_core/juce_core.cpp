@@ -153,6 +153,15 @@
 #include "misc/juce_ConsoleApplication.cpp"
 #include "misc/juce_ScopeGuard.cpp"
 #include "network/juce_MACAddress.cpp"
+
+#if ! JUCE_WINDOWS
+ #include "native/juce_SharedCode_posix.h"
+ #include "native/juce_NamedPipe_posix.cpp"
+#else
+ #include "native/juce_Files_windows.cpp"
+#endif
+
+#include "zip/juce_zlib.h"
 #include "network/juce_NamedPipe.cpp"
 #include "network/juce_Socket.cpp"
 #include "network/juce_IPAddress.cpp"
@@ -182,9 +191,8 @@
 #include "time/juce_Time.cpp"
 #include "unit_tests/juce_UnitTest.cpp"
 #include "containers/juce_Variant.cpp"
-#include "javascript/juce_JSON.cpp"
-#include "javascript/juce_JSONUtils.cpp"
-#include "javascript/juce_Javascript.cpp"
+#include "json/juce_JSON.cpp"
+#include "json/juce_JSONUtils.cpp"
 #include "containers/juce_DynamicObject.cpp"
 #include "xml/juce_XmlDocument.cpp"
 #include "xml/juce_XmlElement.cpp"
@@ -197,12 +205,8 @@
 #include "native/juce_PlatformTimerListener.h"
 
 //==============================================================================
-#if ! JUCE_WINDOWS
- #include "native/juce_SharedCode_posix.h"
- #include "native/juce_NamedPipe_posix.cpp"
- #if ! JUCE_ANDROID || __ANDROID_API__ >= 24
-  #include "native/juce_IPAddress_posix.h"
- #endif
+#if ! JUCE_WINDOWS && (! JUCE_ANDROID || __ANDROID_API__ >= 24)
+ #include "native/juce_IPAddress_posix.h"
 #endif
 
 //==============================================================================
@@ -218,11 +222,11 @@
 
 //==============================================================================
 #elif JUCE_WINDOWS
- #include "native/juce_Files_windows.cpp"
  #include "native/juce_Network_windows.cpp"
  #include "native/juce_Registry_windows.cpp"
  #include "native/juce_SystemStats_windows.cpp"
  #include "native/juce_Threads_windows.cpp"
+ #include "native/juce_PlatformTimer_generic.cpp"
  #include "native/juce_PlatformTimer_windows.cpp"
 
 //==============================================================================
@@ -290,8 +294,11 @@
  #include "maths/juce_MathsFunctions_test.cpp"
  #include "misc/juce_EnumHelpers_test.cpp"
  #include "containers/juce_FixedSizeFunction_test.cpp"
- #include "javascript/juce_JSONSerialisation_test.cpp"
+ #include "json/juce_JSONSerialisation_test.cpp"
  #include "memory/juce_SharedResourcePointer_test.cpp"
+ #include "text/juce_CharPointer_UTF8_test.cpp"
+ #include "text/juce_CharPointer_UTF16_test.cpp"
+ #include "text/juce_CharPointer_UTF32_test.cpp"
  #if JUCE_MAC || JUCE_IOS
   #include "native/juce_ObjCHelpers_mac_test.mm"
  #endif

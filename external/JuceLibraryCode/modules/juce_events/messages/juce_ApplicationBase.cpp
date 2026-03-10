@@ -42,24 +42,12 @@ JUCEApplicationBase* JUCEApplicationBase::appInstance = nullptr;
 void* JUCEApplicationBase::iOSCustomDelegate = nullptr;
 #endif
 
-JUCEApplicationBase::JUCEApplicationBase()
-{
-    jassert (isStandaloneApp() && appInstance == nullptr);
-    appInstance = this;
-}
-
-JUCEApplicationBase::~JUCEApplicationBase()
-{
-    jassert (appInstance == this);
-    appInstance = nullptr;
-}
-
 void JUCEApplicationBase::setApplicationReturnValue (const int newReturnValue) noexcept
 {
     appReturnValue = newReturnValue;
 }
 
-// This is called on the Mac and iOS where the OS doesn't allow the stack to unwind on shutdown..
+// This is called on the Mac and iOS where the OS doesn't allow the stack to unwind on shutdown.
 void JUCEApplicationBase::appWillTerminateByForce()
 {
     JUCE_AUTORELEASEPOOL
@@ -153,6 +141,18 @@ bool JUCEApplicationBase::sendCommandLineToPreexistingInstance()
 #else
 struct JUCEApplicationBase::MultipleInstanceHandler {};
 #endif
+
+JUCEApplicationBase::JUCEApplicationBase()
+{
+    jassert (isStandaloneApp() && appInstance == nullptr);
+    appInstance = this;
+}
+
+JUCEApplicationBase::~JUCEApplicationBase()
+{
+    jassert (appInstance == this);
+    appInstance = nullptr;
+}
 
 //==============================================================================
 #if JUCE_ANDROID
@@ -273,7 +273,7 @@ int JUCEApplicationBase::main()
 
     JUCE_TRY
     {
-        // loop until a quit message is received..
+        // loop until a quit message is received
         MessageManager::getInstance()->runDispatchLoop();
     }
     JUCE_CATCH_EXCEPTION
@@ -297,7 +297,7 @@ bool JUCEApplicationBase::initialiseApp()
    #if JUCE_WINDOWS && (! defined (_CONSOLE))
     if (isStandaloneApp() && AttachConsole (ATTACH_PARENT_PROCESS) != 0)
     {
-        // if we've launched a GUI app from cmd.exe or PowerShell, we need this to enable printf etc.
+        // If we've launched a GUI app from cmd.exe or PowerShell, we need this to enable printf etc.
         // However, only reassign stdout, stderr, stdin if they have not been already opened by
         // a redirect or similar.
         FILE* ignore;
@@ -308,7 +308,7 @@ bool JUCEApplicationBase::initialiseApp()
     }
    #endif
 
-    // let the app do its setting-up..
+    // let the app do its setting-up
     initialise (getCommandLineParameters());
 
     stillInitialising = false;
@@ -335,7 +335,7 @@ int JUCEApplicationBase::shutdownApp()
 
     JUCE_TRY
     {
-        // give the app a chance to clean up..
+        // give the app a chance to clean up
         shutdown();
     }
     JUCE_CATCH_EXCEPTION

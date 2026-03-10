@@ -8,7 +8,7 @@ It processes MIDI input into develop parameter updates and photo actions, and se
 
 MIDI2LR supports all languages Lightroom supports: Deutsch, English, español, français, हिन्दी, italiano, 日本語, 한국어, Nederlands, norsk, polski, português, русский, Svenska, ภาษาไทย and 中文 (简体中文和繁體中文). इंस्टॉलर हिंदी का समर्थन नहीं करता है। हालांकि, आवेदन करता है। MIDI2LR इंस्टॉलर के लिए उपयोग की जाने वाली भाषा की परवाह किए बिना सभी भाषाओं का समर्थन करता है।
 
-Translation assistance welcome. The po files are in MIDI2LR/tools/translation_work in the POE* directories.
+Translation assistance welcome. The po files are under /tools/translation_work in the [POE* directories](/tools/translation_work).
 
 ## Support MIDI2LR 💸
 [Donate to support project development](https://paypal.me/MIDI2LR)<br />
@@ -38,4 +38,3 @@ Translation assistance welcome. The po files are in MIDI2LR/tools/translation_wo
 
 [PVS-Studio](https://pvs-studio.com/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
 
-[ReSharperC++](https://www.jetbrains.com/resharper-cpp/) - static analyzer for C++ code.

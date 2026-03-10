@@ -73,6 +73,8 @@ public:
     float getBottom() const                     { return y + font.getDescent(); }
     /** Returns the bounds of the glyph. */
     Rectangle<float> getBounds() const          { return { x, getTop(), w, font.getHeight() }; }
+    /** Returns the typeface glyph index for the glyph. */
+    int getGlyphIndex() const                   { return glyph; }
 
     //==============================================================================
     /** Shifts the glyph's position by a relative amount. */
@@ -125,6 +127,8 @@ private:
 class JUCE_API  GlyphArrangement  final
 {
 public:
+    using Options = GlyphArrangementOptions;
+
     //==============================================================================
     /** Creates an empty arrangement. */
     GlyphArrangement();
@@ -224,7 +228,8 @@ public:
                         float x, float y, float width, float height,
                         Justification layout,
                         int maximumLinesToUse,
-                        float minimumHorizontalScale = 0.0f);
+                        float minimumHorizontalScale = 0.0f,
+                        GlyphArrangementOptions options = {});
 
     /** Appends another glyph arrangement to this one. */
     void addGlyphArrangement (const GlyphArrangement&);
@@ -310,6 +315,35 @@ public:
                         float x, float y, float width, float height,
                         Justification justification);
 
+    /** This convenience function adds text to a GlyphArrangement using the specified font
+        and returns the bounding box of the text after shaping.
+
+        The returned bounding box is positioned with its origin at the left end of the text's
+        baseline.
+    */
+    static Rectangle<float> getStringBounds (const Font& font, StringRef text)
+    {
+        GlyphArrangement arrangement;
+        arrangement.addLineOfText (font, text, 0.0f, 0.0f);
+        return arrangement.getBoundingBox (0, arrangement.getNumGlyphs(), true);
+    }
+
+    /** This convenience function adds text to a GlyphArrangement using the specified font
+        and returns the width of the bounding box of the text after shaping.
+    */
+    static float getStringWidth (const Font& font, StringRef text)
+    {
+        return getStringBounds (font, text).getWidth();
+    }
+
+    /** This convenience function adds text to a GlyphArrangement using the specified font
+        and returns the width of the bounding box of the text after shaping, rounded up to the
+        next integer.
+    */
+    static int getStringWidthInt (const Font& font, StringRef text)
+    {
+        return (int) std::ceil (getStringWidth (font, text));
+    }
 
 private:
     //==============================================================================

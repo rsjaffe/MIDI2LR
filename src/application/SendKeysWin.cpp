@@ -19,13 +19,13 @@
 #include <mutex>
 #include <ranges>
 #include <string_view>
+#include <system_error>
 #include <tuple>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include <Windows.h>
-#include <dry-comparisons/dry-comparisons.hpp>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <gsl/gsl>
@@ -47,8 +47,7 @@ namespace {
       if (length) {
          /* check for issues with extra-long window titles and log them */
          if (std::cmp_greater_equal(length + 1, buffer.size())) {
-            rsj::Log(fmt::format(FMT_STRING(L"EnumWindowsProc window text length > {}, truncated "
-                                            L"text is {}."),
+            rsj::Log(fmt::format(L"EnumWindowsProc window text length > {}, truncated text is {}.",
                          buffer.size(), buffer.data())
                          .data(),
                 std::source_location::current());
@@ -57,7 +56,8 @@ namespace {
          const auto lr_start {title.find(L"Lightroom")};
          if (lr_start != std::wstring_view::npos) {
             h_lr_wnd = hwnd;
-            if (title.find(L"Adobe Photoshop Lightroom Classic", lr_start) != std::wstring_view::npos) {
+            if (title.find(L"Adobe Photoshop Lightroom Classic", lr_start)
+                != std::wstring_view::npos) {
                return FALSE; /* found full title, stop EnumWindows */
             }
          }
@@ -89,13 +89,19 @@ namespace {
    std::pair<BYTE, rsj::ActiveModifiers> KeyToVk(std::string_view key)
    {
       try {
-         const auto uc {ww898::utf::conv<wchar_t>(key).front()};
+         const auto wstr {ww898::utf::conv<wchar_t>(key)};
+         if (wstr.empty()) { throw std::runtime_error("KeyToVk: empty key after conversion"); }
+         const auto uc {wstr.front()};
          static const auto kLanguageId {GetLanguage()};
-         const auto vk_code_and_shift {VkKeyScanExW(uc, kLanguageId)};
-         THROW_LAST_ERROR_IF(rollbear::all_of(LOBYTE(vk_code_and_shift), HIBYTE(vk_code_and_shift))
-                             == 0xFF);
-         return {LOBYTE(vk_code_and_shift),
-             rsj::ActiveModifiers::FromWindows(HIBYTE(vk_code_and_shift))};
+         const SHORT vk_code_and_shift {VkKeyScanExW(uc, kLanguageId)};
+         if (vk_code_and_shift == static_cast<SHORT>(-1)) {
+            // no translation for this character in the current layout
+            throw std::system_error(std::error_code(GetLastError(), std::system_category()),
+                "VkKeyScanExW failed to map character");
+         }
+         const BYTE vk {LOBYTE(vk_code_and_shift)};
+         const BYTE shiftState {HIBYTE(vk_code_and_shift)};
+         return {vk, rsj::ActiveModifiers::FromWindows(shiftState)};
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(e, std::source_location::current());
@@ -111,23 +117,35 @@ namespace {
    void WinSendKeyStrokes(const std::vector<WORD>& strokes)
    {
       try {
-         /* construct input event. */
-         INPUT ip {
-             .type = INPUT_KEYBOARD, .ki = {0, 0, 0, 0, 0}
+         if (strokes.empty()) { return; }
+
+         /* construct INPUT template */
+         INPUT ip {};
+         ip.type = INPUT_KEYBOARD;
+         ip.ki.wScan = 0;
+         ip.ki.time = 0;
+         ip.ki.dwExtraInfo = 0;
+
+         std::vector<INPUT> stroke_vector;
+         stroke_vector.reserve(strokes.size() * 2);
+
+         const auto push_stroke = [&](WORD stroke, DWORD flags) {
+            INPUT entry {ip};
+            entry.ki.wVk = stroke;
+            entry.ki.dwFlags = flags;
+            stroke_vector.push_back(entry);
          };
-         std::vector<INPUT> stroke_vector(strokes.size() * 2);
-         const auto push_stroke {[&](const auto stroke) {
-            ip.ki.wVk = stroke;
-            stroke_vector.push_back(ip);
-         }};
-         /* down strokes in reverse order from up strokes */
-         std::ranges::for_each(strokes | std::views::reverse, push_stroke);
-         ip.ki.dwFlags = KEYEVENTF_KEYUP;
-         std::ranges::for_each(strokes, push_stroke);
+
+         /* down strokes in reverse order from up strokes (modifiers pressed before key) */
+         for (const auto s : std::ranges::reverse_view(strokes)) { push_stroke(s, 0); }
+
+         /* up strokes: release primary key first, then modifiers (forward order) */
+         for (const auto s : strokes) { push_stroke(s, KEYEVENTF_KEYUP); }
+
          /* send strokes */
          auto lock {std::scoped_lock(mutex_sending)};
          THROW_LAST_ERROR_IF(SendInput(gsl::narrow_cast<UINT>(stroke_vector.size()),
-                                 stroke_vector.data(), sizeof ip)
+                                 stroke_vector.data(), sizeof(INPUT))
                              == 0);
       }
       catch (const std::exception& e) {
@@ -235,9 +253,8 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
           std::source_location::current());
    }
    catch (...) {
-      rsj::LogAndAlertError(fmt::format(FMT_STRING("Non-standard exception in key sending function "
-                                                   "for key: \"{}\"."),
-                                key),
+      rsj::LogAndAlertError(
+          fmt::format("Non-standard exception in key sending function for key: \"{}\".", key),
           std::source_location::current());
    }
 }

@@ -261,7 +261,7 @@ public:
     bool isParentWindowOf (::Window, ::Window possibleChild) const;
 
     //==============================================================================
-    JUCE_DECLARE_SINGLETON (XWindowSystem, false)
+    JUCE_DECLARE_SINGLETON_INLINE (XWindowSystem, false)
 
 private:
     XWindowSystem();
@@ -352,7 +352,7 @@ private:
    #endif
 
     int shmCompletionEvent = 0;
-    int pointerMap[5] = {};
+    unsigned char pointerMap[9]{};
     String localClipboardContent;
 
     Point<int> parentScreenPosition;

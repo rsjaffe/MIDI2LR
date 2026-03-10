@@ -168,8 +168,13 @@ double AudioTransportSource::getLengthInSeconds() const
 
 bool AudioTransportSource::hasStreamFinished() const noexcept
 {
-    return positionableSource->getNextReadPosition() > positionableSource->getTotalLength() + 1
-              && ! positionableSource->isLooping();
+    if (positionableSource == nullptr)
+        return true;
+
+    if (positionableSource->isLooping())
+        return false;
+
+    return positionableSource->getNextReadPosition() >= positionableSource->getTotalLength();
 }
 
 void AudioTransportSource::setNextReadPosition (int64 newPosition)
@@ -264,7 +269,7 @@ void AudioTransportSource::getNextAudioBlock (const AudioSourceChannelInfo& info
 
         if (! playing)
         {
-            // just stopped playing, so fade out the last block..
+            // just stopped playing, so fade out the last block
             for (int i = info.buffer->getNumChannels(); --i >= 0;)
                 info.buffer->applyGainRamp (i, info.startSample, jmin (256, info.numSamples), 1.0f, 0.0f);
 

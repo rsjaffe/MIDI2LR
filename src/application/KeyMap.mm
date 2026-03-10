@@ -156,7 +156,7 @@ namespace {
 std::unordered_map<UniChar, rsj::KeyData> rsj::GetKeyMap()
 {
    using namespace std::chrono_literals;
-   if (!FillInSucceeded() && !juce::MessageManager::callAsync(FillInMessageLoop)) {
+    if (!FillInSucceeded() && !juce::MessageManager::callAsync([]{FillInMessageLoop();})) {
       rsj::Log("Unable to post FillInMessageLoop to message queue.",
           std::source_location::current());
    }
@@ -166,7 +166,7 @@ std::unordered_map<UniChar, rsj::KeyData> rsj::GetKeyMap()
       rsj::Log("20ms sleep for message queue waiting for FillInMessageLoop to run.",  
           std::source_location::current());
    }
-   rsj::Log(fmt::format(FMT_STRING("Making KeyMap. Keyboard type {}. KeyMap is {}."),
+   rsj::Log(fmt::format("Making KeyMap. Keyboard type {}. KeyMap is {}.",
                 GetKeyboardLayout(), FillInSucceeded()), std::source_location::current());
    return InternalKeyMap();
 }

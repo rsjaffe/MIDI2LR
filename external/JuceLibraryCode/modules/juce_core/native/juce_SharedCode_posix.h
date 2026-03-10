@@ -55,10 +55,7 @@ void CriticalSection::exit() const noexcept         { pthread_mutex_unlock (&loc
 //==============================================================================
 void JUCE_CALLTYPE Thread::sleep (int millisecs)
 {
-    struct timespec time;
-    time.tv_sec = millisecs / 1000;
-    time.tv_nsec = (millisecs % 1000) * 1000000;
-    nanosleep (&time, nullptr);
+    std::this_thread::sleep_for (std::chrono::milliseconds (millisecs));
 }
 
 void JUCE_CALLTYPE Process::terminate()
@@ -113,12 +110,12 @@ static MaxNumFileHandlesInitialiser maxNumFileHandlesInitialiser;
 //==============================================================================
 #if JUCE_ALLOW_STATIC_NULL_VARIABLES
 
-JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wdeprecated-declarations")
+JUCE_BEGIN_IGNORE_DEPRECATION_WARNINGS
 
 const juce_wchar File::separator = '/';
 const StringRef File::separatorString ("/");
 
-JUCE_END_IGNORE_WARNINGS_GCC_LIKE
+JUCE_END_IGNORE_DEPRECATION_WARNINGS
 
 #endif
 
@@ -152,7 +149,7 @@ bool File::setAsCurrentWorkingDirectory() const
 
 //==============================================================================
 // The unix siginterrupt function is deprecated - this does the same job.
-int juce_siginterrupt ([[maybe_unused]] int sig, [[maybe_unused]] int flag)
+inline int juce_siginterrupt ([[maybe_unused]] int sig, [[maybe_unused]] int flag)
 {
    #if JUCE_WASM
     return 0;
@@ -193,7 +190,7 @@ namespace
     }
 
    #if ! JUCE_WASM
-    // if this file doesn't exist, find a parent of it that does..
+    // if this file doesn't exist, find a parent of it that does
     bool juce_doStatFS (File f, struct statfs& result)
     {
         for (int i = 5; --i >= 0;)
@@ -241,9 +238,6 @@ namespace
     {
         return value == -1 ? getResultForErrno() : Result::ok();
     }
-
-    int getFD (void* handle) noexcept        { return (int) (pointer_sized_int) handle; }
-    void* fdToVoidPointer (int fd) noexcept  { return (void*) (pointer_sized_int) fd; }
 }
 
 bool File::isDirectory() const
@@ -324,7 +318,7 @@ static bool setFileModeFlags (const String& fullPath, mode_t flags, bool shouldS
 
 bool File::setFileReadOnlyInternal (bool shouldBeReadOnly) const
 {
-    // Hmm.. should we give global write permission or just the current user?
+    // Should we give global write permission or just the current user?
     return setFileModeFlags (fullPath, S_IWUSR | S_IWGRP | S_IWOTH, ! shouldBeReadOnly);
 }
 
@@ -442,9 +436,9 @@ Result File::createDirectoryInternal (const String& fileName) const
 }
 
 //==============================================================================
-int64 juce_fileSetPosition (void* handle, int64 pos)
+int64 juce_fileSetPosition (detail::NativeFileHandle handle, int64 pos)
 {
-    if (handle != nullptr && lseek (getFD (handle), (off_t) pos, SEEK_SET) == pos)
+    if (handle.isValid() && lseek (handle.get(), (off_t) pos, SEEK_SET) == pos)
         return pos;
 
     return -1;
@@ -455,24 +449,24 @@ void FileInputStream::openHandle()
     auto f = open (file.getFullPathName().toUTF8(), O_RDONLY);
 
     if (f != -1)
-        fileHandle = fdToVoidPointer (f);
+        fileHandle.set (f);
     else
         status = getResultForErrno();
 }
 
 FileInputStream::~FileInputStream()
 {
-    if (fileHandle != nullptr)
-        close (getFD (fileHandle));
+    if (fileHandle.isValid())
+        close (fileHandle.get());
 }
 
 size_t FileInputStream::readInternal (void* buffer, size_t numBytes)
 {
     ssize_t result = 0;
 
-    if (fileHandle != nullptr)
+    if (fileHandle.isValid())
     {
-        result = ::read (getFD (fileHandle), buffer, numBytes);
+        result = ::read (fileHandle.get(), buffer, numBytes);
 
         if (result < 0)
         {
@@ -497,7 +491,7 @@ void FileOutputStream::openHandle()
 
             if (currentPosition >= 0)
             {
-                fileHandle = fdToVoidPointer (f);
+                fileHandle.set (f);
             }
             else
             {
@@ -515,7 +509,7 @@ void FileOutputStream::openHandle()
         auto f = open (file.getFullPathName().toUTF8(), O_RDWR | O_CREAT, 00644);
 
         if (f != -1)
-            fileHandle = fdToVoidPointer (f);
+            fileHandle.set (f);
         else
             status = getResultForErrno();
     }
@@ -523,19 +517,19 @@ void FileOutputStream::openHandle()
 
 void FileOutputStream::closeHandle()
 {
-    if (fileHandle != nullptr)
+    if (fileHandle.isValid())
     {
-        close (getFD (fileHandle));
-        fileHandle = nullptr;
+        close (fileHandle.get());
+        fileHandle.invalidate();
     }
 }
 
 ssize_t FileOutputStream::writeInternal (const void* data, size_t numBytes)
 {
-    if (fileHandle == nullptr)
+    if (! fileHandle.isValid())
         return 0;
 
-    auto result = ::write (getFD (fileHandle), data, numBytes);
+    auto result = ::write (fileHandle.get(), data, numBytes);
 
     if (result == -1)
         status = getResultForErrno();
@@ -546,18 +540,18 @@ ssize_t FileOutputStream::writeInternal (const void* data, size_t numBytes)
 #ifndef JUCE_ANDROID
 void FileOutputStream::flushInternal()
 {
-    if (fileHandle != nullptr && fsync (getFD (fileHandle)) == -1)
+    if (fileHandle.isValid() && fsync (fileHandle.get()) == -1)
         status = getResultForErrno();
 }
 #endif
 
 Result FileOutputStream::truncate()
 {
-    if (fileHandle == nullptr)
+    if (! fileHandle.isValid())
         return status;
 
     flush();
-    return getResultForReturnValue (ftruncate (getFD (fileHandle), (off_t) currentPosition));
+    return getResultForReturnValue (ftruncate (fileHandle.get(), (off_t) currentPosition));
 }
 
 //==============================================================================
@@ -713,7 +707,7 @@ void juce_runSystemCommand (const String& command)
 String juce_getOutputFromCommand (const String&);
 String juce_getOutputFromCommand (const String& command)
 {
-    // slight bodge here, as we just pipe the output into a temp file and read it...
+    // slight bodge here, as we just pipe the output into a temp file and read it
     auto tempFile = File::getSpecialLocation (File::tempDirectory)
                       .getNonexistentChildFile (String::toHexString (Random::getSystemRandom().nextInt()), ".tmp", false);
 
@@ -732,7 +726,7 @@ class InterProcessLock::Pimpl
 public:
     Pimpl (const String&, int)  {}
 
-    int handle = 1, refCount = 1;  // On iOS just fake success..
+    int handle = 1, refCount = 1;  // on iOS just fake success
 };
 
 #else
@@ -744,7 +738,7 @@ public:
     {
        #if JUCE_MAC
         if (! createLockFile (File ("~/Library/Caches/com.juce.locks").getChildFile (lockName), timeOutMillisecs))
-            // Fallback if the user's home folder is on a network drive with no ability to lock..
+            // fallback if the user's home folder is on a network drive with no ability to lock
             createLockFile (File ("/tmp/com.juce.locks").getChildFile (lockName), timeOutMillisecs);
 
        #else
@@ -801,7 +795,7 @@ public:
         }
 
         closeFile();
-        return true; // only false if there's a file system error. Failure to lock still returns true.
+        return true; // only false if there's a file system error. Failure to lock still returns true
     }
 
     void closeFile()
@@ -1133,7 +1127,7 @@ public:
             }
             else if (result == 0)
             {
-                // we're the child process..
+                // we're the child process
                 close (pipeHandles[0]);   // close the read handle
 
                 if ((streamFlags & wantStdOut) != 0)
@@ -1161,7 +1155,7 @@ public:
             }
             else
             {
-                // we're the parent process..
+                // we're the parent process
                 childPID = result;
                 pipeHandle = pipeHandles[0];
                 close (pipeHandles[1]); // close the write handle

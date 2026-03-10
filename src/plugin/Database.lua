@@ -260,11 +260,11 @@ local DataBase = {
   {Command='ShowSlideShow',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Show_selected_images_in_a_slideshow=Enter Impromptu Slideshow mode'),Group=view,Explanation='Shows the current selected photos in a slideshow based on the current Slideshow module settings. Press button to start. Press again to exit slideshow.'},
 --rating
   {Command='SetRating0',Type='button',Translation=LOC('$$$/AgLibrary/Filter/Stars=^1 Stars','0'),Group=rating,Explanation=''},
-  {Command='SetRating1',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Singular=1 star'),Group=rating,Explanation=''},
-  {Command='SetRating2',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',2),Group=rating,Explanation=''},
-  {Command='SetRating3',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',3),Group=rating,Explanation=''},
-  {Command='SetRating4',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',4),Group=rating,Explanation=''},
-  {Command='SetRating5',Type='button',Translation=LOC('$$$/$$$/AgLibrary/Filter/BrowserCriteria/Rating/Plural=^1 stars',5),Group=rating,Explanation=''},
+  {Command='SetRating1',Type='button',Translation=LOC('$$$/AgLibrary/Filter/BrowserCriteria/Rating/Star=1 star'),Group=rating,Explanation=''},
+  {Command='SetRating2',Type='button',Translation=LOC('$$$/AgLibrary/Filter/BrowserCriteria/Rating/Stars=^1 stars',2),Group=rating,Explanation=''},
+  {Command='SetRating3',Type='button',Translation=LOC('$$$/AgLibrary/Filter/BrowserCriteria/Rating/Stars=^1 stars',3),Group=rating,Explanation=''},
+  {Command='SetRating4',Type='button',Translation=LOC('$$$/AgLibrary/Filter/BrowserCriteria/Rating/Stars=^1 stars',4),Group=rating,Explanation=''},
+  {Command='SetRating5',Type='button',Translation=LOC('$$$/AgLibrary/Filter/BrowserCriteria/Rating/Stars=^1 stars',5),Group=rating,Explanation=''},
   {Command='IncreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating'),Group=rating,Explanation=''},
   {Command='DecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation=''},
   {Command='IncreaseDecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating')..' — '..LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation='Turning knob clockwise increases the star rating, counterclockwise decreases it.'..repeatexp,Repeats={'IncreaseRating','DecreaseRating'}},
@@ -293,6 +293,8 @@ local DataBase = {
   {Command='Prev',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=photos,Explanation=''},
   {Command='RotateLeft',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_left=Rotate left'),Group=photos,Explanation='Rotates all selected photos left.'},
   {Command='RotateRight',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_right=Rotate right'),Group=photos,Explanation='Rotates all selected photos right.'},
+  {Command='RotateRightLeft',Type='repeat',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_right=Rotate right')..' — '..LOC('$$$/AgDevelopShortcuts/Rotate_left=Rotate left'),Group=photos,Explanation='Rotate all selected photos right or left. Turning knob clockwise rotates right, counterclockwise left.'..repeatexp,Repeats={'RotateRight','RotateLeft'}},
+
   --{Command='UpdateAISettings', Type='button',Translation=LOC('$$$/AgDevelop/UpdateAISettings/Title=Update AI Settings'),Group=photos,Explanation='Updating AI Settings on current photo.'},
   --{Command='UpdateAISettingsAll', Type='button',Translation=LOC('$$$/AgDevelop/UpdateAISettings/Title=Update AI Settings')..' '..LOC('$$$/DevelopProcessVersion/Dialog/UpdateAllSelected=Update All Selected Photos'),Group=photos,Explanation='Updating AI Settings on all target photos. May take some time.'},
   {Command='FullRefresh',Type='button',Translation=LOC('$$$/AgLibrary/ViewBar/Sort/RefreshMode/Manual=Manual Update'),Group=photos,Explanation='Force an update of all develop settings in MIDI controller, even if MIDI2LR believes MIDI controller is up to date. Useful if controller out of sync with Lightroom (e.g., with layer changes).'},
@@ -1103,9 +1105,8 @@ local DataBase = {
 
   --local adjustment resets
   {Command='ResetRedeye',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetRedeye=Reset Red-Eye'),Group=localadjresets,Explanation='Delete red eye correction.'},
-  {Command='ResetSpotRem',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetSpotRemoval=Reset Spot Removal'),Group=localadjresets,Explanation='Delete spot removal.'},
+  {Command='ResetHealing',Type='button',Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1','$$$/ProvideFeedback/HealingCategory=healing'),,Group=localadjresets,Explanation='Delete healing corrections.'},
   {Command='Resetlocal_Amount',Type='button',Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/CorrectionAmount=amount')),Group=localadjresets,Explanation='Reset to default.'},
-  {Command='ResetSpotRem',Type='button',Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',LOC('$$$$/AgDevelop/Menu/View/SpotRemoval=Remove')),Group=localadjresets,Explanation='Delete spot removal.'},
   {Command='Resetlocal_Amount',Type='button',Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/CorrectionAmount=amount')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Exposure',Type='button',Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Exposure=Exposure')..' ('..P2and3plus..')'),PV2=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Exposure=Exposure')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Contrast',Type='button',Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Contrast=Contrast')..' ('..P2and3plus..')'),PV2=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Contrast=Contrast')),Group=localadjresets,Explanation='Reset to default.'},

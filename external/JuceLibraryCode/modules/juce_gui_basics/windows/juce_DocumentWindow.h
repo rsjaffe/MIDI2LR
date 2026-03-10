@@ -271,7 +271,7 @@ public:
     };
 
     //==============================================================================
-   #ifndef DOXYGEN
+    /** @cond */
     /** @internal */
     void paint (Graphics&) override;
     /** @internal */
@@ -294,7 +294,13 @@ public:
     Rectangle<int> getTitleBarArea() const;
     /** @internal */
     WindowControlKind findControlAtPoint (Point<float>) const override;
-   #endif
+    /** @internal */
+    void windowControlClickedClose() override;
+    /** @internal */
+    void windowControlClickedMinimise() override;
+    /** @internal */
+    void windowControlClickedMaximise() override;
+    /** @endcond */
 
 private:
     //==============================================================================

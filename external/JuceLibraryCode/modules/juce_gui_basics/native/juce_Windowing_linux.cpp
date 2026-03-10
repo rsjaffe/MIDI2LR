@@ -44,7 +44,7 @@ public:
         : ComponentPeer (comp, windowStyleFlags),
           isAlwaysOnTop (comp.isAlwaysOnTop())
     {
-        // it's dangerous to create a window on a thread other than the message thread.
+        // it's dangerous to create a window on a thread other than the message thread
         JUCE_ASSERT_MESSAGE_MANAGER_IS_LOCKED
 
         const auto* instance = XWindowSystem::getInstance();
@@ -72,7 +72,7 @@ public:
 
     ~LinuxComponentPeer() override
     {
-        // it's dangerous to delete a window on a thread other than the message thread.
+        // it's dangerous to delete a window on a thread other than the message thread
         JUCE_ASSERT_MESSAGE_MANAGER_IS_LOCKED
 
         auto* instance = XWindowSystem::getInstance();
@@ -110,7 +110,13 @@ public:
 
         WeakReference<Component> deletionChecker (&component);
 
-        XWindowSystem::getInstance()->setBounds (windowH, physicalBounds, isNowFullScreen);
+        // If we are in a ConfigureNotify handler then forceSetBounds is being called as a
+        // consequence of X11 telling us what the window size is. There's no need to report this
+        // size back again to X11. By this we are avoiding a pitfall, when we get many subsequent
+        // ConfigureNotify events, many of which has stale size information. By not calling
+        // XWindowSystem::setBounds we are not actualising these old, incorrect sizes.
+        if (! inConfigureNotifyHandler)
+            XWindowSystem::getInstance()->setBounds (windowH, physicalBounds, isNowFullScreen);
 
         fullScreen = isNowFullScreen;
 
@@ -202,6 +208,11 @@ public:
     bool isMinimised() const override
     {
         return XWindowSystem::getInstance()->isMinimised (windowH);
+    }
+
+    bool isShowing() const override
+    {
+        return ! XWindowSystem::getInstance()->isMinimised (windowH);
     }
 
     void setFullScreen (bool shouldBeFullScreen) override
@@ -416,6 +427,7 @@ public:
     //==============================================================================
     static bool isActiveApplication;
     bool focused = false;
+    bool inConfigureNotifyHandler = false;
 
 private:
     //==============================================================================
@@ -561,7 +573,8 @@ private:
 
     void onVBlank()
     {
-        vBlankListeners.call ([] (auto& l) { l.onVBlank(); });
+        const auto timestampSec = Time::getMillisecondCounterHiRes() / 1000.0;
+        callVBlankListeners (timestampSec);
 
         if (repainter != nullptr)
             repainter->dispatchDeferredRepaints();
@@ -618,11 +631,11 @@ void Desktop::setKioskComponent (Component* comp, bool enableOrDisable, bool)
         comp->setBounds (getDisplays().getDisplayForRect (comp->getScreenBounds())->totalArea);
 }
 
-void Displays::findDisplays (float masterScale)
+void Displays::findDisplays (const Desktop& desktop)
 {
     if (XWindowSystem::getInstance()->getDisplay() != nullptr)
     {
-        displays = XWindowSystem::getInstance()->findDisplays (masterScale);
+        displays = XWindowSystem::getInstance()->findDisplays (desktop.getGlobalScaleFactor());
 
         if (! displays.isEmpty())
             updateToLogical();

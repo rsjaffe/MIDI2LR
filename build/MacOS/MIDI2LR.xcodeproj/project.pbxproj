@@ -31,6 +31,7 @@
 		6FC10574044B2681BD318AC4 /* Misc.cpp */ = {isa = PBXBuildFile; fileRef = 8E60E714C3CCB6A973E6FD1A; };
 		734E72B3D95C5F2F18932250 /* include_juce_events.mm */ = {isa = PBXBuildFile; fileRef = 50BC033068609BDD0BAEEB5A; };
 		758BC561488F30BD8E9DAC78 /* Main.cpp */ = {isa = PBXBuildFile; fileRef = A2605B66DCC4CCF5E99762A9; };
+		7CE2C358C87C661BD1C1C345 /* include_juce_graphics_Sheenbidi.c */ = {isa = PBXBuildFile; fileRef = 180226FA89CFA29DD54C2B83; };
 		7CE773EEA754656954F8C3A6 /* CCoptions.cpp */ = {isa = PBXBuildFile; fileRef = A1EE9E5589AD0127021E70E4; };
 		7DDD04C84B0DAC61A148D56B /* SendKeys.cpp */ = {isa = PBXBuildFile; fileRef = 1732433E668830E1BD0BA525; };
 		8625DB8B66D62CC2D018F17B /* CoreMIDI.framework */ = {isa = PBXBuildFile; fileRef = 3B8837E2AC355C780919021F; };
@@ -76,6 +77,7 @@
 		13D4CCAD080F52F17421CEAD /* JuceHeader.h */ /* JuceHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JuceHeader.h; path = ../../external/JuceLibraryCode/JuceHeader.h; sourceTree = SOURCE_ROOT; };
 		148BFB077DF1A1746D7624A0 /* MIDI2LR.png */ /* MIDI2LR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MIDI2LR.png; path = ../../data/application/MIDI2LR.png; sourceTree = SOURCE_ROOT; };
 		1732433E668830E1BD0BA525 /* SendKeys.cpp */ /* SendKeys.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SendKeys.cpp; path = ../../src/application/SendKeys.cpp; sourceTree = SOURCE_ROOT; };
+		180226FA89CFA29DD54C2B83 /* include_juce_graphics_Sheenbidi.c */ /* include_juce_graphics_Sheenbidi.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = include_juce_graphics_Sheenbidi.c; path = ../../external/JuceLibraryCode/include_juce_graphics_Sheenbidi.c; sourceTree = SOURCE_ROOT; };
 		1A5DF419DB203693F7898C6F /* MIDIReceiver.h */ /* MIDIReceiver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MIDIReceiver.h; path = ../../src/application/MIDIReceiver.h; sourceTree = SOURCE_ROOT; };
 		1B0E217CF9B7EA2DF44721B4 /* include_juce_graphics_Harfbuzz.cpp */ /* include_juce_graphics_Harfbuzz.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_graphics_Harfbuzz.cpp; path = ../../external/JuceLibraryCode/include_juce_graphics_Harfbuzz.cpp; sourceTree = SOURCE_ROOT; };
 		21C6B16D556E368BC28C907B /* CoreAudio.framework */ /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -324,6 +326,7 @@
 				50BC033068609BDD0BAEEB5A,
 				365A0F6673BAF87F63FD7A37,
 				1B0E217CF9B7EA2DF44721B4,
+				180226FA89CFA29DD54C2B83,
 				6B7E227A13331CBF571419B7,
 				13D4CCAD080F52F17421CEAD,
 			);
@@ -480,6 +483,7 @@
 				734E72B3D95C5F2F18932250,
 				CF9729A29B45286C52F1822A,
 				CA90D924C721B9708BC7B30C,
+				7CE2C358C87C661BD1C1C345,
 				0EF26F147D52483D98B67EAF,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -509,7 +513,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_NDEBUG=1",
 					"NDEBUG=1",
-					"JUCE_PROJUCER_VERSION=0x80001",
+					"JUCE_PROJUCER_VERSION=0x8000b",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
@@ -527,8 +531,8 @@
 					"JUCE_STANDALONE_APPLICATION=1",
 					"JUCE_MODAL_LOOPS_PERMITTED=1",
 					"JUCER_XCODE_MAC_46BB2872=1",
-					"JUCE_APP_VERSION=6.2.1.0",
-					"JUCE_APP_VERSION_HEX=0x6020100",
+					"JUCE_APP_VERSION=6.3.0.0",
+					"JUCE_APP_VERSION_HEX=0x6030000",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -550,7 +554,7 @@
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../external/JuceLibraryCode $(SRCROOT)/../../external/JuceLibraryCode/modules $(SRCROOT)/../../external/asio/ $(SRCROOT)/../../external/";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
 				PRODUCT_NAME = "MIDI2LR";
@@ -631,7 +635,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_DEBUG=1",
 					"DEBUG=1",
-					"JUCE_PROJUCER_VERSION=0x80001",
+					"JUCE_PROJUCER_VERSION=0x8000b",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
@@ -649,8 +653,8 @@
 					"JUCE_STANDALONE_APPLICATION=1",
 					"JUCE_MODAL_LOOPS_PERMITTED=1",
 					"JUCER_XCODE_MAC_46BB2872=1",
-					"JUCE_APP_VERSION=6.2.1.0",
-					"JUCE_APP_VERSION_HEX=0x6020100",
+					"JUCE_APP_VERSION=6.3.0.0",
+					"JUCE_APP_VERSION_HEX=0x6030000",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -671,7 +675,7 @@
 				INFOPLIST_FILE = Info-App.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../external/JuceLibraryCode $(SRCROOT)/../../external/JuceLibraryCode/modules $(SRCROOT)/../../external/asio/ $(SRCROOT)/../../external/";
 				OTHER_CFLAGS = "-Wall -Wcast-align -Wfloat-equal -Wno-ignored-qualifiers -Wsign-compare -Wsign-conversion -Wstrict-aliasing -Wswitch-enum -Wuninitialized -Wunreachable-code -Wunused-parameter -Wmissing-field-initializers -Wshadow-all -Wshorten-64-to-32 -Wconversion -Wint-conversion -Wconditional-uninitialized -Wconstant-conversion -Wbool-conversion -Wextra-semi -Wshift-sign-overflow -Wmissing-prototypes -Wnullable-to-nonnull-conversion -Wpedantic -Wdeprecated -Wunguarded-availability -Wunguarded-availability-new";
 				OTHER_CPLUSPLUSFLAGS = "-Woverloaded-virtual -Wreorder -Wzero-as-null-pointer-constant -Wunused-private-field -Winconsistent-missing-destructor-override -Wall -Wcast-align -Wfloat-equal -Wno-ignored-qualifiers -Wsign-compare -Wsign-conversion -Wstrict-aliasing -Wswitch-enum -Wuninitialized -Wunreachable-code -Wunused-parameter -Wmissing-field-initializers -Wshadow-all -Wshorten-64-to-32 -Wconversion -Wint-conversion -Wconditional-uninitialized -Wconstant-conversion -Wbool-conversion -Wextra-semi -Wshift-sign-overflow -Wmissing-prototypes -Wnullable-to-nonnull-conversion -Wpedantic -Wdeprecated -Wunguarded-availability -Wunguarded-availability-new";

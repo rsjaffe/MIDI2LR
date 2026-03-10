@@ -23,8 +23,8 @@ return {
   LrInitPlugin = 'Client.lua', -- Main client logic
   LrPluginInfoUrl = 'https://github.com/rsjaffe/MIDI2LR/wiki',
   LrPluginName = 'MIDI2LR',
-  LrSdkMinimumVersion = 11.0, -- minimum SDK version required by this plug-in
-  LrSdkVersion = 11.0,
+  LrSdkMinimumVersion = 15.0, -- minimum SDK version required by this plug-in
+  LrSdkVersion = 15.0,
   LrShutdownPlugin = 'ShutDownPlugin.lua',
   LrToolkitIdentifier = 'com.rsjaffe.midi2lr',
   LrExportMenuItems = {
@@ -95,5 +95,5 @@ return {
       file = "LogSave.lua",
     },
   },
-  VERSION = { major=6, minor=2, revision=1, build=0}
+  VERSION = { major=6, minor=3, revision=0, build=0}
 }

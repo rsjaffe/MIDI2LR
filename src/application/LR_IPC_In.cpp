@@ -19,6 +19,7 @@
 #include <atomic>
 #include <charconv>
 #include <exception>
+#include <memory>
 #include <string>
 #include <string_view> //ReSharper false alarm
 #include <thread>
@@ -55,6 +56,10 @@ class LrIpcInShared {
    asio::streambuf streambuf_ {};
    rsj::ConcurrentQueue<std::string> line_;
    std::atomic<bool> thread_should_exit_ {false};
+   /* owner_alive_ is a shared atomic token that async handlers check before touching owner state.
+    * Stop() sets this to false so outstanding async handlers can bail safely without dereferencing
+    * the owning object. */
+   std::shared_ptr<std::atomic<bool>> owner_alive_ {std::make_shared<std::atomic<bool>>(true)};
    static void Read(std::shared_ptr<LrIpcInShared> lr_ipc_shared);
 
  public:
@@ -89,34 +94,38 @@ void LrIpcIn::Start()
 void LrIpcIn::Stop()
 {
    try {
-      lr_ipc_in_shared_->thread_should_exit_.store(true, std::memory_order_release);
-      if (auto& sock {lr_ipc_in_shared_->socket_}; sock.is_open()) {
-         asio::error_code ec;
-         /* For portable behaviour with respect to graceful closure of a connected socket, call
-          * shutdown() before closing the socket. */
-         try { /* ignore exceptions from shutdown, always close */
-            std::ignore = sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
-            if (ec) {
-               rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket shutdown error {}."),
-                            ec.message()),
+      // prevent async handlers from using owner state
+      if (lr_ipc_in_shared_) {
+         lr_ipc_in_shared_->thread_should_exit_.store(true, std::memory_order_release);
+         lr_ipc_in_shared_->owner_alive_->store(false, std::memory_order_release);
+
+         if (auto& sock {lr_ipc_in_shared_->socket_}; sock.is_open()) {
+            asio::error_code ec;
+            /* For portable behaviour with respect to graceful closure of a connected socket, call
+             * shutdown() before closing the socket. */
+            try { /* ignore exceptions from shutdown, always close */
+               std::ignore = sock.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+               if (ec) {
+                  rsj::Log(fmt::format("LR_IPC_In socket shutdown error {}.", ec.message()),
+                      std::source_location::current());
+                  ec.clear();
+               }
+            }
+            catch (const std::exception& e) {
+               rsj::Log(fmt::format("Exception during socket shutdown: {}", e.what()),
                    std::source_location::current());
-               ec.clear();
+            }
+            std::ignore = sock.close(ec);
+            if (ec) {
+               rsj::Log(fmt::format("LR_IPC_In socket close error {}.", ec.message()),
+                   std::source_location::current());
             }
          }
-         catch (const std::exception& e) {
-            rsj::Log(fmt::format(FMT_STRING("Exception during socket shutdown: {}"), e.what()),
+         /* clear input queue after port closed */
+         if (const auto m {lr_ipc_in_shared_->line_.clear_count_emplace(kTerminate)}) {
+            rsj::Log(fmt::format("{} left in queue in LrIpcIn destructor.", m),
                 std::source_location::current());
          }
-         std::ignore = sock.close(ec);
-         if (ec) {
-            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec.message()),
-                std::source_location::current());
-         }
-      }
-      /* clear input queue after port closed */
-      if (const auto m {lr_ipc_in_shared_->line_.clear_count_emplace(kTerminate)}) {
-         rsj::Log(fmt::format(FMT_STRING("{} left in queue in LrIpcIn destructor."), m),
-             std::source_location::current());
       }
    }
 
@@ -132,17 +141,24 @@ void LrIpcIn::Connect(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       lr_ipc_shared->socket_.async_connect(asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(),
                                                kLrInPort),
           [lr_ipc_shared](const asio::error_code& error) mutable {
+         // capture a copy of the alive token so handler can detect owner shutdown
+         const auto alive {lr_ipc_shared->owner_alive_};
+         if (!alive || !alive->load(std::memory_order_acquire)) { return; }
+
          if (!error) {
             rsj::Log("Socket connected in LR_IPC_In.", std::source_location::current());
-            LrIpcInShared::Read(std::move(lr_ipc_shared));
+            // only proceed if owner still alive
+            if (alive->load(std::memory_order_acquire)) {
+               LrIpcInShared::Read(std::move(lr_ipc_shared));
+            }
          }
          else {
-            rsj::Log(fmt::format(FMT_STRING("LR_IPC_In did not connect. {}."), error.message()),
+            rsj::Log(fmt::format("LR_IPC_In did not connect. {}.", error.message()),
                 std::source_location::current());
             asio::error_code ec2;
             std::ignore = lr_ipc_shared->socket_.close(ec2);
             if (ec2) {
-               rsj::Log(fmt::format(FMT_STRING("LR_IPC_In socket close error {}."), ec2.message()),
+               rsj::Log(fmt::format("LR_IPC_In socket close error {}.", ec2.message()),
                    std::source_location::current());
             }
          }
@@ -170,7 +186,7 @@ namespace {
       return str.substr(first);
    }
 
-   std::pair<std::string_view, std::string_view> SplitLine(std::string_view msg)
+   [[nodiscard]] std::pair<std::string_view, std::string_view> SplitLine(std::string_view msg)
    {
       msg = Trim(msg);
       const auto first_delimiter {msg.find_first_of(" \t\n")};
@@ -186,17 +202,16 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
       decltype(lr_ipc_shared->line_)::value_type line_copy;
       while ((line_copy = lr_ipc_shared->line_.pop()) != kTerminate) {
 #pragma warning(suppress : 26445) /* copying views; otherwise dangling references */
-         auto [command_view, value_view] = SplitLine(line_copy);
+         auto [command_view, value_view] {SplitLine(line_copy)};
 
          /* Fast path for known commands */
-         if (command_view == "TerminateApplication") {
-            juce::JUCEApplication::getInstance()->systemRequestedQuit();
+         if (command_view == "TerminateApplication") [[unlikely]] {
+            if (auto* app = juce::JUCEApplication::getInstance()) { app->systemRequestedQuit(); }
             return;
          }
 
-         if (value_view.empty()) {
-            rsj::Log(fmt::format(FMT_STRING("No value attached to message. Message from plugin was "
-                                            "\"{}\"."),
+         if (value_view.empty()) [[unlikely]] {
+            rsj::Log(fmt::format("No value attached to message. Message from plugin was \"{}\".",
                          rsj::ReplaceInvisibleChars(line_copy)),
                 std::source_location::current());
             continue;
@@ -208,8 +223,7 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
          }
 
          if (command_view == "Log") {
-            rsj::Log(fmt::format(FMT_STRING("Plugin: {}."), value_view),
-                std::source_location::current());
+            rsj::Log(fmt::format("Plugin: {}.", value_view), std::source_location::current());
             continue;
          }
 
@@ -228,8 +242,8 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
                    rsj::ActiveModifiers::FromMidi2LR(modifiers));
                continue;
             }
-            rsj::LogAndAlertError(fmt::format(FMT_STRING("SendKey couldn't identify keystroke. "
-                                                         "Message from plugin was \"{}\"."),
+            rsj::LogAndAlertError(fmt::format("SendKey couldn't identify keystroke. Message from "
+                                              "plugin was \"{}\".",
                                       rsj::ReplaceInvisibleChars(line_copy)),
                 std::source_location::current());
             continue;
@@ -237,12 +251,11 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 
          /* Default: send associated messages to MIDI OUT devices */
          double original_value {0.0};
-#if defined(_MSC_VER) || (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_13_3)
+#if defined(_MSC_VER) || (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_26_0)
          auto [ptr, ec] {std::from_chars(value_view.data(), value_view.data() + value_view.size(),
              original_value)};
          if (ec != std::errc()) {
-            rsj::LogAndAlertError(fmt::format(FMT_STRING("Failed to parse double from \"{}\"."),
-                                      value_view),
+            rsj::LogAndAlertError(fmt::format("Failed to parse double from \"{}\".", value_view),
                 std::source_location::current());
             continue;
          }
@@ -251,8 +264,8 @@ void LrIpcIn::ProcessLine(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
             original_value = std::stod(std::string(value_view));
          }
          catch (const std::exception& ex) {
-            rsj::LogAndAlertError(fmt::format(FMT_STRING("Failed to parse double from \"{}\": {}"),
-                                      value_view, ex.what()),
+            rsj::LogAndAlertError(fmt::format("Failed to parse double from \"{}\": {}", value_view,
+                                      ex.what()),
                 std::source_location::current());
             continue;
          }
@@ -277,34 +290,42 @@ void LrIpcInShared::Read(std::shared_ptr<LrIpcInShared> lr_ipc_shared)
 {
    using namespace std::string_literals;
    try {
-      if (!lr_ipc_shared->thread_should_exit_.load(std::memory_order_acquire)) {
-         asio::async_read_until(lr_ipc_shared->socket_, lr_ipc_shared->streambuf_, '\n',
-             [lr_ipc_shared](const asio::error_code& error,
-                 const std::size_t bytes_transferred) mutable {
-            if (!error) [[likely]] {
-               if (bytes_transferred == 0) [[unlikely]] { std::this_thread::sleep_for(kEmptyWait); }
-               else {
-                  auto& buf {lr_ipc_shared->streambuf_};
-                  std::string command {buffers_begin(buf.data()),
-                      buffers_begin(buf.data()) + gsl::narrow<std::ptrdiff_t>(bytes_transferred)};
-                  if (command == "TerminateApplication 1\n"s) {
-                     lr_ipc_shared->thread_should_exit_.store(true, std::memory_order_release);
-                  }
-                  lr_ipc_shared->line_.push(std::move(command));
-                  buf.consume(bytes_transferred);
-               }
-               Read(std::move(lr_ipc_shared));
-            }
-            else {
-               rsj::Log(fmt::format(FMT_STRING("LR_IPC_In Read error: {}."), error.message()),
-                   std::source_location::current());
-
-               if (error == asio::error::misc_errors::eof) { /* LR closed socket */
-                  juce::JUCEApplication::getInstance()->systemRequestedQuit();
-               }
-            }
-         });
+      // if owner signalled stop or thread should exit, don't start a new async read
+      if (!lr_ipc_shared->owner_alive_->load(std::memory_order_acquire)
+          || lr_ipc_shared->thread_should_exit_.load(std::memory_order_acquire)) {
+         return;
       }
+
+      asio::async_read_until(lr_ipc_shared->socket_, lr_ipc_shared->streambuf_, '\n',
+          [lr_ipc_shared, alive = lr_ipc_shared->owner_alive_](const asio::error_code& error,
+              const std::size_t bytes_transferred) mutable {
+         // if owner signalled Stop(), bail out early
+         if (!alive || !alive->load(std::memory_order_acquire)) { return; }
+
+         if (!error) [[likely]] {
+            if (bytes_transferred == 0) [[unlikely]] { std::this_thread::sleep_for(kEmptyWait); }
+            else {
+               auto& buf {lr_ipc_shared->streambuf_};
+               std::string command {buffers_begin(buf.data()),
+                   buffers_begin(buf.data()) + gsl::narrow<std::ptrdiff_t>(bytes_transferred)};
+               if (command == "TerminateApplication 1\n"s) {
+                  lr_ipc_shared->thread_should_exit_.store(true, std::memory_order_release);
+               }
+               lr_ipc_shared->line_.push(std::move(command));
+               buf.consume(bytes_transferred);
+            }
+            // before recursively re-arming, make sure owner still alive
+            if (alive && alive->load(std::memory_order_acquire)) { Read(std::move(lr_ipc_shared)); }
+         }
+         else {
+            rsj::Log(fmt::format("LR_IPC_In Read error: {}.", error.message()),
+                std::source_location::current());
+
+            if (error == asio::error::misc_errors::eof) {
+               if (auto* app = juce::JUCEApplication::getInstance()) { app->systemRequestedQuit(); }
+            }
+         }
+      });
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(e, std::source_location::current());

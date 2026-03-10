@@ -57,6 +57,19 @@
 
 #include "juce_audio_devices.h"
 
+#include "midi_io/juce_WaitFreeListeners.h"
+#include "midi_io/juce_WaitFreeListeners.cpp"
+#include "midi_io/juce_MidiDeviceListConnectionBroadcaster.cpp"
+
+#include "midi_io/ump/juce_UMPIOHelpers.cpp"
+#include "midi_io/ump/juce_UMPInput.cpp"
+#include "midi_io/ump/juce_UMPOutput.cpp"
+#include "midi_io/ump/juce_UMPLegacyVirtualInput.cpp"
+#include "midi_io/ump/juce_UMPLegacyVirtualOutput.cpp"
+#include "midi_io/ump/juce_UMPVirtualEndpoint.cpp"
+#include "midi_io/ump/juce_UMPSession.cpp"
+#include "midi_io/ump/juce_UMPEndpoints.cpp"
+
 #include "audio_io/juce_SampleRateHelpers.cpp"
 #include "midi_io/juce_MidiDevices.cpp"
 
@@ -64,39 +77,29 @@
 #if JUCE_MAC || JUCE_IOS
  #include <juce_audio_basics/native/juce_CoreAudioTimeConversions_mac.h>
  #include <juce_audio_basics/native/juce_AudioWorkgroup_mac.h>
- #include <juce_audio_basics/midi/juce_MidiDataConcatenator.h>
- #include <juce_audio_basics/midi/ump/juce_UMP.h>
- #include "midi_io/ump/juce_UMPBytestreamInputHandler.h"
- #include "midi_io/ump/juce_UMPU32InputHandler.h"
 #endif
 
 #if JUCE_MAC
  #define Point CarbonDummyPointName
  #define Component CarbonDummyCompName
  #import <CoreAudio/AudioHardware.h>
- #import <CoreMIDI/MIDIServices.h>
+ #import <CoreMIDI/CoreMIDI.h>
  #import <AudioToolbox/AudioServices.h>
  #undef Point
  #undef Component
 
  #include "native/juce_CoreAudio_mac.cpp"
- #include "native/juce_CoreMidi_mac.mm"
 
 #elif JUCE_IOS
  #import <AudioToolbox/AudioToolbox.h>
  #import <AVFoundation/AVFoundation.h>
- #import <CoreMIDI/MIDIServices.h>
-
- #if TARGET_OS_SIMULATOR
-  #import <CoreMIDI/MIDINetworkSession.h>
- #endif
+ #import <CoreMIDI/CoreMIDI.h>
 
  #if JUCE_MODULE_AVAILABLE_juce_graphics
   #include <juce_graphics/native/juce_CoreGraphicsHelpers_mac.h>
  #endif
 
  #include "native/juce_Audio_ios.cpp"
- #include "native/juce_CoreMidi_mac.mm"
 
 //==============================================================================
 #elif JUCE_WINDOWS
@@ -132,30 +135,12 @@
   JUCE_END_IGNORE_WARNINGS_MSVC
  #endif
 
- #include <juce_audio_basics/midi/juce_MidiDataConcatenator.h>
- #include "native/juce_Midi_windows.cpp"
-
  #if JUCE_ASIO
-  /* This is very frustrating - we only need to use a handful of definitions from
-     a couple of the header files in Steinberg's ASIO SDK, and it'd be easy to copy
-     about 30 lines of code into this cpp file to create a fully stand-alone ASIO
-     implementation...
-
-     ..unfortunately that would break Steinberg's license agreement for use of
-     their SDK, so I'm not allowed to do this.
-
-     This means that anyone who wants to use JUCE's ASIO abilities will have to:
-
-     1) Agree to Steinberg's licensing terms and download the ASIO SDK
-         (see http://www.steinberg.net/en/company/developers.html).
-
-     2) Enable this code with a global definition #define JUCE_ASIO 1.
-
-     3) Make sure that your header search path contains the iasiodrv.h file that
-        comes with the SDK. (Only about a handful of the SDK header files are actually
-        needed - so to simplify things, you could just copy these into your JUCE directory).
-  */
-  #include <iasiodrv.h>
+  #if JUCE_ASIO_USE_EXTERNAL_SDK
+   #include <iasiodrv.h>
+  #else
+   #include <juce_audio_devices/native/asio/iasiodrv.h>
+  #endif
   #include "native/juce_ASIO_windows.cpp"
  #endif
 
@@ -173,42 +158,16 @@
   JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wzero-length-array")
   #include <alsa/asoundlib.h>
   JUCE_END_IGNORE_WARNINGS_GCC_LIKE
+  #include "native/juce_ALSA_weak_linux.h"
   #include "native/juce_ALSA_linux.cpp"
  #endif
-
- #if JUCE_JACK
-  /* Got an include error here? If so, you've either not got jack-audio-connection-kit
-     installed, or you've not got your paths set up correctly to find its header files.
-
-     The package you need to install to get JACK support is "libjack-dev".
-
-     If you don't have the jack-audio-connection-kit library and don't want to build
-     JUCE with low latency audio support, just set the JUCE_JACK flag to 0.
-  */
-  #include <jack/jack.h>
-  #include "native/juce_JackAudio_linux.cpp"
- #endif
-
- #if (JUCE_LINUX && JUCE_BELA)
-  /* Got an include error here? If so, you've either not got the bela headers
-     installed, or you've not got your paths set up correctly to find its header
-     files.
-  */
-  #include <Bela.h>
-  #include <Midi.h>
-  #include <juce_audio_basics/midi/juce_MidiDataConcatenator.h>
-  #include "native/juce_Bela_linux.cpp"
- #endif
-
  #undef SIZEOF
-
- #if ! JUCE_BELA
-  #include <juce_audio_basics/midi/juce_MidiDataConcatenator.h>
-  #include "native/juce_Midi_linux.cpp"
- #endif
 
 //==============================================================================
 #elif JUCE_ANDROID
+
+ // Currently we're just using this for enum values
+ #include <amidi/AMidi.h>
 
 namespace juce
 {
@@ -216,10 +175,7 @@ namespace juce
     RealtimeThreadFactory getAndroidRealtimeThreadFactory();
 } // namespace juce
 
-#include "native/juce_Audio_android.cpp"
-
- #include <juce_audio_basics/midi/juce_MidiDataConcatenator.h>
- #include "native/juce_Midi_android.cpp"
+ #include "native/juce_Audio_android.cpp"
 
  #if JUCE_USE_ANDROID_OPENSLES || JUCE_USE_ANDROID_OBOE
   #include "native/juce_HighPerformanceAudioHelpers_android.h"
@@ -258,6 +214,25 @@ namespace juce
 
 #endif
 
+#if (JUCE_LINUX || JUCE_BSD || JUCE_MAC || JUCE_WINDOWS) && JUCE_JACK
+ /* Got an include error here? If so, you've either not got jack-audio-connection-kit
+    installed, or you've not got your paths set up correctly to find its header files.
+
+    Linux: The package you need to install to get JACK support is libjack-dev.
+
+    macOS: The package you need to install to get JACK support is jack, which you can
+    install using Homebrew.
+
+    Windows: The package you need to install to get JACK support is available from the
+    JACK Audio website. Download and run the installer for Windows.
+
+    If you don't have the jack-audio-connection-kit library and don't want to build
+    JUCE with low latency audio support, just set the JUCE_JACK flag to 0.
+ */
+ #include <jack/jack.h>
+ #include "native/juce_JackAudio.cpp"
+#endif
+
 #if ! JUCE_SYSTEMAUDIOVOL_IMPLEMENTED
 namespace juce
 {
@@ -275,3 +250,25 @@ namespace juce
 #include "midi_io/juce_MidiMessageCollector.cpp"
 #include "sources/juce_AudioSourcePlayer.cpp"
 #include "sources/juce_AudioTransportSource.cpp"
+
+#if JUCE_LINUX || JUCE_BSD
+ #include "native/juce_Midi_linux.cpp"
+#elif JUCE_ANDROID
+ #include "native/juce_Midi_android.cpp"
+#elif JUCE_MAC || JUCE_IOS
+ #include "native/juce_CoreMidi_mac.mm"
+#elif JUCE_WINDOWS
+ #if JUCE_USE_WINDOWS_MIDI_SERVICES
+  JUCE_BEGIN_IGNORE_WARNINGS_MSVC (4265)
+  #include <winrt/Windows.Foundation.h>
+  #include <winrt/Windows.Foundation.Collections.h>
+  #include <winrt/Windows.Devices.Enumeration.h>
+
+  #include <winrt/Microsoft.Windows.Devices.Midi2.h>
+  #include <winrt/Microsoft.Windows.Devices.Midi2.Endpoints.Virtual.h>
+  #include <winmidi/init/Microsoft.Windows.Devices.Midi2.Initialization.hpp>
+  JUCE_END_IGNORE_WARNINGS_MSVC
+ #endif
+
+ #include "native/juce_Midi_windows.cpp"
+#endif

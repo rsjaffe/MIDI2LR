@@ -20,6 +20,7 @@
 #include <memory>
 #include <utility>
 
+#include <fmt/compile.h>
 #include <fmt/format.h>
 #include <gsl/gsl>
 
@@ -37,27 +38,27 @@ namespace {
       std::string messageText;
       switch (cmd.msg_id_type) {
       case rsj::MessageType::kNoteOn:
-         messageText = fmt::format(FMT_STRING("{} | Note : {}"), cmd.channel, cmd.control_number);
+         messageText = fmt::format(FMT_COMPILE("{} | Note : {}"), cmd.channel, cmd.control_number);
          break;
       case rsj::MessageType::kNoteOff:
          messageText =
-             fmt::format(FMT_STRING("{} | Note Off: {}"), cmd.channel, cmd.control_number);
+             fmt::format(FMT_COMPILE("{} | Note Off: {}"), cmd.channel, cmd.control_number);
          break;
       case rsj::MessageType::kCc:
-         messageText = fmt::format(FMT_STRING("{} | CC: {}"), cmd.channel, cmd.control_number);
+         messageText = fmt::format(FMT_COMPILE("{} | CC: {}"), cmd.channel, cmd.control_number);
          break;
       case rsj::MessageType::kPw:
-         messageText = fmt::format(FMT_STRING("{} | Pitch Bend"), cmd.channel);
+         messageText = fmt::format(FMT_COMPILE("{} | Pitch Bend"), cmd.channel);
          break;
       case rsj::MessageType::kKeyPressure:
          messageText =
-             fmt::format(FMT_STRING("{} | Key Pressure: {}"), cmd.channel, cmd.control_number);
+             fmt::format(FMT_COMPILE("{} | Key Pressure: {}"), cmd.channel, cmd.control_number);
          break;
       case rsj::MessageType::kChanPressure:
-         messageText = fmt::format(FMT_STRING("{} | Channel Pressure"), cmd.channel);
+         messageText = fmt::format(FMT_COMPILE("{} | Channel Pressure"), cmd.channel);
          break;
       case rsj::MessageType::kPgmChange:
-         messageText = fmt::format(FMT_STRING("{} | Program Change"), cmd.channel);
+         messageText = fmt::format(FMT_COMPILE("{} | Program Change"), cmd.channel);
          break;
       case rsj::MessageType::kSystem:
          break;
@@ -73,11 +74,12 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, const int c
       g.setColour(juce::Colours::black);
       g.setFont(std::min(16.0F, static_cast<float>(height) * 0.7F));
       if (column_id != 1) { return; }
+      if (row_number < 0) { return; }
       if (const auto profile_size = profile_.Size();
           std::cmp_less_equal(profile_size, row_number)) {
          g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
-         rsj::Log(fmt::format(FMT_STRING("Unknown control CommandTableModel::paintCell. {} rows in "
-                                         "profile, row number to be painted is {}."),
+         rsj::Log(fmt::format("Unknown control CommandTableModel::paintCell. {} rows in profile, "
+                              "row number to be painted is {}.",
                       profile_size, row_number),
              std::source_location::current());
          return;
@@ -112,8 +114,15 @@ CommandMenu* CommandTableModel::CreateNewCommandMenu(int row_number,
     juce::Component* existing_component) const
 {
    /* create a new command menu, delete old one if it exists */
-   delete existing_component; // NOLINT(cppcoreguidelines-owning-memory)
-   const auto& msg = profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
+   delete existing_component;
+   if (const auto profile_size = profile_.Size();
+       std::cmp_less_equal(profile_size, row_number) || row_number < 0) {
+      rsj::Log(fmt::format("Invalid row_number {} in CreateNewCommandMenu, profile size {}.",
+                   row_number, profile_size),
+          std::source_location::current());
+      return nullptr;
+   }
+   const auto& msg {profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))};
    auto new_select {std::make_unique<CommandMenu>(msg, command_set_, profile_)};
    new_select->SetSelectedItem(command_set_.CommandTextIndex(profile_.GetCommandForMessage(msg))
                                + 1);
@@ -122,9 +131,8 @@ CommandMenu* CommandTableModel::CreateNewCommandMenu(int row_number,
 
 CommandMenu* CommandTableModel::UpdateCommandMenu(int row_number,
     gsl::not_null<CommandMenu*> command_select) const
-{
-   /* Updates the existing command menu */
-   const auto& msg = profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
+{ /* Updates the existing command menu */
+   const auto& msg {profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))};
    command_select->SetMsg(msg);
    command_select->SetSelectedItem(command_set_.CommandTextIndex(profile_.GetCommandForMessage(msg))
                                    + 1);
@@ -134,21 +142,11 @@ CommandMenu* CommandTableModel::UpdateCommandMenu(int row_number,
 juce::Component* CommandTableModel::refreshComponentForCell(int row_number, const int column_id,
     bool /*isRowSelected*/, juce::Component* existing_component)
 {
-   /* This is used to create or update a custom component to go in a cell. Any cell may contain a
-    * custom component, or can just be drawn with the paintCell() method and handle mouse clicks
-    * with cellClicked(). This method will be called whenever a custom component might need to be
-    * updated - e.g. when the table is changed, or TableListBox::updateContent() is called. If you
-    * don't need a custom component for the specified cell, then return nullptr. (Bear in mind that
-    * even if you're not creating a new component, you may still need to delete
-    * existingComponentToUpdate if it's non-null). If you do want a custom component, and the
-    * existingComponentToUpdate is null, then this method must create a new component suitable for
-    * the cell, and return it. If the existingComponentToUpdate is non - null, it will be a pointer
-    * to a component previously created by this method.In this case, the method must either update
-    * it to make sure it's correctly representing the given cell(which may be different from the one
-    * that the component was created for), or it can delete this component and return a new one.
-    * Because Juce recycles these components when scrolling, we need to reset their properties. */
    try {
-      if (column_id != 2) { // Not LR command column
+      if (column_id != 2) { return nullptr; }
+      // Validate row_number before accessing profile
+      if (row_number < 0 || std::cmp_greater_equal(row_number, profile_.Size())) {
+         delete existing_component;
          return nullptr;
       }
       const auto command_select {dynamic_cast<CommandMenu*>(existing_component)};

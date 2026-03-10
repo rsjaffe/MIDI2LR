@@ -414,9 +414,8 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
                flags |= kCGEventFlagMaskShift;
             }
             else {
-               rsj::LogAndAlertError(fmt::format(FMT_STRING("Unsupported character was used: "
-                                                            "\"{}\", no ANSI equivalent."),
-                                         key),
+               rsj::LogAndAlertError(
+                   fmt::format("Unsupported character was used: \"{}\", no ANSI equivalent.", key),
                    std::source_location::current());
                return;
             }
@@ -431,15 +430,14 @@ void rsj::SendKeyDownUp(const std::string& key, const rsj::ActiveModifiers mods)
       }
    }
    catch (const std::exception& e) {
-      rsj::LogAndAlertError(fmt::format(FMT_STRING("Exception in key sending function for key: "
-                                                   "\"{}\". Exception: {}."),
+      rsj::LogAndAlertError(fmt::format("Exception in key sending function for key: \"{}\". "
+                                        "Exception: {}.",
                                 key, e.what()),
           std::source_location::current());
    }
    catch (...) {
-      rsj::LogAndAlertError(fmt::format(FMT_STRING("Non-standard exception in key sending function "
-                                                   "for key: \"{}\"."),
-                                key),
+      rsj::LogAndAlertError(
+          fmt::format("Non-standard exception in key sending function for key: \"{}\".", key),
           std::source_location::current());
    }
 }

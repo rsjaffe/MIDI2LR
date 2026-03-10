@@ -38,7 +38,7 @@ namespace juce
 //==============================================================================
 LookAndFeel_V2::LookAndFeel_V2()
 {
-    // initialise the standard set of colours..
+    // initialise the standard set of colours
     const uint32 textButtonColour      = 0xffbbbbff;
     const uint32 textHighlightColour   = 0x401111ee;
     const uint32 standardOutlineColour = 0xb2808080;
@@ -265,7 +265,7 @@ Font LookAndFeel_V2::getTextButtonFont (TextButton&, int buttonHeight)
 
 int LookAndFeel_V2::getTextButtonWidthToFitText (TextButton& b, int buttonHeight)
 {
-    return getTextButtonFont (b, buttonHeight).getStringWidth (b.getButtonText()) + buttonHeight;
+    return GlyphArrangement::getStringWidthInt (getTextButtonFont (b, buttonHeight), b.getButtonText()) + buttonHeight;
 }
 
 void LookAndFeel_V2::drawButtonText (Graphics& g, TextButton& button,
@@ -361,7 +361,7 @@ void LookAndFeel_V2::changeToggleButtonWidthToFitText (ToggleButton& button)
 
     Font font (withDefaultMetrics (FontOptions { fontSize }));
 
-    button.setSize (font.getStringWidth (button.getButtonText()) + roundToInt (tickWidth) + 9,
+    button.setSize (GlyphArrangement::getStringWidthInt (font, button.getButtonText()) + roundToInt (tickWidth) + 9,
                     button.getHeight());
 }
 
@@ -557,7 +557,7 @@ void LookAndFeel_V2::drawProgressBar (Graphics& g, ProgressBar& progressBar,
     }
     else
     {
-        // spinning bar..
+        // spinning bar
         g.setColour (foreground);
 
         const int stripeWidth = height * 2;
@@ -571,7 +571,11 @@ void LookAndFeel_V2::drawProgressBar (Graphics& g, ProgressBar& progressBar,
                                 x, (float) height,
                                 x - (float) stripeWidth * 0.5f, (float) height);
 
-        Image im (Image::ARGB, width, height, true);
+        Image im (Image::ARGB,
+                  width,
+                  height,
+                  true,
+                  *g.getInternalContext().getPreferredImageTypeForTemporaryImages());
 
         {
             Graphics g2 (im);
@@ -883,7 +887,7 @@ void LookAndFeel_V2::getIdealPopupMenuItemSize (const String& text, const bool i
             font.setHeight ((float) standardMenuItemHeight / 1.3f);
 
         idealHeight = standardMenuItemHeight > 0 ? standardMenuItemHeight : roundToInt (font.getHeight() * 1.3f);
-        idealWidth = font.getStringWidth (text) + idealHeight * 2;
+        idealWidth = GlyphArrangement::getStringWidthInt (font, text) + idealHeight * 2;
     }
 }
 
@@ -899,6 +903,22 @@ void LookAndFeel_V2::getIdealPopupMenuItemSizeWithOptions (const String& text,
                                standardMenuItemHeight,
                                idealWidth,
                                idealHeight);
+}
+
+void LookAndFeel_V2::getIdealPopupMenuSectionHeaderSizeWithOptions (const String& text,
+                                                                    int standardMenuItemHeight,
+                                                                    int& idealWidth,
+                                                                    int& idealHeight,
+                                                                    const PopupMenu::Options& options)
+{
+    getIdealPopupMenuItemSizeWithOptions (text,
+                                          false,
+                                          standardMenuItemHeight,
+                                          idealWidth,
+                                          idealHeight,
+                                          options);
+    idealHeight += idealHeight / 2;
+    idealWidth += idealWidth / 4;
 }
 
 void LookAndFeel_V2::drawPopupMenuBackground (Graphics& g, int width, int height)
@@ -1117,8 +1137,7 @@ Font LookAndFeel_V2::getMenuBarFont (MenuBarComponent& menuBar, int /*itemIndex*
 
 int LookAndFeel_V2::getMenuBarItemWidth (MenuBarComponent& menuBar, int itemIndex, const String& itemText)
 {
-    return getMenuBarFont (menuBar, itemIndex, itemText)
-            .getStringWidth (itemText) + menuBar.getHeight();
+    return GlyphArrangement::getStringWidthInt (getMenuBarFont (menuBar, itemIndex, itemText), itemText) + menuBar.getHeight();
 }
 
 void LookAndFeel_V2::drawMenuBarItem (Graphics& g, int width, int height,
@@ -1743,7 +1762,7 @@ void LookAndFeel_V2::drawTooltip (Graphics& g, const String& text, int width, in
 {
     g.fillAll (findColour (TooltipWindow::backgroundColourId));
 
-   #if ! JUCE_MAC // The mac windows already have a non-optional 1 pix outline, so don't double it here..
+   #if ! JUCE_MAC // The mac windows already have a non-optional 1 pix outline, so don't double it here.
     g.setColour (findColour (TooltipWindow::outlineColourId));
     g.drawRect (0, 0, width, height, 1);
    #endif
@@ -1887,7 +1906,7 @@ void LookAndFeel_V2::drawDocumentWindowTitleBar (DocumentWindow& window, Graphic
     Font font (withDefaultMetrics (FontOptions { (float) h * 0.65f, Font::bold }));
     g.setFont (font);
 
-    int textW = font.getStringWidth (window.getName());
+    int textW = GlyphArrangement::getStringWidthInt (font, window.getName());
     int iconW = 0;
     int iconH = 0;
 
@@ -2137,7 +2156,7 @@ void LookAndFeel_V2::drawGroupComponentOutline (Graphics& g, int width, int heig
     auto textW = text.isEmpty() ? 0
                                 : jlimit (0.0f,
                                           jmax (0.0f, w - cs2 - textEdgeGap * 2),
-                                          (float) f.getStringWidth (text) + textEdgeGap * 2.0f);
+                                          (float) GlyphArrangement::getStringWidthInt (f, text) + textEdgeGap * 2.0f);
     auto textX = cs + textEdgeGap;
 
     if (position.testFlags (Justification::horizontallyCentred))
@@ -2190,8 +2209,9 @@ int LookAndFeel_V2::getTabButtonSpaceAroundImage()
 
 int LookAndFeel_V2::getTabButtonBestWidth (TabBarButton& button, int tabDepth)
 {
-    int width = Font (withDefaultMetrics (FontOptions { (float) tabDepth * 0.6f })).getStringWidth (button.getButtonText().trim())
-                   + getTabButtonOverlap (tabDepth) * 2;
+    int width = GlyphArrangement::getStringWidthInt (withDefaultMetrics (FontOptions { (float) tabDepth * 0.6f }),
+                                                     button.getButtonText().trim())
+              + getTabButtonOverlap (tabDepth) * 2;
 
     if (auto* extraComponent = button.getExtraComponent())
         width += button.getTabbedButtonBar().isVertical() ? extraComponent->getHeight()
@@ -2626,7 +2646,13 @@ void LookAndFeel_V2::drawCallOutBoxBackground (CallOutBox& box, Graphics& g,
 {
     if (cachedImage.isNull())
     {
-        cachedImage = Image (Image::ARGB, box.getWidth(), box.getHeight(), true);
+        cachedImage = Image (Image::ARGB,
+                             box.getWidth(),
+                             box.getHeight(),
+                             true,
+                             *g.getInternalContext().getPreferredImageTypeForTemporaryImages());
+        cachedImage.setBackupEnabled (false);
+
         Graphics g2 (cachedImage);
 
         DropShadow (Colours::black.withAlpha (0.7f), 8, Point<int> (0, 2)).drawForPath (g2, path);

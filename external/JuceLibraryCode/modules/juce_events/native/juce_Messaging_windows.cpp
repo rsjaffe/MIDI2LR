@@ -63,7 +63,7 @@ public:
         clearSingletonInstance();
     }
 
-    JUCE_DECLARE_SINGLETON (InternalMessageQueue, false)
+    JUCE_DECLARE_SINGLETON_INLINE (InternalMessageQueue, false)
 
     //==============================================================================
     void broadcastMessage (const String& message)
@@ -140,7 +140,7 @@ public:
                       && ! JuceWindowIdentifier::isJUCEWindow (m.hwnd))
                 {
                     // if it's someone else's window being clicked on, and the focus is
-                    // currently on a juce window, pass the kb focus over..
+                    // currently on a juce window, pass the kb focus over
                     auto currentFocus = GetFocus();
 
                     if (currentFocus == nullptr || JuceWindowIdentifier::isJUCEWindow (currentFocus))
@@ -259,8 +259,6 @@ private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (InternalMessageQueue)
 };
-
-JUCE_IMPLEMENT_SINGLETON (InternalMessageQueue)
 
 const TCHAR InternalMessageQueue::messageWindowName[] = _T("JUCEWindow");
 

@@ -45,10 +45,10 @@ struct FocusHelpers
         return order > 0 ? order : std::numeric_limits<int>::max();
     }
 
-    template <typename FocusContainerFn>
-    static void findAllComponents (Component* parent,
+    static void findAllComponents (const Component* parent,
                                    std::vector<Component*>& components,
-                                   FocusContainerFn isFocusContainer)
+                                   bool (Component::* isFocusContainer)() const,
+                                   FocusTraverser::SkipDisabledComponents skipDisabledComponents)
     {
         if (parent == nullptr || parent->getNumChildComponents() == 0)
             return;
@@ -56,8 +56,12 @@ struct FocusHelpers
         std::vector<Component*> localComponents;
 
         for (auto* c : parent->getChildren())
-            if (c->isVisible() && c->isEnabled())
+        {
+            constexpr auto no = FocusTraverser::SkipDisabledComponents::no;
+
+            if (c->isVisible() && (c->isEnabled() || skipDisabledComponents == no))
                 localComponents.push_back (c);
+        }
 
         const auto compareComponents = [&] (const Component* a, const Component* b)
         {
@@ -81,42 +85,42 @@ struct FocusHelpers
             components.push_back (c);
 
             if (! (c->*isFocusContainer)())
-                findAllComponents (c, components, isFocusContainer);
+                findAllComponents (c, components, isFocusContainer, skipDisabledComponents);
         }
     }
 
     enum class NavigationDirection { forwards, backwards };
 
-    template <typename FocusContainerFn>
-    static Component* navigateFocus (Component* current,
-                                     Component* focusContainer,
+    static Component* navigateFocus (const Component* current,
+                                     const Component* focusContainer,
                                      NavigationDirection direction,
-                                     FocusContainerFn isFocusContainer)
+                                     bool (Component::* isFocusContainer)() const,
+                                     FocusTraverser::SkipDisabledComponents skipDisabledComponents)
     {
-        if (focusContainer != nullptr)
+        if (focusContainer == nullptr)
+            return nullptr;
+
+        std::vector<Component*> components;
+        findAllComponents (focusContainer, components, isFocusContainer, skipDisabledComponents);
+
+        const auto iter = std::find (components.cbegin(), components.cend(), current);
+
+        if (iter == components.cend())
+            return nullptr;
+
+        switch (direction)
         {
-            std::vector<Component*> components;
-            findAllComponents (focusContainer, components, isFocusContainer);
+            case NavigationDirection::forwards:
+                if (iter != std::prev (components.cend()))
+                    return *std::next (iter);
 
-            const auto iter = std::find (components.cbegin(), components.cend(), current);
+                break;
 
-            if (iter == components.cend())
-                return nullptr;
+            case NavigationDirection::backwards:
+                if (iter != components.cbegin())
+                    return *std::prev (iter);
 
-            switch (direction)
-            {
-                case NavigationDirection::forwards:
-                    if (iter != std::prev (components.cend()))
-                        return *std::next (iter);
-
-                    break;
-
-                case NavigationDirection::backwards:
-                    if (iter != components.cbegin())
-                        return *std::prev (iter);
-
-                    break;
-            }
+                break;
         }
 
         return nullptr;

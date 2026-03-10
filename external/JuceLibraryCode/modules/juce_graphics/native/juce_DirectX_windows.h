@@ -35,81 +35,39 @@
 namespace juce
 {
 
+//==============================================================================
+/** Heap storage for a DirectWrite glyph run */
+class DirectWriteGlyphRun
+{
+public:
+    void replace (Span<const Point<float>> positions, float scale);
+
+    auto* getAdvances() const { return advances.data(); }
+    auto* getOffsets()  const { return offsets .data(); }
+
+private:
+    std::vector<float> advances;
+    std::vector<DWRITE_GLYPH_OFFSET> offsets;
+};
+
 struct DxgiAdapter : public ReferenceCountedObject
 {
     using Ptr = ReferenceCountedObjectPtr<DxgiAdapter>;
 
-    DxgiAdapter (ComSmartPtr<ID2D1Factory2> d2dFactory, ComSmartPtr<IDXGIAdapter1> dxgiAdapterIn)
-        : dxgiAdapter (dxgiAdapterIn)
-    {
-        for (UINT i = 0;; ++i)
-        {
-            ComSmartPtr<IDXGIOutput> output;
-            const auto hr = dxgiAdapter->EnumOutputs (i, output.resetAndGetPointerAddress());
+    static Ptr create (ComSmartPtr<ID2D1Factory2>, ComSmartPtr<IDXGIAdapter1>);
 
-            if (hr == DXGI_ERROR_NOT_FOUND || hr == DXGI_ERROR_NOT_CURRENTLY_AVAILABLE)
-                break;
+    bool uniqueIDMatches (ReferenceCountedObjectPtr<DxgiAdapter> other) const;
 
-            dxgiOutputs.push_back (output);
-        }
-
-        // This flag adds support for surfaces with a different color channel ordering
-        // than the API default. It is required for compatibility with Direct2D.
-        const auto creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
-        jassert (dxgiAdapter);
-
-        if (const auto hr = D3D11CreateDevice (dxgiAdapter,
-                                               D3D_DRIVER_TYPE_UNKNOWN,
-                                               nullptr,
-                                               creationFlags,
-                                               nullptr,
-                                               0,
-                                               D3D11_SDK_VERSION,
-                                               direct3DDevice.resetAndGetPointerAddress(),
-                                               nullptr,
-                                               nullptr); FAILED (hr))
-        {
-            return;
-        }
-
-        if (const auto hr = direct3DDevice->QueryInterface (dxgiDevice.resetAndGetPointerAddress()); FAILED (hr))
-            return;
-
-        if (const auto hr = d2dFactory->CreateDevice (dxgiDevice, direct2DDevice.resetAndGetPointerAddress()); FAILED (hr))
-            return;
-    }
-
-    void release()
-    {
-        direct2DDevice = nullptr;
-        dxgiDevice = nullptr;
-        dxgiOutputs.clear();
-        dxgiAdapter = nullptr;
-        direct3DDevice = nullptr; // release the Direct3D device after the adapter to avoid an exception with AMD
-    }
-
-    bool uniqueIDMatches (ReferenceCountedObjectPtr<DxgiAdapter> other) const
-    {
-        auto luid = getAdapterUniqueID();
-        auto otherLuid = other->getAdapterUniqueID();
-        return (luid.HighPart == otherLuid.HighPart) && (luid.LowPart == otherLuid.LowPart);
-    }
-
-    LUID getAdapterUniqueID() const
-    {
-        DXGI_ADAPTER_DESC1 desc;
-
-        if (auto hr = dxgiAdapter->GetDesc1 (&desc); SUCCEEDED (hr))
-            return desc.AdapterLuid;
-
-        return LUID { 0, 0 };
-    }
+    LUID getAdapterUniqueID() const;
 
     ComSmartPtr<ID3D11Device> direct3DDevice;
     ComSmartPtr<IDXGIDevice> dxgiDevice;
     ComSmartPtr<ID2D1Device1> direct2DDevice;
     ComSmartPtr<IDXGIAdapter1> dxgiAdapter;
     std::vector<ComSmartPtr<IDXGIOutput>> dxgiOutputs;
+
+private:
+    DxgiAdapter() = default;
 };
 
 struct DxgiAdapterListener
@@ -122,55 +80,13 @@ struct DxgiAdapterListener
 class DxgiAdapters
 {
 public:
-    explicit DxgiAdapters (ComSmartPtr<ID2D1Factory2> d2dFactoryIn)
-        : d2dFactory (d2dFactoryIn)
-    {
-        updateAdapters();
-    }
+    explicit DxgiAdapters (ComSmartPtr<ID2D1Factory2> d2dFactoryIn);
 
-    ~DxgiAdapters()
-    {
-        releaseAdapters();
-    }
+    ~DxgiAdapters();
 
-    void updateAdapters()
-    {
-        if (factory != nullptr && factory->IsCurrent() && ! adapterArray.isEmpty())
-            return;
+    void updateAdapters();
 
-        releaseAdapters();
-
-        if (factory == nullptr || ! factory->IsCurrent())
-            factory = makeDxgiFactory();
-
-        if (factory == nullptr)
-        {
-            // If you hit this, we were unable to create a DXGI Factory, so we won't be able to
-            // render anything using Direct2D.
-            // Maybe this version of Windows doesn't have Direct2D support.
-            jassertfalse;
-            return;
-        }
-
-        for (UINT i = 0;; ++i)
-        {
-            ComSmartPtr<IDXGIAdapter1> dxgiAdapter;
-
-            if (factory->EnumAdapters1 (i, dxgiAdapter.resetAndGetPointerAddress()) == DXGI_ERROR_NOT_FOUND)
-                break;
-
-            const auto adapter = adapterArray.add (new DxgiAdapter { d2dFactory, dxgiAdapter });
-            listeners.call ([adapter] (DxgiAdapterListener& l) { l.adapterCreated (adapter); });
-        }
-    }
-
-    void releaseAdapters()
-    {
-        for (const auto& adapter : adapterArray)
-            listeners.call ([adapter] (DxgiAdapterListener& l) { l.adapterRemoved (adapter); });
-
-        adapterArray.clear();
-    }
+    void releaseAdapters();
 
     const auto& getAdapterArray() const
     {
@@ -182,63 +98,15 @@ public:
         return factory;
     }
 
-    DxgiAdapter::Ptr getAdapterForHwnd (HWND hwnd) const
-    {
-        const auto monitor = MonitorFromWindow (hwnd, MONITOR_DEFAULTTONULL);
+    DxgiAdapter::Ptr getAdapterForHwnd (HWND hwnd) const;
 
-        if (monitor == nullptr)
-            return getDefaultAdapter();
+    DxgiAdapter::Ptr getDefaultAdapter() const;
 
-        for (auto& adapter : adapterArray)
-        {
-            for (const auto& dxgiOutput : adapter->dxgiOutputs)
-            {
-                DXGI_OUTPUT_DESC desc{};
-
-                if (FAILED (dxgiOutput->GetDesc (&desc)))
-                    continue;
-
-                if (desc.Monitor == monitor)
-                    return adapter;
-            }
-        }
-
-        return getDefaultAdapter();
-    }
-
-    DxgiAdapter::Ptr getDefaultAdapter() const
-    {
-        return adapterArray.getFirst();
-    }
-
-    void addListener (DxgiAdapterListener& l)
-    {
-        listeners.add (&l);
-    }
-
-    void removeListener (DxgiAdapterListener& l)
-    {
-        listeners.remove (&l);
-    }
+    void addListener (DxgiAdapterListener& l);
+    void removeListener (DxgiAdapterListener& l);
 
 private:
-    static ComSmartPtr<IDXGIFactory2> makeDxgiFactory()
-    {
-        JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wlanguage-extension-token")
-        ComSmartPtr<IDXGIFactory2> result;
-        if (const auto hr = CreateDXGIFactory2 (0, __uuidof (IDXGIFactory2), (void**) result.resetAndGetPointerAddress()); SUCCEEDED (hr))
-            return result;
-        JUCE_END_IGNORE_WARNINGS_GCC_LIKE
-
-        // If CreateDXGIFactory fails, check to see if this is being called in the context of DllMain.
-        // CreateDXGIFactory will always fail if called from the context of DllMain. In this case, the renderer
-        // will create a software image instead as a fallback, but that won't perform as well.
-        //
-        // You may be creating an Image as a static object, which will likely be created in the context of DllMain.
-        // Consider deferring your Image creation until later.
-        jassertfalse;
-        return {};
-    }
+    static ComSmartPtr<IDXGIFactory2> makeDxgiFactory();
 
     ComSmartPtr<ID2D1Factory2> d2dFactory;
 
@@ -252,34 +120,12 @@ private:
 class DirectX
 {
 public:
-    DirectX() = default;
+    DirectX();
 
     auto getD2DFactory() const { return d2dSharedFactory; }
-    auto getD2DMultithread() const { return multithread; }
 
 private:
-    ComSmartPtr<ID2D1Factory2> d2dSharedFactory = [&]
-    {
-        D2D1_FACTORY_OPTIONS options;
-        options.debugLevel = D2D1_DEBUG_LEVEL_NONE;
-        JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wlanguage-extension-token")
-        ComSmartPtr<ID2D1Factory2> result;
-        auto hr = D2D1CreateFactory (D2D1_FACTORY_TYPE_MULTI_THREADED,
-                                     __uuidof (ID2D1Factory2),
-                                     &options,
-                                     (void**) result.resetAndGetPointerAddress());
-        jassertquiet (SUCCEEDED (hr));
-        JUCE_END_IGNORE_WARNINGS_GCC_LIKE
-
-        return result;
-    }();
-
-    ComSmartPtr<ID2D1Multithread> multithread = [&]
-    {
-        ComSmartPtr<ID2D1Multithread> result;
-        d2dSharedFactory->QueryInterface<ID2D1Multithread> (result.resetAndGetPointerAddress());
-        return result;
-    }();
+    ComSmartPtr<ID2D1Factory2> d2dSharedFactory;
 
 public:
     DxgiAdapters adapters { d2dSharedFactory };
@@ -316,15 +162,278 @@ struct D2DUtilities
     static Point<int> toPoint (POINT p) noexcept          { return { p.x, p.y }; }
     static POINT toPOINT (Point<int> p) noexcept          { return { p.x, p.y }; }
 
+    static D2D1_POINT_2U toPOINT_2U (Point<int> p)        { return D2D1::Point2U ((UINT32) p.x, (UINT32) p.y); }
+
     static D2D1_COLOR_F toCOLOR_F (Colour c)
     {
         return { c.getFloatRed(), c.getFloatGreen(), c.getFloatBlue(), c.getFloatAlpha() };
     }
 
-    static D2D1::Matrix3x2F transformToMatrix (const AffineTransform& transform)
+    static D2D1::Matrix3x2F transformToMatrix (const AffineTransform& t)
     {
-        return { transform.mat00, transform.mat10, transform.mat01, transform.mat11, transform.mat02, transform.mat12 };
+        return { t.mat00, t.mat10, t.mat01, t.mat11, t.mat02, t.mat12 };
     }
+
+    static AffineTransform matrixToTransform (const D2D1_MATRIX_3X2_F& m)
+    {
+        return { m._11, m._21, m._31, m._12, m._22, m._32 };
+    }
+
+    static Rectangle<int> rectFromSize (D2D1_SIZE_U s)
+    {
+        return { (int) s.width, (int) s.height };
+    }
+
+    static ComSmartPtr<ID2D1Device1> getDeviceForContext (ComSmartPtr<ID2D1DeviceContext1> context);
+};
+
+//==============================================================================
+struct Direct2DDeviceContext
+{
+    static ComSmartPtr<ID2D1DeviceContext1> create (ComSmartPtr<ID2D1Device1> device);
+
+    static ComSmartPtr<ID2D1DeviceContext1> create (DxgiAdapter::Ptr adapter)
+    {
+        return adapter != nullptr ? create (adapter->direct2DDevice) : nullptr;
+    }
+
+    Direct2DDeviceContext() = delete;
+};
+
+//==============================================================================
+struct Direct2DBitmap
+{
+    Direct2DBitmap() = delete;
+
+    static ComSmartPtr<ID2D1Bitmap1> toBitmap (const Image& image,
+                                               ComSmartPtr<ID2D1DeviceContext1> deviceContext,
+                                               Image::PixelFormat outputFormat);
+
+    static ComSmartPtr<ID2D1Bitmap1> createBitmap (ComSmartPtr<ID2D1DeviceContext1> deviceContext,
+                                                   Image::PixelFormat format,
+                                                   D2D_SIZE_U size,
+                                                   D2D1_BITMAP_OPTIONS options);
+};
+
+//==============================================================================
+/*  UpdateRegion extracts the invalid region for a window
+    UpdateRegion is used to service WM_PAINT to add the invalid region of a window to
+    deferredRepaints. UpdateRegion marks the region as valid, and the region should be painted on the
+    next vblank.
+    This is similar to the invalid region update in HWNDComponentPeer::handlePaintMessage()
+*/
+class UpdateRegion
+{
+public:
+    void findRECTAndValidate (HWND windowHandle);
+
+    void clear()
+    {
+        numRect = 0;
+    }
+
+    Span<const RECT> getRects() const
+    {
+        auto header = (RGNDATAHEADER const* const) block.getData();
+        auto* data = (RECT*) (header + 1);
+        return { data, numRect };
+    }
+
+private:
+    MemoryBlock block { 1024 };
+    uint32 numRect = 0;
+};
+
+class LinearGradientCache
+{
+public:
+    ComSmartPtr<ID2D1LinearGradientBrush> get (const ColourGradient& gradient,
+                                               ComSmartPtr<ID2D1DeviceContext1> deviceContext,
+                                               Direct2DMetrics* metrics);
+
+private:
+    LruCache<ColourGradient, ComSmartPtr<ID2D1LinearGradientBrush>> cache;
+};
+
+class RadialGradientCache
+{
+public:
+    ComSmartPtr<ID2D1RadialGradientBrush> get (const ColourGradient& gradient,
+                                               ComSmartPtr<ID2D1DeviceContext1> deviceContext,
+                                               Direct2DMetrics* metrics);
+
+private:
+    LruCache<ColourGradient, ComSmartPtr<ID2D1RadialGradientBrush>> cache;
+};
+
+class RectangleListSpriteBatch
+{
+    struct TransformCallback
+    {
+        virtual Rectangle<float> transform (Rectangle<float>) const = 0;
+    };
+
+public:
+    RectangleListSpriteBatch() = default;
+
+    ~RectangleListSpriteBatch();
+
+    void release();
+
+    template <typename TransformRectangle>
+    bool fillRectangles (ComSmartPtr<ID2D1DeviceContext1> deviceContext,
+                         const RectangleList<float>& rectangles,
+                         const Colour colour,
+                         TransformRectangle&& transformRectangle,
+                         [[maybe_unused]] Direct2DMetrics* metrics)
+    {
+        struct Callback : public TransformCallback
+        {
+            explicit Callback (TransformRectangle&& x) : fn (x) {}
+            Rectangle<float> transform (Rectangle<float> x) const override { return fn (x); }
+            TransformRectangle fn;
+        };
+
+        const Callback callback { std::forward<TransformRectangle> (transformRectangle) };
+        return fillRectanglesImpl (deviceContext, rectangles, colour, callback, metrics);
+    }
+
+private:
+    ComSmartPtr<ID2D1SpriteBatch> getSpriteBatch (ID2D1DeviceContext3& dc, uint32 key);
+
+    bool fillRectanglesImpl (ComSmartPtr<ID2D1DeviceContext1> deviceContext,
+                             const RectangleList<float>& rectangles,
+                             Colour colour,
+                             const TransformCallback& transformRectangle,
+                             [[maybe_unused]] Direct2DMetrics* metrics);
+
+    static constexpr uint32 rectangleSize = 32;
+    ComSmartPtr<ID2D1BitmapRenderTarget> whiteRectangle;
+    HeapBlock<D2D1_RECT_F> destinations;
+    size_t destinationsCapacity = 0;
+    LruCache<uint32, ComSmartPtr<ID2D1SpriteBatch>, 8> spriteBatches;
+};
+
+class Direct2DDeviceResources
+{
+public:
+    static DxgiAdapter::Ptr findAdapter (const DxgiAdapters& adapters, ID2D1Bitmap1* bitmap);
+    static DxgiAdapter::Ptr findAdapter (const DxgiAdapters& dxgiAdapters, IDXGIDevice* dxgiDevice);
+    static DxgiAdapter::Ptr findAdapter (const DxgiAdapters& dxgiAdapters, ID2D1DeviceContext1* context);
+
+    static LUID getLUID (ComSmartPtr<IDXGIAdapter1> adapter);
+
+    static std::optional<Direct2DDeviceResources> create (ComSmartPtr<ID2D1DeviceContext1> context);
+
+    ComSmartPtr<ID2D1SolidColorBrush> colourBrush;
+    LinearGradientCache linearGradientCache;
+    RadialGradientCache radialGradientCache;
+    std::unique_ptr<RectangleListSpriteBatch> rectangleListSpriteBatch;
+
+private:
+    Direct2DDeviceResources() = default;
+};
+
+//==============================================================================
+class AggregateFontCollection
+{
+public:
+    explicit AggregateFontCollection (ComSmartPtr<IDWriteFontCollection> baseCollection);
+
+    StringArray findAllTypefaceNames();
+
+    static std::vector<ComSmartPtr<IDWriteFont>> getAllFontsInFamily (IDWriteFontFamily* fontFamily);
+
+    StringArray findAllTypefaceStyles (const String& family);
+
+    ComSmartPtr<IDWriteFontFamily> getFamilyByName (const wchar_t* name);
+
+    ComSmartPtr<IDWriteFont> findFontForFace (IDWriteFontFace* face);
+
+    void addCollection (ComSmartPtr<IDWriteFontCollection> collection);
+
+    void removeCollection (ComSmartPtr<IDWriteFontCollection> collection);
+
+    struct MapResult
+    {
+        ComSmartPtr<IDWriteFont> font;
+        UINT32 length{};
+        float scale{};
+    };
+
+    /*  Tries matching against each collection in turn.
+        If any collection is able to match the entire string, then uses the appropriate font
+        from that collection.
+        Otherwise, returns the font that is able to match the longest sequence of characters,
+        preferring user-provided fonts.
+    */
+    MapResult mapCharacters (IDWriteFontFallback* fallback,
+                             IDWriteTextAnalysisSource* analysisSource,
+                             UINT32 textPosition,
+                             UINT32 textLength,
+                             wchar_t const* baseFamilyName,
+                             DWRITE_FONT_WEIGHT baseWeight,
+                             DWRITE_FONT_STYLE baseStyle,
+                             DWRITE_FONT_STRETCH baseStretch) noexcept;
+
+private:
+    std::vector<ComSmartPtr<IDWriteFontCollection>> collections;
+    std::mutex mutex;
+};
+
+class DirectWriteCustomFontCollectionLoader final : public ComBaseClassHelper<IDWriteFontCollectionLoader>
+{
+public:
+    explicit DirectWriteCustomFontCollectionLoader (IDWriteFactory& factoryIn);
+
+    ~DirectWriteCustomFontCollectionLoader() override;
+
+    Uuid addRawFontData (Span<const std::byte> blob);
+
+    HRESULT WINAPI CreateEnumeratorFromKey (IDWriteFactory* factoryIn,
+                                            const void* collectionKey,
+                                            UINT32 collectionKeySize,
+                                            IDWriteFontFileEnumerator** fontFileEnumerator) noexcept override;
+
+private:
+    class MemoryFontFileLoader;
+    class FontFileEnumerator;
+
+    ComSmartPtr<MemoryFontFileLoader> findLoaderForUuid (const Uuid&) const;
+
+    IDWriteFactory& factory;
+
+    // Allows lookup of Uuids of all loaders with data matching a particular hash
+    std::map<size_t, std::vector<Uuid>> uuidsForHash;
+
+    // Sorted by Uuid
+    std::vector<ComSmartPtr<MemoryFontFileLoader>> loaders;
+};
+
+//==============================================================================
+class Direct2DFactories
+{
+public:
+    Direct2DFactories();
+
+    ~Direct2DFactories();
+
+    [[nodiscard]] ComSmartPtr<IDWriteFactory> getDWriteFactory() const { return directWriteFactory; }
+    [[nodiscard]] ComSmartPtr<IDWriteFactory4> getDWriteFactory4() const { return directWriteFactory4; }
+    [[nodiscard]] AggregateFontCollection& getFonts() { jassert (fonts.has_value()); return *fonts; }
+    [[nodiscard]] ComSmartPtr<DirectWriteCustomFontCollectionLoader> getCollectionLoader() const { return collectionLoader; }
+
+private:
+    DynamicLibrary direct2dDll { "d2d1.dll" }, directWriteDll { "DWrite.dll" };
+
+    const ComSmartPtr<ID2D1Factory> d2dFactory;
+    const ComSmartPtr<IDWriteFactory> directWriteFactory;
+    const ComSmartPtr<DirectWriteCustomFontCollectionLoader> collectionLoader;
+    const ComSmartPtr<IDWriteFactory4> directWriteFactory4 = directWriteFactory.getInterface<IDWriteFactory4>();
+
+    std::optional<AggregateFontCollection> fonts;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Direct2DFactories)
 };
 
 } // namespace juce

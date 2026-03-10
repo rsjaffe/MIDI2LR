@@ -59,7 +59,8 @@ namespace rsj {
                constexpr auto msg {
                    "The file, 'settings.xml', is marked as a version not supported by the current "
                    "version of MIDI2LR SettingsStruct, and won't be loaded. File version: {}."};
-               rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
+               rsj::LogAndAlertError(fmt::format(fmt::runtime(juce::translate(msg).toStdString()),
+                                         version),
                    fmt::format(msg, version), std::source_location::current());
             }
             break;
@@ -114,8 +115,9 @@ namespace rsj {
                   constexpr auto msg {"The file, 'settings.xml', is marked as a version not "
                                       "supported by the current version of MIDI2LR SettingsStruct, "
                                       "and won't be loaded. File version: {}."};
-                  rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                      fmt::format(msg, version), std::source_location::current());
+                  rsj::LogAndAlertError(
+                      fmt::format(fmt::runtime(juce::translate(msg).toStdString()), version),
+                      fmt::format(fmt::runtime(msg), version), std::source_location::current());
                }
                break;
             }
@@ -178,15 +180,16 @@ class ChannelModel {
 
    [[nodiscard]] int CenterCc(int controlnumber) const noexcept
    {
-      return (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) / 2
-             + cc_low_.at(controlnumber)
-             + (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) % 2;
+      auto diff {cc_high_.at(controlnumber) - cc_low_.at(controlnumber)};
+      MIDI2LR_ASSUME(diff >= 0);
+      return diff / 2 + cc_low_.at(controlnumber) + diff % 2;
    }
 
    [[nodiscard]] int CenterPw() const noexcept
    {
-      return (pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_
-             + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
+      auto diff {pitch_wheel_max_ - pitch_wheel_min_};
+      MIDI2LR_ASSUME(diff >= 0);
+      return diff / 2 + pitch_wheel_min_ + diff % 2;
    }
 
    // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -346,8 +349,9 @@ template<class Archive> void ChannelModel::load(Archive& archive, const uint32_t
             constexpr auto msg {
                 "The file, 'settings.xml', is marked as a version not supported by the current "
                 "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
-            rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                fmt::format(msg, version), std::source_location::current());
+            rsj::LogAndAlertError(fmt::format(fmt::runtime(juce::translate(msg).toStdString()),
+                                      version),
+                fmt::format(fmt::runtime(msg), version), std::source_location::current());
          }
          break;
       }
@@ -379,8 +383,9 @@ template<class Archive> void ChannelModel::save(Archive& archive, const uint32_t
             constexpr auto msg {
                 "The file, 'settings.xml', is marked as a version not supported by the current "
                 "version of MIDI2LR ChannelModel, and won't be loaded. File version: {}."};
-            rsj::LogAndAlertError(fmt::format(juce::translate(msg).toStdString(), version),
-                fmt::format(msg, version), std::source_location::current());
+            rsj::LogAndAlertError(fmt::format(fmt::runtime(juce::translate(msg).toStdString()),
+                                      version),
+                fmt::format(fmt::runtime(msg), version), std::source_location::current());
          }
          break;
       }

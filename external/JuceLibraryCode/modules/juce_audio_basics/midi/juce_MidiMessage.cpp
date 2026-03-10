@@ -145,7 +145,7 @@ MidiMessage::MidiMessage (const void* const d, const int dataSize, const double 
    : timeStamp (t), size (dataSize)
 {
     jassert (dataSize > 0);
-    // this checks that the length matches the data..
+    // this checks that the length matches the data
     jassert (dataSize > 3 || *(uint8*)d >= 0xf0 || getMessageLengthFromFirstByte (*(uint8*)d) == size);
 
     memcpy (allocateSpace (dataSize), d, (size_t) dataSize);
@@ -156,7 +156,7 @@ MidiMessage::MidiMessage (const int byte1, const double t) noexcept
 {
     packedData.asBytes[0] = (uint8) byte1;
 
-    // check that the length matches the data..
+    // check that the length matches the data
     jassert (byte1 >= 0xf0 || getMessageLengthFromFirstByte ((uint8) byte1) == 1);
 }
 
@@ -166,7 +166,7 @@ MidiMessage::MidiMessage (const int byte1, const int byte2, const double t) noex
     packedData.asBytes[0] = (uint8) byte1;
     packedData.asBytes[1] = (uint8) byte2;
 
-    // check that the length matches the data..
+    // check that the length matches the data
     jassert (byte1 >= 0xf0 || getMessageLengthFromFirstByte ((uint8) byte1) == 2);
 }
 
@@ -177,7 +177,7 @@ MidiMessage::MidiMessage (const int byte1, const int byte2, const int byte3, con
     packedData.asBytes[1] = (uint8) byte2;
     packedData.asBytes[2] = (uint8) byte3;
 
-    // check that the length matches the data..
+    // check that the length matches the data
     jassert (byte1 >= 0xf0 || getMessageLengthFromFirstByte ((uint8) byte1) == 3);
 }
 
@@ -1231,8 +1231,7 @@ struct MidiMessageTest final : public UnitTest
 
             size_t index = 0;
 
-            JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wdeprecated-declarations")
-            JUCE_BEGIN_IGNORE_WARNINGS_MSVC (4996)
+            JUCE_BEGIN_IGNORE_DEPRECATION_WARNINGS
 
             for (const auto& input : inputs)
             {
@@ -1258,8 +1257,7 @@ struct MidiMessageTest final : public UnitTest
                 ++index;
             }
 
-            JUCE_END_IGNORE_WARNINGS_GCC_LIKE
-            JUCE_END_IGNORE_WARNINGS_MSVC
+            JUCE_END_IGNORE_DEPRECATION_WARNINGS
         }
 
         beginTest ("ReadVariableLengthVal should return 0 if input is truncated");

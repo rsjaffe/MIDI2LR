@@ -70,7 +70,11 @@ public:
             // LB3
             if (isEOT)
             {
-                emit (TextBreakType::soft);
+                if (contains ({ LineBreakType::cr, LineBreakType::lf, LineBreakType::nl }, prev))
+                    emit (TextBreakType::hard);
+                else
+                    emit (TextBreakType::soft);
+
                 break;
             }
 
@@ -239,7 +243,9 @@ private:
                 return LineBreakType::ns;
 
             case LineBreakType::sa:
-                return contains ({ GeneralCategory::mn, GeneralCategory::mc }, point.getGeneralCategory())
+                return contains ({ (SBGeneralCategory) SBGeneralCategoryMN,
+                                   (SBGeneralCategory) SBGeneralCategoryMC },
+                                 point.getGeneralCategory())
                     ? LineBreakType::cm
                     : LineBreakType::al;
 
