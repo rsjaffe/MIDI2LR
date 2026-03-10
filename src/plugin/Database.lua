@@ -1105,7 +1105,7 @@ local DataBase = {
 
   --local adjustment resets
   {Command='ResetRedeye',Type='button',Translation=LOC('$$$/AgLibrary/Ops/ResetRedeye=Reset Red-Eye'),Group=localadjresets,Explanation='Delete red eye correction.'},
-  {Command='ResetHealing',Type='button',Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1','$$$/ProvideFeedback/HealingCategory=healing'),,Group=localadjresets,Explanation='Delete healing corrections.'},
+  {Command='ResetHealing',Type='button',Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1','$$$/ProvideFeedback/HealingCategory=healing'),Group=localadjresets,Explanation='Delete healing corrections.'},
   {Command='Resetlocal_Amount',Type='button',Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/CorrectionAmount=amount')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Amount',Type='button',Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/CorrectionAmount=amount')),Group=localadjresets,Explanation='Reset to default.'},
   {Command='Resetlocal_Exposure',Type='button',Translation=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Exposure=Exposure')..' ('..P2and3plus..')'),PV2=LOC('$$$/AgDevelop/Localized/ResetTitle=Reset ^1',locadj..' '..LOC('$$$/AgDevelop/Localized/Exposure=Exposure')),Group=localadjresets,Explanation='Reset to default.'},
