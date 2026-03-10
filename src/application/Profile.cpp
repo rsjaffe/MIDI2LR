@@ -29,7 +29,8 @@ namespace {
        {     "local_Blacks2012",         "local_Blacks"},
        {"Resetlocal_Whites2012",    "Resetlocal_Whites"},
        {"Resetlocal_Blacks2012",    "Resetlocal_Blacks"},
-       {             "Unmapped",           "Unassigned"}
+       {             "Unmapped",           "Unassigned"},
+       {         "ResetSpotRem",         "ResetHealing"}
    };
 } // namespace
 
