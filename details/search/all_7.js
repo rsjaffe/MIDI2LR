@@ -1,8 +1,24 @@
 var searchData=
 [
-  ['handleasyncupdate_0',['handleasyncupdate',['../class_main_content_component.html#a9be726b895f68c0e9163d618ee4d20f6',1,'MainContentComponent::handleAsyncUpdate()'],['../class_profile_manager.html#a06dda29b41856d4c2e9e85132a79da5a',1,'ProfileManager::handleAsyncUpdate()'],['../class_version_checker.html#a3be0b90040969fec02cc547f7012accc',1,'VersionChecker::handleAsyncUpdate()']]],
-  ['handleincomingmidimessage_1',['handleIncomingMidiMessage',['../class_midi_receiver.html#ac3356894c7d1a982cd94bc472150c95c',1,'MidiReceiver']]],
-  ['hankaku_2',['hankaku',['../structrsj_1_1_active_modifiers.html#acab80a2f2d2edd0f97b3c0e3e1f28d0b',1,'rsj::ActiveModifiers']]],
-  ['hash_3c_20rsj_3a_3amidimessageid_20_3e_3',['hash&lt; rsj::MidiMessageId &gt;',['../structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html',1,'std']]],
-  ['high_4',['high',['../structrsj_1_1_settings_struct.html#af828cb1e5214affd95827790bf801b03',1,'rsj::SettingsStruct']]]
+  ['i_5fo_0',['i_o',['../struct_devices_1_1_dev_info.html#af153305523e46cbd84ab0af4d58044d3',1,'Devices::DevInfo']]],
+  ['identifier_1',['identifier',['../struct_devices_1_1_dev_info.html#a7aad29a1edb3224e7d245278e7e4a08d',1,'Devices::DevInfo']]],
+  ['impl_2',['Impl',['../class_command_set_1_1_impl.html',1,'CommandSet::Impl'],['../class_command_set_1_1_impl.html#a3e06c2c721917d9085a91ad7f1295c8d',1,'CommandSet::Impl::Impl()'],['../class_command_set_1_1_impl.html#a168efe06a002736505ea23125e218f71',1,'CommandSet::Impl::Impl(const Impl &amp;other)=delete'],['../class_command_set_1_1_impl.html#aa5747c18697c79d6b0377912d5eba39f',1,'CommandSet::Impl::Impl(Impl &amp;&amp;other)=delete']]],
+  ['info_5f_3',['info_',['../class_debug_info.html#a575d4944d074eb26910c200f953a3b33',1,'DebugInfo']]],
+  ['init_4',['Init',['../class_main_content_component.html#ae702256a158baa25205b97aee67b63f3',1,'MainContentComponent::Init()'],['../class_settings_component.html#a29baa1f6c3d21bc45e53e9294556b718',1,'SettingsComponent::Init()']]],
+  ['initdevices_5',['InitDevices',['../class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69',1,'MidiReceiver::InitDevices()'],['../class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8',1,'MidiSender::InitDevices()']]],
+  ['initialise_6',['initialise',['../class_m_i_d_i2_l_r_application.html#a6c958c20964bb737b5c9c51cf13bf0e4',1,'MIDI2LRApplication::initialise(const juce::String &amp;command_line) override'],['../class_m_i_d_i2_l_r_application.html#a6c958c20964bb737b5c9c51cf13bf0e4',1,'MIDI2LRApplication::initialise(const juce::String &amp;command_line) override']]],
+  ['initializethreads_7',['InitializeThreads',['../class_m_i_d_i2_l_r_application.html#ae9315b94c27c2a1719da9aed787e4432',1,'MIDI2LRApplication::InitializeThreads()'],['../class_m_i_d_i2_l_r_application.html#ae9315b94c27c2a1719da9aed787e4432',1,'MIDI2LRApplication::InitializeThreads()']]],
+  ['input_5fdevices_5f_8',['input_devices_',['../class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f',1,'MidiReceiver']]],
+  ['insertorassign_9',['InsertOrAssign',['../class_profile.html#a35a9cb1848f7558a6402c6fcddc61851',1,'Profile::InsertOrAssign(const std::string &amp;command, rsj::MidiMessageId message)'],['../class_profile.html#aec460a00f6ac3ac18262dbdcbc7f7e43',1,'Profile::InsertOrAssign(size_t command, rsj::MidiMessageId message)']]],
+  ['insertorassigni_10',['InsertOrAssignI',['../class_profile.html#a4a9c70df1bd5d2993c0cd9a1fb9937b3',1,'Profile']]],
+  ['insertunassigned_11',['InsertUnassigned',['../class_profile.html#abf97444c320cc34e43052dc676a90610',1,'Profile']]],
+  ['intermediate_5fresults_5f_12',['intermediate_results_',['../class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42',1,'NrpnFilter']]],
+  ['internalstructure_13',['InternalStructure',['../struct_nrpn_filter_1_1_internal_structure.html',1,'NrpnFilter']]],
+  ['io_5fcontext_5f_14',['io_context_',['../class_m_i_d_i2_l_r_application.html#a4c2470ed3e7680f08bc5ea4d40ec8f97',1,'MIDI2LRApplication']]],
+  ['io_5fthread0_5f_15',['io_thread0_',['../class_m_i_d_i2_l_r_application.html#a32a4aa0c1b669dfdbad9ccdf6ff8202d',1,'MIDI2LRApplication']]],
+  ['io_5fthread1_5f_16',['io_thread1_',['../class_m_i_d_i2_l_r_application.html#a09a40319067d47c05997e5c8fec811ff',1,'MIDI2LRApplication']]],
+  ['is_5fname_17',['is_name',['../structfmt_1_1formatter_3_01rsj_1_1_message_type_01_4.html#aaf3b946429c7432ac6d7089eba63b08d',1,'fmt::formatter&lt; rsj::MessageType &gt;']]],
+  ['is_5fnrpn_18',['is_nrpn',['../struct_nrpn_filter_1_1_process_result.html#aa866ba15c3be4361d5723769aaa3d33b',1,'NrpnFilter::ProcessResult']]],
+  ['is_5fready_19',['is_ready',['../struct_nrpn_filter_1_1_process_result.html#a0589f81a857834e83ed0bce22fbbfafd',1,'NrpnFilter::ProcessResult']]],
+  ['isnrpn_20',['IsNrpn',['../class_channel_model.html#afa01b43f5d60eda9f780b12aead99f5a',1,'ChannelModel']]]
 ];

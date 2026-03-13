@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['name_0',['name',['../struct_devices_1_1_dev_info.html#ad44ccde6b28836354c34191d75b8c60a',1,'Devices::DevInfo']]],
-  ['new_5fversion_5f_1',['new_version_',['../class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e',1,'VersionChecker']]],
-  ['num_5frows_5f_2',['num_rows_',['../class_devices.html#a78d63d5c7df827256f7d71870e597644',1,'Devices']]],
-  ['numrestrict_5f_3',['numrestrict_',['../class_c_coptions.html#a9de566c7c2a5e599a06c1c4751d4d9c0',1,'CCoptions::numrestrict_'],['../class_p_woptions.html#acccdc5df9ba09e1f2df08a8ed6e9938b',1,'PWoptions::numrestrict_']]]
+  ['option_0',['option',['../structrsj_1_1_key_data.html#aa29d051a4e1e0820707710b50d2fa9c9',1,'rsj::KeyData']]],
+  ['output_5fdevices_5f_1',['output_devices_',['../class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598',1,'MidiSender']]],
+  ['owner_5falive_5f_2',['owner_alive_',['../class_lr_ipc_in_shared.html#a7f8db74f9bee3e1f3bacb8ca7a44d1e0',1,'LrIpcInShared::owner_alive_'],['../class_lr_ipc_out_shared.html#ab48aee124a82f96d00b65bd517cdc035',1,'LrIpcOutShared::owner_alive_']]]
 ];

@@ -1,22 +1,6 @@
 var searchData=
 [
-  ['m_5fimpl_5f_0',['m_impl_',['../class_command_set.html#aa95cf428f9aaed467daf95fe4036dd17',1,'CommandSet']]],
-  ['main_5fwindow_5f_1',['main_window_',['../class_m_i_d_i2_l_r_application.html#a64915de6b29a8bccf67941c11a49dfcf',1,'MIDI2LRApplication']]],
-  ['maxval_2',['maxval',['../class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4',1,'PWoptions']]],
-  ['maxvallabel_3',['maxvallabel',['../class_c_coptions.html#a3823f044a27817b93e6bc033909b069a',1,'CCoptions']]],
-  ['maxvaltext_4',['maxvaltext',['../class_c_coptions.html#a222a02e68eb6a41d20b43ce149635d56',1,'CCoptions']]],
-  ['menu_5fentries_5f_5',['menu_entries_',['../class_command_set.html#aed716952b7f36580c2eef3ac4befc27d',1,'CommandSet']]],
-  ['menus_5f_6',['menus_',['../class_command_set.html#ad812d4f0c25e9b26f3c2917a665d6e14',1,'CommandSet']]],
-  ['message_5f_7',['message_',['../class_command_menu.html#a4ecfce93e2902c3a0c9419c12ab4f92e',1,'CommandMenu']]],
-  ['message_5ftype_5fbyte_8',['message_type_byte',['../structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448',1,'rsj::MidiMessage']]],
-  ['messages_5f_9',['messages_',['../class_midi_receiver.html#ad9e2594efbd686a1255a40aa88d794e5',1,'MidiReceiver']]],
-  ['method_10',['method',['../structrsj_1_1_settings_struct.html#afb5f6774d2bffd592d871b95d6e4921d',1,'rsj::SettingsStruct']]],
-  ['midi_5freceiver_5f_11',['midi_receiver_',['../class_m_i_d_i2_l_r_application.html#a29231ef73054e3d9cec2b00992c4b9f9',1,'MIDI2LRApplication::midi_receiver_'],['../class_main_content_component.html#a38a2b7ee37726efb84798e8b8bc397af',1,'MainContentComponent::midi_receiver_']]],
-  ['midi_5fsender_5f_12',['midi_sender_',['../class_lr_ipc_in.html#af0b8a04af5fb42527bfb0945524b75b6',1,'LrIpcIn::midi_sender_'],['../class_m_i_d_i2_l_r_application.html#aa1622a76f9491b5958905e0156563c1c',1,'MIDI2LRApplication::midi_sender_'],['../class_main_content_component.html#a90c484f364548ee493e23004a3f0126f',1,'MainContentComponent::midi_sender_'],['../class_lr_ipc_out.html#a8e7931bf88e634e6ef88d581ff8ab2fd',1,'LrIpcOut::midi_sender_']]],
-  ['minval_13',['minval',['../class_p_woptions.html#aee7a1f9b512df35efb49d238aae5c3b5',1,'PWoptions']]],
-  ['minvallabel_14',['minvallabel',['../class_c_coptions.html#ae45237367af49d9e9e9f4d5ea4f1c9db',1,'CCoptions']]],
-  ['minvaltext_15',['minvaltext',['../class_c_coptions.html#aae9d135deb3d0fc120eec8af67ba217f',1,'CCoptions']]],
-  ['mm_5fabbrv_5ftable_5f_16',['mm_abbrv_table_',['../class_profile.html#a5898b9500ebfb967bd40f4ea42aa1b43',1,'Profile']]],
-  ['msg_5fid_5ftype_17',['msg_id_type',['../structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728',1,'rsj::MidiMessageId']]],
-  ['mutex_5f_18',['mutex_',['../class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073',1,'Profile::mutex_'],['../classrsj_1_1_concurrent_queue.html#a68a1ca49751defdd57dafe130179f9b1',1,'rsj::ConcurrentQueue::mutex_']]]
+  ['name_0',['name',['../struct_devices_1_1_dev_info.html#ad44ccde6b28836354c34191d75b8c60a',1,'Devices::DevInfo']]],
+  ['new_5fversion_5f_1',['new_version_',['../class_version_checker.html#a952a6dbd057258a5d7f2202a8228f47e',1,'VersionChecker']]],
+  ['num_5frows_5f_2',['num_rows_',['../class_devices.html#a78d63d5c7df827256f7d71870e597644',1,'Devices']]]
 ];

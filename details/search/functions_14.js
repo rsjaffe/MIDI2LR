@@ -15,5 +15,5 @@ var searchData=
   ['_7epwoptions_12',['~PWoptions',['../class_p_woptions.html#a0fbbb29546c930f7f2156475754a8815',1,'PWoptions']]],
   ['_7esettingscomponent_13',['~SettingsComponent',['../class_settings_component.html#a7a4688bc9cfe9c8868124bd62f5d8a4d',1,'SettingsComponent']]],
   ['_7esettingsmanager_14',['~SettingsManager',['../class_settings_manager.html#a52d99a3329704af7cd146a9009e1d8bf',1,'SettingsManager']]],
-  ['_7eversionchecker_15',['~VersionChecker',['../class_version_checker.html#ab57a0887c781f98122eae75f47947d90',1,'VersionChecker']]]
+  ['_7eversionchecker_15',['~VersionChecker',['../class_version_checker.html#a3aba2ce7eda48e8f7c837d966d394e6e',1,'VersionChecker']]]
 ];

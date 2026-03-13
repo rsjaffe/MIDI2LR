@@ -29,5 +29,5 @@ var class_profile_manager =
     [ "lr_ipc_out_", "class_profile_manager.html#ace43210fbcd9fd810ef4930448b4a59e", null ],
     [ "profile_location_", "class_profile_manager.html#a6e08a701bab52d887e1712d3b73e8c62", null ],
     [ "profiles_", "class_profile_manager.html#a1b3262551dab34b845cb52e9e5070570", null ],
-    [ "switch_state_", "class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6", null ]
+    [ "switch_state_", "class_profile_manager.html#aca13f405be2de7cd6454a32b007512c8", null ]
 ];

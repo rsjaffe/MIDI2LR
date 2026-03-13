@@ -1,13 +1,15 @@
 var searchData=
 [
-  ['i_5fo_0',['i_o',['../struct_devices_1_1_dev_info.html#af153305523e46cbd84ab0af4d58044d3',1,'Devices::DevInfo']]],
-  ['identifier_1',['identifier',['../struct_devices_1_1_dev_info.html#a7aad29a1edb3224e7d245278e7e4a08d',1,'Devices::DevInfo']]],
-  ['info_5f_2',['info_',['../class_debug_info.html#a575d4944d074eb26910c200f953a3b33',1,'DebugInfo']]],
-  ['input_5fdevices_5f_3',['input_devices_',['../class_midi_receiver.html#a8ae371505226f912b3e41717cbb5df8f',1,'MidiReceiver']]],
-  ['intermediate_5fresults_5f_4',['intermediate_results_',['../class_nrpn_filter.html#a04d0668cdbd231a8cc5d1079b3f43d42',1,'NrpnFilter']]],
-  ['io_5fcontext_5f_5',['io_context_',['../class_m_i_d_i2_l_r_application.html#a4c2470ed3e7680f08bc5ea4d40ec8f97',1,'MIDI2LRApplication']]],
-  ['io_5fthread0_5f_6',['io_thread0_',['../class_m_i_d_i2_l_r_application.html#a32a4aa0c1b669dfdbad9ccdf6ff8202d',1,'MIDI2LRApplication']]],
-  ['io_5fthread1_5f_7',['io_thread1_',['../class_m_i_d_i2_l_r_application.html#a09a40319067d47c05997e5c8fec811ff',1,'MIDI2LRApplication']]],
-  ['is_5fnrpn_8',['is_nrpn',['../struct_nrpn_filter_1_1_process_result.html#aa866ba15c3be4361d5723769aaa3d33b',1,'NrpnFilter::ProcessResult']]],
-  ['is_5fready_9',['is_ready',['../struct_nrpn_filter_1_1_process_result.html#a0589f81a857834e83ed0bce22fbbfafd',1,'NrpnFilter::ProcessResult']]]
+  ['kbit14_0',['kBit14',['../class_channel_model.html#a47b88f3853522414e32954e9536b4d37',1,'ChannelModel']]],
+  ['kbit7_1',['kBit7',['../class_channel_model.html#a62867f845bb7cc9ee2dd3087fc95ca2c',1,'ChannelModel']]],
+  ['kchannels_2',['kChannels',['../class_nrpn_filter.html#a07d8151761d56b12b701c0273418e1ea',1,'NrpnFilter']]],
+  ['keycode_3',['keycode',['../structrsj_1_1_key_data.html#ab5ebca4ea60c00e4178be19e3fd6075c',1,'rsj::KeyData']]],
+  ['klow13bits_4',['kLow13Bits',['../class_channel_model.html#a87cef0c9099e926c15af9b638391f601',1,'ChannelModel']]],
+  ['klow6bits_5',['kLow6Bits',['../class_channel_model.html#a47a5eb7a2a2d13ab4c5ca421e1b2ffe8',1,'ChannelModel']]],
+  ['kmaxcontrols_6',['kMaxControls',['../class_channel_model.html#aa0292423133a136ad66120c83efb4e44',1,'ChannelModel']]],
+  ['kmaxmidi_7',['kMaxMidi',['../class_channel_model.html#aa6bc3885b0feb15e0f59ac4016f5f660',1,'ChannelModel']]],
+  ['kmaxmidihalf_8',['kMaxMidiHalf',['../class_channel_model.html#abed431b2116d23c010b20b1149782939',1,'ChannelModel']]],
+  ['kmaxnrpn_9',['kMaxNrpn',['../class_channel_model.html#ae9e9c5990c07604efbe13f09f7462663',1,'ChannelModel']]],
+  ['kmaxnrpnhalf_10',['kMaxNrpnHalf',['../class_channel_model.html#a64508d67d259bc9e095274bc53e4d7cb',1,'ChannelModel']]],
+  ['kunassigned_11',['kUnassigned',['../class_command_set.html#a0311fc90ec6127582c5f97593130f41f',1,'CommandSet']]]
 ];

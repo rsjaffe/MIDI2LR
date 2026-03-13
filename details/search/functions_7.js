@@ -1,5 +1,12 @@
 var searchData=
 [
-  ['handleasyncupdate_0',['handleasyncupdate',['../class_main_content_component.html#a9be726b895f68c0e9163d618ee4d20f6',1,'MainContentComponent::handleAsyncUpdate()'],['../class_profile_manager.html#a06dda29b41856d4c2e9e85132a79da5a',1,'ProfileManager::handleAsyncUpdate()'],['../class_version_checker.html#a3be0b90040969fec02cc547f7012accc',1,'VersionChecker::handleAsyncUpdate()']]],
-  ['handleincomingmidimessage_1',['handleIncomingMidiMessage',['../class_midi_receiver.html#ac3356894c7d1a982cd94bc472150c95c',1,'MidiReceiver']]]
+  ['impl_0',['Impl',['../class_command_set_1_1_impl.html#a3e06c2c721917d9085a91ad7f1295c8d',1,'CommandSet::Impl::Impl()'],['../class_command_set_1_1_impl.html#a168efe06a002736505ea23125e218f71',1,'CommandSet::Impl::Impl(const Impl &amp;other)=delete'],['../class_command_set_1_1_impl.html#aa5747c18697c79d6b0377912d5eba39f',1,'CommandSet::Impl::Impl(Impl &amp;&amp;other)=delete']]],
+  ['init_1',['Init',['../class_main_content_component.html#ae702256a158baa25205b97aee67b63f3',1,'MainContentComponent::Init()'],['../class_settings_component.html#a29baa1f6c3d21bc45e53e9294556b718',1,'SettingsComponent::Init()']]],
+  ['initdevices_2',['InitDevices',['../class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69',1,'MidiReceiver::InitDevices()'],['../class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8',1,'MidiSender::InitDevices()']]],
+  ['initialise_3',['initialise',['../class_m_i_d_i2_l_r_application.html#a6c958c20964bb737b5c9c51cf13bf0e4',1,'MIDI2LRApplication::initialise(const juce::String &amp;command_line) override'],['../class_m_i_d_i2_l_r_application.html#a6c958c20964bb737b5c9c51cf13bf0e4',1,'MIDI2LRApplication::initialise(const juce::String &amp;command_line) override']]],
+  ['initializethreads_4',['InitializeThreads',['../class_m_i_d_i2_l_r_application.html#ae9315b94c27c2a1719da9aed787e4432',1,'MIDI2LRApplication::InitializeThreads()'],['../class_m_i_d_i2_l_r_application.html#ae9315b94c27c2a1719da9aed787e4432',1,'MIDI2LRApplication::InitializeThreads()']]],
+  ['insertorassign_5',['InsertOrAssign',['../class_profile.html#a35a9cb1848f7558a6402c6fcddc61851',1,'Profile::InsertOrAssign(const std::string &amp;command, rsj::MidiMessageId message)'],['../class_profile.html#aec460a00f6ac3ac18262dbdcbc7f7e43',1,'Profile::InsertOrAssign(size_t command, rsj::MidiMessageId message)']]],
+  ['insertorassigni_6',['InsertOrAssignI',['../class_profile.html#a4a9c70df1bd5d2993c0cd9a1fb9937b3',1,'Profile']]],
+  ['insertunassigned_7',['InsertUnassigned',['../class_profile.html#abf97444c320cc34e43052dc676a90610',1,'Profile']]],
+  ['isnrpn_8',['IsNrpn',['../class_channel_model.html#afa01b43f5d60eda9f780b12aead99f5a',1,'ChannelModel']]]
 ];

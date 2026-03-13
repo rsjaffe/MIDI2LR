@@ -41,7 +41,7 @@ var NAVTREE =
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", "functions_func" ],
-        [ "Variables", "functions_vars.html", "functions_vars" ],
+        [ "Variables", "functions_vars.html", null ],
         [ "Typedefs", "functions_type.html", null ],
         [ "Enumerations", "functions_enum.html", null ],
         [ "Related Symbols", "functions_rela.html", null ]
@@ -53,10 +53,11 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"class_lr_ipc_out.html#ae3565108b8df687e7ad7358d057ed6eb",
-"class_settings_component.html#a29baa1f6c3d21bc45e53e9294556b718",
-"namespacersj.html#aa6fa7865e7e6cc69af0e2dfd1066880e"
+"class_m_i_d_i2_l_r_application.html#a20967d40a0d0b8656e7dd48b875721b8",
+"class_settings_manager.html#aeaed46fd598895a0b04b8fddf07b6e13",
+"structrsj_1_1_c_f_deleter.html"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronisation';
-var SYNCOFFMSG = 'click to enable panel synchronisation';
+var SYNCONMSG = 'click to disable panel synchronization';
+var SYNCOFFMSG = 'click to enable panel synchronization';
+var LISTOFALLMEMBERS = 'List of all members';

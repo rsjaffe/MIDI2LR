@@ -1,7 +1,7 @@
 var class_version_checker =
 [
     [ "VersionChecker", "class_version_checker.html#abca99b907e885f8e4f9c89d7496fec94", null ],
-    [ "~VersionChecker", "class_version_checker.html#ab57a0887c781f98122eae75f47947d90", null ],
+    [ "~VersionChecker", "class_version_checker.html#a3aba2ce7eda48e8f7c837d966d394e6e", null ],
     [ "VersionChecker", "class_version_checker.html#ab47e45eba6c700d30d014824a3536bd5", null ],
     [ "VersionChecker", "class_version_checker.html#add5362a02de29b0bf009fa62f0d2ca64", null ],
     [ "handleAsyncUpdate", "class_version_checker.html#a3be0b90040969fec02cc547f7012accc", null ],

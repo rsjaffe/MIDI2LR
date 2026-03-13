@@ -7,7 +7,7 @@ var namespacersj =
     [ "MidiMessage", "structrsj_1_1_midi_message.html", "structrsj_1_1_midi_message" ],
     [ "MidiMessageId", "structrsj_1_1_midi_message_id.html", "structrsj_1_1_midi_message_id" ],
     [ "SettingsStruct", "structrsj_1_1_settings_struct.html", "structrsj_1_1_settings_struct" ],
-    [ "CFAutoRelease", "namespacersj.html#a817eae200a8b549a6e7c9b6a288f5175", null ],
+    [ "CFAutoRelease", "namespacersj.html#a0217884c36b17b362fbb49123ec72cbb", null ],
     [ "CCmethod", "namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efd", [
       [ "kAbsolute", "namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a", null ],
       [ "kTwosComplement", "namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d", null ],

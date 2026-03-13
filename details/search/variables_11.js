@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['thread_5fshould_5fexit_5f_0',['thread_should_exit_',['../class_lr_ipc_in_shared.html#af05094112377ad5e67fd541c3b1c3b26',1,'LrIpcInShared::thread_should_exit_'],['../class_lr_ipc_out.html#ab4396e5e479bf52e5ae1ba1e4b48857e',1,'LrIpcOut::thread_should_exit_'],['../class_version_checker.html#aee6f012d05983fac23a8462a1abfba4d',1,'VersionChecker::thread_should_exit_']]],
-  ['title_5flabel_5f_1',['title_label_',['../class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110',1,'MainContentComponent']]],
-  ['title_5fshadow_5f_2',['title_shadow_',['../class_main_content_component.html#a8074d32c4e01a43d317cc1af183ce344',1,'MainContentComponent']]],
-  ['tm_5fformat_5f_3',['tm_format_',['../structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html#a1a20dfcc05c97e35c07e1030982d4eb3',1,'fmt::formatter&lt; rsj::MessageType, Char &gt;']]],
-  ['twosbutton_4',['twosbutton',['../class_c_coptions.html#a753e4bfc04c6c461d93ca923acdf334e',1,'CCoptions']]]
+  ['value_0',['value',['../structrsj_1_1_midi_message.html#ad86e8d27f598c8def0279d3a3777cd7e',1,'rsj::MidiMessage::value'],['../struct_nrpn_filter_1_1_process_result.html#abe4af6a10f594fff45e1f15d1de71d3f',1,'NrpnFilter::ProcessResult::value']]],
+  ['value_5flsb_5f_1',['value_lsb_',['../struct_nrpn_filter_1_1_internal_structure.html#a72742db2edaad216bb49008e02f88c4a',1,'NrpnFilter::InternalStructure']]],
+  ['value_5fmsb_5f_2',['value_msb_',['../struct_nrpn_filter_1_1_internal_structure.html#a9334b85185f5aba4eb278cc60ad5bb29',1,'NrpnFilter::InternalStructure']]],
+  ['version_5fchecker_5f_3',['version_checker_',['../class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14',1,'MIDI2LRApplication']]],
+  ['version_5flabel_5f_4',['version_label_',['../class_main_content_component.html#a3a76609b164fa1a270b95fd7f6ef9f82',1,'MainContentComponent']]]
 ];

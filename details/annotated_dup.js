@@ -1,7 +1,7 @@
 var annotated_dup =
 [
     [ "fmt", null, [
-      [ "formatter< rsj::MessageType, Char >", "structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html", "structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4" ]
+      [ "formatter&lt; rsj::MessageType &gt;", "structfmt_1_1formatter_3_01rsj_1_1_message_type_01_4.html", "structfmt_1_1formatter_3_01rsj_1_1_message_type_01_4" ]
     ] ],
     [ "rsj", "namespacersj.html", [
       [ "ActiveModifiers", "structrsj_1_1_active_modifiers.html", "structrsj_1_1_active_modifiers" ],
@@ -13,9 +13,8 @@ var annotated_dup =
       [ "SettingsStruct", "structrsj_1_1_settings_struct.html", "structrsj_1_1_settings_struct" ]
     ] ],
     [ "std", null, [
-      [ "hash< rsj::MidiMessageId >", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4" ]
+      [ "hash&lt; rsj::MidiMessageId &gt;", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4" ]
     ] ],
-    [ "CCoptions", "class_c_coptions.html", "class_c_coptions" ],
     [ "ChannelModel", "class_channel_model.html", "class_channel_model" ],
     [ "CommandMenu", "class_command_menu.html", "class_command_menu" ],
     [ "CommandSet", "class_command_set.html", "class_command_set" ],
@@ -36,7 +35,6 @@ var annotated_dup =
     [ "NrpnFilter", "class_nrpn_filter.html", "class_nrpn_filter" ],
     [ "Profile", "class_profile.html", "class_profile" ],
     [ "ProfileManager", "class_profile_manager.html", "class_profile_manager" ],
-    [ "PWoptions", "class_p_woptions.html", "class_p_woptions" ],
     [ "SettingsComponent", "class_settings_component.html", "class_settings_component" ],
     [ "SettingsManager", "class_settings_manager.html", "class_settings_manager" ],
     [ "TextButtonAligned", "class_text_button_aligned.html", "class_text_button_aligned" ],

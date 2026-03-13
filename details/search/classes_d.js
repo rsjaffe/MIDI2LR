@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['versionchecker_0',['VersionChecker',['../class_version_checker.html',1,'']]]
+  ['textbuttonaligned_0',['TextButtonAligned',['../class_text_button_aligned.html',1,'']]]
 ];

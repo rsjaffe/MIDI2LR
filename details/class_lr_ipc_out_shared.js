@@ -6,5 +6,6 @@ var class_lr_ipc_out_shared =
     [ "SendOut", "class_lr_ipc_out_shared.html#a0a7e82f51242261962f5b720502ba121", null ],
     [ "command_", "class_lr_ipc_out_shared.html#a5ce4d74a611b32dae063f77ab8328cf3", null ],
     [ "LrIpcOut", "class_lr_ipc_out_shared.html#afa3ab5d81cb58889e4ec0cb5f0ccf701", null ],
+    [ "owner_alive_", "class_lr_ipc_out_shared.html#ab48aee124a82f96d00b65bd517cdc035", null ],
     [ "socket_", "class_lr_ipc_out_shared.html#ac1ffdb8efd520814d4992d6ea52b2b42", null ]
 ];

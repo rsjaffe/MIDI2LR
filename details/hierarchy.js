@@ -6,18 +6,14 @@ var hierarchy =
       [ "ProfileManager", "class_profile_manager.html", null ],
       [ "VersionChecker", "class_version_checker.html", null ]
     ] ],
-    [ "rsj::CFDeleter< T >", "structrsj_1_1_c_f_deleter.html", null ],
+    [ "rsj::CFDeleter&lt; T &gt;", "structrsj_1_1_c_f_deleter.html", null ],
     [ "ChannelModel", "class_channel_model.html", null ],
     [ "CommandSet", "class_command_set.html", null ],
     [ "juce::Component", null, [
-      [ "CCoptions", "class_c_coptions.html", null ],
       [ "MainContentComponent", "class_main_content_component.html", null ],
-      [ "PWoptions", "class_p_woptions.html", null ],
       [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
-    [ "rsj::ConcurrentQueue< T, Container, Mutex >", "classrsj_1_1_concurrent_queue.html", null ],
-    [ "rsj::ConcurrentQueue< std::pair< rsj::MidiMessage, juce::MidiInput * > >", "classrsj_1_1_concurrent_queue.html", null ],
-    [ "rsj::ConcurrentQueue< std::string >", "classrsj_1_1_concurrent_queue.html", null ],
+    [ "rsj::ConcurrentQueue&lt; T, Container, Mutex &gt;", "classrsj_1_1_concurrent_queue.html", null ],
     [ "ControlsModel", "class_controls_model.html", null ],
     [ "DebugInfo", "class_debug_info.html", null ],
     [ "Devices", "class_devices.html", null ],
@@ -25,8 +21,8 @@ var hierarchy =
     [ "juce::DocumentWindow", null, [
       [ "MainWindow", "class_main_window.html", null ]
     ] ],
-    [ "fmt::formatter< rsj::MessageType, Char >", "structfmt_1_1formatter_3_01rsj_1_1_message_type_00_01_char_01_4.html", null ],
-    [ "std::hash< rsj::MidiMessageId >", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", null ],
+    [ "fmt::formatter&lt; rsj::MessageType &gt;", "structfmt_1_1formatter_3_01rsj_1_1_message_type_01_4.html", null ],
+    [ "std::hash&lt; rsj::MidiMessageId &gt;", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", null ],
     [ "CommandSet::Impl", "class_command_set_1_1_impl.html", null ],
     [ "NrpnFilter::InternalStructure", "struct_nrpn_filter_1_1_internal_structure.html", null ],
     [ "juce::JUCEApplication", null, [
@@ -34,13 +30,6 @@ var hierarchy =
       [ "MIDI2LRApplication", "class_m_i_d_i2_l_r_application.html", null ]
     ] ],
     [ "rsj::KeyData", "structrsj_1_1_key_data.html", null ],
-    [ "juce::Button::Listener", null, [
-      [ "CCoptions", "class_c_coptions.html", null ]
-    ] ],
-    [ "juce::TextEditor::Listener", null, [
-      [ "CCoptions", "class_c_coptions.html", null ],
-      [ "PWoptions", "class_p_woptions.html", null ]
-    ] ],
     [ "LrIpcIn", "class_lr_ipc_in.html", null ],
     [ "LrIpcInShared", "class_lr_ipc_in_shared.html", null ],
     [ "LrIpcOut", "class_lr_ipc_out.html", null ],
@@ -54,6 +43,7 @@ var hierarchy =
     [ "NrpnFilter", "class_nrpn_filter.html", null ],
     [ "NrpnFilter::ProcessResult", "struct_nrpn_filter_1_1_process_result.html", null ],
     [ "Profile", "class_profile.html", null ],
+    [ "LrIpcOut::RecenterInfo", "struct_lr_ipc_out_1_1_recenter_info.html", null ],
     [ "ResizableLayout", null, [
       [ "MainContentComponent", "class_main_content_component.html", null ],
       [ "SettingsComponent", "class_settings_component.html", null ]
