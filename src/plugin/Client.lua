@@ -93,6 +93,9 @@ LrTasks.startAsyncTask(
     local LastParam           = ''
     local UpdateParamPickup, UpdateParamNoPickup, UpdateParam
     local sendIsConnected = false --tell whether send socket is up or not
+    -- Timestamp of last WB preset action; used to suppress Temperature/Tint echo
+    -- that would otherwise revert the preset to "Custom" via IAC feedback loops.
+    local whiteBalancePresetTime = 0
     --local constants--may edit these to change program behaviors
     local BUTTON_ON        = 0.40 -- sending 1.0, but use > BUTTON_ON because of note keypressess not hitting 100%
     local PICKUP_THRESHOLD = 0.03 -- roughly equivalent to 4/127
@@ -133,6 +136,13 @@ LrTasks.startAsyncTask(
       ResetColorGradeGlobalSat = 'global',
       ResetColorGradeGlobalLum = 'global',
     }
+
+    -- Wraps a wrapFOM call and records the time so UpdateParam can suppress
+    -- Temperature/Tint echo-backs that would revert the preset to "Custom".
+    local function wrapFOMWB(...)
+      local f = CU.wrapFOM(...)
+      return function() f(); whiteBalancePresetTime = os.clock() end
+    end
 
     local ACTIONS = {
       AddOrRemoveFromTargetColl       = CU.wrapForEachPhoto('addOrRemoveFromTargetCollection'),
@@ -747,14 +757,14 @@ LrTasks.startAsyncTask(
       UprightOff                      = CU.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',0),
       UprightVertical                 = CU.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
       VirtualCopy                     = function() LrApplication.activeCatalog():createVirtualCopies() end,
-      WhiteBalanceAs_Shot             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','As Shot'),
-      WhiteBalanceAuto                = LrDevelopController.setAutoWhiteBalance,
-      WhiteBalanceCloudy              = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Cloudy'),
-      WhiteBalanceDaylight            = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Daylight'),
-      WhiteBalanceFlash               = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Flash'),
-      WhiteBalanceFluorescent         = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Fluorescent'),
-      WhiteBalanceShade               = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Shade'),
-      WhiteBalanceTungsten            = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Tungsten'),
+      WhiteBalanceAs_Shot             = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','As Shot'),
+      WhiteBalanceAuto                = function() LrDevelopController.setAutoWhiteBalance(); whiteBalancePresetTime = os.clock() end,
+      WhiteBalanceCloudy              = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Cloudy'),
+      WhiteBalanceDaylight            = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Daylight'),
+      WhiteBalanceFlash               = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Flash'),
+      WhiteBalanceFluorescent         = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Fluorescent'),
+      WhiteBalanceShade               = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Shade'),
+      WhiteBalanceTungsten            = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Tungsten'),
       ZoomInLargeStep                 = LrApplicationView.zoomIn,
       ZoomInSmallStep                 = LrApplicationView.zoomInSome,
       ZoomOutLargeStep                = LrApplicationView.zoomOut,
@@ -851,6 +861,9 @@ LrTasks.startAsyncTask(
       -- parameters: name of parameter, midi value to update, true if no bezel, true if ignore pickup
       return function(param, midi_value_update, silent, force)
         if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
+        -- Suppress Temperature/Tint changes for 1 s after a WB preset to prevent
+        -- IAC feedback loops from reverting the preset to "Custom".
+        if (param == 'Temperature' or param == 'Tint') and os.clock() - whiteBalancePresetTime < 1.0 then return end
         local lr_value_update
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
           LrApplicationView.switchToModule('develop')
@@ -905,6 +918,9 @@ LrTasks.startAsyncTask(
     --called within LrRecursionGuard for setting
     function UpdateParamNoPickup(param, midi_value, silent)
       if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
+      -- Suppress Temperature/Tint changes for 1 s after a WB preset to prevent
+      -- IAC feedback loops from reverting the preset to "Custom".
+      if (param == 'Temperature' or param == 'Tint') and os.clock() - whiteBalancePresetTime < 1.0 then return end
       local value
       if LrApplicationView.getCurrentModuleName() ~= 'develop' then
         LrApplicationView.switchToModule('develop')
