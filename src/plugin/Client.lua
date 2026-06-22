@@ -137,11 +137,19 @@ LrTasks.startAsyncTask(
       ResetColorGradeGlobalLum = 'global',
     }
 
-    -- Wraps a wrapFOM call and records the time so UpdateParam can suppress
-    -- Temperature/Tint echo-backs that would revert the preset to "Custom".
+    -- Wraps a wrapFOM call and pre-syncs Temperature/Tint in PARAM_OBSERVER
+    -- after applying a WB preset, so the observer does not detect them as changed
+    -- and does not send them to the controller (which would cause a feedback echo
+    -- reverting the preset to "Custom").
     local function wrapFOMWB(...)
       local f = CU.wrapFOM(...)
-      return function() f(); whiteBalancePresetTime = os.clock() end
+      return function()
+        f()
+        LrTasks.yield() -- let LR finish updating Temperature/Tint
+        MIDI2LR.PARAM_OBSERVER['Temperature'] = getValue('Temperature')
+        MIDI2LR.PARAM_OBSERVER['Tint'] = getValue('Tint')
+        whiteBalancePresetTime = os.clock()
+      end
     end
 
     local ACTIONS = {
@@ -758,7 +766,7 @@ LrTasks.startAsyncTask(
       UprightVertical                 = CU.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
       VirtualCopy                     = function() LrApplication.activeCatalog():createVirtualCopies() end,
       WhiteBalanceAs_Shot             = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','As Shot'),
-      WhiteBalanceAuto                = function() LrDevelopController.setAutoWhiteBalance(); whiteBalancePresetTime = os.clock() end,
+      WhiteBalanceAuto                = function() LrDevelopController.setAutoWhiteBalance(); LrTasks.yield(); MIDI2LR.PARAM_OBSERVER['Temperature'] = getValue('Temperature'); MIDI2LR.PARAM_OBSERVER['Tint'] = getValue('Tint'); whiteBalancePresetTime = os.clock() end,
       WhiteBalanceCloudy              = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Cloudy'),
       WhiteBalanceDaylight            = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Daylight'),
       WhiteBalanceFlash               = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Flash'),
@@ -976,19 +984,12 @@ LrTasks.startAsyncTask(
               local midi_val_left = LRValueToMIDIValue('CropLeft')
               MIDI2LR.SERVER:send(string.format('CropBottomRight %g\nCropBottomLeft %g\nCropAll %g\nCropTopRight %g\nCropTopLeft %g\nCropMoveVertical %g\nCropMoveHorizontal %g\n',
                   midi_val_bottom,midi_val_bottom,midi_val_bottom,midi_val_top,midi_val_top,midi_val_top,midi_val_left))
-              local wbIsPreset = getValue('WhiteBalance') ~= 'Custom'
               for param in pairs(Database.Parameters) do
                 local lrvalue = getValue(param)
                 if observer[param] ~= lrvalue and type(lrvalue) == 'number' then --testing for MIDI2LR.SERVER.send kills responsiveness
-                  if wbIsPreset and (param == 'Temperature' or param == 'Tint') then
-                    -- Silently sync observer without sending to controller.
-                    -- Prevents IAC feedback loops from reverting the WB preset to "Custom".
-                    observer[param] = lrvalue
-                  else
-                    MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param,lrvalue)))
-                    observer[param] = lrvalue
-                    LastParam = param
-                  end
+                  MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param,lrvalue)))
+                  observer[param] = lrvalue
+                  LastParam = param
                 end
               end
               lastrefresh = os.clock() + 0.1 --1/10 sec between refreshes
