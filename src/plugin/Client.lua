@@ -137,18 +137,15 @@ LrTasks.startAsyncTask(
       ResetColorGradeGlobalLum = 'global',
     }
 
-    -- Wraps a wrapFOM call and pre-syncs Temperature/Tint in PARAM_OBSERVER
-    -- after applying a WB preset, so the observer does not detect them as changed
-    -- and does not send them to the controller (which would cause a feedback echo
-    -- reverting the preset to "Custom").
+    -- Wraps a wrapFOM call and opens a suppression window for Temperature/Tint
+    -- BEFORE applying the preset, so any simultaneous or delayed MIDI echo
+    -- (e.g. from IAC Driver feedback via Stream Deck) cannot revert the preset
+    -- to "Custom". Window is 3 s to cover observed 1-2 s revert delays.
     local function wrapFOMWB(...)
       local f = CU.wrapFOM(...)
       return function()
+        whiteBalancePresetTime = os.clock() -- open window BEFORE f() to catch simultaneous CCs
         f()
-        LrTasks.yield() -- let LR finish updating Temperature/Tint
-        MIDI2LR.PARAM_OBSERVER['Temperature'] = getValue('Temperature')
-        MIDI2LR.PARAM_OBSERVER['Tint'] = getValue('Tint')
-        whiteBalancePresetTime = os.clock()
       end
     end
 
@@ -766,7 +763,7 @@ LrTasks.startAsyncTask(
       UprightVertical                 = CU.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
       VirtualCopy                     = function() LrApplication.activeCatalog():createVirtualCopies() end,
       WhiteBalanceAs_Shot             = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','As Shot'),
-      WhiteBalanceAuto                = function() LrDevelopController.setAutoWhiteBalance(); LrTasks.yield(); MIDI2LR.PARAM_OBSERVER['Temperature'] = getValue('Temperature'); MIDI2LR.PARAM_OBSERVER['Tint'] = getValue('Tint'); whiteBalancePresetTime = os.clock() end,
+      WhiteBalanceAuto                = function() whiteBalancePresetTime = os.clock(); LrDevelopController.setAutoWhiteBalance() end,
       WhiteBalanceCloudy              = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Cloudy'),
       WhiteBalanceDaylight            = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Daylight'),
       WhiteBalanceFlash               = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Flash'),
@@ -871,7 +868,7 @@ LrTasks.startAsyncTask(
         if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
         -- Suppress Temperature/Tint changes for 1 s after a WB preset to prevent
         -- IAC feedback loops from reverting the preset to "Custom".
-        if (param == 'Temperature' or param == 'Tint') and os.clock() - whiteBalancePresetTime < 1.0 then return end
+        if (param == 'Temperature' or param == 'Tint') and os.clock() - whiteBalancePresetTime < 3.0 then return end
         local lr_value_update
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
           LrApplicationView.switchToModule('develop')
@@ -928,7 +925,7 @@ LrTasks.startAsyncTask(
       if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
       -- Suppress Temperature/Tint changes for 1 s after a WB preset to prevent
       -- IAC feedback loops from reverting the preset to "Custom".
-      if (param == 'Temperature' or param == 'Tint') and os.clock() - whiteBalancePresetTime < 1.0 then return end
+      if (param == 'Temperature' or param == 'Tint') and os.clock() - whiteBalancePresetTime < 3.0 then return end
       local value
       if LrApplicationView.getCurrentModuleName() ~= 'develop' then
         LrApplicationView.switchToModule('develop')
