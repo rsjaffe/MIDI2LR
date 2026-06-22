@@ -1,32 +1,34 @@
 # Changelog — DanyelAndre/MIDI2LR
 
-Dieses Dokument beschreibt Änderungen gegenüber dem upstream-Projekt [rsjaffe/MIDI2LR](https://github.com/rsjaffe/MIDI2LR).
+This document describes changes relative to the upstream project [rsjaffe/MIDI2LR](https://github.com/rsjaffe/MIDI2LR).
 
 ---
 
 ## [Unreleased]
 
-### Behoben
+### Fixed
 
-#### White Balance Preset kehrt nach 1–2 Sekunden zu „Custom" zurück
-**Datei:** `src/plugin/Client.lua`  
+#### White Balance presets revert to "Custom" after 1–2 seconds
+**File:** `src/plugin/Client.lua`  
 **PR:** [rsjaffe/MIDI2LR#872](https://github.com/rsjaffe/MIDI2LR/pull/872)  
 **Issue:** [rsjaffe/MIDI2LR#871](https://github.com/rsjaffe/MIDI2LR/issues/871)
 
 **Problem:**  
-Beim Auslösen eines White-Balance-Presets (z. B. „Bewölkt") über MIDI2LR wurde der Wert
-nach 1–2 Sekunden automatisch auf „Benutzerdefiniert" zurückgesetzt, obwohl derselbe
-Preset über ein natives Lightroom-Develop-Preset stabil blieb.
+Triggering a White Balance preset (e.g. Cloudy) via MIDI2LR initially applied the
+correct setting, but it reverted to "Custom" with slightly altered temperature values
+after 1–2 seconds. Applying the same preset through a native Lightroom Develop Preset
+worked correctly.
 
-**Ursache:**  
-Der `AdjustmentChangeObserver` sendet nach dem Setzen eines WB-Presets die neuen
-`Temperature`- und `Tint`-Werte an den MIDI-Controller zurück. In Setups mit IAC-Driver
-(z. B. Stream Deck + MIDI-Button-Plugin) gelangen diese Werte als eingehende MIDI-Nachrichten
-zurück zu MIDI2LR. Dieses ruft dann `setValue('Temperature', …)` auf, was Lightroom dazu
-veranlasst, `WhiteBalance` auf „Custom" zu setzen.
+**Root cause:**  
+After a WB preset is applied, the `AdjustmentChangeObserver` detects the resulting
+`Temperature` and `Tint` changes and sends those numeric values back to the MIDI
+controller. In setups using an IAC Driver (e.g. Stream Deck + MIDI Button plugin),
+these outgoing MIDI messages loop back as incoming messages. MIDI2LR then receives
+`Temperature = <value>` and calls `setValue('Temperature', ...)`, which causes
+Lightroom to reset `WhiteBalance` to "Custom".
 
-**Lösung:**  
-Alle WhiteBalance-Aktionen setzen nach ihrer Ausführung einen Zeitstempel
-(`whiteBalancePresetTime`). In `UpdateParamPickup` und `UpdateParamNoPickup` werden
-eingehende `Temperature`- und `Tint`-Werte für 1 Sekunde danach ignoriert. Das unterbricht
-den Feedback-Loop, ohne den normalen Betrieb von Temperature/Tint-Reglern zu beeinflussen.
+**Fix:**  
+All WhiteBalance actions now record a timestamp (`whiteBalancePresetTime`) after
+executing. Both `UpdateParamPickup` and `UpdateParamNoPickup` ignore incoming
+`Temperature` and `Tint` values for 1 second after that timestamp, breaking the
+feedback loop without affecting normal Temperature/Tint control.
