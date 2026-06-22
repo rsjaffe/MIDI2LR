@@ -976,12 +976,19 @@ LrTasks.startAsyncTask(
               local midi_val_left = LRValueToMIDIValue('CropLeft')
               MIDI2LR.SERVER:send(string.format('CropBottomRight %g\nCropBottomLeft %g\nCropAll %g\nCropTopRight %g\nCropTopLeft %g\nCropMoveVertical %g\nCropMoveHorizontal %g\n',
                   midi_val_bottom,midi_val_bottom,midi_val_bottom,midi_val_top,midi_val_top,midi_val_top,midi_val_left))
+              local wbIsPreset = getValue('WhiteBalance') ~= 'Custom'
               for param in pairs(Database.Parameters) do
                 local lrvalue = getValue(param)
                 if observer[param] ~= lrvalue and type(lrvalue) == 'number' then --testing for MIDI2LR.SERVER.send kills responsiveness
-                  MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param,lrvalue)))
-                  observer[param] = lrvalue
-                  LastParam = param
+                  if wbIsPreset and (param == 'Temperature' or param == 'Tint') then
+                    -- Silently sync observer without sending to controller.
+                    -- Prevents IAC feedback loops from reverting the WB preset to "Custom".
+                    observer[param] = lrvalue
+                  else
+                    MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param,lrvalue)))
+                    observer[param] = lrvalue
+                    LastParam = param
+                  end
                 end
               end
               lastrefresh = os.clock() + 0.1 --1/10 sec between refreshes
