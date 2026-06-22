@@ -93,9 +93,9 @@ LrTasks.startAsyncTask(
     local LastParam           = ''
     local UpdateParamPickup, UpdateParamNoPickup, UpdateParam
     local sendIsConnected = false --tell whether send socket is up or not
-    -- Timestamp of last WB preset action; used to suppress Temperature/Tint echo
-    -- that would otherwise revert the preset to "Custom" via IAC feedback loops.
-    local whiteBalancePresetTime = 0
+    -- Flag set while Temperature/Tint MIDI echo from a WB preset should be suppressed.
+    -- Avoids os.clock() which may behave unexpectedly in LR's Lua environment.
+    local suppressWBTempTint = false
     --local constants--may edit these to change program behaviors
     local BUTTON_ON        = 0.40 -- sending 1.0, but use > BUTTON_ON because of note keypressess not hitting 100%
     local PICKUP_THRESHOLD = 0.03 -- roughly equivalent to 4/127
@@ -137,15 +137,18 @@ LrTasks.startAsyncTask(
       ResetColorGradeGlobalLum = 'global',
     }
 
-    -- Wraps a wrapFOM call and opens a suppression window for Temperature/Tint
-    -- BEFORE applying the preset, so any simultaneous or delayed MIDI echo
-    -- (e.g. from IAC Driver feedback via Stream Deck) cannot revert the preset
-    -- to "Custom". Window is 3 s to cover observed 1-2 s revert delays.
+    -- Wraps a wrapFOM call and sets suppressWBTempTint for 3 s so that any
+    -- Temperature/Tint MIDI echo (e.g. IAC Driver feedback via Stream Deck)
+    -- is ignored and cannot revert the preset to "Custom".
     local function wrapFOMWB(...)
       local f = CU.wrapFOM(...)
       return function()
-        whiteBalancePresetTime = os.clock() -- open window BEFORE f() to catch simultaneous CCs
+        suppressWBTempTint = true
         f()
+        LrTasks.startAsyncTask(function()
+          LrTasks.sleep(3.0)
+          suppressWBTempTint = false
+        end)
       end
     end
 
@@ -763,7 +766,7 @@ LrTasks.startAsyncTask(
       UprightVertical                 = CU.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
       VirtualCopy                     = function() LrApplication.activeCatalog():createVirtualCopies() end,
       WhiteBalanceAs_Shot             = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','As Shot'),
-      WhiteBalanceAuto                = function() whiteBalancePresetTime = os.clock(); LrDevelopController.setAutoWhiteBalance() end,
+      WhiteBalanceAuto                = function() suppressWBTempTint = true; LrDevelopController.setAutoWhiteBalance(); LrTasks.startAsyncTask(function() LrTasks.sleep(3.0); suppressWBTempTint = false end) end,
       WhiteBalanceCloudy              = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Cloudy'),
       WhiteBalanceDaylight            = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Daylight'),
       WhiteBalanceFlash               = wrapFOMWB(LrDevelopController.setValue,'WhiteBalance','Flash'),
@@ -868,7 +871,7 @@ LrTasks.startAsyncTask(
         if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
         -- Suppress Temperature/Tint changes for 1 s after a WB preset to prevent
         -- IAC feedback loops from reverting the preset to "Custom".
-        if (param == 'Temperature' or param == 'Tint') and os.clock() - whiteBalancePresetTime < 3.0 then return end
+        if suppressWBTempTint and (param == 'Temperature' or param == 'Tint') then return end
         local lr_value_update
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
           LrApplicationView.switchToModule('develop')
@@ -923,9 +926,7 @@ LrTasks.startAsyncTask(
     --called within LrRecursionGuard for setting
     function UpdateParamNoPickup(param, midi_value, silent)
       if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
-      -- Suppress Temperature/Tint changes for 1 s after a WB preset to prevent
-      -- IAC feedback loops from reverting the preset to "Custom".
-      if (param == 'Temperature' or param == 'Tint') and os.clock() - whiteBalancePresetTime < 3.0 then return end
+      if suppressWBTempTint and (param == 'Temperature' or param == 'Tint') then return end
       local value
       if LrApplicationView.getCurrentModuleName() ~= 'develop' then
         LrApplicationView.switchToModule('develop')
