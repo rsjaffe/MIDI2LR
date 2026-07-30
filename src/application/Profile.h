@@ -39,7 +39,7 @@ class Profile {
 
    [[nodiscard]] bool CommandHasAssociatedMessage(const std::string& command) const;
    void FromXml(const juce::XmlElement* root);
-   [[nodiscard]] const std::string& GetCommandForMessage(rsj::MidiMessageId message) const;
+   [[nodiscard]] std::string GetCommandForMessage(rsj::MidiMessageId message) const;
    [[nodiscard]] rsj::MidiMessageId GetMessageForNumber(size_t num) const;
    [[nodiscard]] std::vector<rsj::MidiMessageId> GetMessagesForCommand(
        const std::string& command) const;
@@ -86,7 +86,7 @@ inline bool Profile::CommandHasAssociatedMessage(const std::string& command) con
 #endif
 }
 
-inline const std::string& Profile::GetCommandForMessage(rsj::MidiMessageId message) const
+inline std::string Profile::GetCommandForMessage(rsj::MidiMessageId message) const
 {
    auto guard {std::shared_lock {mutex_}};
    const auto found {std::ranges::find(mm_abbrv_table_, message, &mm_abbrv_lmnt_t::first)};

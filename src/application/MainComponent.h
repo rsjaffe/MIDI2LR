@@ -16,6 +16,7 @@
  *
  */
 #include <memory>
+#include <mutex>
 
 #include <juce_core/juce_core.h>
 #include <juce_events/juce_events.h>
@@ -53,6 +54,11 @@ class MainContentComponent final :
    void SaveProfile() const;
 
  private:
+   struct MidiDisplayPayload {
+      juce::String command;
+      size_t row {};
+   };
+
    void AddComponent(juce::Component& component, int x, int y, int width, int height);
    void DisconnectClicked();
    void handleAsyncUpdate() override;
@@ -83,7 +89,8 @@ class MainContentComponent final :
    juce::Label version_label_ {
        "Version", juce::String("BETA TEST ONLY ") + juce::String {ProjectInfo::versionString}};
 #endif
-   juce::String last_command_;
+   std::mutex midi_display_mutex_;
+   MidiDisplayPayload midi_display_payload_;
    juce::TextButton disconnect_button_ {juce::translate("Halt sending to Lightroom")};
    juce::TextButton load_button_ {juce::translate("Load")};
    juce::TextButton remove_allrows_button_ {juce::translate("Clear ALL rows")};
@@ -97,7 +104,6 @@ class MainContentComponent final :
    Profile& profile_;
    ProfileManager& profile_manager_;
    SettingsManager& settings_manager_;
-   size_t row_to_select_ {0};
    std::unique_ptr<juce::DialogWindow> settings_dialog_;
 };
 

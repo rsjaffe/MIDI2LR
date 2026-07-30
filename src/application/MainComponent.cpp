@@ -351,10 +351,14 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
       /* Display the MIDI parameters and add/highlight row in table corresponding to the message.
        * msg is 1-based for channel, which display expects */
       const rsj::MidiMessageId msg {mm};
-      last_command_ = fmt::format("{}: {}{} [{}]", msg.channel, mm.message_type_byte,
-          msg.control_number, mm.value);
+      const juce::String command {fmt::format("{}: {}{} [{}]", msg.channel, mm.message_type_byte,
+          msg.control_number, mm.value)};
       profile_.InsertUnassigned(msg);
-      row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
+      const auto row {gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg))};
+      {
+         const auto lock {std::scoped_lock(midi_display_mutex_)};
+         midi_display_payload_ = {command, row};
+      }
       triggerAsyncUpdate();
    }
    catch (const std::exception& e) {
@@ -410,13 +414,18 @@ void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element,
 void MainContentComponent::handleAsyncUpdate()
 {
    try {
+      MidiDisplayPayload display;
+      {
+         const auto lock {std::scoped_lock(midi_display_mutex_)};
+         display = midi_display_payload_;
+      }
       /* Update the last command label and set its color to green */
-      command_label_.setText(last_command_, juce::NotificationType::dontSendNotification);
+      command_label_.setText(display.command, juce::NotificationType::dontSendNotification);
       command_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
       juce::Timer::startTimer(1000);
       /* Update the command table to add and/or select row corresponding to midi command */
       command_table_.updateContent();
-      command_table_.selectRow(gsl::narrow_cast<int>(row_to_select_));
+      command_table_.selectRow(gsl::narrow_cast<int>(display.row));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(e, std::source_location::current());
