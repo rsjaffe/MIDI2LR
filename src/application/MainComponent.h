@@ -18,6 +18,7 @@
 #include <memory>
 #include <mutex>
 
+#include <juce_audio_devices/juce_audio_devices.h>
 #include <juce_core/juce_core.h>
 #include <juce_events/juce_events.h>
 #include <juce_graphics/juce_graphics.h>
@@ -60,6 +61,7 @@ class MainContentComponent final :
    };
 
    void AddComponent(juce::Component& component, int x, int y, int width, int height);
+   void DeviceListChanged();
    void DisconnectClicked();
    void handleAsyncUpdate() override;
    void LoadClicked();
@@ -105,6 +107,10 @@ class MainContentComponent final :
    ProfileManager& profile_manager_;
    SettingsManager& settings_manager_;
    std::unique_ptr<juce::DialogWindow> settings_dialog_;
+   /* hot-plug: rescan after the device list has been stable for a moment */
+   juce::StringArray known_devices_;
+   juce::TimedCallback device_rescan_timer_ {[this] { DeviceListChanged(); }};
+   juce::MidiDeviceListConnection device_list_connection_; /* last: disconnect first */
 };
 
 #endif
