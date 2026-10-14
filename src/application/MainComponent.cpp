@@ -56,6 +56,21 @@ namespace {
    constexpr int kBottomButtonY {kMainHeight - kBottomSectionHeight + 135};
    constexpr int kBottomButtonY2 {kMainHeight - kBottomSectionHeight + 160};
    constexpr auto kDefaultsFile {MIDI2LR_UC_LITERAL("default.xml")};
+   /* USB MIDI devices take a moment to settle after being plugged in */
+   constexpr int kDeviceSettleMs {1500};
+
+   juce::StringArray CurrentMidiDevices()
+   {
+      juce::StringArray devices;
+      for (const auto& dev : juce::MidiInput::getAvailableDevices()) {
+         devices.add("in:" + dev.identifier);
+      }
+      for (const auto& dev : juce::MidiOutput::getAvailableDevices()) {
+         devices.add("out:" + dev.identifier);
+      }
+      devices.sort(false);
+      return devices;
+   }
 } // namespace
 
 MainContentComponent::MainContentComponent(const CommandSet& command_set, Profile& profile,
@@ -171,6 +186,23 @@ void MainContentComponent::RescanClicked()
    midi_sender_.RescanDevices();
    /* Send new CC parameters to MIDI Out devices */
    lr_ipc_out_.SendCommand("FullRefresh 1\n");
+   known_devices_ = CurrentMidiDevices();
+}
+
+void MainContentComponent::DeviceListChanged()
+{
+   try {
+      device_rescan_timer_.stopTimer();
+      if (auto devices {CurrentMidiDevices()}; devices != known_devices_) {
+         rsj::Log(fmt::format("MIDI device list changed ({} devices), rescanning.", devices.size()),
+             std::source_location::current());
+         RescanClicked();
+      }
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(e, std::source_location::current());
+      throw;
+   }
 }
 
 void MainContentComponent::DisconnectClicked()
@@ -205,6 +237,12 @@ void MainContentComponent::Init()
       midi_receiver_.AddCallback(this, &MainContentComponent::MidiCmdCallback);
       lr_ipc_out_.AddCallback(this, &MainContentComponent::LrIpcOutCallback);
       profile_manager_.AddCallback(this, &MainContentComponent::ProfileChanged);
+
+      /* Reconnect automatically when MIDI devices are unplugged/replugged. Each notification
+       * restarts the timer, so the rescan happens once the device list has settled. */
+      known_devices_ = CurrentMidiDevices();
+      device_list_connection_ = juce::MidiDeviceListConnection::make(
+          [this] { device_rescan_timer_.startTimer(kDeviceSettleMs); });
 
       /* Main title */
       StandardLabelSettings(title_label_);
