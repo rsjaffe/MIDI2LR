@@ -976,6 +976,8 @@ LrTasks.startAsyncTask(
         local function InactiveObserver() end
         CurrentObserver = AdjustmentChangeObserver -- will change when detect loss of MIDI controller
 
+        local sendReconnectPending = false --only one delayed reconnect of send socket at a time
+        local receiveReconnectPending = false --only one delayed reconnect of receive socket at a time
         -- wrapped in function so can be called when connection lost
         local function startServer(context1)
           MIDI2LR.SERVER = LrSocket.bind {
@@ -987,26 +989,57 @@ LrTasks.startAsyncTask(
             onConnected = function () sendIsConnected = true end,
             onError = function( socket )
               sendIsConnected = false
-              if MIDI2LR.RUNNING then --
-                socket:reconnect()
+              if MIDI2LR.RUNNING and not sendReconnectPending then
+                sendReconnectPending = true
+                LrTasks.startAsyncTask(function()
+                    LrTasks.sleep(0.5) -- avoid tight reconnect loop
+                    sendReconnectPending = false
+                    if MIDI2LR.RUNNING then
+                      socket:reconnect()
+                    end
+                  end
+                )
               end
             end,
           }
         end
 
-        MIDI2LR.CLIENT = LrSocket.bind {
-          functionContext = context,
-          plugin = _PLUGIN,
-          port = RECEIVE_PORT,
-          mode = 'receive',
-          onMessage = function(_, message) --message processor
-            if type(message) == 'string' then
-              local split = message:find(' ',1,true)
-              local param = message:sub(1,split-1)
-              local value = message:sub(split+1)
-              if Database.Parameters[param] then
-                UpdateParam(param,tonumber(value),false)
-                local gradeFocus = GradeFocusTable[param]
+        local function dispatch(param, value, num) --run via LrTasks.pcall as handlers may yield
+          if Database.Parameters[param] then
+            if num == nil then return end
+            UpdateParam(param,num,false)
+            local gradeFocus = GradeFocusTable[param]
+            if gradeFocus then
+              local currentView = LrDevelopController.getActiveColorGradingView()
+              if currentView ~= '3-way' or gradeFocus == 'global' then
+                if currentView ~= gradeFocus then
+                  LrDevelopController.setActiveColorGradingView(gradeFocus)
+                end
+              end
+            end
+          elseif ACTIONS[param] then -- perform a one time action
+            if num ~= nil and num > BUTTON_ON then
+              ACTIONS[param]()
+            end
+          elseif SETTINGS[param] then -- do something requiring the transmitted value to be known
+            SETTINGS[param](value)
+          elseif Virtual[param] then -- handle a virtual command
+            local lp = Virtual[param](value, UpdateParam)
+            if lp then
+              LastParam = lp
+            end
+          elseif param:sub(1,4) == 'Crop'  then
+            CU.RatioCrop(param,value,UpdateParam)
+          elseif param:sub(1,5) == 'Reset' then -- perform a reset other than those explicitly coded in ACTIONS array
+            if num ~= nil and num > BUTTON_ON then
+              local resetparam = param:sub(6)
+              if Database.Parameters[resetparam] then -- sanitize input: is it really a parameter?
+                CU.execFOM(LrDevelopController.resetToDefault,resetparam)
+                if ProgramPreferences.ClientShowBezelOnChange then
+                  local lrvalue = getValue(resetparam)
+                  CU.showBezel(resetparam,lrvalue)
+                end
+                local gradeFocus = GradeFocusTable[resetparam] -- scroll to correct view on color grading
                 if gradeFocus then
                   local currentView = LrDevelopController.getActiveColorGradingView()
                   if currentView ~= '3-way' or gradeFocus == 'global' then
@@ -1015,40 +1048,33 @@ LrTasks.startAsyncTask(
                     end
                   end
                 end
-              elseif ACTIONS[param] then -- perform a one time action
-                if tonumber(value) > BUTTON_ON then
-                  ACTIONS[param]()
-                end
-              elseif SETTINGS[param] then -- do something requiring the transmitted value to be known
-                SETTINGS[param](value)
-              elseif Virtual[param] then -- handle a virtual command
-                local lp = Virtual[param](value, UpdateParam)
-                if lp then
-                  LastParam = lp
-                end
-              elseif param:sub(1,4) == 'Crop'  then
-                CU.RatioCrop(param,value,UpdateParam)
-              elseif param:sub(1,5) == 'Reset' then -- perform a reset other than those explicitly coded in ACTIONS array
-                if tonumber(value) > BUTTON_ON then
-                  local resetparam = param:sub(6)
-                  if Database.Parameters[resetparam] then -- sanitize input: is it really a parameter?
-                    CU.execFOM(LrDevelopController.resetToDefault,resetparam)
-                    if ProgramPreferences.ClientShowBezelOnChange then
-                      local lrvalue = getValue(resetparam)
-                      CU.showBezel(resetparam,lrvalue)
-                    end
-                    local gradeFocus = GradeFocusTable[resetparam] -- scroll to correct view on color grading
-                    if gradeFocus then
-                      local currentView = LrDevelopController.getActiveColorGradingView()
-                      if currentView ~= '3-way' or gradeFocus == 'global' then
-                        if currentView ~= gradeFocus then
-                          LrDevelopController.setActiveColorGradingView(gradeFocus)
-                        end
-                      end
-                    end
-                  end
-                end
               end
+            end
+          end
+        end
+
+        MIDI2LR.CLIENT = LrSocket.bind {
+          functionContext = context,
+          plugin = _PLUGIN,
+          port = RECEIVE_PORT,
+          mode = 'receive',
+          onMessage = function(_, message) --message processor
+            local ok, err = true, nil
+            if type(message) == 'string' then
+              local split = message:find(' ',1,true)
+              if not split then --malformed message
+                if sendIsConnected then
+                  MIDI2LR.SERVER:send('Log onMessage ignored message without value\n')
+                end
+              else
+                local param = message:sub(1,split-1)
+                local value = message:sub(split+1)
+                local num = tonumber(value)
+                ok, err = LrTasks.pcall(function() dispatch(param, value, num) end) --LrTasks.pcall as handlers may yield
+              end
+            end
+            if not ok and sendIsConnected then
+              MIDI2LR.SERVER:send('Log onMessage error: '..tostring(err):gsub('[\r\n]+',' ')..'\n')
             end
           end,
           onClosed = function( socket )
@@ -1063,6 +1089,16 @@ LrTasks.startAsyncTask(
           onError = function(socket, err)
             if err == 'timeout' then -- reconnect if timed out
               socket:reconnect()
+            elseif MIDI2LR.RUNNING and not receiveReconnectPending then
+              receiveReconnectPending = true
+              LrTasks.startAsyncTask(function()
+                  LrTasks.sleep(1) -- avoid tight reconnect loop
+                  receiveReconnectPending = false
+                  if MIDI2LR.RUNNING then
+                    socket:reconnect()
+                  end
+                end
+              )
             end
           end
         }
@@ -1099,7 +1135,7 @@ LrTasks.startAsyncTask(
           while MIDI2LR.RUNNING do --detect halt or reload
             LrTasks.sleep( .29 )
             Profiles.checkProfile()
-          end
+            end
         end
       end
     )

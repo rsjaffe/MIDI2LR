@@ -177,14 +177,13 @@ local function LRValueToMIDIValue(param, lr_value) -- lr_value optional
   return retval
 end
 
-local function RefreshMidiController()
-  if (LrApplication.activeCatalog():getTargetPhoto() == nil) or (LrApplicationView.getCurrentModuleName() ~= 'develop') then
-    return
-  end
-  LrTasks.startAsyncTask (function ()
-      --[[-----------debug section, enable by adding - to beginning this line
-      LrMobdebug.on()
-      --]]-----------end debug section
+local refreshRunning = false -- single-flight guard for RefreshMidiController
+local refreshPending = false -- a call arrived while a refresh was running
+
+local function RefreshPass()
+      if (LrApplication.activeCatalog():getTargetPhoto() == nil) or (LrApplicationView.getCurrentModuleName() ~= 'develop') then
+        return -- state changed while pending
+      end
       local photoval = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
       -- refresh crop values NOTE: this function is repeated in Client
       local midi_val_bottom = LRValueToMIDIValue('CropBottom')
@@ -219,6 +218,35 @@ local function RefreshMidiController()
           end
         end
       end
+end
+
+local function RefreshMidiController()
+  if (LrApplication.activeCatalog():getTargetPhoto() == nil) or (LrApplicationView.getCurrentModuleName() ~= 'develop') then
+    return
+  end
+  if refreshRunning then
+    refreshPending = true
+    return
+  end
+  refreshRunning = true
+  LrTasks.startAsyncTask (function ()
+      --[[-----------debug section, enable by adding - to beginning this line
+      LrMobdebug.on()
+      --]]-----------end debug section
+      repeat
+        refreshPending = false
+        -- LrTasks.pcall is yield-safe; plain pcall cannot wrap LrTasks.yield in Lua 5.1
+        local ok, msg = LrTasks.pcall(RefreshPass)
+        if not ok then
+          refreshPending = false
+          if MIDI2LR and MIDI2LR.SERVER and MIDI2LR.SERVER.send then
+            pcall(function()
+                MIDI2LR.SERVER:send('Log RefreshMidiController error: '..tostring(msg):gsub('[\r\n]+',' ')..'\n')
+              end)
+          end
+        end
+      until not refreshPending
+      refreshRunning = false
     end
   )
 end
