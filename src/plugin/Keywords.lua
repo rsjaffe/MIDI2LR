@@ -82,9 +82,11 @@ local function ApplyKeyword(Keyword)
         if ProgramPreferences.ClientShowBezelOnChange then
           LrDialogs.showBezel(LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SettingsString/ConstructionWithColon=^1: ^2",LOC("$$$/AgLibrary/AddKeyword=Add Keyword"),LrKeyword:getName()))
         end
-        for _,v in ipairs(TargetPhotos) do
-          LrCat:withWriteAccessDo( 'addKeyword',function( context ) v:addKeyword(LrKeyword) end, { timeout = 2 } )
-        end
+        LrCat:withWriteAccessDo( 'addKeyword',function( context )
+            for _,v in ipairs(TargetPhotos) do
+              v:addKeyword(LrKeyword)
+            end
+          end, { timeout = 2 } )
       end
     end
   )
@@ -103,20 +105,29 @@ local function ToggleKeyword(Keyword)
         if ProgramPreferences.ClientShowBezelOnChange then
           LrDialogs.showBezel(LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SettingsString/ConstructionWithColon=^1: ^2",LOC("$$$/MIDI2LR/Keyword/Toggle=Toggle Keyword"),LrKeyword:getName()))
         end
+        -- read all keywords before the write transaction
+        local metadata = LrCat:batchGetRawMetadata(TargetPhotos, {'keywords'})
+        local has_keyword = {}
         for _,v in ipairs(TargetPhotos) do
           local keyword_enabled = false
-          for _,k in ipairs(v:getRawMetadata('keywords')) do
+          local photo_keywords = metadata[v] and metadata[v].keywords or {}
+          for _,k in ipairs(photo_keywords) do
             if k.localIdentifier == Keyword then
               keyword_enabled = true
               break
             end
           end
-          if keyword_enabled then
-            LrCat:withWriteAccessDo( 'removeKeyword',function( context ) v:removeKeyword(LrKeyword) end, { timeout = 2 } )
-          else
-            LrCat:withWriteAccessDo( 'addKeyword',function( context ) v:addKeyword(LrKeyword) end, { timeout = 2 } )
-          end
+          has_keyword[v] = keyword_enabled
         end
+        LrCat:withWriteAccessDo( 'toggleKeyword',function( context )
+            for _,v in ipairs(TargetPhotos) do
+              if has_keyword[v] then
+                v:removeKeyword(LrKeyword)
+              else
+                v:addKeyword(LrKeyword)
+              end
+            end
+          end, { timeout = 2 } )
       end
     end
   )
