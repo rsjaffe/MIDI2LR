@@ -143,48 +143,54 @@ end
 -- control range. This function should not be called unless in develop with
 -- photo selected. Also check for existence of limits before calling.
 -- @param Parameter to clamp to limits.
--- @return nil.
+-- @param value optional: current LR value if already known
+-- @param min optional: lower limit if already known (used with max)
+-- @param max optional: upper limit if already known (used with min)
+-- @return value after clamping.
 --------------------------------------------------------------------------------
-local function ClampValue(param)
-  local value = LrDevelopController.getValue(param)
-  local min, max = GetMinMax(param, value)
+local function ClampValue(param, value, min, max)
+  value = value or LrDevelopController.getValue(param)
+  if min == nil or max == nil then
+    min, max = GetMinMax(param, value)
+  end
   if value < min then
     MIDI2LR.PARAM_OBSERVER[param] = min
     LrDevelopController.setValue(param, min)
+    value = min
   elseif value > max then
     MIDI2LR.PARAM_OBSERVER[param] = max
     LrDevelopController.setValue(param, max)
+    value = max
   end
-  return nil
+  return value
 end
 
-local function MIDIValueToLRValue(param, midi_value)
+local function MIDIValueToLRValue(param, midi_value, min, max)
   -- must be called when in develop module with photo selected
   -- map midi range to develop parameter range
   -- expects midi_value 0.0-1.0, doesn't protect against out-of-range
-  local min,max = GetMinMax(param)
+  if min == nil or max == nil then min,max = GetMinMax(param) end
   return midi_value * (max-min) + min
 end
 
-local function LRValueToMIDIValue(param, lr_value) -- lr_value optional
+local function LRValueToMIDIValue(param, lr_value, min, max) -- lr_value, min, max optional
   -- needs to be called in Develop module with photo selected
   -- map develop parameter range to midi range
   lr_value = lr_value or LrDevelopController.getValue(param)
-  local min,max = GetMinMax(param,lr_value)
+  if min == nil or max == nil then min,max = GetMinMax(param,lr_value) end
   local retval = (lr_value-min)/(max-min)
   if retval > 1 then return 1 end
   if retval < 0 then return 0 end
   return retval
 end
 
-local function RefreshMidiController()
-  if (LrApplication.activeCatalog():getTargetPhoto() == nil) or (LrApplicationView.getCurrentModuleName() ~= 'develop') then
-    return
-  end
-  LrTasks.startAsyncTask (function ()
-      --[[-----------debug section, enable by adding - to beginning this line
-      LrMobdebug.on()
-      --]]-----------end debug section
+local refreshRunning = false -- single-flight guard for RefreshMidiController
+local refreshPending = false -- a call arrived while a refresh was running
+
+local function RefreshPass()
+      if (LrApplication.activeCatalog():getTargetPhoto() == nil) or (LrApplicationView.getCurrentModuleName() ~= 'develop') then
+        return -- state changed while pending
+      end
       local photoval = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
       -- refresh crop values NOTE: this function is repeated in Client
       local midi_val_bottom = LRValueToMIDIValue('CropBottom')
@@ -219,6 +225,35 @@ local function RefreshMidiController()
           end
         end
       end
+end
+
+local function RefreshMidiController()
+  if (LrApplication.activeCatalog():getTargetPhoto() == nil) or (LrApplicationView.getCurrentModuleName() ~= 'develop') then
+    return
+  end
+  if refreshRunning then
+    refreshPending = true
+    return
+  end
+  refreshRunning = true
+  LrTasks.startAsyncTask (function ()
+      --[[-----------debug section, enable by adding - to beginning this line
+      LrMobdebug.on()
+      --]]-----------end debug section
+      repeat
+        refreshPending = false
+        -- LrTasks.pcall is yield-safe; plain pcall cannot wrap LrTasks.yield in Lua 5.1
+        local ok, msg = LrTasks.pcall(RefreshPass)
+        if not ok then
+          refreshPending = false
+          if MIDI2LR and MIDI2LR.SERVER and MIDI2LR.SERVER.send then
+            pcall(function()
+                MIDI2LR.SERVER:send('Log RefreshMidiController error: '..tostring(msg):gsub('[\r\n]+',' ')..'\n')
+              end)
+          end
+        end
+      until not refreshPending
+      refreshRunning = false
     end
   )
 end

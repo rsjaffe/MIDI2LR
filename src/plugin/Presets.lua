@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local LrApplication = import 'LrApplication'
+local LrDate        = import 'LrDate'
 local LrTasks       = import 'LrTasks'
 local LrDialogs     = import 'LrDialogs'
 local LrView        = import 'LrView'
@@ -153,10 +154,10 @@ end
 
 local function NextPreset()
   local testpreset
-  if lastchange + 0.5 > os.clock() then
+  if lastchange + 0.5 > LrDate.currentTime() then
     return
   end
-  lastchange = os.clock()
+  lastchange = LrDate.currentTime()
   for i = 1, number_of_presets do
     testpreset = currentpreset + i
     if testpreset > number_of_presets then
@@ -171,10 +172,10 @@ end
 
 local function PreviousPreset()
   local testpreset
-    if lastchange + 0.5 > os.clock() then
+    if lastchange + 0.5 > LrDate.currentTime() then
     return
   end
-  lastchange = os.clock()
+  lastchange = LrDate.currentTime()
   for i = 1, number_of_presets do
     testpreset = currentpreset - i
     if testpreset < 1 then
