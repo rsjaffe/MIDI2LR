@@ -83,6 +83,7 @@ LrTasks.startAsyncTask(
     local Virtual         = require 'Virtual'
     local LrApplication       = import 'LrApplication'
     local LrApplicationView   = import 'LrApplicationView'
+    local LrDate              = import 'LrDate'
     local LrDevelopController = import 'LrDevelopController'
     local LrDialogs           = import 'LrDialogs'
     local LrSelection         = import 'LrSelection'
@@ -859,7 +860,7 @@ LrTasks.startAsyncTask(
         if Limits.Parameters[param] then
           Limits.ClampValue(param)
         end
-        local current_time = os.clock()
+        local current_time = LrDate.currentTime()
         local midi_val_to_lr_val = MIDIValueToLRValue(param, midi_value_update)
         local param_val = getValue(param)
         if force or (math.abs(midi_value_update - LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > current_time) then -- pickup succeeded
@@ -950,10 +951,10 @@ LrTasks.startAsyncTask(
         local CurrentObserver
         --call following within guard for reading
         local function AdjustmentChangeObserver()
-          local lastrefresh = 0 --will be set to os.clock + increment to rate limit
+          local lastrefresh = 0 --will be set to LrDate.currentTime() + increment to rate limit
           return function(observer) -- closure
             if not sendIsConnected then return end -- can't send
-            if Limits.LimitsCanBeSet() and lastrefresh < os.clock() then
+            if Limits.LimitsCanBeSet() and lastrefresh < LrDate.currentTime() then
               -- refresh crop values NOTE: this function is repeated in Limits
               local midi_val_bottom = LRValueToMIDIValue('CropBottom')
               local midi_val_top = LRValueToMIDIValue('CropTop')
@@ -968,7 +969,7 @@ LrTasks.startAsyncTask(
                   LastParam = param
                 end
               end
-              lastrefresh = os.clock() + 0.1 --1/10 sec between refreshes
+              lastrefresh = LrDate.currentTime() + 0.1 --1/10 sec between refreshes
             end
           end
         end

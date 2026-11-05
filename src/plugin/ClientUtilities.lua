@@ -25,6 +25,7 @@ local Profiles   = require 'Profiles'
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
+local LrDate              = import 'LrDate'
 local LrDialogs           = import 'LrDialogs'
 local LrLocalization      = import 'LrLocalization'
 local LrStringUtils       = import 'LrStringUtils'
@@ -696,38 +697,62 @@ end
 
 local patrans = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ProfileAmount=Profile amount')
 local lastprofileadj = 0
+local profilepending = nil --latest value not yet applied; nil if none
+local profiletaskscheduled = false --true if trailing update task waiting
+local PROFILE_THROTTLE = 0.12 --seconds between catalog writes
+local function ApplyProfileAmount(val)
+  if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+  LrApplication.activeCatalog():withWriteAccessDo(
+    'MIDI2LR: Profile amount',
+    function()
+      local params = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
+      if params and params.Look and params.Look.Amount then
+        params.Look.Amount = val * 2
+        LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(params)
+        if ProgramPreferences.ClientShowBezelOnChange then
+          local bezelname = (Database.CmdTrans.ProfileAmount and Database.CmdTrans.ProfileAmount[Database.LatestPVSupported]) or patrans
+          LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(val*200, 0))
+        end
+      end
+    end,
+    { timeout = 4,
+      callback = function()
+        LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' '..patrans)
+      end,
+      asynchronous = true
+    }
+  )
+end
 local function ProfileAmount(value)
-  local now = os.clock()
-  if lastprofileadj + .1 > now then --throttle to 10x/second
+  local now = LrDate.currentTime()
+  local remaining = lastprofileadj + PROFILE_THROTTLE - now
+  if remaining <= 0 then --leading edge: apply immediately
+    lastprofileadj = now
+    profilepending = nil
+    LrTasks.startAsyncTask ( function ()
+        --[[-----------debug section, enable by adding - to beginning this line
+        LrMobdebug.on()
+        --]]-----------end debug section
+        ApplyProfileAmount(value)
+      end
+    )
     return
   end
-  lastprofileadj = now
-  local val = value -- make available to async task
+  profilepending = value --trailing edge: remember latest value
+  if profiletaskscheduled then return end
+  profiletaskscheduled = true
   LrTasks.startAsyncTask ( function ()
       --[[-----------debug section, enable by adding - to beginning this line
       LrMobdebug.on()
       --]]-----------end debug section
-      if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-      LrApplication.activeCatalog():withWriteAccessDo(
-        'MIDI2LR: Profile amount',
-        function()
-          local params = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
-          if params and params.Look and params.Look.Amount then
-            params.Look.Amount = val * 2
-            LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(params)
-            if ProgramPreferences.ClientShowBezelOnChange then
-              local bezelname = (Database.CmdTrans.ProfileAmount and Database.CmdTrans.ProfileAmount[Database.LatestPVSupported]) or patrans
-              LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(val*200, 0))
-            end
-          end
-        end,
-        { timeout = 4,
-          callback = function()
-            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' '..patrans)
-          end,
-          asynchronous = true
-        }
-      )
+      LrTasks.sleep(remaining)
+      profiletaskscheduled = false
+      local val = profilepending
+      if val ~= nil then
+        profilepending = nil
+        lastprofileadj = LrDate.currentTime()
+        ApplyProfileAmount(val)
+      end
     end
   )
 end
