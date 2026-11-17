@@ -89,8 +89,13 @@ local function checkProfile()
     ProgramPreferences.Profiles[tool] == '' then
       changeProfile(newmod)
     elseif currentTMP.Tool ~= tool then
-      changeProfile(tool)
-      currentTMP.Module = newmod  -- make sure that TMP.Module is
+      if ProgramPreferences.Profiles[tool] ~= '' then
+        changeProfile(tool)
+      else
+        changeProfile(newmod) 
+        -- switch to Develop profile if a specific tool profile is not set
+      end
+      currentTMP.Module = newmod -- make sure that TMP.Module is
       -- set correctly when changing to tool profile
     end
   elseif currentTMP.Module ~= newmod then
